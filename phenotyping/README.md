@@ -1,10 +1,10 @@
-# Phenotyping Sessions
+# Phenotyping
 
-This guide will take you through how best to define phenotypes as a group.
+This guide will take you through how to define phenotypes in this pipeline.
 
-## What is a phenotyping session? Why do we do it?
+## Phenotyping sessions: What is a phenotyping session? Why do we do it?
 
-A phenotyping session is what we should convene when new data is added to our existing dataset. Decisions made at a phenotyping session allow the lab to extract binary or quantitative (QT) phenotypes from new or updated BioBank fields, and subsequently allow the lab to run a number of downstream analyses including GWAS and PheWAS.
+A phenotyping session is the first step in this process, and should be convened when new data is added to our existing dataset. Decisions made at a phenotyping session allow the lab to extract binary or quantitative (QT) phenotypes from new or updated BioBank fields, and subsequently allow the lab to run a number of downstream analyses including GWAS and PheWAS.
 
 ## Getting the group together
 
@@ -42,7 +42,7 @@ At the BioBank phenotyping session, the concept is to divide and conquer. You'll
   
   # TODO: For QT traits, if there are special values in the field that we need to remap to other ones (e.g. for some dietary traits, -10 means less than 1), how do we do this?
   
-## After the session
+## After the session - Compiling `.phe` files
   
 You are ready to now compile `.phe` files. Export the Google Sheet as a `.tsv` and run the script in this directory called `tsv_to_phe.sh`.
 
