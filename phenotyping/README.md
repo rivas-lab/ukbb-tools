@@ -44,6 +44,18 @@ At the BioBank phenotyping session, the concept is to divide and conquer. You'll
   
 ## After the session - Compiling `.phe` files
   
-You are ready to now compile `.phe` files. Export the Google Sheet as a `.tsv` and run the script in this directory called `tsv_to_phe.sh`.
+You are ready to now compile `.phe` files. This can be done in two ways.
 
-You should get output files that are then ready for [QC](https://github.com/rivas-lab/ukbb-tools/tree/master/qc).
+1) Export the Google Sheet as a `.tsv` and run the script in the `scripts` subdirectory (within this directory) called `tsv_to_phenos.py`. This should generate a series of `.phe` files that correspond to the rows in the `.tsv`. You can test this script on the [example table here](https://github.com/rivas-lab/ukbb-tools/blob/master/phenotyping_sessions/example_phenotyping_session.tsv).
+
+Usage:
+
+#TODO MATT `python tsv_to_phenos.py`
+
+2) If there are additional phenotypes that you would like to define without having to go through the process of filling out (or potentially redownloading and rerunning the table-wide script for) the table, follow the command line interface in `make_phe.py` (which is also in the `scripts` subdirectory within this directory). For more details, run
+
+`python make_phe.py -h`
+
+This should display the Python readme.
+
+At the end of this process, you should get output files that are then ready for [QC](https://github.com/rivas-lab/ukbb-tools/tree/master/qc).
