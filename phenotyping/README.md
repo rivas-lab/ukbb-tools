@@ -42,7 +42,7 @@ At the BioBank phenotyping session, the concept is to divide and conquer. You'll
   
   # TODO: For QT traits, if there are special values in the field that we need to remap to other ones (e.g. for some dietary traits, -10 means less than 1), how do we do this?
   
-## After the session - Compiling `.phe` files
+## After the session - Compiling phenotype files
   
 You are ready to now compile `.phe` files. This can be done in two ways.
 
