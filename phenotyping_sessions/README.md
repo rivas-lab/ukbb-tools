@@ -12,11 +12,9 @@ This might just be the hardest part of this section - you'll need to find a time
 
 ## At the session
 
-At the beginning of the session, there will be a `.tsv` on Google Drive shared with the group, formatted like so:
+At the beginning of the session, there will be a sheet on Google Drive shared with the group, [formatted like so](https://github.com/rivas-lab/ukbb-tools/blob/master/phenotyping_sessions/example_phenotyping_session.tsv).
 
-# BLAH TODOTODOTODO
-
-# The left-most column is the Field ID from BioBank, _____________ETC_____________.
+Click on the above link to get a sense of what an example end product of a phenotyping session should look like.
 
 At the BioBank phenotyping session, the concept is to divide and conquer. You'll be given a number of phenotypes (field IDs) to define. Look up the field ID [in the BioBank search box](http://biobank.ctsu.ox.ac.uk/crystal/search.cgi). This should give you the name of the field ID when you click on the corresponding number. Fill this name in in the appropriate column in the Google sheet. Then, for each row, you should ask yourself:
 
@@ -46,4 +44,6 @@ At the BioBank phenotyping session, the concept is to divide and conquer. You'll
   
 ## After the session
   
-You are ready to now compile `.phe` files and [run QC](https://github.com/rivas-lab/ukbb-tools/tree/master/qc).
+You are ready to now compile `.phe` files. Export the Google Sheet as a `.tsv` and run the script in this directory called `tsv_to_phe.sh`.
+
+You should get output files that are then ready for [QC](https://github.com/rivas-lab/ukbb-tools/tree/master/qc).
