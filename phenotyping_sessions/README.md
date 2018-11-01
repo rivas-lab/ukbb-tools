@@ -14,9 +14,9 @@ This might just be the hardest part of this section - you'll need to find a time
 
 At the beginning of the session, there will be a `.tsv` on Google Drive shared with the group, formatted like so:
 
-BLAH
+# BLAH TODOTODOTODO
 
-The left-most column is the Field ID from BioBank, _____________ETC_____________.
+# The left-most column is the Field ID from BioBank, _____________ETC_____________.
 
 At the BioBank phenotyping session, the concept is to divide and conquer. You'll be given a number of phenotypes (field IDs) to define. Look up the field ID [in the BioBank search box](http://biobank.ctsu.ox.ac.uk/crystal/search.cgi). This should give you the name of the field ID when you click on the corresponding number. Fill this name in in the appropriate column in the Google sheet. Then, for each row, you should ask yourself:
 
