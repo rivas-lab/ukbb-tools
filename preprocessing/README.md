@@ -28,9 +28,9 @@ Depending on the size and complexity of the dataset, you could be looking at a c
 
 When the command finishes running, you will see that a couple of files (most importantly, a `.tab` file) is generated in the directory. This file will be used in downstream analyses. *NOTE*: Depending on the size and complexity of the dataset and the machine you are running on (I personally recommend 32GB RAM, 4 CPUs (`sdev -p mrivas -t 7-0:00:00 -m 32g -n4`)), you could be looking at a couple of hours' runtime. Run these conversion commands in `screen` or `tmux` if possible so that they can run in the background.
 
-## Generating a `.tab.columns` file
+## (Optional) Generating a `.tab.columns` file
 
-In order to get a list of fields that the dataset contains, you will want to generate a `.tab.columns` file from the `.tab` file you just created. Run the following to generate it within your directory, replacing `ukbXXXX.tab` with the name of your `.tab` file:
+In order to save a list of fields that the dataset contains, you will want to generate a `.tab.columns` file from the `.tab` file you just created. This will provide you an easy way to look at all the fields in the file, but is not strictly necessary for the pipeline. Run the following to generate it within your directory, replacing `ukbXXXX.tab` with the name of your `.tab` file:
 
 `paste <(head -n1 ukbXXXXX.tab| tr "\t" "\n") <(head -n1 ukb1XXXXX.tab| tr "\t" "\n" | tr "." "\t" )`
 
