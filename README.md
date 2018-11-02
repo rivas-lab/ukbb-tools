@@ -4,7 +4,7 @@ This repo contains the complete set of tools for preprocessing, quality control,
 # Table of Contents
 1. [Preprocessing](https://github.com/rivas-lab/ukbb-tools/tree/master/preprocessing)
 2. [Phenotyping](https://github.com/rivas-lab/ukbb-tools/tree/master/phenotyping)
-3. [QC](https://github.com/rivas-lab/ukbb-tools/tree/master/qc)
+3. [Filtering](https://github.com/rivas-lab/ukbb-tools/tree/master/filtering)
 4. [GWAS](https://github.com/rivas-lab/ukbb-tools/tree/master/gwas)
 5. [PheWAS](https://github.com/rivas-lab/ukbb-tools/tree/master/phewas)
 6. [GBE](https://github.com/rivas-lab/ukbb-tools/tree/master/gbe)
