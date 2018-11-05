@@ -1,4 +1,4 @@
-This will be documentation on additional phenotype definitions (sessions) that we been processed in an ad-hoc way, because of the nature of the data. This includes:
+This directory will contain documentation on additional phenotype definitions (sessions) that were processed in an ad-hoc fashion because of the nature of the data and/or the way they were packaged by UK Biobank. This includes:
 
 - Medication information
 - Cancer diagnoses
