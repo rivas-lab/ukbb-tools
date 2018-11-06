@@ -16,7 +16,7 @@ At the beginning of the session, you will need to form a sheet on Google Drive s
 
 In order to do this, there are a number of steps.
 
-1) Get a list of the BioBank field IDs of interest, [formatted like so](https://github.com/rivas-lab/ukbb-tools/blob/master/phenotyping/oct_25_fields_bb.csv)
+1) Get a list of the BioBank field IDs of interest, [formatted like so](https://github.com/rivas-lab/ukbb-tools/blob/master/phenotyping/oct_25_fields_bb.csv).
 
 2) Make sure that the Data_Dictionary_Showcase is up to date with the fields you curated in step 1 (an updated copy can be downloaded at http://biobank.ctsu.ox.ac.uk/~bbdatan/Data_Dictionary_Showcase.csv - if this does not contain any of the field IDs of interest, email access@ukbiobank.ac.uk and ask for it to be updated).
 
