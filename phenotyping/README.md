@@ -12,7 +12,7 @@ This might just be the hardest part of this section - you'll need to find a time
 
 ## At the session
 
-At the beginning of the session, there will be a sheet on Google Drive shared with the group, [formatted like so](https://github.com/rivas-lab/ukbb-tools/blob/master/phenotyping_sessions/example_phenotyping_session.tsv).
+At the beginning of the session, there will be a sheet on Google Drive shared with the group, [formatted like so](https://github.com/rivas-lab/ukbb-tools/blob/master/phenotyping/example_phenotyping_session.tsv).
 
 Click on the above link to get a sense of what an example end product of a phenotyping session should look like.
 
