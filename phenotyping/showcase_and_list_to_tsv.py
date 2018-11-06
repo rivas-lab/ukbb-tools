@@ -14,8 +14,6 @@ fields = pd.read_csv(args.csvfile, header=None, names=['FieldID'])
 #Subset the df with a merge
 subsetted = fields.merge(dds, left_on='FieldID', right_on='FieldID')
 
-subsetted.to_csv('hell1.csv')
-
 #Add in the extra column names
 add_colnames = ['Annotator', 'Annotation date', 'Name', 'GBE ID', 'TableID', 'Field', 'QT_total_num', 'BIN_total_num', 'QT_index', 'BIN_index', 'coding_exclude', 'coding_QT', 'coding_binary_case', 'coding_binary_control']
 subsetted = pd.concat([subsetted,pd.DataFrame(columns=add_colnames)], sort=True)
