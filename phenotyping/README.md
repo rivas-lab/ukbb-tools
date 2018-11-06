@@ -20,9 +20,15 @@ In order to do this, there are a number of steps.
 
 2) Make sure that the Data_Dictionary_Showcase is up to date with the fields you curated in step 1 (an updated copy can be downloaded at http://biobank.ctsu.ox.ac.uk/~bbdatan/Data_Dictionary_Showcase.csv - if this does not contain any of the field IDs of interest, email access@ukbiobank.ac.uk and ask for it to be updated).
 
-3) Run the script `showcase_and_list_to_tsv.py` from the phenotyping directory, with the absolute or relative path to the list in step 1 as the sole input. This script will check for matches in the `FieldID` column, draw out the rows needed, and add additional columns that will be useful for the phenotyping session, exporting the file to the directory. Upload the resultant `.tsv` to Google Drive.
+3) Run the script `showcase_and_list_to_tsv.py` from the phenotyping directory, with the absolute or relative path to the list in step 1 as the sole input. That is,
 
-The above link to the table will provide a sense of what an example end product of a phenotyping session should look like.
+`python showcase_and_list_to_tsv.py oct_25_fields_bb.csv`
+
+if you were to be using the example fields file in this repository.
+
+This script will check for matches in the `FieldID` column, draw out the rows needed, and add additional columns that will be useful for the phenotyping session, exporting the file to your local `phenotyping` directory. Upload the resultant `.tsv` to Google Drive and share the link with the group.
+
+The above link to the example table will provide a sense of what the end product of a phenotyping session should look like.
 
 At the BioBank phenotyping session, the concept is to divide and conquer. You'll be given a number of phenotypes (field IDs) to define. Look up the field ID [in the BioBank search box](http://biobank.ctsu.ox.ac.uk/crystal/search.cgi). This should give you the name of the field ID when you click on the corresponding number. Fill this name in in the appropriate column in the Google sheet. Then, for each row, you should ask yourself:
 
