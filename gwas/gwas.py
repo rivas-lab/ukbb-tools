@@ -11,7 +11,7 @@ def make_plink_command(bpFile, pheFile, outFile, pop, related=False, plink1=Fals
     # paths to qc files (covars, ethnic groups, related individuals, ) are coded here
     covarFile='/oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_GWAS_covar.phe'
     # make sure this includes most recent update of redacted individuals!
-    popFile='/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification/ukb24983_{0}.phe'.format(pop)
+    popFile='/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification/ukb24983_{0}.phe'.format(pop) if pop != 'all' else ''
     unrelatedFile='/oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_v2.used_in_pca.phe' if not related else ''
     # infer whether we need to subset variant lists to have array as a covariate 
     # (only true for genotyped runs)
@@ -23,20 +23,21 @@ def make_plink_command(bpFile, pheFile, outFile, pop, related=False, plink1=Fals
         arrayVarFile=''
     # paste together the command from constituent parts
     return " ".join(["plink" if plink1 else "plink2", 
-                     "--bfile", bpFile,
+                     "--bfile", bpFile, "--chr 1-22",
                      "--pheno", pheFile, "--pheno-quantile-normalize",
                      "--glm firth-fallback hide-covar",
-                     "--keep", popFile if pop != 'all' else "", unrelatedFile,
-                     "--extract", arrayVarFile,
+                     "--keep {0}".format(popFile) if popfile else "", 
+                     "--remove {0}".format(unrelatedFile) if unrelatedFile else "",
+                     "--extract {0}".format(arrayVarFile) if arrayVarFile else "",
                      "--covar", covarFile, 
                      "--covar-name age sex", "Array" if arrayCovar else "", "PC1-PC4",
-                     "--out {0}".format(outFile)]) 
+                     "--out", outFile]) 
 
 def make_batch_file(batchFile, plinkCmd, memory, time, partitions):
     with open(batchFile, 'w') as f:
        f.write("\n".join(["#!/bin/bash","",
                           "#SBATCH --job-name=RL_GWAS",
-                          "#SBATCH --output={}".format(os.path.join(os.path.dirname(batchFile), "rl-gwas_%A-%a.out")),
+                          "#SBATCH --output={}".format(os.path.join(os.path.dirname(batchFile), "rl-gwas.%A-%a.out")),
                           "#SBATCH --mem={}".format(memory),
                           "#SBATCH --time={}".format(time),
                           "#SBATCH -p {}".format(','.join(partitions)),
@@ -62,7 +63,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
     cal_bfile_path='/oak/stanford/groups/mrivas/private_data/ukbb/24983/cal/pgen/ukb24983_cal_cALL_v2'
     # TODO: systematically name the output
     pheName=os.path.basename(pheFile).split('.')[0]
-    outFile='ukb24983_v2.{0}.{1}'.format(pheName, kind)
+    outFile=os.path.join(outDir, 'ukb24983_v2.{0}.{1}'.format(pheName, kind))
     if kind == 'imputed':
         outFile += '.chr${SLURM_ARRAY_TASK_ID}'
         # make this an array job with nJobs=22
@@ -93,11 +94,11 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
                                   arrayCovar = False)
         # TODO: make sure that the plink output is actually getting formatted like this
         # join the plink calls, add some bash at the bottom to combine the output
-        cmd = "\n\n".join([cmd1, cmd2, # this is the plink part, below joins the two files
-                         "cat {0}*.hybrid {1}*.hybrid | sort -k1,1n -k2,2n > {2}.glm.hybrid".format(outFile1, outFile2, outFile),
-                         "cat {0}.log {1}.log > {2}.log".format(outFile1, outFile2, outFile),
-                         "rm {0}.* {1}.*".format(outFile1, outFile2),
-                        ])
+        cmd = "\n\n".join([cmd1, cmd2] +  # this is the plink part, below joins the two files
+                          ["if [ -f {0}.*.{3} ] cat {0}.*.{3} {1}.*.{3} | sort -k1,1n -k2,2n > {2}.{3}".format(
+                               outFile1, outFile2, outFile, suffix) for suffix in ['glm.linear', 'glm.logistic.hybrid']] + 
+                          ["cat {0}.log {1}.log > {2}.log".format(outFile1, outFile2, outFile),
+                           "rm {0}.* {1}.*".format(outFile1, outFile2)])
     else:
         raise ValueError("argument kind must be one of (imputed, genotyped): {0} was provided".format(kind))
     sbatch = make_batch_file(batchFile = os.path.join(logDir, "gwas.{0}.{1}.sbatch.sh".format(kind,pheName)),
@@ -105,7 +106,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
                              memory    = memory,
                              time      = time,
                              partitions = partition)
-    os.system(" ".join(("sbatch", "--array=1-22" if kind == 'imputed' else "", "-o", outDir, sbatch))) 
+    os.system(" ".join(("sbatch", "--array=1{}".format("-22" if kind == 'imputed' else ""), sbatch))) 
 
 
 if __name__ == "__main__":
