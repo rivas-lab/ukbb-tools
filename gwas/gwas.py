@@ -1,4 +1,5 @@
 #!/bin/python
+import os
 
 _README_='''
 A script for running GWAS with UK Biobank data (array and/or imputed genotypes) using PLINK.
@@ -8,19 +9,11 @@ Author: Matthew Aguirre (SUNET: magu)
 
 def make_plink_command(bpFile, pheFile, outFile, pop, related=False, plink1=False, arrayCovar=False):
     # paths to plink genotypes, input phenotypes, output directory are passed
-    # paths to qc files (covars, ethnic groups, related individuals, ) are coded here
-    covarFile='/oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_GWAS_covar.phe'
-    # make sure this includes most recent update of redacted individuals!
-    popFile='/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification/ukb24983_{0}.phe'.format(pop) if pop != 'all' else ''
-    unrelatedFile='/oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_v2.used_in_pca.phe' if not related else ''
-    # infer whether we need to subset variant lists to have array as a covariate 
-    # (only true for genotyped runs)
-    if arrayCovar and '/cal/' in bpFile: 
-        arrayVarFile='/oak/stanford/groups/mrivas/ukbb24983/sqc/both_array_variants.txt'
-    if not arrayCovar and '/cal/' in bpFile:
-        arrayVarFile='/oak/stanford/groups/mrivas/ukbb24983/sqc/one_array_variants.txt'
-    else:
-        arrayVarFile=''
+    qcDir         = '/oak/stanford/groups/mrivas/ukbb24983/sqc/'
+    popFile       = os.path.join(qcDir,'population_stratification','ukb24983_{}.phe'.format(pop)) if pop != 'all' else ''
+    unrelatedFile = os.path.join(qcDir,'ukb24983_v2.used_in_pca.phe') if not related else '' 
+    arrayVarFile  = os.path.join(qcDir,'{}_array_variants.txt'.format('both' if arrayCovar else 'one')) if '/cal/' in bpFile else ''
+    covarFile     = os.path.join(qcDir, 'ukb24983_GWAS_covar.phe')
     # paste together the command from constituent parts
     return " ".join(["plink" if plink1 else "plink2", 
                      "--bfile", bpFile, "--chr 1-22",
@@ -33,8 +26,10 @@ def make_plink_command(bpFile, pheFile, outFile, pop, related=False, plink1=Fals
                      "--covar-name age sex", "Array" if arrayCovar else "", "PC1-PC4",
                      "--out", outFile]) 
 
+
 def make_batch_file(batchFile, plinkCmd, memory, time, partitions):
     with open(batchFile, 'w') as f:
+       # formats options for sbatch header and pastes input command below it
        f.write("\n".join(["#!/bin/bash","",
                           "#SBATCH --job-name=RL_GWAS",
                           "#SBATCH --output={}".format(os.path.join(os.path.dirname(batchFile), "rl-gwas.%A-%a.out")),
@@ -47,7 +42,6 @@ def make_batch_file(batchFile, plinkCmd, memory, time, partitions):
 
 def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink1=False, 
              logDir='', memory="24000", time="1-00:00:00", partition=["normal","owners"]):
-    import os
     # ensure usage
     if not os.path.isfile(pheFile):
         raise ValueError("Error: phenotype file {0} does not exist!".format(pheFile))
@@ -58,15 +52,16 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
         logDir=os.getcwd()
     if pop not in ['all', 'white_british', 'african', 's_asian', 'e_asian']:
         raise ValueError("population must be one of (all, white_british, african, s_asian, e_asian)")
-    # derive for the below
-    imp_bfile_path='/oak/stanford/groups/mrivas/private_data/ukbb/24983/imp/pgen/ukb_imp_chr${SLURM_ARRAY_TASK_ID}_v2.mac1.hrc'
-    cal_bfile_path='/oak/stanford/groups/mrivas/private_data/ukbb/24983/cal/pgen/ukb24983_cal_cALL_v2'
-    # TODO: systematically name the output
+    # paths for running gwas
+    pgen_root='/oak/stanford/groups/mrivas/private_data/ukbb/24983/'
+    imp_bfile_path=os.path.join(pgen_root,'imp','pgen','ukb_imp_chr${SLURM_ARRAY_TASK_ID}_v2.mac1.hrc')
+    cal_bfile_path=os.path.join(pgen_root,'cal','pgen','ukb24983_cal_cALL_v2')
     pheName=os.path.basename(pheFile).split('.')[0]
     outFile=os.path.join(outDir, 'ukb24983_v2.{0}.{1}'.format(pheName, kind))
+    # this is where the fun happens
     if kind == 'imputed':
+        # needs one array job per chromosome (for compute time), hence the slurm variable
         outFile += '.chr${SLURM_ARRAY_TASK_ID}'
-        # make this an array job with nJobs=22
         cmd = make_plink_command(bpFile  = imp_bfile_path,
                                  pheFile = pheFile,
                                  outFile = outFile,
@@ -75,7 +70,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
                                  plink1  = plink1,
                                  arrayCovar = True)
     elif kind == 'genotyped': 
-        # need one plink call with array a covariate, and one without
+        # needs one plink call with genotyping array a covariate, and one without
         outFile1 = outFile+'.both_arrays'
         cmd1 = make_plink_command(bpFile  = cal_bfile_path,
                                   pheFile = pheFile,
@@ -92,15 +87,16 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
                                   related = related,
                                   plink1  = plink1,
                                   arrayCovar = False)
-        # TODO: make sure that the plink output is actually getting formatted like this
         # join the plink calls, add some bash at the bottom to combine the output
         cmd = "\n\n".join([cmd1, cmd2] +  # this is the plink part, below joins the two files
                           ["if [ -f {0}.*.{3} ] cat {0}.*.{3} {1}.*.{3} | sort -k1,1n -k2,2n > {2}.{3}".format(
                                outFile1, outFile2, outFile, suffix) for suffix in ['glm.linear', 'glm.logistic.hybrid']] + 
                           ["cat {0}.log {1}.log > {2}.log".format(outFile1, outFile2, outFile),
                            "rm {0}.* {1}.*".format(outFile1, outFile2)])
+    # more usage management, in case someone wants to import the function for use elsewhere
     else:
         raise ValueError("argument kind must be one of (imputed, genotyped): {0} was provided".format(kind))
+    # make the batch job submission file, then call it with an appropriate array
     sbatch = make_batch_file(batchFile = os.path.join(logDir, "gwas.{0}.{1}.sbatch.sh".format(kind,pheName)),
                              plinkCmd  = cmd,
                              memory    = memory,
