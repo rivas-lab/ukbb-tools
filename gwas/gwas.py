@@ -146,7 +146,7 @@ if __name__ == "__main__":
     if not args.arr and not args.imp:
         raise ValueError("Error: at least one of --run-array, --run-imputed must be passed")
     if args.local and args.imp:
-        raise Error("--run-imputed cannot be present in conjunction with --run-now!")
+        raise ValueError("--run-imputed cannot be present in conjunction with --run-now!")
     # lol i hope this works
     if args.imp:
         run_gwas(kind='imputed', pheFile=args.pheno[0], outDir=args.outDir[0], pop=args.pop[0], related=args.relatives, plink1=args.plink1, 
