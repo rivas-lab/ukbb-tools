@@ -98,8 +98,8 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
         raise ValueError("argument kind must be one of (imputed, genotyped): {0} was provided".format(kind))
     # make the batch job submission file, then call it with an appropriate array
     if now:
-        print("Running the below: \n'''\n" + cmd + "\n'''\n'") 
-        system(cmd)
+        print("Running the below: \n'''\n" + cmd + "\n'''\n") 
+        os.system(cmd)
         return
     sbatch = make_batch_file(batchFile = os.path.join(logDir, "gwas.{0}.{1}.sbatch.sh".format(kind,pheName)),
                              plinkCmd  = cmd,
@@ -108,6 +108,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
                              partitions = partition)
     os.system(" ".join(("sbatch", "--array=1{}".format("-22" if kind == 'imputed' else ""), sbatch))) 
     return
+
 
 if __name__ == "__main__":
     import argparse
