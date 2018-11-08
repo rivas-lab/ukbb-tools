@@ -50,7 +50,7 @@ def get_tsv_from_tab(in_tab, field_id):
     #with open(in_tab+'.columns', 'r') as f:
     #    tab_fields = [line.split('\t')[0] for line in f if line.split('\t')[2] == field_id]
     #
-    return pd.read_csv(in_tab, sep='\t', usecols=lambda col: col=="f.eid" or field_id in col.split("."))
+    return pd.read_csv(in_tab, sep='\t', usecols=lambda col: col=="f.eid" or field_id == col.split(".")[1])
 
 
 def create_bin_phe_file(in_tsv, out_phe, out_log, field_id, case, control, missing_is_control):
