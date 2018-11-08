@@ -19,7 +19,7 @@ def make_plink_command(bpFile, pheFile, outFile, pop, related=False, plink1=Fals
                      "--bfile", bpFile, "--chr 1-22",
                      "--pheno", pheFile, "--pheno-quantile-normalize",
                      "--glm firth-fallback hide-covar",
-                     "--keep {0}".format(popFile) if popfile else "", 
+                     "--keep {0}".format(popFile) if popFile else "", 
                      "--remove {0}".format(unrelatedFile) if unrelatedFile else "",
                      "--extract {0}".format(arrayVarFile) if arrayVarFile else "",
                      "--covar", covarFile, 
@@ -41,7 +41,7 @@ def make_batch_file(batchFile, plinkCmd, memory, time, partitions):
 
 
 def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink1=False, 
-             logDir='', memory="24000", time="1-00:00:00", partition=["normal","owners"]):
+             logDir='', memory="24000", time="1-00:00:00", partition=["normal","owners"], now=False):
     # ensure usage
     if not os.path.isfile(pheFile):
         raise ValueError("Error: phenotype file {0} does not exist!".format(pheFile))
@@ -89,7 +89,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
                                   arrayCovar = False)
         # join the plink calls, add some bash at the bottom to combine the output
         cmd = "\n\n".join([cmd1, cmd2] +  # this is the plink part, below joins the two files
-                          ["if [ -f {0}.*.{3} ] cat {0}.*.{3} {1}.*.{3} | sort -k1,1n -k2,2n > {2}.{3}".format(
+                          ["if [ -f {0}.*.{3} ] cat {0}.*.{3} {1}.*.{3} | sort -k1,1n -k2,2n -u > {2}.{3}".format(
                                outFile1, outFile2, outFile, suffix) for suffix in ['glm.linear', 'glm.logistic.hybrid']] + 
                           ["cat {0}.log {1}.log > {2}.log".format(outFile1, outFile2, outFile),
                            "rm {0}.* {1}.*".format(outFile1, outFile2)])
@@ -97,13 +97,17 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
     else:
         raise ValueError("argument kind must be one of (imputed, genotyped): {0} was provided".format(kind))
     # make the batch job submission file, then call it with an appropriate array
+    if args.now:
+        print("Running the below: \n'''\n" + cmd + "\n'''\n'") 
+        system(cmd)
+        return
     sbatch = make_batch_file(batchFile = os.path.join(logDir, "gwas.{0}.{1}.sbatch.sh".format(kind,pheName)),
                              plinkCmd  = cmd,
                              memory    = memory,
                              time      = time,
                              partitions = partition)
     os.system(" ".join(("sbatch", "--array=1{}".format("-22" if kind == 'imputed' else ""), sbatch))) 
-
+    return
 
 if __name__ == "__main__":
     import argparse
@@ -133,19 +137,22 @@ if __name__ == "__main__":
                             help='For underlying batch job submission: Compute partition to submit jobs. Default is normal,owners.')
     parser.add_argument('--log-dir', dest="log", required=False, nargs=1, default=[''],
                             help="Directory in which to place log files from this script and its related SLURM jobs. Default is current working directory.")
+    parser.add_argument('--run-now', dest="local", action='store_true',
+                            help='Flag to run GWAS immediately, on the local machine, rather than submitting a script with sbatch. Not available for use with --run-imputed.')
     args = parser.parse_args()
     # TODO: feature add: genotype model  
-    for arg in args:
-        print(arg) 
+    print(args) 
     # ensure handler-relevant usage (more insurance is in run_gwas()):
     if not args.arr and not args.imp:
         raise ValueError("Error: at least one of --run-array, --run-imputed must be passed")
+    if args.local and args.imp:
+        raise Error("--run-imputed cannot be present in conjunction with --run-now!")
     # lol i hope this works
     if args.imp:
         run_gwas(kind='imputed', pheFile=args.pheno[0], outDir=args.outDir[0], pop=args.pop[0], related=args.relatives, plink1=args.plink1, 
-                 logDir=args.log[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti)
+                 logDir=args.log[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=False)
     if args.arr:
         run_gwas(kind='genotyped', pheFile=args.pheno[0], outDir=args.outDir[0], pop=args.pop[0], related=args.relatives, plink1=args.plink1, 
-                 logDir=args.log[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti)
+                 logDir=args.log[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=args.local)
     
  
