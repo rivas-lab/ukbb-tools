@@ -11,7 +11,7 @@ def make_plink_command(bpFile, pheFile, outFile, pop, related=False, plink1=Fals
     # paths to plink genotypes, input phenotypes, output directory are passed
     qcDir         = '/oak/stanford/groups/mrivas/ukbb24983/sqc/'
     popFile       = os.path.join(qcDir,'population_stratification','ukb24983_{}.phe'.format(pop)) if pop != 'all' else ''
-    unrelatedFile = os.path.join(qcDir,'ukb24983_v2.used_in_pca.phe') if not related else '' 
+    unrelatedFile = os.path.join(qcDir,'ukb24983_v2.not_used_in_pca.phe') if not related else '' 
     arrayVarFile  = os.path.join(qcDir,'{}_array_variants.txt'.format('both' if arrayCovar else 'one')) if '/cal/' in bpFile else ''
     covarFile     = os.path.join(qcDir, 'ukb24983_GWAS_covar.phe')
     # paste together the command from constituent parts
@@ -89,7 +89,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
                                   arrayCovar = False)
         # join the plink calls, add some bash at the bottom to combine the output
         cmd = "\n\n".join([cmd1, cmd2] +  # this is the plink part, below joins the two files
-                          ["if [ -f {0}.*.{3} ] cat {0}.*.{3} {1}.*.{3} | sort -k1,1n -k2,2n -u > {2}.{3}".format(
+                          ["if [ -f {0}.*.{3} ]; then cat {0}.*.{3} {1}.*.{3} | sort -k1,1n -k2,2n -u > {2}.{3}; fi".format(
                                outFile1, outFile2, outFile, suffix) for suffix in ['glm.linear', 'glm.logistic.hybrid']] + 
                           ["cat {0}.log {1}.log > {2}.log".format(outFile1, outFile2, outFile),
                            "rm {0}.* {1}.*".format(outFile1, outFile2)])
