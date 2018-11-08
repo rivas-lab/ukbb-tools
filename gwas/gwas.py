@@ -134,10 +134,10 @@ if __name__ == "__main__":
     parser.add_argument('--log-dir', dest="log", required=False, nargs=1, default=[''],
                             help="Directory in which to place log files from this script and its related SLURM jobs. Default is current working directory.")
     args = parser.parse_args()
-    # feature add: genotype model  
-    print(args) 
-    import os
-    # ensure usage:
+    # TODO: feature add: genotype model  
+    for arg in args:
+        print(arg) 
+    # ensure handler-relevant usage (more insurance is in run_gwas()):
     if not args.arr and not args.imp:
         raise ValueError("Error: at least one of --run-array, --run-imputed must be passed")
     # lol i hope this works
