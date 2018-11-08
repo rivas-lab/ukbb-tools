@@ -97,7 +97,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
     else:
         raise ValueError("argument kind must be one of (imputed, genotyped): {0} was provided".format(kind))
     # make the batch job submission file, then call it with an appropriate array
-    if args.now:
+    if now:
         print("Running the below: \n'''\n" + cmd + "\n'''\n'") 
         system(cmd)
         return
