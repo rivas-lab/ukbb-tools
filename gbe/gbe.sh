@@ -8,7 +8,7 @@
 
 
 # step 0: identify phenotype for processing
-pheno_index=$(expr {SLURM_ARRAY_TASK_ID} - 1)
+pheno_index=$(expr ${SLURM_ARRAY_TASK_ID} - 1)
 
 
 # step 1: process phenotypes from input table
@@ -63,14 +63,18 @@ COMMENT
 # step 2: run gwas on resulting phenotypes
 
 # this rederives the path to the newly defined phenotype (it's defined in make_phe.py)
-# header is a hack -- needs to be changed if input tsv doesn't have a header
+# h is a hack -- needs to be 1/0 if input tsv has/lacks a header
 # the plus ones are because awk is 1-indexed, and the provided columns are zero-indexed
 
 # pheFile="/oak/stanford/groups/mrivas/private_data/ukbb/24983/phenotypedata"
 pheFile="/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes"
 # pheFile="${pheFile}/$(awk -F'\t' -v row=$pheno_index -v col=$tableCol '(NR==(row+1)){print $(col+1) - 1}' $tsv_in )" # append basket id
-pheFile="${pheFile}/$(awk -F'\t' -v row=$pheno_index -v col=$tableCol -v header=1 '(NR==(row+1+header)){print $(col+1)}' $tsv_in )" # append table id
-pheFile="${pheFile}/$(awk -F'\t' -v row=$pheno_index -v col=$nameCol -v header=1 '(NR==(row+1+header)){print $(col+1)}' $tsv_in ).phe" # append name
+# these need shorter names
+i=$pheno_index
+c=$tableCol
+n=$nameCol
+pheFile="${pheFile}/$(awk -F'\t' -v row=$i -v col=$c -v h=1 '(NR==(row+1+h)){print $(col+1)}' $tsv_in )" # append table id
+pheFile="${pheFile}/$(awk -F'\t' -v row=$i -v col=$n -v h=1 '(NR==(row+1+h)){print $(col+1)}' $tsv_in ).phe" # append name
 
 # here are some more (programmable, i guess) parameters for the gwas:
 gwasOutDir="/oak/stanford/groups/mrivas/dev-ukbb-tools/gwas"
