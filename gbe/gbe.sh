@@ -72,7 +72,7 @@ pheFile="/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes"
 i=$pheno_index
 c=$tableCol
 n=$nameCol
-# pheFile="${pheFile}/$(awk -F'\t' -v row=$i -v col=c -v h=1 '(NR==(row+1+h)){print $(col+1) - 1}' $tsv_in )" # append basket id
+# pheFile="${pheFile}/$(awk -F'\t' -v row=$i -v col=c -v h=1 '(NR==(row+1+h)){print $(col+1) - 1}' $tsv_in )" # append basket
 pheFile="${pheFile}/$(awk -F'\t' -v row=$i -v col=$c -v h=1 '(NR==(row+1+h)){print $(col+1)}' $tsv_in )" # append table id
 pheFile="${pheFile}/$(awk -F'\t' -v row=$i -v col=$n -v h=1 '(NR==(row+1+h)){print $(col+1)}' $tsv_in ).phe" # append name
 
