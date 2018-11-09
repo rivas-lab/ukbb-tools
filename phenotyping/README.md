@@ -2,6 +2,8 @@
 
 This guide will take you through how to define phenotypes in this pipeline.
 
+_Here temporarily: [table](https://docs.google.com/spreadsheets/d/10ek7GjhM-QFDwJnyKtCk34ehD3vK9n509KgAYEnbnKc) from our last phenotyping session on November 9._
+
 ## Phenotyping sessions: What is a phenotyping session? Why do we do it?
 
 A phenotyping session is the first step in this process, and should be convened when new data is added to our existing dataset. Decisions made at a phenotyping session allow the lab to extract binary or quantitative (QT) phenotypes from new or updated BioBank fields, and subsequently allow the lab to run a number of downstream analyses including GWAS and PheWAS.
