@@ -69,12 +69,12 @@ COMMENT
 # pheFile="/oak/stanford/groups/mrivas/private_data/ukbb/24983/phenotypedata"
 pheFile="/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes"
 # these need shorter names
-i=$pheno_index
+i=$SLURM_ARRAY_TASK_ID # now we're ok with one-indexing (for awk below)
 c=$tableCol
 n=$nameCol
-# pheFile="${pheFile}/$(awk -F'\t' -v row=$i -v col=c -v h=1 '(NR==(row+1+h)){print $(col+1) - 1}' $tsv_in )" # append basket
-pheFile="${pheFile}/$(awk -F'\t' -v row=$i -v col=$c -v h=1 '(NR==(row+1+h)){print $(col+1)}' $tsv_in )" # append table id
-pheFile="${pheFile}/$(awk -F'\t' -v row=$i -v col=$n -v h=1 '(NR==(row+1+h)){print $(col+1)}' $tsv_in ).phe" # append name
+# pheFile="${pheFile}/$(awk -F'\t' -v row=$i -v col=c -v h=1 '(NR==(row+h)){print $(col+1) - 1}' $tsv_in )" # append basket
+pheFile="${pheFile}/$(awk -F'\t' -v row=$i -v col=$c -v h=1 '(NR==(row+h)){print $(col+1)}' $tsv_in )" # append table id
+pheFile="${pheFile}/$(awk -F'\t' -v row=$i -v col=$n -v h=1 '(NR==(row+h)){print $(col+1)}' $tsv_in ).phe" # append name
 
 # here are some more (programmable, i guess) parameters for the gwas:
 gwasOutDir="/oak/stanford/groups/mrivas/dev-ukbb-tools/gwas"
