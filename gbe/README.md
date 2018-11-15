@@ -7,7 +7,7 @@ This guide will explain the usage of the `gbe.sh` script in this folder. The pur
 
 In the future, this may be expanded to other analyses such as GWAS on imputed data, additional genotype models, GWAS under multiple populations, etc.
 
-## Usage
+## Description and Implementation
 
 This is a shell script. It is designed to be called as an array job using the `--array` option of `sbatch`. For those unfamiliar with how the `sbatch` system works, [here]() is a description of how array jobs work on Sherlock.
 
@@ -16,3 +16,11 @@ The idea is to iterate over each line in the input table, define the correspondi
  - Call [`tsv_to_phenos.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/phenotyping/scripts/tsv_to_phenos.py) using the `--only-this-row` option
  - Call [`gwas.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/gwas/gwas.py) with the `--run-array` and `--run-now` options. The remaining flags are set to defaults used with GBE (namely, running analyses only on White British unrelated individuals).
  - Note the `--run-now` option will immediately run a GWAS (on directly genotyped data) directly on whichever node you get from the array job (as opposed to submitting a separate batch job, with parameters specified as arguments to `gwas.py`). This means you'll have to ensure the job specification for `gbe.sh` has enough compute (memory, time, etc.) to run this computation on each phenotype. The default parameters (24GB memory, 1 day of computation time) should suffice for most phenotypes, but in the event that the job fails, you will have to resubmit with more resources.
+
+## Usage
+
+Prior to running this script, you will need to specify 1) an input table (line 15 of `gbe.sh`) and corresponding arguments on lines 18-24. These lines should be filled in with the (zero-indexed) corresponding column indices of your input table.
+
+Then, you're ready to run your analysis.
+
+`sbatch --array=1-211 gbe.sh`
