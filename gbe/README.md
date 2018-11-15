@@ -1,5 +1,18 @@
 # GBE
 
-This guide will explain the usage of the `gbe.sh` script in this folder.
+This guide will explain the usage of the `gbe.sh` script in this folder. The purpose of this script is to conveniently process and conduct preliminary analyses (compatible with GBE) on a table of phenotype definitions as defined during a session (an example of which can be found [here](https://github.com/rivas-lab/ukbb-tools/blob/master/phenotyping/example_phenotyping_session.tsv)). This includes:
 
-## After the session - Compiling phenotype files
+ - Processing phenotypes into PLINK-compatible specifications (`.phe` files)
+ - Running GWAS on the set of directly genotyped variants in UK BioBank
+
+In the future, this may be expanded to other analyses such as GWAS on imputed data, additional genotype models, GWAS under multiple populations, etc.
+
+## Usage
+
+This is a shell script. It is designed to be called as an array job using the `--array` option of `sbatch`. For those unfamiliar with how the `sbatch` system works, [here]() is a description of how array jobs work on Sherlock.
+
+The idea is to iterate over each line in the input table, define the corresponding `.phe` file, then conduct analysis. In order to accomplish this, the script will do the following steps within each array instance:
+
+ - Call [`tsv_to_phenos.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/phenotyping/scripts/tsv_to_phenos.py) using the `--only-this-row` option
+ - Call [`gwas.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/gwas/gwas.py) with the `--run-array` and `--run-now` options. The remaining flags are set to defaults used with GBE (namely, running analyses only on White British unrelated individuals).
+ - Note the `--run-now` option will immediately run a GWAS (on directly genotyped data) directly on whichever node you get from the array job (as opposed to submitting a separate batch job, with parameters specified as arguments to `gwas.py`). This means you'll have to ensure the job specification for `gbe.sh` has enough compute (memory, time, etc.) to run this computation on each phenotype. The default parameters (24GB memory, 1 day of computation time) should suffice for most phenotypes, but in the event that the job fails, you will have to resubmit with more resources.
