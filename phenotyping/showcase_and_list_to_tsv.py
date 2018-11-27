@@ -8,8 +8,10 @@ parser = argparse.ArgumentParser(description='read in list of fields, subset fro
 parser.add_argument('csvfile', type=argparse.FileType('r'), help='Input csv file')
 args = parser.parse_args()
 
+filename = args.csvfile
+
 #Read in the fields
-fields = pd.read_csv(args.csvfile, header=None, names=['FieldID'])
+fields = pd.read_csv(filename, header=None, names=['FieldID'])
 
 #Subset the df with a merge
 subsetted = fields.merge(dds, left_on='FieldID', right_on='FieldID')
@@ -25,5 +27,9 @@ subsetted = subsetted[new_col_order]
 #ensure types of columns are int
 subsetted = subsetted.astype({"FieldID": int, "Participants": int, "Instances": int, "Array": int})
 
+outfilename = filename.name[:-3] + 'tsv'
+
+print(outfilename)
+
 #Export to new file
-subsetted.to_csv('google_sheet_upload.tsv', sep='\t', index=False)
+subsetted.to_csv(outfilename, sep='\t', index=False)
