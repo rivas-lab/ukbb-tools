@@ -23,4 +23,8 @@ Prior to running this script, you will need to specify 1) an input table (line 1
 
 Then, you're ready to run your analysis. Run the following command:
 
-`sbatch --array=1-211 gbe.sh`
+`wc -l path_to_tsv_file`
+
+to retrieve the number of lines in this file. Subtract by 1 (if it has a header), and then input that number (we will call this "num_lines") in the command below:
+
+`sbatch --array=1-num_lines gbe.sh`
