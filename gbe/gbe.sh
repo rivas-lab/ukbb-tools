@@ -6,6 +6,7 @@
 #SBATCH      --time=1-00:00:00
 #SBATCH --partition=normal,owners
 
+ml load plink2
 
 # step 0: identify phenotype for processing
 pheno_index=$(expr ${SLURM_ARRAY_TASK_ID} - 1)
