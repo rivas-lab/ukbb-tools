@@ -3,7 +3,7 @@
 #SBATCH  --job-name=phe2gbe
 #SBATCH    --output=logs/gbe_pipeline.test.%A_%a.out
 #SBATCH       --mem=24000
-#SBATCH      --time=1-00:00:00
+#SBATCH      --time=4:00:00
 #SBATCH --partition=normal,owners
 
 ml load plink2
@@ -13,16 +13,16 @@ pheno_index=$(expr ${SLURM_ARRAY_TASK_ID} - 1)
 
 
 # step 1: process phenotypes from input table
-tsv_in="../../ukbb24983wiki/phenotype_data/ukb9797_20171211/ukb_20171211.tsv"
+tsv_in="/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/tables/TODO/ukb_20181109.tsv"
 
 # provide **zero-indexed column ids** for the below:
-nameCol=0 # GBE ID
-fieldCol=2 # Source UK Biobank Field ID (e.g. 21001, body mass index)
-tableCol=1 # Source UK Biobank Table ID (e.g. 9797)
-caseCol=29  # Binary case codes
-ctrlCol=30  # Binary control codes
-exclCol=27  # Quantitative values to mark as missing
-orderCol=28 # Order of quantitative values (least to greatest) in categorical fields 
+nameCol=3 # GBE ID
+fieldCol=6 # Source UK Biobank Field ID (e.g. 21001, body mass index)
+tableCol=4 # Source UK Biobank Table ID (e.g. 9797)
+caseCol=13  # Binary case codes
+ctrlCol=14  # Binary control codes
+exclCol=11  # Quantitative values to mark as missing
+orderCol=12 # Order of quantitative values (least to greatest) in categorical fields 
 
 # TODO: account for structure in phenotypedata directory due to basket id 
 #      (this will likely have to be passed as a new argument)
@@ -71,11 +71,12 @@ COMMENT
 
 # pheDir="/oak/stanford/groups/mrivas/private_data/ukbb/24983/phenotypedata"
 pheDir="/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes"
-gbeId="$(awk -F'\t' -v row=$SLURM_ARRAY_TASK_ID -v col=$tableCol -v h=1 '(NR==(row+h)){print $(col+1)}' $tsv_in )"
-pheFile="$( find $pheDir -type f -name ${gbeId}.phe )"
+gbeId="$(awk -F'\t' -v row=$SLURM_ARRAY_TASK_ID -v col=$nameCol -v h=1 '(NR==(row+h)){print $(col+1)}' $tsv_in )"
+echo $gbeId
+pheFile=$( find ${pheDir} -type f -name "${gbeId}.phe" )
 
 # here are some more (programmable, i guess) parameters for the gwas:
-gwasOutDir="/oak/stanford/groups/mrivas/dev-ukbb-tools/gwas"
+gwasOutDir="/oak/stanford/groups/mrivas/dev-ukbb-tools/gwas/ukb_20181109"
 logDir=`pwd`
 
 python ../gwas/gwas.py --run-array --run-now --pheno $pheFile --out $gwasOutDir \

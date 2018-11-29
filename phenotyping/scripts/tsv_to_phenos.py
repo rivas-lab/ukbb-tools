@@ -58,7 +58,7 @@ def make_table(in_tsv, table_col, field_col, name_col, case_col, ctrl_col,
         tsv = [os.path.join(root,f) for root,dirs,files in os.walk(home_in_dir) for f in files if f.endswith(tab+'.tab')][0]
         phe = os.path.join([os.path.join(root,tab) for root,dirs,files in os.walk(home_out_dir) if tab in dirs][0],
                            "{0}.phe".format(phe_name))
-        log = os.path.join(os.basename(phe), "logs/{0}.log".format(phe_name))
+        log = os.path.join(os.path.dirname(phe), "logs/{0}.log".format(phe_name))
         # assume binary if we have a case definition, else assume qt
         if phe_values['case']: 
             # this and create_qt_phe_file below are implemented in make_phe.py
