@@ -3,7 +3,7 @@
 #SBATCH  --job-name=phe2gbe
 #SBATCH    --output=logs/gbe_pipeline.test.%A_%a.out
 #SBATCH       --mem=24000
-#SBATCH      --time=4:00:00
+#SBATCH      --time=1-00:00:00
 #SBATCH --partition=normal,owners
 
 ml load plink2
@@ -13,7 +13,7 @@ pheno_index=$(expr ${SLURM_ARRAY_TASK_ID} - 1)
 
 
 # step 1: process phenotypes from input table
-tsv_in="/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/tables/TODO/ukb_20181109.tsv"
+tsv_in="/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/tables/on_github/ukb_20170827.tsv"
 
 # provide **zero-indexed column ids** for the below:
 nameCol=3 # GBE ID
@@ -76,7 +76,8 @@ echo $gbeId
 pheFile=$( find ${pheDir} -type f -name "${gbeId}.phe" )
 
 # here are some more (programmable, i guess) parameters for the gwas:
-gwasOutDir="/oak/stanford/groups/mrivas/dev-ukbb-tools/gwas/ukb_20181109"
+gwasOutDir="/oak/stanford/groups/mrivas/dev-ukbb-tools/gwas/ukb_20170827"
+mkdir -p $gwasOutDir
 logDir=`pwd`
 
 python ../gwas/gwas.py --run-array --run-now --pheno $pheFile --out $gwasOutDir \
