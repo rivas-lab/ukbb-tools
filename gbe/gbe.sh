@@ -13,7 +13,7 @@ pheno_index=$(expr ${SLURM_ARRAY_TASK_ID} - 1)
 
 
 # step 1: process phenotypes from input table
-tsv_in="/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/tables/on_github/ukb_20170827.tsv"
+tsv_in="/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/tables/on_github/ukb_20170818.tsv"
 
 # provide **zero-indexed column ids** for the below:
 nameCol=3 # GBE ID
@@ -76,7 +76,7 @@ echo $gbeId
 pheFile=$( find ${pheDir} -type f -name "${gbeId}.phe" )
 
 # here are some more (programmable, i guess) parameters for the gwas:
-gwasOutDir="/oak/stanford/groups/mrivas/dev-ukbb-tools/gwas/ukb_20170827"
+gwasOutDir="/oak/stanford/groups/mrivas/dev-ukbb-tools/gwas/ukb_20170818"
 mkdir -p $gwasOutDir
 logDir=`pwd`
 
@@ -116,6 +116,8 @@ python ../gwas/gwas.py --run-array --run-now --pheno $pheFile --out $gwasOutDir 
                         available for use with --run-imputed.
 """
 COMMENT
+
+echo "Completed."
 
 # next, once the phenotypes are all defined, we'll have to update the reference documents
 # (phenotype reference, master phenotype file, and icdinfo.txt)
