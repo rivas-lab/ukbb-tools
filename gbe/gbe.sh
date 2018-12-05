@@ -13,23 +13,26 @@ pheno_index=$(expr ${SLURM_ARRAY_TASK_ID} - 1)
 
 
 # step 1: process phenotypes from input table
-tsv_in="/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/tables/on_github/ukb_20170818.tsv"
+tsv_in="/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/tables/on_github/ukb_20171015.tsv"
+gwasOutDir="/oak/stanford/groups/mrivas/dev-ukbb-tools/gwas/ukb_20171015"
 
 # provide **zero-indexed column ids** for the below:
-nameCol=3 # GBE ID
-fieldCol=6 # Source UK Biobank Field ID (e.g. 21001, body mass index)
-tableCol=4 # Source UK Biobank Table ID (e.g. 9797)
-caseCol=13  # Binary case codes
-ctrlCol=14  # Binary control codes
-exclCol=11  # Quantitative values to mark as missing
-orderCol=12 # Order of quantitative values (least to greatest) in categorical fields 
+nameCol=0 # GBE ID
+fieldCol=2 # Source UK Biobank Field ID (e.g. 21001, body mass index)
+tableCol=3 # Source UK Biobank Table ID (e.g. 9797)
+caseCol=12  # Binary case codes
+ctrlCol=13  # Binary control codes
+exclCol=10  # Quantitative values to mark as missing
+orderCol=11 # Order of quantitative values (least to greatest) in categorical fields 
+descCol=    # String description of input phenotype (e.g. "Standing_height")
 
 # TODO: account for structure in phenotypedata directory due to basket id 
 #      (this will likely have to be passed as a new argument)
 
 # here's the command
 python ../phenotyping/scripts/tsv_to_phenos.py  --tsv $tsv_in --only-this-row $pheno_index \
-                                                --name $nameCol --field $fieldCol --table $tableCol \
+                                                --name $nameCol --desc $descCol \
+                                                --field $fieldCol --table $tableCol \
                                                 --case $caseCol --control $ctrlCol \
                                                 --missing $exclCol --order $orderCol 
 # extra options: --no-header, if the input TSV doesn't have a header row
@@ -76,7 +79,6 @@ echo $gbeId
 pheFile=$( find ${pheDir} -type f -name "${gbeId}.phe" )
 
 # here are some more (programmable, i guess) parameters for the gwas:
-gwasOutDir="/oak/stanford/groups/mrivas/dev-ukbb-tools/gwas/ukb_20170818"
 mkdir -p $gwasOutDir
 logDir=`pwd`
 
