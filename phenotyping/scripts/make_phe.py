@@ -98,7 +98,7 @@ def create_bin_phe_file(in_tsv, out_phe, out_log, field_id, case, control, missi
         'FID'  : tsv_df.ix[:, 0],
         'IID'  : tsv_df.ix[:, 0],
         'data' : data_agg
-    }).to_csv(out_phe, sep='\t', index=False, header=False)    
+    }).sort_values('FID').to_csv(out_phe, sep='\t', index=False, header=False)    
     # and create .phe.info
     write_info(phe_info = os.path.splitext(out_log)[0] + '.info',
                phe_file = out_phe,
