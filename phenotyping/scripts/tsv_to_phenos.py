@@ -10,19 +10,6 @@ To define all phenotypes from a table, identify the (zero-indexed!) columns spec
 Author: Matthew Aguirre (SUNET: magu)
 """
 
-def table_to_basket(table):
-    basket_to_table = {'9796':['9797', '21732', '24611'],
-                       '10136':['10137', '21731'],
-                       '10483':['10484', '21733', '24613'],
-                       '11139':['11140', '21734', '24614'],
-                       '2000269':['21730', '24615'],
-                       '2001702':['25279']
-                      }
-    for basket, tables in basket_to_table.items():
-        if table in tables:
-            return basket
-    raise ValueError("Table {} not found in basket_to_table!".format(table))
-
 def make_table(in_tsv, table_col, field_col, name_col, case_col, ctrl_col, 
                excl_col, qtfc_col, header=True, all_ctrl=False, make_this_one=None):
     home_out_dir='/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/'
@@ -55,9 +42,9 @@ def make_table(in_tsv, table_col, field_col, name_col, case_col, ctrl_col,
         print(phe_name, phe_values)
         # these are the same regardless of the nature of the phenotype
         tab = phe_values['table_id'] # for brevity below
-        tsv = map(glob.glob, [os.path.join(root,'newest/ukb*.tab') for root,dirs,files in os.walk(home_in_dir) if table in dirs])[0][0]
-        phe = os.path.join([os.path.join(root,tab) for root,dirs,files in os.walk(home_out_dir) if tab in dirs][0],
-                           "{0}.phe".format(phe_name))
+        tsv = map(glob.glob, [os.path.join(root,'newest/ukb*.tab') for root,dirs,files in os.walk(home_in_dir) if tab in dirs])[0][0]
+        # home_out_dir/basketID/gbeID.phe
+        phe = os.path.join(home_out_dir, os.path.basename(os.path.dirname(os.path.dirname(tsv))), '{0}.phe'.format(phe_name))
         log = os.path.join(os.path.dirname(phe), "logs/{0}.log".format(phe_name))
         # assume binary if we have a case definition, else assume qt
         if phe_values['case']: 
