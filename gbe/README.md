@@ -1,4 +1,4 @@
-# GBE
+# Processing data for the Global Biobank Engine -- a pipeline
 
 This guide will explain the usage of the `gbe.sh` script in this folder. The purpose of this script is to conveniently process and conduct preliminary analyses (compatible with GBE) on a table of phenotype definitions as defined during a session (an example of which can be found [here](https://github.com/rivas-lab/ukbb-tools/blob/master/phenotyping/example_phenotyping_session.tsv)). This includes:
 
