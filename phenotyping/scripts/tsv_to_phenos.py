@@ -1,5 +1,6 @@
 #!/bin/python
 import os,glob
+import pandas as pd
 from make_phe import *
 
 _README_="""
@@ -11,7 +12,8 @@ Author: Matthew Aguirre (SUNET: magu)
 """
 
 def make_table(in_tsv, table_col, field_col, name_col, case_col, ctrl_col, 
-               excl_col, qtfc_col, header=True, all_ctrl=False, make_this_one=None):
+               excl_col, qtfc_col, desc_col, 
+               header=True, all_ctrl=False, make_this_one=None):
     home_out_dir='/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/'
     home_in_dir ='/oak/stanford/groups/mrivas/private_data/ukbb/24983/phenotypedata/download/'
     phe_info = {}
@@ -36,7 +38,8 @@ def make_table(in_tsv, table_col, field_col, name_col, case_col, ctrl_col,
                                             'qt_order': fields[qtfc_col] if qtfc_col < len(fields) else '',
                                             'exclude':  fields[excl_col] if excl_col < len(fields) else '',
                                             'table_id': fields[table_col] if table_col < len(fields) else '',
-                                            'field_id': fields[field_col] if field_col < len(fields) else ''}
+                                            'field_id': fields[field_col] if field_col < len(fields) else '',
+                                            'desc':     fields[desc_col] if desc_col < len(fields) else ''}
     # this info should be logged somewhere
     for phe_name, phe_values in phe_info.items():
         print(phe_name, phe_values)
@@ -57,6 +60,17 @@ def make_table(in_tsv, table_col, field_col, name_col, case_col, ctrl_col,
             create_qt_phe_file(in_tsv = tsv, out_phe = phe, out_log = log, field_id = phe_values['field_id'],
                                order    = phe_values['qt_order'].replace(',',';').split(';'),
                                exclude  = phe_values['exclude'].replace(',',';').split(';'))
+        update_phe_info(os.path.splitext(log)[0]+'.info', phe_values['desc'], in_tsv) 
+    return
+
+
+def update_phe_info(info_f, phe_desc, source_table):
+    info = pd.read_table(info_f, index_col=0)
+    info.insert(0,  "GBE_NAME", [phe_desc])
+    info.insert(10, "SOURCE", [os.path.basename(source_table)])
+    info.write_table(info_f)
+    return
+
 
 if __name__=="__main__":
     import argparse
@@ -70,6 +84,8 @@ if __name__=="__main__":
                             help='flag if input tsv has no header')
     parser.add_argument('--name', dest="name", required=True, nargs=1, 
                             help='column in tsv corresponding to phe file name (GBE ID)')
+    parser.add_argument('--desc', dest="desc", required=True, nargs=1, 
+                            help='column in tsv corresponding to phenotype description (GBE NAME string)')
     parser.add_argument('--field', dest="field", required=True, nargs=1,
                             help='column in tsv corresponding to UK Biobank Field ID')
     parser.add_argument('--table', dest="table", required=True, nargs=1,
@@ -97,6 +113,7 @@ if __name__=="__main__":
            ctrl_col  = int(args.control[0]),
            excl_col  = int(args.exclude[0]),
            qtfc_col  = int(args.order[0]),
+           desc_col  = int(args.desc[0]),
            header    = not args.noheader,
            all_ctrl  = args.expand_control,
            make_this_one = args.onlyone)
