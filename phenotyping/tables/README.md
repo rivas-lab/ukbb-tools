@@ -2,7 +2,7 @@ This is a holding tank for tables we've made at previous computing sessions. Lin
 
 [2017-07-27](https://docs.google.com/spreadsheets/d/1cvRNHh9f2o89m_33VsnOABCgekBaaUz_Ron9YHEpC60/edit?usp=sharing)
 
-**[2017-08-18]()
+[2017-08-18](https://docs.google.com/spreadsheets/d/1bw2UZrh4k7hQBgkyKUina99ycyDzRxYcALJGc-BZjjs/edit#gid=103327750)
 
 [2017-08-27](https://docs.google.com/spreadsheets/d/1fpwdvqME9rxGTBAyQ5VZvgO3M2RCqgxiXBdRzZmbckk)
 
