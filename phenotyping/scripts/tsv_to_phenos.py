@@ -68,7 +68,7 @@ def update_phe_info(info_f, phe_desc, source_table):
     info = pd.read_table(info_f, index_col=0)
     info.insert(0,  "GBE_NAME", [phe_desc])
     info.insert(10, "SOURCE", [os.path.basename(source_table)])
-    info.write_table(info_f)
+    info.to_csv(info_f, sep="\t")
     return
 
 
