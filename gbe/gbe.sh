@@ -1,9 +1,9 @@
 #!/bin/bash
  
-#SBATCH  --job-name=phe2gbe
-#SBATCH    --output=logs/gbe_pipeline.%A_%a.out
-#SBATCH       --mem=16000
-#SBATCH      --time=1-00:00:00
+#SBATCH  --job-name=phenos
+#SBATCH    --output=logs/phe_pipeline.update.%A_%a.out
+#SBATCH       --mem=4000
+#SBATCH      --time=20:00
 #SBATCH --partition=normal,owners
 
 ml load plink2
@@ -13,17 +13,17 @@ pheno_index=$(expr ${SLURM_ARRAY_TASK_ID} - 1)
 
 
 # step 1: process phenotypes from input table
-tsv_in="../phenotyping/tables/ukb_20171110.tsv"
-gwasOutDir="/oak/stanford/groups/mrivas/dev-ukbb-tools/gwas/ukb_20171110"
+tsv_in="../phenotyping/tables/ukb_20181109.tsv"
+gwasOutDir="/oak/stanford/groups/mrivas/dev-ukbb-tools/gwas/ukb_20181109"
 
 # provide **zero-indexed column ids** for the below:
 nameCol=3 # GBE ID
-fieldCol=5 # Source UK Biobank Field ID (e.g. 21001, body mass index)
+fieldCol=6 # Source UK Biobank Field ID (e.g. 21001, body mass index)
 tableCol=4 # Source UK Biobank Table ID (e.g. 9797)
-caseCol=32  # Binary case codes
-ctrlCol=33  # Binary control codes
-exclCol=30  # Quantitative values to mark as missing
-orderCol=31 # Order of quantitative values (least to greatest) in categorical fields 
+caseCol=13  # Binary case codes
+ctrlCol=14  # Binary control codes
+exclCol=11  # Quantitative values to mark as missing
+orderCol=12 # Order of quantitative values (least to greatest) in categorical fields 
 descCol=2   # String description of input phenotype (e.g. "Standing_height")
 
 # TODO: account for structure in phenotypedata directory due to basket id 

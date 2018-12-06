@@ -9,5 +9,7 @@ OUT_PATH=$2
 # so that the hash character is interpreted by sort
 LANG=C
 
-# finds all the info files, concatenates them to desired output
-find $PHE_DIR -name "*.info" | xargs -i cat {} | sort > ${OUT_PATH}/phenotype_info.tsv
+# finds all the info files, ensures formatting, concatenates them to desired output
+find $PHE_DIR -name "*.info" | xargs -i cat {} | awk -F'\t' 'NF == 14' | sort -u > ${OUT_PATH}/phenotype_info.tsv
+
+awk -F'\t' 'BEGIN{OFS="\t"}{print $1,$8,$2,$8,$8,"Y"}' ${OUT_PATH}/phenotype_info.tsv | tr " " "_" > ${OUT_PATH}/icdinfo.txt
