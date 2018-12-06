@@ -6,4 +6,8 @@
 PHE_DIR=$1
 OUT_PATH=$2
 
-find $PHE_DIR -name "*.info" | xargs -i cat {} | sort > 
+# so that the hash character is interpreted by sort
+LANG=C
+
+# finds all the info files, concatenates them to desired output
+find $PHE_DIR -name "*.info" | xargs -i cat {} | sort > ${OUT_PATH}/phenotype_info.tsv
