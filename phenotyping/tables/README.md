@@ -12,7 +12,7 @@ This is a holding tank for tables we've made at previous computing sessions. Lin
 
 [2017-11-13](https://docs.google.com/spreadsheets/d/1mxdF070Lag1e4hhYXRk_5IpFxqUfSk0IIIpfFlzSVZg/edit?usp=sharing)
 
-**[2017-12-11]()
+[2017-12-11](https://docs.google.com/spreadsheets/d/1_DaICh1p8gexdB-dkNK5dM1LvJpTl63ZDNA99mNNWEU)
 
 [2018-11-09](https://docs.google.com/spreadsheets/d/10ek7GjhM-QFDwJnyKtCk34ehD3vK9n509KgAYEnbnKc)
 
