@@ -8,7 +8,7 @@ This is a holding tank for tables we've made at previous computing sessions. Lin
 
 [2017-10-15]()
 
-[2017-11-10]()
+[2017-11-10](https://docs.google.com/spreadsheets/d/1FIEf4cqT73-myRfbzUugzXC-MPj1t-NEQVeY_ioPYAU)
 
 [2017-11-13]()
 
