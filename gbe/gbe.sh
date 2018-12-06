@@ -2,8 +2,8 @@
  
 #SBATCH  --job-name=phenos
 #SBATCH    --output=logs/phe_pipeline.update.%A_%a.out
-#SBATCH       --mem=4000
-#SBATCH      --time=20:00
+#SBATCH       --mem=16000
+#SBATCH      --time=1-00:00:00
 #SBATCH --partition=normal,owners
 
 ml load plink2
