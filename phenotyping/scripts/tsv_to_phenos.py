@@ -55,7 +55,7 @@ def make_table(in_tsv, table_col, field_col, name_col, case_col, ctrl_col,
             create_bin_phe_file(in_tsv = tsv, out_phe = phe, out_log = log, field_id = phe_values['field_id'],
                                 case     = phe_values['case'].replace(',',';').split(';'),
                                 control  = phe_values['control'].replace(',',';').split(';'),
-                                missing_is_control = all_ctrl)
+                                missing_is_control = all_ctrl if phe_values['control'] else True)
         else: 
             create_qt_phe_file(in_tsv = tsv, out_phe = phe, out_log = log, field_id = phe_values['field_id'],
                                order    = phe_values['qt_order'].replace(',',';').split(';'),
