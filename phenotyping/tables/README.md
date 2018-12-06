@@ -6,7 +6,7 @@ This is a holding tank for tables we've made at previous computing sessions. Lin
 
 [2017-08-27](https://docs.google.com/spreadsheets/d/1fpwdvqME9rxGTBAyQ5VZvgO3M2RCqgxiXBdRzZmbckk)
 
-**[2017-10-15](https://docs.google.com/spreadsheets/d/1pAoQxDlrT8FO15iIC7TKz3OEjlz8-XE26nMFKNFo7yc)
+[2017-10-15](https://docs.google.com/spreadsheets/d/1pAoQxDlrT8FO15iIC7TKz3OEjlz8-XE26nMFKNFo7yc)
 
 [2017-11-10](https://docs.google.com/spreadsheets/d/1FIEf4cqT73-myRfbzUugzXC-MPj1t-NEQVeY_ioPYAU)
 
