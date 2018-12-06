@@ -17,6 +17,6 @@ This is a holding tank for tables we've made at previous computing sessions. Lin
 [2018-11-09](https://docs.google.com/spreadsheets/d/10ek7GjhM-QFDwJnyKtCk34ehD3vK9n509KgAYEnbnKc)
 
 
-Want info on how to [define phenotypes](https://github.com/rivas-lab/ukbb-tools/tree/master/phenotyping#after-the-session---compiling-phenotype-files)) or run [GWAS for GBE](https://github.com/rivas-lab/ukbb-tools/tree/master/gbe) with these tables? The parameters you'll need to use are documented [here](https://docs.google.com/spreadsheets/d/1d4w4A8takvPxpHoUFXoNjj3a3QZLc-oHQiMaA5eElRg/). 
+Want info on how to define [phenotypes](https://github.com/rivas-lab/ukbb-tools/tree/master/phenotyping#after-the-session---compiling-phenotype-files) or run [GWAS for GBE](https://github.com/rivas-lab/ukbb-tools/tree/master/gbe) with these tables? The parameters you'll need to use are documented [here](https://docs.google.com/spreadsheets/d/1d4w4A8takvPxpHoUFXoNjj3a3QZLc-oHQiMaA5eElRg/). 
 
 Want more info on the phenotypes, or on what we have access to in the UK Biobank? You can answer most of those questions with our annotated copy of the [Data Showcase](https://docs.google.com/spreadsheets/d/103waV0b6J8RC9Z9hq0A2ooIjh9BGJQYITuBAVjQouyo).
