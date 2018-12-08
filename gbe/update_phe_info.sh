@@ -12,4 +12,5 @@ LANG=C
 # finds all the info files, ensures formatting, concatenates them to desired output
 find $PHE_DIR -name "*.info" | xargs -i cat {} | awk -F'\t' 'NF == 14' | sort -u > ${OUT_PATH}/phenotype_info.tsv
 
+# also updates icdinfo
 awk -F'\t' 'BEGIN{OFS="\t"}{print $1,$8,$2,$8,$8,"Y"}' ${OUT_PATH}/phenotype_info.tsv | tr " " "_" > ${OUT_PATH}/icdinfo.txt
