@@ -9,13 +9,16 @@ In the future, this may be expanded to other analyses such as GWAS on imputed da
 
 ## Description and Implementation
 
-This is a shell script. It is designed to be called as an array job using the `sbatch --array`. For those unfamiliar with the `sbatch` system, [here](https://www.sherlock.stanford.edu/docs/user-guide/running-jobs/) is a description of how job submission works on Sherlock, and [here](https://slurm.schedmd.com/job_array.html) is some documentation on array jobs.
+This is a shell script, designed for use as a parallelized array job with `sbatch --array`. For those unfamiliar with the Slurm management system, [here](https://www.sherlock.stanford.edu/docs/user-guide/running-jobs/) is a description of how job submission works on Sherlock, and [here](https://slurm.schedmd.com/job_array.html) is some documentation on array jobs.
 
-The idea for this script is to iterate over each line in the input table, define the corresponding `.phe` file, then conduct analysis. In order to accomplish this, the script will do the following steps within each array instance:
+In short, the idea for this script is to iterate over each line in the input table, define the corresponding `.phe` file, then conduct analysis. 
+
+In order to accomplish this, the script will do the following steps within each array instance:
 
  - Call [`tsv_to_phenos.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/phenotyping/scripts/tsv_to_phenos.py) using the `--only-this-row` option
  - Call [`gwas.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/gwas/gwas.py) with the `--run-array` and `--run-now` options. The remaining flags are set to defaults used with GBE (namely, running analyses only on White British unrelated individuals).
- - Note the `--run-now` option will immediately run a GWAS (on directly genotyped data) directly on whichever node you get from the array job (as opposed to submitting a separate batch job, with parameters specified as arguments to `gwas.py`). This means you'll have to ensure the job specification for `gbe.sh` has enough compute (memory, time, etc.) to run this computation on each phenotype. The default parameters (24GB memory, 1 day of computation time) should suffice for most phenotypes, but in the event that the job fails, you will have to resubmit with more resources.
+ 
+_Note:_ The `--run-now` option will immediately run a GWAS (on directly genotyped data) directly on whichever node you get from the array job (as opposed to submitting a separate batch job, with parameters specified as arguments to `gwas.py`). This means you'll have to ensure the job specification for `gbe.sh` has enough compute (memory, time, etc.) to run this computation on each phenotype. The default parameters (24GB memory, 1 day of computation time) should suffice for most phenotypes, but in the event that the job fails, you will have to resubmit with more resources.
 
 ## Usage
 
