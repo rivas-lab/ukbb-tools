@@ -15,7 +15,7 @@ If you're rerunning this, you'll probably want a lot of memory -- 64GB is suffic
 
 PheWAS can be run using `phewas.py`. All options can be viewed by running `phewas.py -h`. The script can be run in one of the following modes: gene, variant, region.
 
-1. For variant mode simply provide a list of variant IDs (as identified in UK Biobank variant resources) after the `--variants` flag. These can be listed after the flag, separated by spaces, or you can pass a file with the variants you'd like to run.
+1. For variant mode simply provide a list of variant IDs after the `--variants` flag. These can be listed after the flag, separated by spaces, or you can pass a file with the variants you'd like to run. The script will tell you if any of the requested variants were not found in UK Biobank, but you may want to double-check that you've got the right IDs by looking them up in the `.bim` files first.
 
 2. For region mode, specify a chromosomal window after the `--region` flag, formatted like so: `CHROM:BP1-BP2`.
 
