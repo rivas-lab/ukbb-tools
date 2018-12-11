@@ -18,7 +18,7 @@ In order to accomplish this, the script will do the following steps within each 
  - Call [`tsv_to_phenos.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/phenotyping/scripts/tsv_to_phenos.py) using the `--only-this-row` option
  - Call [`gwas.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/gwas/gwas.py) with the `--run-array` and `--run-now` options. The remaining flags are set to defaults used with GBE (namely, running analyses only on White British unrelated individuals).
  
-_Note:_ The `--run-now` option will immediately run a GWAS (on directly genotyped data) directly on whichever node you get from the array job (as opposed to submitting a separate batch job, with parameters specified as arguments to `gwas.py`). This means you'll have to ensure the job specification for `gbe.sh` has enough compute (memory, time, etc.) to run this computation on each phenotype. The default parameters (24GB memory, 1 day of computation time) should suffice for most phenotypes, but in the event that the job fails, you will have to resubmit with more resources.
+_Note:_ The `--run-now` option will immediately run a GWAS (on directly genotyped data) directly on whichever node you get from the array job (as opposed to submitting a separate batch job, with parameters specified as arguments to `gwas.py`). This means you'll have to ensure the job specification for `gbe.sh` has enough compute (memory, time, etc.) to run this computation on each phenotype. The default parameters (16GB memory, 1 day of computation time) should suffice for most phenotypes, but in the event that the job fails, you will have to resubmit with more resources.
 
 ## Usage
 
