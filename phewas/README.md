@@ -15,10 +15,10 @@ If you're rerunning this, you'll probably want a lot of memory -- 64GB is suffic
 
 PheWAS can be run using `phewas.py`. All options can be viewed by running `phewas.py -h`. The script can be run in one of the following modes: gene, variant, region.
 
-For gene mode, specify the gene name after the `--gene` flag. The script will look up the corresponding region according to HGNC nomenclature and proceed accordingly.
+1. For variant mode simply provide a list of variant IDs (as identified in UK Biobank variant resources) after the `--variants` flag. These can be listed after the flag, separated by spaces, or you can pass a file with the variants you'd like to run.
 
-For region mode, specify a chromosome and basepair window after the `--region` flag, formatted like so: `CHROM:BP1-BP2`.
+2. For region mode, specify a chromosome and basepair window after the `--region` flag, formatted like so: `CHROM:BP1-BP2`.
 
-For variants mode simply provide a list of variant IDs (as identified in UK Biobank variant resources) after the `--variants` flag. These can be listed after the flag, separated by spaces, or you can pass a file with the variants you'd like to run.
+3. For gene mode, specify the gene name after the `--gene` flag. The script will look up the corresponding region according to HGNC nomenclature and proceed accordingly.
 
 _Important_: There is no limit as to the number of variants that can be specified by a PheWAS. As such, you'll need to be careful to allocate sufficient time and memory for the analysis. The script will warn you if your input parameters include over 100 variants, which is about the most I (Matt) would recommend. For reference, a PheWAS for _GDF15_ (45 variants, ~2500 phenotypes) took about 4 hours to run, using 16GB memory.
