@@ -17,7 +17,7 @@ PheWAS can be run using `phewas.py`. All options can be viewed by running `phewa
 
 1. For variant mode simply provide a list of variant IDs (as identified in UK Biobank variant resources) after the `--variants` flag. These can be listed after the flag, separated by spaces, or you can pass a file with the variants you'd like to run.
 
-2. For region mode, specify a chromosome and basepair window after the `--region` flag, formatted like so: `CHROM:BP1-BP2`.
+2. For region mode, specify a chromosomal window after the `--region` flag, formatted like so: `CHROM:BP1-BP2`.
 
 3. For gene mode, specify the gene name after the `--gene` flag. The script will look up the corresponding region according to HGNC nomenclature and proceed accordingly.
 
