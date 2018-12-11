@@ -72,4 +72,4 @@ You are ready to now compile `.phe` files. This can be done in two ways.
 
     This should display the Python readme.
 
-At the end of this process, you should get output files that are then ready for [QC](https://github.com/rivas-lab/ukbb-tools/tree/master/qc).
+At the end of this process, you should get output files that are then ready for downstream [analysis](https://github.com/rivas-lab/ukbb-tools/tree/master/gbe).
