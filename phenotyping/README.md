@@ -54,7 +54,7 @@ At the BioBank phenotyping session, the concept is to divide and conquer. You'll
     
     For this question, you should split your existing row into 6 rows. The naming convention for these kinds of rows is "Field Description (Parenthetical additional descriptor)" (e.g. "Average amount of sleep (0-2 hours)"). Additionally, there is an "ORDER" column in the sheet. For this kind of quantitative trait, the person doing this trait should ordinally assign values to this column based on quantity (1 for "0-2 hours", 2 for "2-4 hours", etc.).
   
-  # TODO: For QT traits, if there are special values in the field that we need to remap to other ones (e.g. for some dietary traits, -10 means less than 1), how do we do this?
+  ### TODO: For QT traits, if there are special values in the field that we need to remap to other ones (e.g. for some dietary traits, -10 means less than 1), how do we do this?
   
 ## After the session - Compiling phenotype files
   
