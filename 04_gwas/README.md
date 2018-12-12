@@ -1,6 +1,6 @@
 ## Genome-wide associations with UK Biobank data
 
-The script in this directory, `gwas.py`, is designed to be a convenient PLINK wrapper for running genome-wide associations with lab resources from the UK Biobank. 
+The script in this directory, `gwas.py`, is designed to be a convenient wrapper for running genome-wide associations with PLINK, using the lab's resources from the UK Biobank. 
 
 A full list of options can be obtained by running `python gwas.py -h`, and a summary is below:
 
