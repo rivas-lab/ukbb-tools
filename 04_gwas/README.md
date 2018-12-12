@@ -4,7 +4,9 @@ The script in this directory, `gwas.py`, is designed to be a convenient PLINK wr
 
 A full list of options can be obtained by running `python gwas.py -h`, and a summary is below:
 
-- Phenotype file
-- Genotyped/Imputed data
+- File input: phenotype
+- File output: logging and out directories
+- Data options: Genotyped/Imputed data
+- QC: population specification, relatedness filter (currently non-functional in conjunction with populations)
 - Run now 
-- batch job submission parameters
+- batch job submission parameters (memory, time, partitions)
