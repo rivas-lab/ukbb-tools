@@ -32,8 +32,8 @@ def find_named_variants(var_list):
     for bim in cal_bims + imp_bims:
         with open(bim, 'r') as f:
             # find variants, update list of variants to find
-            file_map[bim[:-4]] = [var for var in var_list for line in f if var == line.split()[1]]
-            var_list = [var for var in var_list if var not in file_map[bim[:-4]]]
+            file_map[bim[:-4]] = [line.split()[1] for line in f if line.split()[1] in var_list]
+            var_list = list(set(var_list).difference(file_map[bim[:-4]])) 
     if len(var_list) > 0:
         print("Could not find the following variants:\n{}".format("\n".join(var_list)))
         print("Note: variant names for imputed data are formatted CHR:POS_REF_ALT !")
@@ -89,11 +89,11 @@ if __name__ == "__main__":
     parser.add_argument('--gene', dest="gene", required=False, default = [], nargs=1,
                             help='input gene for phewas')
     parser.add_argument('--region', dest="cpra", required=False, default = [], nargs=1,
-                            help='input region for phewas (format: CHROM:BP1-BP2')
+                            help='input region for phewas (format: CHROM:BP1-BP2)')
     parser.add_argument('--variants', dest="vars", required=False, default = [], nargs='*', 
                             help='input variant ID(s) for phewas (can also be a file, with one variant ID per line)')
     parser.add_argument('--out', dest="out", required=True, default = ['phewas'], nargs=1,
-                            help='input region for phewas')
+                            help='path to output (prefix, will be passed directly to plink)')
     args = parser.parse_args()
     print(args)
     
@@ -118,7 +118,6 @@ if __name__ == "__main__":
         bfile_to_vars = find_named_variants(vs)
     else:
         raise ValueError("One of --gene, --region, --variants, must be supplied!")
-    
     # run phewas
     print("{} variants found from specified input.".format(sum(map(len, bfile_to_vars.values()))))
 
