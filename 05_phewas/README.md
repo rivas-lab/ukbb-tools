@@ -10,6 +10,25 @@ In order to run PheWAS, we need a master table containing all the phenotype data
 
 If you're rerunning this, you'll probably want a lot of memory -- 64GB is sufficient in my experience (Matt).
 
+### Master phenotype info table schema
+
+The list of columns in the master phenotype info file is as follows:
+```
+'GBE_phe_code',
+'GBE_phe_name',
+'UKB_field ID',
+'UKB_table ID',
+'UKB_basket ID',
+'UKB_application ID',
+'N_total',
+'N_White_British',
+'N_African',
+'N_East_Asian',
+'N_South_Asian',
+'tsv_file',
+'version',
+'phe_file'
+```
 
 ## Analysis:
 
