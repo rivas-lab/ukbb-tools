@@ -8,3 +8,4 @@ This repo contains the complete set of tools for preprocessing, quality control,
 4. [GWAS](https://github.com/rivas-lab/ukbb-tools/tree/master/04_gwas)
 5. [PheWAS](https://github.com/rivas-lab/ukbb-tools/tree/master/05_phewas)
 6. [GBE](https://github.com/rivas-lab/ukbb-tools/tree/master/06_gbe)
+7. [LD score regression (LDSC)](https://github.com/rivas-lab/ukbb-tools/tree/master/07_LDSC)
