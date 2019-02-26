@@ -16,7 +16,7 @@ def make_phe_info(in_phe, out_path, name, field, table, basket, app_id, source, 
         o.write(header + '\n')
     for phe_path, phe_name in zip(in_phe, name):
         # load phenotypedata 
-        phe = dict([line.split()[1:] for line in open(phe_path, 'r')])
+        phe = dict([line.split()[1:] for line in open(phe_path, 'r') if 'IID' not in line])
         phe_id = os.path.splitext(os.path.basename(phe_path))[0]
         if 'cancer3' in phe_path:
             phe_id = 'cancer' + phe_id
@@ -56,6 +56,7 @@ if __name__ == "__main__":
     # -1: load old icdinfo for reference
     with open('../../../wiki/ukbb/icdinfo/icdinfo.txt', 'r') as icd:
         icdinfo = {line.split()[0]:line.split()[2] for line in icd}
+    '''
     # 0. write out HC info files to master table
     hc_paths  = glob.glob('/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/highconfidenceqc/HC*.phe')
     hc_names  = list(map(lambda hc: icdinfo[hc], filter(lambda hc: hc in icdinfo, 
@@ -94,3 +95,18 @@ if __name__ == "__main__":
                   app_id   = '16698', 
                   source   = 'rohit', 
                   all_together = True)
+    '''
+    # 3. and family history
+    fh_phenos = glob.glob('/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/familyHistory2/*_FH2.phe')
+    fh_map    = {line.split()[0][:4]:line.split(None,1)[1].replace(' ','_') for line in open('/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/familyHistory2/mapphe.txt', 'r')}
+    fh_names  = ['FH'+fh_map[phe] if phe in fh_map else '' for phe in map(os.path.basename,fh_phenos)]
+    make_phe_info(in_phe   = fh_phenos,
+                  out_path = '/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/extra_info/fh.tsv.info',
+                  name     = fh_names,
+                  field    = 'NA', 
+                  table    = 'NA', 
+                  basket   = 'NA',
+                  app_id   = '16698', 
+                  source   = 'rohit', 
+                  all_together = True)
+                  
