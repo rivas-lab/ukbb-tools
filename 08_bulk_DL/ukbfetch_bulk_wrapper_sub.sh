@@ -31,7 +31,7 @@ fetch_batch () {
 
     cat ${file} \
 	| awk -v rs=$(get_batch_start $idx) -v re=$(get_batch_end $idx) 'rs <= NR && NR <= re' \
-	| ${out_d}/ukbfetch -b/dev/stdin -obulk${idx}
+	| ${out_d}/ukbfetch -b/dev/stdin -o$(basename ${file}).bulk${idx}
 }
 
 # copy ukbfetch
