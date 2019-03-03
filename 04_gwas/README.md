@@ -2,7 +2,7 @@
 
 The script in this directory, `gwas.py`, is designed to be a convenient wrapper for running genome-wide associations with PLINK, using the lab's resources from the UK Biobank. 
 
-### Analysis pptions:
+### Analysis options:
 A full list of options can be obtained by running `python gwas.py -h`, and some examples are below:
 
 - Input phenotype file: `--pheno INI50.phe`
