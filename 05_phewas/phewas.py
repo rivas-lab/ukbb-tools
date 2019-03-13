@@ -49,17 +49,23 @@ def get_variants(gene):
     raise ValueError("Could not find gene: {}".format(gene))
 
 # 2. Run PheWAS(es)
-def run_phewas(bfile, var_ids, out_prefix):
+def run_phewas(bfile, var_ids, indfile, out_prefix):
     master_phe = '/oak/stanford/groups/mrivas/dev-ukbb-tools/phewas/resources/master.phe'
     covars     = '/oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_GWAS_covar.phe'
     # write out temp file for variants
     with open(out_prefix + '.varlist.txt', 'w') as o:
         o.write('\n'.join(var_ids))
-    # do the thing
-    os.system(' '.join(['plink2 --bfile', bfile, '--pheno', master_phe, '--out', out_prefix, 
+    if indfile is None:
+	os.system(' '.join(['plink2 --bfile', bfile, '--pheno', master_phe, '--out', out_prefix, 
                                    '--covar', covars, '--covar-name age sex Array PC1-PC4',
                                    '--extract', out_prefix + '.varlist.txt', 
                                    '--glm firth-fallback hide-covar']))
+    else:
+	os.system(' '.join(['plink2 --bfile', bfile, '--pheno', master_phe, '--out', out_prefix, '--keep',indfile[0], 
+                                   '--pheno-quantile-normalize --covar-variance-standardize --covar', covars, '--covar-name age sex PC1-PC4',
+                                   '--extract', out_prefix + '.varlist.txt', 
+                                   '--glm firth-fallback hide-covar']))
+
     return
      
 
@@ -90,6 +96,8 @@ if __name__ == "__main__":
                             help='input gene for phewas')
     parser.add_argument('--region', dest="cpra", required=False, default = [], nargs=1,
                             help='input region for phewas (format: CHROM:BP1-BP2)')
+    parser.add_argument('--keep', dest="inds", required=False, default = [], nargs=1,
+                            help='individuals to keep - useful for subsetting to population')
     parser.add_argument('--variants', dest="vars", required=False, default = [], nargs='*', 
                             help='input variant ID(s) for phewas (can also be a file, with one variant ID per line)')
     parser.add_argument('--out', dest="out", required=True, default = ['phewas'], nargs=1,
@@ -100,7 +108,10 @@ if __name__ == "__main__":
     # ensure usage
     if sum(map(lambda x: not x, (args.gene, args.cpra, args.vars))) < 2:
         raise ValueError("Only one of --gene, --region, --variants, can be supplied.")
-    
+    # get individuals
+    indfile = None
+    if args.inds:
+	indfile = args.inds
     # get variants
     if args.gene:
         bfile_to_vars = get_variants(args.gene[0])
@@ -130,7 +141,7 @@ if __name__ == "__main__":
     import random
     temp_out = args.out[0] + '.' + str(int(1000000 * random.random()))
     for bfile,variants in filter(lambda x: len(x[1]) > 0, bfile_to_vars.items()):
-        run_phewas(bfile, variants, temp_out)
+        run_phewas(bfile, variants, indfile, temp_out)
     
     # now combine those files into the final result
     combine_output(temp_out, args.out[0], keep_na = False)
