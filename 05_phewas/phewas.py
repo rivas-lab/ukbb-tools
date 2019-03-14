@@ -129,8 +129,8 @@ if __name__ == "__main__":
     # give these runs a random hash to prevent wrong files from being included when we join results
     import random
     temp_out = args.out[0] + '.' + str(int(1000000 * random.random()))
-    for bfile,variants in filter(lambda x: len(x[1]) > 0, bfile_to_vars.items()):
-        run_phewas(bfile, variants, temp_out)
+    for n,(bfile,variants) in enumerate(filter(lambda x: len(x[1]) > 0, bfile_to_vars.items())):
+        run_phewas(bfile, variants, temp_out+'.'+str(n))
     
     # now combine those files into the final result
     combine_output(temp_out, args.out[0], keep_na = False)

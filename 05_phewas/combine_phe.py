@@ -15,7 +15,7 @@ out_file = '/oak/stanford/groups/mrivas/dev-ukbb-tools/phewas/resources/master.{
 
 # get list of phenotypes
 phe_in = {}
-with open('../phenotyping/phenotype_info.tsv', 'r') as f, open(out_file+'.info', 'w') as o:
+with open('../02_phenotyping/phenotype_info.tsv', 'r') as f, open(out_file+'.info', 'w') as o:
     for i,line in enumerate(f):
         info = line.rstrip().split('\t')
         # process header
