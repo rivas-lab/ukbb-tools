@@ -17,8 +17,8 @@ def make_plink_command(bpFile, pheFile, outFile, pop, related=False, plink1=Fals
     # paste together the command from constituent parts
     return " ".join(["plink" if plink1 else "plink2", 
                      "--bfile" if plink1 else "--bpfile", bpFile, "--chr 1-22",
-                     "--pheno", pheFile, "--pheno-quantile-normalize",
-                     "--glm firth-fallback hide-covar",
+                     "--pheno", pheFile, #"--pheno-quantile-normalize",
+                     "--glm firth-fallback hide-covar omit-ref",
                      "--keep {0}".format(popFile) if popFile else "", 
                      "--remove {0}".format(unrelatedFile) if unrelatedFile else "",
                      "--extract {0}".format(arrayVarFile) if arrayVarFile else "",
@@ -36,6 +36,7 @@ def make_batch_file(batchFile, plinkCmd, memory, time, partitions):
                           "#SBATCH --mem={}".format(memory),
                           "#SBATCH --time={}".format(time),
                           "#SBATCH -p {}".format(','.join(partitions)),
+                          '#SBATCH --constraint="CPU_GEN:HSW|CPU_GEN:BDW|CPU_GEN:SKX"', # plink2 arv2 compatibility
                           "", plinkCmd]))
     return batchFile
 
@@ -56,6 +57,8 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
     pgen_root='/oak/stanford/groups/mrivas/private_data/ukbb/24983/'
     imp_bfile_path=os.path.join(pgen_root,'imp','pgen','ukb_imp_chr${SLURM_ARRAY_TASK_ID}_v2.mac1.hrc')
     cal_bfile_path=os.path.join(pgen_root,'cal','pgen','ukb24983_cal_cALL_v2')
+    exome_spb_path=os.path.join(pgen_root,'exome','pgen','spb','data','ukb_exm_spb')
+    exome_fe_path=os.path.join(pgen_root,'exome','pgen','fe','data','ukb_exm_fe')
     pheName=os.path.basename(pheFile).split('.')[0]
     outFile=os.path.join(outDir, 'ukb24983_v2.{0}.{1}'.format(pheName, kind))
     # this is where the fun happens
@@ -93,9 +96,18 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
                                outFile1, outFile2, outFile, suffix) for suffix in ['glm.linear', 'glm.logistic.hybrid']] + 
                           ["cat {0}.log {1}.log > {2}.log".format(outFile1, outFile2, outFile),
                            "rm {0}.* {1}.*".format(outFile1, outFile2)])
+    elif kind == 'exome-spb' or kind == 'exome-fe':
+        exome_bfile_path = exome_spb_path if kind == 'exome-spb' else exome_fe_path
+        cmd = make_plink_command(bpFile  = exome_bfile_path,
+                                 pheFile = pheFile,
+                                 outFile = outFile,
+                                 pop     = pop,
+                                 related = related,
+                                 plink1  = plink1,
+                                 arrayCovar = False) 
     # more usage management, in case someone wants to import the function for use elsewhere
     else:
-        raise ValueError("argument kind must be one of (imputed, genotyped): {0} was provided".format(kind))
+        raise ValueError("argument kind must be one of (imputed, genotyped, exome-spb, exome-fe): {0} was provided".format(kind))
     # make the batch job submission file, then call it with an appropriate array
     if now:
         print("Running the below: \n'''\n" + cmd + "\n'''\n") 
@@ -120,6 +132,10 @@ if __name__ == "__main__":
                             help='Flag to run GWAS with PLINK v1.9 instead of v2.0')
     parser.add_argument('--run-array', dest="arr", action='store_true',
                             help='Run GWAS on directly genotyped (array) data')
+    parser.add_argument('--run-exome', dest="ex1", action='store_true',
+                            help="Run GWAS on exome data (Regeneron calls)")
+    parser.add_argument('--run-exome-gatk', dest="ex2", action='store_true',
+                            help="Run GWAS on exome data (GATK calls)")
     parser.add_argument('--run-imputed', dest="imp", action='store_true',
                             help='Run GWAS on imputed data') 
     parser.add_argument('--pheno', dest="pheno", required=True, nargs='*',
@@ -144,8 +160,8 @@ if __name__ == "__main__":
     # TODO: feature add: genotype model  
     print(args) 
     # ensure handler-relevant usage (more insurance is in run_gwas()):
-    if not args.arr and not args.imp:
-        raise ValueError("Error: at least one of --run-array, --run-imputed must be passed")
+    if not args.arr and not args.imp and not args.ex1 and not args.ex2:
+        raise ValueError("Error: no analysis specified, did you mean to add --run-array?")
     if args.local and args.imp:
         raise ValueError("--run-imputed cannot be present in conjunction with --run-now!")
     # lol i hope this works
@@ -155,5 +171,10 @@ if __name__ == "__main__":
     if args.arr:
         run_gwas(kind='genotyped', pheFile=args.pheno[0], outDir=args.outDir[0], pop=args.pop[0], related=args.relatives, plink1=args.plink1, 
                  logDir=args.log[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=args.local)
-    
+    if args.ex1:   
+        run_gwas(kind='exome-spb', pheFile=args.pheno[0], outDir=args.outDir[0], pop=args.pop[0], related=args.relatives, plink1=args.plink1, 
+                 logDir=args.log[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=args.local)
+    if args.ex2:
+        run_gwas(kind='exome-fe', pheFile=args.pheno[0], outDir=args.outDir[0], pop=args.pop[0], related=args.relatives, plink1=args.plink1, 
+                 logDir=args.log[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=args.local)
  
