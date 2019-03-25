@@ -50,14 +50,16 @@ def get_variants(gene,exome=False):
     raise ValueError("Could not find gene: {}".format(gene))
 
 # 2. Run PheWAS(es)
-def run_phewas(bfile, var_ids, indfile=None, out_prefix='phewas'):
+def run_phewas(bfile, var_ids, indfile=None, norm=True, out_prefix='phewas'):
     master_phe = '/oak/stanford/groups/mrivas/dev-ukbb-tools/phewas/resources/master.phe'
     covars     = '/oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_GWAS_covar.phe'
     # write out temp file for variants
     with open(out_prefix + '.varlist.txt', 'w') as o:
         o.write('\n'.join(var_ids))
     # do the thing
-    os.system(' '.join(['plink2 --bfile', bfile, '--pheno', master_phe, '--out', out_prefix, 
+    os.system(' '.join(['plink2 --bfile', bfile, '--pheno', master_phe, 
+                               '--pheno-quantile-normalize' if norm else '',
+                               '--out', out_prefix, 
                                '--keep {}'.format(indfile) if indfile is not None else '',
                                '--covar', covars, '--covar-name age sex Array PC1-PC4',
                                '--extract', out_prefix + '.varlist.txt', 
@@ -100,8 +102,10 @@ if __name__ == "__main__":
                             help='input variant ID(s) for phewas (can also be a file, with one variant ID per line)')
     parser.add_argument('--exome', dest="wex", action="store_true", default = False,  
                             help='flag to run phewas using exome data (works with all variant options, but note this data uses hg38!)')
+    parser.add_argument('--qt-norm', dest="norm", action="store_true", default = False,  
+                             help='flag to normalize quantitative phenotypes (equivalent to plink --pheno-quantile-normalize)')
     parser.add_argument('--out', dest="out", required=True, default = ['phewas'], nargs=1,
-                            help='path to output (prefix, will be passed directly to plink)')
+                             help='path to output (prefix, will be passed directly to plink)')
     args = parser.parse_args()
     print(args)
     
@@ -146,7 +150,7 @@ if __name__ == "__main__":
     import random
     temp_out = args.out[0] + '.' + str(int(1000000 * random.random()))
     for n,(bfile,variants) in enumerate(filter(lambda x: len(x[1]) > 0, bfile_to_vars.items())):
-        run_phewas(bfile, variants, indfile, temp_out+'.'+str(n))
+        run_phewas(bfile, variants, indfile, args.norm, temp_out+'.'+str(n))
     
     # now combine those files into the final result
     combine_output(temp_out, args.out[0], keep_na = False)
