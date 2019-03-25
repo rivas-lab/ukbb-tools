@@ -46,7 +46,7 @@ def get_variants(gene,exome=False):
         for line in f:
             if gene == line.rstrip().split()[-1]:
                 c,bp1,bp2 = line.split()[:3]
-                return find_variants(c,bp1,bp2)
+                return find_variants(c,bp1,bp2,exome)
     raise ValueError("Could not find gene: {}".format(gene))
 
 # 2. Run PheWAS(es)
