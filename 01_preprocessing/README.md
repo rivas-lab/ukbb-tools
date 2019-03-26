@@ -8,6 +8,8 @@ Once the data is downloaded, clone this directory to wherever you are working.
 
 ## Unpacking/decrypting the data
 
+[The official documentation (Using UKB data)](http://biobank.ctsu.ox.ac.uk/showcase/docs/UsingUKBData.pdf) explains this procedure.
+
 `ukb_unpack` converts the raw files from biobank (which are `.enc` files) into `.enc_ukb` files, which are the decrypted version. In order to unpack the data, you will need to do three things:
 
 1) `cd` to the directory in which the `.enc` file is.
