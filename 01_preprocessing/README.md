@@ -36,6 +36,31 @@ In order to save a list of fields that the dataset contains, you will want to ge
 
 `paste <(head -n1 ukbXXXXX.tab| tr "\t" "\n") <(head -n1 ukb1XXXXX.tab| tr "\t" "\n" | tr "." "\t" )`
 
+## (Optional) Mapping IDs across different application IDs
+
+```
+# map IDs
+$ cat ukb27645.tab | awk '(NR>1)' | awk '{print NR, $1}'| sort -k2b,2 | join -a 1 -1 2 -2 2 /dev/stdin <( cat /oak/stanford/groups/mrivas/private_data/ukbb/24983/sqc/ukb24983_16698_mapping.tsv | sort -k2b,2 ) | sort -k2n,2 | awk -v OFS='\t' '{print $3, $1}' > ukb27645.tab.ukb24983_16698.eids.tsv
+# you should check the order of the IDs (on 16698) is the same
+$ cat ukb27645.tab | cut -f1 | awk 'NR>1' | md5sum
+2c50d482c3bf4aeee7a01ae19c447ffd  -
+$ cat ukb27645.tab.ukb24983_16698.eids.tsv | awk -v FS='\t' '{print $2}' | md5sum
+2c50d482c3bf4aeee7a01ae19c447ffd  -
+# you should check if the mapping is complete (has no missing value)
+$ cat ukb27645.tab.ukb24983_16698.eids.tsv | awk -v FS='\t' '{print NF}' | uniq -c
+ 502536 2
+# map the table
+$ cat ukb27645.tab | awk 'NR == 1' > ukb27645.mapped_to_ukb24983.tab
+$ paste <(cat ukb27645.tab.ukb24983_16698.eids.tsv  | awk '{print $1}') <(cat ukb27645.tab | awk 'NR>1' | cut -f2- ) >> ukb27645.mapped_to_ukb24983.tab
+# final check
+$ cat ukb27645.mapped_to_ukb24983.tab | cut -f2- | md5sum
+204318e13b9c32a2d9b7c49e7965b81f  -
+$ cat ukb27645.tab | cut -f2- | md5sum
+204318e13b9c32a2d9b7c49e7965b81f  -
+$ cat ukb27645.mapped_to_ukb24983.tab | awk -v FS='\t' '{print NF}' | uniq -c
+$ cat ukb27645.tab | awk -v FS='\t' '{print NF}' | uniq -c
+```
+
 ## Defining phenotypes
 
 With the `.tab.columns` file in tow, you're ready to start [defining phenotypes](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping).
