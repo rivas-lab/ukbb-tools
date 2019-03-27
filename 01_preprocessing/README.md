@@ -38,4 +38,4 @@ In order to save a list of fields that the dataset contains, you will want to ge
 
 ## Defining phenotypes
 
-With the `.tab.columns` file in tow, you're ready to start [defining phenotypes](https://github.com/rivas-lab/ukbb-tools/tree/master/phenotyping_sessions).
+With the `.tab.columns` file in tow, you're ready to start [defining phenotypes](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping).
