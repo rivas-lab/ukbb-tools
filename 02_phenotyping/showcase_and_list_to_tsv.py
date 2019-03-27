@@ -1,7 +1,7 @@
 _README='read in list of fields, subset from big csv.'
 
 
-import argparse
+import argparse, os
 
 
 import pandas as pd
@@ -31,22 +31,30 @@ def join_and_add_cols(filename, ref):
 
   
 def showcase_and_list_to_tsv_main():
+    _default_ref=os.path.join(
+        os.path.dirname(os.path.realpath(__file__)), 
+	'Data_Dictionary_Showcase.csv'
+    )
     #Parse args to get the csv of fields
-    parser = argparse.ArgumentParser(description=_README)
-    parser.add_argument(
-      'csvfile', 
-      type=argparse.FileType('r'), 
-      help='Input csv file'
+    parser = argparse.ArgumentParser(
+	formatter_class=argparse.RawDescriptionHelpFormatter,
+	description=_README
     )
     parser.add_argument(
-      '--ref', type=argparse.FileType('r'), 
-      help='Data_Dictionary_Showcase.csv',
-      default='Data_Dictionary_Showcase.csv'
+        'csvfile', 
+        type=argparse.FileType('r'), 
+        help='Input csv file'
     )
     parser.add_argument(
-      '--out', 
-      help='output tsv file (default: ${csvfile%.csv}.tsv)',
-      default=None
+        '--ref', metavar='r',
+        type=argparse.FileType('r'), 
+        help='Data_Dictionary_Showcase.csv (default: {})'.format(_default_ref),
+        default=_default_ref
+    )
+    parser.add_argument(
+        '--out', metavar='o',
+        help='output tsv file (default: basename(csvfile .csv).tsv)',
+        default=None
     )
     
     args = parser.parse_args()
@@ -57,13 +65,14 @@ def showcase_and_list_to_tsv_main():
         outfilename = args.out
     else:
         outfilename = filename.name[:-3] + 'tsv'
+        print(outfilename)
 
     subsetted = join_and_add_cols(filename, ref)
     
-    print(outfilename)
     #Export to new file
     subsetted.to_csv(outfilename, sep='\t', index=False)
 
     
 if __name__ == '__main__':
     showcase_and_list_to_tsv_main()
+
