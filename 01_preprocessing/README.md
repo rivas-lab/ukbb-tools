@@ -58,7 +58,9 @@ $ cat ukb27645.mapped_to_ukb24983.tab | cut -f2- | md5sum
 $ cat ukb27645.tab | cut -f2- | md5sum
 204318e13b9c32a2d9b7c49e7965b81f  -
 $ cat ukb27645.mapped_to_ukb24983.tab | awk -v FS='\t' '{print NF}' | uniq -c
+ 502537 2265
 $ cat ukb27645.tab | awk -v FS='\t' '{print NF}' | uniq -c
+ 502537 2265
 ```
 
 ## Defining phenotypes
