@@ -14,8 +14,10 @@ import sys, os, argparse, fileinput
 import numpy as np
 import pandas as pd
 
+def read_bim(bim_file):
+    return pd.read_csv(bim_file, sep='\t', names=['chr', 'rsid', 'dist', 'pos', 'A1', 'A2'])
 
-def flipfix_A1A2(in_f):
+def flipfix_A1A2(in_f, bim_file, to38):
     in_file = '/dev/stdin' if in_f is None else in_f
 
     for line in fileinput.input(in_file):
@@ -25,16 +27,28 @@ def flipfix_A1A2(in_f):
             col_idx_dict = dict(zip(l, np.arange(len(l))))
             # print header line
             print(line_s)
+            if to38 or 'A1' not in col_idx_dict:
+                bim_df = read_bim(bim_file)
+                dictA1 = dict(zip(bim_df['rsid'], bim_df['A1']))
+                dictA2 = dict(zip(bim_df['rsid'], bim_df['A2']))
         else:
-            CHR=str(l[col_idx_dict['#CHROM']])
-            POS=str(l[col_idx_dict['POS']])
+            #CHR=str(l[col_idx_dict['#CHROM']])
+            #POS=str(l[col_idx_dict['POS']])
+            ID=l[col_idx_dict['ID']]
             REF=l[col_idx_dict['REF']]
             ALT=l[col_idx_dict['ALT']]
-            A1=l[col_idx_dict['A1']]
-            if(A1 == ALT):
+            if 'A1' in col_idx_dict:
+                A1=l[col_idx_dict['A1']]
+                A2=None
+            else:
+                # output from old version of PRISM
+                A1=dictA1[ID]
+                A2=dictA2[ID]
+
+            if(  (A1 == ALT) and ((A2 is None) or (A2 == REF))):
                 # if there is no flip
                 print(line_s)
-            elif(A1 == REF):
+            elif((A1 == REF) and ((A2 is None) or (A2 == ALT))):
                 # if there is a flip
                 l[col_idx_dict['REF']] = ALT
                 l[col_idx_dict['ALT']] = REF
@@ -54,8 +68,13 @@ def main():
         description=_README_
     )    
     parser.add_argument('-i', metavar='i', default=None, help='input file [default: stdin]')
+    parser.add_argument(
+        '--variants', metavar='v', default='/oak/stanford/groups/mrivas/private_data/ukbb/24983/cal/pgen/ukb24983_cal_cALL_v2.liftOver.tsv.gz', 
+        help='liftOver file'
+    )
+    parser.add_argument('--to38', action='store_true', help='change coordinates to hg38')
     args = parser.parse_args()
-    flipfix_A1A2(args.i)
+    flipfix_A1A2(args.i, args.variants, args.to38)
    
 if __name__ == "__main__":
     main()
