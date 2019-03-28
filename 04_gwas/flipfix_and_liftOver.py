@@ -14,10 +14,7 @@ import sys, os, argparse, fileinput
 import numpy as np
 import pandas as pd
 
-def read_bim(bim_file):
-    return pd.read_csv(bim_file, sep='\t', names=['chr', 'rsid', 'dist', 'pos', 'A1', 'A2'])
-
-def flipfix_A1A2(in_f, bim_file, to38):
+def flipfix_A1A2(in_f, variants_file, to38):
     in_file = '/dev/stdin' if in_f is None else in_f
 
     for line in fileinput.input(in_file):
@@ -28,9 +25,10 @@ def flipfix_A1A2(in_f, bim_file, to38):
             # print header line
             print(line_s)
             if to38 or 'A1' not in col_idx_dict:
-                bim_df = read_bim(bim_file)
-                dictA1 = dict(zip(bim_df['rsid'], bim_df['A1']))
-                dictA2 = dict(zip(bim_df['rsid'], bim_df['A2']))
+                var_df = pd.read_csv(variants_file, sep='\t')
+                dictA1 = dict(zip(var_df['ID'], var_df['hg37_A1']))
+                dictA2 = dict(zip(var_df['ID'], var_df['hg37_A2']))
+                dict38 = dict(zip(var_df['ID'], var_df['hg38_pos']))
         else:
             #CHR=str(l[col_idx_dict['#CHROM']])
             #POS=str(l[col_idx_dict['POS']])
@@ -44,10 +42,13 @@ def flipfix_A1A2(in_f, bim_file, to38):
                 # output from old version of PRISM
                 A1=dictA1[ID]
                 A2=dictA2[ID]
+            if to38:
+                # change coordinates
+                l[col_idx_dict['POS']] = dict38[ID]
 
             if(  (A1 == ALT) and ((A2 is None) or (A2 == REF))):
                 # if there is no flip
-                print(line_s)
+                print('\t'.join([str(x) for x in l]))
             elif((A1 == REF) and ((A2 is None) or (A2 == ALT))):
                 # if there is a flip
                 l[col_idx_dict['REF']] = ALT
