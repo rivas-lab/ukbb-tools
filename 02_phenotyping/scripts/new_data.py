@@ -72,33 +72,34 @@ def update_phenos(fields, ukb_tab, table_id, basket_id):
         excl_col = table_info.loc[gbe_table,'exclCol (coding_exclude)']
         order_col= table_info.loc[gbe_table,'orderCol (coding_QT)']
         desc_col = table_info.loc[gbe_table, 'descCol']
-        phe_defs = pd.read_table('../tables/'+gbe_table)
+        phe_defs = pd.read_table('../tables/'+gbe_table, dtype=str).fillna('')
         # update phe files in this table (these functions are from make_phe.py)
         for ix,phe in phe_defs.loc[phe_defs.iloc[:,field_col].isin(fields),:].iterrows():
             print(phe)
             phe_file = phe[name_col] + '.phe'
-            phe_log = phe[name_col] + '.log'
-            case = phe[case_col] if case_col < phe_defs.shape[1] else ''
-            control = phe[ctrl_col] if ctrl_col < phe_defs.shape[1] else ''
-            order = phe[order_col] if order_col < phe_defs.shape[1] else ''
-            exclude = phe[excl_col] if excl_col < phe_defs.shape[1] else ''
-            field_id = phe[field_col] if field_col < phe_defs.shape[1] else ''
-            desc = phe[desc_col] if desc_col < phe_defs.shape[1] else ''
-            if (np.isnan(phe[case_col])):
+            phe_log  = phe[name_col] + '.log'
+            case     = phe[case_col] 
+            control  = phe[ctrl_col]
+            order    = phe[order_col] 
+            exclude  = phe[excl_col] 
+            field_id = phe[field_col] 
+            desc     = phe[desc_col] 
+            print("\n".join([ukb_tab, field_id, exclude, order, case, control]))
+            if not phe[case_col]:
                 create_qt_phe_file(in_tsv   = ukb_tab,
                                    out_phe  = os.path.join(phe_data_root,basket_id,table_id,phe_file),
                                    out_log  = os.path.join(phe_data_root,basket_id,table_id,'logs',phe_log),
                                    field_id = field_id,
-                                   exclude  = exclude.replace(',',';').split(';'),
-                                   order    = order.replace(',',';').split(';'),
+                                   exclude  = exclude.replace(',',';').split(';') if exclude != '' else [''],
+                                   order    = order.replace(',',';').split(';') if order != '' else [''],
                                    )
             else:
                 create_bin_phe_file(in_tsv   = ukb_tab,
                                     out_phe  = os.path.join(phe_data_root,basket_id,table_id,phe_file),
                                     out_log  = os.path.join(phe_data_root,basket_id,table_id,'logs',phe_log),
                                     field_id = field_id,
-                                    case     = case.replace(',',';').split(';'),
-                                    control  = controlreplace(',',';').split(';'),
+                                    case     = case.replace(',',';').split(';') if case != '' else [''],
+                                    control  = control.replace(',',';').split(';') if control != '' else [''],
                                     missing_is_control = False
                                     )
     return
