@@ -1,0 +1,10 @@
+Table path	nameCol (GBE ID)	fieldCol (field_ID)	tableCol (table_ID)	caseCol (coding_binary_case)	ctrlCol (coding_binary_control)	exclCol (coding_exclude)	orderCol (coding_QT)	descCol
+ukb_20170727.tsv	3	6	4	13	14	11	12	2
+ukb_20170818.tsv	3	6	4	13	14	11	12	2
+ukb_20170827.tsv	3	6	4	13	14	11	12	2
+ukb_20171015.tsv	0	3	4	13	14	11	12	1
+ukb_20171110.tsv	3	5	4	32	33	30	31	2
+ukb_20171113.tsv	3	6	4	13	14	11	12	2
+ukb_20171211.tsv	0	3	2	29	30	27	28	1
+ukb_20181109.tsv	3	6	4	13	14	11	12	2
+ukb_20190327.tsv	3	7	6	14	15	12	13	2
