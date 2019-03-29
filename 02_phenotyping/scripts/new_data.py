@@ -53,6 +53,7 @@ def find_new_data(new_f, old_f, make_table):
         # compare values
         if not new_df.loc[shared_inds,:].equals(old_df.loc[shared_inds,:]):
             print(field)
+            return [field]
             updated_fields.append(field)
     return updated_fields
 
@@ -62,6 +63,7 @@ def update_phenos(fields, ukb_tab, table_id, basket_id):
     phe_data_root = '/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/'
     table_info = pd.read_table('../tables/gbe_sh_input_params.tsv', index_col=0)
     for gbe_table in table_info.index:
+        # get columns for this table
         name_col = table_info.loc[gbe_table,'nameCol (GBE ID)']
         field_col= table_info.loc[gbe_table,'fieldCol (field_ID)']
         case_col = table_info.loc[gbe_table,'caseCol (coding_binary_case)']
@@ -70,10 +72,11 @@ def update_phenos(fields, ukb_tab, table_id, basket_id):
         order_col= table_info.loc[gbe_table,'orderCol (coding_QT)']
         desc_col = table_info.loc[gbe_table, 'descCol']
         phe_defs = pd.read_table('../tables/'+gbe_table)
-        for phe in phe_defs.loc[phe_defs.iloc[field_col] in fields,:].rows:
-            phe_file = phe_defs['nameCol (GBE ID)'] + '.phe'
-            phe_log = phe_defs['nameCol (GBE ID)'] + '.log'
-            if not phe[case_col].isnull():
+        # update phe files in this table (these functions are from make_phe.py)
+        for ix,phe in phe_defs.loc[phe_defs.iloc[:,field_col].isin(fields),:].iterrows():
+            phe_file = phe[name_col] + '.phe'
+            phe_log = phe[name_col] + '.log'
+            if phe[case_col]:
                 create_bin_phe_file(in_tsv = ukb_tab,
                                     out_phe= os.path.join(phe_data_root,basket_id,table_id,phe_file),
                                     out_log= os.path.join(phe_data_root,basket_id,table_id,'logs',phe_logs),
@@ -142,6 +145,9 @@ if __name__ == "__main__":
     print(fields)
     # 4. update phenotypes
     if not args.no_update:
-        update_phenos(fields=fields, ukb_tab=new_f, table_id=, basket_id=args.basket)
+        update_phenos(fields=fields, 
+                      ukb_tab=new_f, 
+                      table_id=os.path.splitext(os.path.basename(new_f))[0].replace('ukb',''),
+                      basket_id=args.basket)
 
-     
+    
