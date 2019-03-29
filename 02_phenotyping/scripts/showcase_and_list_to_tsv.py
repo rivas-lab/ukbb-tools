@@ -6,12 +6,12 @@ import pandas as pd
 
 def join_and_add_cols(field_list, ref='../Data_Dictionary_Showcase.csv'):
     dds = pd.read_csv(ref)
-
+    print(field_list)
     #Read in the fields
-    if os.path.exists(field_list):
-	    fields = pd.read_csv(field_list, header=None, names=['FieldID'])
-	else:
-		fields = pd.DataFrame(field_list, columns=['FieldID'])
+    if isinstance(field_list, list):
+        fields = pd.DataFrame.from_dict({'FieldID': field_list})
+    else:
+        fields = pd.read_csv(field_list, header=None, names=['FieldID'])
     #Subset the df with a merge
     subsetted = fields.merge(dds, left_on='FieldID', right_on='FieldID')
 

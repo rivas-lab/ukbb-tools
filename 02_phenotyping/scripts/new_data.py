@@ -1,6 +1,7 @@
 #!/bin/python
 import os
 import pandas as pd
+from make_phe import *
 
 # actions:
 #   1. if new data, output new fields and make table for computing session
@@ -58,7 +59,6 @@ def find_new_data(new_f, old_f, make_table):
 def update_phenos(fields, ukb_tab, table_id, basket_id):
     # iterate over all references
     import glob
-    from make_phe import *
     phe_data_root = '/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/'
     table_info = pd.read_table('../tables/gbe_sh_input_params.tsv', index_col=0)
     for gbe_table in table_info.index:
@@ -71,29 +71,29 @@ def update_phenos(fields, ukb_tab, table_id, basket_id):
         desc_col = table_info.loc[gbe_table, 'descCol']
         phe_defs = pd.read_table('../tables/'+gbe_table)
         for phe in phe_defs.loc[phe_defs.iloc[field_col] in fields,:].rows:
-        	phe_file = phe_defs['nameCol (GBE ID)'] + '.phe'
-        	phe_log = phe_defs['nameCol (GBE ID)'] + '.log'
+            phe_file = phe_defs['nameCol (GBE ID)'] + '.phe'
+            phe_log = phe_defs['nameCol (GBE ID)'] + '.log'
             if not phe[case_col].isnull():
-            	create_bin_phe_file(in_tsv = ukb_tab,
-            		                out_phe= os.path.join(phe_data_root,basket_id,table_id,phe_file),
-            		                out_log= os.path.join(phe_data_root,basket_id,table_id,'logs',phe_logs),
-            		                field_id = phe[field_col],
-            		                case   = phe[case_col],
-            		                control= phe[ctrl_col],
-            		                missing_is_control=False
-            		                )
+                create_bin_phe_file(in_tsv = ukb_tab,
+                                    out_phe= os.path.join(phe_data_root,basket_id,table_id,phe_file),
+                                    out_log= os.path.join(phe_data_root,basket_id,table_id,'logs',phe_logs),
+                                    field_id = phe[field_col],
+                                    case   = phe[case_col],
+                                    control= phe[ctrl_col],
+                                    missing_is_control=False
+                                    )
             else:
-            	create_qt_phe_file(in_tsv = ukb_tab,
-            		               out_phe= os.path.join(phe_data_root,basket_id,table_id,phe_file),
-            		               out_log= os.path.join(phe_data_root,basket_id,table_id,'logs',phe_logs),
-            		               field_id = phe[field_col],
-            		               exclude= phe[excl_col],
-            		               order=phe[order_col]
-            		               )
+                create_qt_phe_file(in_tsv = ukb_tab,
+                                   out_phe= os.path.join(phe_data_root,basket_id,table_id,phe_file),
+                                   out_log= os.path.join(phe_data_root,basket_id,table_id,'logs',phe_logs),
+                                   field_id = phe[field_col],
+                                   exclude= phe[excl_col],
+                                   order=phe[order_col]
+                                   )
     return
 
 def update_summary_stats(fields):
-	return 'todo'
+    return 'todo'
 
 if __name__ == "__main__":
     import argparse
