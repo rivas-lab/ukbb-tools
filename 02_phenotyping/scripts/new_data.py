@@ -55,18 +55,45 @@ def find_new_data(new_f, old_f, make_table):
             updated_fields.append(field)
     return updated_fields
 
-def update_phenos(fields, table):
+def update_phenos(fields, ukb_tab, table_id, basket_id):
     # iterate over all references
     import glob
     from make_phe import *
+    phe_data_root = '/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/'
     table_info = pd.read_table('../tables/gbe_sh_input_params.tsv', index_col=0)
-    for table in table_info.index:
-        field_col= table_info.loc[table,'fieldCol (field_ID)']
-        phe_defs = pd.read_table('../tables/'+table)
-        for phe in phe_defs.loc[phe_defs.iloc[field_col] in fields,:]:
-            # check if bin/qt
-            # call create_bin/create_qt_phe_file 
-    return 
+    for gbe_table in table_info.index:
+        name_col = table_info.loc[gbe_table,'nameCol (GBE ID)']
+        field_col= table_info.loc[gbe_table,'fieldCol (field_ID)']
+        case_col = table_info.loc[gbe_table,'caseCol (coding_binary_case)']
+        ctrl_col = table_info.loc[gbe_table,'ctrlCol (coding_binary_control)']
+        excl_col = table_info.loc[gbe_table,'exclCol (coding_exclude)']
+        order_col= table_info.loc[gbe_table,'orderCol (coding_QT)']
+        desc_col = table_info.loc[gbe_table, 'descCol']
+        phe_defs = pd.read_table('../tables/'+gbe_table)
+        for phe in phe_defs.loc[phe_defs.iloc[field_col] in fields,:].rows:
+        	phe_file = phe_defs['nameCol (GBE ID)'] + '.phe'
+        	phe_log = phe_defs['nameCol (GBE ID)'] + '.log'
+            if not phe[case_col].isnull():
+            	create_bin_phe_file(in_tsv = ukb_tab,
+            		                out_phe= os.path.join(phe_data_root,basket_id,table_id,phe_file),
+            		                out_log= os.path.join(phe_data_root,basket_id,table_id,'logs',phe_logs),
+            		                field_id = phe[field_col],
+            		                case   = phe[case_col],
+            		                control= phe[ctrl_col],
+            		                missing_is_control=False
+            		                )
+            else:
+            	create_qt_phe_file(in_tsv = ukb_tab,
+            		               out_phe= os.path.join(phe_data_root,basket_id,table_id,phe_file),
+            		               out_log= os.path.join(phe_data_root,basket_id,table_id,'logs',phe_logs),
+            		               field_id = phe[field_col],
+            		               exclude= phe[excl_col],
+            		               order=phe[order_col]
+            		               )
+    return
+
+def update_summary_stats(fields):
+	return 'todo'
 
 if __name__ == "__main__":
     import argparse
@@ -115,6 +142,6 @@ if __name__ == "__main__":
     print(fields)
     # 4. update phenotypes
     if not args.no_update:
-        update_phenos(fields)
+        update_phenos(fields=fields, ukb_tab=new_f)
 
      
