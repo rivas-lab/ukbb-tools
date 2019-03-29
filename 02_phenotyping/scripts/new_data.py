@@ -55,15 +55,18 @@ def find_new_data(new_f, old_f, make_table):
             updated_fields.append(field)
     return updated_fields
 
-def update_phenos(fields):
+def update_phenos(fields, table):
     # iterate over all references
     import glob
-    for phe_table in glob.glob('../tables/*.tsv'):
-        phenos = pd.read_table(phe_table).query('Field in @fields')
-        to_update = phe
-
-    # looks for phenotypes for input list of fields in ../tables/*.tsv
-
+    from make_phe import *
+    table_info = pd.read_table('../tables/gbe_sh_input_params.tsv', index_col=0)
+    for table in table_info.index:
+        field_col= table_info.loc[table,'fieldCol (field_ID)']
+        phe_defs = pd.read_table('../tables/'+table)
+        for phe in phe_defs.loc[phe_defs.iloc[field_col] in fields,:]:
+            # check if bin/qt
+            # call create_bin/create_qt_phe_file 
+    return 
 
 if __name__ == "__main__":
     import argparse
