@@ -1,27 +1,31 @@
 _README='read in list of fields, subset from big csv.'
 
-
 import argparse, os
-
-
 import pandas as pd
 
 
-def join_and_add_cols(filename, ref):
+def join_and_add_cols(field_list, ref='../Data_Dictionary_Showcase.csv'):
     dds = pd.read_csv(ref)
 
     #Read in the fields
-    fields = pd.read_csv(filename, header=None, names=['FieldID'])
-
+    if os.path.exists(field_list):
+	    fields = pd.read_csv(field_list, header=None, names=['FieldID'])
+	else:
+		fields = pd.DataFrame(field_list, columns=['FieldID'])
     #Subset the df with a merge
     subsetted = fields.merge(dds, left_on='FieldID', right_on='FieldID')
 
     #Add in the extra column names
-    add_colnames = ['Annotator', 'Annotation date', 'Name', 'GBE ID', 'TableID', 'Field', 'QT_total_num', 'BIN_total_num', 'QT_index', 'BIN_index', 'coding_exclude', 'coding_QT', 'coding_binary_case', 'coding_binary_control']
+    add_colnames = ['Annotator', 'Annotation date', 'Name', 'GBE ID', 'TableID', 'Field',
+        'QT_total_num', 'BIN_total_num', 'QT_index', 'BIN_index', 'coding_exclude', 'coding_QT',
+        'coding_binary_case', 'coding_binary_control']
     subsetted = pd.concat([subsetted,pd.DataFrame(columns=add_colnames)], sort=True)
 
     #Reorder the columns
-    new_col_order = ['Annotator', 'Annotation date', 'Name', 'GBE ID', 'TableID', 'Field', 'FieldID', 'QT_total_num', 'BIN_total_num', 'QT_index', 'BIN_index', 'coding_exclude', 'coding_QT', 'coding_binary_case', 'coding_binary_control', 'Participants', 'Stability', 'ValueType', 'Units', 'Strata', 'Sexed', 'Instances', 'Array', 'Coding', 'Link']
+    new_col_order = ['Annotator', 'Annotation date', 'Name', 'GBE ID', 'TableID', 'Field', 'FieldID',
+        'QT_total_num', 'BIN_total_num', 'QT_index', 'BIN_index', 'coding_exclude', 'coding_QT',
+        'coding_binary_case', 'coding_binary_control', 'Participants', 'Stability', 'ValueType',
+        'Units', 'Strata', 'Sexed', 'Instances', 'Array', 'Coding', 'Link']
     subsetted = subsetted[new_col_order]
 
     #ensure types of columns are int
@@ -33,15 +37,16 @@ def join_and_add_cols(filename, ref):
 def showcase_and_list_to_tsv_main():
     _default_ref=os.path.join(
         os.path.dirname(os.path.realpath(__file__)), 
-	'Data_Dictionary_Showcase.csv'
+        '../Data_Dictionary_Showcase.csv'
     )
     #Parse args to get the csv of fields
     parser = argparse.ArgumentParser(
-	formatter_class=argparse.RawDescriptionHelpFormatter,
-	description=_README
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description=_README
     )
     parser.add_argument(
-        'csvfile', 
+        '--input',
+        dest=csvfile,
         type=argparse.FileType('r'), 
         help='Input csv file'
     )
@@ -59,18 +64,18 @@ def showcase_and_list_to_tsv_main():
     
     args = parser.parse_args()
 
-    filename = args.csvfile
+    field_list = args.csvfile
     ref = args.ref
     if args.out is not None:
-        outfilename = args.out
+        outfile_name = args.out
     else:
-        outfilename = filename.name[:-3] + 'tsv'
-        print(outfilename)
+        outfile_name = field_list.name[:-3] + 'tsv'
+        print(outfile_name)
 
-    subsetted = join_and_add_cols(filename, ref)
+    subsetted = join_and_add_cols(field_list, ref)
     
     #Export to new file
-    subsetted.to_csv(outfilename, sep='\t', index=False)
+    subsetted.to_csv(outfile_name, sep='\t', index=False)
 
     
 if __name__ == '__main__':
