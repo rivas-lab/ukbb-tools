@@ -61,7 +61,7 @@ def create_bin_phe_file(in_tsv, out_phe, out_log, field_id, case, control, missi
     logger_phe.addHandler(hdlr) 
     
     tsv_df=get_tsv_from_tab(in_tsv, field_id)
-    
+    print(case)
     logger_phe.info('encoding: case: ' + ';'.join([str(x) for x in sorted(case)]))
     logger_phe.info('encoding: control: ' + ';'.join([str(x) for x in sorted(control)])    )
     logger_phe.info('number_of_measurements: ' + str(tsv_df.shape[1] - 1))
@@ -205,7 +205,7 @@ def main():
     parser.add_argument('--order', metavar='O', dest='O', nargs='*', type=str,
                         help='semicolon delimited coding order (increasing) for QTs')
     parser.add_argument('--exclude', metavar='X', dest='X', nargs='*', type=str,
-                        help='semicolon delimited values to exclude for QTs -- must be sanitized, by beng surrounded in "-quotes"')
+                        help='semicolon delimited values to exclude for QTs -- must be sanitized by being surrounded in "-quotes"')
     parser.add_argument('--missing-controls', dest='M', action='store_true', 
                         help='flag to expand control set to include missing values as controls')
      

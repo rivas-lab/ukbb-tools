@@ -2,6 +2,7 @@
 import os
 import pandas as pd
 from make_phe import *
+import numpy as np
 
 # actions:
 #   1. if new data, output new fields and make table for computing session
@@ -74,25 +75,32 @@ def update_phenos(fields, ukb_tab, table_id, basket_id):
         phe_defs = pd.read_table('../tables/'+gbe_table)
         # update phe files in this table (these functions are from make_phe.py)
         for ix,phe in phe_defs.loc[phe_defs.iloc[:,field_col].isin(fields),:].iterrows():
+            print(phe)
             phe_file = phe[name_col] + '.phe'
             phe_log = phe[name_col] + '.log'
-            if phe[case_col]:
-                create_bin_phe_file(in_tsv = ukb_tab,
-                                    out_phe= os.path.join(phe_data_root,basket_id,table_id,phe_file),
-                                    out_log= os.path.join(phe_data_root,basket_id,table_id,'logs',phe_logs),
-                                    field_id = phe[field_col],
-                                    case   = phe[case_col],
-                                    control= phe[ctrl_col],
-                                    missing_is_control=False
-                                    )
-            else:
-                create_qt_phe_file(in_tsv = ukb_tab,
-                                   out_phe= os.path.join(phe_data_root,basket_id,table_id,phe_file),
-                                   out_log= os.path.join(phe_data_root,basket_id,table_id,'logs',phe_logs),
-                                   field_id = phe[field_col],
-                                   exclude= phe[excl_col],
-                                   order=phe[order_col]
+            case = phe[case_col] if case_col < phe_defs.shape[1] else ''
+            control = phe[ctrl_col] if ctrl_col < phe_defs.shape[1] else ''
+            order = phe[order_col] if order_col < phe_defs.shape[1] else ''
+            exclude = phe[excl_col] if excl_col < phe_defs.shape[1] else ''
+            field_id = phe[field_col] if field_col < phe_defs.shape[1] else ''
+            desc = phe[desc_col] if desc_col < phe_defs.shape[1] else ''
+            if (np.isnan(phe[case_col])):
+                create_qt_phe_file(in_tsv   = ukb_tab,
+                                   out_phe  = os.path.join(phe_data_root,basket_id,table_id,phe_file),
+                                   out_log  = os.path.join(phe_data_root,basket_id,table_id,'logs',phe_log),
+                                   field_id = field_id,
+                                   exclude  = exclude.replace(',',';').split(';'),
+                                   order    = order.replace(',',';').split(';'),
                                    )
+            else:
+                create_bin_phe_file(in_tsv   = ukb_tab,
+                                    out_phe  = os.path.join(phe_data_root,basket_id,table_id,phe_file),
+                                    out_log  = os.path.join(phe_data_root,basket_id,table_id,'logs',phe_log),
+                                    field_id = field_id,
+                                    case     = case.replace(',',';').split(';'),
+                                    control  = controlreplace(',',';').split(';'),
+                                    missing_is_control = False
+                                    )
     return
 
 def update_summary_stats(fields):
