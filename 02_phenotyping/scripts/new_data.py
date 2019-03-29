@@ -34,7 +34,7 @@ def find_new_data(new_f, old_f, make_table):
     print("New fields:\n" + "\n".join(iter(new_fields)))
     print("Updated fields:")
     # make table for computing session with 
-    if make_table:
+    if len(new_fields) != 0 and make_table:
         from showcase_and_list_to_tsv import join_and_add_cols
         out_file = '../tables/ukb_' + str(pd.datetime.today().date()).replace('-','') + '.tsv'
         join_and_add_cols(new_fields).to_csv(out_file, sep='\t', index=False)
@@ -142,6 +142,6 @@ if __name__ == "__main__":
     print(fields)
     # 4. update phenotypes
     if not args.no_update:
-        update_phenos(fields=fields, ukb_tab=new_f)
+        update_phenos(fields=fields, ukb_tab=new_f, table_id=, basket_id=args.basket)
 
      
