@@ -15,8 +15,10 @@ def make_phe_info(in_phe, out_path, name, field, table, basket, app_id, source, 
         o = open(out_path, 'w')
         o.write(header + '\n')
     for phe_path, phe_name in zip(in_phe, name):
+        # this is a lazy input filtering mechanism from main()
+        if not phe_name: continue
         # load phenotypedata 
-        phe = dict([line.split()[1:] for line in open(phe_path, 'r')])
+        phe = dict([line.split()[1:] for line in open(phe_path, 'r') if 'IID' not in line])
         phe_id = os.path.splitext(os.path.basename(phe_path))[0]
         if 'cancer3' in phe_path:
             phe_id = 'cancer' + phe_id
@@ -58,11 +60,16 @@ if __name__ == "__main__":
         icdinfo = {line.split()[0]:line.split()[2] for line in icd}
     # 0. write out HC info files to master table
     hc_paths  = glob.glob('/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/highconfidenceqc/HC*.phe')
+<<<<<<< HEAD
     # the filter step in this line causes the naming bug, since there's no filler for it — the order gets messed up
     hc_names  = list(map(lambda hc: icdinfo[hc], filter(lambda hc: hc in icdinfo, 
                          map(lambda path: os.path.splitext(os.path.basename(path))[0], hc_paths))))
+=======
+    hc_names  = list(map(lambda hc: icdinfo[hc] if hc in icdinfo else '', 
+                         map(lambda path: os.path.splitext(os.path.basename(path))[0], hc_paths)))
+>>>>>>> bd0ad332e1c5683e668643b388517c89f1451d13
     make_phe_info(in_phe   = hc_paths, 
-                  out_path = '/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/extra_info/hc.tsv.info'
+                  out_path = '/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/extra_info/hc.tsv.info',
                   name     = hc_names,
                   field    = 'NA', 
                   table    = 'NA', 
@@ -72,8 +79,8 @@ if __name__ == "__main__":
                   all_together = True)
     # 1. write out cancer info files to master table
     cancer_phenos = glob.glob('/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/cancer3/*.phe')
-    cancer_names  = list(map(lambda c: icdinfo['cancer'+c], filter(lambda c: 'cancer'+c in icdinfo, 
-                         map(lambda path: os.path.splitext(os.path.basename(path))[0], cancer_phenos))))
+    cancer_names  = list(map(lambda c: icdinfo['cancer'+c] if 'cancer'+c in icdinfo else '',
+                         map(lambda path: os.path.splitext(os.path.basename(path))[0], cancer_phenos)))
     make_phe_info(in_phe   = cancer_phenos, 
                   out_path = '/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/extra_info/cancer.tsv.info',
                   name     = cancer_names,
@@ -87,7 +94,7 @@ if __name__ == "__main__":
     rh_phenos = ['/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/rohit/RH{}.phe'.format(i) for i in range(161)]
     rh_names  = [line.rstrip().split()[1] for line in open('/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/rohit/rohit_map.txt', 'r')]
     make_phe_info(in_phe   = rh_phenos, 
-                  out_path = '/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/extra_info/rh.tsv.info'
+                  out_path = '/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/extra_info/rh.tsv.info',
                   name     = rh_names,
                   field    = 'NA', 
                   table    = 'NA', 
@@ -95,3 +102,17 @@ if __name__ == "__main__":
                   app_id   = '16698', 
                   source   = 'rohit', 
                   all_together = True)
+    # 3. and family history
+    fh_phenos = glob.glob('/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/familyHistory2/FH*.phe')
+    fh_map    = {'FH'+line.split()[0][:4]:line.rstrip().split(None,1)[1].replace(' ','_') for line in open('/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/familyHistory2/mapphe.txt', 'r')}
+    fh_names  = [fh_map[phe[:6]] if phe[:6] in fh_map else '' for phe in map(os.path.basename,fh_phenos)]
+    make_phe_info(in_phe   = fh_phenos,
+                  out_path = '/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/extra_info/fh.tsv.info',
+                  name     = fh_names,
+                  field    = 'NA', 
+                  table    = 'NA', 
+                  basket   = 'NA',
+                  app_id   = '16698', 
+                  source   = 'rohit', 
+                  all_together = True)
+                  

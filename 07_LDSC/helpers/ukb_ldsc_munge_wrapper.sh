@@ -33,18 +33,19 @@ ldsc_munge ()  {
 	munge_out=$2 ;
 
 	# wrapper for munge_sumstats.py
-
 	python $ldsc_path/munge_sumstats.py \
 	--sumstats $munge_sumstats \
-	--N-col OBS_CT --a1 ALT --a2 REF --snp ID \
+	--N-col OBS_CT --a1 A1 --a2 A2 --snp ID \
 	--signed-sumstats BETA,0 \
 	--out $munge_out ;
 	
 }
 
 if [ $in_type == "" ] ; then
+	echo " python $_ldsc_input_script -o $tmp_dir -ld ${ld_scores} $in_name"
 	python $_ldsc_input_script -o $tmp_dir -ld ${ld_scores} $in_name ;
 else
+	echo "python $_ldsc_input_script -o $tmp_dir -ld ${ld_scores} $in_name --${in_type}_file ${in_sumstats}"
 	python $_ldsc_input_script -o $tmp_dir -ld ${ld_scores} $in_name --${in_type}_file ${in_sumstats} ;
 fi 
 
@@ -52,6 +53,6 @@ fi
 ldsc_munge $tmp_dir/${in_name}_ldsc.tsv $tmp_dir/${in_name}.munge
 
 # write the results
-cp $tmp_dir/${in_name}.munge.log ${out_file}.log
-cp $tmp_dir/${in_name}.munge.sumstats.gz ${out_file}.sumstats.gz
+cp $tmp_dir/${in_name}.munge.log ${out_file%.gz}.log
+cp $tmp_dir/${in_name}.munge.sumstats.gz ${out_file}
 

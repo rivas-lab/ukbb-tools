@@ -30,43 +30,56 @@ def read_plink2_sumstats(fn, regression_type, header=True):
     res : pandas.DataFrame
         Dataframe with results.
     """
-
-    dtypes_dict = dict()
-    dtypes_dict['logistic'] = collections.OrderedDict([
-	('#CHROM', str), ('POS', int), ('ID', str), ('REF', str), ('ALT1', str),
-        ('FIRTH?', str), ('TEST', str), ('OBS_CT', int), ('OR', float),
-	('SE', float), ('T_STAT', float), ('P', float)
-    ])
-    dtypes_dict['linear'] = collections.OrderedDict([
-	('#CHROM', str), ('POS', int), ('ID', str), ('REF', str), ('ALT1', str),
-	('TEST', str), ('OBS_CT', int), ('BETA', float),
-	('SE', float), ('T_STAT', float), ('P', float)
-    ])
-
-    assert(regression_type in set(dtypes_dict.keys()))
-    dtypes = dtypes_dict[regression_type]
-
-    if header is None:
+    def get_dtypes_dict():
+        dtypes_dict = dict()
+        dtypes_dict['logistic'] = collections.OrderedDict([
+            ('#CHROM', str), ('POS', int), ('ID', str), 
+            ('REF', str), ('ALT', str), ('A1', str),
+            ('FIRTH?', str), ('TEST', str), ('OBS_CT', int), ('OR', float),
+            ('SE', float), ('Z_STAT', float), ('P', float)
+        ])
+        dtypes_dict['linear'] = collections.OrderedDict([
+            ('#CHROM', str), ('POS', int), ('ID', str), 
+            ('REF', str), ('ALT', str), ('A1', str),
+            ('TEST', str), ('OBS_CT', int), ('BETA', float),
+            ('SE', float), ('T_STAT', float), ('P', float)
+        ])
+        return(dtypes_dict)
+    def check_header(fn):
         if fn[-3:] == '.gz':
             with gzip.open(fn, 'r') as f:
                 line = f.readline()
-	else:
+        else:
             with open(fn, 'r') as f:
                 line = f.readline()
-        header = line [0] == '#'
+        header = (line [0] == '#')
+        return(header)                        
+    
+    dtypes_dict = get_dtypes_dict()
+    assert(regression_type in set(dtypes_dict.keys()))
+
+    if (header is None):
+        header=check_header(fn)
     try:
         if header:
-            res = pd.read_table(fn, index_col=2, dtype=dtypes, low_memory=False)
+            res = pd.read_csv(
+                fn, sep='\t', low_memory=False,
+            )
         else:
-	    cols = list(dtypes.keys())
-            res = pd.read_table(fn, index_col=2, dtype=dtypes, names=cols,
-                                low_memory=False)
+            res = pd.read_csv(
+                fn, sep='\t', low_memory=False, 
+                names=list(dtypes.keys()),
+            )
     except pd.io.common.EmptyDataError:
         sys.stderr.write('No data in {}\n'.format(fn))
-        sys.exit()
-
+        sys.exit(1)
+    
+    dtypes = dtypes_dict[regression_type]
+    for k, v in dtypes.items():
+        res[k] = res[k].map(lambda x: v(x))
     res.columns = [x.replace('#', '') for x in res.columns]
     res.columns = [x.replace('ALT1', 'ALT') for x in res.columns]
+    res['A2'] = np.where((res['A1'] == res['ALT']), res['REF'], res['ALT'])
     return(res)
 
 def read_logistic2(fn, header=True):
@@ -112,7 +125,7 @@ def read_linear2(fn, header=True):
 def filter_linear_output(res):
     """Filter the PLINK 2 linear output"""
     res = res[res['TEST'] == 'ADD']
-    res = res.dropna(subset=['BETA'])
+    res = res.dropna(subset=['BETA', 'P'])
     res['SE'] = res['SE'] 
     # dfs.append(res[['BETA', 'SE', 'P']])
     return(res)
@@ -120,7 +133,7 @@ def filter_linear_output(res):
 def filter_logistic_output(res):
     """Filter the PLINK 2 logistic output"""
     res = res[res['TEST'] == 'ADD']
-    res = res.dropna(subset=['OR'])
+    res = res.dropna(subset=['OR', 'P'])
     res['BETA'] = np.log(res['OR'])
     res['SE'] = res['SE'] 
     # dfs.append(res[['BETA', 'SE', 'P']])
@@ -132,7 +145,7 @@ def get_linear_output(fns, header=False):
     dfs = []
     for fn in fns:
         res = read_linear2(fn, header=None)
-	dfs.append(filter_linear_output(res))
+        dfs.append(filter_linear_output(res))
     return pd.concat(dfs)
 
 def get_logistic_output(fns, header=False):
@@ -141,7 +154,7 @@ def get_logistic_output(fns, header=False):
     dfs = []
     for fn in fns:
         res = read_logistic2(fn, header=None)
-	dfs.append(filter_logistic_output(res))
+        dfs.append(filter_logistic_output(res))
     return(pd.concat(dfs))
 
 def get_results(code):
@@ -170,7 +183,7 @@ def get_results(code):
 
 def _read_ld_scores(path):
     fns = glob.glob(os.path.join(path, '*ldscore.gz'))
-    lds = [pd.read_table(fn) for fn in fns]
+    lds = [pd.read_csv(fn, sep='\t') for fn in fns]
     lds = pd.concat(lds)
     lds.index = lds.CHR.astype(str) + ':' + lds.BP.astype(str)
     se = pd.Series(lds.index)
@@ -193,10 +206,10 @@ def _merge_with_ld_scores(res, lds):
 def make_file(pheno, ld_scores, outdir, keep, fn_logistic = None, fn_linear = None):
     assert(fn_logistic is None or fn_linear is None)
     if(fn_logistic is not None):
-	files = glob.glob(fn_logistic)
+        files = glob.glob(fn_logistic)
         data = get_logistic_output(files)
     elif(fn_linear is not None):
-	files = glob.glob(fn_linear)
+        files = glob.glob(fn_linear)
         data = get_linear_output(files)
     else:
         data = get_results(pheno)
@@ -206,7 +219,7 @@ def make_file(pheno, ld_scores, outdir, keep, fn_logistic = None, fn_linear = No
     data = _merge_with_ld_scores(data, lds)
     # Filter further if needed.
     if keep:
-        keep = set(pd.read_table(keep, header=None, squeeze=True))
+        keep = set(pd.read_csv(keep, sep='\t', header=None, squeeze=True))
         data.index = data['ID']
         data = data.loc[set(keep) & set(data.index)]
     # Write output file.
@@ -252,3 +265,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
