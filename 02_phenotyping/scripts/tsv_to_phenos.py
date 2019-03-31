@@ -12,10 +12,11 @@ Author: Matthew Aguirre (SUNET: magu)
 """
 
 def make_table(in_tsv, table_col, field_col, name_col, case_col, ctrl_col, 
-               excl_col, qtfc_col, desc_col, 
+               excl_col, qtfc_col, desc_col, new_table=True, table_id=None, 
                header=True, all_ctrl=False, make_this_one=None):
-    home_out_dir='/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/'
+    home_out_dir='/oak/stanford/groups/mrivas/private_data/ukbb/24983/phenotypedata/'
     home_in_dir ='/oak/stanford/groups/mrivas/private_data/ukbb/24983/phenotypedata/download/'
+    # this block should probably be abstracted into its own function
     phe_info = {}
     if make_this_one is not None:
         if isinstance(make_this_one, list):
@@ -42,12 +43,21 @@ def make_table(in_tsv, table_col, field_col, name_col, case_col, ctrl_col,
                                             'desc':     fields[desc_col] if desc_col < len(fields) else ''}
     # this info should be logged somewhere
     for phe_name, phe_values in phe_info.items():
+        print(phe_info)
         print(phe_name, phe_values)
-        # these are the same regardless of the nature of the phenotype
-        tab = phe_values['table_id'] # for brevity below
-        tsv = map(glob.glob, [os.path.join(root,'newest/ukb*.tab') for root,dirs,files in os.walk(home_in_dir) if tab in dirs])[0][0]
-        # home_out_dir/basketID/gbeID.phe
-        phe = os.path.join(home_out_dir, os.path.basename(os.path.dirname(os.path.dirname(tsv))), '{0}.phe'.format(phe_name))
+        # select tab file to use from handler arguments
+        if new_table:
+            tsv = map(glob.glob, [os.path.join(root,'newest/ukb*.tab') for root,dirs,files in os.walk(home_in_dir) if phe_values['table_id'] in dirs])[0][0]
+            table_id = os.path.splitext(os.path.basename(tsv))[0].replace('ukb','')
+        else:
+            table_id = phe_values['table_id'] if table_id is None else table_id
+            tab_f = 'ukb{}.tab'.format(table_id)
+            # this will throw an indexing error if a bad table is supplied
+            tsv = [os.path.join(root,tab_f) for root,dirs,files in os.walk(home_in_dir) if tab_f in files][0]
+        # get phenotype name
+        basket_id = os.path.basename(os.path.dirname(os.path.dirname(tsv)))
+        phe = os.path.join(home_out_dir, basket_id, table_id, phe_name+'.phe')
+        print(tsv,phe)
         log = os.path.join(os.path.dirname(phe), "logs/{0}.log".format(phe_name))
         # assume binary if we have a case definition, else assume qt
         if phe_values['case']: 
@@ -90,6 +100,10 @@ if __name__=="__main__":
                             help='column in tsv corresponding to UK Biobank Field ID')
     parser.add_argument('--table', dest="table", required=True, nargs=1,
                             help='column in tsv corresponding to UK Biobank Table ID')
+    parser.add_argument('--table-id', dest="table_id", required=False, nargs=1, default=[None],
+                            help='ID of UK Biobank Table ID to use (overrides table option)')
+    parser.add_argument('--table-newest', dest="new_table", action='store_true',
+                            help='Flag to use newest table corresponding to UK Biobank basket (overrides table and table-id options)')
     parser.add_argument('--case', dest='case', required=True, nargs=1,
                             help='column in tsv corresponding to values for binary case definitions')
     parser.add_argument('--control', dest='control', required=True, nargs=1,
@@ -114,6 +128,8 @@ if __name__=="__main__":
            excl_col  = int(args.exclude[0]),
            qtfc_col  = int(args.order[0]),
            desc_col  = int(args.desc[0]),
+           new_table = args.new_table,
+           table_id  = args.table_id[0],
            header    = not args.noheader,
            all_ctrl  = args.expand_control,
            make_this_one = args.onlyone)
