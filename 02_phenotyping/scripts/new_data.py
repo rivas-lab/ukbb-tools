@@ -57,12 +57,63 @@ def find_new_data(new_f, old_f, make_table):
             return [field]
             updated_fields.append(field)
     return updated_fields
-
+"""
+  --tsv INPUT           input table from phenotyping session
+  --no-header           flag if input tsv has no header
+  --name NAME           column in tsv corresponding to phe file name (GBE ID)
+  --desc DESC           column in tsv corresponding to phenotype description
+                        (GBE NAME string)
+  --field FIELD         column in tsv corresponding to UK Biobank Field ID
+  --table TABLE         column in tsv corresponding to UK Biobank Table ID
+  --case CASE           column in tsv corresponding to values for binary case
+                        definitions
+  --control CONTROL     column in tsv corresponding to values for binary
+                        control definitions
+  --missing-is-control  flag if missing values for binary traits should be
+                        defined as controls
+  --missing EXCLUDE     column in tsv corresponding to QT values considered as
+                        missing data
+  --order ORDER         column in tsv corresponding to order of values (least
+                        to greatest) for QTs from categorical fields
+  --only-this-row ONLYONE
+                        (optional) flag to run only one (zero-indexed, not
+                        including the header) row the input tsv.
+"""
 def update_phenos(fields, ukb_tab, table_id, basket_id):
+    import glob
+    phe_data_root = '/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/'
+    table_info = pd.read_table('../tables/gbe_sh_input_params.tsv', index_col=0, dtype=str)
+    paths_to_phenos = []
+    phe_data_root = '/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/'
+    for gbe_table in table_info.index:
+        phe_defs = pd.read_table('../tables/'+gbe_table, dtype=str).fillna('')
+        name_col = int(table_info.loc[gbe_table,'nameCol (GBE ID)'])
+        field_col= int(table_info.loc[gbe_table,'fieldCol (field_ID)'])
+        for ix,phe in phe_defs.loc[phe_defs.iloc[:,field_col].isin(fields),:].iterrows():
+            # call tsv_to_phenos with --only-this-row to get the phenotypedata 
+            os.system(' '.join(('python tsv_to_phenos.py', 
+                           '--tsv', '../tables/'+gbe_table,
+                           '--table', table_info.loc[gbe_table, 'tableCol (table_ID)'],
+                           '--table-id', table_id,
+                           '--name', table_info.loc[gbe_table,'nameCol (GBE ID)'],
+                           '--desc', table_info.loc[gbe_table, 'descCol'],
+                           '--field', table_info.loc[gbe_table,'fieldCol (field_ID)'],
+                           '--case', table_info.loc[gbe_table,'caseCol (coding_binary_case)'],
+                           '--control', table_info.loc[gbe_table,'ctrlCol (coding_binary_control)'],
+                           '--order', table_info.loc[gbe_table,'orderCol (coding_QT)'],
+                           '--missing', table_info.loc[gbe_table,'exclCol (coding_exclude)'],
+                           '--only-this-row', str(ix))))
+            phe_file = os.path.join(phe_data_root,basket_id,table_id,phe[name_col] + '.phe')
+            paths_to_phenos.append(phe_file)
+    return paths_to_phenos
+
+ 
+def update_phenos_via_make_phe(fields, ukb_tab, table_id, basket_id):
     # iterate over all references
     import glob
     phe_data_root = '/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/'
     table_info = pd.read_table('../tables/gbe_sh_input_params.tsv', index_col=0)
+    paths_to_phenos = []
     for gbe_table in table_info.index:
         # get columns for this table
         name_col = table_info.loc[gbe_table,'nameCol (GBE ID)']
@@ -75,37 +126,40 @@ def update_phenos(fields, ukb_tab, table_id, basket_id):
         phe_defs = pd.read_table('../tables/'+gbe_table, dtype=str).fillna('')
         # update phe files in this table (these functions are from make_phe.py)
         for ix,phe in phe_defs.loc[phe_defs.iloc[:,field_col].isin(fields),:].iterrows():
-            print(phe)
-            phe_file = phe[name_col] + '.phe'
-            phe_log  = phe[name_col] + '.log'
+            phe_file = os.path.join(phe_data_root,basket_id,table_id,phe[name_col] + '.phe')
+            phe_log  = os.path.join(phe_data_root,basket_id,table_id,'logs',phe[name_col] + '.log')
             case     = phe[case_col] 
             control  = phe[ctrl_col]
             order    = phe[order_col] 
             exclude  = phe[excl_col] 
-            field_id = phe[field_col] 
             desc     = phe[desc_col] 
-            print("\n".join([ukb_tab, field_id, exclude, order, case, control]))
             if not phe[case_col]:
                 create_qt_phe_file(in_tsv   = ukb_tab,
-                                   out_phe  = os.path.join(phe_data_root,basket_id,table_id,phe_file),
-                                   out_log  = os.path.join(phe_data_root,basket_id,table_id,'logs',phe_log),
-                                   field_id = field_id,
-                                   exclude  = exclude.replace(',',';').split(';') if exclude != '' else [''],
-                                   order    = order.replace(',',';').split(';') if order != '' else [''],
+                                   out_phe  = phe_file,
+                                   out_log  = phe_log,
+                                   field_id = phe[field_col],
+                                   exclude  = phe[excl_col].replace(',',';').split(';') if exclude != '' else [''],
+                                   order    = phe[order_col].replace(',',';').split(';') if order != '' else [''],
                                    )
             else:
                 create_bin_phe_file(in_tsv   = ukb_tab,
-                                    out_phe  = os.path.join(phe_data_root,basket_id,table_id,phe_file),
-                                    out_log  = os.path.join(phe_data_root,basket_id,table_id,'logs',phe_log),
-                                    field_id = field_id,
+                                    out_phe  = phe_file,
+                                    out_log  = phe_log,
+                                    field_id = phe[field_col],
                                     case     = case.replace(',',';').split(';') if case != '' else [''],
                                     control  = control.replace(',',';').split(';') if control != '' else [''],
                                     missing_is_control = False
                                     )
-    return
+            paths_to_phenos.append(phe_file)
+    return paths_to_phenos
 
-def update_summary_stats(fields):
-    return 'todo'
+def update_summary_stats(phe_files):
+    for f in phe_files:
+        os.system(" ".join(["python ../../04_gwas/gwas.py --run-array",
+                                   "--pheno", f, "--population white_british",
+                                   "--log-dir", os.path.join(os.path.dirname(f).replace('phenotypedata','cal/gwas'), 'logs'),
+                                   "--out", os.path.dirname(f).replace('phenotypedata','cal/gwas')]))
+    return
 
 if __name__ == "__main__":
     import argparse
@@ -154,9 +208,13 @@ if __name__ == "__main__":
     print(fields)
     # 4. update phenotypes
     if not args.no_update:
-        update_phenos(fields=fields, 
-                      ukb_tab=new_f, 
-                      table_id=os.path.splitext(os.path.basename(new_f))[0].replace('ukb',''),
-                      basket_id=args.basket)
-
+        phe_files = update_phenos(fields=fields, 
+                                  ukb_tab=new_f, 
+                                  table_id=os.path.splitext(os.path.basename(new_f))[0].replace('ukb',''),
+                                  basket_id=args.basket)
+    else:
+        phe_files = []
+    # 5. update gwas
+    if not args.no_gwas and phe_files:
+        update_summary_stats(phe_files)
     
