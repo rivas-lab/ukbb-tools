@@ -6,7 +6,7 @@ script="$(dirname $0)/phe_adjustment.py"
 phe_dir="/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes"
 
 in_dir="${phe_dir}/2001440"
-out_dir="${phe_dir}/2001440_adjusted"
+out_dir="${phe_dir}/2001440_adjusted_new"
 
 if [ ! -d ${out_dir} ] ; then mkdir -p ${out_dir} ; fi
 
