@@ -16,7 +16,7 @@ def phe_adjustment(in_f, adjustment_factor, adjustment_phe):
     for line in fileinput.input(in_file):
         line_s = line.rstrip()
         l = line_s.split('\t')
-        if (str(l[1]) not in statin_users) or (int(l[2]) == -9):
+        if (str(l[1]) not in statin_users) or (str(l[2]) == '-9'):
             print('\t'.join([str(x) for x in l]))
         else:
             l[2] = float(l[2]) / adjustment_factor
