@@ -43,13 +43,6 @@ dictConfig(dict(
 
 
 def get_tsv_from_tab(in_tab, field_id):
-    #if not os.path.isfile(in_tab + '.columns'):
-    #    sys.stderr.write(in_tab + '.columns does not exist!')
-    #    sys.exit(1)
-    #
-    #with open(in_tab+'.columns', 'r') as f:
-    #    tab_fields = [line.split('\t')[0] for line in f if line.split('\t')[2] == field_id]
-    #
     return pd.read_csv(in_tab, sep='\t', usecols=lambda col: col=="f.eid" or field_id == col.split(".")[1])
 
 
@@ -61,7 +54,6 @@ def create_bin_phe_file(in_tsv, out_phe, out_log, field_id, case, control, missi
     logger_phe.addHandler(hdlr) 
     
     tsv_df=get_tsv_from_tab(in_tsv, field_id)
-    print(case)
     logger_phe.info('encoding: case: ' + ';'.join([str(x) for x in sorted(case)]))
     logger_phe.info('encoding: control: ' + ';'.join([str(x) for x in sorted(control)])    )
     logger_phe.info('number_of_measurements: ' + str(tsv_df.shape[1] - 1))

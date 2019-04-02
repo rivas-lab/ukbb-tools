@@ -1,7 +1,7 @@
 #!/bin/bash
  
 #SBATCH  --job-name=phenos
-#SBATCH    --output=logs/gbe_20190327.%A_%a.out
+#SBATCH    --output=logs/rerun_20181109.%A_%a.out
 #SBATCH       --mem=16000
 #SBATCH      --time=1-00:00:00
 #SBATCH --partition=normal,owners
@@ -13,17 +13,17 @@ pheno_index=$(expr ${SLURM_ARRAY_TASK_ID} - 1)
 
 
 # step 1: process phenotypes from input table
-tsv_in="../02_phenotyping/tables/ukb_20190327.tsv"
-gwasOutDir="/oak/stanford/groups/mrivas/dev-ukbb-tools/gwas/ukb_20190327"
+tsv_in="../02_phenotyping/tables/ukb_20181109.tsv"
+gwasOutDir="/oak/stanford/groups/mrivas/dev-ukbb-tools/gwas/ukb_20181109"
 
 # provide **zero-indexed column ids** for the below:
 nameCol=3 # GBE ID
-fieldCol=7 # Source UK Biobank Field ID (e.g. 21001, body mass index)
-tableCol=6 # Source UK Biobank Table ID (e.g. 9797)
-caseCol=14  # Binary case codes
-ctrlCol=15  # Binary control codes
-exclCol=12  # Quantitative values to mark as missing
-orderCol=13 # Order of quantitative values (least to greatest) in categorical fields 
+fieldCol=6 # Source UK Biobank Field ID (e.g. 21001, body mass index)
+tableCol=4 # Source UK Biobank Table ID (e.g. 9797)
+caseCol=13  # Binary case codes
+ctrlCol=14  # Binary control codes
+exclCol=11  # Quantitative values to mark as missing
+orderCol=12 # Order of quantitative values (least to greatest) in categorical fields 
 descCol=2   # String description of input phenotype (e.g. "Standing_height")
 
 # TODO: account for structure in phenotypedata directory due to basket id 
