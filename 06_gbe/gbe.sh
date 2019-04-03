@@ -1,7 +1,7 @@
 #!/bin/bash
  
 #SBATCH  --job-name=phenos
-#SBATCH    --output=gbe.%A_%a.out
+#SBATCH    --output=logs/rerun_20181109.%A_%a.out
 #SBATCH       --mem=16000
 #SBATCH      --time=1-00:00:00
 #SBATCH --partition=normal,owners
@@ -11,36 +11,25 @@ ml load plink2
 # step 0: identify phenotype for processing
 pheno_index=$(expr ${SLURM_ARRAY_TASK_ID} - 1)
 
+
 # step 1: process phenotypes from input table
-tsv_in="../02_phenotyping/tables/ukb_20190327.tsv"
-gbe_input_tsv="../02_phenotyping/tables/gbe_sh_input_params.tsv"
-gwasOutDir="/oak/stanford/groups/mrivas/ukbb24983/cal/gwas/"
+tsv_in="../02_phenotyping/tables/ukb_20181109.tsv"
+gwasOutDir="/oak/stanford/groups/mrivas/dev-ukbb-tools/gwas/ukb_20181109"
 
-# look for table in reference above, throw error if it isn't
-tsv_name="$(basename $tsv_in)"
-relevant_row="$(grep $tsv_name $gbe_input_tsv)"
-if [ -z $relevant_row ]; then
-    echo "Could not find input table ${tsv_name} in reference table ${gbe_input_tsv}!"
-    exit 2
-fi
-
-# automatically finds **zero-indexed column ids** for the below from gbe_input_tsv:
-nameCol="$(cut -d' ' -f2 <<< $relevant_row)" # GBE ID
-fieldCol="$(cut -d' ' -f3 <<< $relevant_row)" # Source UK Biobank Field ID (e.g. 21001, body mass index)
-tableCol="$(cut -d' ' -f4 <<< $relevant_row)" # Source UK Biobank Table ID (e.g. 9797)
-caseCol="$(cut -d' ' -f5 <<< $relevant_row)"  # Binary case codes
-ctrlCol="$(cut -d' ' -f6 <<< $relevant_row)"  # Binary control codes
-exclCol="$(cut -d' ' -f7 <<< $relevant_row)"  # Quantitative values to mark as missing
-orderCol="$(cut -d' ' -f8 <<< $relevant_row)" # Order of quantitative values (least to greatest) in categorical fields 
-descCol="$(cut -d' ' -f9 <<< $relevant_row)"   # String description of input phenotype (e.g. "Standing_height")
-
-tableID="$(awk -F'\t' -v row=$SLURM_ARRAY_TASK_ID -v col=$tableCol -v h=1 '(NR==(row+h)){print $(col+1)}' $tsv_in)"
-gwasOut="$(find $gwasOutDir -type d -name $tableID)"
+# provide **zero-indexed column ids** for the below:
+nameCol=3 # GBE ID
+fieldCol=6 # Source UK Biobank Field ID (e.g. 21001, body mass index)
+tableCol=4 # Source UK Biobank Table ID (e.g. 9797)
+caseCol=13  # Binary case codes
+ctrlCol=14  # Binary control codes
+exclCol=11  # Quantitative values to mark as missing
+orderCol=12 # Order of quantitative values (least to greatest) in categorical fields 
+descCol=2   # String description of input phenotype (e.g. "Standing_height")
 
 # TODO: account for structure in phenotypedata directory due to basket id 
 #      (this will likely have to be passed as a new argument)
 
-# here's the command for phenotyping
+# here's the command
 python ../02_phenotyping/scripts/tsv_to_phenos.py  --tsv $tsv_in --only-this-row $pheno_index \
                                                    --name $nameCol --desc $descCol \
                                                    --field $fieldCol --table $tableCol \
@@ -81,28 +70,20 @@ COMMENT
 # h is a hack -- needs to be 1/0 if input tsv has/lacks a header
 # the plus ones are because awk is 1-indexed, and the provided columns are zero-indexed
 
-# WARNING: this might colossally fail if we have duplicate pheno filenames
+# WARNING: this will colossally fail if we have duplicate pheno filenames, so let's not do that
 
-# find the phenotype file we just made
-pheDir="/oak/stanford/groups/mrivas/private_data/ukbb/24983/phenotypedata"
+# pheDir="/oak/stanford/groups/mrivas/private_data/ukbb/24983/phenotypedata"
+pheDir="/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes"
 gbeId="$(awk -F'\t' -v row=$SLURM_ARRAY_TASK_ID -v col=$nameCol -v h=1 '(NR==(row+h)){print $(col+1)}' $tsv_in )"
 echo $gbeId
-pheFile=$( ls ${pheDir}/*/${tableID}/${gbeId}.phe )
+pheFile=$( find ${pheDir} -type f -name "${gbeId}.phe" )
 
-# prep
-mkdir -p ${gwasOutDir}/logs
+# here are some more (programmable, i guess) parameters for the gwas:
+mkdir -p $gwasOutDir
 logDir=`pwd`
 
-# run gwas
-python ../04_gwas/gwas.py --run-array --run-now --pheno $pheFile --out $gwasOut \
+python ../04_gwas/gwas.py --run-array --run-now --pheno $pheFile --out $gwasOutDir \
                           --population white_british --log-dir $logDir
-
-# move log file
-for type in genotyped exome; do 
-    if [ -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.log ]; then
-        mv ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.log ${gwasOutDir}/logs
-    fi
-done
 
 # and here's the readme for the gwas script:
 <<"COMMENT"
