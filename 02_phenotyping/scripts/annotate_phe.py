@@ -2,34 +2,37 @@
 import os
 from datetime import date
 
-def make_phe_info(in_phe, out_path, name, field, table, basket, app_id, source, all_together=False):
-    # reference for population-specific counts
+def make_phe_info(in_phe, out_path, name, field, table, basket, app_id, source, one_file=False):
+    # reference 
     pop_dir = '/oak/stanford/groups/mrivas/private_data/ukbb/' + app_id + '/sqc/population_stratification/'
     get_iids = lambda f: set([line.split()[0] for line in open(f, 'r')])
     pops = {pop:get_iids(pop_dir + 'ukb'+ app_id + '_' + pop + '.phe')  
                 for pop in ('white_british','african','e_asian','s_asian')}
-    # this is what gets written to file, one item per line in the second write
+    # this is what gets written to file, one item per line below 
     header = "#GBE_ID GBE_NAME FIELD TABLE BASKET APP_ID N N_GBE N_AFR N_EAS N_SAS SOURCE DATE PATH".replace(" ", "\t")
     # in_phe and name are lists of equal sizes -- everything else is constant strings
-    if all_together:
+    if one_file:
         o = open(out_path, 'w')
         o.write(header + '\n')
-    for phe_path, phe_name in zip(in_phe, name):
+    # iterate over paths to files and their names (not* GBE IDs)
+    for phe_path, gbe_name in zip(in_phe, name):
         # this is a lazy input filtering mechanism from main()
-        if not phe_name: continue
-        # load phenotypedata 
+        if not gbe_name: continue
+        # load phenotype data 
         phe = dict([line.split()[1:] for line in open(phe_path, 'r') if 'IID' not in line])
-        phe_id = os.path.splitext(os.path.basename(phe_path))[0]
+        gbe_id = os.path.splitext(os.path.basename(phe_path))[0]
+        # more filtering
         if 'cancer3' in phe_path:
-            phe_id = 'cancer' + phe_id
+            gbe_id = 'cancer' + gbe_id
         # determine which values count towards N (assuming plink formatted file)
         # where case/control is 2/1 and missing is -9
         if all([i in ['1','2','-9'] for i in phe.values()]): # binary
             count = lambda x: x == '2' 
         else: # quantitative
             count = lambda x: float(x) != -9
-        phe_info = '\t'.join([phe_id,
-                              phe_name.replace(' ','_'),
+        # get info — each line (approximately) corresponds to one item in the header above
+        phe_info = '\t'.join([gbe_id,
+                              gbe_name.replace(' ','_'),
                               field,
                               table,
                               basket,
@@ -41,14 +44,16 @@ def make_phe_info(in_phe, out_path, name, field, table, basket, app_id, source, 
                              [source,
                               str(date.today()),
                               os.path.abspath(phe_path)]) + '\n'
-        if not all_together:
-            o = open(out_path + phe_id + '.info', 'w')
+        # manage file writing options
+        if not one_file:
+            o = open(os.path.join(out_path, gbe_id + '.info'), 'w')
             o.write(header + '\n')
         o.write(phe_info)
-        if not all_together:
+        if not one_file:
             o.close()
+        # progress bar, effectively — this should be kept in case it's used somewhere else
         print(phe_info[:-1])
-    if all_together:
+    if one_file:
         o.close()
     return
 
@@ -60,14 +65,8 @@ if __name__ == "__main__":
         icdinfo = {line.split()[0]:line.split()[2] for line in icd}
     # 0. write out HC info files to master table
     hc_paths  = glob.glob('/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/highconfidenceqc/HC*.phe')
-<<<<<<< HEAD
-    # the filter step in this line causes the naming bug, since there's no filler for it — the order gets messed up
-    hc_names  = list(map(lambda hc: icdinfo[hc], filter(lambda hc: hc in icdinfo, 
-                         map(lambda path: os.path.splitext(os.path.basename(path))[0], hc_paths))))
-=======
     hc_names  = list(map(lambda hc: icdinfo[hc] if hc in icdinfo else '', 
                          map(lambda path: os.path.splitext(os.path.basename(path))[0], hc_paths)))
->>>>>>> bd0ad332e1c5683e668643b388517c89f1451d13
     make_phe_info(in_phe   = hc_paths, 
                   out_path = '/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/extra_info/hc.tsv.info',
                   name     = hc_names,
@@ -76,7 +75,7 @@ if __name__ == "__main__":
                   basket   = 'NA',
                   app_id   = '16698', 
                   source   = 'cdeboever', 
-                  all_together = True)
+                  one_file = True)
     # 1. write out cancer info files to master table
     cancer_phenos = glob.glob('/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/cancer3/*.phe')
     cancer_names  = list(map(lambda c: icdinfo['cancer'+c] if 'cancer'+c in icdinfo else '',
@@ -89,7 +88,7 @@ if __name__ == "__main__":
                   basket   = 'NA',
                   app_id   = '16698', 
                   source   = 'NA', 
-                  all_together = True)
+                  one_file = True)
     # 2. do the same for Rohit's phenotypes
     rh_phenos = ['/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/rohit/RH{}.phe'.format(i) for i in range(161)]
     rh_names  = [line.rstrip().split()[1] for line in open('/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/rohit/rohit_map.txt', 'r')]
@@ -101,7 +100,7 @@ if __name__ == "__main__":
                   basket   = 'NA',
                   app_id   = '16698', 
                   source   = 'rohit', 
-                  all_together = True)
+                  one_file = True)
     # 3. and family history
     fh_phenos = glob.glob('/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/familyHistory2/FH*.phe')
     fh_map    = {'FH'+line.split()[0][:4]:line.rstrip().split(None,1)[1].replace(' ','_') for line in open('/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/familyHistory2/mapphe.txt', 'r')}
@@ -114,5 +113,5 @@ if __name__ == "__main__":
                   basket   = 'NA',
                   app_id   = '16698', 
                   source   = 'rohit', 
-                  all_together = True)
+                  one_file = True)
                   

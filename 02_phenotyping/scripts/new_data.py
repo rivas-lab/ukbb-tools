@@ -2,6 +2,7 @@
 import os
 import pandas as pd
 from make_phe import *
+from annotate_phe import make_phe_info
 import numpy as np
 
 _README_ = """
@@ -83,51 +84,6 @@ def update_phenos(fields, ukb_tab, table_id, basket_id):
     return paths_to_phenos
 
  
-def update_phenos_via_make_phe(fields, ukb_tab, table_id, basket_id):
-    # iterate over all references
-    import glob
-    phe_data_root = '/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/'
-    table_info = pd.read_table('../tables/gbe_sh_input_params.tsv', index_col=0)
-    paths_to_phenos = []
-    for gbe_table in table_info.index:
-        # get columns for this table
-        name_col = table_info.loc[gbe_table,'nameCol (GBE ID)']
-        field_col= table_info.loc[gbe_table,'fieldCol (field_ID)']
-        case_col = table_info.loc[gbe_table,'caseCol (coding_binary_case)']
-        ctrl_col = table_info.loc[gbe_table,'ctrlCol (coding_binary_control)']
-        excl_col = table_info.loc[gbe_table,'exclCol (coding_exclude)']
-        order_col= table_info.loc[gbe_table,'orderCol (coding_QT)']
-        desc_col = table_info.loc[gbe_table, 'descCol']
-        phe_defs = pd.read_table('../tables/'+gbe_table, dtype=str).fillna('')
-        # update phe files in this table (these functions are from make_phe.py)
-        for ix,phe in phe_defs.loc[phe_defs.iloc[:,field_col].isin(fields),:].iterrows():
-            phe_file = os.path.join(phe_data_root,basket_id,table_id,phe[name_col] + '.phe')
-            phe_log  = os.path.join(phe_data_root,basket_id,table_id,'logs',phe[name_col] + '.log')
-            case     = phe[case_col] 
-            control  = phe[ctrl_col]
-            order    = phe[order_col] 
-            exclude  = phe[excl_col] 
-            desc     = phe[desc_col] 
-            if not phe[case_col]:
-                create_qt_phe_file(in_tsv   = ukb_tab,
-                                   out_phe  = phe_file,
-                                   out_log  = phe_log,
-                                   field_id = phe[field_col],
-                                   exclude  = phe[excl_col].replace(',',';').split(';') if exclude != '' else [''],
-                                   order    = phe[order_col].replace(',',';').split(';') if order != '' else [''],
-                                   )
-            else:
-                create_bin_phe_file(in_tsv   = ukb_tab,
-                                    out_phe  = phe_file,
-                                    out_log  = phe_log,
-                                    field_id = phe[field_col],
-                                    case     = case.replace(',',';').split(';') if case != '' else [''],
-                                    control  = control.replace(',',';').split(';') if control != '' else [''],
-                                    missing_is_control = False
-                                    )
-            paths_to_phenos.append(phe_file)
-    return paths_to_phenos
-
 def update_summary_stats(phe_files):
     for f in phe_files:
         os.system(" ".join(["python ../../04_gwas/gwas.py --run-array",
