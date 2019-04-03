@@ -4,25 +4,20 @@ import pandas as pd
 from make_phe import *
 import numpy as np
 
-# actions:
-#   1. if new data, output new fields and make table for computing session
-#   2. if not new data:
-#       a. figure out which fields (if any) are new, apply #1
-#       b. among old fields, figure out which ones have been updated (higher counts)
-#           i. optionally, update these in the gbe pipeline (analysis + gwas)
-
-
 _README_ = """
 A script to tell which fields in a UK Biobank table (.tab) file are new or updated.
 
-Outputs:
-1. A list of new fields, and spreadsheet* for phenotype definition computing session.
-2. New phenotype files* and summary stats* from array gwas using updated data.
-
-Starred items can be suppressed. See flags for more info.
+Actions:
+1. If table contains new data fields, make table for computing session
+2. If table contains updated data fields:
+    a. Make updated .phe files (and updates link to most recent version — this is TODO)
+    b. Run gwas on said .phe files
+    c. Optionally, suppress either of the above with flags described below.
 
 Author: Matthew Aguirre (SUNET: magu)
 """
+
+# TODO: add flag to update master phenotype file
 
 def find_new_data(new_f, old_f, make_table):
     # get new fields
@@ -57,40 +52,20 @@ def find_new_data(new_f, old_f, make_table):
             return [field]
             updated_fields.append(field)
     return updated_fields
-"""
-  --tsv INPUT           input table from phenotyping session
-  --no-header           flag if input tsv has no header
-  --name NAME           column in tsv corresponding to phe file name (GBE ID)
-  --desc DESC           column in tsv corresponding to phenotype description
-                        (GBE NAME string)
-  --field FIELD         column in tsv corresponding to UK Biobank Field ID
-  --table TABLE         column in tsv corresponding to UK Biobank Table ID
-  --case CASE           column in tsv corresponding to values for binary case
-                        definitions
-  --control CONTROL     column in tsv corresponding to values for binary
-                        control definitions
-  --missing-is-control  flag if missing values for binary traits should be
-                        defined as controls
-  --missing EXCLUDE     column in tsv corresponding to QT values considered as
-                        missing data
-  --order ORDER         column in tsv corresponding to order of values (least
-                        to greatest) for QTs from categorical fields
-  --only-this-row ONLYONE
-                        (optional) flag to run only one (zero-indexed, not
-                        including the header) row the input tsv.
-"""
+
+
 def update_phenos(fields, ukb_tab, table_id, basket_id):
-    import glob
+    # get data and requisite info
     phe_data_root = '/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/'
     table_info = pd.read_table('../tables/gbe_sh_input_params.tsv', index_col=0, dtype=str)
     paths_to_phenos = []
     phe_data_root = '/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/'
+    # call tsv_to_phenos with --only-this-row to get the phenotypedata
     for gbe_table in table_info.index:
         phe_defs = pd.read_table('../tables/'+gbe_table, dtype=str).fillna('')
         name_col = int(table_info.loc[gbe_table,'nameCol (GBE ID)'])
         field_col= int(table_info.loc[gbe_table,'fieldCol (field_ID)'])
         for ix,phe in phe_defs.loc[phe_defs.iloc[:,field_col].isin(fields),:].iterrows():
-            # call tsv_to_phenos with --only-this-row to get the phenotypedata 
             os.system(' '.join(('python tsv_to_phenos.py', 
                            '--tsv', '../tables/'+gbe_table,
                            '--table', table_info.loc[gbe_table, 'tableCol (table_ID)'],
