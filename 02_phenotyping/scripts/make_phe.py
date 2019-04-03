@@ -91,11 +91,6 @@ def create_bin_phe_file(in_tsv, out_phe, out_log, field_id, case, control, missi
         'IID'  : tsv_df.ix[:, 0],
         'data' : data_agg
     }).sort_values('FID').to_csv(out_phe, sep='\t', index=False, header=False)    
-    # and create .phe.info
-    write_info(phe_info = os.path.splitext(out_log)[0] + '.info',
-               phe_file = out_phe,
-               tab_file = in_tsv, 
-               is_bin   = True)
     return
 
 
@@ -139,41 +134,8 @@ def create_qt_phe_file(in_tsv, out_phe, out_log, field_id, order=[], exclude=[])
         'IID' : tsv_df.ix[:, 0],
         'data': ['-9' if np.isnan(x) else str(x) for x in aggregated]
     }).to_csv(out_phe, sep='\t', index=False, header=False)
-    # write out info
-    write_info(phe_info = os.path.splitext(out_log)[0] + '.info',
-               phe_file = out_phe,
-               tab_file = in_tsv, 
-               is_bin   = False)
     return
-
-
-def write_info(phe_info, phe_file, tab_file, is_bin): 
-    # first, how do we count? assume QT if is_bin is False
-    is_n = lambda x: x == '2' if is_bin else x != '-9'
-    # this is used for determining population-level N
-    popD = '/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification/'
-    # ok here we go
-    with open(phe_info, 'w') as f:
-        # this is what we want to know: each line (roughly) corresponds to each datum
-        f.write('\t'.join(("#GBE_ID", "FIELD", "TABLE", "BASKET",  "APP_ID", "N", "N_GBE",
-                           "N_AFR", "N_EAS", "N_SAS", "DATE", "PATH")) + '\n')
-        # this is how we do it
-        f.write('\t'.join([os.path.splitext(os.path.basename(phe_file))[0],
-                           str(int(''.join(filter(lambda x: x.isdigit(), os.path.splitext(os.path.basename(phe_file))[0][-5:])))),
-                           os.path.splitext(os.path.basename(tab_file))[0].replace('ukb',''),
-                           os.path.basename(os.path.dirname(os.path.dirname(tab_file))),
-                           '24983' if '24983' in tab_file else 'NA',
-                           str(pd.read_table(phe_file, index_col=0, dtype=str).iloc[:,-1].apply(is_n).sum())] +
-                          # immediately above/below: N/population-specific N
-                          # list comprehension was easier than specifying pop every time
-                          [str(pd.merge(pd.read_table(os.path.join(popD, 'ukb24983_{}.phe'.format(pop)), index_col=0),
-                                        pd.read_table(phe_file, index_col=0, dtype=str),
-                                        left_index = True, right_index = True).iloc[:,-1].apply(is_n).sum())
-                           for pop in ('white_british', 'african', 'e_asian', 's_asian')] + 
-                          [str(pd.Timestamp.today()).split()[0],
-                           phe_file]) + '\n')
-    return                       
-    
+ 
 
 def main():    
     parser = argparse.ArgumentParser(
