@@ -24,10 +24,6 @@ _Note:_ The `--run-now` option will immediately run a GWAS (on directly genotype
 
 Prior to running this script, you will need to specify an input table (line 15). The script will automatically go to this table and use appropriate columns via the table [here](https://docs.google.com/spreadsheets/d/1d4w4A8takvPxpHoUFXoNjj3a3QZLc-oHQiMaA5eElRg/edit?usp=sharing).
 
-Then, you're ready to run your analysis. Run the following command:
+Then, you're ready to run your analysis. Run the following command where `path_to_tsv_file` is the string you wrote on line 15:
 
-`wc -l path_to_tsv_file`
-
-to retrieve the number of lines in this file. Subtract by 1 (if it has a header), and then input that number (we will call this "num_lines") in the command below:
-
-`sbatch --array=1-num_lines gbe.sh`
+`sbatch --array=1-$(wc -l path_to_tsv_file) gbe.sh`
