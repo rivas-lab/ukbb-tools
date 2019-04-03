@@ -1,7 +1,7 @@
 #!/bin/bash
  
 #SBATCH  --job-name=phenos
-#SBATCH    --output=logs/gbe_20190327.%A_%a.out
+#SBATCH    --output=gbe.%A_%a.out
 #SBATCH       --mem=16000
 #SBATCH      --time=1-00:00:00
 #SBATCH --partition=normal,owners
@@ -11,20 +11,26 @@ ml load plink2
 # step 0: identify phenotype for processing
 pheno_index=$(expr ${SLURM_ARRAY_TASK_ID} - 1)
 
-
 # step 1: process phenotypes from input table
 tsv_in="../02_phenotyping/tables/ukb_20190327.tsv"
-gwasOutDir="/oak/stanford/groups/mrivas/dev-ukbb-tools/gwas/ukb_20190327"
+gbe_input_tsv="../02_phenotyping/tables/gbe_sh_input_params.tsv"
+gwasOutDir="/oak/stanford/groups/mrivas/ukbb24983/cal/gwas/"
+
+tsv_name="$(cut -d/ -f4 <<< $tsv_in)"
+relevant_row="$(grep $tsv_name $gbe_input_tsv)"
 
 # provide **zero-indexed column ids** for the below:
-nameCol=3 # GBE ID
-fieldCol=7 # Source UK Biobank Field ID (e.g. 21001, body mass index)
-tableCol=6 # Source UK Biobank Table ID (e.g. 9797)
-caseCol=14  # Binary case codes
-ctrlCol=15  # Binary control codes
-exclCol=12  # Quantitative values to mark as missing
-orderCol=13 # Order of quantitative values (least to greatest) in categorical fields 
-descCol=2   # String description of input phenotype (e.g. "Standing_height")
+nameCol="$(cut -d' ' -f2 <<< $relevant_row)" # GBE ID
+fieldCol="$(cut -d' ' -f3 <<< $relevant_row)" # Source UK Biobank Field ID (e.g. 21001, body mass index)
+tableCol="$(cut -d' ' -f4 <<< $relevant_row)" # Source UK Biobank Table ID (e.g. 9797)
+caseCol="$(cut -d' ' -f5 <<< $relevant_row)"  # Binary case codes
+ctrlCol="$(cut -d' ' -f6 <<< $relevant_row)"  # Binary control codes
+exclCol="$(cut -d' ' -f7 <<< $relevant_row)"  # Quantitative values to mark as missing
+orderCol="$(cut -d' ' -f8 <<< $relevant_row)" # Order of quantitative values (least to greatest) in categorical fields 
+descCol="$(cut -d' ' -f9 <<< $relevant_row)"   # String description of input phenotype (e.g. "Standing_height")
+
+tableID="$(awk -F'\t' -v row=$SLURM_ARRAY_TASK_ID -v col=$tableCol -v h=1 '(NR==(row+h)){print $(col+1)}' $tsv_in)"
+gwasOut="$(find $gwasOutDir -type d -name $tableID)"
 
 # TODO: account for structure in phenotypedata directory due to basket id 
 #      (this will likely have to be passed as a new argument)
@@ -82,7 +88,7 @@ pheFile=$( find ${pheDir} -type f -name "${gbeId}.phe" )
 mkdir -p $gwasOutDir
 logDir=`pwd`
 
-python ../04_gwas/gwas.py --run-array --run-now --pheno $pheFile --out $gwasOutDir \
+python ../04_gwas/gwas.py --run-array --run-now --pheno $pheFile --out $gwasOut \
                           --population white_british --log-dir $logDir
 
 # and here's the readme for the gwas script:
