@@ -2,6 +2,7 @@
 import os,glob
 import pandas as pd
 from make_phe import *
+from annotate_phe import make_phe_info
 
 _README_="""
 This script is designed to process table-defined phenotypes (from a Rivas lab computing session) into *.phe files usable for downstream analysis with PLINK and similar tools. 
@@ -11,12 +12,8 @@ To define all phenotypes from a table, identify the (zero-indexed!) columns spec
 Author: Matthew Aguirre (SUNET: magu)
 """
 
-def make_table(in_tsv, table_col, field_col, name_col, case_col, ctrl_col, 
-               excl_col, qtfc_col, desc_col, new_table=True, table_id=None, 
-               header=True, all_ctrl=False, make_this_one=None):
-    home_out_dir='/oak/stanford/groups/mrivas/private_data/ukbb/24983/phenotypedata/'
-    home_in_dir ='/oak/stanford/groups/mrivas/private_data/ukbb/24983/phenotypedata/download/'
-    # this block should probably be abstracted into its own function
+def get_phe_definitions(in_tsv, header=True, special_row=None):
+    # get phenotype definitions from an input table, with option to only extract one row
     phe_info = {}
     if make_this_one is not None:
         if isinstance(make_this_one, list):
@@ -41,8 +38,16 @@ def make_table(in_tsv, table_col, field_col, name_col, case_col, ctrl_col,
                                             'table_id': fields[table_col] if table_col < len(fields) else '',
                                             'field_id': fields[field_col] if field_col < len(fields) else '',
                                             'desc':     fields[desc_col] if desc_col < len(fields) else ''}
-    # this info should be logged somewhere
-    for phe_name, phe_values in phe_info.items():
+    return phe_info
+
+
+def define_phenos(in_tsv, table_col, field_col, name_col, case_col, ctrl_col, 
+                  excl_col, qtfc_col, desc_col, new_table=True, table_id=None, 
+                  header=True, all_ctrl=False, make_this_one=None):
+    home_out_dir='/oak/stanford/groups/mrivas/private_data/ukbb/24983/phenotypedata/'
+    home_in_dir ='/oak/stanford/groups/mrivas/private_data/ukbb/24983/phenotypedata/download/'
+    # iterate over phenotypes in the input file
+    for phe_name, phe_values in get_phe_definitions(in_tsv, header, make_this_one).items():
         print(phe_info)
         print(phe_name, phe_values)
         # select tab file to use from handler arguments
@@ -70,15 +75,16 @@ def make_table(in_tsv, table_col, field_col, name_col, case_col, ctrl_col,
             create_qt_phe_file(in_tsv = tsv, out_phe = phe, out_log = log, field_id = phe_values['field_id'],
                                order    = phe_values['qt_order'].replace(',',';').split(';'),
                                exclude  = phe_values['exclude'].replace(',',';').split(';'))
-        update_phe_info(os.path.splitext(log)[0]+'.info', phe_values['desc'], in_tsv) 
-    return
-
-
-def update_phe_info(info_f, phe_desc, source_table):
-    info = pd.read_table(info_f, index_col=0)
-    info.insert(0,  "GBE_NAME", [phe_desc])
-    info.insert(10, "SOURCE", [os.path.basename(source_table)])
-    info.to_csv(info_f, sep="\t")
+        # annotate the phenotype
+        make_phe_info([phe], 
+                       os.path.join(os.path.dirname(phe), "info"), 
+                      [phe_values['desc']],
+                       phe_values['field_id'],
+                       phe_values['table_id'],
+                       basket_id,
+                       '24983', 
+                       os.path.basename(in_tsv))
+                       
     return
 
 
@@ -119,7 +125,7 @@ if __name__=="__main__":
     args = parser.parse_args()
     print(args)
     # lol i hope this works
-    make_table(in_tsv    = args.input[0],
+    define_phenos(in_tsv    = args.input[0],
            table_col = int(args.table[0]),
            field_col = int(args.field[0]),
            name_col  = int(args.name[0]),
