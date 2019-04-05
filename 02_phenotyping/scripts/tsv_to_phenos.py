@@ -61,7 +61,7 @@ def define_phenos(in_tsv, table_col, field_col, name_col, case_col, ctrl_col,
             tsv = [os.path.join(root,tab_f) for root,dirs,files in os.walk(home_in_dir) if tab_f in files][0]
         # get phenotype name
         basket_id = os.path.basename(os.path.dirname(os.path.dirname(tsv)))
-        phe = os.path.join(home_out_dir, basket_id, table_id, phe_name+'.phe')
+        phe = os.path.join(home_out_dir, basket_id, table_id, 'phe', phe_name+'.phe')
         print(tsv,phe)
         log = os.path.join(os.path.dirname(phe), "logs/{0}.log".format(phe_name))
         # assume binary if we have a case definition, else assume qt
@@ -77,7 +77,7 @@ def define_phenos(in_tsv, table_col, field_col, name_col, case_col, ctrl_col,
                                exclude  = phe_values['exclude'].replace(',',';').split(';'))
         # annotate the phenotype
         make_phe_info([phe], 
-                       os.path.join(os.path.dirname(phe), "info"), 
+                       os.path.join(os.path.dirname(os.path.dirname(phe)), "info"), 
                       [phe_values['desc']],
                        phe_values['field_id'],
                        phe_values['table_id'],

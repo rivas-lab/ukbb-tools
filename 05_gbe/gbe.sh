@@ -33,7 +33,7 @@ exclCol="$(cut -d' ' -f7 <<< $relevant_row)"  # Quantitative values to mark as m
 orderCol="$(cut -d' ' -f8 <<< $relevant_row)" # Order of quantitative values (least to greatest) in categorical fields 
 descCol="$(cut -d' ' -f9 <<< $relevant_row)"   # String description of input phenotype (e.g. "Standing_height")
 
-# step 2. handle output directory for gwas
+# step 2. handle output directory for gwas - this gets appended to later
 gwasDir="/oak/stanford/groups/mrivas/ukbb24983/cal/gwas/"
 tableID="$(awk -F'\t' -v row=$SLURM_ARRAY_TASK_ID -v col=$tableCol -v h=1 '(NR==(row+h)){print $(col+1)}' $tsv_in)"
 gwasOutDir="$(find $gwasDir -type d -name $tableID)"
@@ -85,7 +85,7 @@ COMMENT
 pheDir="/oak/stanford/groups/mrivas/private_data/ukbb/24983/phenotypedata"
 gbeId="$(awk -F'\t' -v row=$SLURM_ARRAY_TASK_ID -v col=$nameCol -v h=1 '(NR==(row+h)){print $(col+1)}' $tsv_in )"
 echo $gbeId
-pheFile=$( ls ${pheDir}/*/${tableID}/${gbeId}.phe )
+pheFile=$( ls ${pheDir}/*/${tableID}/phe/${gbeId}.phe )
 
 # prep
 pop="white_british"
