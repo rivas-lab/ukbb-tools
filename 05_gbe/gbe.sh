@@ -88,12 +88,14 @@ echo $gbeId
 pheFile=$( ls ${pheDir}/*/${tableID}/${gbeId}.phe )
 
 # prep
+pop="white_british"
+gwasOutDir=${gwasOutDir}/${pop}
 mkdir -p ${gwasOutDir}/logs
 logDir=`pwd`
 
 # run gwas
-python ../04_gwas/gwas.py --run-array --run-now --pheno $pheFile --out ${gwasOutDir}/white_british \
-                          --population white_british --log-dir $logDir
+python ../04_gwas/gwas.py --run-array --run-now --pheno $pheFile --out ${gwasOutDir} \
+                          --population $pop --log-dir $logDir
 
 # move log file and bgzip output
 for type in genotyped; do 
