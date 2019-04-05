@@ -14,7 +14,6 @@ pheno_index=$(expr ${SLURM_ARRAY_TASK_ID} - 1)
 # step 1: process phenotypes from input table
 tsv_in="../02_phenotyping/tables/ukb_20190327.tsv"
 gbe_input_tsv="../02_phenotyping/tables/gbe_sh_input_params.tsv"
-gwasOutDir="/oak/stanford/groups/mrivas/ukbb24983/cal/gwas/"
 
 # look for table in reference above, throw error if it isn't
 tsv_name="$(basename $tsv_in)"
@@ -34,13 +33,12 @@ exclCol="$(cut -d' ' -f7 <<< $relevant_row)"  # Quantitative values to mark as m
 orderCol="$(cut -d' ' -f8 <<< $relevant_row)" # Order of quantitative values (least to greatest) in categorical fields 
 descCol="$(cut -d' ' -f9 <<< $relevant_row)"   # String description of input phenotype (e.g. "Standing_height")
 
+# step 2. handle output directory for gwas
+gwasDir="/oak/stanford/groups/mrivas/ukbb24983/cal/gwas/"
 tableID="$(awk -F'\t' -v row=$SLURM_ARRAY_TASK_ID -v col=$tableCol -v h=1 '(NR==(row+h)){print $(col+1)}' $tsv_in)"
-gwasOut="$(find $gwasOutDir -type d -name $tableID)"
+gwasOutDir="$(find $gwasDir -type d -name $tableID)"
 
-# TODO: account for structure in phenotypedata directory due to basket id 
-#      (this will likely have to be passed as a new argument)
-
-# here's the command for phenotyping
+# step 3: run phenotyping
 python ../02_phenotyping/scripts/tsv_to_phenos.py  --tsv $tsv_in --only-this-row $pheno_index \
                                                    --name $nameCol --desc $descCol \
                                                    --field $fieldCol --table $tableCol \
@@ -75,7 +73,7 @@ COMMENT
 
 
 
-# step 2: run gwas on resulting phenotypes
+# step 4: run gwas on resulting phenotypes
 
 # this finds the path to the newly defined phenotype (it's defined in make_phe.py)
 # h is a hack -- needs to be 1/0 if input tsv has/lacks a header
@@ -94,14 +92,19 @@ mkdir -p ${gwasOutDir}/logs
 logDir=`pwd`
 
 # run gwas
-python ../04_gwas/gwas.py --run-array --run-now --pheno $pheFile --out $gwasOut \
+python ../04_gwas/gwas.py --run-array --run-now --pheno $pheFile --out ${gwasOutDir}/white_british \
                           --population white_british --log-dir $logDir
 
-# move log file
-for type in genotyped exome; do 
+# move log file and bgzip output
+for type in genotyped; do 
     if [ -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.log ]; then
         mv ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.log ${gwasOutDir}/logs
     fi
+    for ending in "logistic.hybrid" "linear"; do
+        if [ -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.glm.${ending} ]; then
+            bgzip ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.glm.${ending}
+        fi
+    done
 done
 
 # and here's the readme for the gwas script:
