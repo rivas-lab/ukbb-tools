@@ -51,7 +51,7 @@ def make_phe_info(in_phe, out_path, name, field, table, basket, app_id, source, 
         o.write(phe_info)
         if not one_file:
             o.close()
-        # progress bar, effectively — this should be kept in case it's used somewhere else
+        # progress bar, effectively: this should be kept in case it's used somewhere else
         print(phe_info[:-1])
     if one_file:
         o.close()
