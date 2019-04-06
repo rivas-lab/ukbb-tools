@@ -44,6 +44,7 @@ def find_new_data(new_f, old_f, make_table):
     print("Updated fields:")
     updated_fields = []
     for field in iter(old_fields):
+        print(field)
         # load up columns for this field
         new_df = pd.read_table(new_f, sep="\t", index_col='f.eid',
                                usecols=lambda s: s=='f.eid' or s.split('.')[1]==field
@@ -87,12 +88,17 @@ def update_phenos(fields, ukb_tab, table_id, basket_id):
                            '--only-this-row', str(ix))))
             phe_file = os.path.join(phe_data_root,basket_id,table_id,phe[name_col] + '.phe')
             paths_to_phenos.append(phe_file)
+            print(phe_file)
     return paths_to_phenos
 
  
 def update_summary_stats(phe_files):
     for f in phe_files:
-        os.system(" ".join(["python ../../04_gwas/gwas.py --run-array",
+        if os.path.exists(os.path.dirname(f).replace('phenotypedata','cal/gwas')):
+            print("WARNING: " + str(os.path.dirname(f).replace('phenotypedata','cal/gwas')) + " already exists! Skipping...")
+            continue
+        else:
+            os.system(" ".join(["python ../../04_gwas/gwas.py --run-array",
                                    "--pheno", f, "--population white_british",
                                    "--log-dir", os.path.join(os.path.dirname(f).replace('phenotypedata','cal/gwas'), 'logs'),
                                    "--out", os.path.dirname(f).replace('phenotypedata','cal/gwas')]))
@@ -135,7 +141,7 @@ if __name__ == "__main__":
         else:
             old_f = os.path.join("/oak/stanford/groups/mrivas/ukbb24983/phenotypedata", in_b, args.old_table, "download", "raw.tsv")
     else:
-        old_f = os.path.join("/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/", in_b, "newest", "download", "raw.tsv")
+        old_f = os.path.join("/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/", in_b, "current", "download", "raw.tsv")
     print("Analyzing new table for basket {0}:\n {1}...\n".format(in_b, new_f))
     
     if not os.path.exists(old_f):
