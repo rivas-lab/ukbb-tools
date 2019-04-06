@@ -1,4 +1,5 @@
 #!/bin/python
+#coding=utf-8
 import os
 import pandas as pd
 from make_phe import *
@@ -118,8 +119,8 @@ if __name__ == "__main__":
     if os.path.exists(args.table):
         new_f = args.table
     else:
-        new_f = os.path.join("/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/download",
-                             in_b, args.table, 'ukb'+args.table+'.tab')
+        new_f = os.path.join("/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/",
+                             in_b, args.table, "download", 'ukb'+args.table+'.tab')
         if not os.path.exists(new_f):
             raise OSError("Could not find input file {0}".format(new_f))
     # 2. determine which table to compare input to 
