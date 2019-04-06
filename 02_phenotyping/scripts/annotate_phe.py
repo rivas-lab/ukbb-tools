@@ -30,7 +30,7 @@ def make_phe_info(in_phe, out_path, name, field, table, basket, app_id, source, 
             count = lambda x: x == '2' 
         else: # quantitative
             count = lambda x: float(x) != -9
-        # get info — each line (approximately) corresponds to one item in the header above
+        # get info: each line (approximately) corresponds to one item in the header above
         phe_info = '\t'.join([gbe_id,
                               gbe_name.replace(' ','_'),
                               field,
