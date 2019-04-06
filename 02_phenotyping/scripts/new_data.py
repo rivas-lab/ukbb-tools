@@ -1,10 +1,10 @@
 #!/bin/python
 #coding=utf-8
 import os
+import numpy as np
 import pandas as pd
 from make_phe import *
 from annotate_phe import make_phe_info
-import numpy as np
 
 _README_ = """
 A script to tell which fields in a UK Biobank table (.tab) file are new or updated.
@@ -24,19 +24,24 @@ Author: Matthew Aguirre (SUNET: magu)
 def find_new_data(new_f, old_f, make_table):
     # get new fields
     new_df = pd.read_table(new_f, sep="\t", index_col='f.eid', nrows=5)
-    old_df = pd.read_table(old_f, sep="\t", index_col='f.eid', nrows=5)
     new_df_col = set([s.split('.')[1] for s in new_df.columns])
-    old_df_col = set([s.split('.')[1] for s in old_df.columns])
+    if os.path.exists(old_f):
+        old_df = pd.read_table(old_f, sep="\t", index_col='f.eid', nrows=5)
+        old_df_col = set([s.split('.')[1] for s in old_df.columns]) 
+        old_fields = {i for i in iter(new_df_col) if i in old_df_col}
+    else:
+        old_df_col = set()
+        old_fields = {}
     new_fields = {i for i in iter(new_df_col) if i not in old_df_col}
-    old_fields = {i for i in iter(new_df_col) if i in old_df_col}
     print("New fields:\n" + "\n".join(iter(new_fields)))
-    print("Updated fields:")
     # make table for computing session with 
     if len(new_fields) != 0 and make_table:
         from showcase_and_list_to_tsv import join_and_add_cols
         out_file = '../tables/ukb_' + str(pd.datetime.today().date()).replace('-','') + '.tsv'
-        join_and_add_cols(new_fields).to_csv(out_file, sep='\t', index=False)
+        join_and_add_cols(map(int, [x for x in iter(new_fields)])).to_csv(out_file, sep='\t', index=False)
+        print("New .tsv made: " + out_file)
     # determine which fields got updated
+    print("Updated fields:")
     updated_fields = []
     for field in iter(old_fields):
         # load up columns for this field
@@ -124,12 +129,13 @@ if __name__ == "__main__":
         if not os.path.exists(new_f):
             raise OSError("Could not find input file {0}".format(new_f))
     # 2. determine which table to compare input to 
-    if os.path.exists(args.old_table):
-        old_f = args.old_table
-    elif args.old_table is not None:
-        old_f = os.path.join("/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/download", in_b, args.old_table, "raw.tsv")
+    if args.old_table:
+        if os.path.exists(args.old_table):
+            old_f = args.old_table
+        else:
+            old_f = os.path.join("/oak/stanford/groups/mrivas/ukbb24983/phenotypedata", in_b, args.old_table, "download", "raw.tsv")
     else:
-        old_f = os.path.join("/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/download", in_b, "newest", "raw.tsv")
+        old_f = os.path.join("/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/", in_b, "newest", "download", "raw.tsv")
     print("Analyzing new table for basket {0}:\n {1}...\n".format(in_b, new_f))
     
     if not os.path.exists(old_f):
