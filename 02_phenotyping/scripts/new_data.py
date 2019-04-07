@@ -45,7 +45,6 @@ def find_new_data(new_f, old_f, make_table):
         # load up columns for this field
         new_slice_mask = [x for x in complete_new_df.columns if (x=='f.eid' or x.split('.')[1]==field)]
         old_slice_mask = [x for x in complete_old_df.columns if (x=='f.eid' or x.split('.')[1]==field)]
-        print(new_slice_mask, old_slice_mask)
         new_df = complete_new_df[new_slice_mask]
         old_df = complete_old_df[old_slice_mask]
 
@@ -62,7 +61,6 @@ def find_new_data(new_f, old_f, make_table):
         # compare values
         if not new_df.loc[shared_inds,:].equals(old_df.loc[shared_inds,:]):
             print(field)
-            return [field]
             updated_fields.append(field)
     return updated_fields
 

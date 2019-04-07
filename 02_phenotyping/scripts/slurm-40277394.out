@@ -1,0 +1,25 @@
+2019-04-07 01:10:21,519 create_phe_file INFO     encoding: case: 1
+2019-04-07 01:10:21,521 create_phe_file INFO     encoding: control: 0
+2019-04-07 01:10:21,522 create_phe_file INFO     number_of_measurements: 1
+2019-04-07 01:10:21,522 create_phe_file INFO     measurement_names: f.20447.0.0
+2019-04-07 01:10:22,586 create_phe_file INFO     number_of_cases: 64894
+2019-04-07 01:10:22,587 create_phe_file INFO     number_of_controls: 23773
+2019-04-07 01:10:22,588 create_phe_file INFO     number_of_missing_values: 413876
+2019-04-07 01:10:26,251 create_phe_file INFO     number_of_cases_(aggregated): 64894
+2019-04-07 01:10:26,252 create_phe_file INFO     number_of_controls_(aggregated): 23773
+2019-04-07 01:10:26,253 create_phe_file INFO     number_of_missing_values_(aggregated): 413876
+Namespace(case=['32'], control=['33'], desc=['2'], exclude=['30'], expand_control=False, field=['5'], input=['../tables/ukb_20171110.tsv'], name=['3'], new_table=False, noheader=False, onlyone=['114'], order=['31'], table=['4'], table_id=['24613'])
+('BIN20447', {'case': '1', 'control': '0', 'qt_order': '', 'field_id': '20447', 'table_id': '10484', 'exclude': '-818', 'desc': 'Depression_possibly_related_to_stressful_or_traumatic_event'})
+('/oak/stanford/groups/mrivas/private_data/ukbb/24983/phenotypedata/10483/24613/download/ukb24613.tab', '/oak/stanford/groups/mrivas/private_data/ukbb/24983/phenotypedata/10483/24613/phe/BIN20447.phe')
+BIN20447	Depression_possibly_related_to_stressful_or_traumatic_event	20447	10484	10483	24983	64894	45223	305	153	417	ukb_20171110.tsv	2019-04-07	/oak/stanford/groups/mrivas/private_data/ukbb/24983/phenotypedata/10483/24613/phe/BIN20447.phe
+Namespace(basket='10483', no_gwas=True, no_table=True, no_update=False, old_table='10484', table='24613')
+Analyzing new table for basket 10483:
+ /oak/stanford/groups/mrivas/ukbb24983/phenotypedata/10483/24613/download/ukb24613.tab...
+
+New fields:
+
+Updated fields: 
+(['f.20447.0.0'], ['f.20447.0.0'])
+20447
+['20447']
+/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/10483/24613/phe/BIN20447.phe
