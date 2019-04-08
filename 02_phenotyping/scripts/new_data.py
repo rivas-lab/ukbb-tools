@@ -16,18 +16,18 @@ Actions:
     b. Run gwas on said .phe files
     c. Optionally, suppress either of the above with flags described below.
 
-Author: Matthew Aguirre (SUNET: magu)
+Authors: Matthew Aguirre and Guhan Venkataraman(SUNETs: magu and guhan)
 """
 
 # TODO: add flag to update master phenotype file
 
 def find_new_data(new_f, old_f, make_table):
     # get new fields
-    new_df = pd.read_table(new_f, sep="\t", index_col='f.eid', nrows=5)
-    new_df_col = set([s.split('.')[1] for s in new_df.columns])
+    complete_new_df = pd.read_table(new_f, sep="\t", index_col='f.eid')
+    new_df_col = set([s.split('.')[1] for s in complete_new_df.columns])
     if os.path.exists(old_f):
-        old_df = pd.read_table(old_f, sep="\t", index_col='f.eid', nrows=5)
-        old_df_col = set([s.split('.')[1] for s in old_df.columns]) 
+        complete_old_df = pd.read_table(old_f, sep="\t", index_col='f.eid')
+        old_df_col = set([s.split('.')[1] for s in complete_old_df.columns]) 
         old_fields = {i for i in iter(new_df_col) if i in old_df_col}
     else:
         old_df_col = set()
@@ -40,26 +40,30 @@ def find_new_data(new_f, old_f, make_table):
         out_file = '../tables/ukb_' + str(pd.datetime.today().date()).replace('-','') + '.tsv'
         join_and_add_cols(map(int, [x for x in iter(new_fields)])).to_csv(out_file, sep='\t', index=False)
         print("New .tsv made: " + out_file)
-    # determine which fields got updated
-    print("Updated fields:")
+    print("Updated fields: ")
     updated_fields = []
     for field in iter(old_fields):
         # load up columns for this field
-        new_df = pd.read_table(new_f, sep="\t", index_col='f.eid',
-                               usecols=lambda s: s=='f.eid' or s.split('.')[1]==field
-                               ).sort_index()
-        old_df = pd.read_table(old_f, sep="\t", index_col='f.eid', 
-                               usecols=lambda s: s=='f.eid' or s.split('.')[1]==field
-                               ).sort_index()
+        new_slice_mask = [x for x in complete_new_df.columns if (x=='f.eid' or x.split('.')[1]==field)]
+        old_slice_mask = [x for x in complete_old_df.columns if (x=='f.eid' or x.split('.')[1]==field)]
+        new_df = complete_new_df[new_slice_mask]
+        old_df = complete_old_df[old_slice_mask]
+
+    # for field in iter(old_fields):
+        # load up columns for this field
+        # new_df = pd.read_table(new_f, sep="\t", index_col='f.eid',
+        #                        usecols=lambda s: s=='f.eid' or s.split('.')[1]==field
+        #                        )
+        # old_df = pd.read_table(old_f, sep="\t", index_col='f.eid', 
+        #                        usecols=lambda s: s=='f.eid' or s.split('.')[1]==field
+        #                        )
         # subset to same set of individuals, in case some are redacted in new data
         shared_inds = new_df.index.intersection(old_df.index)
         # compare values
         if not new_df.loc[shared_inds,:].equals(old_df.loc[shared_inds,:]):
             print(field)
-            return [field]
             updated_fields.append(field)
     return updated_fields
-
 
 def update_phenos(fields, ukb_tab, table_id, basket_id):
     # get data and requisite info
@@ -85,14 +89,19 @@ def update_phenos(fields, ukb_tab, table_id, basket_id):
                            '--order', table_info.loc[gbe_table,'orderCol (coding_QT)'],
                            '--missing', table_info.loc[gbe_table,'exclCol (coding_exclude)'],
                            '--only-this-row', str(ix))))
-            phe_file = os.path.join(phe_data_root,basket_id,table_id,phe[name_col] + '.phe')
+            phe_file = os.path.join(phe_data_root, basket_id, table_id, 'phe', phe[name_col] + '.phe')
             paths_to_phenos.append(phe_file)
+            print(phe_file)
     return paths_to_phenos
 
  
 def update_summary_stats(phe_files):
     for f in phe_files:
-        os.system(" ".join(["python ../../04_gwas/gwas.py --run-array",
+        if os.path.exists(os.path.dirname(f).replace('phenotypedata','cal/gwas')):
+            print("WARNING: " + str(os.path.dirname(f).replace('phenotypedata','cal/gwas')) + " already exists! Skipping...")
+            continue
+        else:
+            os.system(" ".join(["python ../../04_gwas/gwas.py --run-array",
                                    "--pheno", f, "--population white_british",
                                    "--log-dir", os.path.join(os.path.dirname(f).replace('phenotypedata','cal/gwas'), 'logs'),
                                    "--out", os.path.dirname(f).replace('phenotypedata','cal/gwas')]))
@@ -135,7 +144,7 @@ if __name__ == "__main__":
         else:
             old_f = os.path.join("/oak/stanford/groups/mrivas/ukbb24983/phenotypedata", in_b, args.old_table, "download", "raw.tsv")
     else:
-        old_f = os.path.join("/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/", in_b, "newest", "download", "raw.tsv")
+        old_f = os.path.join("/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/", in_b, "current", "download", "raw.tsv")
     print("Analyzing new table for basket {0}:\n {1}...\n".format(in_b, new_f))
     
     if not os.path.exists(old_f):

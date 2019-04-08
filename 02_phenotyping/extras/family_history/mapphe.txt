@@ -1,0 +1,10 @@
+1220_FH2 Diabetes
+1262_FH2 Parkinson's disease
+1019_FH2 Bowel cancer
+1286_FH2 Severe depression
+1263_FH2 Alzheimer's disease/dementia
+1002_FH2 Breast cancer
+1113_FH2 Chronic bronchitis/emphysema
+1044_FH2 Prostate cancer
+1065_FH2 High blood pressure
+1001_FH2 Lung cancer
