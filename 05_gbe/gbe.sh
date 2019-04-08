@@ -1,7 +1,7 @@
 #!/bin/bash
  
-#SBATCH  --job-name=phenos
-#SBATCH    --output=gbe.%A_%a.out
+#SBATCH  --job-name=gbe
+#SBATCH    --output=logs/test_paths.%A_%a.out
 #SBATCH       --mem=16000
 #SBATCH      --time=1-00:00:00
 #SBATCH --partition=normal,owners
@@ -12,7 +12,7 @@ ml load plink2
 pheno_index=$(expr ${SLURM_ARRAY_TASK_ID} - 1)
 
 # step 1: process phenotypes from input table
-tsv_in="../02_phenotyping/tables/ukb_20190327.tsv"
+tsv_in="../02_phenotyping/tables/ukb_20171015.tsv"
 gbe_input_tsv="../02_phenotyping/tables/gbe_sh_input_params.tsv"
 
 # look for table in reference above, throw error if it isn't
