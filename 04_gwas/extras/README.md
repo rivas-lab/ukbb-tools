@@ -7,20 +7,17 @@ This directory serves as a catch-all for additional summary statistics which sho
 ## Specification
 Each new data source should be tracked with its own subdirectory, kept in this folder. That folder should contain the following:
 
-1. A tab-delimited list of summary statistics, containing their location (paths on Sherlock), case counts (N), and name/ID for the Global Biobank Engine. Note that the raw data should be kept in the appropriate folder (see below) in the lab `$OAK` space.
+1. A script which processes raw summary statistics: This script will need to map and subset variants in the input to array-genotyped variants in the UK Biobank, and output the resulting files according PLINK's [specification](https://www.cog-genomics.org/plink/2.0/formats#glm_logistic) (bolded fields only is fine). This is currently (April 2019) a requirement for upload into GBE, as only array-genotyped sites present in UK Biobank function with the data loader.
 
-2. A script which maps variants in the input summary statistics to overlapping variants in the UK Biobank. This is currently (April 2019) a requirement for upload into GBE, as only array-genotyped sites present in UK Biobank function with the data loader.
-
-3. A minimal version of (1), called `info.tsv`, containing GBE IDs in the first column, N in the second column, and GBE names in the third column. See below for an example.
+2. A tab-delimited info file, called `info.tsv`: This must contain phenotype IDs in the first column, N in the second column, phenotype names in the third column, and paths to output files (generated in step 1) in the fourth column. See below for an example.
 
 ## Example: Summary Statistics from Neale Lab (Broad)
 A readme on the project, as described by the Neale Lab can be found [here](http://www.nealelab.is/uk-biobank).
 
 Numbers below correspond to the above requirements, followed by snippets of the actual files:
-1. [neale_info.tsv](broad_collaboration/neale_info.tsv): 
+1. [project_to_biobank.py](broad_collaboration/project_to_biobank.py): 
 
-Note that these files are kept in `$OAK/ukbb24983/imp/gwas/extras/broad_collaboration`.
+2. [info.tsv](broad_collaboration/info.tsv):
+```preview goes here```
 
-2. [project_to_biobank.py](broad_collaboration/project_to_biobank.py): 
-
-3. [info.tsv](broad_collaboration/info.tsv):
+Note that the result files are kept in `$OAK/ukbb24983/cal/gwas/extras/broad_collaboration`. Raw downloads are in `$OAK/ukbb/broad_collaboration`.
