@@ -41,6 +41,7 @@ def find_new_data(new_f, old_f, make_table):
         join_and_add_cols(map(int, [x for x in iter(new_fields)])).to_csv(out_file, sep='\t', index=False)
         print("New .tsv made: " + out_file)
     print("Updated fields: ")
+    updated_fields = []
     for field in iter(old_fields):
         # load up columns for this field
         new_slice_mask = [x for x in complete_new_df.columns if (x=='f.eid' or x.split('.')[1]==field)]
