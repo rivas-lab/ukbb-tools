@@ -1,11 +1,14 @@
 from annotate_phe import make_phe_info
 import os
 import glob
+import pandas as pd
 
 if __name__ == "__main__":
     fh_phenos = glob.glob('/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/family_history/phe/*.phe')
-    fh_map    = {'FH'+line.split()[0][:4]:line.rstrip().split(None,1)[1].replace(' ','_') for line in open('/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/familyHistory2/mapphe.txt', 'r')}
-    fh_names  = [fh_map[phe[:6]] if phe[:6] in fh_map else '' for phe in map(os.path.basename,fh_phenos)]
+    with open('family_history_gbe_map.tsv', 'r') as map_file:
+        gbe_id_to_name = {line.split()[0]:line.split()[1] for line in map_file}
+    gbe_ids = [os.path.splitext(os.path.basename(path))[0] for path in fh_phenos]
+    fh_names = [gbe_id_to_name[gbe_id] for gbe_id in gbe_ids]
     make_phe_info(in_phe   = fh_phenos,
                   out_path = '/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/family_history/info/',
                   name     = fh_names,
