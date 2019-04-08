@@ -1,0 +1,10 @@
+FH1001	Lung_cancer
+FH1002	Breast_cancer
+FH1019	Bowel_cancer
+FH1044	Prostate_cancer
+FH1065	High_blood_pressure
+FH1113	Chronic_bronchitis/emphysema
+FH1220	Diabetes
+FH1262	Parkinson's_disease
+FH1263	Alzheimer's_disease/dementia
+FH1286	Severe_depression
