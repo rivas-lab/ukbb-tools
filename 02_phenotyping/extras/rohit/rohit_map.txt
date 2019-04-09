@@ -1,0 +1,161 @@
+0 Fragile X Syndrome
+1 Li-Fraumeni and Related Syndromes
+2 Thalassemia
+3 Acute Myocardial Infarction
+4 Diabetes Insipidus
+5 Dermatitis Herpetiformis
+6 Female Breast Cancer
+7 Gout
+8 Benign Brain Neoplasm
+9 Hyperplasia of the Prostate
+10 Kidney Cancer
+11 Hereditary Hemorrhagic Telangiectasia
+12 Indeterminate Sex and Pseudohermaphroditism
+13 Hereditary Thrombocytopenic Purpura
+14 Smith-Magenis Syndrome
+15 Purulent Endophthalmitis
+16 Autoimmune Lymphoproliferative Syndrome
+17 Glycogenosis
+18 Congenital Ectodermal Dysplasia
+19 Marfan Syndrome
+20 Burkitts Lymphoma
+21 Degenerative Diseases of the Basal Ganglia
+22 General Frontotemporal Dementia
+23 Sensory Retina Dystropies
+24 Cataract
+25 Sleep Disorder
+26 Non-Specific Endophthalmitis
+27 Disorders of Copper Metabolism
+28 Alopecia Areata
+29 Velo-Cardio-Facial Syndrome
+30 Alzheimers Disease
+31 Pataus Syndrome
+32 Depression
+33 Tongue Tie
+34 Cerebral Degeneration Due to Generalized Lipidoses
+35 Specified Anomalies of the Musculoskeletal System
+36 Eczema
+37 Hypopituitarism
+38 Ellis Van Creveld Syndrome
+39 Klinefelters Syndrome
+40 Cerebral Lipidoses
+41 Downs Syndrome
+42 Cushings Syndrome
+43 Spinocerebellar ataxia
+44 Multiple Epiphyseal Dysplasia
+45 Prostate Cancer
+46 Acne
+47 Circulating Enzyme Deficiencies
+48 Skin Cyst
+49 Disorders of Branched Chain Amino Acid Metabolism
+50 Lymphosarcoma/Reticulorsarcoma
+51 Lupus
+52 Edwards Syndrome
+53 Obsessive Compulsive Disorder
+54 Hereditary Color Blindness
+55 Kawasaki Disease
+56 Deep Vein Thrombosis
+57 Facial and Skull Anomalies
+58 Glucose-6-Phosphate Dehydrogenase Deficiency
+59 Pervasive Specified Congenital Anomalies
+60 Liche
+61 Sickle Cell Anemia
+62 Diamond-Blackfan Anemia
+63 Disorders of Urea Cycle Metabolism
+64 Erythromelalgia
+65 Bipolar Disorder
+66 Congenital Fistula of the Lip
+67 Unspecified Viral Infection (Common Cold)
+68 Disease
+69 Anophthalmos/Micropthalmos
+70 Familial Mediterranean Fever
+71 Picks Disease
+72 Autism
+73 Hereditary Sensory Neuropathy
+74 Rheumatoid Arthritis
+75 Androgen Insensitivity Syndrome
+76 Polycystic Kidney Autosomal Dominant
+77 Sarcoidosis
+78 Intellectual Disability
+79 Inherited Anomalies of the Skin
+80 Multiple Endocrine Neoplasia Type IIA
+81 Pulmonary Embolism and Infarction
+82 Hereditary Muscular Dystrophy
+83 Bartters Syndrome
+84 Rosacea
+85 Specific Nail Anomalies
+86 Epilepsy
+87 Disorders of Phosphorous Metabolism
+88 Disorders of Aromatic Amino Acid Metabolism
+89 Psoriasis
+90 Wiskott-Aldrich Syndrome
+91 Anxiety
+92 Osteogenesis Imperfecta
+93 Chondrodystrophy
+94 Schizophrenia
+95 Colorectal Cancer
+96 Autoimmune Polyglandular Syndrome
+97 Congenital Ichthyosis
+98 Anterior Eye Anomalies
+99 Gastric Cancer
+100 Retinitis Pigmentosa
+101 Acute Glomerulonephritis
+102 Friedreichs Ataxia
+103 Non-Specified Osteodystrophy
+104 Genetic Anomalies of Leukocytes
+105 Hypotony of the Eye
+106 Specified Hamartoses
+107 Acquired Hypothyroidism
+108 Emphysema
+109 Congenital Disorders of Purine/Pyrimidine Metabolism
+110 Cerebral Infarction
+111 Inherited Adrenogenital Disorders
+112 Peroxisomal Disorders
+113 Other Specified Disorders of Amino Acid Metabolism
+114 Achromatopsia
+115 Tuberous Sclerosis
+116 Severe Combined Immunodeficiency
+117 Congenital Hydrocephalus
+118 Lipoprotein Deficiencies
+119 Glaucoma
+120 Congenital Pigmentary Anomalies
+121 Phenylketonuria
+122 Uterine Cancer
+123 Rett Syndrome
+124 Chronic Progressive External Ophthalmoplegia
+125 Neurofibromatosis
+126 Phobia
+127 Huntington Disease
+128 Crohns Disease
+129 Migraine
+130 Diabetes Mellitus Type 1
+131 Haemophilia
+132 Systemic Primary Carnitine Deficiency
+133 Long QT Syndrome
+134 Diabetes Mellitus Type 2
+135 Familial Dysautonomia
+136 Non-Specific Autosomal Deletion Syndromes
+137 Immunodeficiency with Increased IgM
+138 Disorders of Straight Chain Amino Acid Metabolism
+139 Combined Heart and Skeletal Defects
+140 Melanoma
+141 Osteoarthritis
+142 Congenital Hirschsprungs Disease
+143 Addisons Disease
+144 Multiple Endocrine Neoplasia Type I
+145 Lung Cancer
+146 Bladder Cancer
+147 Congenital Hypogammaglobulinemia
+148 Disorders of Fatty Acid Oxidation
+149 Chronic Granulomatous Disease
+150 Celiac Disease
+151 Ectrodactyly
+152 Holoprosencephaly
+153 Turners Syndrome
+154 Cystic Fibrosis
+155 Dopa-Responsive Dystonia
+156 Malignant Brain Neoplasm
+157 Bronchitis
+158 Cri-Du-Chat Syndrome
+159 Parkinsonism
+160 Asthma

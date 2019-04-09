@@ -17,7 +17,7 @@ def make_plink_command(bpFile, pheFile, outFile, pop, related=False, plink1=Fals
     # paste together the command from constituent parts
     return " ".join(["plink" if plink1 else "plink2", 
                      "--bfile" if plink1 else "--bpfile", bpFile, "--chr 1-22",
-                     "--pheno", pheFile, #"--pheno-quantile-normalize",
+                     "--pheno", pheFile, "--pheno-quantile-normalize",
                      "--glm firth-fallback hide-covar omit-ref",
                      "--keep {0}".format(popFile) if popFile else "", 
                      "--remove {0}".format(unrelatedFile) if unrelatedFile else "",
@@ -36,7 +36,7 @@ def make_batch_file(batchFile, plinkCmd, memory, time, partitions):
                           "#SBATCH --mem={}".format(memory),
                           "#SBATCH --time={}".format(time),
                           "#SBATCH -p {}".format(','.join(partitions)),
-                          '#SBATCH --constraint="CPU_GEN:HSW|CPU_GEN:BDW|CPU_GEN:SKX"', # plink2 arv2 compatibility
+                          '#SBATCH --constraint="CPU_GEN:HSW|CPU_GEN:BDW|CPU_GEN:SKX"', # plink2 avx2 compatibility
                           "", plinkCmd]))
     return batchFile
 
