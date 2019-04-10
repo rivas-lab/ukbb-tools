@@ -19,8 +19,8 @@ fi
 # updates icdinfo
 (
 # first take phenotype info
-awk -F'\t' 'BEGIN{OFS="\t"}(length($1) && length($2) && length($8)){print $1,$8,$2,$8,$8,"Y"}' phenotype_info.tsv 
+awk -F'\t' 'BEGIN{OFS="\t"}(length($1) && length($2) && length($8)){print $1,$8,$2,$8,$8,"Y"}' phenotype_info.tsv ;
 
 # then find additional info
-find ${ICD_DIR} -name "info.tsv" | xargs -i awk 'BEGIN{OFS="\t"}(length($1) && length($2) && length($3)){print $1,$2,$3,$2,$2,"Y"}' {} 
-) | tr " " "_" | sort -k1,1 -k2,2nr | awk '!_[$1]++' > ${OUT_PATH}/icdinfo.txt
+find ${ICD_DIR} -name "info.tsv" | xargs -i awk 'BEGIN{OFS="\t"}(length($1) && length($2) && length($3)){print $1,$2,$3,$2,$2,"Y"}' {} ; 
+) | tr " " "_" | sort -k1,1 -k2,2nr | awk '!_[$1]++' > ${OUT_DIR}/icdinfo.txt
