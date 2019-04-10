@@ -6,6 +6,7 @@ import pandas as pd
 
 def join_and_add_cols(field_list, ref='../Data_Dictionary_Showcase.csv'):
     dds = pd.read_csv(ref)
+    print(".tsv maker got following field list: ")
     print(field_list)
     #Read in the fields
     if isinstance(field_list, list):

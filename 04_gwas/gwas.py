@@ -36,7 +36,7 @@ def make_batch_file(batchFile, plinkCmd, memory, time, partitions):
                           "#SBATCH --mem={}".format(memory),
                           "#SBATCH --time={}".format(time),
                           "#SBATCH -p {}".format(','.join(partitions)),
-                          '#SBATCH --constraint="CPU_GEN:HSW|CPU_GEN:BDW|CPU_GEN:SKX"', # plink2 arv2 compatibility
+                          '#SBATCH --constraint="CPU_GEN:HSW|CPU_GEN:BDW|CPU_GEN:SKX"', # plink2 avx2 compatibility
                           "", plinkCmd]))
     return batchFile
 

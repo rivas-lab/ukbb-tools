@@ -30,7 +30,7 @@ def make_phe_info(in_phe, out_path, name, field, table, basket, app_id, source, 
             count = lambda x: x == '2' 
         else: # quantitative
             count = lambda x: float(x) != -9
-        # get info — each line (approximately) corresponds to one item in the header above
+        # get info: each line (approximately) corresponds to one item in the header above
         phe_info = '\t'.join([gbe_id,
                               gbe_name.replace(' ','_'),
                               field,
@@ -51,7 +51,7 @@ def make_phe_info(in_phe, out_path, name, field, table, basket, app_id, source, 
         o.write(phe_info)
         if not one_file:
             o.close()
-        # progress bar, effectively — this should be kept in case it's used somewhere else
+        # progress bar, effectively: this should be kept in case it's used somewhere else
         print(phe_info[:-1])
     if one_file:
         o.close()
@@ -60,58 +60,66 @@ def make_phe_info(in_phe, out_path, name, field, table, basket, app_id, source, 
 
 if __name__ == "__main__":
     import glob
-    # -1: load old icdinfo for reference
+    import pandas as pd
+    all_phenos = []
+    all_names = []
+    all_fields = []
+    all_tables = []
+    all_baskets = []
+    all_sources = []
+    meta_table = pd.read_table('../tables/gbe_sh_input_params.tsv')
+    map_tables = []
+    for gbe_id_col, field_id_col, desc_col, table_path in zip(meta_table['nameCol (GBE ID)'], meta_table['fieldCol (field_ID)'], meta_table['descCol'], meta_table['Table path']):
+        colnames = [x[1] for x in sorted(zip([gbe_id_col, field_id_col, desc_col], ['GBEID', 'FieldID', 'Name']), key=lambda i:i[0])]
+        map_table = pd.read_table('../tables/' + table_path, usecols=[gbe_id_col, field_id_col, desc_col], sep='\t', skiprows=1, dtype=str, names=colnames)
+        map_table['Source'] = table_path
+        map_tables.append(map_table)
+    complete_table = pd.concat(map_tables)
+    id_to_field_name = dict(zip(complete_table['GBEID'], zip(complete_table['Name'], complete_table['FieldID'], complete_table['Source'])))
     with open('../../../wiki/ukbb/icdinfo/icdinfo.txt', 'r') as icd:
         icdinfo = {line.split()[0]:line.split()[2] for line in icd}
-    # 0. write out HC info files to master table
-    hc_paths  = glob.glob('/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/highconfidenceqc/HC*.phe')
-    hc_names  = list(map(lambda hc: icdinfo[hc] if hc in icdinfo else '', 
-                         map(lambda path: os.path.splitext(os.path.basename(path))[0], hc_paths)))
-    make_phe_info(in_phe   = hc_paths, 
-                  out_path = '/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/extra_info/hc.tsv.info',
-                  name     = hc_names,
-                  field    = 'NA', 
-                  table    = 'NA', 
-                  basket   = 'NA',
-                  app_id   = '16698', 
-                  source   = 'cdeboever', 
-                  one_file = True)
-    # 1. write out cancer info files to master table
-    cancer_phenos = glob.glob('/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/cancer3/*.phe')
-    cancer_names  = list(map(lambda c: icdinfo['cancer'+c] if 'cancer'+c in icdinfo else '',
-                         map(lambda path: os.path.splitext(os.path.basename(path))[0], cancer_phenos)))
-    make_phe_info(in_phe   = cancer_phenos, 
-                  out_path = '/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/extra_info/cancer.tsv.info',
-                  name     = cancer_names,
-                  field    = 'NA', 
-                  table    = 'NA', 
-                  basket   = 'NA',
-                  app_id   = '16698', 
-                  source   = 'NA', 
-                  one_file = True)
-    # 2. do the same for Rohit's phenotypes
-    rh_phenos = ['/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/rohit/RH{}.phe'.format(i) for i in range(161)]
-    rh_names  = [line.rstrip().split()[1] for line in open('/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/rohit/rohit_map.txt', 'r')]
-    make_phe_info(in_phe   = rh_phenos, 
-                  out_path = '/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/extra_info/rh.tsv.info',
-                  name     = rh_names,
-                  field    = 'NA', 
-                  table    = 'NA', 
-                  basket   = 'NA',
-                  app_id   = '16698', 
-                  source   = 'rohit', 
-                  one_file = True)
-    # 3. and family history
-    fh_phenos = glob.glob('/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/familyHistory2/FH*.phe')
-    fh_map    = {'FH'+line.split()[0][:4]:line.rstrip().split(None,1)[1].replace(' ','_') for line in open('/oak/stanford/groups/mrivas/private_data/ukbb/16698/phenotypedata/familyHistory2/mapphe.txt', 'r')}
-    fh_names  = [fh_map[phe[:6]] if phe[:6] in fh_map else '' for phe in map(os.path.basename,fh_phenos)]
-    make_phe_info(in_phe   = fh_phenos,
-                  out_path = '/oak/stanford/groups/mrivas/dev-ukbb-tools/phenotypes/extra_info/fh.tsv.info',
-                  name     = fh_names,
-                  field    = 'NA', 
-                  table    = 'NA', 
-                  basket   = 'NA',
-                  app_id   = '16698', 
-                  source   = 'rohit', 
-                  one_file = True)
-                  
+    with open('../icdinfo.txt', 'r') as new_icd:
+        new_icdinfo = {line.split()[0]:line.split()[2] for line in new_icd}
+    for basket in ['9796', '10136', '10483', '11139', '2001702']:
+        phenos = glob.glob('/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/' + basket + '/current/phe/*.phe')
+        gbe_ids = [os.path.splitext(os.path.basename(path))[0] for path in phenos]
+        tables = ['9797' if gbe_id.startswith('MED') else os.path.basename(os.path.normpath(os.path.dirname(os.path.dirname(os.path.realpath(pheno))))) for gbe_id, pheno in zip(gbe_ids, phenos)]
+        for gbe_id, table_id in zip(gbe_ids, tables):
+            if not (gbe_id in id_to_field_name) and not (gbe_id in icdinfo) and not (gbe_id in new_icdinfo):
+                print(gbe_id, table_id, basket)
+        #names = [id_to_field_name[gbe_id][0] if gbe_id in id_to_field_name else icdinfo[gbe_id] for gbe_id in gbe_ids]
+        #fields = ['20003' if gbe_id.startswith('MED') else id_to_field_name[gbe_id][1] for gbe_id in gbe_ids]
+        #sources = ['NA' if gbe_id.startswith('MED') else id_to_field_name[gbe_id][2] for gbe_id in gbe_ids]
+        #tables = ['9797' if gbe_id.startswith('MED') else os.path.basename(os.path.normpath(os.path.dirname(os.path.dirname(os.path.realpath(pheno))))) for pheno in phenos]
+        #baskets = [basket for gbe_id in gbe_ids]
+        #all_phenos.extend(phenos)
+        #all_names.extend(names)
+        #all_fields.extend(fields)
+        #all_tables.extend(tables)
+        #all_baskets.extend(baskets)
+        #all_sources.extend(sources)
+
+    #for phe, gbe_name, field_id, table_id, basket_id, source_id in zip(all_phenos, all_names, all_fields, all_tables, all_baskets, all_sources):
+        #print(phe, gbe_name, field_id, table_id, basket_id, source_id)
+    #    make_phe_info(in_phe   = [phe],
+    #                  out_path = os.path.join(os.path.dirname(os.path.dirname(phe)), "info"),
+    #                  name     = [gbe_name],
+
+    #                  field    = field_id, 
+    #                  table    = table_id,
+#
+#                      basket   = basket_id,
+#                      app_id   = '24983',
+#                      source   = source_id, 
+#
+#                      one_file = False)
+#
+#
+#        make_phe_info([phe],
+#                       os.path.join(os.path.dirname(os.path.dirname(phe)), "info"),
+#                      [phe_values['desc']],
+#                       phe_values['field_id'],
+#                       phe_values['table_id'],
+#                       basket_id,
+#                       '24983',
+#                       os.path.basename(in_tsv))
