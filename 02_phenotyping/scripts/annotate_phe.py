@@ -76,50 +76,32 @@ if __name__ == "__main__":
         map_tables.append(map_table)
     complete_table = pd.concat(map_tables)
     id_to_field_name = dict(zip(complete_table['GBEID'], zip(complete_table['Name'], complete_table['FieldID'], complete_table['Source'])))
-    with open('../../../wiki/ukbb/icdinfo/icdinfo.txt', 'r') as icd:
-        icdinfo = {line.split()[0]:line.split()[2] for line in icd}
-    with open('../icdinfo.txt', 'r') as new_icd:
-        new_icdinfo = {line.split()[0]:line.split()[2] for line in new_icd}
-    for basket in ['9796', '10136', '10483', '11139', '2001702']:
+    for basket in ['2001440']:
         phenos = glob.glob('/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/' + basket + '/current/phe/*.phe')
+        phenos = [os.path.realpath(pheno) for pheno in phenos]
         gbe_ids = [os.path.splitext(os.path.basename(path))[0] for path in phenos]
-        tables = ['9797' if gbe_id.startswith('MED') else os.path.basename(os.path.normpath(os.path.dirname(os.path.dirname(os.path.realpath(pheno))))) for gbe_id, pheno in zip(gbe_ids, phenos)]
-        for gbe_id, table_id in zip(gbe_ids, tables):
-            if not (gbe_id in id_to_field_name) and not (gbe_id in icdinfo) and not (gbe_id in new_icdinfo):
-                print(gbe_id, table_id, basket)
-        #names = [id_to_field_name[gbe_id][0] if gbe_id in id_to_field_name else icdinfo[gbe_id] for gbe_id in gbe_ids]
-        #fields = ['20003' if gbe_id.startswith('MED') else id_to_field_name[gbe_id][1] for gbe_id in gbe_ids]
-        #sources = ['NA' if gbe_id.startswith('MED') else id_to_field_name[gbe_id][2] for gbe_id in gbe_ids]
-        #tables = ['9797' if gbe_id.startswith('MED') else os.path.basename(os.path.normpath(os.path.dirname(os.path.dirname(os.path.realpath(pheno))))) for pheno in phenos]
-        #baskets = [basket for gbe_id in gbe_ids]
-        #all_phenos.extend(phenos)
-        #all_names.extend(names)
-        #all_fields.extend(fields)
-        #all_tables.extend(tables)
-        #all_baskets.extend(baskets)
-        #all_sources.extend(sources)
+        tables = ['9797' if gbe_id.startswith('MED') else os.path.basename(os.path.normpath(os.path.dirname(os.path.dirname(pheno)))) for gbe_id, pheno in zip(gbe_ids, phenos)]
+        with open('../../05_gbe/icdinfo.txt', 'r') as new_icd:
+            new_icdinfo = {line.split()[0]:line.split()[2] for line in new_icd}
+        names = [id_to_field_name[gbe_id][0] if gbe_id in id_to_field_name else new_icdinfo[gbe_id] for gbe_id in gbe_ids]
+        fields = ['20003' if gbe_id.startswith('MED') else id_to_field_name[gbe_id][1] for gbe_id in gbe_ids]
+        sources = ['NA' if gbe_id.startswith('MED') else id_to_field_name[gbe_id][2] for gbe_id in gbe_ids]
+        tables = ['9797' if gbe_id.startswith('MED') else os.path.basename(os.path.normpath(os.path.dirname(os.path.dirname(pheno)))) for pheno in phenos]
+        baskets = [basket for gbe_id in gbe_ids]
+        all_phenos.extend(phenos)
+        all_names.extend(names)
+        all_fields.extend(fields)
+        all_tables.extend(tables)
+        all_baskets.extend(baskets)
+        all_sources.extend(sources)
 
-    #for phe, gbe_name, field_id, table_id, basket_id, source_id in zip(all_phenos, all_names, all_fields, all_tables, all_baskets, all_sources):
-        #print(phe, gbe_name, field_id, table_id, basket_id, source_id)
-    #    make_phe_info(in_phe   = [phe],
-    #                  out_path = os.path.join(os.path.dirname(os.path.dirname(phe)), "info"),
-    #                  name     = [gbe_name],
-
-    #                  field    = field_id, 
-    #                  table    = table_id,
-#
-#                      basket   = basket_id,
-#                      app_id   = '24983',
-#                      source   = source_id, 
-#
-#                      one_file = False)
-#
-#
-#        make_phe_info([phe],
-#                       os.path.join(os.path.dirname(os.path.dirname(phe)), "info"),
-#                      [phe_values['desc']],
-#                       phe_values['field_id'],
-#                       phe_values['table_id'],
-#                       basket_id,
-#                       '24983',
-#                       os.path.basename(in_tsv))
+    for phe, gbe_name, field_id, table_id, basket_id, source_id in zip(all_phenos, all_names, all_fields, all_tables, all_baskets, all_sources):
+        make_phe_info(in_phe   = [phe],
+                      out_path = os.path.join(os.path.dirname(os.path.dirname(phe)), "info"),
+                      name     = [gbe_name],
+                      field    = field_id, 
+                      table    = table_id,
+                      basket   = basket_id,
+                      app_id   = '24983',
+                      source   = source_id, 
+                      one_file = False)
