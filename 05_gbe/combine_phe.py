@@ -63,7 +63,7 @@ for phe,app,path in map(lambda (k,v): (k,v['APP_ID'],v['PATH']),phe_in.items()):
             if app == '16698' and ind in to_24983:
                 ind = to_24983[ind]
             if ind not in inds:
-                inds[ind] = ['' for _ in range(len(phe_out)-1)] + [value]
+                inds[ind] = ['-9' for _ in range(len(phe_out)-1)] + [value]
             else:
                 inds[ind].append(value)
                 inds_not_seen.remove(ind)
