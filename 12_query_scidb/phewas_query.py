@@ -185,13 +185,16 @@ def df_PheWAS(data_dict):
 def df_PheWAS_filter_by_case_count(df, min_case_count):
     return df[df['Case'].map(lambda x: x >= min_case_count)]
 
-def get_data_as_data_frame(query, db, p_value_thr = 0.001, min_case_count = 100):
+def get_data_as_data_frame(query, db, p_value_thr = 0.001, min_case_count = 100, phenotype_list=None):
     query_res = get_data(query, db)
     res_tbl = df_PheWAS_filter_by_case_count(
         df_PheWAS(filter_PheWAS_by_p_value(query_res, p_value_thr)),
         min_case_count
     )[['affyid', 'Code', 'l10pval', 'LOR', 'SE', 'chrom', 'pos', 'Name']]
-    return(res_tbl)
+    if phenotype_list is None:
+	return(res_tbl)
+    else:
+	return(res_tbl[ res_tbl['Code'].map(lambda x: x in set(phenotype_list)) ])
 
 def main():
     parser = argparse.ArgumentParser(
@@ -199,15 +202,35 @@ def main():
         description=_README_
     )
     parser.add_argument('-i', metavar='i', required=True,
-                        help='query (coordinates like 5-145895394)')    
+                        help='query (comma-separated coordinates like 5-145895394,11-14865399)')    
     parser.add_argument('-o', metavar='o', required=True,
                         help='output npz file')
-    parser.add_argument('-p', metavar='p', default=8080,
+    parser.add_argument('--port', metavar='P', default=8080,
                         help='SciDB port (default: 8080)')
+    parser.add_argument('-n', metavar='N', default=100,
+                        help='minimum case count (default: 100)')
+    parser.add_argument('-p', metavar='p', default=0.001,
+                        help='p-value threshold (default: 0.001)')
+    parser.add_argument('-l', metavar='L', default=None,
+                        help='a file that has a list of phenotypes (GBE_IDs)')
   
     args = parser.parse_args()
-    db = connect('http://localhost:{}'.format(args.p))
-    query_res = pd.concat([ get_data_as_data_frame(i, db) for i in list(set(args.i.split(','))) ])
+    db = connect('http://localhost:{}'.format(args.port))
+
+    if(args.l is not None):
+	with open(args.l) as f:
+	    phe_list = [x for x in f.read().splitlines() if len(x) > 0]
+    else:
+	phe_list = None
+
+    query_res = pd.concat([ 
+	get_data_as_data_frame(
+	    i, db, 
+	    p_value_thr = float(args.p), 
+	    min_case_count = int(args.n), 
+	    phenotype_list= phe_list
+	) for i in list(set(args.i.split(','))) 
+    ])
     query_res.to_csv(args.o, sep='\t', index=False)
 
 if __name__ == '__main__':
