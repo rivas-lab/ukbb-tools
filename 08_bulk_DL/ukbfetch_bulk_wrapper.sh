@@ -24,7 +24,11 @@ find ${out_dir} -type f \
 n_lines=$( cat ${bulk_file_missing} | wc -l )
 n_batches=$( perl -e "print(int((${n_lines} + 999)/1000))" )
 
-echo "Downloading ${n_lines} files (${bulk_file_missing})"
+if [ ${n_lines} -lt 1 ] ; then
+    echo "Download finished!"
+else
+    echo "Downloading ${n_lines} files (${bulk_file_missing})"
 
-parallel -j ${num_jobs} $(dirname $(readlink -f $0))/$(basename $0 .sh)_sub.sh ${bulk_file_missing} {} ${out_dir} ${key_file} :::  $(seq 1 ${n_batches}) 
+    parallel --tmpdir ${LOCAL_SCRATCH} -j ${num_jobs} $(dirname $(readlink -f $0))/$(basename $0 .sh)_sub.sh ${bulk_file_missing} {} ${out_dir} ${key_file} :::  $(seq 1 ${n_batches}) 
+fi
 
