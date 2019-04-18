@@ -27,3 +27,29 @@ Prior to running this script, you will need to specify an input table (line 15).
 Then, you're ready to run your analysis. Run the following command where `path_to_tsv_file` is the string you wrote on line 15:
 
 `sbatch --array=1-$(wc -l path_to_tsv_file) gbe.sh`
+
+## Master Phe
+
+In order to run PheWAS, we need a master table containing all the phenotype data we've processed (see the [phenotyping](https://github.com/rivas-lab/ukbb-tools/blob/master/02_phenotyping/) folder for more info). To do this, we leverage the phenotype info table, which is also in the phenotyping folder. The maker script, `combine_phe.py` will walk through this file and selecting phenotypes with n/N > 100 for inclusion. It then loads each of those files into memory (!!) via a dictionary keyed on sample ID, then writes all the data out to file. 
+
+The `update_phe_icd_master.sh` script will update `phenotype_info.tsv`, `icdinfo.txt`, and `master.phe` in the appropriate locations on the `$OAK` space via a batch job.
+
+### Master phenotype info table schema
+
+The list of columns in the master phenotype info file is as follows:
+```
+'GBE_phe_code',
+'GBE_phe_name',
+'UKB_field ID',
+'UKB_table ID',
+'UKB_basket ID',
+'UKB_application ID',
+'N_total',
+'N_White_British',
+'N_African',
+'N_East_Asian',
+'N_South_Asian',
+'tsv_file',
+'version',
+'phe_file'
+```

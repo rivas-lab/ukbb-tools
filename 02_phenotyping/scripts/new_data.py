@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from make_phe import *
 from annotate_phe import make_phe_info
+from showcase_and_list_to_tsv import join_and_add_cols
 
 _README_ = """
 A script to tell which fields in a UK Biobank table (.tab) file are new or updated.
@@ -34,9 +35,8 @@ def find_new_data(new_f, old_f, make_table):
         old_fields = {}
     new_fields = {i for i in iter(new_df_col) if i not in old_df_col}
     print("New fields:\n" + "\n".join(iter(new_fields)))
-    # make table for computing session with 
+    # make table for computing session with showcase_and_list_to_tsv 
     if len(new_fields) != 0 and make_table:
-        from showcase_and_list_to_tsv import join_and_add_cols
         out_file = '../tables/ukb_' + str(pd.datetime.today().date()).replace('-','') + '.tsv'
         join_and_add_cols(map(int, [x for x in iter(new_fields)])).to_csv(out_file, sep='\t', index=False)
         print("New .tsv made: " + out_file)
@@ -48,16 +48,7 @@ def find_new_data(new_f, old_f, make_table):
         old_slice_mask = [x for x in complete_old_df.columns if (x=='f.eid' or x.split('.')[1]==field)]
         new_df = complete_new_df[new_slice_mask]
         old_df = complete_old_df[old_slice_mask]
-
-    # for field in iter(old_fields):
-        # load up columns for this field
-        # new_df = pd.read_table(new_f, sep="\t", index_col='f.eid',
-        #                        usecols=lambda s: s=='f.eid' or s.split('.')[1]==field
-        #                        )
-        # old_df = pd.read_table(old_f, sep="\t", index_col='f.eid', 
-        #                        usecols=lambda s: s=='f.eid' or s.split('.')[1]==field
-        #                        )
-        # subset to same set of individuals, in case some are redacted in new data
+        # only look at inds shared between tables
         shared_inds = new_df.index.intersection(old_df.index)
         # compare values
         if not new_df.loc[shared_inds,:].equals(old_df.loc[shared_inds,:]):
@@ -164,4 +155,5 @@ if __name__ == "__main__":
     # 5. update gwas
     if not args.no_gwas and phe_files:
         update_summary_stats(phe_files)
-    
+    # 6. update symlink
+    # TODO 
