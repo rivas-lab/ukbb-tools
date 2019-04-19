@@ -51,7 +51,24 @@ When the command finishes running, you will see that a couple of files (most imp
 
 In order to save a list of fields that the dataset contains, you will want to generate a `.tab.columns` file from the `.tab` file you just created. This will provide you an easy way to look at all the fields in the file, but is not strictly necessary for the pipeline. Run the following to generate it within your directory, replacing `ukbXXXX.tab` with the name of your `.tab` file:
 
-`paste <(head -n1 ukbXXXXX.tab| tr "\t" "\n") <(head -n1 ukb1XXXXX.tab| tr "\t" "\n" | tr "." "\t" )`
+```
+ml load ukbb-showcase-utils
+ukbtabcols.sh ukbXXXXX.tab > ukbXXXXX.tab.columns
+```
+
+## (Optional) Generating a `.tab.columns.summary.tsv.gz` file
+
+To provide column-wise summary of the data table file, you may run `compute_col-wise_md5sum.sh`. 
+
+```
+bash compute_col-wise_md5sum.sh ukbXXXXX.tab > ukbXXXXX.tab.columns.summary.tsv
+gzip -9 ukbXXXXX.tab.columns.summary.tsv
+```
+
+In case the table file is large, there are options to compute the statistics for selected columns (`-c` option) or for a selected range (`-s` and `-e` options to indicate the start and the end of the range (both inclusive)). Please also look at the job directory to see the example.
+
+The most recent version of the results are saved to `/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/master_phe/tab.columns.summary.tsv.gz`.
+
 
 ## (Optional) Mapping IDs across different application IDs
 
@@ -83,3 +100,4 @@ $ cat ukb27645.tab | awk -v FS='\t' '{print NF}' | uniq -c
 ## Defining phenotypes
 
 With the `.tab.columns` file in tow, you're ready to start [defining phenotypes](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping).
+
