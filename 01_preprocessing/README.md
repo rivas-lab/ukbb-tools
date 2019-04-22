@@ -2,7 +2,7 @@
 
 ## Software needed to download the data
 
-Note: Please our the Rivas Lab module to perform the below steps. We had our copy of the programs in this repo, but they have been moved to other places in `$OAK` — you can load the following with `module load ukbb-showcase-utils/`:
+Note: Please our the Rivas Lab module to perform the below steps. We had our copy of the programs in this repo, but they have been moved to other places in `$OAK` — you can load the following with `module load ukbb-showcase-utils`:
 - `ukbconv`
 - `ukb_unpack`
 
