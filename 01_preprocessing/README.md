@@ -2,20 +2,10 @@
 
 ## Software needed to download the data
 
-Please use the Rivas Lab module. The current version is `ukbb-showcase-utils/201903`.
-
-We had our copy of the programs in this repo, but they are moved to other places in `$OAK`.
-
-```
-[ytanigaw@sh-102-07 ~/repos/rivas-lab/ukbb-tools/01_preprocessing]$ md5sum ukb*
-06b5b39ab608a093b1dd264e27280316  ukbconv
-254669d4bf6fdf8ba66d5bc2c9c5633c  ukb_unpack
-[ytanigaw@sh-102-07 /oak/stanford/groups/mrivas/software/ukbb-showcase-utils]$ md5sum ./201804/ukb_unpack
-254669d4bf6fdf8ba66d5bc2c9c5633c  ./201804/ukb_unpack
-[ytanigaw@sh-102-07 /oak/stanford/groups/mrivas/software/ukbb-showcase-utils]$ find . -name ukbconv -exec md5sum {} \;
-06b5b39ab608a093b1dd264e27280316  ./201903/ukbconv
-06b5b39ab608a093b1dd264e27280316  ./201810/ukbconv
-```
+Note: Please our the Rivas Lab module to perform the below steps. We had our copy of the programs in this repo, but they have been moved to other places in `$OAK` — you can load the following with `module load ukbb-showcase-utils/`:
+*`ukbconv`
+*`ukb_unpack`
+The current version is `ukbb-showcase-utils/201903`.
 
 ## Downloading the data
 
