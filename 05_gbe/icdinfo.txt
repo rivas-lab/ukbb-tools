@@ -2964,7 +2964,6 @@ FH1220	79162	Diabetes	79162	79162	Y
 FH1262	21754	Parkinson's_disease	21754	21754	Y
 FH1263	51786	Alzheimer's_disease/dementia	51786	51786	Y
 FH1286	54567	Severe_depression	54567	54567	Y
-#GBE_ID	N_GBE	GBE_NAME	N_GBE	N_GBE	Y
 HC0	1047	scoliosis	1047	1047	Y
 HC1	3599	bowel_/_intestinal_obstruction	3599	3599	Y
 HC10	249	dysmenorrhoea_/_dysmenorrhea	249	249	Y
