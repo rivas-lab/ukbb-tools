@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --job-name=RL_GWAS
-#SBATCH --output=rerun_logs/rl-gwas.20190405.magu.%A-%a.out)
+#SBATCH --output=rerun_logs/gwas_rerun.%A-%a.out
 #SBATCH --mem=16000
 #SBATCH --cores=4
 #SBATCH --time=2-00:00:00
 #SBATCH -p normal,owners
-#SBATCH --constraint=CPU_GEN:HSW|CPU_GEN:BDW|CPU_GEN:SKX, # plink2 avx2 compatibility
+# #SBATCH --constraint=CPU_GEN:HSW|CPU_GEN:BDW|CPU_GEN:SKX, # plink2 avx2 compatibility
 
 # dependencies
 ml load htslib; ml load plink2/20190402-non-AVX2
