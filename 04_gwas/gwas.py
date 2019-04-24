@@ -2,7 +2,7 @@
 import os
 
 _README_='''
-A script for running GWAS with UK Biobank data (array and/or imputed genotypes) using PLINK.
+A script for running GWAS with UK Biobank data (array/exome/imputed/cnv genotypes) using PLINK.
 
 Author: Matthew Aguirre (SUNET: magu)
 '''
@@ -13,7 +13,11 @@ def make_plink_command(bpFile, pheFile, outFile, pop, related=False, plink1=Fals
     popFile       = os.path.join(qcDir,'population_stratification','ukb24983_{}.phe'.format(pop)) if pop != 'all' else ''
     unrelatedFile = os.path.join(qcDir,'ukb24983_v2.not_used_in_pca.phe') if not related else '' 
     arrayVarFile  = os.path.join(qcDir,'{}_array_variants.txt'.format('both' if arrayCovar else 'one')) if '/cal/' in bpFile else ''
-    covarFile     = os.path.join(qcDir, 'ukb24983_GWAS_covar.phe')
+    is_cnv_burden = os.path.basename(bpFile) == 'burden'
+    if is_cnv_burden:
+        covarFile = '/oak/stanford/groups/mrivas/ukbb24983/cnv/pgen/ukb24983_cnv_burden.covar'
+    else:
+        covarFile = os.path.join(qcDir, 'ukb24983_GWAS_covar.phe')
     # paste together the command from constituent parts
     return " ".join(["plink" if plink1 else "plink2", 
                      "--bfile" if plink1 else "--bpfile", bpFile, "--chr 1-22",
@@ -23,7 +27,7 @@ def make_plink_command(bpFile, pheFile, outFile, pop, related=False, plink1=Fals
                      "--remove {0}".format(unrelatedFile) if unrelatedFile else "",
                      "--extract {0}".format(arrayVarFile) if arrayVarFile else "",
                      "--covar", covarFile, 
-                     "--covar-name age sex", "Array" if arrayCovar else "", "PC1-PC4",
+                     "--covar-name age sex", "Array" if arrayCovar else "", "PC1-PC4", "N_CNV LEN_CNV --covar-variance-standardize" if is_cnv_burden else "",
                      "--out", outFile]) 
 
 
@@ -59,6 +63,8 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
     cal_bfile_path=os.path.join(pgen_root,'cal','pgen','ukb24983_cal_cALL_v2')
     exome_spb_path=os.path.join(pgen_root,'exome','pgen','spb','data','ukb_exm_spb')
     exome_fe_path=os.path.join(pgen_root,'exome','pgen','fe','data','ukb_exm_fe')
+    cnv_bfile_path=os.path.join(pgen_root,'cnv','pgen','cnv') + ' --mac 20'
+    cnv_burden_path=os.path.join(pgen_root,'cnv','pgen','burden')
     pheName=os.path.basename(pheFile).split('.')[0]
     outFile=os.path.join(outDir, 'ukb24983_v2.{0}.{1}'.format(pheName, kind))
     # this is where the fun happens
@@ -96,6 +102,16 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
                                outFile1, outFile2, outFile, suffix) for suffix in ['glm.linear', 'glm.logistic.hybrid']] + 
                           ["cat {0}.log {1}.log > {2}.log".format(outFile1, outFile2, outFile),
                            "rm {0}.* {1}.*".format(outFile1, outFile2)])
+    elif kind == 'cnv' or kind == 'cnv-burden':
+        cnv_path = cnv_bfile_path if kind == 'cnv' else cnv_burden_path
+        cmd = make_plink_command(bpFile  = cnv_path,
+                                 pheFile = pheFile,
+                                 outFile = outFile,
+                                 pop     = pop,
+                                 related = related,
+                                 plink1  = plink1,
+                                 arrayCovar = False) 
+    # more usage management, in case someone wants to import the function for use elsewhere
     elif kind == 'exome-spb' or kind == 'exome-fe':
         exome_bfile_path = exome_spb_path if kind == 'exome-spb' else exome_fe_path
         cmd = make_plink_command(bpFile  = exome_bfile_path,
@@ -105,7 +121,6 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
                                  related = related,
                                  plink1  = plink1,
                                  arrayCovar = False) 
-    # more usage management, in case someone wants to import the function for use elsewhere
     else:
         raise ValueError("argument kind must be one of (imputed, genotyped, exome-spb, exome-fe): {0} was provided".format(kind))
     # make the batch job submission file, then call it with an appropriate array
@@ -138,6 +153,10 @@ if __name__ == "__main__":
                             help="Run GWAS on exome data (GATK calls)")
     parser.add_argument('--run-imputed', dest="imp", action='store_true',
                             help='Run GWAS on imputed data') 
+    parser.add_argument('--run-cnv', dest="cnva", action='store_true',
+                            help='Run GWAS on array-derived CNV genotypes') 
+    parser.add_argument('--run-cnv-burden', dest="cnvb", action='store_true',
+                            help='Run CNV burden test (GWAS on 0/1 CNV overlaps gene, from array-derived CNV genotypes)') 
     parser.add_argument('--pheno', dest="pheno", required=True, nargs='*',
                             help='Path to phenotype file(s)')
     parser.add_argument('--out', dest="outDir", required=True, nargs=1,
@@ -160,7 +179,7 @@ if __name__ == "__main__":
     # TODO: feature add: genotype model  
     print(args) 
     # ensure handler-relevant usage (more insurance is in run_gwas()):
-    if not args.arr and not args.imp and not args.ex1 and not args.ex2:
+    if not args.arr and not args.imp and not args.ex1 and not args.ex2 and not args.cnva and not args.cnvb:
         raise ValueError("Error: no analysis specified, did you mean to add --run-array?")
     if args.local and args.imp:
         raise ValueError("--run-imputed cannot be present in conjunction with --run-now!")
@@ -176,5 +195,11 @@ if __name__ == "__main__":
                  logDir=args.log[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=args.local)
     if args.ex2:
         run_gwas(kind='exome-fe', pheFile=args.pheno[0], outDir=args.outDir[0], pop=args.pop[0], related=args.relatives, plink1=args.plink1, 
+                 logDir=args.log[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=args.local)
+    if args.cnva:
+        run_gwas(kind='cnv', pheFile=args.pheno[0], outDir=args.outDir[0], pop=args.pop[0], related=args.relatives, plink1=args.plink1, 
+                 logDir=args.log[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=args.local)
+    if args.cnvb:
+        run_gwas(kind='cnv-burden', pheFile=args.pheno[0], outDir=args.outDir[0], pop=args.pop[0], related=args.relatives, plink1=args.plink1, 
                  logDir=args.log[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=args.local)
  
