@@ -14,8 +14,16 @@ def make_plink_command(bpFile, pheFile, outFile, pop, related=False, plink1=Fals
     unrelatedFile = os.path.join(qcDir,'ukb24983_v2.not_used_in_pca.phe') if not related else '' 
     arrayVarFile  = os.path.join(qcDir,'{}_array_variants.txt'.format('both' if arrayCovar else 'one')) if '/cal/' in bpFile else ''
     is_cnv_burden = os.path.basename(bpFile) == 'burden'
+    if os.path.dirname(pheFile).split('/')[-1] == "binary": 
+        is_biomarker_binary = True
+    elif len(os.path.basename(pheFile).split('_')) < 2:
+        is_biomarker_binary = False
+    else:
+        is_biomarker_binary = os.path.basename(pheFile).split('_')[1]  == 'binary'
     if is_cnv_burden:
         covarFile = '/oak/stanford/groups/mrivas/ukbb24983/cnv/pgen/ukb24983_cnv_burden.covar'
+    elif is_biomarker_binary:
+        covarFile = '/oak/stanford/groups/mrivas/projects/biomarkers/covariate_corrected/output/covariates/logistic.covariates.phe'
     else:
         covarFile = os.path.join(qcDir, 'ukb24983_GWAS_covar.phe')
     # paste together the command from constituent parts
@@ -27,7 +35,7 @@ def make_plink_command(bpFile, pheFile, outFile, pop, related=False, plink1=Fals
                      "--remove {0}".format(unrelatedFile) if unrelatedFile else "",
                      "--extract {0}".format(arrayVarFile) if arrayVarFile else "",
                      "--covar", covarFile, 
-                     "--covar-name age sex", "Array" if arrayCovar else "", "PC1-PC4", "N_CNV LEN_CNV --covar-variance-standardize" if is_cnv_burden else "",
+                     "--covar-name age sex", "Array" if arrayCovar else "", "PC1-PC4", "N_CNV LEN_CNV --covar-variance-standardize" if is_cnv_burden else "PC5-PC10 FastingTime --covar-variance-standardize" if is_biomarker_binary else "",
                      "--out", outFile]) 
 
 
@@ -60,7 +68,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
     # paths for running gwas
     pgen_root='/oak/stanford/groups/mrivas/private_data/ukbb/24983/'
     imp_bfile_path=os.path.join(pgen_root,'imp','pgen','ukb_imp_chr${SLURM_ARRAY_TASK_ID}_v2.mac1.hrc')
-    cal_bfile_path=os.path.join(pgen_root,'cal','pgen','ukb24983_cal_cALL_v2')
+    cal_bfile_path=os.path.join(pgen_root,'cal','pgen','ukb24983_cal_cALL_v2_1')
     exome_spb_path=os.path.join(pgen_root,'exome','pgen','spb','data','ukb_exm_spb')
     exome_fe_path=os.path.join(pgen_root,'exome','pgen','fe','data','ukb_exm_fe')
     cnv_bfile_path=os.path.join(pgen_root,'cnv','pgen','cnv') + ' --mac 20'
