@@ -13,7 +13,7 @@ Author: Matthew Aguirre (SUNET: magu)
 # Input: gene name(s) / variant names(s) / region
 # variant names for imputed data are chrom:pos:ref:alt
 
-cal_bims = glob.glob('/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb24983_cal_chr*_v2.bim')
+cal_bims = glob.glob('/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb24983_cal_cALL_v2_1.bim')
 imp_bims = glob.glob('/oak/stanford/groups/mrivas/ukbb24983/imp/pgen/ukb_imp_chr*_v2.mac1.hrc.bim')
 wex_bims = ['/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/ukb24983_exome.bim']
 
@@ -58,10 +58,10 @@ def run_phewas(bfile, var_ids, indfile=None, norm=True, out_prefix='phewas'):
         o.write('\n'.join(var_ids))
     # do the thing
     os.system(' '.join(['plink2 --bfile', bfile, '--pheno', master_phe, 
-                               '--pheno-quantile-normalize' if norm else '',
+                               '--pheno-quantile-normalize --covar-variance-standardize ' if norm else '',
                                '--out', out_prefix, 
                                '--keep {}'.format(indfile) if indfile is not None else '',
-                               '--covar', covars, '--covar-name age sex Array PC1-PC4',
+                               '--covar', covars, '--covar-name age sex PC1-PC4',
                                '--extract', out_prefix + '.varlist.txt', 
                                '--glm firth-fallback hide-covar']))
     return
