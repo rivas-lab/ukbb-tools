@@ -1,11 +1,13 @@
 #!/bin/bash
 #SBATCH --job-name=RL_GWAS
 #SBATCH --output=rerun_logs/gwas_rerun.%A-%a.out
-#SBATCH --mem=16000
+#SBATCH --mem=32000
 #SBATCH --cores=4
 #SBATCH --time=2-00:00:00
 #SBATCH -p normal,owners
 # #SBATCH --constraint=CPU_GEN:HSW|CPU_GEN:BDW|CPU_GEN:SKX, # plink2 avx2 compatibility
+
+export MODULEPATH="/home/groups/mrivas/.modules:$MODULEPATH"
 
 # dependencies
 ml load htslib; ml load plink2/20190402-non-AVX2
@@ -28,12 +30,12 @@ python gwas.py --run-array --run-now --pheno $phe_path --out $gwasOutDir --popul
 
 # move log file and bgzip output
 for type in genotyped; do 
-    if [ -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.log ]; then
-        mv ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.log ${gwasOutDir}/logs/
+    if [ -f ${gwasOutDir}/ukb24983_v2_1.${gbeId}.${type}.log ]; then
+        mv ${gwasOutDir}/ukb24983_v2_1.${gbeId}.${type}.log ${gwasOutDir}/logs/
     fi
     for ending in "logistic.hybrid" "linear"; do
-        if [ -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.glm.${ending} ]; then
-            bgzip ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.glm.${ending}
+        if [ -f ${gwasOutDir}/ukb24983_v2_1.${gbeId}.${type}.glm.${ending} ]; then
+            bgzip -f ${gwasOutDir}/ukb24983_v2_1.${gbeId}.${type}.glm.${ending}
         fi
     done
 done
