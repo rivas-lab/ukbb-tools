@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=RL_GWAS
 #SBATCH --output=rerun_logs/gwas_rerun.%A-%a.out
-#SBATCH --mem=32000
+#SBATCH --mem=64000
 #SBATCH --cores=4
 #SBATCH --time=2-00:00:00
 #SBATCH -p normal,owners
