@@ -1,0 +1,11 @@
+
+The following have been reloaded with a version change:
+  1) plink2/20190402 => plink2/20190402-non-AVX2
+
+Namespace(arr=True, cnva=False, cnvb=False, ex1=False, ex2=False, imp=False, local=True, log=['rerun_logs'], outDir=['./white_british'], pheno=['PATH'], plink1=False, pop=['white_british'], relatives=False, sb_mem=['16000'], sb_parti=['normal', 'owners'], sb_time=['24:00:00'])
+Traceback (most recent call last):
+  File "gwas.py", line 192, in <module>
+    logDir=args.log[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=args.local)
+  File "gwas.py", line 52, in run_gwas
+    raise ValueError("Error: phenotype file {0} does not exist!".format(pheFile))
+ValueError: Error: phenotype file PATH does not exist!

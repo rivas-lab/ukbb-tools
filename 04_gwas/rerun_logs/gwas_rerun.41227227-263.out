@@ -1,0 +1,94 @@
+
+The following have been reloaded with a version change:
+  1) plink2/20190402 => plink2/20190402-non-AVX2
+
+PLINK v2.00a2LM 64-bit Intel (2 Apr 2019)      www.cog-genomics.org/plink/2.0/
+(C) 2005-2019 Shaun Purcell, Christopher Chang   GNU General Public License v3
+Logging to /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.both_arrays.log.
+Options in effect:
+  --bpfile /oak/stanford/groups/mrivas/private_data/ukbb/24983/cal/pgen/ukb24983_cal_cALL_v2
+  --chr 1-22
+  --covar /oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_GWAS_covar.phe
+  --covar-name age sex Array PC1-PC4
+  --extract /oak/stanford/groups/mrivas/ukbb24983/sqc/both_array_variants.txt
+  --glm firth-fallback hide-covar omit-ref
+  --keep /oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification/ukb24983_white_british.phe
+  --out /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.both_arrays
+  --pheno /oak/stanford/groups/mrivas/ukbb24983/phenotypedata/9796/24611/phe/BIN_FC10005959.phe
+  --pheno-quantile-normalize
+  --remove /oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_v2.not_used_in_pca.phe
+
+Start time: Wed Apr 24 18:02:29 2019
+128653 MiB RAM detected; reserving 64326 MiB for main workspace.
+Using up to 20 threads (change this with --threads).
+488377 samples (264861 females, 223509 males, 7 ambiguous; 488377 founders)
+loaded from
+/oak/stanford/groups/mrivas/private_data/ukbb/24983/cal/pgen/ukb24983_cal_cALL_v2.fam.
+784256 out of 805426 variants loaded from
+/oak/stanford/groups/mrivas/private_data/ukbb/24983/cal/pgen/ukb24983_cal_cALL_v2.bim.
+1 binary phenotype loaded (1778 cases, 846 controls).
+--extract: 728270 variants remaining.
+--keep: 337151 samples remaining.
+--remove: 337151 samples remaining.
+7 covariates loaded from /oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_GWAS_covar.phe.
+337151 samples (181034 females, 156117 males; 337151 founders) remaining after
+main filters.
+1270 cases and 637 controls remaining after main filters.
+--pheno-quantile-normalize: No quantitative phenotypes affected.
+728270 variants remaining after main filters.
+--glm logistic-Firth hybrid regression on phenotype 'PHENO1': 0%8%16%25%33%42%50%58%67%75%83%91%done.
+Results written to /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.both_arrays.PHENO1.glm.logistic.hybrid .
+End time: Wed Apr 24 18:27:38 2019
+PLINK v2.00a2LM 64-bit Intel (2 Apr 2019)      www.cog-genomics.org/plink/2.0/
+(C) 2005-2019 Shaun Purcell, Christopher Chang   GNU General Public License v3
+Logging to /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.one_array.log.
+Options in effect:
+  --bpfile /oak/stanford/groups/mrivas/private_data/ukbb/24983/cal/pgen/ukb24983_cal_cALL_v2
+  --chr 1-22
+  --covar /oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_GWAS_covar.phe
+  --covar-name age sex PC1-PC4
+  --extract /oak/stanford/groups/mrivas/ukbb24983/sqc/one_array_variants.txt
+  --glm firth-fallback hide-covar omit-ref
+  --keep /oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification/ukb24983_white_british.phe
+  --out /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.one_array
+  --pheno /oak/stanford/groups/mrivas/ukbb24983/phenotypedata/9796/24611/phe/BIN_FC10005959.phe
+  --pheno-quantile-normalize
+  --remove /oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_v2.not_used_in_pca.phe
+
+Start time: Wed Apr 24 18:27:39 2019
+128653 MiB RAM detected; reserving 64326 MiB for main workspace.
+Using up to 20 threads (change this with --threads).
+488377 samples (264861 females, 223509 males, 7 ambiguous; 488377 founders)
+loaded from
+/oak/stanford/groups/mrivas/private_data/ukbb/24983/cal/pgen/ukb24983_cal_cALL_v2.fam.
+784256 out of 805426 variants loaded from
+/oak/stanford/groups/mrivas/private_data/ukbb/24983/cal/pgen/ukb24983_cal_cALL_v2.bim.
+1 binary phenotype loaded (1778 cases, 846 controls).
+--extract: 55986 variants remaining.
+--keep: 337151 samples remaining.
+--remove: 337151 samples remaining.
+6 covariates loaded from /oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_GWAS_covar.phe.
+337151 samples (181034 females, 156117 males; 337151 founders) remaining after
+main filters.
+1270 cases and 637 controls remaining after main filters.
+--pheno-quantile-normalize: No quantitative phenotypes affected.
+55986 variants remaining after main filters.
+--glm logistic-Firth hybrid regression on phenotype 'PHENO1': 0%6%15%22%30%38%45%52%62%72%80%91%done.
+Results written to /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.one_array.PHENO1.glm.logistic.hybrid .
+End time: Wed Apr 24 18:28:59 2019
+Namespace(arr=True, cnva=False, cnvb=False, ex1=False, ex2=False, imp=False, local=True, log=['rerun_logs'], outDir=['/oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british'], pheno=['/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/9796/24611/phe/BIN_FC10005959.phe'], plink1=False, pop=['white_british'], relatives=False, sb_mem=['16000'], sb_parti=['normal', 'owners'], sb_time=['24:00:00'])
+Running the below: 
+'''
+plink2 --bpfile /oak/stanford/groups/mrivas/private_data/ukbb/24983/cal/pgen/ukb24983_cal_cALL_v2 --chr 1-22 --pheno /oak/stanford/groups/mrivas/ukbb24983/phenotypedata/9796/24611/phe/BIN_FC10005959.phe --pheno-quantile-normalize --glm firth-fallback hide-covar omit-ref --keep /oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification/ukb24983_white_british.phe --remove /oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_v2.not_used_in_pca.phe --extract /oak/stanford/groups/mrivas/ukbb24983/sqc/both_array_variants.txt --covar /oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_GWAS_covar.phe --covar-name age sex Array PC1-PC4  --out /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.both_arrays
+
+plink2 --bpfile /oak/stanford/groups/mrivas/private_data/ukbb/24983/cal/pgen/ukb24983_cal_cALL_v2 --chr 1-22 --pheno /oak/stanford/groups/mrivas/ukbb24983/phenotypedata/9796/24611/phe/BIN_FC10005959.phe --pheno-quantile-normalize --glm firth-fallback hide-covar omit-ref --keep /oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification/ukb24983_white_british.phe --remove /oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_v2.not_used_in_pca.phe --extract /oak/stanford/groups/mrivas/ukbb24983/sqc/one_array_variants.txt --covar /oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_GWAS_covar.phe --covar-name age sex  PC1-PC4  --out /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.one_array
+
+if [ -f /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.both_arrays.*.glm.linear ]; then cat /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.both_arrays.*.glm.linear /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.one_array.*.glm.linear | sort -k1,1n -k2,2n -u > /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.glm.linear; fi
+
+if [ -f /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.both_arrays.*.glm.logistic.hybrid ]; then cat /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.both_arrays.*.glm.logistic.hybrid /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.one_array.*.glm.logistic.hybrid | sort -k1,1n -k2,2n -u > /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.glm.logistic.hybrid; fi
+
+cat /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.both_arrays.log /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.one_array.log > /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.log
+
+rm /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.both_arrays.* /oak/stanford/groups/mrivas/ukbb24983/cal/gwas/9796/24611/white_british/ukb24983_v2.BIN_FC10005959.genotyped.one_array.*
+'''
+
