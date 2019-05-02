@@ -173,8 +173,8 @@ if __name__ == "__main__":
                             help='Flag to indicate which ethnic group to use for GWAS. Must be one of all, white_british, e_asian, s_asian, african')
     parser.add_argument('--keep-related', dest="relatives", action='store_true',
                             help='Flag to keep related individuals in GWAS. Default is to remove them.')
-    parser.add_argument('--batch-memory', dest="sb_mem", required=False, default=["16000"], nargs=1,
-                            help='For underlying batch job submission: Amount of memory (in MB) to request. Default is 16000.')
+    parser.add_argument('--batch-memory', dest="sb_mem", required=False, default=["64000"], nargs=1,
+                            help='For underlying batch job submission: Amount of memory (in MB) to request. Default is 64000.')
     parser.add_argument('--batch-time', dest="sb_time", required=False, default=["24:00:00"], nargs=1,
                             help='For underlying batch job submission: Amount of time (DD-HH:MM:SS) to request. Default is 24 hours.')
     parser.add_argument('--batch-partitions', dest="sb_parti", required=False, default=["normal","owners"], nargs='*',
