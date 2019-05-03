@@ -2,8 +2,9 @@
 #SBATCH --job-name=RL_ARRAY
 #SBATCH --output=rerun_logs/run_array.%A_%a.out
 #SBATCH  --error=rerun_logs/run_array.%A_%a.err
-#SBATCH --mem=24000
+#SBATCH --nodes=1
 #SBATCH --cores=4
+#SBATCH --mem=25600
 #SBATCH --time=2-00:00:00
 #SBATCH -p normal,owners
 
@@ -12,7 +13,7 @@ set -beEuo pipefail
 # define functions
 usage () {
     echo "$0: GWAS re-run script for the array genotype data"
-    echo "usage: sbatch --array=1-<number of array jobs> $0 start_idx"
+    echo "usage: sbatch --array=1-<number of array jobs> $0 start_idx (inclusive.)"
     echo ''
     echo '  You may check the status of the job (which jobs are finished) using the array-job module:'
     echo '  $ ml load array-job'
@@ -46,7 +47,7 @@ fi
 software_versions >&2
 
 # job start header (for use with array-job module)
-_SLURM_JOBID=${SLURM_JOBID:=0}
+_SLURM_JOBID=${SLURM_JOBID:=0} # use 0 for default value (for debugging purpose)
 _SLURM_ARRAY_TASK_ID=${SLURM_ARRAY_TASK_ID:=1}
 echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-start] hostname = $(hostname) SLURM_JOBID = ${_SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${_SLURM_ARRAY_TASK_ID}" >&2
 
@@ -54,7 +55,8 @@ echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-start] hostname = $(hostname) SLURM_JOB
 start_idx=$1
 this_idx=$_SLURM_ARRAY_TASK_ID
 
-phe_path=$(awk -v a=$start_idx '(a <= NR){print $NF}' ../05_gbe/phenotype_info.tsv | awk -v nr=$this_idx 'NR==nr')
+min_N_count=10
+phe_path=$(cat ../05_gbe/phenotype_info.tsv | awk -v min_N=${min_N_count} 'NR > 1 && $7 >= min_N' | egrep -v MED | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1)' )
 gbeId=$(basename $phe_path | awk '{gsub(".phe","");print}')
 
 # run array gwas with default GBE parameters
@@ -67,13 +69,14 @@ python gwas.py --run-array --run-now --memory $mem --cores $cores --pheno $phe_p
 
 # move log file and bgzip output
 for type in genotyped; do 
+    file_prefix=${gwasOutDir}/ukb24983_cal_cALL_v2_hg19_ref.${gbeId}.${type}
     for ending in "logistic.hybrid" "linear"; do
-        if [ -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.glm.${ending} ]; then
-            bgzip --compress-level 9 -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.glm.${ending}
+        if [ -f ${file_prefix}.glm.${ending} ]; then
+            bgzip --compress-level 9 -f ${file_prefix}.glm.${ending}
         fi
     done
-    if [ -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.log ]; then
-        mv -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.log ${gwasOutDir}/logs/
+    if [ -f ${file_prefix}.log ]; then
+        mv -f ${file_prefix}.log ${gwasOutDir}/logs/
     fi    
 done
 
