@@ -216,8 +216,7 @@ if __name__ == "__main__":
         if args.memory[0] is None:
             args.memory[0] == "24000"
     # lol i hope this works
-    for flag,kind in zip(flags,kinds):
-        if flag:
+    for flag,kind in filter(lambda x:x[0], zip(flags,kinds)):
             run_gwas(kind=kind, pheFile=args.pheno[0], outDir=args.outDir[0], 
                      pop=args.pop[0], related=args.relatives, plink1=args.plink1, 
                      logDir=args.log[0], cores=args.cores[0], memory=args.mem[0], 
