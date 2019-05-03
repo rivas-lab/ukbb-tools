@@ -24,10 +24,9 @@ software_versions () {
     which bgzip
 }
 
-# get cores, mem, and time settings from the above -- passed to gwas script below
-batch_cores=$( cat $0 | egrep '^#SBATCH --cores=' | awk -v FS='=' '{print $NF}' )
-batch_mem=$(   cat $0 | egrep '^#SBATCH --mem='   | awk -v FS='=' '{print $NF}' )
-batch_time=$(  cat $0 | egrep '^#SBATCH --time='  | awk -v FS='=' '{print $NF}' )
+# get core and memory settings from the header -- passed to gwas script below
+cores=$( cat $0 | egrep '^#SBATCH --cores=' | awk -v FS='=' '{print $NF}' )
+mem=$(   cat $0 | egrep '^#SBATCH --mem='   | awk -v FS='=' '{print $NF}' )
 
 # check number of command line args and dump usage if that's not right
 if [ $# -lt 1 ] ; then usage >&2 ; exit 1 ; fi
@@ -61,7 +60,7 @@ gwasOutDir=$(echo $(dirname $(dirname $phe_path)) | awk '{gsub("phenotypedata","
 if [ ! -d ${gwasOutDir}/logs ] ; then mkdir -p ${gwasOutDir}/logs ; fi
 if [ ! -d $(dirname $(readlink -f $0))/rerun_logs ] ; then mkdir -p $(dirname $(readlink -f $0))/rerun_logs ; fi
 
-python gwas.py --run-array --run-now --batch-memory ${batch_mem} --batch-time ${batch_time} --batch-cores ${batch_cores} --pheno $phe_path --out $gwasOutDir --population $pop --log-dir rerun_logs
+python gwas.py --run-array --run-now --memory $mem --cores $cores --pheno $phe_path --out $gwasOutDir --population $pop --log-dir rerun_logs
 
 # move log file and bgzip output
 for type in genotyped; do 
