@@ -217,7 +217,7 @@ if __name__ == "__main__":
             args.memory[0] == "24000"
     # lol i hope this works
     for flag,kind in filter(lambda x:x[0], zip(flags,kinds)):
-            run_gwas(kind=kind, pheFile=args.pheno[0], outDir=args.outDir[0], 
-                     pop=args.pop[0], related=args.relatives, plink1=args.plink1, 
-                     logDir=args.log[0], cores=args.cores[0], memory=args.mem[0], 
-                     time=args.sb_time[0], partition=args.sb_parti, now=args.local)
+        run_gwas(kind=kind, pheFile=args.pheno[0], outDir=args.outDir[0], 
+                 pop=args.pop[0], related=args.relatives, plink1=args.plink1, 
+                 logDir=args.log[0], cores=args.cores[0], memory=args.mem[0], 
+                 time=args.sb_time[0], partition=args.sb_parti, now=args.local)
