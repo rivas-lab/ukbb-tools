@@ -25,8 +25,9 @@ software_versions () {
 }
 
 # get core and memory settings from the header -- passed to gwas script below
-cores=$( cat $0 | egrep '^#SBATCH --cores=' | awk -v FS='=' '{print $NF}' )
-mem=$(   cat $0 | egrep '^#SBATCH --mem='   | awk -v FS='=' '{print $NF}' )
+cores=$(              cat $0 | egrep '^#SBATCH --cores='  | awk -v FS='=' '{print $NF}' )
+mem=$(                cat $0 | egrep '^#SBATCH --mem='    | awk -v FS='=' '{print $NF}' )
+log_dir=$( dirname $( cat $0 | egrep '^#SBATCH --output=' | awk -v FS='=' '{print $NF}' ))
 
 # check number of command line args and dump usage if that's not right
 if [ $# -lt 1 ] ; then usage >&2 ; exit 1 ; fi
@@ -60,15 +61,15 @@ gbeId=$(basename $phe_path | awk '{gsub(".phe","");print}')
 pop="white_british"
 gwasOutDir=$(echo $(dirname $(dirname $phe_path)) | awk '{gsub("phenotypedata","cal/gwas"); print}')/${pop}
 if [ ! -d ${gwasOutDir}/logs ] ; then mkdir -p ${gwasOutDir}/logs ; fi
-if [ ! -d $(dirname $(readlink -f $0))/rerun_logs ] ; then mkdir -p $(dirname $(readlink -f $0))/rerun_logs ; fi
+if [ ! -d $log_dir ] ; then mkdir -p $log_dir ; fi
 
-python gwas.py --run-array --run-now --memory $mem --cores $cores --pheno $phe_path --out $gwasOutDir --population $pop --log-dir rerun_logs
+python gwas.py --run-array --run-now --memory $mem --cores $cores --pheno $phe_path --out $gwasOutDir --population $pop --log-dir $log_dir
 
 # move log file and bgzip output
 for type in genotyped; do 
     for ending in "logistic.hybrid" "linear"; do
         if [ -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.glm.${ending} ]; then
-            bgzip -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.glm.${ending}
+            bgzip --compress-level 9 -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.glm.${ending}
         fi
     done
     if [ -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.log ]; then
