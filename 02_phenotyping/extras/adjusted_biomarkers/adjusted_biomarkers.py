@@ -3,7 +3,7 @@ from annotate_phe import make_phe_info
 import glob
 
 if __name__ == "__main__":
-    ab_phenos = glob.glob('/oak/stanford/groups/mrivas/users/guhan/sandbox/hla_biomarkers/hla_wb_norm_phe_data/*.phe')
+    ab_phenos = glob.glob('/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/adjusted_biomarkers/phe/*.phe')
     with open('adjusted_biomarkers_gbe_map.tsv', 'r') as map_file:
         gbe_id_to_name = {line.split()[0]:line.split()[1] for line in map_file} 
     gbe_ids = [os.path.splitext(os.path.basename(path))[0] for path in ab_phenos]
