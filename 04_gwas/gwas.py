@@ -71,7 +71,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
     cal_bfile_path=os.path.join(pgen_root,'cal','pgen','ukb24983_cal_cALL_v2_1')
     exome_spb_path=os.path.join(pgen_root,'exome','pgen','spb','data','ukb_exm_spb')
     exome_fe_path=os.path.join(pgen_root,'exome','pgen','fe','data','ukb_exm_fe')
-    cnv_bfile_path=os.path.join(pgen_root,'cnv','pgen','cnv') + ' --mac 20'
+    cnv_bfile_path=os.path.join(pgen_root,'cnv','pgen','cnv') + ' --mac 15'
     cnv_burden_path=os.path.join(pgen_root,'cnv','pgen','burden')
     pheName=os.path.basename(pheFile).split('.')[0]
     outFile=os.path.join(outDir, 'ukb24983_v2.{0}.{1}'.format(pheName, kind))
