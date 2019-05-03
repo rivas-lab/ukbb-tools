@@ -71,7 +71,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
     # paths for running gwas
     pgen_root='/oak/stanford/groups/mrivas/private_data/ukbb/24983/'
     imp_bfile_path=os.path.join(pgen_root,'imp','pgen','ukb_imp_chr${SLURM_ARRAY_TASK_ID}_v2.mac1.hrc')
-    cal_bfile_path=os.path.join(pgen_root,'cal','pgen','ukb24983_cal_cALL_v2')
+    cal_bfile_path=os.path.join(pgen_root,'cal','pgen','ukb24983_cal_cALL_v2_hg19_ref')
     exome_spb_path=os.path.join(pgen_root,'exome','pgen','spb','data','ukb_exm_spb')
     exome_fe_path=os.path.join(pgen_root,'exome','pgen','fe','data','ukb_exm_fe')
     cnv_bfile_path=os.path.join(pgen_root,'cnv','pgen','cnv') + ' --mac 15'
@@ -187,9 +187,9 @@ if __name__ == "__main__":
                             help='Flag to indicate which ethnic group to use for GWAS. Must be one of all, white_british, e_asian, s_asian, african')
     parser.add_argument('--keep-related', dest="relatives", action='store_true',
                             help='Flag to keep related individuals in GWAS. Default is to remove them.')
-    parser.add_argument('--cores', dest="cores", required=False, default=[None], nargs=1,
+    parser.add_argument('--cores', dest="cores", required=False, default=None, nargs=1,
                             help='For underlying plink command/batch job submission: Amount of cores to request. Default is 4 cores for batch jobs.')    
-    parser.add_argument('--memory', dest="mem", required=False, default=[None], nargs=1,
+    parser.add_argument('--memory', dest="mem", required=False, default=None, nargs=1,
                             help='For underlying plink command/batch job submission: Amount of memory (in MB) to request. Default is 24000 for batch jobs.')
     parser.add_argument('--batch-time', dest="sb_time", required=False, default=["24:00:00"], nargs=1,
                             help='For underlying batch job submission: Amount of time (DD-HH:MM:SS) to request. Default is 24 hours.')
@@ -211,10 +211,10 @@ if __name__ == "__main__":
         raise ValueError("--run-imputed cannot be present in conjunction with --run-now!")
     # add default parameters to batch job submission
     if not args.local:
-        if args.cores[0] is None:
-            args.cores[0] = "4"
-        if args.memory[0] is None:
-            args.memory[0] == "24000"
+        if args.cores is None:
+            args.cores = "4"
+        if args.memory is None:
+            args.memory == "24000"
     # lol i hope this works
     for flag,kind in filter(lambda x:x[0], zip(flags,kinds)):
         run_gwas(kind=kind, pheFile=args.pheno[0], outDir=args.outDir[0], 

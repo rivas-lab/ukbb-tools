@@ -10,7 +10,7 @@
 export MODULEPATH="/home/groups/mrivas/.modules:${MODULEPATH}"
 ml load htslib
 
-if grep -q "CPU_GEN:HSW\|CPU_GEN:BDW\|CPU_GEN:SKX" <(a=$(hostname); sinfo -N -n ${a::-4} --format "%50f");
+if grep -q "CPU_GEN:HSW\|CPU_GEN:BDW\|CPU_GEN:SKX" <(a=$(hostname); sinfo -N -n ${a::-4} --format "%50f"); then
    # AVX2 is suitable for use on this node if CPU is recent enough
    ml load plink2/20190402
 else

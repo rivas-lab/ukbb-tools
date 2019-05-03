@@ -35,7 +35,7 @@ if [ $# -lt 1 ] ; then usage >&2 ; exit 1 ; fi
 export MODULEPATH="/home/groups/mrivas/.modules:${MODULEPATH}"
 ml load htslib
 
-if grep -q "CPU_GEN:HSW\|CPU_GEN:BDW\|CPU_GEN:SKX" <(a=$(hostname); sinfo -N -n ${a::-4} --format "%50f");
+if grep -q "CPU_GEN:HSW\|CPU_GEN:BDW\|CPU_GEN:SKX" <(a=$(hostname); sinfo -N -n ${a::-4} --format "%50f"); then
    # AVX2 is suitable for use on this node if CPU is recent enough
    ml load plink2/20190402
 else
@@ -45,11 +45,13 @@ fi
 software_versions >&2
 
 # job start header (for use with array-job module)
-echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-start] hostname = $(hostname) SLURM_JOBID = ${SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${SLURM_ARRAY_TASK_ID}" >&2
+_SLURM_JOBID=${SLURM_JOBID:=0}
+_SLURM_ARRAY_TASK_ID=${SLURM_ARRAY_TASK_ID:=1}
+echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-start] hostname = $(hostname) SLURM_JOBID = ${_SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${_SLURM_ARRAY_TASK_ID}" >&2
 
 # get phenotypes to run
 start_idx=$1
-this_idx=$SLURM_ARRAY_TASK_ID
+this_idx=$_SLURM_ARRAY_TASK_ID
 
 phe_path=$(awk -v a=$start_idx '(a <= NR){print $NF}' ../05_gbe/phenotype_info.tsv | awk -v nr=$this_idx 'NR==nr')
 gbeId=$(basename $phe_path | awk '{gsub(".phe","");print}')
@@ -75,4 +77,5 @@ for type in genotyped; do
 done
 
 # job finish footer (for use with array-job module)
-echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-end] hostname = $(hostname) SLURM_JOBID = ${SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${SLURM_ARRAY_TASK_ID}" >&2
+echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-end] hostname = $(hostname) SLURM_JOBID = ${_SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${_SLURM_ARRAY_TASK_ID}" >&2
+
