@@ -77,7 +77,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
     cnv_bfile_path=os.path.join(pgen_root,'cnv','pgen','cnv') + ' --mac 15'
     cnv_burden_path=os.path.join(pgen_root,'cnv','pgen','burden')
     pheName=os.path.basename(pheFile).split('.')[0]
-    outFile=os.path.join(outDir, 'ukb24983_v2.{0}.{1}'.format(pheName, kind))
+    outFile=os.path.join(outDir, 'ukb24983_v2_{0}.{1}.{2}'.format('hg38' if 'exome' in kind else 'hg19', pheName, kind))
     # this is where the fun happens
     if kind == 'imputed':
         # needs one array job per chromosome (for compute time), hence the slurm variable
