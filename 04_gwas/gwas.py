@@ -7,7 +7,7 @@ A script for running GWAS with UK Biobank data (array/exome/imputed/cnv genotype
 Author: Matthew Aguirre (SUNET: magu)
 '''
 
-def make_plink_command(bpFile, pheFile, outFile, pop, related=False, plink1=False, arrayCovar=False):
+def make_plink_command(bpFile, pheFile, outFile, pop, cores, memory, related=False, plink1=False, arrayCovar=False):
     # paths to plink genotypes, input phenotypes, output directory are passed
     qcDir         = '/oak/stanford/groups/mrivas/ukbb24983/sqc/'
     popFile       = os.path.join(qcDir,'population_stratification','ukb24983_{}.phe'.format(pop)) if pop != 'all' else ''
@@ -28,6 +28,8 @@ def make_plink_command(bpFile, pheFile, outFile, pop, related=False, plink1=Fals
         covarFile = os.path.join(qcDir, 'ukb24983_GWAS_covar.phe')
     # paste together the command from constituent parts
     return " ".join(["plink" if plink1 else "plink2", 
+                     "--threads {0}".format(cores),
+                     "--memory {0}".format(memory),                     
                      "--bfile" if plink1 else "--bpfile", bpFile, "--chr 1-22",
                      "--pheno", pheFile, "--pheno-quantile-normalize",
                      "--glm firth-fallback hide-covar omit-ref",
@@ -39,12 +41,13 @@ def make_plink_command(bpFile, pheFile, outFile, pop, related=False, plink1=Fals
                      "--out", outFile]) 
 
 
-def make_batch_file(batchFile, plinkCmd, memory, time, partitions):
+def make_batch_file(batchFile, plinkCmd, cores, memory, time, partitions):
     with open(batchFile, 'w') as f:
        # formats options for sbatch header and pastes input command below it
        f.write("\n".join(["#!/bin/bash","",
                           "#SBATCH --job-name=RL_GWAS",
                           "#SBATCH --output={}".format(os.path.join(os.path.dirname(batchFile), "rl-gwas.%A-%a.out")),
+                          "#SBATCH --cores={}".format(cores),
                           "#SBATCH --mem={}".format(memory),
                           "#SBATCH --time={}".format(time),
                           "#SBATCH -p {}".format(','.join(partitions)),
@@ -54,7 +57,7 @@ def make_batch_file(batchFile, plinkCmd, memory, time, partitions):
 
 
 def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink1=False, 
-             logDir='', memory="24000", time="1-00:00:00", partition=["normal","owners"], now=False):
+             logDir='', cores="4", memory="24000", time="1-00:00:00", partition=["normal","owners"], now=False):
     # ensure usage
     if not os.path.isfile(pheFile):
         raise ValueError("Error: phenotype file {0} does not exist!".format(pheFile))
@@ -85,6 +88,8 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
                                  pop     = pop,
                                  related = related,
                                  plink1  = plink1,
+                                 cores   = cores,
+                                 memory  = memory,
                                  arrayCovar = True)
     elif kind == 'genotyped': 
         # needs one plink call with genotyping array a covariate, and one without
@@ -95,6 +100,8 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
                                   pop     = pop,
                                   related = related,
                                   plink1  = plink1,
+                                  cores   = cores,
+                                  memory  = memory,
                                   arrayCovar = True)
         outFile2 = outFile+'.one_array'
         cmd2 = make_plink_command(bpFile  = cal_bfile_path,
@@ -103,6 +110,8 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
                                   pop     = pop,
                                   related = related,
                                   plink1  = plink1,
+                                  cores   = cores,
+                                  memory  = memory,
                                   arrayCovar = False)
         # join the plink calls, add some bash at the bottom to combine the output
         cmd = "\n\n".join([cmd1, cmd2] +  # this is the plink part, below joins the two files
@@ -118,6 +127,8 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
                                  pop     = pop,
                                  related = related,
                                  plink1  = plink1,
+                                 cores   = cores,
+                                 memory  = memory,
                                  arrayCovar = False) 
     # more usage management, in case someone wants to import the function for use elsewhere
     elif kind == 'exome-spb' or kind == 'exome-fe':
@@ -128,6 +139,8 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
                                  pop     = pop,
                                  related = related,
                                  plink1  = plink1,
+                                 cores   = cores,
+                                 memory  = memory,
                                  arrayCovar = False) 
     else:
         raise ValueError("argument kind must be one of (imputed, genotyped, exome-spb, exome-fe): {0} was provided".format(kind))
@@ -138,6 +151,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
         return
     sbatch = make_batch_file(batchFile = os.path.join(logDir, "gwas.{0}.{1}.sbatch.sh".format(kind,pheName)),
                              plinkCmd  = cmd,
+                             cores     = cores,
                              memory    = memory,
                              time      = time,
                              partitions = partition)
@@ -173,6 +187,8 @@ if __name__ == "__main__":
                             help='Flag to indicate which ethnic group to use for GWAS. Must be one of all, white_british, e_asian, s_asian, african')
     parser.add_argument('--keep-related', dest="relatives", action='store_true',
                             help='Flag to keep related individuals in GWAS. Default is to remove them.')
+    parser.add_argument('--batch-cores', dest="sb_cores", required=False, default=["4"], nargs=1,
+                            help='For underlying batch job submission: Amount of cores to request. Default is 4 cores.')    
     parser.add_argument('--batch-memory', dest="sb_mem", required=False, default=["64000"], nargs=1,
                             help='For underlying batch job submission: Amount of memory (in MB) to request. Default is 64000.')
     parser.add_argument('--batch-time', dest="sb_time", required=False, default=["24:00:00"], nargs=1,
@@ -194,20 +210,20 @@ if __name__ == "__main__":
     # lol i hope this works
     if args.imp:
         run_gwas(kind='imputed', pheFile=args.pheno[0], outDir=args.outDir[0], pop=args.pop[0], related=args.relatives, plink1=args.plink1, 
-                 logDir=args.log[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=False)
+                 logDir=args.log[0], cores=args.sb_cores[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=False)
     if args.arr:
         run_gwas(kind='genotyped', pheFile=args.pheno[0], outDir=args.outDir[0], pop=args.pop[0], related=args.relatives, plink1=args.plink1, 
-                 logDir=args.log[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=args.local)
+                 logDir=args.log[0], cores=args.sb_cores[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=args.local)
     if args.ex1:   
         run_gwas(kind='exome-spb', pheFile=args.pheno[0], outDir=args.outDir[0], pop=args.pop[0], related=args.relatives, plink1=args.plink1, 
-                 logDir=args.log[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=args.local)
+                 logDir=args.log[0], cores=args.sb_cores[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=args.local)
     if args.ex2:
         run_gwas(kind='exome-fe', pheFile=args.pheno[0], outDir=args.outDir[0], pop=args.pop[0], related=args.relatives, plink1=args.plink1, 
-                 logDir=args.log[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=args.local)
+                 logDir=args.log[0], cores=args.sb_cores[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=args.local)
     if args.cnva:
         run_gwas(kind='cnv', pheFile=args.pheno[0], outDir=args.outDir[0], pop=args.pop[0], related=args.relatives, plink1=args.plink1, 
-                 logDir=args.log[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=args.local)
+                 logDir=args.log[0], cores=args.sb_cores[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=args.local)
     if args.cnvb:
         run_gwas(kind='cnv-burden', pheFile=args.pheno[0], outDir=args.outDir[0], pop=args.pop[0], related=args.relatives, plink1=args.plink1, 
-                 logDir=args.log[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=args.local)
+                 logDir=args.log[0], cores=args.sb_cores[0], memory=args.sb_mem[0], time=args.sb_time[0], partition=args.sb_parti, now=args.local)
  
