@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=RL_EXOME
 #SBATCH --output=rerun_logs/run_exome.%A-%a.out
-#SBATCH --mem=64000
+#SBATCH --mem=32000
 #SBATCH --cores=4
 #SBATCH --time=2-00:00:00
 #SBATCH -p normal,owners
@@ -29,12 +29,12 @@ python gwas.py --run-exome --run-now --pheno $phe_path --out $gwasOutDir --popul
 
 # move log file and bgzip output
 for type in genotyped; do 
-    if [ -f ${gwasOutDir}/ukb24983_v2_1.${gbeId}.${type}.log ]; then
-        mv ${gwasOutDir}/ukb24983_v2_1.${gbeId}.${type}.log ${gwasOutDir}/logs/
+    if [ -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.log ]; then
+        mv ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.log ${gwasOutDir}/logs/
     fi
     for ending in "logistic.hybrid" "linear"; do
-        if [ -f ${gwasOutDir}/ukb24983_v2_1.${gbeId}.${type}.glm.${ending} ]; then
-            bgzip -f ${gwasOutDir}/ukb24983_v2_1.${gbeId}.${type}.glm.${ending}
+        if [ -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.glm.${ending} ]; then
+            bgzip -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.glm.${ending}
         fi
     done
 done

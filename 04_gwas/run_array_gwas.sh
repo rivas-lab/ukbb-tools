@@ -2,11 +2,10 @@
 #SBATCH --job-name=RL_ARRAY
 #SBATCH --output=rerun_logs/run_array.%A_%a.out
 #SBATCH  --error=rerun_logs/run_array.%A_%a.err
-#SBATCH --mem=64000
+#SBATCH --mem=24000
 #SBATCH --cores=4
 #SBATCH --time=2-00:00:00
 #SBATCH -p normal,owners
-#SBATCH --constraint=CPU_GEN:HSW|CPU_GEN:BDW|CPU_GEN:SKX, # plink2 avx2 compatibility
 
 set -beEuo pipefail
 
@@ -14,11 +13,6 @@ set -beEuo pipefail
 usage () {
     echo "$0: GWAS re-run script for the array genotype data"
     echo "usage: sbatch --array=1-<number of array jobs> $0 start_idx"
-    echo ''
-    echo "  Before submitting the job, please load htslib and plink2 modules:"
-    echo '  $ export MODULEPATH="$HOME/.modules:/home/groups/mrivas/.modules:$OAK/.modules:$MODULEPATH"'
-    echo '  $ ml load htslib'
-    echo '  $ ml load plink2'    
     echo ''
     echo '  You may check the status of the job (which jobs are finished) using the array-job module:'
     echo '  $ ml load array-job'
@@ -30,7 +24,7 @@ software_versions () {
     which bgzip
 }
 
-# automatically get cores, mem, and time settings from the above
+# get cores, mem, and time settings from the above -- passed to gwas script below
 batch_cores=$( cat $0 | egrep '^#SBATCH --cores=' | awk -v FS='=' '{print $NF}' )
 batch_mem=$(   cat $0 | egrep '^#SBATCH --mem='   | awk -v FS='=' '{print $NF}' )
 batch_time=$(  cat $0 | egrep '^#SBATCH --time='  | awk -v FS='=' '{print $NF}' )
@@ -38,9 +32,20 @@ batch_time=$(  cat $0 | egrep '^#SBATCH --time='  | awk -v FS='=' '{print $NF}' 
 # check number of command line args and dump usage if that's not right
 if [ $# -lt 1 ] ; then usage >&2 ; exit 1 ; fi
 
-# dump which softwares are used
+# load sofware, dump which versions are used
+export MODULEPATH="/home/groups/mrivas/.modules:${MODULEPATH}"
+ml load htslib
+
+if grep -q "CPU_GEN:HSW\|CPU_GEN:BDW\|CPU_GEN:SKX" <(a=$(hostname); sinfo -N -n ${a::-4} --format "%50f");
+   # AVX2 is suitable for use on this node if CPU is recent enough
+   ml load plink2/20190402
+else
+   ml load plink2/20190402-non-AVX2
+fi
+
 software_versions >&2
 
+# job start header (for use with array-job module)
 echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-start] hostname = $(hostname) SLURM_JOBID = ${SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${SLURM_ARRAY_TASK_ID}" >&2
 
 # get phenotypes to run
@@ -61,13 +66,14 @@ python gwas.py --run-array --run-now --batch-memory ${batch_mem} --batch-time ${
 # move log file and bgzip output
 for type in genotyped; do 
     for ending in "logistic.hybrid" "linear"; do
-        if [ -f ${gwasOutDir}/ukb24983_v2_1.${gbeId}.${type}.glm.${ending} ]; then
-            bgzip -f ${gwasOutDir}/ukb24983_v2_1.${gbeId}.${type}.glm.${ending}
+        if [ -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.glm.${ending} ]; then
+            bgzip -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.glm.${ending}
         fi
     done
-    if [ -f ${gwasOutDir}/ukb24983_v2_1.${gbeId}.${type}.log ]; then
-        mv ${gwasOutDir}/ukb24983_v2_1.${gbeId}.${type}.log ${gwasOutDir}/logs/
+    if [ -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.log ]; then
+        mv -f ${gwasOutDir}/ukb24983_v2.${gbeId}.${type}.log ${gwasOutDir}/logs/
     fi    
 done
 
+# job finish footer (for use with array-job module)
 echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-end] hostname = $(hostname) SLURM_JOBID = ${SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${SLURM_ARRAY_TASK_ID}" >&2
