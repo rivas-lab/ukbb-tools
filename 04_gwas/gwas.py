@@ -74,7 +74,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
     cnv_bfile_path=os.path.join(pgen_root,'cnv','pgen','cnv') + ' --mac 15'
     cnv_burden_path=os.path.join(pgen_root,'cnv','pgen','burden')
     pheName=os.path.basename(pheFile).split('.')[0]
-    outFile=os.path.join(outDir, 'ukb24983_v2.{0}.{1}'.format(pheName, kind))
+    outFile=os.path.join(outDir, 'ukb24983_v2_1.{0}.{1}'.format(pheName, kind))
     # this is where the fun happens
     if kind == 'imputed':
         # needs one array job per chromosome (for compute time), hence the slurm variable
@@ -173,8 +173,8 @@ if __name__ == "__main__":
                             help='Flag to indicate which ethnic group to use for GWAS. Must be one of all, white_british, e_asian, s_asian, african')
     parser.add_argument('--keep-related', dest="relatives", action='store_true',
                             help='Flag to keep related individuals in GWAS. Default is to remove them.')
-    parser.add_argument('--batch-memory', dest="sb_mem", required=False, default=["16000"], nargs=1,
-                            help='For underlying batch job submission: Amount of memory (in MB) to request. Default is 16000.')
+    parser.add_argument('--batch-memory', dest="sb_mem", required=False, default=["64000"], nargs=1,
+                            help='For underlying batch job submission: Amount of memory (in MB) to request. Default is 64000.')
     parser.add_argument('--batch-time', dest="sb_time", required=False, default=["24:00:00"], nargs=1,
                             help='For underlying batch job submission: Amount of time (DD-HH:MM:SS) to request. Default is 24 hours.')
     parser.add_argument('--batch-partitions', dest="sb_parti", required=False, default=["normal","owners"], nargs='*',
