@@ -69,7 +69,7 @@ python gwas.py --run-array --run-now --memory $mem --cores $cores --pheno $phe_p
 
 # move log file and bgzip output
 for type in genotyped; do 
-    file_prefix=${gwasOutDir}/ukb24983_cal_cALL_v2_hg19_ref.${gbeId}.${type}
+    file_prefix=${gwasOutDir}/ukb24983_cal_cALL_v2_hg19.${gbeId}.${type}
     for ending in "logistic.hybrid" "linear"; do
         if [ -f ${file_prefix}.glm.${ending} ]; then
             bgzip --compress-level 9 -f ${file_prefix}.glm.${ending}
@@ -82,4 +82,3 @@ done
 
 # job finish footer (for use with array-job module)
 echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-end] hostname = $(hostname) SLURM_JOBID = ${_SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${_SLURM_ARRAY_TASK_ID}" >&2
-

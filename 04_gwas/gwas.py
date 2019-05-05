@@ -71,7 +71,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
     # paths for running gwas
     pgen_root='/oak/stanford/groups/mrivas/private_data/ukbb/24983/'
     imp_bfile_path=os.path.join(pgen_root,'imp','pgen','ukb_imp_chr${SLURM_ARRAY_TASK_ID}_v2.mac1.hrc')
-    cal_bfile_path=os.path.join(pgen_root,'cal','pgen','ukb24983_cal_cALL_v2_hg19_ref')
+    cal_bfile_path=os.path.join(pgen_root,'cal','pgen','ukb24983_cal_cALL_v2_hg19')
     exome_spb_path=os.path.join(pgen_root,'exome','pgen','spb','data','ukb_exm_spb')
     exome_fe_path=os.path.join(pgen_root,'exome','pgen','fe','data','ukb_exm_fe')
     cnv_bfile_path=os.path.join(pgen_root,'cnv','pgen','cnv') + ' --mac 15'
