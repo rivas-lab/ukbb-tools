@@ -69,7 +69,7 @@ python gwas.py --run-array --run-now --memory $mem --cores $cores --pheno $phe_p
 
 # move log file and bgzip output
 for type in genotyped; do 
-    file_prefix=${gwasOutDir}/ukb24983_cal_cALL_v2_hg19.${gbeId}.${type}
+    file_prefix=${gwasOutDir}/ukb24983_v2_hg19.${gbeId}.${type}
     for ending in "logistic.hybrid" "linear"; do
         if [ -f ${file_prefix}.glm.${ending} ]; then
             bgzip --compress-level 9 -f ${file_prefix}.glm.${ending}
