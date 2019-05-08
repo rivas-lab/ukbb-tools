@@ -3415,7 +3415,7 @@ HC96	1421	polymyalgia_rheumatica	1421	1421	Y
 HC97	58	pleural_plaques_(not_known_asbestosis)	58	58	Y
 HC98	1570	stomach_disorder	1570	1570	Y
 HC99	92	neutropenia/lymphopenia	92	92	Y
-INI10005983	0	Exercise_slopes	0	0	Y
+INI10005983	45044	Exercise_slopes	45044	45044	Y
 INI1001	34341	Duration_strenuous_sports	34341	34341	Y
 INI10030500	95811	Microalbumin_in_urine_covariate_adjusted	95811	95811	Y
 INI10030510	310240	Creatinine_(enzymatic)_in_urine_covariate_adjusted	310240	310240	Y
@@ -3500,7 +3500,7 @@ INI1845	130703	Mother's_age	130703	130703	Y
 INI1873	332170	Number_of_full_brothers	332170	332170	Y
 INI1883	332231	Number_of_full_sisters	332231	332231	Y
 INI189	336752	Townsend_deprivation_index_at_recruitment	336752	336752	Y
-INI20005983	0	HR_fitness	0	0	Y
+INI20005983	45324	HR_fitness	45324	45324	Y
 INI20015	336465	Sitting_height	336465	336465	Y
 INI20016	129021	Fluid_intelligence_score	129021	129021	Y
 INI20019	121535	Speech-reception-threshold_(SRT)_estimate_(left)	121535	121535	Y
@@ -4487,7 +4487,7 @@ INI2946	75550	Father's_age	75550	75550	Y
 INI2966	84348	Age_high_blood_pressure_diagnosed	84348	84348	Y
 INI2976	15869	Age_diabetes_diagnosed	15869	15869	Y
 INI30000	327981	White_blood_cell_(leukocyte)_count	327981	327981	Y
-INI30005983	0	MaxWD	0	0	Y
+INI30005983	53161	MaxWD	53161	53161	Y
 INI30010	327984	Red_blood_cell_(erythrocyte)_count	327984	327984	Y
 INI30020	327983	Haemoglobin_concentration	327983	327983	Y
 INI30030	327984	Haematocrit_percentage	327984	327984	Y
@@ -4590,7 +4590,7 @@ INI3894	7857	Age_heart_attack_diagnosed	7857	7857	Y
 INI3972	4010	Number_of_adopted_brothers	4010	4010	Y
 INI3982	4046	Number_of_adopted_sisters	4046	4046	Y
 INI3992	4734	Age_emphysema/chronic_bronchitis_diagnosed	4734	4734	Y
-INI40005983	0	Recovery	0	0	Y
+INI40005983	49616	Recovery	49616	49616	Y
 INI40007	9760	Age_at_death	9760	9760	Y
 INI40008	54821	Age_at_cancer_diagnosis	54821	54821	Y
 INI40009	54821	Reported_occurrences_of_cancer	54821	54821	Y

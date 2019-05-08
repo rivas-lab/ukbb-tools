@@ -1,6 +1,7 @@
 import os
 from annotate_phe import make_phe_info
 import glob
+import pandas as pd
 
 if __name__ == "__main__":
     pa_phenos = glob.glob('/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/physical_activity/phe/*.phe')
