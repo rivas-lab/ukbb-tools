@@ -51,9 +51,6 @@ get_sumstats_name () {
     dir=$(phe_path_to_gwas_path $(dirname $phe_file) $population $(get_dir_from_variant_type ${variant_type}))
     basename_prefix=$(GBE_ID_to_gwas_basename $(basename ${phe_file%.phe}) ${variant_type} ${prefix})
     sumstats_file=$(find ${dir} -type f -name "${basename_prefix}*") 
-    echo ${dir} >&2
-    echo ${basename_prefix} >&2
-    
     echo ${sumstats_file}
 }
 
