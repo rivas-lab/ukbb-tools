@@ -14,6 +14,6 @@
 set -beEu -o pipefail
 
 date >&2
-bash check_gwas.sh white_british ukb24983_v2_hg38 exome-spb.PHENO1
+bash check_gwas.sh white_british ukb24983_v2_hg38 exome-spb
 date >&2
 

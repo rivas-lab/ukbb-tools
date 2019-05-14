@@ -17,10 +17,10 @@ GBE_ID_to_gwas_basename () {
     local GBE_ID=$1
     local gwas_variant_type=$2
     local prefix=$3
-    echo ${prefix}.${GBE_ID}.${gwas_variant_type}.glm
+    echo ${prefix}.${GBE_ID}.${gwas_variant_type}.PHENO1.glm
 
-#    ukb24983_v2_hg38.BIN1930.exome-spb.PHENO1.glm.logistic.hybrid.gz  # this Exome file name doesn't look right
-#    ukb24983_v2_hg19.BIN10030500.genotyped.glm.logistic.hybrid.gz
+#    ukb24983_v2_hg38.BIN1930.exome-spb.PHENO1.glm.logistic.hybrid.gz  
+#    ukb24983_v2_hg19.BIN10030500.genotyped.PHENO1.glm.logistic.hybrid.gz
 }
 
 get_dir_from_variant_type () {
@@ -29,9 +29,6 @@ get_dir_from_variant_type () {
     case ${variant_type} in
         "genotyped" ) 
             echo "cal" ;
-            ;;
-        "exome-spb.PHENO1" )
-            echo "exome" ; # this is an adhock patch for Exome file names
             ;;
         "exome-spb" )
             echo "exome" ;
@@ -80,5 +77,49 @@ check_sumstats_wrapper () {
 
     phe_file="$( cat ${phe_file_list} | awk -v idx=$idx 'NR==idx' )"
     echo "$idx $phe_file $(check_sumstats $phe_file $population $prefix ${variant_type})" | tr " " "\t"
+}
+
+create_colnames_tmpfile () {
+    local file=$1
+    if [ $# -gt 1 ] ; then tmp_dir_root=$2 ; else tmp_dir_root=/dev/shm ; fi
+    tmp_colnames=$(mktemp -p $tmp_dir_root); 
+    cat_or_zcat $file | awk 'NR==1' | sed -e 's/^#//g' | tr "\t" "\n" > ${tmp_colnames}
+    echo ${tmp_colnames}
+}
+
+find_col_idx_from_colnames_file () {
+    local colnames_file=$1
+    local key=$2
+
+#    cat $colnames_file | awk -v key=$key '(key==key){print NR}'
+    cat $colnames_file | egrep -n $key | awk -v FS=':' '{print $1}' | tr "\n" "," | rev | cut -c2- | rev
+}
+
+
+find_col_idxs_from_colnames_file () {
+    local colnames_file=$1
+    shift 1
+    for key in $@ ; do
+        find_col_idx_from_colnames_file $colnames_file $key
+    done | tr "\n" "," | sed -e 's/,$//g'
+}
+
+show_sumstats_header () {
+    echo "CHROM POS Variant_ID GBE_ID REF ALT A1 BETA SE P STAT" | tr " " "\t" 
+}
+
+
+show_sumstats () {
+    local GBE_ID=$1
+    local sumstats_file=$2
+    if [ $# -gt 2 ] ; then p_val_thr=$3 ; else p_val_thr=1 ; fi
+
+    if [ -f $sumstats_file ] ; then
+        local cols_tmp=$(create_colnames_tmpfile $sumstats_file)
+        local cols=$(find_col_idxs_from_colnames_file $cols_tmp 'CHROM' 'POS' 'ID' 'REF' 'ALT' 'A1' 'BETA|OR' 'SE' 'Z_STAT|T_STAT' '^P$')
+        rm $cols_tmp
+        cat_or_zcat $sumstats_file | awk 'NR>1' | grep -v 'NA' | cut -f $cols \
+            | awk -v OFS='\t' -v GBE_ID=${GBE_ID} -v p_val_thr=${p_val_thr} '($10 <= p_val_thr){print $1, $2, $3, GBE_ID, $4, $5, $6, $7, $8, $10, $9}'
+    fi
 }
 
