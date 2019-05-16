@@ -434,7 +434,6 @@ HC87	spina_bifida
 HC88	heart/cardiac_problem
 HC89	food_intolerance
 HC9	renal_failure_not_requiring_dialysis
-HC90	myasthenia_gravis
 HC91	psoriatic_arthropathy
 HC92	allergy_to_elastoplast
 HC93	dry_eyes

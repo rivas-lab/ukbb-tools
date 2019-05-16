@@ -3405,7 +3405,6 @@ HC87	187	spina_bifida	187	187	Y
 HC88	1148	heart/cardiac_problem	1148	1148	Y
 HC89	321	food_intolerance	321	321	Y
 HC9	270	renal_failure_not_requiring_dialysis	270	270	Y
-HC90	187	myasthenia_gravis	187	187	Y
 HC91	954	psoriatic_arthropathy	954	954	Y
 HC92	100	allergy_to_elastoplast	100	100	Y
 HC93	672	dry_eyes	672	672	Y

@@ -912,7 +912,6 @@ HC87	spina_bifida	NA	NA	NA	24983	273	187	3	0	1	cdeboever	2019-04-07	/oak/stanfor
 HC88	heart/cardiac_problem	NA	NA	NA	24983	1647	1148	13	4	27	cdeboever	2019-04-07	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/highconfidenceqc/phe/HC88.phe
 HC89	food_intolerance	NA	NA	NA	24983	466	321	11	2	7	cdeboever	2019-04-07	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/highconfidenceqc/phe/HC89.phe
 HC9	renal_failure_not_requiring_dialysis	NA	NA	NA	24983	407	270	7	0	6	cdeboever	2019-04-07	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/highconfidenceqc/phe/HC9.phe
-HC90	myasthenia_gravis	NA	NA	NA	24983	263	187	4	3	3	cdeboever	2019-04-07	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/highconfidenceqc/phe/HC90.phe
 HC91	psoriatic_arthropathy	NA	NA	NA	24983	1366	954	2	1	18	cdeboever	2019-04-07	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/highconfidenceqc/phe/HC91.phe
 HC92	allergy_to_elastoplast	NA	NA	NA	24983	163	100	1	0	2	cdeboever	2019-04-07	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/highconfidenceqc/phe/HC92.phe
 HC93	dry_eyes	NA	NA	NA	24983	1026	672	10	4	35	cdeboever	2019-04-07	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/highconfidenceqc/phe/HC93.phe

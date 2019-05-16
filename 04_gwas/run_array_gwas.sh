@@ -3,8 +3,8 @@
 #SBATCH --output=rerun_logs/run_array.%A_%a.out
 #SBATCH  --error=rerun_logs/run_array.%A_%a.err
 #SBATCH --nodes=1
-#SBATCH --cores=4
-#SBATCH --mem=25600
+#SBATCH --cores=8
+#SBATCH --mem=51200
 #SBATCH --time=2-00:00:00
 #SBATCH -p normal,owners
 
@@ -56,7 +56,7 @@ start_idx=$1
 this_idx=$_SLURM_ARRAY_TASK_ID
 
 min_N_count=10
-phe_path=$(cat ../05_gbe/phenotype_info.tsv | awk -v min_N=${min_N_count} 'NR > 1 && $7 >= min_N' | egrep -v MED | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $NF}' )
+phe_path=$(cat ../05_gbe/phenotype_info.tsv | awk -v min_N=${min_N_count} 'NR > 1 && $7 >= min_N' | egrep -v MED | grep HC383 | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $NF}' )
 gbeId=$(basename $phe_path | awk '{gsub(".phe","");print}')
 
 # run array gwas with default GBE parameters
