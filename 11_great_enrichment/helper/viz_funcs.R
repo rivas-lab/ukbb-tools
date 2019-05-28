@@ -37,7 +37,7 @@ read_great_onto_info <- function(
 
 read_GREAT_res <- function(file){
     df <- fread(
-        paste0('zcat ', file, ' | cut -f1,2,6,8,9', ' | sed -e "s/^#Phe/GBE_ID/g"'), 
+        paste0('zcat ', file, ' | cut -f1,2,6,8,9', ' | sed -e "s/^#Phe/Phe/g"'), 
         data.table=FALSE
     ) %>%
     rename(
@@ -54,19 +54,12 @@ read_filtered_tbl <- function(
     assembly, assembly_version, onto, onto_version,
     onto_n_min, onto_n_max, BFold_min, top_n, trunc_len
 ){
-    phe_info <- fread(
-        file.path(res_dir, 'jobs.tsv'),
-        col.names=c('GBE_ID', 'Phe_name')
-    )
     onto_info <- read_great_onto_info(
         assembly, assembly_version, onto, onto_version
     )  
     df <- read_GREAT_res(
-        file.path(res_dir, 'great', paste0(onto, '.tsv.gz'))
+        file.path(res_dir, 'great', 'out', paste0(onto, '.tsv.gz'))
     ) %>%
-    inner_join(
-        phe_info, on='GBE_ID'
-    ) %>% 
     inner_join(
         onto_info, on='Term_ID'
     ) %>%
@@ -79,7 +72,7 @@ read_filtered_tbl <- function(
     filter(onto_n_min <= n_Genes) %>%
     filter(n_Genes <= onto_n_max) %>%
     filter(BFold_min  <= BFold) %>%
-    group_by(GBE_ID) %>%
+    group_by(Phe) %>%
     arrange(-log10BPval, -BFold) %>% 
     mutate(
         Rank = rank(-log10BPval)
@@ -87,23 +80,21 @@ read_filtered_tbl <- function(
     filter(Rank <= top_n) %>% 
     mutate(Ontology = onto) %>% 
     ungroup() %>% 
-    arrange(GBE_ID, Rank) %>%
+    arrange(Phe, Rank) %>%
     select(
-        Ontology, GBE_ID, Phe_name, Rank, Term_ID, Desc, BPval, BFold, n_Genes, DAGLvl, plot_txt, log10BPval
+        Ontology, Phe, Rank, Term_ID, Desc, BPval, BFold, n_Genes, DAGLvl, plot_txt, log10BPval
     )
     return(df)
 }
 
 plot_enrichment <- function(df, gbe_id, ontology){
     df_plot <- df %>%
-    filter(GBE_ID == gbe_id) %>%
+    filter(Phe == gbe_id) %>%
     filter(Ontology == ontology)
     
     title_str <- paste0(
-        (df_plot %>% select(Phe_name) %>% first())[[1]],
-        ' (',
         gbe_id,
-        ', ',
+        ' (',
         ontology,
         ')'
     )

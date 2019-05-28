@@ -13,7 +13,7 @@ Author: Matthew Aguirre (SUNET: magu)
 # Input: gene name(s) / variant names(s) / region
 # variant names for imputed data are chrom:pos:ref:alt
 
-cal_bims = glob.glob('/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb24983_cal_chr*_v2.bim')
+cal_bims = glob.glob('/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb24983_cal_cALL_v2_1.bim')
 imp_bims = glob.glob('/oak/stanford/groups/mrivas/ukbb24983/imp/pgen/ukb_imp_chr*_v2.mac1.hrc.bim')
 wex_bims = ['/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/ukb24983_exome.bim']
 

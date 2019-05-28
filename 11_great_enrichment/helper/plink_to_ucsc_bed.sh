@@ -7,16 +7,7 @@ usage () {
     echo "usage: $0 <in_file> [n_top_hits=${_default_n_top_hits}]"
 }
 
-cat_or_zcat () {
-    file=$1
-    if [ ${file%.gz}.gz == ${file} ] ; then zcat ${file} ; else cat ${file} ; fi
-}
-
-get_col_by_key () {
-    file=$1
-    key=$2
-    cat_or_zcat $file | awk 'NR==1' | tr "\t" "\n" | awk -v key=$key '($0==key){print NR}'
-}
+source $(dirname $(readlink -f $0))/great_misc_func.sh
 
 get_thr () {
     file=$1
