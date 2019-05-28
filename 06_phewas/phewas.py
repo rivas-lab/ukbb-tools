@@ -58,10 +58,10 @@ def run_phewas(bfile, var_ids, indfile=None, norm=True, out_prefix='phewas'):
         o.write('\n'.join(var_ids))
     # do the thing
     os.system(' '.join(['plink2 --bfile', bfile, '--pheno', master_phe, 
-                               '--pheno-quantile-normalize' if norm else '',
+                               '--pheno-quantile-normalize --covar-variance-standardize ' if norm else '',
                                '--out', out_prefix, 
                                '--keep {}'.format(indfile) if indfile is not None else '',
-                               '--covar', covars, '--covar-name age sex Array PC1-PC4',
+                               '--covar', covars, '--covar-name age sex PC1-PC4',
                                '--extract', out_prefix + '.varlist.txt', 
                                '--glm firth-fallback hide-covar']))
     return
