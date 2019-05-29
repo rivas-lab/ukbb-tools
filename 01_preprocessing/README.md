@@ -1,5 +1,8 @@
 # Preprocessing
 
+## New: most of the pre-processing step is automated. please use `01_preprocessing_auto.sh <ukbXXXX.enc> <k24983.key>`.
+
+
 ## Software needed to download the data
 
 Note: Please our the Rivas Lab module to perform the below steps. We had our copy of the programs in this repo, but they have been moved to other places in `$OAK` — you can load the following with `module load ukbb-showcase-utils`:
