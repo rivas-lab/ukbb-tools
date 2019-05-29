@@ -18,15 +18,18 @@ Once the data is downloaded, clone this directory to wherever you are working.
 
 [The official documentation (Using UKB data)](http://biobank.ctsu.ox.ac.uk/showcase/docs/UsingUKBData.pdf) explains this procedure.
 
-`ukb_unpack` converts the raw files from biobank (which are `.enc` files) into `.enc_ukb` files, which are the decrypted version. In order to unpack the data, you will need to do three things:
+`ukbunpack` converts the raw files from biobank (which are `.enc` files) into `.enc_ukb` files, which are the decrypted version. In order to unpack the data, you will need to do three things:
 
 1) `cd` to the directory in which the `.enc` file is.
-2) Note the absolute path to the `ukb_unpack` program in the cloned `preprocessing` directory, or the relative path from the directory containing the `.enc` file to the `ukb_unpack` program.
+2) <del> Note the absolute path to the `ukb_unpack` program in the cloned `preprocessing` directory, or the relative path from the directory containing the `.enc` file to the `ukb_unpack` program. </del> please use ukbb-showcase-utils module instead
 3) There should be an Application ID (most likely 24983 for us) and a Run ID associated with each application for new data. When the application is approved, Manny should get an email containing a password for the dataset. Note this password down.
 
 Finally, run the following command:
 
-`ukb_unpack ukbXXXX.enc password`
+```
+ml load ukbb-showcase-utils
+ukbunpack ukbXXXX.enc password
+```
 
 Depending on the size and complexity of the dataset, you could be looking at a couple of minutes' runtime. A `.enc_ukb` file should pop up in the same directory you are currently in - `ls` to check.
 
