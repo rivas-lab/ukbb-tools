@@ -1,5 +1,8 @@
 # Preprocessing
 
+We have multiple tables & baskets from UK Biobank. The list of tables is summarized here: http://bit.ly/UKB24983_tables
+
+
 ## New: most of the pre-processing step is automated. please use `01_preprocessing_auto.sh <ukbXXXX.enc> <k24983.key>`.
 
 
