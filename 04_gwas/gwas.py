@@ -76,6 +76,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
     exome_fe_path=os.path.join(pgen_root,'exome','pgen','fe','data','ukb_exm_fe')
     cnv_bfile_path=os.path.join(pgen_root,'cnv','pgen','cnv') + ' --mac 15'
     cnv_burden_path=os.path.join(pgen_root,'cnv','pgen','burden')
+    hla_bfile_path=os.path.join(pgen_root,'hla','pgen','ukb_hla_v3')
     pheName=os.path.basename(pheFile).split('.')[0]
     outFile=os.path.join(outDir, 'ukb24983_v2_{0}.{1}.{2}'.format('hg38' if 'exome' in kind else 'hg19', pheName, kind))
     # this is where the fun happens
@@ -142,6 +143,16 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
                                  cores   = cores,
                                  memory  = memory,
                                  arrayCovar = False) 
+    elif kind == 'hla':
+        cmd = make_plink_command(bpFile  = hla_bfile_path,
+                                 pheFile = pheFile,
+                                 outFile = outFile,
+                                 pop     = pop,
+                                 related = related,
+                                 plink1  = plink1,
+                                 cores   = cores,
+                                 memory  = memory,
+                                 arrayCovar = False) 
     else:
         raise ValueError("argument kind must be one of (imputed, genotyped, exome-spb, exome-fe): {0} was provided".format(kind))
     # run immediately, OR make the batch job submission file, then call it with an appropriate array handler
@@ -179,6 +190,8 @@ if __name__ == "__main__":
                             help='Run GWAS on array-derived CNV genotypes') 
     parser.add_argument('--run-cnv-burden', dest="cnvb", action='store_true',
                             help='Run CNV burden test (GWAS on 0/1 CNV overlaps gene, from array-derived CNV genotypes)') 
+    parser.add_argument('--run-hla', dest="hla", action='store_true',
+                            help='Run GWAS on imputed HLA allelotypes') 
     parser.add_argument('--pheno', dest="pheno", required=True, nargs='*',
                             help='Path to phenotype file(s)')
     parser.add_argument('--out', dest="outDir", required=True, nargs=1,
@@ -203,8 +216,8 @@ if __name__ == "__main__":
     # TODO: feature add: genotype model  
     print(args) 
     # ensure handler-relevant usage (more insurance is in run_gwas()):
-    flags = [args.imp, args.arr, args.ex1, args.ex2, args.cnva, args.cnvb]
-    kinds = ['imputed','genotyped','exome-spb','exome-fe','cnv','cnv-burden']
+    flags = [args.imp, args.arr, args.ex1, args.ex2, args.cnva, args.cnvb, args.hla]
+    kinds = ['imputed','genotyped','exome-spb','exome-fe','cnv','cnv-burden', 'hla']
     if not any(flags):
         raise ValueError("Error: no analysis specified, did you mean to add --run-array?")
     if args.local and args.imp:

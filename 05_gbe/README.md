@@ -53,3 +53,8 @@ The list of columns in the master phenotype info file is as follows:
 'version',
 'phe_file'
 ```
+
+# "clean" GBE names
+
+We keep a Google spreadsheet to maintain "clean" GBE names (for figures, etc.)
+http://bit.ly/GBE_names
