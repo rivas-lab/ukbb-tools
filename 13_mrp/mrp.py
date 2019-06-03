@@ -27,7 +27,7 @@ def read_in_summary_stats(disease_string):
         df = df[['V', 'ID', 'A1', 'TEST', 'OBS_CT', 'BETA', 'SE', 'T_STAT', 'P']]
     else:
         df = df[['V', 'ID', 'A1', 'FIRTH?', 'TEST', 'OBS_CT', 'OR', 'SE', 'Z_STAT', 'P']]
-    return df
+    return df, sumstat_file
 
 #Need to have: gene, consequence, pop/global allele frequencies.
 def read_metadata(metadata_path):
@@ -81,7 +81,10 @@ def return_BF(U, beta, v_beta, mu):
     v_beta = is_pos_def(v_beta)
     v_beta_inv = np.linalg.inv(v_beta)
     U = is_pos_def(U)
-    U_inv = np.linalg.inv(U)
+    if np.linalg.cond(U) < 1/sys.float_info.epsilon:
+        U_inv = np.linalg.inv(U)
+    else: 
+        return np.nan
     if v_beta_inv is not np.nan and U_inv is not np.nan:
         A2 = U_inv + v_beta_inv
         b2 = v_beta_inv * beta
@@ -124,7 +127,7 @@ def calculate_all_params(df, disease_string, M, key, sigma_m_type, j, S):
     U_sim = np.kron(R_study, np.kron(S_var_sim, R_phen))
     return U_indep, U_sim, beta, v_beta, mu
 
-def run_mrp_gene_level(df, disease_string, S):
+def run_mrp_gene_level(df, disease_string, S, mode):
     m_dict = df.groupby('gene_symbol').size()
     bf_dict = {}
     bf_dfs = []
@@ -139,28 +142,24 @@ def run_mrp_gene_level(df, disease_string, S):
             bf_indep = return_BF(U_indep, beta, v_beta, mu)
             bf_sim = return_BF(U_sim, beta, v_beta, mu)
             bf_dict[key] = [bf_indep, bf_sim]
-        bf_df = pd.DataFrame.from_dict(bf_dict, orient='index').reset_index().rename(columns={'index': 'gene_symbol', 0: 'log_10_BF_' + sigma_m_type + '_indep', 1: 'log_10_BF_' + sigma_m_type + '_sim'})
+        bf_df = pd.DataFrame.from_dict(bf_dict, orient='index').reset_index().rename(columns={'index': 'gene_symbol', 0: 'log_10_BF_' + sigma_m_type + '_indep_' + mode, 1: 'log_10_BF_' + sigma_m_type + '_sim_' + mode})
         bf_dfs.append(bf_df)
     inner_merge = partial(pd.merge, on='gene_symbol', how='inner')
     df = reduce(inner_merge, bf_dfs)
     return df
 
-def run_mrp(df, disease_string, S):
+def run_mrp(df, disease_string, S, mode):
     print('Running MRP for ' + disease_string + '...')
-    df = run_mrp_gene_level(df, disease_string, S)
+    df = run_mrp_gene_level(df, disease_string, S, mode)
     return df
 
 if __name__ == '__main__':
     disease_string = sys.argv[1]
     print("Reading in summary stats for " + disease_string + "...")
-    #disease_df = read_in_summary_stats(disease_string)
-    #disease_df = disease_df[disease_df['SE'].notnull()]
-  
-    #REMOVE THIS BLOCK IS TEST
-    disease_df = pd.read_csv('head.tsv', sep='\t')
-    disease_df.insert(loc=0, column='V', value=disease_df['#CHROM'].astype(str).str.cat(disease_df['POS'].astype(str), sep=':').str.cat(disease_df['REF'], sep=':').str.cat(disease_df['ALT'], sep=':'))
+    disease_df, sumstat_file = read_in_summary_stats(disease_string)
     disease_df = disease_df[disease_df['SE'].notnull()]
-
+    mrp_prefix = os.path.dirname(sumstat_file.replace('gwas', 'mrp'))
+    # Merge metadata
     print("Reading in metadata file...")
     metadata = read_metadata('/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-gene_consequence_wb_maf.tsv')
     merged = disease_df.merge(metadata)
@@ -172,14 +171,16 @@ if __name__ == '__main__':
     merged = set_sigmas(merged)
     S = 1
     K = 1 #looking at each phenotype separately, since otherwise, there will be correlated errors in our case. Can change if phenotypes are sufficiently different
-    merged[['V', 'category']].to_csv('mrp_' + disease_string + '_categories.tsv', sep='\t', index=False)
+    merged[['V', 'category']].to_csv(os.path.join(mrp_prefix, disease_string + '_categories.tsv'), sep='\t', index=False)
     R_phen = np.diag(np.ones(K))
-    result = run_mrp(merged, disease_string, S)
-    result.sort_values('log_10_BF_sigma_m_var_indep').to_csv('mrp_' + disease_string + '_proximal_coding.tsv', sep='\t', index=False)
+    results = []
+    results.append(run_mrp(merged, disease_string, S, 'proximal_coding'))
     for filter_out in ['proximal_coding', 'pav']:
         merged = merged[merged.category != filter_out]
-        result = run_mrp(merged, disease_string, S)
         if filter_out == 'proximal_coding':
-            result.sort_values('log_10_BF_sigma_m_var_indep').to_csv('mrp_' + disease_string + '_pav.tsv', sep='\t', index=False)
+            results.append(run_mrp(merged, disease_string, S, 'pav'))
         else:
-            result.sort_values('log_10_BF_sigma_m_var_indep').to_csv('mrp_' + disease_string + '_ptv.tsv', sep='\t', index=False)
+            results.append(run_mrp(merged, disease_string, S, 'ptv'))
+    inner_merge = partial(pd.merge, on='gene_symbol', how='inner')
+    df = reduce(inner_merge, results)
+    df.sort_values('log_10_BF_sigma_m_var_indep_ptv').to_csv(os.path.join(mrp_prefix, disease_string + '_gene.tsv'), sep='\t', index=False)
