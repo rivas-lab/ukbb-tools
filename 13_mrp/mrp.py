@@ -14,7 +14,6 @@ import os
 import sys
 
 #Read in summary statistics from GBE sumstats
-@profile
 def read_in_summary_stats(disease_string):
     findCMD = 'find /oak/stanford/groups/mrivas/ukbb24983/exome/gwas/ -name "*' + disease_string + '.*" | grep -v "exome-spb.log" | grep -v freeze | grep -v old'
     out = subprocess.Popen(findCMD,shell=True,stdin=subprocess.PIPE, 
@@ -32,12 +31,10 @@ def read_in_summary_stats(disease_string):
     return df, sumstat_file
 
 #Need to have: gene, consequence, pop/global allele frequencies.
-@profile
 def read_metadata(metadata_path):
     metadata = pd.read_csv(metadata_path, sep='\t')
     return metadata
 
-@profile
 def set_sigmas(df):
     to_filter = ['regulatory_region_variant', 'intron_variant', 'intergenic_variant', 'downstream_gene_variant', 'mature_miRNA_variant', 'non_coding_transcript_exon_variant', 'upstream_gene_variant']
     print("Before consequence filter:")
@@ -66,7 +63,6 @@ def set_sigmas(df):
     return df
 
 # Keep diagonals and multiples every other cell by .99
-@profile
 def is_pos_def(x):
     i = 0
     x = np.matrix(x)
@@ -82,20 +78,20 @@ def is_pos_def(x):
                 break
         return x
 
-@profile
-def safe_inv(X):
+def safe_inv(X, matrix_name, gene):
     try:
         X_inv = np.linalg.inv(X)
     except LinAlgError as err:
+        print("Could not invert " + matrix_name + " for gene " + gene + ":")
+        print(X)
         return np.nan
     return X_inv
 
-@profile
-def return_BF(U, beta, v_beta, mu):
+def return_BF(U, beta, v_beta, mu, gene):
     v_beta = is_pos_def(v_beta)
-    v_beta_inv = safe_inv(v_beta)
+    v_beta_inv = safe_inv(v_beta, 'v_beta', gene)
     U = is_pos_def(U)
-    U_inv = safe_inv(U)
+    U_inv = safe_inv(U, 'U', gene)
     if v_beta_inv is not np.nan and U_inv is not np.nan:
         A2 = U_inv + v_beta_inv
         b2 = v_beta_inv * beta
@@ -111,7 +107,6 @@ def return_BF(U, beta, v_beta, mu):
     else:
         return np.nan
 
-@profile
 def assign_R_var(model, M):
     if model == 'independent_effects':
         R_var = np.diag(np.ones(M))
@@ -119,7 +114,6 @@ def assign_R_var(model, M):
         R_var = np.ones((M, M))
     return R_var
 
-@profile
 def generate_beta_se_gene(disease_string, subset_df):
     se2_list = subset_df['SE'].tolist()
     if 'BETA' in subset_df.columns:
@@ -128,7 +122,6 @@ def generate_beta_se_gene(disease_string, subset_df):
         beta_list = np.log(subset_df['OR'].tolist())
     return beta_list, se2_list
 
-@profile
 def calculate_all_params(df, disease_string, M, key, sigma_m_type, j, S):
     R_study = np.diag(np.ones(S))
     subset_df = df[df['gene_symbol'] == key]
@@ -141,12 +134,11 @@ def calculate_all_params(df, disease_string, M, key, sigma_m_type, j, S):
     beta_list, se2_list = generate_beta_se_gene(disease_string, subset_df)
     beta = np.array(beta_list).reshape(-1,1)
     mu = np.zeros(beta.shape)
-    v_beta = np.diag(np.array(se2_list).reshape(-1))
+    v_beta = np.diag(np.square(np.array(se2_list)).reshape(-1))
     U_indep = np.kron(R_study, np.kron(S_var_indep, R_phen))
     U_sim = np.kron(R_study, np.kron(S_var_sim, R_phen))
     return U_indep, U_sim, beta, v_beta, mu
 
-@profile
 def run_mrp_gene_level(df, disease_string, S, mode):
     m_dict = df.groupby('gene_symbol').size()
     bf_dict = {}
@@ -158,9 +150,10 @@ def run_mrp_gene_level(df, disease_string, S, mode):
             if i % 1000 == 0:
                 print('Done ' + str(i) + ' genes out of ' + str(len(m_dict)))
             M = value
+            print("M: " + str(M))
             U_indep, U_sim, beta, v_beta, mu = calculate_all_params(df, disease_string, M, key, sigma_m_type, i, S)
-            bf_indep = return_BF(U_indep, beta, v_beta, mu)
-            bf_sim = return_BF(U_sim, beta, v_beta, mu)
+            bf_indep = return_BF(U_indep, beta, v_beta, mu, key)
+            bf_sim = return_BF(U_sim, beta, v_beta, mu, key)
             bf_dict[key] = [bf_indep, bf_sim]
         bf_df = pd.DataFrame.from_dict(bf_dict, orient='index').reset_index().rename(columns={'index': 'gene_symbol', 0: 'log_10_BF_' + sigma_m_type + '_indep_' + mode, 1: 'log_10_BF_' + sigma_m_type + '_sim_' + mode})
         bf_dfs.append(bf_df)
@@ -168,17 +161,20 @@ def run_mrp_gene_level(df, disease_string, S, mode):
     df = reduce(inner_merge, bf_dfs)
     return df
 
-@profile
 def run_mrp(df, disease_string, S, mode):
     print('Running MRP for ' + disease_string + '...')
     df = run_mrp_gene_level(df, disease_string, S, mode)
     return df
 
-@profile
 def merge_and_filter(disease_string):
     print("Reading in summary stats for " + disease_string + "...")
     disease_df, sumstat_file = read_in_summary_stats(disease_string)
+    print("Before SE filter...")
+    print(len(disease_df))
     disease_df = disease_df[disease_df['SE'].notnull()]
+    disease_df = disease_df[disease_df['SE'] <= 0.5]
+    print("After SE filter...")
+    print(len(disease_df))
     mrp_prefix = os.path.dirname(sumstat_file.replace('gwas', 'mrp'))
 
     #disease_df = pd.read_csv('head.tsv', sep='\t')
@@ -198,7 +194,6 @@ def merge_and_filter(disease_string):
     merged = set_sigmas(merged)
     return merged, mrp_prefix
 
-@profile
 def generate_results(merged, disease_string, S):
     results = []
     results.append(run_mrp(merged, disease_string, S, 'proximal_coding'))
@@ -220,4 +215,5 @@ if __name__ == '__main__':
     merged[['V', 'category']].to_csv(os.path.join(mrp_prefix, disease_string + '_categories.tsv'), sep='\t', index=False)
     R_phen = np.diag(np.ones(K))
     df = generate_results(merged, disease_string, S)
+    print(df)
     df.sort_values('log_10_BF_sigma_m_var_indep_ptv').to_csv(os.path.join(mrp_prefix, disease_string + '_gene.tsv'), sep='\t', index=False)
