@@ -4,6 +4,7 @@ from functools import partial, reduce
 pd.options.mode.chained_assignment = None  # default='warn'
 import numpy as np
 import numpy.matlib as npm
+from numpy.linalg import LinAlgError
 from scipy.stats import describe
 from scipy.stats import beta
 from collections import defaultdict
@@ -13,6 +14,7 @@ import os
 import sys
 
 #Read in summary statistics from GBE sumstats
+@profile
 def read_in_summary_stats(disease_string):
     findCMD = 'find /oak/stanford/groups/mrivas/ukbb24983/exome/gwas/ -name "*' + disease_string + '.*" | grep -v "exome-spb.log" | grep -v freeze | grep -v old'
     out = subprocess.Popen(findCMD,shell=True,stdin=subprocess.PIPE, 
@@ -30,10 +32,12 @@ def read_in_summary_stats(disease_string):
     return df, sumstat_file
 
 #Need to have: gene, consequence, pop/global allele frequencies.
+@profile
 def read_metadata(metadata_path):
     metadata = pd.read_csv(metadata_path, sep='\t')
     return metadata
 
+@profile
 def set_sigmas(df):
     to_filter = ['regulatory_region_variant', 'intron_variant', 'intergenic_variant', 'downstream_gene_variant', 'mature_miRNA_variant', 'non_coding_transcript_exon_variant', 'upstream_gene_variant']
     print("Before consequence filter:")
@@ -62,6 +66,7 @@ def set_sigmas(df):
     return df
 
 # Keep diagonals and multiples every other cell by .99
+@profile
 def is_pos_def(x):
     i = 0
     x = np.matrix(x)
@@ -77,24 +82,36 @@ def is_pos_def(x):
                 break
         return x
 
+@profile
+def safe_inv(X):
+    try:
+        X_inv = np.linalg.inv(X)
+    except LinAlgError as err:
+        return np.nan
+    return X_inv
+
+@profile
 def return_BF(U, beta, v_beta, mu):
     v_beta = is_pos_def(v_beta)
-    v_beta_inv = np.linalg.inv(v_beta)
+    v_beta_inv = safe_inv(v_beta)
     U = is_pos_def(U)
-    if np.linalg.cond(U) < 1/sys.float_info.epsilon:
-        U_inv = np.linalg.inv(U)
-    else: 
-        return np.nan
+    U_inv = safe_inv(U)
     if v_beta_inv is not np.nan and U_inv is not np.nan:
         A2 = U_inv + v_beta_inv
         b2 = v_beta_inv * beta
-        Abinv = np.linalg.lstsq(A2, b2, rcond=-1)[0]
+        try:
+            Abinv = np.linalg.lstsq(A2, b2, rcond=-1)[0]
+        except LinAlgError as err:
+            return np.nan
         fat_middle = v_beta_inv - (v_beta_inv.dot(np.linalg.inv(U_inv + v_beta_inv))).dot(v_beta_inv)
         logBF = -0.5 * np.linalg.slogdet(npm.eye(beta.shape[0]) + v_beta_inv*U)[1] + 0.5 * beta.T.dot(v_beta_inv.dot(beta)) - 0.5*(((beta-mu).T).dot(fat_middle)).dot(beta-mu)
         logBF = float(np.array(logBF))
         log10BF = logBF/np.log(10)
         return log10BF
+    else:
+        return np.nan
 
+@profile
 def assign_R_var(model, M):
     if model == 'independent_effects':
         R_var = np.diag(np.ones(M))
@@ -102,6 +119,7 @@ def assign_R_var(model, M):
         R_var = np.ones((M, M))
     return R_var
 
+@profile
 def generate_beta_se_gene(disease_string, subset_df):
     se2_list = subset_df['SE'].tolist()
     if 'BETA' in subset_df.columns:
@@ -110,6 +128,7 @@ def generate_beta_se_gene(disease_string, subset_df):
         beta_list = np.log(subset_df['OR'].tolist())
     return beta_list, se2_list
 
+@profile
 def calculate_all_params(df, disease_string, M, key, sigma_m_type, j, S):
     R_study = np.diag(np.ones(S))
     subset_df = df[df['gene_symbol'] == key]
@@ -127,6 +146,7 @@ def calculate_all_params(df, disease_string, M, key, sigma_m_type, j, S):
     U_sim = np.kron(R_study, np.kron(S_var_sim, R_phen))
     return U_indep, U_sim, beta, v_beta, mu
 
+@profile
 def run_mrp_gene_level(df, disease_string, S, mode):
     m_dict = df.groupby('gene_symbol').size()
     bf_dict = {}
@@ -148,17 +168,24 @@ def run_mrp_gene_level(df, disease_string, S, mode):
     df = reduce(inner_merge, bf_dfs)
     return df
 
+@profile
 def run_mrp(df, disease_string, S, mode):
     print('Running MRP for ' + disease_string + '...')
     df = run_mrp_gene_level(df, disease_string, S, mode)
     return df
 
-if __name__ == '__main__':
-    disease_string = sys.argv[1]
+@profile
+def merge_and_filter(disease_string):
     print("Reading in summary stats for " + disease_string + "...")
     disease_df, sumstat_file = read_in_summary_stats(disease_string)
     disease_df = disease_df[disease_df['SE'].notnull()]
     mrp_prefix = os.path.dirname(sumstat_file.replace('gwas', 'mrp'))
+
+    #disease_df = pd.read_csv('head.tsv', sep='\t')
+    #disease_df = disease_df[disease_df['SE'].notnull()]
+    #disease_df.insert(loc=0, column='V', value=disease_df['#CHROM'].astype(str).str.cat(disease_df['POS'].astype(str), sep=':').str.cat(disease_df['REF'], sep=':').str.cat(disease_df['ALT'], sep=':'))
+    #mrp_prefix=""
+
     # Merge metadata
     print("Reading in metadata file...")
     metadata = read_metadata('/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-gene_consequence_wb_maf.tsv')
@@ -169,10 +196,10 @@ if __name__ == '__main__':
     merged = merged[(merged.wb_maf <= 0.01) & (merged.wb_maf > 0)]
     print(len(merged))
     merged = set_sigmas(merged)
-    S = 1
-    K = 1 #looking at each phenotype separately, since otherwise, there will be correlated errors in our case. Can change if phenotypes are sufficiently different
-    merged[['V', 'category']].to_csv(os.path.join(mrp_prefix, disease_string + '_categories.tsv'), sep='\t', index=False)
-    R_phen = np.diag(np.ones(K))
+    return merged, mrp_prefix
+
+@profile
+def generate_results(merged, disease_string, S):
     results = []
     results.append(run_mrp(merged, disease_string, S, 'proximal_coding'))
     for filter_out in ['proximal_coding', 'pav']:
@@ -183,4 +210,14 @@ if __name__ == '__main__':
             results.append(run_mrp(merged, disease_string, S, 'ptv'))
     inner_merge = partial(pd.merge, on='gene_symbol', how='inner')
     df = reduce(inner_merge, results)
+    return df
+
+if __name__ == '__main__':
+    disease_string = sys.argv[1]
+    merged, mrp_prefix = merge_and_filter(disease_string)
+    S = 1
+    K = 1 #looking at each phenotype separately, since otherwise, there will be correlated errors in our case. Can change if phenotypes are sufficiently different
+    merged[['V', 'category']].to_csv(os.path.join(mrp_prefix, disease_string + '_categories.tsv'), sep='\t', index=False)
+    R_phen = np.diag(np.ones(K))
+    df = generate_results(merged, disease_string, S)
     df.sort_values('log_10_BF_sigma_m_var_indep_ptv').to_csv(os.path.join(mrp_prefix, disease_string + '_gene.tsv'), sep='\t', index=False)
