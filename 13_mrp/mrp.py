@@ -14,8 +14,8 @@ import os
 import sys
 
 #Read in summary statistics from GBE sumstats
-def read_in_summary_stats(disease_string):
-    findCMD = 'find /oak/stanford/groups/mrivas/ukbb24983/exome/gwas/ -name "*' + disease_string + '.*" | grep -v "exome-spb.log" | grep -v freeze | grep -v old'
+def read_in_summary_stats(disease_string, mode):
+    findCMD = 'find /oak/stanford/groups/mrivas/ukbb24983/' + mode + '/gwas/ -name "*' + disease_string + '.*" | grep -v "exome-spb.log" | grep -v freeze | grep -v old'
     out = subprocess.Popen(findCMD,shell=True,stdin=subprocess.PIPE, 
                         stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     (stdout, stderr) = out.communicate()
@@ -36,7 +36,10 @@ def read_metadata(metadata_path):
     return metadata
 
 def set_sigmas(df):
-    to_filter = ['regulatory_region_variant', 'intron_variant', 'intergenic_variant', 'downstream_gene_variant', 'mature_miRNA_variant', 'non_coding_transcript_exon_variant', 'upstream_gene_variant']
+    ptv = ['frameshift_variant', 'splice_acceptor_variant', 'splice_donor_variant', 'stop_gained', 'start_lost', 'stop_lost']
+    pav = ['protein_altering_variant', 'inframe_deletion', 'inframe_insertion', 'splice_region_variant', 'start_retained_variant', 'stop_retained_variant', 'missense_variant']
+    proximal_coding = ['synonymous_variant', '5_prime_UTR_variant', '3_prime_UTR_variant', 'coding_sequence_variant', 'incomplete_terminal_codon_variant', 'TF_binding_site_variant']
+    to_filter = ['regulatory_region_variant', 'intron_variant', 'intergenic_variant', 'downstream_gene_variant', 'mature_miRNA_variant', 'non_coding_transcript_exon_variant', 'upstream_gene_variant', 'NA', 'NMD_transcript_variant']
     print("Before consequence filter:")
     print(len(df))
     df = df[~df.most_severe_consequence.isin(to_filter)]
@@ -46,9 +49,6 @@ def set_sigmas(df):
     sigma_m_ptv = 0.2
     sigma_m_pav = 0.05
     sigma_m_pc = 0.05
-    ptv = ['frameshift_variant', 'splice_acceptor_variant', 'splice_donor_variant', 'stop_gained', 'start_lost', 'stop_lost']
-    pav = ['protein_altering_variant', 'inframe_deletion', 'inframe_insertion', 'splice_region_variant', 'start_retained_variant', 'stop_retained_variant', 'missense_variant']
-    proximal_coding = ['synonymous_variant', '5_prime_UTR_variant', '3_prime_UTR_variant', 'coding_sequence_variant', 'incomplete_terminal_codon_variant', 'TF_binding_site_variant']
     sigma_m = dict([(variant, sigma_m_ptv) for variant in ptv] + [(variant, sigma_m_pav) for variant in pav]
                    + [(variant, sigma_m_pc) for variant in proximal_coding])
     category_dict = dict([(variant, 'ptv') for variant in ptv] + [(variant, 'pav') for variant in pav]
@@ -150,7 +150,6 @@ def run_mrp_gene_level(df, disease_string, S, mode):
             if i % 1000 == 0:
                 print('Done ' + str(i) + ' genes out of ' + str(len(m_dict)))
             M = value
-            print("M: " + str(M))
             U_indep, U_sim, beta, v_beta, mu = calculate_all_params(df, disease_string, M, key, sigma_m_type, i, S)
             bf_indep = return_BF(U_indep, beta, v_beta, mu, key)
             bf_sim = return_BF(U_sim, beta, v_beta, mu, key)
@@ -162,13 +161,12 @@ def run_mrp_gene_level(df, disease_string, S, mode):
     return df
 
 def run_mrp(df, disease_string, S, mode):
-    print('Running MRP for ' + disease_string + '...')
     df = run_mrp_gene_level(df, disease_string, S, mode)
     return df
 
-def merge_and_filter(disease_string):
+def merge_and_filter(disease_string, mode):
     print("Reading in summary stats for " + disease_string + "...")
-    disease_df, sumstat_file = read_in_summary_stats(disease_string)
+    disease_df, sumstat_file = read_in_summary_stats(disease_string, mode)
     print("Before SE filter...")
     print(len(disease_df))
     disease_df = disease_df[disease_df['SE'].notnull()]
@@ -184,7 +182,10 @@ def merge_and_filter(disease_string):
 
     # Merge metadata
     print("Reading in metadata file...")
-    metadata = read_metadata('/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-gene_consequence_wb_maf.tsv')
+    if mode == 'exome':
+        metadata = read_metadata('/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-gene_consequence_wb_maf_final.tsv')
+    elif mode == 'cal':
+        metadata = read_metadata('/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/spb/data/ukb_cal-gene_consequence_wb_maf_final.tsv')
     merged = disease_df.merge(metadata)
     print("Before MAF filter:")
     print(len(merged))
@@ -196,12 +197,15 @@ def merge_and_filter(disease_string):
 
 def generate_results(merged, disease_string, S):
     results = []
+    print("Running proximal coding variants...")
     results.append(run_mrp(merged, disease_string, S, 'proximal_coding'))
     for filter_out in ['proximal_coding', 'pav']:
         merged = merged[merged.category != filter_out]
         if filter_out == 'proximal_coding':
+            print("Running PAVs...")
             results.append(run_mrp(merged, disease_string, S, 'pav'))
         else:
+            print("Running PTVs...")
             results.append(run_mrp(merged, disease_string, S, 'ptv'))
     inner_merge = partial(pd.merge, on='gene_symbol', how='inner')
     df = reduce(inner_merge, results)
@@ -209,11 +213,12 @@ def generate_results(merged, disease_string, S):
 
 if __name__ == '__main__':
     disease_string = sys.argv[1]
-    merged, mrp_prefix = merge_and_filter(disease_string)
+    mode = sys.argv[2]
+    merged, mrp_prefix = merge_and_filter(disease_string, mode)
     S = 1
     K = 1 #looking at each phenotype separately, since otherwise, there will be correlated errors in our case. Can change if phenotypes are sufficiently different
     merged[['V', 'category']].to_csv(os.path.join(mrp_prefix, disease_string + '_categories.tsv'), sep='\t', index=False)
     R_phen = np.diag(np.ones(K))
+    print('Running MRP for ' + disease_string + '...')
     df = generate_results(merged, disease_string, S)
-    print(df)
-    df.sort_values('log_10_BF_sigma_m_var_indep_ptv').to_csv(os.path.join(mrp_prefix, disease_string + '_gene.tsv'), sep='\t', index=False)
+    df.sort_values('log_10_BF_sigma_m_var_indep_ptv', ascending=False).to_csv(os.path.join(mrp_prefix, disease_string + '_gene.tsv'), sep='\t', index=False)
