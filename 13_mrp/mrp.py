@@ -214,6 +214,8 @@ if __name__ == '__main__':
     S = 1
     K = 1 #looking at each phenotype separately, since otherwise, there will be correlated errors in our case. Can change if phenotypes are sufficiently different
     gene_pos = merged[['gene_symbol', '#CHROM', 'POS']]
+    idx = gene_pos.groupby(['gene_symbol'])['POS'].transform(min) == gene_pos['POS']
+    gene_pos = gene_pos[idx]
     merged[['V', 'gene_symbol', 'category']].to_csv(os.path.join(mrp_prefix, disease_string + '_categories.tsv'), sep='\t', index=False)
     R_phen = np.diag(np.ones(K))
     print('Running MRP for ' + disease_string + '...')
