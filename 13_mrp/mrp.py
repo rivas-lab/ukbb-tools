@@ -15,7 +15,10 @@ import sys
 
 #Read in summary statistics from GBE sumstats
 def read_in_summary_stats(disease_string, mode):
-    findCMD = 'find /oak/stanford/groups/mrivas/ukbb24983/' + mode + '/gwas/ -name "*' + disease_string + '.*" | grep -v "exome-spb.log" | grep -v freeze | grep -v old'
+    if mode == 'exome':
+        findCMD = 'find /oak/stanford/groups/mrivas/ukbb24983/' + mode + '/gwas/ -name "*' + disease_string + '.*" | grep -v "exome-spb.log" | grep -v freeze | grep -v old'
+    elif mode == 'cal':
+        findCMD = 'find /oak/stanford/groups/mrivas/ukbb24983/' + mode + '/gwas/ -name "*' + disease_string + '.*" | grep -v "genotyped.log" | grep -v freeze | grep -v old'
     out = subprocess.Popen(findCMD,shell=True,stdin=subprocess.PIPE, 
                         stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     (stdout, stderr) = out.communicate()
