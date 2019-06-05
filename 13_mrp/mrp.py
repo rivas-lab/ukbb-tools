@@ -24,10 +24,6 @@ def read_in_summary_stats(disease_string, mode):
     print(sumstat_file)
     df = pd.read_csv(sumstat_file, sep='\t')
     df.insert(loc=0, column='V', value=df['#CHROM'].astype(str).str.cat(df['POS'].astype(str), sep=':').str.cat(df['REF'], sep=':').str.cat(df['ALT'], sep=':'))
-    if sumstat_file.endswith('linear.gz'):
-        df = df[['V', 'ID', 'A1', 'TEST', 'OBS_CT', 'BETA', 'SE', 'T_STAT', 'P']]
-    else:
-        df = df[['V', 'ID', 'A1', 'FIRTH?', 'TEST', 'OBS_CT', 'OR', 'SE', 'Z_STAT', 'P']]
     return df, sumstat_file
 
 #Need to have: gene, consequence, pop/global allele frequencies.
@@ -207,7 +203,7 @@ def generate_results(merged, disease_string, S):
         else:
             print("Running PTVs...")
             results.append(run_mrp(merged, disease_string, S, 'ptv'))
-    inner_merge = partial(pd.merge, on='gene_symbol', how='inner')
+    inner_merge = partial(pd.merge, on='gene_symbol', how='outer')
     df = reduce(inner_merge, results)
     return df
 
@@ -217,8 +213,10 @@ if __name__ == '__main__':
     merged, mrp_prefix = merge_and_filter(disease_string, mode)
     S = 1
     K = 1 #looking at each phenotype separately, since otherwise, there will be correlated errors in our case. Can change if phenotypes are sufficiently different
-    merged[['V', 'category']].to_csv(os.path.join(mrp_prefix, disease_string + '_categories.tsv'), sep='\t', index=False)
+    gene_pos = merged[['gene_symbol', '#CHROM', 'POS']]
+    merged[['V', 'gene_symbol', 'category']].to_csv(os.path.join(mrp_prefix, disease_string + '_categories.tsv'), sep='\t', index=False)
     R_phen = np.diag(np.ones(K))
     print('Running MRP for ' + disease_string + '...')
     df = generate_results(merged, disease_string, S)
+    df = df.merge(gene_pos, on='gene_symbol', how='inner')
     df.sort_values('log_10_BF_sigma_m_var_indep_ptv', ascending=False).to_csv(os.path.join(mrp_prefix, disease_string + '_gene.tsv'), sep='\t', index=False)
