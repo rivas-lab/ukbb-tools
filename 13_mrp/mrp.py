@@ -185,7 +185,7 @@ def merge_and_filter(disease_string, mode):
     if mode == 'exome':
         metadata = read_metadata('/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-gene_consequence_wb_maf_final.tsv')
     elif mode == 'cal':
-        metadata = read_metadata('/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/spb/data/ukb_cal-gene_consequence_wb_maf_final.tsv')
+        metadata = read_metadata('/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-gene_consequence_wb_maf_final.tsv')
     merged = disease_df.merge(metadata)
     print("Before MAF filter:")
     print(len(merged))
