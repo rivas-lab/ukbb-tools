@@ -224,4 +224,4 @@ if __name__ == '__main__':
     print('Running MRP for ' + disease_string + '...')
     df = generate_results(merged, disease_string, S)
     df = df.merge(gene_pos, on='gene_symbol', how='inner')
-    df.sort_values('log_10_BF_sigma_m_var_indep_ptv', ascending=False).to_csv(os.path.join(mrp_prefix, disease_string + '_gene.tsv'), sep='\t', index=False)
+    df.to_csv(os.path.join(mrp_prefix, disease_string + '_gene.tsv'), sep='\t', index=False)
