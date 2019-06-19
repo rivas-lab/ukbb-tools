@@ -3,7 +3,7 @@ import os
 import glob
 
 # useful
-os.system('ml load plink2')
+os.system('ml load plink2/20190402-non-AVX2')
 _README_ = '''
 A script to run phewas. More documentation forthcoming.
 
@@ -13,7 +13,7 @@ Author: Matthew Aguirre (SUNET: magu)
 # Input: gene name(s) / variant names(s) / region
 # variant names for imputed data are chrom:pos:ref:alt
 
-cal_bims = glob.glob('/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb24983_cal_cALL_v2_1.bim')
+cal_bims = ['/oak/stanford/groups/mrivas/ukbb24983/array_combined/pgen/ukb24983_cal_hla_cnv.bim']
 imp_bims = glob.glob('/oak/stanford/groups/mrivas/ukbb24983/imp/pgen/ukb_imp_chr*_v2.mac1.hrc.bim')
 wex_bims = ['/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/ukb24983_exome.bim']
 
@@ -138,12 +138,16 @@ if __name__ == "__main__":
         bfile_to_vars = find_named_variants(vs,args.wex)
     else:
         raise ValueError("One of --gene, --region, --variants, must be supplied!")
-    # run phewas
-    print("{} variants found from specified input.".format(sum(map(len, bfile_to_vars.values()))))
-
+   
+    # warn about inputs >= 100 or 0 
     if sum(map(len,bfile_to_vars.values())) >= 100:
         print("WARNING: attempting phewas with > 100 variants! This will probably take awhile, and might not finish...")
-
+    elif sum(map(len(bfile_to_vars.values()))) == 0:
+        print("No variants found. Check input variant(s) with paths in this script?")
+        exit(1)
+    
+    # run phewas 
+    print("{} variants found from specified input.".format(sum(map(len, bfile_to_vars.values())))
     print("Running phewas...")
     
     # give these runs a random hash to prevent wrong files from being included when we join results
