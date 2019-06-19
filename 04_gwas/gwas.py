@@ -226,8 +226,8 @@ if __name__ == "__main__":
     if not args.local:
         if args.cores[0] is None:
             args.cores[0] = "4"
-        if args.memory[0] is None:
-            args.memory[0] == "24000"
+        if args.mem[0] is None:
+            args.mem[0] == "24000"
     # lol i hope this works
     for flag,kind in filter(lambda x:x[0], zip(flags,kinds)):
         run_gwas(kind=kind, pheFile=args.pheno[0], outDir=args.outDir[0], 
