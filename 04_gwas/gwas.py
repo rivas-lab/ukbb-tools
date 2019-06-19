@@ -30,7 +30,7 @@ def make_plink_command(bpFile, pheFile, outFile, pop, cores=None, memory=None, r
     return " ".join(["plink" if plink1 else "plink2", 
                      "--threads {0}".format(cores) if cores is not None else "",
                      "--memory {0}".format(memory) if memory is not None else "",                     
-                     "--bfile" if plink1 else "--bpfile", bpFile, "--chr 1-22",
+                     "--bfile" if plink1 or '/imp/' in bpFile else "--bpfile", bpFile, "--chr 1-22",
                      "--pheno", pheFile, "--pheno-quantile-normalize",
                      "--glm firth-fallback hide-covar omit-ref",
                      "--keep {0}".format(popFile) if popFile else "", 
