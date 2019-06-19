@@ -142,12 +142,12 @@ if __name__ == "__main__":
     # warn about inputs >= 100 or 0 
     if sum(map(len,bfile_to_vars.values())) >= 100:
         print("WARNING: attempting phewas with > 100 variants! This will probably take awhile, and might not finish...")
-    elif sum(map(len(bfile_to_vars.values()))) == 0:
+    elif sum(map(len,bfile_to_vars.values())) == 0:
         print("No variants found. Check input variant(s) with paths in this script?")
         exit(1)
     
     # run phewas 
-    print("{} variants found from specified input.".format(sum(map(len, bfile_to_vars.values())))
+    print("{} variants found from specified input.".format(sum(map(len, bfile_to_vars.values()))))
     print("Running phewas...")
     
     # give these runs a random hash to prevent wrong files from being included when we join results
