@@ -17,3 +17,7 @@ PheWAS can be run using `phewas.py`. All options can be viewed by running `phewa
 3. For gene mode, specify the gene name after the `--gene` flag. The script will look up the corresponding region according to HGNC nomenclature and proceed accordingly.
 
 _Important_: There is no limit as to the number of variants that can be specified by a PheWAS. As such, you'll need to be careful to allocate sufficient time and memory for the analysis. The script will warn you if your input parameters include over 100 variants, which is about the most I (Matt) would recommend. For reference, a PheWAS for _GDF15_ (45 variants, ~2500 phenotypes) took about 4 hours to run, using 16GB memory.
+
+## Example:
+The below runs phewas on a protein truncating variant in _GFRAL_, using the white british population, with quantitative traits inverse-normalized, and outputs the results to `gfral.phewas.*` in the current directory:
+```python phewas.py --variants Affx-52342012 --population white_british --qt-norm --out gfral```

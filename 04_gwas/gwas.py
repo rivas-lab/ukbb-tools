@@ -30,7 +30,7 @@ def make_plink_command(bpFile, pheFile, outFile, pop, cores=None, memory=None, r
     return " ".join(["plink" if plink1 else "plink2", 
                      "--threads {0}".format(cores) if cores is not None else "",
                      "--memory {0}".format(memory) if memory is not None else "",                     
-                     "--bfile" if plink1 else "--bpfile", bpFile, "--chr 1-22",
+                     "--bfile" if plink1 or '/imp/' in bpFile else "--bpfile", bpFile, "--chr 1-22",
                      "--pheno", pheFile, "--pheno-quantile-normalize",
                      "--glm firth-fallback hide-covar omit-ref",
                      "--keep {0}".format(popFile) if popFile else "", 
@@ -226,8 +226,8 @@ if __name__ == "__main__":
     if not args.local:
         if args.cores[0] is None:
             args.cores[0] = "4"
-        if args.memory[0] is None:
-            args.memory[0] == "24000"
+        if args.mem[0] is None:
+            args.mem[0] = "24000"
     # lol i hope this works
     for flag,kind in filter(lambda x:x[0], zip(flags,kinds)):
         run_gwas(kind=kind, pheFile=args.pheno[0], outDir=args.outDir[0], 
