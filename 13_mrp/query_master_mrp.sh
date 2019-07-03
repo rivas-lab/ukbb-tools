@@ -23,4 +23,4 @@ grepstr=${grepstring::-1}
 
 echo $grepstr
 
-cat <(head -1 /oak/stanford/groups/mrivas/ukbb24983/cal/mrp/extras/adjusted_biomarkers/white_british/BIN10030500_gene.tsv) <(egrep "$grepstr" /oak/stanford/groups/mrivas/ukbb24983/${mode}/mrp/${mode}_mrp.tsv) >${out}.tsv
+cat <(head -1 /oak/stanford/groups/mrivas/ukbb24983/cal/mrp/extras/adjusted_biomarkers/white_british/BIN10030500_gene.tsv) <(egrep -w "$grepstr" /oak/stanford/groups/mrivas/ukbb24983/${mode}/mrp/${mode}_mrp.tsv) >${out}.tsv
