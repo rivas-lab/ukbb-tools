@@ -109,7 +109,7 @@ done
 
 # filter to individuals who pass QC
 ls lambda10/*.in.id | while read id; do
-    grep -Ff pass_qc.phe $id > `dirname $id`/`basename $id .id`.qc.id
+    grep -Ff pass_qc.phe $id | grep -vFf /oak/stanford/groups/mrivas/ukbb24983/sqc/w24983_20181016.csv > `dirname $id`/`basename $id .id`.qc.id
 done
 
 # flip file to produce one suitable for --exclude (in addition to the *.qc.id for --keep)
