@@ -2,13 +2,13 @@
 set -beEuo pipefail
 
 in_pfile="/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb24983_cal_cALL_v2_hg19"
-pop_str_d="/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification_w24983_20190804"
+pop_str_d="/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification_w24983_20190805"
 
 mem=120000
 cpu=10
 
 pops=("e_asian" "s_asian" "african" "non_british_white")
-out_d="/oak/stanford/groups/mrivas/users/ytanigaw/sandbox/20190804_PCA/dev2"
+out_d="${pop_str_d}/pca"
 if [ ! -d ${out_d} ] ; then mkdir -p ${out_d} ; fi
 
 # create a temp directory
@@ -47,43 +47,3 @@ plink2 ${plink_common_opts} --pfile ${in_pfile} --extract ${tmp_prune}.prune.in 
 cat ${tmp_pvar}.log ${tmp_prune}.log ${out_d}/ukb24983_${pop}_pca.log  > ${out_d}/ukb24983_${pop}_pca.plink.log
 rm ${out_d}/ukb24983_${pop}_pca.log
 done
-
-
-exit 0
-## We originally tried EIGENSOFT but it took forever to compute PCA
-## We switched to plink2's --pca
-
-# Generate PLINK 1.9 BED file
-plink2 ${plink_common_opts} --pfile ${in_pfile} --extract ${tmp_prune}.prune.in \
-    --make-bed --keep-allele-order --out ${tmp_bed}
-
-# prepare EIGENSOFT snp file
-export PATH="$(dirname $(which smartpca.perl)):${PATH}"
-cat ${tmp_bed}.bim | awk '{print $2, $1, "0.0", $4}' > ${tmp_bed}.snp
-ind_file="${pop_str_d}/ukb24983_cal_cALL_v2_hg19.ind"
-
-for pop in ${pops[@]} ; do
-
-smartpca_w=${tmp_dir}/smartpca_w
-echo ${pop} | tee ${smartpca_w}
-
-cat ${tmp_pvar}.log ${tmp_prune}.log ${tmp_bed}.log > ${tmp_pca_d}/${pop}.plink.log
-
-smartpca.perl \
-    -i ${tmp_bed}.bed \
-    -a ${tmp_bed}.snp \
-    -b ${ind_file} \
-    -m 5 \
-    -w ${smartpca_w} \
-    -e ${tmp_pca_d}/${pop}.evals \
-    -o ${tmp_pca_d}/${pop}.pca \
-    -l ${tmp_pca_d}/${pop}.eigensoft.log \
-    -p ${tmp_pca_d}/${pop}.plot
-
-# reformat evec file
-mv ${tmp_pca_d}/${pop}.pca.evec ${tmp_pca_d}/${pop}.pca.evec.tmp
-cat ${tmp_pca_d}/${pop}.pca.evec.tmp | sed -e "s/  \+/\t/g" | sed -e "s/^\t//g" > ${tmp_pca_d}/${pop}.pca.evec
-rm ${tmp_pca_d}/${pop}.pca.evec.tmp 
-
-done
-
