@@ -21,4 +21,4 @@ fi
 LANG=C
 
 # finds all the info files, ensures formatting, concatenates them to desired output
-find ${PHE_DIR} -name "*.info" | xargs -i cat {} | awk -F'\t' 'NF == 14' | sort -k1,1 -k4,4nr | awk '!_[$1]++'  > ${OUT_DIR}/phenotype_info.tsv
+find ${PHE_DIR} -name "*.info" | xargs -i cat {} | awk -F'\t' 'NF == 15' | sort -k1,1 -k4,4nr | awk '!_[$1]++'  > ${OUT_DIR}/phenotype_info.tsv
