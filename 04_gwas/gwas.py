@@ -38,6 +38,7 @@ def make_plink_command(bpFile, pheFile, outFile, pop, cores=None, memory=None, r
                      "--extract {0}".format(arrayVarFile) if arrayVarFile else "",
                      "--covar", covarFile, 
                      "--covar-name age sex", "Array" if arrayCovar else "", "PC1-PC4", "N_CNV LEN_CNV --covar-variance-standardize" if is_cnv_burden else "PC5-PC10 FastingTime --covar-variance-standardize" if is_biomarker_binary else "",
+                     "--covar-variance-standardize --vif 100000000" if pop in ['non_british_white', 'african', 'e_asian', 's_asian'] else "",
                      "--out", outFile]) 
 
 
