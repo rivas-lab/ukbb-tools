@@ -56,28 +56,37 @@ start_idx=$1
 this_idx=$_SLURM_ARRAY_TASK_ID
 
 min_N_count=10
-phe_path=$(cat ../05_gbe/phenotype_info.tsv | awk -v min_N=${min_N_count} 'NR > 1 && $7 >= min_N' | egrep -v MED | grep HC383 | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $NF}' )
-gbeId=$(basename $phe_path | awk '{gsub(".phe","");print}')
 
-# run array gwas with default GBE parameters
-pop="white_british"
-gwasOutDir=$(echo $(dirname $(dirname $phe_path)) | awk '{gsub("phenotypedata","cal/gwas"); print}')/${pop}
-if [ ! -d ${gwasOutDir}/logs ] ; then mkdir -p ${gwasOutDir}/logs ; fi
-if [ ! -d $log_dir ] ; then mkdir -p $log_dir ; fi
+# Fill this in with which ones you want. 
+# white_british=8, non_british_white=9, african=10, e_asian=11, s_asian=12
+pops=(non_british_white african e_asian s_asian)
+col_numbers=(9 10 11 12)
 
-python gwas.py --run-array --run-now --memory $mem --cores $cores --pheno $phe_path --out $gwasOutDir --population $pop --log-dir $log_dir
+for (( i=0; i<${#pops[*]}; ++i)); do
+    field=${col_numbers[$i]}
+    pop=${pops[$i]}
+    phe_path=$(cat ../05_gbe/phenotype_info.tsv | awk -v min_N=${min_N_count} -v col="$field" 'NR > 1 && $col >= min_N' | egrep -v MED | grep BIN10030500 | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $NF}' )
+    gbeId=$(basename $phe_path | awk '{gsub(".phe","");print}')
 
-# move log file and bgzip output
-for type in genotyped; do 
-    file_prefix=${gwasOutDir}/ukb24983_v2_hg19.${gbeId}.${type}
-    for ending in "logistic.hybrid" "linear"; do
-        if [ -f ${file_prefix}.glm.${ending} ]; then
-            bgzip --compress-level 9 -f ${file_prefix}.glm.${ending}
+    # run array gwas with default GBE parameters
+    gwasOutDir=$(echo $(dirname $(dirname $phe_path)) | awk '{gsub("phenotypedata","cal/gwas"); print}')/${pop}
+    if [ ! -d ${gwasOutDir}/logs ] ; then mkdir -p ${gwasOutDir}/logs ; fi
+    if [ ! -d $log_dir ] ; then mkdir -p $log_dir ; fi
+
+    python gwas.py --run-array --run-now --memory $mem --cores $cores --pheno $phe_path --out $gwasOutDir --population $pop --log-dir $log_dir
+
+    # move log file and bgzip output
+    for type in genotyped; do
+        file_prefix=${gwasOutDir}/ukb24983_v2_hg19.${gbeId}.${type}
+        for ending in "logistic.hybrid" "linear"; do
+            if [ -f ${file_prefix}.glm.${ending} ]; then
+                bgzip --compress-level 9 -f ${file_prefix}.glm.${ending}
+            fi
+        done
+        if [ -f ${file_prefix}.log ]; then
+            mv -f ${file_prefix}.log ${gwasOutDir}/logs/
         fi
     done
-    if [ -f ${file_prefix}.log ]; then
-        mv -f ${file_prefix}.log ${gwasOutDir}/logs/
-    fi    
 done
 
 # job finish footer (for use with array-job module)
