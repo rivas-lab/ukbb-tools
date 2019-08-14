@@ -38,6 +38,7 @@ def make_plink_command(bpFile, pheFile, outFile, pop, cores=None, memory=None, r
                      "--extract {0}".format(arrayVarFile) if arrayVarFile else "",
                      "--covar", covarFile, 
                      "--covar-name age sex", "Array" if arrayCovar else "", "PC1-PC4", "N_CNV LEN_CNV --covar-variance-standardize" if is_cnv_burden else "PC5-PC10 FastingTime --covar-variance-standardize" if is_biomarker_binary else "",
+                     "--covar-variance-standardize --vif 100000000" if pop in ['non_british_white', 'african', 'e_asian', 's_asian'] else "",
                      "--out", outFile]) 
 
 
@@ -66,8 +67,8 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
     if not os.path.isdir(logDir):
         print("Warning: Logging directory either does not exist or was unspecified. Defaulting to {0}...".format(os.getcwd()))
         logDir=os.getcwd()
-    if pop not in ['all', 'white_british', 'african', 's_asian', 'e_asian']:
-        raise ValueError("population must be one of (all, white_british, african, s_asian, e_asian)")
+    if pop not in ['all', 'white_british', 'non_british_white', 'african', 's_asian', 'e_asian']:
+        raise ValueError("population must be one of (all, white_british, non_british_white, african, s_asian, e_asian)")
     # paths for running gwas
     pgen_root='/oak/stanford/groups/mrivas/private_data/ukbb/24983/'
     imp_bfile_path=os.path.join(pgen_root,'imp','pgen','ukb_imp_chr${SLURM_ARRAY_TASK_ID}_v2.mac1.hrc')
@@ -197,7 +198,7 @@ if __name__ == "__main__":
     parser.add_argument('--out', dest="outDir", required=True, nargs=1,
                             help='Path to desired output *directory*. Summary stats will be output according to phenotype name (derived from passed file) and Rivas Lab specification for GBE. Defaults to current working directory.')
     parser.add_argument('--population', dest="pop", required=False, default=["white_british"], nargs=1,
-                            help='Flag to indicate which ethnic group to use for GWAS. Must be one of all, white_british, e_asian, s_asian, african')
+                            help='Flag to indicate which ethnic group to use for GWAS. Must be one of all, white_british, non_british_white, e_asian, s_asian, african')
     parser.add_argument('--keep-related', dest="relatives", action='store_true',
                             help='Flag to keep related individuals in GWAS. Default is to remove them.')
     parser.add_argument('--cores', dest="cores", required=False, default=[None], nargs=1,
