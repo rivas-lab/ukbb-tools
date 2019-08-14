@@ -39,9 +39,9 @@ ml load htslib
 
 if grep -q "CPU_GEN:HSW\|CPU_GEN:BDW\|CPU_GEN:SKX" <(a=$(hostname); sinfo -N -n ${a::-4} --format "%50f"); then
    # AVX2 is suitable for use on this node if CPU is recent enough
-   ml load plink2/20190402
+   ml load plink2/20190810
 else
-   ml load plink2/20190402-non-AVX2
+   ml load plink2/20190810-non-AVX2
 fi
 
 software_versions >&2
