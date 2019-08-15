@@ -32,6 +32,18 @@ get_field_from_pop () {
         | tr " " "\n" | awk -v pop=$pop -v const=$const '($0 == pop){print NR + const}'
 }
 
+find_phe_path () {
+    local info_file=$1
+    local min_N=$2
+    local col=$3
+    local start_idx=$3
+    local this_idx=$4
+
+    cat $info_file | awk -v min_N="${min_N}" -v col="${col}" 'NR > 1 && $col >= min_N' \
+        | egrep -v MED \
+        | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $NF}'
+}
+
 # get core and memory settings from the header -- passed to gwas script below
 cores=$(              cat $0 | egrep '^#SBATCH --cores='  | awk -v FS='=' '{print $NF}' )
 mem=$(                cat $0 | egrep '^#SBATCH --mem='    | awk -v FS='=' '{print $NF}' )
@@ -39,6 +51,9 @@ log_dir=$( dirname $( cat $0 | egrep '^#SBATCH --output=' | awk -v FS='=' '{prin
 
 # check number of command line args and dump usage if that's not right
 if [ $# -lt 1 ] ; then usage >&2 ; exit 1 ; fi
+
+# start index
+start_idx=$1
 
 # population
 if [ $# -gt 1 ] ; then pop=$2 ; else pop="white_british" ; fi
@@ -66,13 +81,12 @@ _SLURM_ARRAY_TASK_ID=${SLURM_ARRAY_TASK_ID:=1}
 echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-start] hostname = $(hostname) SLURM_JOBID = ${_SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${_SLURM_ARRAY_TASK_ID} ; pop=${pop}" >&2
 
 # get phenotypes to run
-start_idx=$1
-this_idx=$_SLURM_ARRAY_TASK_ID
 
 min_N_count=10
+phenotype_info_file="../05_gbe/phenotype_info.tsv"
 
-phe_path=$(cat ../05_gbe/phenotype_info.tsv | awk -v min_N=${min_N_count} -v col="$field" 'NR > 1 && $col >= min_N' | egrep -v MED | grep BIN10030500 | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $NF}' )
-gbeId=$(basename $phe_path | awk '{gsub(".phe","");print}')
+phe_path=$(find_phe_path ${phenotype_info_file} ${min_N_count} ${field} ${start_idx} ${_SLURM_ARRAY_TASK_ID})
+gbeId=$(basename ${phe_path} .phe)
 
 # run array gwas with default GBE parameters
 gwasOutDir=$(echo $(dirname $(dirname $phe_path)) | awk '{gsub("phenotypedata","cal/gwas"); print}')/${pop}
