@@ -14,7 +14,7 @@ Author: Matthew Aguirre (SUNET: magu)
 # variant names for imputed data are chrom:pos:ref:alt
 
 cal_bims = ['/oak/stanford/groups/mrivas/ukbb24983/array_combined/pgen/ukb24983_cal_hla_cnv.bim']
-imp_bims = glob.glob('/oak/stanford/groups/mrivas/ukbb24983/imp/pgen/ukb_imp_chr*_v2.mac1.hrc.bim')
+imp_bims = glob.glob('/oak/stanford/groups/mrivas/ukbb24983/imp/pgen/ukb24983_imp_chr*_v3.bim')
 wex_bims = ['/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/ukb24983_exome.bim']
 
 # 1. Get all variants in gene (if applicable)
