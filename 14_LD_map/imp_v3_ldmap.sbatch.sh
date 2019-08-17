@@ -8,7 +8,10 @@
 #SBATCH --time=2-00:00:00
 #SBATCH -p mrivas
 
+set -beEuo pipefail
+
 pop="white_british"
+pop="e_asian"
 out_dir="/scratch/groups/mrivas/ukbb/24983/imp/ldmap"
 
 array_job_idx_to_chrom () {
@@ -33,23 +36,23 @@ compute_ld_map () {
 
     local ukbb_dir="$OAK/ukbb24983"
     local keep_file="${ukbb_dir}/sqc/population_stratification/ukb24983_${pop}.phe"
+    local bfile="${ukbb_dir}/imp/pgen/ukb24983_imp_chr${chrom}_v3"
+    local out_prefix="${out_dir}/ukb24983_imp_chr${chrom}_v3.${pop}"
 
     ml load plink
 
-    plink --bfile ${ukbb_dir}/imp/pgen/ukb24983_imp_chr${chrom}_v3 \
-        --keep ${keep_file} \
-        --ld-window-kb 1000 --ld-window-r2 0.1 \
-        --out ${out_dir}/ukb24983_imp_chr${chrom}_v3.${pop}.ld_map --r2 gz 
+    plink --allow-extra-chr --bfile ${bfile} --keep ${keep_file} \
+        --ld-window-kb 1000 --ld-window-r2 0.1 --r2 gz \
+        --out ${out_prefix}.ld_map
     
-    plink --bfile ${ukbb_dir}/imp/pgen/ukb24983_imp_chr${chrom}_v3 \
-        --keep ${keep_file} \
+    plink --allow-extra-chr --bfile ${bfile} --keep ${keep_file} \
         --indep 50 5 2 \
-        --out ${out_dir}/ukb24983_imp_chr${chrom}_v3.${pop}.bool 
+        --out ${out_prefix}.bool 
 }
 
 # job start header (for use with array-job module)
 _SLURM_JOBID=${SLURM_JOBID:=0} # use 0 for default value (for debugging purpose)
-_SLURM_ARRAY_TASK_ID=${SLURM_ARRAY_TASK_ID:=1}
+_SLURM_ARRAY_TASK_ID=${SLURM_ARRAY_TASK_ID:=24}
 echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-start] hostname = $(hostname) ; pop = ${pop} ; SLURM_JOBID = ${_SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${_SLURM_ARRAY_TASK_ID}" >&2
 
 #########################
