@@ -41,11 +41,12 @@ check_flip_body () {
     local in_sumstats=$1
     local ref_fa=$2    
     local chr_prefix="chr"
-    zcat ${in_sumstats} | tr "\t" ":" \
-        | awk -v OFS='\t' -v FS=':' -v chr="${chr_prefix}" \
+    local field_sep="!"
+    zcat ${in_sumstats} | tr "\t" "${field_sep}" \
+        | awk -v OFS='\t' -v FS=${field_sep} -v chr="${chr_prefix}" \
         '(NR>1){print chr $1, $2-1, $2-1+length($4), $3, chr $0}' \
         | bedtools getfasta -fi ${ref_fa} -bed /dev/stdin -bedOut \
-        | tr ":" "\t" | cut -f5- | sed -e "s/^${chr_prefix}//g"
+        | tr ${field_sep} "\t" | cut -f5- | sed -e "s/^${chr_prefix}//g"
 }
 
 check_flip () {

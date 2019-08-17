@@ -12,7 +12,9 @@
 #SBATCH --mail-type=END,FAIL
 #################
 set -beEu -o pipefail
+_SLURM_JOBID=${SLURM_JOBID:=0} # use 0 for default value (for debugging purpose)
 _SLURM_ARRAY_TASK_ID=${SLURM_ARRAY_TASK_ID:=1}
+echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-start] hostname = $(hostname) SLURM_JOBID = ${_SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${_SLURM_ARRAY_TASK_ID}" >&2
 task_id=${_SLURM_ARRAY_TASK_ID}
 #################
 # set constants
@@ -27,8 +29,12 @@ src="/oak/stanford/groups/mrivas/users/ytanigaw/repos/rivas-lab/ukbb-tools/04_gw
 # set filenames
 
 in_file=$(cat $input_file_list | awk -v nr=$task_id 'NR==nr')
-out_file=$(echo ${in_file} | sed -e "s%bbj/plink_format%bbj/plink_format_flipfixed%g")
+out_file=$(echo ${in_file} | sed -e "s%bbj/combined_aut_X%bbj/flipfixed_combined_aut_X%g")
 
 if [ ! -d $(dirname $out_file) ] ; then mkdir -p $(dirname $out_file) ; fi
 bash $src $in_file $ref_fa | bgzip -l 9 > ${out_file%.gz}.gz
+
+#################
+echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-end] hostname = $(hostname) SLURM_JOBID = ${_SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${_SLURM_ARRAY_TASK_ID}" >&2
+
 
