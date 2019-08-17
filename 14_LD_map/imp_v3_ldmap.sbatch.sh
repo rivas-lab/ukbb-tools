@@ -14,7 +14,7 @@ out_dir="/scratch/groups/mrivas/ukbb/24983/imp/ldmap"
 array_job_idx_to_chrom () {
     local idx=$1
 
-    if [ $idx -lt 1 ] && [ $idx -gt 24 ] ; then
+    if [ $idx -lt 1 ] || [ $idx -gt 24 ] ; then
         echo "The specified index ($idx) is not supported (it should be 1-24, where 23 = X and 24 = XY)" >&2
         exit 1
     elif [ $idx -eq 23 ] ; then 
