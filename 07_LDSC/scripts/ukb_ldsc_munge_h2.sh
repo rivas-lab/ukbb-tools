@@ -34,9 +34,9 @@ fi
 
 if [ $# -gt 3 ] ; then
 	in_type=$4
-elif [ $( echo $( basename ${in_PLINK_sumstats} ) | rev | cut -c -16 | rev ) == ".logistic.hybrid" ] ; then
+elif [ $( echo $( basename ${in_PLINK_sumstats%.gz} ) | rev | cut -c -16 | rev ) == ".logistic.hybrid" ] ; then
 	in_type="logistic"
-elif [ $( echo $( basename ${in_PLINK_sumstats} ) | rev | cut -c -7 | rev )  == ".linear" ] ; then
+elif [ $( echo $( basename ${in_PLINK_sumstats%.gz} ) | rev | cut -c -7 | rev )  == ".linear" ] ; then
 	in_type="linear"
 else 
 	echo "Failed to infer the input type. Please pass in_type argument" >&2

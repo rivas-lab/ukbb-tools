@@ -54,5 +54,5 @@ ldsc_munge $tmp_dir/${in_name}_ldsc.tsv $tmp_dir/${in_name}.munge
 
 # write the results
 cp $tmp_dir/${in_name}.munge.log ${out_file%.gz}.log
-cp $tmp_dir/${in_name}.munge.sumstats.gz ${out_file}
+cp $tmp_dir/${in_name}.munge.sumstats.gz "$(echo ${out_file} | sed -e "s/.gz$//g" | sed -e "s/.sumstats$//g" ).sumstats.gz"
 

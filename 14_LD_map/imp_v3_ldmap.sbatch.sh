@@ -41,6 +41,8 @@ compute_ld_map () {
 
     ml load plink
 
+    if [ ! -d ${out_dir} ] ; then mkdir -p ${out_dir} ; fi
+
     plink --allow-extra-chr --bfile ${bfile} --keep ${keep_file} \
         --ld-window-kb 1000 --ld-window-r2 0.1 --r2 gz \
         --out ${out_prefix}.ld_map
