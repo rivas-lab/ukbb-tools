@@ -1,0 +1,69 @@
+GBE_category	sumstats_name	GBE_ID	BBJ_N	GBE_NAME	GBE_short_name	GBE_short_name_len
+HC	BBJ.AF.txt.gz	HC281	8,180	atrial_fibrillation	Atrial fibrillation	19
+BIN	BBJ.colorectal_cancer.txt.gz	cancer1020	6,692	large_bowel_cancer/colorectal_cancer	Large bowel cancer/colorectal cancer	36
+HC	BBJ.POAG.autosome.txt.gz	HC276	3,980	glaucoma	Glaucoma	8
+HC	BBJ.RA.asian.combined.txt.gz	HC430	3,636	rheumatoid_arthritis	Rheumatoid arthritis	20
+BIN	BBJ.smoking_init.autosome.txt.gz	BIN1005000	83,810	Smoking_initiation	Smoking initiation	18
+BIN	BBJ.smoking_stop.autosome.txt.gz	BIN1005001	43,163	Smoking_cessation	Smoking cessation	17
+HC	BBJ.T2D.txt.gz	HC221	36,614	diabetes	Diabetes	8
+INI	BBJ.AG.combined.txt.gz	INI1005002	98,626	Albumin_globulin_ratio	Albumin/globulin ratio	22
+INI	BBJ.age_smoking_init.autosome.txt.gz	INI1005000	30,418	Age_of_smoking_initiation	Age of smoking initiation	25
+INI	BBJ.Alb.combined.txt.gz	INI10030600	102,223	Albumin_covariate_adjusted	Albumin covariate adjusted	26
+INI	BBJ.ALP.combined.txt.gz	INI10030610	105,030	Alkaline_phosphatase_covariate_adjusted	Alkaline phosphatase covariate adjusted	39
+INI	BBJ.ALT.combined.txt.gz	INI10030620	134,182	Alanine_aminotransferase_covariate_adjusted	Alanine aminotransferase covariate adjusted	43
+INI	BBJ.APTT.combined.txt.gz	INI1005004	37,767	Activated_partial_thromboplastin_time	Activated partial thromboplastin time	37
+INI	BBJ.AST.combined.txt.gz	INI10030650	134,154	Aspartate_aminotransferase_covariate_adjusted	Aspartate aminotransferase covariate adjusted	45
+INI	BBJ.Baso.combined.txt.gz	INI30160	62,076	Basophill_count	Basophill count	15
+INI	BBJ.BMI.autosome.txt.gz	INI21001	158,284	Body_mass_index_(BMI)	BMI	3
+INI	BBJ.BS.combined.txt.gz	INI10030740	93,146	Glucose_covariate_adjusted	Glucose covariate adjusted	26
+INI	BBJ.BUN.combined.txt.gz	INI1005005	139,818	Blood_urea_nitrogen	Blood urea nitrogen	19
+INI	BBJ.Ca.combined.txt.gz	INI10030680	71,701	Calcium_covariate_adjusted	Calcium covariate adjusted	26
+INI	BBJ.cigs_per_day.autosome.txt.gz	INI1005006	72,655	Cigarettes_per_day	Cigarettes per day	18
+INI	BBJ.CK.combined.txt.gz	INI1005007	106,080	Creatine_kinase	Creatine kinase	15
+INI	BBJ.Cl.combined.txt.gz	INI1005008	126,402	Chloride	Chloride	8
+INI	BBJ.CRP.combined.txt.gz	INI10030710	75,391	C_reactive_protein_covariate_adjusted	C-reactive protein covariate adjusted	37
+INI	BBJ.DBP.combined.txt.gz	INI4079	136,615	Diastolic_blood_pressure,_automated_reading	Diastolic BP (AR)	17
+INI	BBJ.EA.combined.txt.gz	INI1005009	8,600	E/A_ratio	E/A ratio	9
+INI	BBJ.EF.combined.txt.gz	INI1005010	19,516	Ejection_fraction	Ejection fraction	17
+INI	BBJ.eGFR.combined.txt.gz	INI30030700	143,658	eGFR_covariate_adjusted	EGFR covariate adjusted	23
+INI	BBJ.Eosino.combined.txt.gz	INI30150	62,076	Eosinophill_count	Eosinophill count	17
+INI	BBJ.Fbg.combined.txt.gz	INI1005011	18,348	Fibrinogen	Fibrinogen	10
+INI	BBJ.FS.combined.txt.gz	INI1005012	19,580	Fractional_shortening	Fractional shortening	21
+INI	BBJ.GGT.combined.txt.gz	INI10030730	118,309	Gamma_glutamyltransferase_covariate_adjusted	Gamma glutamyltransferase covariate adjusted	44
+INI	BBJ.HbA1c.combined.txt.gz	INI10030750	42,790	Glycated_haemoglobin_(HbA1c)_covariate_adjusted	Glycated haemoglobin (HbA1c) covariate adjusted	47
+INI	BBJ.Hb.combined.txt.gz	INI30020	108,769	Haemoglobin_concentration	Haemoglobin concentration	25
+INI	BBJ.HDL-C.combined.txt.gz	INI10030760	70,657	HDL_cholesterol_covariate_adjusted	HDL cholesterol covariate adjusted	34
+INI	BBJ.Ht.combined.txt.gz	INI30030	108,757	Haematocrit_percentage	Haematocrit %	13
+INI	BBJ.IVS.combined.txt.gz	INI1005013	19,318	Interventricular_septum_thickness	Interventricular septum thickness	33
+INI	BBJ.K.combined.txt.gz	INI10030520	132,938	Potassium_in_urine_covariate_adjusted	Potassium in urine covariate adjusted	37
+INI	BBJ.LDH.combined.txt.gz	INI1005014	126,319	Lactate_dehydrogenase	Lactate dehydrogenase	21
+INI	BBJ.LDL-C.combined.txt.gz	INI10030780	72,866	LDL_direct_covariate_adjusted	LDL direct covariate adjusted	29
+INI	BBJ.LVDd.combined.txt.gz	INI1005015	19,676	Left_ventricular_internal_dimension_in_diastole	Left ventricular internal dimension in diastole	47
+INI	BBJ.LVDs.combined.txt.gz	INI1005016	19,586	Left_ventricular_internal_dimension_in_systole	Left ventricular internal dimension in systole	46
+INI	BBJ.LVM.combined.txt.gz	INI1005017	19,076	Left_ventricular_mass	Left ventricular mass	21
+INI	BBJ.LVMI.combined.txt.gz	INI1005018	17,837	Left_ventricular_mass_index	Left ventricular mass index	27
+INI	BBJ.Lym.combined.txt.gz	INI30120	62,076	Lymphocyte_count	Lymphocyte count	16
+INI	BBJ.MAP.combined.txt.gz	INI1005019	136,482	Mean_arterial_pressure	Mean arterial pressure	22
+INI	BBJ.MCHC.combined.txt.gz	INI30060	108,728	Mean_corpuscular_haemoglobin_concentration	Mean corpuscular haemoglobin concentration	42
+INI	BBJ.MCH.combined.txt.gz	INI30050	108,054	Mean_corpuscular_haemoglobin	Mean corpuscular haemoglobin	28
+INI	BBJ.MCV.combined.txt.gz	INI30040	108,256	Mean_corpuscular_volume	Mean corpuscular volume	23
+INI	BBJ.Mono.combined.txt.gz	INI30130	62,076	Monocyte_count	Monocyte count	14
+INI	BBJ.Na.combined.txt.gz	INI10030530	127,304	Sodium_in_urine_covariate_adjusted	Sodium in urine covariate adjusted	34
+INI	BBJ.NAP.combined.txt.gz	INI10030910	98,538	Non_albumin_protein_covariate_adjusted	Non albumin protein covariate adjusted	38
+INI	BBJ.Neutro.combined.txt.gz	INI30140	62,076	Neutrophill_count	Neutrophill count	17
+INI	BBJ.P.combined.txt.gz	INI1005020	42,793	Phosphorus	Phosphorus	10
+INI	BBJ.Plt.combined.txt.gz	INI30080	108,208	Platelet_count	Platelet count	14
+INI	BBJ.PP.combined.txt.gz	INI1005021	136,249	Pulse_pressure	Pulse pressure	14
+INI	BBJ.PT.combined.txt.gz	INI1005022	58,110	Prothrombin_time	Prothrombin time	16
+INI	BBJ.PW.combined.txt.gz	INI1005023	19,373	Posterior_wall_thickness	Relative wall thickness	23
+INI	BBJ.RBC.combined.txt.gz	INI30010	108,794	Red_blood_cell_(erythrocyte)_count	Red blood cell count	20
+INI	BBJ.RWT.combined.txt.gz	INI1005024	19,311	Relative_wall_thickness	Relative wall thickness	23
+INI	BBJ.SBP.combined.txt.gz	INI4080	136,597	Systolic_blood_pressure,_automated_reading	Systolic BP (AR)	16
+INI	BBJ.sCr.combined.txt.gz	INI10030700	142,097	Creatinine_covariate_adjusted	Creatinine covariate adjusted	29
+INI	BBJ.TBil.combined.txt.gz	INI10030840	110,207	Total_bilirubin_covariate_adjusted	Total bilirubin covariate adjusted	34
+INI	BBJ.TC.combined.txt.gz	INI10030690	128,305	Cholesterol_covariate_adjusted	Cholesterol covariate adjusted	30
+INI	BBJ.TG.combined.txt.gz	INI10030870	105,597	Triglycerides_covariate_adjusted	Triglycerides covariate adjusted	32
+INI	BBJ.TP.combined.txt.gz	INI10030860	113,509	Total_protein_covariate_adjusted	Total protein covariate adjusted	32
+INI	BBJ.UA.combined.txt.gz	INI10030880	109,029	Urate_covariate_adjusted	Urate covariate adjusted	24
+INI	BBJ.WBC.combined.txt.gz	INI30000	107,964	White_blood_cell_(leukocyte)_count	White blood cell count	22
+INI	BBJ.ZTT.combined.txt.gz	INI1005025	12,303	Zinc_sulfate_turbidity_test	Zinc sulfate turbidity test	27
