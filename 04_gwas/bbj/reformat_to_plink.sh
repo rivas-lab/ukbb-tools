@@ -20,14 +20,14 @@ done
 for file in $(ls /oak/stanford/groups/mrivas/bbj/raw_sumstats/qt/*smok*); do
     echo $file
     output=$(dirname $(dirname $(dirname $file)))/plink_format/qt/$(basename ${file%.*})
-    zcat $file | awk -F'\t' 'BEGIN{OFS='\t'} {if (NR > 1) {print $2"\t"$3"\t"$1"\t"$4"\t"$5"\t"$5"\tADD\t"1-$6"\t"$8"\t"$9"\t"$8/$9"\t"$10} else { print "#CHROM\tPOS\tID\tREF\tALT\tA1\tTEST\tOBS_CT\tBETA\tSE\tT_STAT\tP"}}' >$output
+    zcat $file | awk -F'\t' 'BEGIN{OFS='\t'} {if (NR > 1) {print $2"\t"$3"\t"$1"\t"$4"\t"$5"\t"$4"\tADD\t"1-$6"\t"$8"\t"$9"\t"$8/$9"\t"$10} else { print "#CHROM\tPOS\tID\tREF\tALT\tA1\tTEST\tOBS_CT\tBETA\tSE\tT_STAT\tP"}}' >$output
     gzip -f $output
 done
 
 for file in $(ls /oak/stanford/groups/mrivas/bbj/raw_sumstats/qt/*cig*); do
     echo $file
     output=$(dirname $(dirname $(dirname $file)))/plink_format/qt/$(basename ${file%.*})
-    zcat $file | awk -F'\t' 'BEGIN{OFS='\t'} {if (NR > 1) {print $2"\t"$3"\t"$1"\t"$4"\t"$5"\t"$5"\tADD\t"1-$6"\t"$8"\t"$9"\t"$8/$9"\t"$10} else { print "#CHROM\tPOS\tID\tREF\tALT\tA1\tTEST\tOBS_CT\tBETA\tSE\tT_STAT\tP"}}' >$output
+    zcat $file | awk -F'\t' 'BEGIN{OFS='\t'} {if (NR > 1) {print $2"\t"$3"\t"$1"\t"$4"\t"$5"\t"$4"\tADD\t"1-$6"\t"$8"\t"$9"\t"$8/$9"\t"$10} else { print "#CHROM\tPOS\tID\tREF\tALT\tA1\tTEST\tOBS_CT\tBETA\tSE\tT_STAT\tP"}}' >$output
     gzip -f $output
 done
 
@@ -40,7 +40,7 @@ done
 for file in $(ls /oak/stanford/groups/mrivas/bbj/raw_sumstats/bin/*smok*); do
     echo $file
     output=$(dirname $(dirname $(dirname $file)))/plink_format/bin/$(basename ${file%.*})
-    zcat $file | awk -F'\t' 'BEGIN{OFS='\t'} {if (NR > 1) {print $2"\t"$3"\t"$1"\t"$4"\t"$5"\t"$5"\tN\tADD\t"1-$6"\t"exp($8)"\t"$9"\t"$8/$9"\t"$10} else { print "#CHROM\tPOS\tID\tREF\tALT\tA1\tFIRTH?\tTEST\tOBS_CT\tOR\tSE\tZ_STAT\tP"}}' >$output
+    zcat $file | awk -F'\t' 'BEGIN{OFS='\t'} {if (NR > 1) {print $2"\t"$3"\t"$1"\t"$4"\t"$5"\t"$4"\tN\tADD\t"1-$6"\t"exp($8)"\t"$9"\t"$8/$9"\t"$10} else { print "#CHROM\tPOS\tID\tREF\tALT\tA1\tFIRTH?\tTEST\tOBS_CT\tOR\tSE\tZ_STAT\tP"}}' >$output
     gzip -f $output
 done
 
@@ -49,7 +49,7 @@ done
 for file in $(ls /oak/stanford/groups/mrivas/bbj/raw_sumstats/bin/*AF*); do
     echo $file
     output=$(dirname $(dirname $(dirname $file)))/plink_format/bin/$(basename ${file%.*})
-    zcat $file | awk -F'\t' 'BEGIN{OFS='\t'} {if (NR > 1) {print $2"\t"$3"\t"$1"\t"$4"\t"$5"\t"$5"\tN\tADD\t"1-$6"\t"$11"\t"$12"\t"$10/$12"\t"$14} else { print "#CHROM\tPOS\tID\tREF\tALT\tA1\tFIRTH?\tTEST\tOBS_CT\tOR\tSE\tZ_STAT\tP"}}' >$output
+    zcat $file | awk -F'\t' 'BEGIN{OFS='\t'} {if (NR > 1) {print $2"\t"$3"\t"$1"\t"$4"\t"$5"\t"$4"\tN\tADD\t"1-$6"\t"$11"\t"$12"\t"$10/$12"\t"$14} else { print "#CHROM\tPOS\tID\tREF\tALT\tA1\tFIRTH?\tTEST\tOBS_CT\tOR\tSE\tZ_STAT\tP"}}' >$output
     gzip -f $output
 done
 
@@ -67,7 +67,7 @@ done
 for file in $(ls /oak/stanford/groups/mrivas/bbj/raw_sumstats/bin/*RA*); do
     echo $file
     output=$(dirname $(dirname $(dirname $file)))/plink_format/bin/$(basename ${file%.*})
-    zcat $file | awk -F'\t' 'BEGIN{OFS='\t'} {if (NR > 1) {print $2"\t"$3"\t"$1"\t"$4"\t"$5"\t"$5"\tN\tADD\t"$7"\t"exp($8)"\t"$9"\t"$8/$9"\t"$10} else { print "#CHROM\tPOS\tID\tREF\tALT\tA1\tFIRTH?\tTEST\tOBS_CT\tOR\tSE\tZ_STAT\tP"}}' >$output
+    zcat $file | awk -F'\t' 'BEGIN{OFS='\t'} {if (NR > 1) {print $2"\t"$3"\t"$1"\t"$4"\t"$5"\t"$4"\tN\tADD\t"$7"\t"exp($8)"\t"$9"\t"$8/$9"\t"$10} else { print "#CHROM\tPOS\tID\tREF\tALT\tA1\tFIRTH?\tTEST\tOBS_CT\tOR\tSE\tZ_STAT\tP"}}' >$output
     gzip -f $output
 done
 
@@ -76,7 +76,7 @@ done
 for file in $(ls /oak/stanford/groups/mrivas/bbj/raw_sumstats/bin/*colorectal*); do
     echo $file
     output=$(dirname $(dirname $(dirname $file)))/plink_format/bin/$(basename ${file%.*})
-    zcat $file | awk -F'\t' 'BEGIN{OFS='\t'} {if (NR > 1 && $13 != "NA") {print $2"\t"$3"\t"$17"\t"$5"\t"$4"\t"$4"\tN\tADD\t"1-$6"\t"$11"\t"$12"\t"$10/$12"\t"$14} else if (NR > 1 && $13 == "NA") {print $2"\t"$3"\t"$17"\t"$5"\t"$4"\t"$4"\tY\tADD\t"1-$6"\t"$11"\t"$12"\t"$10/$12"\t"$16} else { print "#CHROM\tPOS\tID\tREF\tALT\tA1\tFIRTH?\tTEST\tOBS_CT\tOR\tSE\tZ_STAT\tP"}}' >$output
+    zcat $file | awk -F'\t' 'BEGIN{OFS='\t'} {if (NR > 1 && $13 != "NA") {print $2"\t"$3"\t"$1"\t"$5"\t"$4"\t"$4"\tN\tADD\t"1-$6"\t"$11"\t"$12"\t"$10/$12"\t"$14} else if (NR > 1 && $13 == "NA") {print $2"\t"$3"\t"$17"\t"$5"\t"$4"\t"$4"\tY\tADD\t"1-$6"\t"$11"\t"$12"\t"$10/$12"\t"$16} else { print "#CHROM\tPOS\tID\tREF\tALT\tA1\tFIRTH?\tTEST\tOBS_CT\tOR\tSE\tZ_STAT\tP"}}' >$output
     gzip -f $output
 done
 
