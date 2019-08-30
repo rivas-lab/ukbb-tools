@@ -72,15 +72,30 @@ fix_flip_binary () {
     local col_A1=$(get_col_idx $in_sumstats "A1")
     local col_OR=$(get_col_idx $in_sumstats "OR")
 
+    # we call check_flip_body to get the reference allele at the last column.
+    # with that, we apply two awk scripts to apply flip-fix.
+    # the first awk script ensures ALT == A1
+    # the second awk script ensures REF is what you see in the fasta file
+
     show_header ${in_sumstats}
     check_flip_body ${in_sumstats} ${tmp_ref_fa} \
+        | awk -v FS='\t' -v OFS='\t' \
+        -v cREF=${col_REF} -v cALT=${col_ALT} -v cA1=${col_A1} '
+        (toupper($cA1) == toupper($cALT)){ print $0 }
+        (toupper($cA1) == toupper($cREF)){ 
+            swap  = $cREF ;
+            $cREF = $cALT ;
+            $cALT = swap ;
+            print $0 
+        } ' \
         | awk -v FS='\t' -v OFS='\t' -v cOR=${col_OR} \
         -v cREF=${col_REF} -v cALT=${col_ALT} -v cA1=${col_A1} '
         (toupper($NF) == $cREF){ print $0 } 
         (toupper($NF) == $cA1 && toupper($NF) == $cALT){
-            $cALT = $cREF ;
+            swap  = $cREF ;
             $cREF = $cA1 ;
-            $cA1  = $cALT ; 
+            $cALT = swap ;
+            $cA1  = swap ;
             $cOR  = exp(-1 * log($cOR)) ;
             print $0
         }' \
@@ -98,13 +113,23 @@ fix_flip_quantitative () {
 
     show_header ${in_sumstats}
     check_flip_body ${in_sumstats} ${tmp_ref_fa} \
+        | awk -v FS='\t' -v OFS='\t' \
+        -v cREF=${col_REF} -v cALT=${col_ALT} -v cA1=${col_A1} '
+        (toupper($cA1) == toupper($cALT)){ print $0 }
+        (toupper($cA1) == toupper($cREF)){ 
+            swap  = $cREF ;
+            $cREF = $cALT ;
+            $cALT = swap ;
+            print $0 
+        } ' \
         | awk -v FS='\t' -v OFS='\t' -v cBETA=${col_BETA} \
         -v cREF=${col_REF} -v cALT=${col_ALT} -v cA1=${col_A1} '
         (toupper($NF) == $cREF){ print $0 } 
         (toupper($NF) == $cA1 && toupper($NF) == $cALT){
-            $cALT  = $cREF ;
-            $cREF  = $cA1 ;
-            $cA1   = $cALT ; 
+            swap  = $cREF ;
+            $cREF = $cA1 ;
+            $cALT = swap ;
+            $cA1  = swap ;
             $cBETA = -1 * $cBETA ;
             print $0
         }' \
@@ -128,7 +153,7 @@ fix_flip () {
     elif [   -z "${col_OR}" ] && [ ! -z "${col_BETA}" ] ; then
         fix_flip_quantitative ${in_sumstats} ${tmp_ref_fa}
     else
-        echo "failed to detect the file type. Is this binary or quantitative?" &>2 ; 
+        echo "failed to detect the file type. Is this binary or quantitative?" >&2 ; 
         exit 1
     fi
 }
