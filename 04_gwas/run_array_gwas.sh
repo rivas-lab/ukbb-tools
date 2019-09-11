@@ -36,10 +36,10 @@ find_phe_path () {
     local info_file=$1
     local min_N=$2
     local col=$3
-    local start_idx=$3
-    local this_idx=$4
+    local start_idx=$4
+    local this_idx=$5
 
-    cat $info_file | awk -v min_N="${min_N}" -v col="${col}" 'NR > 1 && $col >= min_N' \
+    cat $info_file | awk -v min_N="${min_N}" -v col=$col 'NR > 1 && $col >= min_N' \
         | egrep -v MED \
         | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $NF}'
 }
@@ -68,9 +68,9 @@ ml load htslib
 
 if grep -q "CPU_GEN:HSW\|CPU_GEN:BDW\|CPU_GEN:SKX" <(a=$(hostname); sinfo -N -n ${a::-4} --format "%50f"); then
    # AVX2 is suitable for use on this node if CPU is recent enough
-   ml load plink2/20190810
+   ml load plink2/20190826
 else
-   ml load plink2/20190810-non-AVX2
+   ml load plink2/20190826-non-AVX2
 fi
 
 software_versions >&2
@@ -85,11 +85,13 @@ echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-start] hostname = $(hostname) SLURM_JOB
 min_N_count=10
 phenotype_info_file="../05_gbe/phenotype_info.tsv"
 
+echo $phenotype_info_file $min_N_count $field $start_idx $_SLURM_ARRAY_TASK_ID
 phe_path=$(find_phe_path ${phenotype_info_file} ${min_N_count} ${field} ${start_idx} ${_SLURM_ARRAY_TASK_ID})
 gbeId=$(basename ${phe_path} .phe)
 
 # run array gwas with default GBE parameters
 gwasOutDir=$(echo $(dirname $(dirname $phe_path)) | awk '{gsub("phenotypedata","cal/gwas"); print}')/${pop}
+echo $gwasOutDir
 if [ ! -d ${gwasOutDir}/logs ] ; then mkdir -p ${gwasOutDir}/logs ; fi
 if [ ! -d $log_dir ] ; then mkdir -p $log_dir ; fi
 
@@ -110,4 +112,3 @@ done
 
 # job finish footer (for use with array-job module)
 echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-end] hostname = $(hostname) SLURM_JOBID = ${_SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${_SLURM_ARRAY_TASK_ID} ; pop=${pop}" >&2
-
