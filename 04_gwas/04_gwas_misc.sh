@@ -119,11 +119,23 @@ show_sumstats () {
     if [ -f $sumstats_file ] ; then
         local cols_tmp=$(create_colnames_tmpfile $sumstats_file)
         local cols=$(find_col_idxs_from_colnames_file $cols_tmp 'CHROM' 'POS' 'ID' 'REF' 'ALT' 'A1' 'BETA|OR' 'SE' 'Z_STAT|T_STAT' '^P$')
+
+        local col_beta="$(find_col_idx_from_colnames_file $cols_tmp 'BETA')"
+        local col_or="$(find_col_idx_from_colnames_file $cols_tmp 'OR')"
+
         rm $cols_tmp
-        cat_or_zcat $sumstats_file | awk 'NR>1' | grep -v 'NA' | cut -f $cols \
-            | awk -v OFS='\t' -v GBE_ID=${GBE_ID} -v p_val_thr=${p_val_thr} '($10 <= p_val_thr){print $1, $2, $3, GBE_ID, $4, $5, $6, $7, $8, $10, $9}'
-    fi
+
+        if [ "${col_beta}" != "" ] && [ "${col_or}" == "" ] ; then
+            cat_or_zcat $sumstats_file | awk 'NR>1' | grep -v 'NA' | cut -f $cols \
+                | awk -v OFS='\t' -v GBE_ID=${GBE_ID} -v p_val_thr=${p_val_thr} '($10 <= p_val_thr){print $1, $2, $3, GBE_ID, $4, $5, $6, $7, $8, $10, $9}' 
+                
+        elif [ "${col_or}" != "" ] && [ "${col_beta}" == "" ] ; then
+            cat_or_zcat $sumstats_file | awk 'NR>1' | grep -v 'NA' | cut -f $cols \
+                | awk -v OFS='\t' -v GBE_ID=${GBE_ID} -v p_val_thr=${p_val_thr} '($10 <= p_val_thr){print $1, $2, $3, GBE_ID, $4, $5, $6, log($7), $8, $10, $9}'
+        fi
+    fi       
 }
+
 
 get_field_from_pop () {
     local pop=$1
@@ -131,3 +143,4 @@ get_field_from_pop () {
     echo "white_british non_british_white african e_asian s_asian" \
         | tr " " "\n" | awk -v pop=$pop -v const=$const '($0 == pop){print NR + const}'
 }
+
