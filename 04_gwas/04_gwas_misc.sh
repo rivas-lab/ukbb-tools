@@ -17,10 +17,12 @@ GBE_ID_to_gwas_basename () {
     local GBE_ID=$1
     local gwas_variant_type=$2
     local prefix=$3
-    echo ${prefix}.${GBE_ID}.${gwas_variant_type}.PHENO1.glm
-
-#    ukb24983_v2_hg38.BIN1930.exome-spb.PHENO1.glm.logistic.hybrid.gz  
-#    ukb24983_v2_hg19.BIN10030500.genotyped.PHENO1.glm.logistic.hybrid.gz
+    local pop=$4
+    if [ $pop = "white_british" ]; then
+        echo ${prefix}.${GBE_ID}.${gwas_variant_type}.PHENO1.glm
+    else
+        echo ${prefix}.${GBE_ID}.${gwas_variant_type}.glm
+    fi
 }
 
 get_dir_from_variant_type () {
@@ -46,8 +48,8 @@ get_sumstats_name () {
     local variant_type=$4
 
     dir=$(phe_path_to_gwas_path $(dirname $phe_file) $population $(get_dir_from_variant_type ${variant_type}))
-    basename_prefix=$(GBE_ID_to_gwas_basename $(basename ${phe_file%.phe}) ${variant_type} ${prefix})
-    sumstats_file=$(find ${dir} -type f -name "${basename_prefix}*") 
+    basename_prefix=$(GBE_ID_to_gwas_basename $(basename ${phe_file%.phe}) ${variant_type} ${prefix} ${population})
+    sumstats_file=$(find ${dir} -type f -name "${basename_prefix}*gz") 
     echo ${sumstats_file}
 }
 
@@ -123,3 +125,9 @@ show_sumstats () {
     fi
 }
 
+get_field_from_pop () {
+    local pop=$1
+    local const=7
+    echo "white_british non_british_white african e_asian s_asian" \
+        | tr " " "\n" | awk -v pop=$pop -v const=$const '($0 == pop){print NR + const}'
+}
