@@ -35,6 +35,7 @@ if [ ! -d ${out_dir} ] ; then mkdir -p ${out_dir} ; fi
 
 cd ${out_dir}
 
+cp -a ${check_file} .
 echo "tar"
 cat ${check_file} | grep -v NA | cut -f3 | tar --transform 's/.*\///g' --group root --owner root -cvf "${master_prefix}.${freeze_v}.tar" -T /dev/stdin
 echo "extract as unsorted"
