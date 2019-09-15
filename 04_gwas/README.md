@@ -24,11 +24,11 @@ A full list of options can be obtained by running `python gwas.py -h`, and some 
 Please ask the core lab members for this freeze procedure. 
 Here is a brief summary of the procedure.
 
-1) run the check script and deposit the results to `check_gwas/output/` subdir
+##### 1) run the check script and deposit the results to `check_gwas/output/` subdir
 
-2) inspect the results
+##### 2) inspect the results
 
-3) run the freeze script: 
+##### 3) run the freeze script: 
 
 ```
 $ # you can check the usage:
@@ -40,13 +40,13 @@ $ bash gwas_freeze.sh check_gwas/output/check_array_gwas.50195103_e_asian.out uk
 This creates the tar ball with proper ownership and generate master PheWAS file for `ukbb-query`.
 https://github.com/rivas-lab/ukbb-query
 
-4) check the results. The freeze should be availble at 
+##### 4) check the results. The freeze should be availble at 
 
 Check the number of lines, number of non-NA lines, etc.
 
 `/oak/stanford/groups/mrivas/ukbb24983/cal/gwas/freeze/20190913/e_asian`
 
-5) Transfer and deposit the results to google drive
+##### 5) Transfer and deposit the results to google drive
 
 https://github.com/rivas-lab/wiki/wiki/Google-Drive-Storage
 
@@ -74,7 +74,7 @@ Then upload all of the sumstats files in the directory:
 cat check_array_gwas.50195103_e_asian.out | awk '(NR>1){print $3}'| parallel --eta -j10 --header 1 gdrive upload -p 1M2tIqCavPZoNA3K4nX3rRB_sC3YB4vND {} :::: /dev/stdin
 ```
 
-6) Trasnfer and load the files to GBE (when relevant)
+##### 6) Trasnfer and load the files to GBE (when relevant)
 
 When relevant, please transfer the files to GBE server(s) and load them to the SciDB DB(s).
 
