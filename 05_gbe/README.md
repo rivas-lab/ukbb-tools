@@ -58,3 +58,18 @@ The list of columns in the master phenotype info file is as follows:
 
 We keep a Google spreadsheet to maintain "clean" GBE names (for figures, etc.)
 http://bit.ly/GBE_names
+
+# updating the icdinfo file across populations
+
+We run following commands to generate population-specific icdinfo files.
+```
+$for pop in white_british non_british_white s_asian e_asian african ; do bash update_gbe_icdinfo.sh ../04_gwas $(pwd) ${pop} ; done
+```
+
+We then run R scripts in `icdinfo_with_shortnames` to add short names
+Then, we delete the intermediate files.
+
+```
+$for pop in non_british_white s_asian e_asian african ; do rm icdinfo.${pop}.txt ; done
+```
+
