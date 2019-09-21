@@ -63,3 +63,15 @@ We submitted this job as
 3-3_merge.sh merge.lst.tsv
 ```
 
+## 3-4 `3-4_recover_names.ipynb`
+
+```
+[ytanigaw@sh-ln06 login /oak/stanford/groups/mrivas/ukbb24983/array_imp_combined/pgen]$ mv ukb24983_ukb24983_cal_hla_cnv_imp.bim ukb24983_ukb24983_cal_hla_cnv_imp.shortnames.bim
+```
+
+We recover the variant IDs using the codes in the notebook.
+
+## 3-5 `3-5_variant_qc.sh`
+
+We compute the basic statistics (allele frequency and HWE p-value) for this combined set.
+For array variant, we should use allele frequncy that is aware of the batch info.

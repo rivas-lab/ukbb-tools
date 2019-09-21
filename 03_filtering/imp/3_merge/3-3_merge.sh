@@ -3,8 +3,8 @@
 #SBATCH --output=logs/merge.%A.out
 #SBATCH  --error=logs/merge.%A.err
 #SBATCH --nodes=1
-#SBATCH --cores=10
-#SBATCH --mem=300000
+#SBATCH --cores=16
+#SBATCH --mem=3000000
 #SBATCH --time=1-00:00:00
 #SBATCH -p mrivas,normal
 set -beEuo pipefail
