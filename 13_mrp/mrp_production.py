@@ -49,7 +49,7 @@ def read_metadata(metadata_path):
     return metadata
 
 
-def set_sigmas(df):
+def set_sigmas(df, variant_filter):
     ptv = [
         "frameshift_variant",
         "splice_acceptor_variant",
@@ -89,6 +89,11 @@ def set_sigmas(df):
     print("Before consequence filter:")
     print(len(df))
     df = df[~df.most_severe_consequence.isin(to_filter)]
+    if variant_filter == 'ptv':
+        df = df[df.most_severe_consequence.isin(ptv)]
+    elif variant_filter = 'pav':
+        df = df[df.most_severe_consequence.isin(ptv + pav)]
+    
     print("After consequence filter:")
     print(len(df))
     print("Setting sigmas...")
@@ -244,7 +249,6 @@ def run_mrp(df, disease_string, S, mode):
 
 
 def merge_and_filter(pops, phenos, variant_filter, datasets):
-
     print("Reading in summary stats for:")
     print("Populations: " + ", ".join(pops))
     print("Phenotypes: "  + ", ".join(phenos))
@@ -252,38 +256,41 @@ def merge_and_filter(pops, phenos, variant_filter, datasets):
 
     file_paths, sumstat_files = read_in_summary_stats(pops, phenos, datasets)
     
+    filtered_sumstat_files = []
+    exome_metadata = read_metadata(
+        "/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-gene_consequence_wb_maf_final.tsv"
+    )
+    cal_metadata = read_metadata(
+        "/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-gene_consequence_wb_maf_final.tsv"
+    )
+
     for file_path, sumstat_file in zip(file_paths, sumstat_files):
+        print(file_path)
         print("Before SE filter...")
-    #print(len(disease_df))
-    #disease_df = disease_df[disease_df["SE"].notnull()]
-    #disease_df = disease_df[disease_df["SE"] <= 0.5]
-    #print("After SE filter...")
-    #print(len(disease_df))
-    #mrp_prefix = os.path.dirname(sumstat_file.replace("gwas", "mrp"))
+        print(len(disease_df))
+        disease_df = disease_df[disease_df["SE"].notnull()]
+        disease_df = disease_df[disease_df["SE"] <= 0.5]
+        print("After SE filter...")
+        print(len(disease_df))
+        # mrp_prefix = ???????????????
 
-    # disease_df = pd.read_csv('head.tsv', sep='\t')
-    # disease_df = disease_df[disease_df['SE'].notnull()]
-    # disease_df.insert(loc=0, column='V', value=disease_df['#CHROM'].astype(str).str.cat(disease_df['POS'].astype(str), sep=':').str.cat(disease_df['REF'], sep=':').str.cat(disease_df['ALT'], sep=':'))
-    # mrp_prefix=""
+        disease_df.insert(loc=0, column='V', value=disease_df['#CHROM'].astype(str).str.cat(disease_df['POS'].astype(str), sep=':').str.cat(disease_df['REF'], sep=':').str.cat(disease_df['ALT'], sep=':'))
 
-    ## Merge metadata
-    #print("Reading in metadata file...")
-    #if mode == "exome":
-    #    metadata = read_metadata(
-    #        "/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-gene_consequence_wb_maf_final.tsv"
-    #    )
-    #elif mode == "cal":
-    #    metadata = read_metadata(
-    #        "/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-gene_consequence_wb_maf_final.tsv"
-    #    )
-    #merged = disease_df.merge(metadata)
-    #print("Before MAF filter:")
-    #print(len(merged))
-    #print("After MAF filter:")
-    #merged = merged[(merged.wb_maf <= 0.01) & (merged.wb_maf > 0)]
-    #print(len(merged))
-    #merged = set_sigmas(merged)
-    #return merged, mrp_prefix
+        # Merge metadata
+        print("Reading in metadata file...")
+        if "exome" in file_path:
+           annotated = disease_df.merge(exome_metadata)
+        elif "cal" in file_path:
+           annotated = disease_df.merge(cal_metadata)
+
+        print("Before MAF filter:")
+        print(len(annotated))
+        print("After MAF filter:")
+        annotated = annotated[(annotated.wb_maf <= 0.01) & (annotated.wb_maf > 0)]
+        print(len(annotated))
+        annotated = set_sigmas(annotated, variant_filter)
+        filtered_sumstat_files.append(annotated)
+    return filtered_sumstat_files
 
 
 def generate_results(merged, disease_string, S):
@@ -429,7 +436,8 @@ if __name__ == "__main__":
         args
     )
     
-    merged, mrp_prefix = merge_and_filter(pops, phenos, variant_filter, datasets)
+    for analysis in variant_filter:
+        merged, mrp_prefix = merge_and_filter(pops, phenos, analysis, datasets)
     # S = 1
     # K = 1 #looking at each phenotype separately, since otherwise, there will be correlated errors in our case. Can change if phenotypes are sufficiently different
     # gene_pos = merged[['gene_symbol', '#CHROM', 'POS']]
