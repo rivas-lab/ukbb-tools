@@ -15,8 +15,10 @@ usage () {
     echo "  Usage: $PROGNAME [population (default: ${_default_population})] [prefix (default: ${_default_prefix})] [variant_type (default: ${_default_variant_type}]"
 }
 
+ml load parallel
+
 # read common func
-source $(dirname $(readlink -f $0))/04_gwas_misc.sh
+source $(dirname $(dirname $(readlink -f $0)))/04_gwas_misc.sh
 
 # cmdarg parse
 if [ $# -lt 1 ] ; then population=${_default_population} ; else population=$1 ;  fi
@@ -31,13 +33,15 @@ trap handler_exit EXIT
 
 # dump list of phe_files to tmp
 tmp_phe_files=$tmp_dir/phe_files.lst
-cat ../05_gbe/phenotype_info.tsv | awk -v min_N=10 'NR > 1 && $7 >= min_N' | egrep -v MED  | awk '{print $NF}' > $tmp_phe_files
+
+field=$(get_field_from_pop $1)
+
+cat ../../05_gbe/phenotype_info.tsv | awk -v min_N=10 -v field=$field 'NR > 1 && $field >= min_N' | egrep -v MED  | awk '{print $NF}' > $tmp_phe_files
 
 tmp_parallel_wrapper=$tmp_dir/parallel_wrapper.sh
 echo "#!/bin/bash" > ${tmp_parallel_wrapper}
-echo "source $(dirname $(readlink -f $0))/04_gwas_misc.sh" >> ${tmp_parallel_wrapper}
+echo "source $(dirname $(dirname $(readlink -f $0)))/04_gwas_misc.sh" >> ${tmp_parallel_wrapper}
 echo 'check_sumstats_wrapper $@' >> ${tmp_parallel_wrapper}
 
 echo "#idx phe_file sumstats_file n_lines n_non-NA_lines" | tr " " "\t"
 parallel -j 6 --keep "bash $tmp_parallel_wrapper $tmp_phe_files {} $population $prefix $variant_type" ::: $(seq 1 $(cat  $tmp_phe_files | wc -l))
-

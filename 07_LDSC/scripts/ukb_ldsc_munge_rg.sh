@@ -55,6 +55,8 @@ run_munged () {
     out_file=$(get_munged_file $in_file $dataset_name $out_dir_root)
     if [ ! -f ${out_file}.log ] ; then	
        if [ ! -d $(dirname ${out_file}) ] ; then mkdir -p $(dirname ${out_file}) ; fi
+        echo bash ${repo_dir}/helpers/ukb_ldsc_munge_wrapper.sh \
+	    ${out_file} $(get_GBE_name $in_file) $(infer_in_type $in_file) $in_file
         bash ${repo_dir}/helpers/ukb_ldsc_munge_wrapper.sh \
 	    ${out_file} $(get_GBE_name $in_file) $(infer_in_type $in_file) $in_file
     fi
