@@ -1,43 +1,21 @@
 from __future__ import division
-import pandas as pd
-from functools import partial, reduce
-pd.options.mode.chained_assignment = None  # default='warn'
-import numpy as np
-import numpy.matlib as npm
-from numpy.linalg import LinAlgError
-from scipy.stats import describe
-from scipy.stats import beta
-from collections import defaultdict
-import subprocess
-import math
-import os
-import sys
 import argparse
 
 # Read in summary statistics from GBE sumstats
 def read_in_summary_stats(pops, phenos, datasets):
-    sumstats_files = []
+    file_paths = []
+    sumstat_files = []
     for pop in pops:
         for pheno in phenos:
             for dataset in datasets:
-                if dataset == "exome":
-                    findCMD = (
-                        "find /oak/stanford/groups/mrivas/ukbb24983/"
-                        + dataset
-                        + '/gwas/ -name "*'
-                        + pheno
-                        + '.*" | grep -v "exome-spb.log" | grep -v freeze | grep -v old | grep '
-                        + pop
-                    )
-                elif dataset == "cal":
-                    findCMD = (
-                        "find /oak/stanford/groups/mrivas/ukbb24983/"
-                        + dataset
-                        + '/gwas/ -name "*'
-                        + pheno
-                        + '.*" | grep -v "genotyped.log" | grep -v freeze | grep -v old | grep '
-                        + pop
-                    )
+                findCMD = (
+                    'find /oak/stanford/groups/mrivas/ukbb24983/'
+                    + dataset
+                    + '/gwas/ -name "*.gz" | grep '
+                    + pop
+                    + ' | grep -v freeze | grep -v old | grep '
+                    + pheno
+                )
                 out = subprocess.Popen(
                     findCMD,
                     shell=True,
@@ -47,21 +25,23 @@ def read_in_summary_stats(pops, phenos, datasets):
                 )
                 (stdout, stderr) = out.communicate()
                 sumstat_file = stdout.strip().decode("utf-8")
-                print("Sumstat file:")
-                print(sumstat_file)
-                df = pd.read_csv(sumstat_file, sep="\t")
-                df.insert(
-                    loc=0,
-                    column="V",
-                    value=df["#CHROM"]
-                    .astype(str)
-                    .str.cat(df["POS"].astype(str), sep=":")
-                    .str.cat(df["REF"], sep=":")
-                    .str.cat(df["ALT"], sep=":"),
-                )
-                #sumstat_files.append(df)
-                sumstat_files.append(sumstat_file)
-    return sumstat_files
+                if os.path.exists(sumstat_file):
+                    print(sumstat_file)
+                    df = pd.read_csv(sumstat_file, sep="\t")
+                    df.insert(
+                        loc=0,
+                        column="V",
+                        value=df["#CHROM"]
+                        .astype(str)
+                        .str.cat(df["POS"].astype(str), sep=":")
+                        .str.cat(df["REF"], sep=":")
+                        .str.cat(df["ALT"], sep=":"),
+                    )
+                    sumstat_files.append(df)
+                    file_paths.append(sumstat_file)
+                else:
+                    raise Exception('A summary statistic file cannot be found for population: {}; phenotype: {}; dataset {}.'.format(pop, pheno, dataset))
+    return file_paths, sumstat_files
 
 # Need to have: gene, consequence, pop/global allele frequencies.
 def read_metadata(metadata_path):
@@ -270,38 +250,40 @@ def merge_and_filter(pops, phenos, variant_filter, datasets):
     print("Phenotypes: "  + ", ".join(phenos))
     print("Datasets: " + ", ".join(datasets))
 
-    disease_df, sumstat_file = read_in_summary_stats(pops, phenos, datasets)
-    print("Before SE filter...")
-    print(len(disease_df))
-    disease_df = disease_df[disease_df["SE"].notnull()]
-    disease_df = disease_df[disease_df["SE"] <= 0.5]
-    print("After SE filter...")
-    print(len(disease_df))
-    mrp_prefix = os.path.dirname(sumstat_file.replace("gwas", "mrp"))
+    file_paths, sumstat_files = read_in_summary_stats(pops, phenos, datasets)
+    
+    for file_path, sumstat_file in zip(file_paths, sumstat_files):
+        print("Before SE filter...")
+    #print(len(disease_df))
+    #disease_df = disease_df[disease_df["SE"].notnull()]
+    #disease_df = disease_df[disease_df["SE"] <= 0.5]
+    #print("After SE filter...")
+    #print(len(disease_df))
+    #mrp_prefix = os.path.dirname(sumstat_file.replace("gwas", "mrp"))
 
     # disease_df = pd.read_csv('head.tsv', sep='\t')
     # disease_df = disease_df[disease_df['SE'].notnull()]
     # disease_df.insert(loc=0, column='V', value=disease_df['#CHROM'].astype(str).str.cat(disease_df['POS'].astype(str), sep=':').str.cat(disease_df['REF'], sep=':').str.cat(disease_df['ALT'], sep=':'))
     # mrp_prefix=""
 
-    # Merge metadata
-    print("Reading in metadata file...")
-    if mode == "exome":
-        metadata = read_metadata(
-            "/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-gene_consequence_wb_maf_final.tsv"
-        )
-    elif mode == "cal":
-        metadata = read_metadata(
-            "/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-gene_consequence_wb_maf_final.tsv"
-        )
-    merged = disease_df.merge(metadata)
-    print("Before MAF filter:")
-    print(len(merged))
-    print("After MAF filter:")
-    merged = merged[(merged.wb_maf <= 0.01) & (merged.wb_maf > 0)]
-    print(len(merged))
-    merged = set_sigmas(merged)
-    return merged, mrp_prefix
+    ## Merge metadata
+    #print("Reading in metadata file...")
+    #if mode == "exome":
+    #    metadata = read_metadata(
+    #        "/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-gene_consequence_wb_maf_final.tsv"
+    #    )
+    #elif mode == "cal":
+    #    metadata = read_metadata(
+    #        "/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-gene_consequence_wb_maf_final.tsv"
+    #    )
+    #merged = disease_df.merge(metadata)
+    #print("Before MAF filter:")
+    #print(len(merged))
+    #print("After MAF filter:")
+    #merged = merged[(merged.wb_maf <= 0.01) & (merged.wb_maf > 0)]
+    #print(len(merged))
+    #merged = set_sigmas(merged)
+    #return merged, mrp_prefix
 
 
 def generate_results(merged, disease_string, S):
@@ -349,6 +331,9 @@ def return_input_args(args):
 if __name__ == "__main__":
     # Argparse should get all of the parameters needed:
     # S, M, and K should be specified
+    with open("../05_gbe/phenotype_info.tsv", "r") as phe_file:
+        valid_phenos = [line.split()[0] for line in phe_file][1:]
+
     parser = argparse.ArgumentParser(
         description="MRP takes in several variables that affect how it runs."
     )
@@ -373,6 +358,8 @@ if __name__ == "__main__":
     # ERROR CHECKING FOR ELIGIBLE PHENOS?
     parser.add_argument(
         "--K",
+        choices=valid_phenos,
+        metavar='PHENO1 PHENO2 ...',
         type=str,
         nargs="+",
         required=True,
@@ -425,7 +412,19 @@ if __name__ == "__main__":
         help="which UKBB dataset to use. options: cal, exome (default: cal). can run multiple.",
     )
     args = parser.parse_args()
-
+    print("Valid arguments. Importing packages...") 
+    import pandas as pd
+    from functools import partial, reduce
+    pd.options.mode.chained_assignment = None  # default='warn'
+    import numpy as np
+    import numpy.matlib as npm
+    from numpy.linalg import LinAlgError
+    from scipy.stats import describe, beta
+    from collections import defaultdict
+    import subprocess
+    import math
+    import os
+    
     S, K, pops, phenos, R_study, R_phen, agg, sigma_type, variant_filter, datasets = return_input_args(
         args
     )
