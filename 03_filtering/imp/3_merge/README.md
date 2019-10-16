@@ -2,21 +2,24 @@
 
 We generate the `array_imp_combined` dataset in the following procedure.
 
-## step 0. Start with biallelic SNVs w/ MAF>1% on the imputation dataset
+## Data availability
 
-## step 1. `3-1_compare_cal_and_imp.ipynb`
+`/oak/stanford/groups/mrivas/ukbb24983/array_imp_combined/pgen`
 
-We compared the imputation data and array genotyped data. 
-We identified `673,909` variants have the same coordinates based on `inner_join` on (CHR, POS) pair.
-(Note: `imp` has 10,231,518 variants and `cal` (array) has 805,426 variants)
+## `3-1_merge.sh`
 
-We saved the results of this join to `/oak/stanford/groups/mrivas/ukbb/24983/imp/pgen/maf1/ukb24983_cal_v2_hg19_imp_v3_maf1.join.tsv`
+We merge the following datasets:
 
-## `3-2_make_imp_maf1_no_cal.sh`
-
-Using the results from the previous step, we generate PLINK 1.9 & PLINK 2 files for the imputation variants that are not part of the array (`cal`).
-
-## `3-3_merge.sh`
+- 5,182,706 variants on imputed dataset (v3)
+  - MAF >= 0.01
+  - Imputation quality >= 0.7
+  - Biallelic only
+  - The variant position is not present on genotyping array dataset
+  - Missingness 
+  - HWE 1e-7
+- Array genotypes (v2)
+- HLA
+- CNV
 
 The memory footprint of PLINK 1.9 `--merge` is proportional to the length of variant IDs.
 
@@ -46,32 +49,18 @@ Thank you very much.
 Sincerely yours,Yosuke
 ```
 
-The longest variant IDs are:
-- cal 13
-- hla 9
-- cnv 24
-- imp 677
-
-We therefore assigned temporal variant IDs for the merge.
-
-`3-3_merge.sh` calls `assign_short_names_for_merge.R` and perform merge on dataset with short IDs.
-
-
 We submitted this job as
 
 ```
-3-3_merge.sh merge.lst.tsv
+sbatch 3-1_merge.sh merge.lst.tsv
 ```
 
-## 3-4 `3-4_recover_names.ipynb`
-
-```
-[ytanigaw@sh-ln06 login /oak/stanford/groups/mrivas/ukbb24983/array_imp_combined/pgen]$ mv ukb24983_ukb24983_cal_hla_cnv_imp.bim ukb24983_ukb24983_cal_hla_cnv_imp.shortnames.bim
-```
+## 3-2 `3-2_recover_names.ipynb`
 
 We recover the variant IDs using the codes in the notebook.
 
-## 3-5 `3-5_variant_qc.sh`
+## 3-3 `3-3_bed_to_pgen.sh`
 
-We compute the basic statistics (allele frequency and HWE p-value) for this combined set.
-For array variant, we should use allele frequncy that is aware of the batch info.
+```
+sbatch 3-3_bed_to_pgen.sh
+```

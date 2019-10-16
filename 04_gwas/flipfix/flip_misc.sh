@@ -143,6 +143,8 @@ fix_flip () {
         fix_flip_quantitative ${in_sumstats} ${tmp_ref_fa}
     else
         echo "failed to detect the file type. Is this binary or quantitative?" >&2 ; 
+        echo "col_OR=${col_OR} col_BETA=${col_BETA}"
+        cat_or_zcat $in_sumstats | awk 'NR<5'
         exit 1
     fi
 }
