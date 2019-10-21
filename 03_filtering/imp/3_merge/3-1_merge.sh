@@ -5,7 +5,7 @@
 #SBATCH --nodes=1
 #SBATCH --cores=16
 #SBATCH --mem=3000000
-#SBATCH --time=1-00:00:00
+#SBATCH --time=0-20:00:00
 #SBATCH -p mrivas,normal
 set -beEuo pipefail
 
@@ -65,3 +65,5 @@ done
 cat ${tmp_merge_list} >&2
 
 plink ${plink_opts} --merge-list ${tmp_merge_list} --make-bed --keep-allele-order --out ${out}
+
+mv "${out}.bim" "${out}.shortnames.bim"

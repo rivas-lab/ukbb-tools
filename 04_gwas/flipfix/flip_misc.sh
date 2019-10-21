@@ -7,7 +7,13 @@ set -beEuo pipefail
 
 cat_or_zcat () {
     local file=$1
-    if [ "${file%.gz}.gz" == "${file}" ] ; then zcat ${file} ; else cat ${file} ; fi
+    if [ "${file%.gz}.gz" == "${file}" ] ; then 
+        zcat ${file} 
+    elif [ "${file%.zst}.zst" == "${file}" ] ; then 
+        zstdcat ${file}
+    else
+        cat ${file}
+    fi
 }
 
 show_header () {
@@ -34,6 +40,8 @@ check_flip_body () {
     cat_or_zcat ${in_sumstats} | tr "\t" "${field_sep}" \
         | awk -v OFS='\t' -v FS=${field_sep} -v chr="${chr_prefix}" \
         '(NR>1){print chr $1, $2-1, $2-1+length($4), $3, chr $0}' \
+        | sed -e "s/chrXY/chrX/g" \
+        | sed -e "s/chrMT/chrM/g" \
         | bedtools getfasta -fi ${ref_fa} -bed /dev/stdin -bedOut \
         | tr ${field_sep} "\t" | cut -f5- | sed -e "s/^${chr_prefix}//g"
 }
@@ -143,6 +151,8 @@ fix_flip () {
         fix_flip_quantitative ${in_sumstats} ${tmp_ref_fa}
     else
         echo "failed to detect the file type. Is this binary or quantitative?" >&2 ; 
+        echo "col_OR=${col_OR} col_BETA=${col_BETA}"
+        cat_or_zcat $in_sumstats | awk 'NR<5'
         exit 1
     fi
 }

@@ -3,9 +3,9 @@
 #SBATCH --output=logs/split.%A.out
 #SBATCH  --error=logs/split.%A.err
 #SBATCH --nodes=1
-#SBATCH --cores=6
-#SBATCH --mem=60000
-#SBATCH --time=1-0:00:00
+#SBATCH --cores=10
+#SBATCH --mem=100000
+#SBATCH --time=6:00:00
 #SBATCH -p mrivas
 set -beEuo pipefail
 
@@ -34,3 +34,4 @@ for s in val test train ; do
         --make-bed --out ${out}.${s}
     mv ${out}.${s}.log ${out}.${s}.bed.log
 done
+

@@ -15,7 +15,7 @@ _SLURM_JOBID=${SLURM_JOBID:=0} # use 0 for default value (for debugging purpose)
 _SLURM_ARRAY_TASK_ID=${SLURM_ARRAY_TASK_ID:=1}
 echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-start] hostname = $(hostname) SLURM_JOBID = ${_SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${_SLURM_ARRAY_TASK_ID}" >&2
 
-src="/oak/stanford/groups/mrivas/ukbb24983/imp/pgen/bgen_to_plink.sh"
+src="/oak/stanford/groups/mrivas/ukbb24983/imp/pgen/bgen2pgen.sh"
 
 bash ${src} ${_SLURM_ARRAY_TASK_ID} 8 100000
 
