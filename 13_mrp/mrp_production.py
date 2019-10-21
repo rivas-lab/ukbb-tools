@@ -2,7 +2,7 @@ from __future__ import division
 import argparse
 
 # Read in summary statistics from GBE sumstats
-def read_in_summary_stats(pops, phenos, datasets):
+def read_in_summary_stats(pops, phenos, datasets, conserved_columns):
     file_paths = []
     sumstat_files = []
     for pop in pops:
@@ -24,10 +24,10 @@ def read_in_summary_stats(pops, phenos, datasets):
                     stderr=subprocess.PIPE,
                 )
                 (stdout, stderr) = out.communicate()
-                sumstat_file = stdout.strip().decode("utf-8")
-                if os.path.exists(sumstat_file):
-                    print(sumstat_file)
-                    df = pd.read_csv(sumstat_file, sep="\t")
+                file_path = stdout.strip().decode("utf-8")
+                if os.path.exists(file_path):
+                    print(file_path)
+                    df = pd.read_csv(file_path, sep="\t")
                     df.insert(
                         loc=0,
                         column="V",
@@ -37,10 +37,19 @@ def read_in_summary_stats(pops, phenos, datasets):
                         .str.cat(df["REF"], sep=":")
                         .str.cat(df["ALT"], sep=":"),
                     )
+                    # Filter for SE as you read it in
+                    df = rename_columns(df, conserved_columns, pop, pheno)
+                    df = df[df["SE" + "_" + pop + "_" + pheno].notnull()]
+                    df = df[df["SE" + "_" + pop + "_" + pheno] <= 0.5]
                     sumstat_files.append(df)
-                    file_paths.append(sumstat_file)
+                    file_paths.append(file_path)
                 else:
-                    raise Exception('A summary statistic file cannot be found for population: {}; phenotype: {}; dataset {}.'.format(pop, pheno, dataset))
+                    # NOTE WILL THROW ERROR IF MIXING PHENOTYPE TYPES
+                    df = pd.DataFrame(columns=conserved_columns + ["FIRTH?", "TEST", "OBS_CT". "OR". "SE". "Z_STAT", "P")
+                    df = rename_columns(df, conserved_columns, pop, pheno)
+                    sumstat_files.append(df)
+                    file_paths.append("file_not_found")
+                    #raise Exception('A summary statistic file cannot be found for population: {}; phenotype: {}; dataset {}.'.format(pop, pheno, dataset))
     return file_paths, sumstat_files
 
 # Need to have: gene, consequence, pop/global allele frequencies.
@@ -49,7 +58,7 @@ def read_metadata(metadata_path):
     return metadata
 
 
-def set_sigmas(df, variant_filter):
+def set_sigmas(df):
     ptv = [
         "frameshift_variant",
         "splice_acceptor_variant",
@@ -86,17 +95,8 @@ def set_sigmas(df, variant_filter):
         "NA",
         "NMD_transcript_variant",
     ]
-    print("Before consequence filter:")
-    print(len(df))
-    df = df[~df.most_severe_consequence.isin(to_filter)]
-    if variant_filter == 'ptv':
-        df = df[df.most_severe_consequence.isin(ptv)]
-    elif variant_filter = 'pav':
-        df = df[df.most_severe_consequence.isin(ptv + pav)]
     
-    print("After consequence filter:")
-    print(len(df))
-    print("Setting sigmas...")
+    df = df[~df.most_severe_consequence.isin(to_filter)]
     sigma_m_ptv = 0.2
     sigma_m_pav = 0.05
     sigma_m_pc = 0.05
@@ -173,88 +173,103 @@ def return_BF(U, beta, v_beta, mu, gene):
     else:
         return np.nan
 
+def delete_rows_and_columns(matrix, indices_to_remove):
+    matrix = np.delete(matrix, indices_to_remove, axis=0)
+    matrix = np.delete(matrix, indices_to_remove, axis=1)
+    return matrix
 
-def assign_R_var(model, M):
-    if model == "independent_effects":
-        R_var = np.diag(np.ones(M))
-    elif model == "similar_effects":
-        R_var = np.ones((M, M))
-    return R_var
-
-
-def generate_beta_se_gene(subset_df):
-    se2_list = subset_df["SE"].tolist()
-    if "BETA" in subset_df.columns:
-        beta_list = subset_df["BETA"].tolist()
-    else:
-        beta_list = np.log(subset_df["OR"].tolist())
-    return beta_list, se2_list
+def adjust_U_for_missingness(U, v_beta, beta, beta_list):
+    indices_to_remove = np.argwhere(np.isnan(beta_list))
+    U = delete_rows_and_columns(U, indices_to_remove)
+    v_beta = delete_rows_and_columns(v_beta, indices_to_remove)
+    beta = beta[~np.isnan(beta)].reshape(-1, 1)
+    return U, v_beta, beta
 
 
-def calculate_all_params(df, M, key, sigma_m_type, j, S):
-    R_study = np.diag(np.ones(S))
+def generate_beta_se(subset_df, pops, phenos):
+    beta_list = []
+    se_list = []
+    for pop in pops:
+        for index, row in subset_df.iterrows():
+            for pheno in phenos:
+                if "BETA" + "_" + pop + "_" + pheno in subset_df.columns:
+                    beta_list.append(row["BETA" + "_" + pop + "_" + pheno])
+                elif "OR" + "_" + pop + "_" + pheno in subset_df.columns:
+                    beta_list.append(np.log(row["OR" + "_" + pop + "_" + pheno]))
+                se_list.append(row["SE" + "_" + pop + "_" + pheno])
+    return beta_list, se_list
+
+
+def calculate_all_params(df, pops, phenos, M, key, sigma_m_type, j, S, R_study, R_phen, R_var_model):
     subset_df = df[df["gene_symbol"] == key]
     sigma_m = subset_df[sigma_m_type].tolist()
     diag_sigma_m = np.diag(np.atleast_1d(np.array(sigma_m)))
-    R_var_indep = assign_R_var("independent_effects", M)
-    R_var_sim = assign_R_var("similar_effects", M)
-    S_var_indep = np.dot(np.dot(diag_sigma_m, R_var_indep), diag_sigma_m)
-    S_var_sim = np.dot(np.dot(diag_sigma_m, R_var_sim), diag_sigma_m)
-    beta_list, se2_list = generate_beta_se_gene(subset_df)
+    R_var = np.diag(np.ones(M)) if R_var_model == "independent" else np.ones((M, M))
+    S_var = np.dot(np.dot(diag_sigma_m, R_var), diag_sigma_m)
+    beta_list, se_list = generate_beta_se(subset_df, pops, phenos)
     beta = np.array(beta_list).reshape(-1, 1)
+    v_beta = np.diag(np.square(np.array(se_list)).reshape(-1))
+    U = np.kron(R_study, np.kron(S_var, R_phen))
+    U, v_beta, beta = adjust_U_for_missingness(U, v_beta, beta, beta_list)
     mu = np.zeros(beta.shape)
-    v_beta = np.diag(np.square(np.array(se2_list)).reshape(-1))
-    U_indep = np.kron(R_study, np.kron(S_var_indep, R_phen))
-    U_sim = np.kron(R_study, np.kron(S_var_sim, R_phen))
-    return U_indep, U_sim, beta, v_beta, mu
+    return U, beta, v_beta, mu
 
 
-def run_mrp_gene_level(df, S, mode):
+def run_mrp(dfs, S, K, pops, phenos, R_study, R_phen, R_var_model, analysis, sigma_m_type, conserved_columns):
+    outer_merge = partial(pd.merge, on=conserved_columns, how="outer")
+    df = reduce(outer_merge, dfs)
     m_dict = df.groupby("gene_symbol").size()
     bf_dict = {}
     bf_dfs = []
-    sigma_m_types = ["sigma_m_var", "sigma_m_005", "sigma_m_1"]
-    for sigma_m_type in sigma_m_types:
-        print("Sigma m type " + sigma_m_type + ":")
-        for i, (key, value) in enumerate(m_dict.items()):
-            if i % 1000 == 0:
-                print("Done " + str(i) + " genes out of " + str(len(m_dict)))
-            M = value
-            U_indep, U_sim, beta, v_beta, mu = calculate_all_params(
-                df, M, key, sigma_m_type, i, S
-            )
-            bf_indep = return_BF(U_indep, beta, v_beta, mu, key)
-            bf_sim = return_BF(U_sim, beta, v_beta, mu, key)
-            bf_dict[key] = [bf_indep, bf_sim]
-        bf_df = (
-            pd.DataFrame.from_dict(bf_dict, orient="index")
-            .reset_index()
-            .rename(
-                columns={
-                    "index": "gene_symbol",
-                    0: "log_10_BF_" + sigma_m_type + "_indep_" + mode,
-                    1: "log_10_BF_" + sigma_m_type + "_sim_" + mode,
-                }
-            )
+    for i, (key, value) in enumerate(m_dict.items()):
+        if i % 1000 == 0:
+            print("Done " + str(i) + " genes out of " + str(len(m_dict)))
+        M = value
+        U, beta, v_beta, mu = calculate_all_params(
+            df, pops, phenos, M, key, sigma_m_type, i, S, R_study, R_phen, R_var_model
         )
-        bf_dfs.append(bf_df)
-    inner_merge = partial(pd.merge, on="gene_symbol", how="inner")
-    df = reduce(inner_merge, bf_dfs)
+        bf = return_BF(U, beta, v_beta, mu, key)
+        bf_dict[key] = bf
+    bf_df = (
+        pd.DataFrame.from_dict(bf_dict, orient="index")
+        .reset_index()
+        .rename(
+            columns={
+                "index": "gene_symbol",
+                0: "log_10_BF",
+            }
+        )
+    )
+    return bf_df
+
+
+def filter_category(sumstats_files, variant_filter):
+    analysis_files = []
+    for df in sumstats_files:
+        if variant_filter == 'ptv':
+            df = df[df.category == "ptv"]
+        elif variant_filter == 'pav':
+            df = df[(df.category == "ptv") | (df.category == "pav")]
+        analysis_files.append(df)
+    return analysis_files
+
+
+def rename_columns(df, conserved_columns, pop, pheno):
+    if "LOG(OR)_SE" in df.columns:
+        df.rename(columns={"LOG(OR)_SE": "SE"}, inplace=True)
+    columns_to_rename = list(set(df.columns) - set(conserved_columns))
+    renamed_columns = [(x + "_" + pop + "_" + pheno) for x in columns_to_rename]
+    df.rename(columns=dict(zip(columns_to_rename, renamed_columns)), inplace=True)
     return df
 
 
-def run_mrp(df, disease_string, S, mode):
-    df = run_mrp_gene_level(df, disease_string, S, mode)
-    return df
-
-
-def merge_and_filter(pops, phenos, variant_filter, datasets):
+def collect_and_filter(pops, phenos, datasets, conserved_columns):
     print("Reading in summary stats for:")
     print("Populations: " + ", ".join(pops))
     print("Phenotypes: "  + ", ".join(phenos))
     print("Datasets: " + ", ".join(datasets))
 
-    file_paths, sumstat_files = read_in_summary_stats(pops, phenos, datasets)
+    file_paths, sumstat_files = read_in_summary_stats(pops, phenos, datasets, conserved_columns)
     
     filtered_sumstat_files = []
     exome_metadata = read_metadata(
@@ -263,33 +278,16 @@ def merge_and_filter(pops, phenos, variant_filter, datasets):
     cal_metadata = read_metadata(
         "/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-gene_consequence_wb_maf_final.tsv"
     )
-
+    print("Filtering sumstats on MAF, setting sigmas, and filtering on consequence...")
     for file_path, sumstat_file in zip(file_paths, sumstat_files):
-        print(file_path)
-        print("Before SE filter...")
-        print(len(disease_df))
-        disease_df = disease_df[disease_df["SE"].notnull()]
-        disease_df = disease_df[disease_df["SE"] <= 0.5]
-        print("After SE filter...")
-        print(len(disease_df))
-        # mrp_prefix = ???????????????
-
-        disease_df.insert(loc=0, column='V', value=disease_df['#CHROM'].astype(str).str.cat(disease_df['POS'].astype(str), sep=':').str.cat(disease_df['REF'], sep=':').str.cat(disease_df['ALT'], sep=':'))
-
         # Merge metadata
-        print("Reading in metadata file...")
         if "exome" in file_path:
-           annotated = disease_df.merge(exome_metadata)
+           sumstat_file = sumstat_file.merge(exome_metadata)
         elif "cal" in file_path:
-           annotated = disease_df.merge(cal_metadata)
-
-        print("Before MAF filter:")
-        print(len(annotated))
-        print("After MAF filter:")
-        annotated = annotated[(annotated.wb_maf <= 0.01) & (annotated.wb_maf > 0)]
-        print(len(annotated))
-        annotated = set_sigmas(annotated, variant_filter)
-        filtered_sumstat_files.append(annotated)
+           sumstat_file = sumstat_file.merge(cal_metadata)
+        sumstat_file = sumstat_file[(sumstat_file.wb_maf <= 0.01) & (sumstat_file.wb_maf > 0)]
+        sumstat_file = set_sigmas(sumstat_file)
+        filtered_sumstat_files.append(sumstat_file)
     return filtered_sumstat_files
 
 
@@ -305,6 +303,7 @@ def generate_results(merged, disease_string, S):
         else:
             print("Running PTVs...")
             results.append(run_mrp(merged, disease_string, S, "ptv"))
+            results.append(run_mrp(merged, disease_string, S, "pav"))
     inner_merge = partial(pd.merge, on="gene_symbol", how="outer")
     df = reduce(inner_merge, results)
     return df
@@ -315,11 +314,11 @@ def return_input_args(args):
     K = len(args.phenos)
     R_study = [
         np.diag(np.ones(S)) if x == "independent" else np.ones((S, S))
-        for x in args.R_study_model
+        for x in args.R_study_models
     ]
     R_phen = [
         np.diag(np.ones(K)) if x == "independent" else np.ones((K, K))
-        for x in args.R_phen_model
+        for x in args.R_phen_models
     ]
     return (
         S,
@@ -327,12 +326,25 @@ def return_input_args(args):
         args.pops,
         args.phenos,
         R_study,
+        args.R_study_models,
         R_phen,
+        args.R_phen_models,
+        args.R_var_models,
         args.agg,
-        args.sigma_type,
-        args.variant_filter,
+        args.sigma_m_types,
+        args.variants,
         args.datasets,
     )
+
+
+def print_params(analysis, S, R_study, K, R_phen, agg_type, sigma_m_type):
+    print("Analysis: " + analysis)
+    print("S: " + str(S))
+    print("R_study model: " + R_study_model)
+    print("K: " + str(K))
+    print("R_phen model: " + R_phen_model)
+    print("Aggregation by: " + agg_type)
+    print("Variant weighting factor: " + sigma_m_type)
 
 
 if __name__ == "__main__":
@@ -359,7 +371,7 @@ if __name__ == "__main__":
         type=str,
         nargs="+",
         default=["independent"],
-        dest="R_study_model",
+        dest="R_study_models",
         help="type of model across studies. options: independent, similar (default: independent). can run both.",
     )
     # ERROR CHECKING FOR ELIGIBLE PHENOS?
@@ -379,8 +391,17 @@ if __name__ == "__main__":
         type=str,
         nargs="+",
         default=["independent"],
-        dest="R_phen_model",
+        dest="R_phen_models",
         help="type of model across phenotypes. options: independent, similar (default: independent). can run both.",
+    )
+    parser.add_argument(
+        "--R_var",
+        choices=["independent", "similar"],
+        type=str,
+        nargs="+",
+        default=["independent"],
+        dest="R_var_models",
+        help="type of model across variants. options: independent, similar (default: independent). can run both.",
     )
     parser.add_argument(
         "--M",
@@ -392,21 +413,18 @@ if __name__ == "__main__":
         help="unit of aggregation. options: variant, gene (default: gene). can run both.",
     )
     parser.add_argument(
-        "--sigma_type",
-        choices=["var", "1", "0.05"],
+        "--sigma_m_types",
+        choices=["sigma_m_var", "sigma_m_1", "sigma_m_0.05"],
         type=str,
         nargs="+",
-        default=["var"],
-        dest="sigma_type",
+        default=["sigma_m_var"],
+        dest="sigma_m_types",
         help="scaling factor for variants. options: var (i.e. 0.2 for ptvs, 0.05 for pavs/pcvs), 1, 0.05 (default: var). can run multiple.",
     )
     parser.add_argument(
         "--variants",
         choices=["pcv", "pav", "ptv"],
-        type=str,
-        nargs="+",
         default=["ptv"],
-        dest="variant_filter",
         help="variants to consider. options: proximal coding [pcv], protein-altering [pav], protein truncating [ptv] (default: ptv). can run multiple.",
     )
     parser.add_argument(
@@ -432,20 +450,20 @@ if __name__ == "__main__":
     import math
     import os
     
-    S, K, pops, phenos, R_study, R_phen, agg, sigma_type, variant_filter, datasets = return_input_args(
+    S, K, pops, phenos, R_study_list, R_study_models, R_phen_list, R_phen_models, agg, R_var_models, sigma_m_types, variant_filter, datasets = return_input_args(
         args
     )
-    
+    conserved_columns = ["V", "#CHROM", "POS", "ID", "REF", "ALT", "A1", "most_severe_consequence", "wb_maf", "gene_symbol", "sigma_m_var", "category", "sigma_m_1", "sigma_m_005"]
+    sumstat_files = collect_and_filter(pops, phenos, datasets, conserved_columns)
     for analysis in variant_filter:
-        merged, mrp_prefix = merge_and_filter(pops, phenos, analysis, datasets)
-    # S = 1
-    # K = 1 #looking at each phenotype separately, since otherwise, there will be correlated errors in our case. Can change if phenotypes are sufficiently different
-    # gene_pos = merged[['gene_symbol', '#CHROM', 'POS']]
-    # idx = gene_pos.groupby(['gene_symbol'])['POS'].transform(min) == gene_pos['POS']
-    # gene_pos = gene_pos[idx]
-    # merged[['V', 'gene_symbol', 'category']].to_csv(os.path.join(mrp_prefix, disease_string + '_categories.tsv'), sep='\t', index=False)
-    # R_phen = np.diag(np.ones(K))
-    # print('Running MRP for ' + disease_string + '...')
-    # df = generate_results(merged, disease_string, S)
+        analysis_files = filter_category(sumstat_files, analysis)
+        for R_study, R_study_model in zip(R_study_list, R_study_models):
+            for R_phen, R_phen_model in zip(R_phen_list, R_phen_models):
+                for agg_type in agg:
+                    for R_var_model in R_var_models:
+                        for sigma_m_type in sigma_m_types:
+                            print_params(analysis, S, R_study, K, R_phen, agg_type, sigma_m_type)
+                            bf_df = run_mrp(analysis_files, S, K, pops, phenos, R_study, R_phen, R_var_model, analysis, sigma_m_type, conserved_columns)
+                            print(bf_df.head())
     # df = df.merge(gene_pos, on='gene_symbol', how='inner')
     # df.to_csv(os.path.join(mrp_prefix, disease_string + '_gene.tsv'), sep='\t', index=False)
