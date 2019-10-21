@@ -1,8 +1,21 @@
 from __future__ import division
 import argparse
 
-# Read in summary statistics from GBE sumstats
 def read_in_summary_stats(pops, phenos, datasets, conserved_columns):
+
+    """ 
+    Summary line. 
+  
+    Extended description of function. 
+  
+    Parameters: 
+    arg1 (int): Description of arg1 
+  
+    Returns: 
+    int: Description of return value 
+  
+    """
+
     file_paths = []
     sumstat_files = []
     for pop in pops:
@@ -65,13 +78,21 @@ def read_in_summary_stats(pops, phenos, datasets, conserved_columns):
     return file_paths, sumstat_files
 
 
-# Need to have: gene, consequence, pop/global allele frequencies.
-def read_metadata(metadata_path):
-    metadata = pd.read_csv(metadata_path, sep="\t")
-    return metadata
-
-
 def set_sigmas(df):
+
+    """ 
+    Summary line. 
+  
+    Extended description of function. 
+  
+    Parameters: 
+    arg1 (int): Description of arg1 
+  
+    Returns: 
+    int: Description of return value 
+  
+    """
+
     ptv = [
         "frameshift_variant",
         "splice_acceptor_variant",
@@ -135,6 +156,20 @@ def set_sigmas(df):
 
 # Keep diagonals and multiples every other cell by .99
 def is_pos_def(x):
+
+    """ 
+    Summary line. 
+  
+    Extended description of function. 
+  
+    Parameters: 
+    arg1 (int): Description of arg1 
+  
+    Returns: 
+    int: Description of return value 
+  
+    """
+
     i = 0
     x = np.matrix(x)
     if np.all(np.linalg.eigvals(x) > 0):
@@ -151,6 +186,20 @@ def is_pos_def(x):
 
 
 def safe_inv(X, matrix_name, gene):
+
+    """ 
+    Summary line. 
+  
+    Extended description of function. 
+  
+    Parameters: 
+    arg1 (int): Description of arg1 
+  
+    Returns: 
+    int: Description of return value 
+  
+    """
+
     try:
         X_inv = np.linalg.inv(X)
     except LinAlgError as err:
@@ -160,6 +209,20 @@ def safe_inv(X, matrix_name, gene):
 
 
 def return_BF(U, beta, v_beta, mu, gene):
+
+    """ 
+    Summary line. 
+  
+    Extended description of function. 
+  
+    Parameters: 
+    arg1 (int): Description of arg1 
+  
+    Returns: 
+    int: Description of return value 
+  
+    """
+
     v_beta = is_pos_def(v_beta)
     v_beta_inv = safe_inv(v_beta, "v_beta", gene)
     U = is_pos_def(U)
@@ -187,12 +250,38 @@ def return_BF(U, beta, v_beta, mu, gene):
 
 
 def delete_rows_and_columns(matrix, indices_to_remove):
+
+    """ 
+    Summary line. 
+  
+    Extended description of function. 
+  
+    Parameters: 
+    arg1 (int): Description of arg1 
+  
+    Returns: 
+    int: Description of return value 
+  
+    """
+
     matrix = np.delete(matrix, indices_to_remove, axis=0)
     matrix = np.delete(matrix, indices_to_remove, axis=1)
     return matrix
 
 
 def adjust_U_for_missingness(U, v_beta, beta, beta_list):
+    """ 
+    Summary line. 
+  
+    Extended description of function. 
+  
+    Parameters: 
+    arg1 (int): Description of arg1 
+  
+    Returns: 
+    int: Description of return value 
+  
+    """
     indices_to_remove = np.argwhere(np.isnan(beta_list))
     U = delete_rows_and_columns(U, indices_to_remove)
     v_beta = delete_rows_and_columns(v_beta, indices_to_remove)
@@ -201,6 +290,20 @@ def adjust_U_for_missingness(U, v_beta, beta, beta_list):
 
 
 def generate_beta_se(subset_df, pops, phenos):
+
+    """ 
+    Summary line. 
+  
+    Extended description of function. 
+  
+    Parameters: 
+    arg1 (int): Description of arg1 
+  
+    Returns: 
+    int: Description of return value 
+  
+    """
+
     beta_list = []
     se_list = []
     for pop in pops:
@@ -215,9 +318,23 @@ def generate_beta_se(subset_df, pops, phenos):
 
 
 def calculate_all_params(
-    df, pops, phenos, M, key, sigma_m_type, j, S, R_study, R_phen, R_var_model
+    df, pops, phenos, M, key, sigma_m_type, j, S, R_study, R_phen, R_var_model, agg_type
 ):
-    subset_df = df[df["gene_symbol"] == key]
+
+    """ 
+    Summary line. 
+  
+    Extended description of function. 
+  
+    Parameters: 
+    arg1 (int): Description of arg1 
+  
+    Returns: 
+    int: Description of return value 
+  
+    """
+
+    subset_df = df[df["gene_symbol"] == key] if agg_type == "gene" else df[df["V"] == key]
     sigma_m = subset_df[sigma_m_type].tolist()
     diag_sigma_m = np.diag(np.atleast_1d(np.array(sigma_m)))
     R_var = np.diag(np.ones(M)) if R_var_model == "independent" else np.ones((M, M))
@@ -245,17 +362,32 @@ def run_mrp(
     analysis,
     sigma_m_type,
     conserved_columns,
+    agg_type,
 ):
+
+    """ 
+    Summary line. 
+  
+    Extended description of function. 
+  
+    Parameters: 
+    arg1 (int): Description of arg1 
+  
+    Returns: 
+    int: Description of return value 
+  
+    """
+
     outer_merge = partial(pd.merge, on=conserved_columns, how="outer")
     df = reduce(outer_merge, dfs)
-    m_dict = df.groupby("gene_symbol").size()
+    m_dict = df.groupby("gene_symbol").size() if agg_type == "gene" else df.groupby("V").size()
     bf_dict = {}
     for i, (key, value) in enumerate(m_dict.items()):
         if i % 1000 == 0:
-            print("Done " + str(i) + " genes out of " + str(len(m_dict)))
+            print("Done " + str(i) + " " + agg_type + "s out of " + str(len(m_dict)))
         M = value
         U, beta, v_beta, mu = calculate_all_params(
-            df, pops, phenos, M, key, sigma_m_type, i, S, R_study, R_phen, R_var_model
+            df, pops, phenos, M, key, sigma_m_type, i, S, R_study, R_phen, R_var_model, agg_type
         )
         bf = return_BF(U, beta, v_beta, mu, key)
         bf_dict[key] = bf
@@ -264,7 +396,7 @@ def run_mrp(
         .reset_index()
         .rename(
             columns={
-                "index": "gene_symbol",
+                "index": agg_type,
                 0: "log_10_BF"
                 + "_study_"
                 + R_study_model
@@ -283,6 +415,20 @@ def run_mrp(
 
 
 def filter_category(sumstats_files, variant_filter):
+
+    """ 
+    Summary line. 
+  
+    Extended description of function. 
+  
+    Parameters: 
+    arg1 (int): Description of arg1 
+  
+    Returns: 
+    int: Description of return value 
+  
+    """
+
     analysis_files = []
     for df in sumstats_files:
         if variant_filter == "ptv":
@@ -294,6 +440,20 @@ def filter_category(sumstats_files, variant_filter):
 
 
 def rename_columns(df, conserved_columns, pop, pheno):
+
+    """ 
+    Summary line. 
+  
+    Extended description of function. 
+  
+    Parameters: 
+    arg1 (int): Description of arg1 
+  
+    Returns: 
+    int: Description of return value 
+  
+    """
+
     if "LOG(OR)_SE" in df.columns:
         df.rename(columns={"LOG(OR)_SE": "SE"}, inplace=True)
     columns_to_rename = list(set(df.columns) - set(conserved_columns))
@@ -303,6 +463,20 @@ def rename_columns(df, conserved_columns, pop, pheno):
 
 
 def collect_and_filter(pops, phenos, datasets, conserved_columns):
+
+    """ 
+    Summary line. 
+  
+    Extended description of function. 
+  
+    Parameters: 
+    arg1 (int): Description of arg1 
+  
+    Returns: 
+    int: Description of return value 
+  
+    """
+
     print("Reading in summary stats for:")
     print("Populations: " + ", ".join(pops))
     print("Phenotypes: " + ", ".join(phenos))
@@ -314,15 +488,13 @@ def collect_and_filter(pops, phenos, datasets, conserved_columns):
     )
 
     filtered_sumstat_files = []
-    exome_metadata = read_metadata(
-        "/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-gene_consequence_wb_maf_final.tsv"
-    )
-    cal_metadata = read_metadata(
-        "/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-gene_consequence_wb_maf_final.tsv"
-    )
+    exome_metadata =  pd.read_csv("/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-gene_consequence_wb_maf_final.tsv", sep="\t")
+    cal_metadata = pd.read_csv("/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-gene_consequence_wb_maf_final.tsv", sep="\t")
+
     print("")
     print("Filtering sumstats on MAF, setting sigmas, and filtering on consequence...")
     print("")
+
     for file_path, sumstat_file in zip(file_paths, sumstat_files):
         # Merge metadata
         if "exome" in file_path:
@@ -338,6 +510,20 @@ def collect_and_filter(pops, phenos, datasets, conserved_columns):
 
 
 def return_input_args(args):
+
+    """ 
+    Summary line. 
+  
+    Extended description of function. 
+  
+    Parameters: 
+    arg1 (int): Description of arg1 
+  
+    Returns: 
+    int: Description of return value 
+  
+    """
+
     for arg in vars(args):
         setattr(args, arg, list(set(getattr(args, arg))))
     S = len(args.pops)
@@ -367,9 +553,45 @@ def return_input_args(args):
     )
 
 
+def print_banner():
+
+    """ 
+    Summary line. 
+  
+    Extended description of function. 
+  
+    Parameters: 
+    arg1 (int): Description of arg1 
+  
+    Returns: 
+    int: Description of return value 
+  
+    """
+
+    print(" __  __ ____  ____")
+    print("|  \/  |  _ \|  _ \\")
+    print("| |\/| | |_) | |_) |")
+    print("| |  | |  _ <|  __/ ")
+    print("|_|  |_|_| \_\_|  ")
+    print("")
+
 def print_params(
     analysis, R_study_model, R_phen_model, R_var_model, agg_type, sigma_m_type
 ):
+
+    """ 
+    Summary line. 
+  
+    Extended description of function. 
+  
+    Parameters: 
+    arg1 (int): Description of arg1 
+  
+    Returns: 
+    int: Description of return value 
+  
+    """
+
     print("Analysis: " + analysis)
     print("R_study model: " + R_study_model)
     print("R_phen model: " + R_phen_model)
@@ -379,6 +601,20 @@ def print_params(
     print("")
 
 if __name__ == "__main__":
+
+    """ 
+    Summary line. 
+  
+    Extended description of function. 
+  
+    Parameters: 
+    arg1 (int): Description of arg1 
+  
+    Returns: 
+    int: Description of return value 
+  
+    """
+
     with open("../05_gbe/phenotype_info.tsv", "r") as phe_file:
         valid_phenos = [line.split()[0] for line in phe_file][1:]
 
@@ -483,6 +719,8 @@ if __name__ == "__main__":
     import math
     import os
 
+    print_banner()
+    
     S, K, pops, phenos, R_study_list, R_study_models, R_phen_list, R_phen_models, R_var_models, agg, sigma_m_types, variant_filters, datasets = return_input_args(
         args
     )
@@ -535,6 +773,7 @@ if __name__ == "__main__":
                                     analysis,
                                     sigma_m_type,
                                     conserved_columns,
+                                    agg_type,
                                 )
                                 out_file = (
                                     "/oak/stanford/groups/mrivas/ukbb24983/"
@@ -553,10 +792,14 @@ if __name__ == "__main__":
                                     + sigma_m_type
                                     + "_"
                                     + analysis
+                                    + "_"
+                                    + agg_type
                                     + ".tsv"
                                 )
+                                print(bf_df.head())
                                 bf_df.sort_values(
-                                    by=list(set(bf_df.columns) - set(["gene_symbol"])),
+                                    by=list(set(bf_df.columns) - set([agg_type])),
                                     ascending=False,
                                 ).to_csv(out_file, sep="\t", index=False)
+                                print("")
                                 print("Results written to " + out_file + ".")
