@@ -44,8 +44,11 @@ def read_in_summary_stats(pops, phenos, datasets, conserved_columns):
                     sumstat_files.append(df)
                     file_paths.append(file_path)
                 else:
-                    # NOTE WILL THROW ERROR IF MIXING PHENOTYPE TYPES
-                    df = pd.DataFrame(columns=conserved_columns + ["FIRTH?", "TEST", "OBS_CT". "OR". "SE". "Z_STAT", "P")
+                    print("A summary statistic file cannot be found for population: {}; phenotype: {}; dataset: {}. A placeholder df will be added instead.".format(pop, pheno, dataset))
+                    if ("QT" in pheno) or ("INI" in pheno):
+                        df = pd.DataFrame(columns=conserved_columns + ["TEST", "OBS_CT", "BETA", "SE", "T_STAT", "P"])
+                    else:
+                        df = pd.DataFrame(columns=conserved_columns + ["FIRTH?", "TEST", "OBS_CT", "OR", "SE", "Z_STAT", "P"])
                     df = rename_columns(df, conserved_columns, pop, pheno)
                     sumstat_files.append(df)
                     file_paths.append("file_not_found")
@@ -142,7 +145,6 @@ def safe_inv(X, matrix_name, gene):
         X_inv = np.linalg.inv(X)
     except LinAlgError as err:
         print("Could not invert " + matrix_name + " for gene " + gene + ":")
-        print(X)
         return np.nan
     return X_inv
 
@@ -215,12 +217,11 @@ def calculate_all_params(df, pops, phenos, M, key, sigma_m_type, j, S, R_study, 
     return U, beta, v_beta, mu
 
 
-def run_mrp(dfs, S, K, pops, phenos, R_study, R_phen, R_var_model, analysis, sigma_m_type, conserved_columns):
+def run_mrp(dfs, S, K, pops, phenos, R_study, R_study_model, R_phen, R_phen_model, R_var_model, analysis, sigma_m_type, conserved_columns):
     outer_merge = partial(pd.merge, on=conserved_columns, how="outer")
     df = reduce(outer_merge, dfs)
     m_dict = df.groupby("gene_symbol").size()
     bf_dict = {}
-    bf_dfs = []
     for i, (key, value) in enumerate(m_dict.items()):
         if i % 1000 == 0:
             print("Done " + str(i) + " genes out of " + str(len(m_dict)))
@@ -236,7 +237,12 @@ def run_mrp(dfs, S, K, pops, phenos, R_study, R_phen, R_var_model, analysis, sig
         .rename(
             columns={
                 "index": "gene_symbol",
-                0: "log_10_BF",
+                0: "log_10_BF" 
+                   + "_study_" + R_study_model 
+                   + "_phen_" + R_phen_model 
+                   + "_var_" + R_var_model 
+                   + "_" + sigma_m_type 
+                   + "_" + analysis,
             }
         )
     )
@@ -291,25 +297,9 @@ def collect_and_filter(pops, phenos, datasets, conserved_columns):
     return filtered_sumstat_files
 
 
-def generate_results(merged, disease_string, S):
-    results = []
-    print("Running proximal coding variants...")
-    results.append(run_mrp(merged, disease_string, S, "proximal_coding"))
-    for filter_out in ["proximal_coding", "pav"]:
-        merged = merged[merged.category != filter_out]
-        if filter_out == "proximal_coding":
-            print("Running PAVs...")
-            results.append(run_mrp(merged, disease_string, S, "pav"))
-        else:
-            print("Running PTVs...")
-            results.append(run_mrp(merged, disease_string, S, "ptv"))
-            results.append(run_mrp(merged, disease_string, S, "pav"))
-    inner_merge = partial(pd.merge, on="gene_symbol", how="outer")
-    df = reduce(inner_merge, results)
-    return df
-
-
 def return_input_args(args):
+    for arg in vars(args):
+        setattr(args, arg, list(set(getattr(args, arg))))
     S = len(args.pops)
     K = len(args.phenos)
     R_study = [
@@ -336,20 +326,23 @@ def return_input_args(args):
         args.datasets,
     )
 
-
-def print_params(analysis, S, R_study, K, R_phen, agg_type, sigma_m_type):
+def print_params(analysis, R_study_model, R_phen_model, R_var_model, agg_type, sigma_m_type):
+    print("")
+    print("")
     print("Analysis: " + analysis)
-    print("S: " + str(S))
     print("R_study model: " + R_study_model)
-    print("K: " + str(K))
     print("R_phen model: " + R_phen_model)
+    print("R_var model: " + R_var_model)
     print("Aggregation by: " + agg_type)
     print("Variant weighting factor: " + sigma_m_type)
 
 
+class UniqueAppendAction(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        unique_values = set(values)
+        setattr(namespace, self.dest, unique_values)
+
 if __name__ == "__main__":
-    # Argparse should get all of the parameters needed:
-    # S, M, and K should be specified
     with open("../05_gbe/phenotype_info.tsv", "r") as phe_file:
         valid_phenos = [line.split()[0] for line in phe_file][1:]
 
@@ -374,7 +367,6 @@ if __name__ == "__main__":
         dest="R_study_models",
         help="type of model across studies. options: independent, similar (default: independent). can run both.",
     )
-    # ERROR CHECKING FOR ELIGIBLE PHENOS?
     parser.add_argument(
         "--K",
         choices=valid_phenos,
@@ -424,7 +416,10 @@ if __name__ == "__main__":
     parser.add_argument(
         "--variants",
         choices=["pcv", "pav", "ptv"],
+        type=str,
+        nargs="+",
         default=["ptv"],
+        dest="variants",
         help="variants to consider. options: proximal coding [pcv], protein-altering [pav], protein truncating [ptv] (default: ptv). can run multiple.",
     )
     parser.add_argument(
@@ -440,7 +435,7 @@ if __name__ == "__main__":
     print("Valid arguments. Importing packages...") 
     import pandas as pd
     from functools import partial, reduce
-    pd.options.mode.chained_assignment = None  # default='warn'
+    pd.options.mode.chained_assignment = None
     import numpy as np
     import numpy.matlib as npm
     from numpy.linalg import LinAlgError
@@ -450,20 +445,23 @@ if __name__ == "__main__":
     import math
     import os
     
-    S, K, pops, phenos, R_study_list, R_study_models, R_phen_list, R_phen_models, agg, R_var_models, sigma_m_types, variant_filter, datasets = return_input_args(
+    S, K, pops, phenos, R_study_list, R_study_models, R_phen_list, R_phen_models, R_var_models, agg, sigma_m_types, variant_filters, datasets = return_input_args(
         args
     )
+
     conserved_columns = ["V", "#CHROM", "POS", "ID", "REF", "ALT", "A1", "most_severe_consequence", "wb_maf", "gene_symbol", "sigma_m_var", "category", "sigma_m_1", "sigma_m_005"]
     sumstat_files = collect_and_filter(pops, phenos, datasets, conserved_columns)
-    for analysis in variant_filter:
-        analysis_files = filter_category(sumstat_files, analysis)
-        for R_study, R_study_model in zip(R_study_list, R_study_models):
-            for R_phen, R_phen_model in zip(R_phen_list, R_phen_models):
-                for agg_type in agg:
-                    for R_var_model in R_var_models:
-                        for sigma_m_type in sigma_m_types:
-                            print_params(analysis, S, R_study, K, R_phen, agg_type, sigma_m_type)
-                            bf_df = run_mrp(analysis_files, S, K, pops, phenos, R_study, R_phen, R_var_model, analysis, sigma_m_type, conserved_columns)
-                            print(bf_df.head())
-    # df = df.merge(gene_pos, on='gene_symbol', how='inner')
-    # df.to_csv(os.path.join(mrp_prefix, disease_string + '_gene.tsv'), sep='\t', index=False)
+
+    for dataset in datasets:
+        for analysis in variant_filters:
+            analysis_files = filter_category(sumstat_files, analysis)
+            for R_study, R_study_model in zip(R_study_list, R_study_models):
+                for R_phen, R_phen_model in zip(R_phen_list, R_phen_models):
+                    for agg_type in agg:
+                        for R_var_model in R_var_models:
+                            for sigma_m_type in sigma_m_types:
+                                print_params(analysis, R_study_model, R_phen_model, R_var_model, agg_type, sigma_m_type)
+                                bf_df = run_mrp(analysis_files, S, K, pops, phenos, R_study, R_study_model, R_phen, R_phen_model, R_var_model, analysis, sigma_m_type, conserved_columns)
+                                out_file = "/oak/stanford/groups/mrivas/ukbb24983/" + dataset + "/mrp/" + "_".join(pops) + "_" + "_".join(phenos) + "_study_" + R_study_model + "_phen_" + R_phen_model + "_var_" + R_var_model + "_" + sigma_m_type + "_" + analysis + ".tsv"
+                                bf_df.sort_values(by=list(set(bf_df.columns)-set(['gene_symbol'])), ascending=False).to_csv(out_file, sep='\t', index=False)
+                                print("Results written to " + out_file + ".")
