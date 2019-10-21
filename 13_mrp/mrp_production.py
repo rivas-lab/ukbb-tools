@@ -1,18 +1,24 @@
 from __future__ import division
 import argparse
 
+
 def read_in_summary_stats(pops, phenos, datasets, conserved_columns):
 
     """ 
-    Summary line. 
+    Reads in GBE summary statistics from the Rivas Lab file organization system on Sherlock.
   
-    Extended description of function. 
+    Additionally: adds a variant identifier ("V"), renames columns, and filters on SE (<= 0.5).
+    Contains logic for handling the case that a summary statistic file is not found.
   
     Parameters: 
-    arg1 (int): Description of arg1 
+    pops: Unique set of populations (studies) to use for analysis.
+    phenos: Unique set of GBE phenotypes to use for analysis.
+    datasets: Unique list of datasets ("cal"/"exome") to use for analysis.
+    conserved_columns: Columns in every annotated summary statistic file; basis of merges.
   
     Returns: 
-    int: Description of return value 
+    file_paths: List of strings containing file paths.
+    sumstat_files: List of dataframes containing summary statistics.
   
     """
 
@@ -81,15 +87,21 @@ def read_in_summary_stats(pops, phenos, datasets, conserved_columns):
 def set_sigmas(df):
 
     """ 
-    Summary line. 
+    Assigns appropriate sigmas to appropriate variants by annotation.
   
-    Extended description of function. 
+    Filters out variants not of interest;
+    Sets sigmas by functional annotation;
+    Additionally adds two extra columns for two other standard choices of a uniform sigma (1 and 0.05).
   
     Parameters: 
-    arg1 (int): Description of arg1 
+    df: Merged dataframe containing all variants across all studies and phenotypes.
   
     Returns: 
-    int: Description of return value 
+    df: Merged dataframe with three additional columns:
+        sigma_m_var: Column of sigma values (mapped to functional annotation via the lists inside this method).
+            NOTE: One can change the sigmas associated with each type of variant by adjusting this method.
+        sigma_m_1: Uniform column of 1.
+        sigma_m_005: Uniform column of 0.05.
   
     """
 
@@ -154,19 +166,18 @@ def set_sigmas(df):
     return df
 
 
-# Keep diagonals and multiples every other cell by .99
 def is_pos_def(x):
 
     """ 
-    Summary line. 
+    Ensures a matrix is positive definite.
   
-    Extended description of function. 
+    Keep diagonals and multiples every other cell by .99
   
     Parameters: 
-    arg1 (int): Description of arg1 
+    x: Matrix to verify.
   
     Returns: 
-    int: Description of return value 
+    x: Verified (and, if applicable, adjusted) matrix.
   
     """
 
@@ -185,48 +196,54 @@ def is_pos_def(x):
         return x
 
 
-def safe_inv(X, matrix_name, gene):
+def safe_inv(X, matrix_name, block, agg_type):
 
     """ 
-    Summary line. 
-  
-    Extended description of function. 
+    Safely inverts a matrix, or returns NaN.
   
     Parameters: 
-    arg1 (int): Description of arg1 
+    X: Matrix to invert.
+    matrix_name: One of "U"/"v_beta" - used to print messages when inversion fails.
+    block: Name of the aggregation block (gene/variant) - used to print messages when inversion fails.
+    agg_type: One of "gene"/"variant". Dictates block of aggregation. Used to print messages when inversion fails.
   
     Returns: 
-    int: Description of return value 
+    X_inv: Inverse of X.
   
     """
 
     try:
         X_inv = np.linalg.inv(X)
     except LinAlgError as err:
-        print("Could not invert " + matrix_name + " for gene " + gene + ":")
+        print(
+            "Could not invert " + matrix_name + " for " + agg_type + " " + block + "."
+        )
         return np.nan
     return X_inv
 
 
-def return_BF(U, beta, v_beta, mu, gene):
+def return_BF(U, beta, v_beta, mu, block, agg_type):
 
     """ 
-    Summary line. 
-  
-    Extended description of function. 
+    Given quantities calculated previously and the inputs, returns the associated Bayes Factor.
   
     Parameters: 
-    arg1 (int): Description of arg1 
+    U: Kronecker product of the three matrices (S*M*K x S*M*K) dictating correlation structures; no missing data.
+    beta: Effect size vector without missing data.
+    v_beta: Diagonal matrix of variances of effect sizes without missing data.
+    mu: A mean of genetic effects, size of beta (NOTE: default is 0, can change in the code below).
+    block: Name of the aggregation block (gene/variant).
+    agg_type: One of "gene"/"variant". Dictates block of aggregation.
   
     Returns: 
-    int: Description of return value 
+    log10BF: log_10 Bayes Factor (ratio of marginal likelihoods of alternative model, which accounts for priors, and null).
   
     """
 
     v_beta = is_pos_def(v_beta)
-    v_beta_inv = safe_inv(v_beta, "v_beta", gene)
+    v_beta_inv = safe_inv(v_beta, "v_beta", block, agg_type)
     U = is_pos_def(U)
-    U_inv = safe_inv(U, "U", gene)
+    U_inv = safe_inv(U, "U", block, agg_type)
     if v_beta_inv is not np.nan and U_inv is not np.nan:
         A2 = U_inv + v_beta_inv
         b2 = v_beta_inv * beta
@@ -252,15 +269,14 @@ def return_BF(U, beta, v_beta, mu, gene):
 def delete_rows_and_columns(matrix, indices_to_remove):
 
     """ 
-    Summary line. 
-  
-    Extended description of function. 
+    Helper function to delete rows and columns from a matrix.
   
     Parameters: 
-    arg1 (int): Description of arg1 
+    matrix: Matrix that needs adjustment.
+    indices_to_remove: Rows and columns to be deleted
   
     Returns: 
-    int: Description of return value 
+    matrix: Smaller matrix that has no missing data.
   
     """
 
@@ -271,15 +287,20 @@ def delete_rows_and_columns(matrix, indices_to_remove):
 
 def adjust_U_for_missingness(U, v_beta, beta, beta_list):
     """ 
-    Summary line. 
-  
-    Extended description of function. 
+    Deletes rows and columns where we do not have effect sizes/standard errors.
+
+    Calls method delete_rows_and_columns, a helper function that calls the numpy command.
   
     Parameters: 
-    arg1 (int): Description of arg1 
+    U: Kronecker product of the three matrices (S*M*K x S*M*K) dictating correlation structures; may relate to missing data.
+    v_beta: Diagonal matrix of variances of effect sizes within the unit of aggregation; may contain missing data.
+    beta: Vector of effect sizes within the unit of aggregation; may contain missing data.
+    beta_list: List of effect sizes within the unit of aggregation; may contain missing data.
   
     Returns: 
-    int: Description of return value 
+    U: Potentially smaller U matrix not associated with missing data.
+    v_beta: Potentially smaller v_beta matrix without missing data.
+    beta: Potentially smaller beta vector without missing data.
   
     """
     indices_to_remove = np.argwhere(np.isnan(beta_list))
@@ -292,15 +313,16 @@ def adjust_U_for_missingness(U, v_beta, beta, beta_list):
 def generate_beta_se(subset_df, pops, phenos):
 
     """ 
-    Summary line. 
-  
-    Extended description of function. 
+    Gathers effect sizes and standard errors from a unit of aggregation (gene/variant).
   
     Parameters: 
-    arg1 (int): Description of arg1 
+    subset_df: slice of the original df that encompasses the current unit of aggregation (gene/variant).
+    pops: Unique set of populations (studies) to use for analysis.
+    phenos: Unique set of GBE phenotypes to use for analysis.
   
     Returns: 
-    int: Description of return value 
+    beta_list: A list of effect sizes (some may be missing) from the subset.
+    se_list: A list of standard errors (some may be missing) from the subset.
   
     """
 
@@ -318,23 +340,36 @@ def generate_beta_se(subset_df, pops, phenos):
 
 
 def calculate_all_params(
-    df, pops, phenos, M, key, sigma_m_type, j, S, R_study, R_phen, R_var_model, agg_type
+    df, pops, phenos, key, sigma_m_type, R_study, R_phen, R_var_model, agg_type, M
 ):
 
     """ 
-    Summary line. 
-  
-    Extended description of function. 
+    Calculates quantities needed for MRP (U, beta, v_beta, mu).
   
     Parameters: 
-    arg1 (int): Description of arg1 
+    df: Merged, filtered, and annotated dataframe containing summary statistics.
+    pops: Unique set of populations (studies) to use for analysis.
+    phenos: Unique set of GBE phenotypes to use for analysis.
+
+    key:
+    sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_0.05". Dictates variant scaling factor by functional annotation.
+    R_study: R_study matrix to use for analysis (independent/similar).
+    R_phen: R_phen matrix to use for analysis (independent/similar).
+    R_var_model: String ("independent"/"similar") corresponding to R_var matrices to use for analysis.
+    agg_type: One of "gene"/"variant". Dictates block of aggregation.
+    M: Number of variants within the gene block if agg_type is "gene"; if "variant", 1.
   
     Returns: 
-    int: Description of return value 
+    U: Kronecker product of the three matrices (S*M*K x S*M*K) dictating correlation structures, adjusted for missingness.
+    beta: A S*M*K x 1 vector of effect sizes.
+    v_beta: A (S*M*K x S*M*K) matrix of variances of effect sizes.
+    mu: A mean of genetic effects, size of beta (NOTE: default is 0, can change in the code below).
   
     """
 
-    subset_df = df[df["gene_symbol"] == key] if agg_type == "gene" else df[df["V"] == key]
+    subset_df = (
+        df[df["gene_symbol"] == key] if agg_type == "gene" else df[df["V"] == key]
+    )
     sigma_m = subset_df[sigma_m_type].tolist()
     diag_sigma_m = np.diag(np.atleast_1d(np.array(sigma_m)))
     R_var = np.diag(np.ones(M)) if R_var_model == "independent" else np.ones((M, M))
@@ -366,30 +401,54 @@ def run_mrp(
 ):
 
     """ 
-    Summary line. 
-  
-    Extended description of function. 
+    Runs MRP with the given parameters.
   
     Parameters: 
-    arg1 (int): Description of arg1 
-  
+    dfs: List of dataframes that have been filtered and annotated for analysis; need to be merged.
+    S: Number of populations/studies.
+    K: Number of GBE phenotypes.
+    pops: Unique set of populations (studies) to use for analysis.
+    phenos: Unique set of GBE phenotypes to use for analysis.
+    R_study: R_study matrix to use for analysis (independent/similar).
+    R_study_model: String ("independent"/"similar") corresponding to R_study.
+    R_phen: R_phen matrix to use for analysis (independent/similar).
+    R_phen_model: String ("independent"/"similar") corresponding to R_phen.
+    R_var_model: String ("independent"/"similar") corresponding to R_var matrices to use for analysis.
+    analysis: One of "ptv"/"pav"/"pcv". Dictates which variants are included.
+    sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_0.05". Dictates variant scaling factor by functional annotation.
+    conserved_columns: Columns in every annotated summary statistic file; basis of merges.
+    agg_type: One of "gene"/"variant". Dictates block of aggregation.
+
     Returns: 
-    int: Description of return value 
+    bf_df: Dataframe with two columns: agg_type and log_10 Bayes Factor. 
   
     """
 
     outer_merge = partial(pd.merge, on=conserved_columns, how="outer")
     df = reduce(outer_merge, dfs)
-    m_dict = df.groupby("gene_symbol").size() if agg_type == "gene" else df.groupby("V").size()
+    m_dict = (
+        df.groupby("gene_symbol").size()
+        if agg_type == "gene"
+        else df.groupby("V").size()
+    )
     bf_dict = {}
     for i, (key, value) in enumerate(m_dict.items()):
         if i % 1000 == 0:
             print("Done " + str(i) + " " + agg_type + "s out of " + str(len(m_dict)))
         M = value
         U, beta, v_beta, mu = calculate_all_params(
-            df, pops, phenos, M, key, sigma_m_type, i, S, R_study, R_phen, R_var_model, agg_type
+            df,
+            pops,
+            phenos,
+            key,
+            sigma_m_type,
+            R_study,
+            R_phen,
+            R_var_model,
+            agg_type,
+            M,
         )
-        bf = return_BF(U, beta, v_beta, mu, key)
+        bf = return_BF(U, beta, v_beta, mu, key, agg_type)
         bf_dict[key] = bf
     bf_df = (
         pd.DataFrame.from_dict(bf_dict, orient="index")
@@ -417,15 +476,16 @@ def run_mrp(
 def filter_category(sumstats_files, variant_filter):
 
     """ 
-    Summary line. 
+    Filters a set of dataframes that have been read in based on functional consequence.
   
-    Extended description of function. 
+    Dependent on the variant filter that is dictated by the analysis.
   
     Parameters: 
-    arg1 (int): Description of arg1 
+    sumstats_files: The list of summary statistic files that have been read in and annotated.
+    variant_filter: The variant filter dictated by the analysis ("ptv"/"pav"/"pcv").
   
     Returns: 
-    int: Description of return value 
+    analysis_files: A list of summary statistic files ready for MRP.
   
     """
 
@@ -442,15 +502,18 @@ def filter_category(sumstats_files, variant_filter):
 def rename_columns(df, conserved_columns, pop, pheno):
 
     """ 
-    Summary line. 
+    Renames columns such that information on population/study and phenotype is available in the resultant df. 
   
-    Extended description of function. 
+    Additionally checks if the header contains "LOG(OR)_SE" instead of "SE".
   
     Parameters: 
-    arg1 (int): Description of arg1 
+    df: Input dataframe (from summary statistics).
+    conserved_columns: These columns are not renamed so that we can merge summary statistics across phenotypes and studies.
+    pop: The study from which the current summary statistic df comes from
+    pheno: The phenotype from which the current summary statistic df comes from.
   
     Returns: 
-    int: Description of return value 
+    df: A df with adjusted column names, e.g, "OR_white_british_cancer1085".
   
     """
 
@@ -465,15 +528,20 @@ def rename_columns(df, conserved_columns, pop, pheno):
 def collect_and_filter(pops, phenos, datasets, conserved_columns):
 
     """ 
-    Summary line. 
+    Collects the summary statistics of interest and applies filters. 
   
-    Extended description of function. 
+    Reads in summary statistics; 
+    Joins on metadata files that contain gene symbol, MAF, and consequence;
+    Sets sigma values associated with different types of consequences (PTV/PAV/PCV).
   
     Parameters: 
-    arg1 (int): Description of arg1 
+    pops: Unique set of populations (studies) to use for analysis.
+    phenos: Unique set of GBE phenotypes to use for analysis.
+    datasets: Unique list of datasets ("cal"/"exome") to use for analysis.
+    conserved_columns: Columns in every annotated summary statistic file; basis of merges.
   
     Returns: 
-    int: Description of return value 
+    filtered_sumstats_files: Annotated and filtered summary statistic files.
   
     """
 
@@ -488,8 +556,14 @@ def collect_and_filter(pops, phenos, datasets, conserved_columns):
     )
 
     filtered_sumstat_files = []
-    exome_metadata =  pd.read_csv("/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-gene_consequence_wb_maf_final.tsv", sep="\t")
-    cal_metadata = pd.read_csv("/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-gene_consequence_wb_maf_final.tsv", sep="\t")
+    exome_metadata = pd.read_csv(
+        "/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-gene_consequence_wb_maf_final.tsv",
+        sep="\t",
+    )
+    cal_metadata = pd.read_csv(
+        "/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-gene_consequence_wb_maf_final.tsv",
+        sep="\t",
+    )
 
     print("")
     print("Filtering sumstats on MAF, setting sigmas, and filtering on consequence...")
@@ -512,15 +586,27 @@ def collect_and_filter(pops, phenos, datasets, conserved_columns):
 def return_input_args(args):
 
     """ 
-    Summary line. 
+    Further parses the command-line input.
   
-    Extended description of function. 
+    Makes all lists unique; calculates S and K; and creates lists of appropriate matrices.
   
     Parameters: 
-    arg1 (int): Description of arg1 
+    args: Command-line arguments that have been parsed by the parser.
   
     Returns: 
-    int: Description of return value 
+    S: Number of populations/studies.
+    K: Number of GBE phenotypes.
+    pops: Unique set of populations (studies) to use for analysis.
+    phenos: Unique set of GBE phenotypes to use for analysis.
+    R_study_list: Unique list of R_study matrices to use for analysis.
+    R_study_models: Unique strings ("independent"/"similar") corresponding to each matrix in R_study_list.
+    R_phen_list: Unique list of R_phen matrices to use for analysis.
+    R_phen_models: Unique strings ("independent"/"similar") corresponding to each matrix in R_phen_list.
+    R_var_models: Unique strings ("independent"/"similar") corresponding to R_var matrices to use for analysis.
+    agg: Unique list of aggregation units ("gene"/"variant") to use for analysis.
+    sigma_m_types: Unique list of sigma_m types ("sigma_m_var"/"sigma_m_1"/"sigma_m_0.05") to use for analysis.
+    variant_filters: Unique list of variant filters ("ptv"/"pav"/"pcv") to use for analysis.
+    datasets: Unique list of datasets ("cal"/"exome") to use for analysis.
   
     """
 
@@ -556,15 +642,7 @@ def return_input_args(args):
 def print_banner():
 
     """ 
-    Summary line. 
-  
-    Extended description of function. 
-  
-    Parameters: 
-    arg1 (int): Description of arg1 
-  
-    Returns: 
-    int: Description of return value 
+    Prints ASCII Art Banner + Author Info.
   
     """
 
@@ -574,21 +652,30 @@ def print_banner():
     print("| |  | |  _ <|  __/ ")
     print("|_|  |_|_| \_\_|  ")
     print("")
+    print(
+        "https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mrp_production.py"
+    )
+    print("Author:")
+    print("Guhan Ram Venkataraman, B.S.H.")
+    print("Ph.D. Candidate | Biomedical Informatics")
+    print("Rivas Lab | Stanford University")
+    print("Contact: guhan@stanford.edu")
+
 
 def print_params(
     analysis, R_study_model, R_phen_model, R_var_model, agg_type, sigma_m_type
 ):
 
     """ 
-    Summary line. 
-  
-    Extended description of function. 
+    Provides a text overview of each analysis in the terminal.
   
     Parameters: 
-    arg1 (int): Description of arg1 
-  
-    Returns: 
-    int: Description of return value 
+    analysis: One of "ptv"/"pav"/"pcv". Dictates which variants are included.
+    R_study_model: One of "independent"/"similar". Dictates correlation structure across studies.
+    R_phen_model: One of "independent"/"similar". Dictates correlation structure across phenotypes.
+    R_var_model: One of "independent"/"similar". Dictates correlation structure across variants.
+    agg_type: One of "gene"/"variant". Dictates block of aggregation.
+    sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_0.05". Dictates variant scaling factor by functional annotation.
   
     """
 
@@ -600,19 +687,12 @@ def print_params(
     print("Variant weighting factor: " + sigma_m_type)
     print("")
 
+
 if __name__ == "__main__":
 
     """ 
-    Summary line. 
-  
-    Extended description of function. 
-  
-    Parameters: 
-    arg1 (int): Description of arg1 
-  
-    Returns: 
-    int: Description of return value 
-  
+    Runs MRP analysis on GBE summary statistics with the parameters specified by the command line.
+
     """
 
     with open("../05_gbe/phenotype_info.tsv", "r") as phe_file:
@@ -720,11 +800,12 @@ if __name__ == "__main__":
     import os
 
     print_banner()
-    
+
     S, K, pops, phenos, R_study_list, R_study_models, R_phen_list, R_phen_models, R_var_models, agg, sigma_m_types, variant_filters, datasets = return_input_args(
         args
     )
 
+    # These columns are in every annotated summary statistic file and will be the basis of merges
     conserved_columns = [
         "V",
         "#CHROM",
