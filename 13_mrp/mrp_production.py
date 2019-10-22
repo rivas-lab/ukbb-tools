@@ -285,7 +285,7 @@ def delete_rows_and_columns(matrix, indices_to_remove):
     return matrix
 
 
-def adjust_U_for_missingness(U, v_beta, beta, beta_list):
+def adjust_for_missingness(U, omega, beta, se, beta_list):
     """ 
     Deletes rows and columns where we do not have effect sizes/standard errors.
 
@@ -293,21 +293,24 @@ def adjust_U_for_missingness(U, v_beta, beta, beta_list):
   
     Parameters: 
     U: Kronecker product of the three matrices (S*M*K x S*M*K) dictating correlation structures; may relate to missing data.
-    v_beta: Diagonal matrix of variances of effect sizes within the unit of aggregation; may contain missing data.
+    omega: (S*M*K x S*M*K) matrix that contains correlation of errors across variants, studies, and phenotypes. 
     beta: Vector of effect sizes within the unit of aggregation; may contain missing data.
+    se: Vector of standard errors within the unit of aggregation; may contain missing data.
     beta_list: List of effect sizes within the unit of aggregation; may contain missing data.
   
     Returns: 
     U: Potentially smaller U matrix not associated with missing data.
-    v_beta: Potentially smaller v_beta matrix without missing data.
+    omega: Potentially smaller omega matrix not associated with missing data.
     beta: Potentially smaller beta vector without missing data.
+    se: Potentially smaller SE vector without missing data.
   
     """
     indices_to_remove = np.argwhere(np.isnan(beta_list))
     U = delete_rows_and_columns(U, indices_to_remove)
-    v_beta = delete_rows_and_columns(v_beta, indices_to_remove)
+    omega = delete_rows_and_columns(omega, indices_to_remove)
     beta = beta[~np.isnan(beta)].reshape(-1, 1)
-    return U, v_beta, beta
+    se = se[~np.isnan(se)]
+    return U, omega, beta, se
 
 
 def generate_beta_se(subset_df, pops, phenos):
@@ -329,8 +332,8 @@ def generate_beta_se(subset_df, pops, phenos):
     beta_list = []
     se_list = []
     for pop in pops:
-        for index, row in subset_df.iterrows():
-            for pheno in phenos:
+        for pheno in phenos:
+            for index, row in subset_df.iterrows():
                 if "BETA" + "_" + pop + "_" + pheno in subset_df.columns:
                     beta_list.append(row["BETA" + "_" + pop + "_" + pheno])
                 elif "OR" + "_" + pop + "_" + pheno in subset_df.columns:
@@ -340,7 +343,7 @@ def generate_beta_se(subset_df, pops, phenos):
 
 
 def calculate_all_params(
-    df, pops, phenos, key, sigma_m_type, R_study, R_phen, R_var_model, agg_type, M
+    df, pops, phenos, key, sigma_m_type, R_study, R_phen, R_var_model, agg_type, M, err_corr
 ):
 
     """ 
@@ -350,14 +353,14 @@ def calculate_all_params(
     df: Merged, filtered, and annotated dataframe containing summary statistics.
     pops: Unique set of populations (studies) to use for analysis.
     phenos: Unique set of GBE phenotypes to use for analysis.
-
-    key:
-    sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_0.05". Dictates variant scaling factor by functional annotation.
+    key: Variant/gene name.
+    sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_005". Dictates variant scaling factor by functional annotation.
     R_study: R_study matrix to use for analysis (independent/similar).
     R_phen: R_phen matrix to use for analysis (independent/similar).
     R_var_model: String ("independent"/"similar") corresponding to R_var matrices to use for analysis.
     agg_type: One of "gene"/"variant". Dictates block of aggregation.
     M: Number of variants within the gene block if agg_type is "gene"; if "variant", 1.
+    err_corr: A (S*K x S*K) matrix of correlation of errors across studies and phenotypes. Used to calculate v_beta.
   
     Returns: 
     U: Kronecker product of the three matrices (S*M*K x S*M*K) dictating correlation structures, adjusted for missingness.
@@ -376,9 +379,12 @@ def calculate_all_params(
     S_var = np.dot(np.dot(diag_sigma_m, R_var), diag_sigma_m)
     beta_list, se_list = generate_beta_se(subset_df, pops, phenos)
     beta = np.array(beta_list).reshape(-1, 1)
-    v_beta = np.diag(np.square(np.array(se_list)).reshape(-1))
-    U = np.kron(R_study, np.kron(S_var, R_phen))
-    U, v_beta, beta = adjust_U_for_missingness(U, v_beta, beta, beta_list)
+    se = np.array(se_list)
+    omega = np.kron(err_corr, np.diag(np.ones(M)))
+    U = np.kron(np.kron(R_study, R_phen), S_var)
+    U, omega, beta, se = adjust_for_missingness(U, omega, beta, se, beta_list)
+    diag_se = np.diag(se)
+    v_beta = np.dot(np.dot(diag_se, omega), diag_se) 
     mu = np.zeros(beta.shape)
     return U, beta, v_beta, mu
 
@@ -393,6 +399,7 @@ def run_mrp(
     R_study_model,
     R_phen,
     R_phen_model,
+    err_corr,
     R_var_model,
     analysis,
     sigma_m_type,
@@ -413,9 +420,10 @@ def run_mrp(
     R_study_model: String ("independent"/"similar") corresponding to R_study.
     R_phen: R_phen matrix to use for analysis (independent/similar).
     R_phen_model: String ("independent"/"similar") corresponding to R_phen.
+    err_corr: A (S*K x S*K) matrix of correlation of errors across studies and phenotypes. Used to calculate v_beta.
     R_var_model: String ("independent"/"similar") corresponding to R_var matrices to use for analysis.
     analysis: One of "ptv"/"pav"/"pcv". Dictates which variants are included.
-    sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_0.05". Dictates variant scaling factor by functional annotation.
+    sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_005". Dictates variant scaling factor by functional annotation.
     conserved_columns: Columns in every annotated summary statistic file; basis of merges.
     agg_type: One of "gene"/"variant". Dictates block of aggregation.
 
@@ -447,6 +455,7 @@ def run_mrp(
             R_var_model,
             agg_type,
             M,
+            err_corr,
         )
         bf = return_BF(U, beta, v_beta, mu, key, agg_type)
         bf_dict[key] = bf
@@ -524,6 +533,75 @@ def rename_columns(df, conserved_columns, pop, pheno):
     df.rename(columns=dict(zip(columns_to_rename, renamed_columns)), inplace=True)
     return df
 
+def get_beta(df, pop, pheno):
+    if "BETA" + "_" + pop + "_" + pheno in df.columns:
+        return list(df["BETA" + "_" + pop + "_" + pheno])
+    elif "OR" + "_" + pop + "_" + pheno in df.columns:
+        return np.log(list(df["OR" + "_" + pop + "_" + pheno]))
+    else:
+        return None
+
+def get_betas(df, pop1, pheno1, pop2, pheno2):
+    df = df[(df["P_" + pop1 + "_" + pheno1] >= 0.01) & (df["P_" + pop2 + "_" + pheno2] >= 0.01)]
+    beta1 = get_beta(df, pop1, pheno1)
+    beta2 = get_beta(df, pop2, pheno2)
+    return beta1, beta2
+
+def build_err_corr(dfs, pops, phenos, S, K):
+
+    """ 
+  
+    Parameters: 
+  
+    Returns: 
+  
+    """
+    conserved_columns = [
+        "V",
+        "#CHROM",
+        "POS",
+        "ID",
+        "REF",
+        "ALT",
+        "A1",
+        "most_severe_consequence",
+        "wb_maf",
+        "gene_symbol",
+    ]
+
+    outer_merge = partial(pd.merge, on=conserved_columns, how="outer")
+    df = reduce(outer_merge, dfs)
+    null_variants = [
+        "regulatory_region_variant",
+        "intron_variant",
+        "intergenic_variant",
+        "downstream_gene_variant",
+        "mature_miRNA_variant",
+        "non_coding_transcript_exon_variant",
+        "upstream_gene_variant",
+        "NA",
+        "NMD_transcript_variant",
+        "synonymous_variant",
+    ]
+    # Get only null variants
+    df = df[df.most_severe_consequence.isin(null_variants)]
+    # Get only common variants
+    df = df[df.wb_maf >= 0.01]
+
+    # Filter out any rows that have NA values
+    df = df[conserved_columns + [col for col in df.columns if (("BETA" in col) or ("OR" in col) or ("P" in col))]]
+    df = df.dropna()
+
+    err_corr = np.zeros((S*K, S*K))
+    for i, pop1 in enumerate(pops):
+        for j, pheno1 in enumerate(phenos):
+            for x, pop2 in enumerate(pops):
+                for y, pheno2 in enumerate(phenos):
+                    beta1, beta2 = get_betas(df, pop1, pheno1, pop2, pheno2)
+                    err_corr[K*i + j, K*x + y] = pearsonr(beta1, beta2)[0]
+    return err_corr
+            
+
 
 def collect_and_filter(pops, phenos, datasets, conserved_columns):
 
@@ -533,7 +611,7 @@ def collect_and_filter(pops, phenos, datasets, conserved_columns):
     Reads in summary statistics; 
     Joins on metadata files that contain gene symbol, MAF, and consequence;
     Sets sigma values associated with different types of consequences (PTV/PAV/PCV).
-  
+    
     Parameters: 
     pops: Unique set of populations (studies) to use for analysis.
     phenos: Unique set of GBE phenotypes to use for analysis.
@@ -546,6 +624,7 @@ def collect_and_filter(pops, phenos, datasets, conserved_columns):
     """
 
     print("Reading in summary stats for:")
+    print("")
     print("Populations: " + ", ".join(pops))
     print("Phenotypes: " + ", ".join(phenos))
     print("Datasets: " + ", ".join(datasets))
@@ -555,7 +634,7 @@ def collect_and_filter(pops, phenos, datasets, conserved_columns):
         pops, phenos, datasets, conserved_columns
     )
 
-    filtered_sumstat_files = []
+    metadata_sumstat_files = []
     exome_metadata = pd.read_csv(
         "/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-gene_consequence_wb_maf_final.tsv",
         sep="\t",
@@ -565,22 +644,31 @@ def collect_and_filter(pops, phenos, datasets, conserved_columns):
         sep="\t",
     )
 
-    print("")
-    print("Filtering sumstats on MAF, setting sigmas, and filtering on consequence...")
-    print("")
-
     for file_path, sumstat_file in zip(file_paths, sumstat_files):
         # Merge metadata
         if "exome" in file_path:
             sumstat_file = sumstat_file.merge(exome_metadata)
         elif "cal" in file_path:
             sumstat_file = sumstat_file.merge(cal_metadata)
-        sumstat_file = sumstat_file[
+        metadata_sumstat_files.append(sumstat_file)
+
+    #Sample 1000 common variants, stuff in filter + synonymous
+    print("")
+    print("Building matrix of correlations of errors...")
+    err_corr = build_err_corr(metadata_sumstat_files, pops, phenos, len(pops), len(phenos))
+    filtered_sumstat_files = []
+
+    print("")
+    print("Filtering sumstats on MAF, setting sigmas, and filtering on consequence...")
+    print("")
+
+    for sumstat_file in metadata_sumstat_files:
+        filtered_sumstat_file = sumstat_file[
             (sumstat_file.wb_maf <= 0.01) & (sumstat_file.wb_maf > 0)
         ]
-        sumstat_file = set_sigmas(sumstat_file)
-        filtered_sumstat_files.append(sumstat_file)
-    return filtered_sumstat_files
+        filtered_sumstat_file = set_sigmas(filtered_sumstat_file)
+        filtered_sumstat_files.append(filtered_sumstat_file)
+    return filtered_sumstat_files, err_corr
 
 
 def return_input_args(args):
@@ -604,7 +692,7 @@ def return_input_args(args):
     R_phen_models: Unique strings ("independent"/"similar") corresponding to each matrix in R_phen_list.
     R_var_models: Unique strings ("independent"/"similar") corresponding to R_var matrices to use for analysis.
     agg: Unique list of aggregation units ("gene"/"variant") to use for analysis.
-    sigma_m_types: Unique list of sigma_m types ("sigma_m_var"/"sigma_m_1"/"sigma_m_0.05") to use for analysis.
+    sigma_m_types: Unique list of sigma_m types ("sigma_m_var"/"sigma_m_1"/"sigma_m_005") to use for analysis.
     variant_filters: Unique list of variant filters ("ptv"/"pav"/"pcv") to use for analysis.
     datasets: Unique list of datasets ("cal"/"exome") to use for analysis.
   
@@ -652,15 +740,17 @@ def print_banner():
     print("| |  | |  _ <|  __/ ")
     print("|_|  |_|_| \_\_|  ")
     print("")
-    print(
-        "https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mrp_production.py"
-    )
-    print("Author:")
+    print("Production Author:")
     print("Guhan Ram Venkataraman, B.S.H.")
     print("Ph.D. Candidate | Biomedical Informatics")
-    print("Rivas Lab | Stanford University")
+    print("")
     print("Contact: guhan@stanford.edu")
-
+    print("URL: https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mrp_production.py")
+    print("")
+    print("Methods Developers: ")
+    print("Manuel A. Rivas, Ph.D.; Matti Pirinen, Ph.D.")
+    print("Rivas Lab | Stanford University")
+    print("") 
 
 def print_params(
     analysis, R_study_model, R_phen_model, R_var_model, agg_type, sigma_m_type
@@ -675,7 +765,7 @@ def print_params(
     R_phen_model: One of "independent"/"similar". Dictates correlation structure across phenotypes.
     R_var_model: One of "independent"/"similar". Dictates correlation structure across variants.
     agg_type: One of "gene"/"variant". Dictates block of aggregation.
-    sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_0.05". Dictates variant scaling factor by functional annotation.
+    sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_005". Dictates variant scaling factor by functional annotation.
   
     """
 
@@ -688,16 +778,7 @@ def print_params(
     print("")
 
 
-if __name__ == "__main__":
-
-    """ 
-    Runs MRP analysis on GBE summary statistics with the parameters specified by the command line.
-
-    """
-
-    with open("../05_gbe/phenotype_info.tsv", "r") as phe_file:
-        valid_phenos = [line.split()[0] for line in phe_file][1:]
-
+def initialize_parser():
     parser = argparse.ArgumentParser(
         description="MRP takes in several variables that affect how it runs."
     )
@@ -715,7 +796,7 @@ if __name__ == "__main__":
         choices=["independent", "similar"],
         type=str,
         nargs="+",
-        default=["independent"],
+        default=["similar"],
         dest="R_study_models",
         help="type of model across studies. options: independent, similar (default: independent). can run both.",
     )
@@ -758,7 +839,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--sigma_m_types",
-        choices=["sigma_m_var", "sigma_m_1", "sigma_m_0.05"],
+        choices=["sigma_m_var", "sigma_m_1", "sigma_m_005"],
         type=str,
         nargs="+",
         default=["sigma_m_var"],
@@ -783,17 +864,33 @@ if __name__ == "__main__":
         dest="datasets",
         help="which UKBB dataset to use. options: cal, exome (default: cal). can run multiple.",
     )
+    return parser
+    
+
+if __name__ == "__main__":
+
+    """ 
+    Runs MRP analysis on GBE summary statistics with the parameters specified by the command line.
+
+    """
+
+    with open("../05_gbe/phenotype_info.tsv", "r") as phe_file:
+        valid_phenos = [line.split()[0] for line in phe_file][1:]
+
+    parser = initialize_parser()
     args = parser.parse_args()
+
     print("Valid arguments. Importing required packages...")
     print("")
+
     import pandas as pd
     from functools import partial, reduce
-
     pd.options.mode.chained_assignment = None
     import numpy as np
     import numpy.matlib as npm
     from numpy.linalg import LinAlgError
     from scipy.stats import describe, beta
+    from scipy.stats.stats import pearsonr
     from collections import defaultdict
     import subprocess
     import math
@@ -822,14 +919,16 @@ if __name__ == "__main__":
         "sigma_m_1",
         "sigma_m_005",
     ]
-    sumstat_files = collect_and_filter(pops, phenos, datasets, conserved_columns)
+
+    sumstat_files, err_corr = collect_and_filter(pops, phenos, datasets, conserved_columns)
 
     for dataset in datasets:
-        for analysis in variant_filters:
-            analysis_files = filter_category(sumstat_files, analysis)
-            for R_study, R_study_model in zip(R_study_list, R_study_models):
-                for R_phen, R_phen_model in zip(R_phen_list, R_phen_models):
-                    for agg_type in agg:
+        for agg_type in agg:
+            bf_dfs = []
+            for analysis in variant_filters:
+                analysis_files = filter_category(sumstat_files, analysis)
+                for R_study, R_study_model in zip(R_study_list, R_study_models):
+                    for R_phen, R_phen_model in zip(R_phen_list, R_phen_models):
                         for R_var_model in R_var_models:
                             for sigma_m_type in sigma_m_types:
                                 print_params(
@@ -850,37 +949,30 @@ if __name__ == "__main__":
                                     R_study_model,
                                     R_phen,
                                     R_phen_model,
+                                    err_corr,
                                     R_var_model,
                                     analysis,
                                     sigma_m_type,
                                     conserved_columns,
                                     agg_type,
                                 )
-                                out_file = (
-                                    "/oak/stanford/groups/mrivas/ukbb24983/"
-                                    + dataset
-                                    + "/mrp/"
-                                    + "_".join(pops)
-                                    + "_"
-                                    + "_".join(phenos)
-                                    + "_study_"
-                                    + R_study_model
-                                    + "_phen_"
-                                    + R_phen_model
-                                    + "_var_"
-                                    + R_var_model
-                                    + "_"
-                                    + sigma_m_type
-                                    + "_"
-                                    + analysis
-                                    + "_"
-                                    + agg_type
-                                    + ".tsv"
-                                )
-                                print(bf_df.head())
-                                bf_df.sort_values(
+                                bf_df = bf_df.sort_values(
                                     by=list(set(bf_df.columns) - set([agg_type])),
                                     ascending=False,
-                                ).to_csv(out_file, sep="\t", index=False)
-                                print("")
-                                print("Results written to " + out_file + ".")
+                                )
+                                bf_dfs.append(bf_df)
+            outer_merge = partial(pd.merge, on=agg_type, how="outer")
+            out_df = reduce(outer_merge, bf_dfs)
+            out_file = (
+                        "/oak/stanford/groups/mrivas/ukbb24983/"
+                        + dataset
+                        + "/mrp/"
+                        + "_".join(pops)
+                        + "_"
+                        + "_".join(phenos)
+                        + "_" + agg_type
+                        + ".tsv"
+                       )
+            out_df.to_csv(out_file, sep="\t", index=False)
+            print("")
+            print("Results written to " + out_file + ".")
