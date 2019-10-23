@@ -183,10 +183,12 @@ def is_pos_def_and_full_rank(x):
 
     i = 0
     x = np.matrix(x)
-    if ((np.all(np.linalg.eigvals(x) > 0)) and (np.linalg.matrix_rank(x) == len(x))):
+    if (np.all(np.linalg.eigvals(x) > 0)) and (np.linalg.matrix_rank(x) == len(x)):
         return x
     else:
-        while not ((np.all(np.linalg.eigvals(x) > 0)) and (np.linalg.matrix_rank(x) == len(x))):
+        while not (
+            (np.all(np.linalg.eigvals(x) > 0)) and (np.linalg.matrix_rank(x) == len(x))
+        ):
             x = 0.99 * x + 0.01 * np.diag(np.diag(x))
             break
             i += 1
@@ -211,7 +213,7 @@ def safe_inv(X, matrix_name, block, agg_type):
     X_inv: Inverse of X.
   
     """
-    
+
     try:
         X_inv = np.linalg.inv(X)
     except LinAlgError as err:
@@ -727,14 +729,20 @@ def collect_and_filter(pops, phenos, datasets, conserved_columns, maf_thresh):
 
     # Sample common variants, stuff in filter + synonymous
     print("")
-    print(Fore.MAGENTA + "Building matrix of correlations of errors..." + Style.RESET_ALL)
+    print(
+        Fore.MAGENTA + "Building matrix of correlations of errors..." + Style.RESET_ALL
+    )
     err_corr = build_err_corr(
         metadata_sumstat_files, pops, phenos, len(pops), len(phenos)
     )
     filtered_sumstat_files = []
 
     print("")
-    print(Fore.BLUE + "Filtering sumstats on MAF, setting sigmas, and filtering on consequence..." + Style.RESET_ALL)
+    print(
+        Fore.BLUE
+        + "Filtering sumstats on MAF, setting sigmas, and filtering on consequence..."
+        + Style.RESET_ALL
+    )
     print("")
 
     for sumstat_file in metadata_sumstat_files:
@@ -833,7 +841,13 @@ def print_banner():
 
 
 def print_params(
-    analysis, R_study_model, R_phen_model, R_var_model, agg_type, sigma_m_type, maf_thresh
+    analysis,
+    R_study_model,
+    R_phen_model,
+    R_var_model,
+    agg_type,
+    sigma_m_type,
+    maf_thresh,
 ):
 
     """ 
@@ -873,11 +887,14 @@ def range_limited_float_type(arg):
 
     try:
         f = float(arg)
-    except ValueError:  
-        raise argparse.ArgumentTypeError("--maf_thresh must be a valid floating point number.")
+    except ValueError:
+        raise argparse.ArgumentTypeError(
+            "--maf_thresh must be a valid floating point number."
+        )
     if f <= 0 or f >= 1:
         raise argparse.ArgumentTypeError("--maf_thresh must be > 0 and < 1.")
     return f
+
 
 def initialize_parser(valid_phenos):
 
@@ -1064,12 +1081,18 @@ def loop_through_parameters(
   
     """
 
-    print(Fore.YELLOW + "Running MRP across parameters for maf_thresh " + str(maf_thresh) + "..." + Style.RESET_ALL)
+    print(
+        Fore.YELLOW
+        + "Running MRP across parameters for maf_thresh "
+        + str(maf_thresh)
+        + "..."
+        + Style.RESET_ALL
+    )
     for dataset in datasets:
         for agg_type in agg:
             bf_dfs = []
             # If not aggregating, then R_var choice does not affect BF (just a 1x1 matrix, [1])
-            if ((agg_type == "variant") and (len(R_var_models) > 1)):
+            if (agg_type == "variant") and (len(R_var_models) > 1):
                 print(Fore.YELLOW)
                 print("Since we are not aggregating, R_var is just [1].")
                 print(Style.RESET_ALL)
