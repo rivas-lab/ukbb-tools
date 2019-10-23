@@ -11,14 +11,36 @@ Please check: https://github.com/rivas-lab/ukbb24983wiki/tree/master/bulk
 
 ## Method (How to download the data)
 
+### Step 0. Identify the UKB24983 table that contains the field of your interest
+
+```
+$ ml load ukbb-query
+$ ukbb-query_find_table_by_field_id.sh 20204
+http://bit.ly/UKB24983_tables
+ukb37855        8735    f.20204.2.0     f       20204   2       0
+ukb35059        116     f.20204.2.0     f       20204   2       0
+ukb28983        78      f.20204.2.0     f       20204   2       0
+ukb25826        4282    f.20204.2.0     f       20204   2       0
+ukb21731        4281    f.20204.2.0     f       20204   2       0
+ukb10137        4281    f.20204.2.0     f       20204   2       0
+```
+
+From this results and the information on http://bit.ly/UKB24983_tables, we found
+ukb37855 is the most recent table that has the field.
+
 ### Step 1. Apply `ukbconv` to get list of individuals with bulk file
 
-[The section 5.1 of the official document](http://biobank.ctsu.ox.ac.uk/showcase/docs/ukbfetch_instruct.html) explains how to get the bulk list.
+Using `ukbconv` program (in `ukbb-showcase-utils` module), you can generate the list of bulk files.
 
 Example:
 ```
-$ ukbconv  ukb789.enc_ukb  bulk  -s145
+$ ml load ukbb-showcase-utils
+$ cd /oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2005693/37855/download
+$ ukbconv ukb37855.enc_ukb bulk -s20204
+$ mv ukb37855.bulk ukb37855.20204.bulk # we highly recommend to rename the output files (before overwritten by another run).
 ```
+
+[The section 5.1 of the official document](http://biobank.ctsu.ox.ac.uk/showcase/docs/ukbfetch_instruct.html) explains how to get the bulk list.
 
 ### Step 2. Place `.key` file
 
