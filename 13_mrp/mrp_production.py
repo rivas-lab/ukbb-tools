@@ -166,7 +166,7 @@ def set_sigmas(df):
     return df
 
 
-def is_pos_def(x):
+def is_pos_def_and_full_rank(x):
 
     """ 
     Ensures a matrix is positive definite.
@@ -183,10 +183,10 @@ def is_pos_def(x):
 
     i = 0
     x = np.matrix(x)
-    if np.all(np.linalg.eigvals(x) > 0):
+    if ((np.all(np.linalg.eigvals(x) > 0)) and (np.linalg.matrix_rank(x) == len(x))):
         return x
     else:
-        while not np.all(np.linalg.eigvals(x) > 0):
+        while not ((np.all(np.linalg.eigvals(x) > 0)) and (np.linalg.matrix_rank(x) == len(x))):
             x = 0.99 * x + 0.01 * np.diag(np.diag(x))
             break
             i += 1
@@ -211,7 +211,7 @@ def safe_inv(X, matrix_name, block, agg_type):
     X_inv: Inverse of X.
   
     """
-
+    
     try:
         X_inv = np.linalg.inv(X)
     except LinAlgError as err:
@@ -240,9 +240,9 @@ def return_BF(U, beta, v_beta, mu, block, agg_type):
   
     """
 
-    v_beta = is_pos_def(v_beta)
+    v_beta = is_pos_def_and_full_rank(v_beta)
     v_beta_inv = safe_inv(v_beta, "v_beta", block, agg_type)
-    U = is_pos_def(U)
+    U = is_pos_def_and_full_rank(U)
     U_inv = safe_inv(U, "U", block, agg_type)
     if v_beta_inv is not np.nan and U_inv is not np.nan:
         A2 = U_inv + v_beta_inv
@@ -286,6 +286,7 @@ def delete_rows_and_columns(matrix, indices_to_remove):
 
 
 def adjust_for_missingness(U, omega, beta, se, beta_list):
+
     """ 
     Deletes rows and columns where we do not have effect sizes/standard errors.
 
@@ -305,6 +306,7 @@ def adjust_for_missingness(U, omega, beta, se, beta_list):
     se: Potentially smaller SE vector without missing data.
   
     """
+
     indices_to_remove = np.argwhere(np.isnan(beta_list))
     U = delete_rows_and_columns(U, indices_to_remove)
     omega = delete_rows_and_columns(omega, indices_to_remove)
@@ -638,6 +640,7 @@ def build_err_corr(dfs, pops, phenos, S, K):
         "NMD_transcript_variant",
         "synonymous_variant",
     ]
+
     # Get only null variants
     df = df[df.most_severe_consequence.isin(null_variants)]
     # Get only common variants
@@ -671,7 +674,7 @@ def build_err_corr(dfs, pops, phenos, S, K):
     return err_corr
 
 
-def collect_and_filter(pops, phenos, datasets, conserved_columns):
+def collect_and_filter(pops, phenos, datasets, conserved_columns, maf_thresh):
 
     """ 
     Collects the summary statistics of interest and applies filters. 
@@ -685,6 +688,7 @@ def collect_and_filter(pops, phenos, datasets, conserved_columns):
     phenos: Unique set of GBE phenotypes to use for analysis.
     datasets: Unique list of datasets ("cal"/"exome") to use for analysis.
     conserved_columns: Columns in every annotated summary statistic file; basis of merges.
+    maf_thresh: Maximum MAF of variants in this run.
   
     Returns: 
     filtered_sumstats_files: Annotated and filtered summary statistic files.
@@ -692,11 +696,11 @@ def collect_and_filter(pops, phenos, datasets, conserved_columns):
   
     """
 
-    print("Reading in summary stats for:")
+    print(Fore.CYAN + "Reading in summary stats for:" + Style.RESET_ALL)
     print("")
-    print("Populations: " + ", ".join(pops))
-    print("Phenotypes: " + ", ".join(phenos))
-    print("Datasets: " + ", ".join(datasets))
+    print(Fore.CYAN + "Populations: " + Style.RESET_ALL + ", ".join(pops))
+    print(Fore.CYAN + "Phenotypes: " + Style.RESET_ALL + ", ".join(phenos))
+    print(Fore.CYAN + "Datasets: " + Style.RESET_ALL + ", ".join(datasets))
     print("")
 
     file_paths, sumstat_files = read_in_summary_stats(
@@ -723,19 +727,19 @@ def collect_and_filter(pops, phenos, datasets, conserved_columns):
 
     # Sample common variants, stuff in filter + synonymous
     print("")
-    print("Building matrix of correlations of errors...")
+    print(Fore.MAGENTA + "Building matrix of correlations of errors..." + Style.RESET_ALL)
     err_corr = build_err_corr(
         metadata_sumstat_files, pops, phenos, len(pops), len(phenos)
     )
     filtered_sumstat_files = []
 
     print("")
-    print("Filtering sumstats on MAF, setting sigmas, and filtering on consequence...")
+    print(Fore.BLUE + "Filtering sumstats on MAF, setting sigmas, and filtering on consequence..." + Style.RESET_ALL)
     print("")
 
     for sumstat_file in metadata_sumstat_files:
         filtered_sumstat_file = sumstat_file[
-            (sumstat_file.wb_maf <= 0.01) & (sumstat_file.wb_maf > 0)
+            (sumstat_file.wb_maf <= maf_thresh) & (sumstat_file.wb_maf > 0)
         ]
         filtered_sumstat_file = set_sigmas(filtered_sumstat_file)
         filtered_sumstat_files.append(filtered_sumstat_file)
@@ -795,6 +799,7 @@ def return_input_args(args):
         args.sigma_m_types,
         args.variants,
         args.datasets,
+        args.maf_threshes,
     )
 
 
@@ -805,29 +810,30 @@ def print_banner():
   
     """
 
-    cprint(" __  __ ____  ____", "red")
-    cprint("|  \/  |  _ \|  _ \\", "red")
-    cprint("| |\/| | |_) | |_) |", "red")
-    cprint("| |  | |  _ <|  __/ ", "red")
-    cprint("|_|  |_|_| \_\_|  ", "red")
+    print(Fore.RED + " __  __ ____  ____")
+    print("|  \/  |  _ \|  _ \\")
+    print("| |\/| | |_) | |_) |")
+    print("| |  | |  _ <|  __/ ")
+    print("|_|  |_|_| \_\_|  " + Style.RESET_ALL)
     print("")
-    cprint("Production Author:", "green")
+    print(Fore.GREEN + "Production Author:" + Style.RESET_ALL)
     print("Guhan Ram Venkataraman, B.S.H.")
     print("Ph.D. Candidate | Biomedical Informatics")
     print("")
-    print("Contact: guhan@stanford.edu")
+    print(Fore.GREEN + "Contact:" + Style.RESET_ALL)
+    print("Email: guhan@stanford.edu")
     print(
         "URL: https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mrp_production.py"
     )
     print("")
-    print("Methods Developers:", "green")
+    print(Fore.GREEN + "Methods Developers:" + Style.RESET_ALL)
     print("Manuel A. Rivas, Ph.D.; Matti Pirinen, Ph.D.")
     print("Rivas Lab | Stanford University")
     print("")
 
 
 def print_params(
-    analysis, R_study_model, R_phen_model, R_var_model, agg_type, sigma_m_type
+    analysis, R_study_model, R_phen_model, R_var_model, agg_type, sigma_m_type, maf_thresh
 ):
 
     """ 
@@ -840,17 +846,38 @@ def print_params(
     R_var_model: One of "independent"/"similar". Dictates correlation structure across variants.
     agg_type: One of "gene"/"variant". Dictates block of aggregation.
     sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_005". Dictates variant scaling factor by functional annotation.
+    maf_thresh: Maximum MAF of variants in this run.
   
     """
 
-    print("Analysis: " + analysis)
-    print("R_study model: " + R_study_model)
-    print("R_phen model: " + R_phen_model)
-    print("R_var model: " + R_var_model)
-    print("Aggregation by: " + agg_type)
-    print("Variant weighting factor: " + sigma_m_type)
+    print("")
+    print(Fore.YELLOW + "Analysis: " + Style.RESET_ALL + analysis)
+    print(Fore.YELLOW + "R_study model: " + Style.RESET_ALL + R_study_model)
+    print(Fore.YELLOW + "R_phen model: " + Style.RESET_ALL + R_phen_model)
+    print(Fore.YELLOW + "R_var model: " + Style.RESET_ALL + R_var_model)
+    print(Fore.YELLOW + "Aggregation by: " + Style.RESET_ALL + agg_type)
+    print(Fore.YELLOW + "Variant weighting factor: " + Style.RESET_ALL + sigma_m_type)
+    print(Fore.YELLOW + "MAF threshold: " + Style.RESET_ALL + str(maf_thresh))
     print("")
 
+
+def range_limited_float_type(arg):
+
+    """ 
+    Type function for argparse - a float within some predefined bounds.
+    
+    Parameters:
+    arg: Putative float.
+
+    """
+
+    try:
+        f = float(arg)
+    except ValueError:  
+        raise argparse.ArgumentTypeError("--maf_thresh must be a valid floating point number.")
+    if f <= 0 or f >= 1:
+        raise argparse.ArgumentTypeError("--maf_thresh must be > 0 and < 1.")
+    return f
 
 def initialize_parser(valid_phenos):
 
@@ -861,6 +888,7 @@ def initialize_parser(valid_phenos):
     valid_phenos: List of valid GBE phenotypes read in from phenotype_info.tsv.
 
     """
+
     parser = argparse.ArgumentParser(
         description="MRP takes in several variables that affect how it runs."
     )
@@ -871,7 +899,7 @@ def initialize_parser(valid_phenos):
         nargs="+",
         required=True,
         dest="pops",
-        help="names of populations/studies to be meta-analyzed; at least one required",
+        help="name(s) of populations/studies to be meta-analyzed; at least one required.",
     )
     parser.add_argument(
         "--R_study",
@@ -890,7 +918,7 @@ def initialize_parser(valid_phenos):
         nargs="+",
         required=True,
         dest="phenos",
-        help="names of phenotypes to be studied jointly; at least one required",
+        help="name(s) of phenotypes to be studied jointly; at least one required.",
     )
     parser.add_argument(
         "--R_phen",
@@ -899,7 +927,7 @@ def initialize_parser(valid_phenos):
         nargs="+",
         default=["independent"],
         dest="R_phen_models",
-        help="type of model across phenotypes. options: independent, similar (default: independent). can run both.",
+        help="type(s) of model across phenotypes. options: independent, similar (default: independent). can run both.",
     )
     parser.add_argument(
         "--R_var",
@@ -908,7 +936,7 @@ def initialize_parser(valid_phenos):
         nargs="+",
         default=["independent"],
         dest="R_var_models",
-        help="type of model across variants. options: independent, similar (default: independent). can run both.",
+        help="type(s) of model across variants. options: independent, similar (default: independent). can run both.",
     )
     parser.add_argument(
         "--M",
@@ -917,7 +945,7 @@ def initialize_parser(valid_phenos):
         nargs="+",
         default=["gene"],
         dest="agg",
-        help="unit of aggregation. options: variant, gene (default: gene). can run both.",
+        help="unit(s) of aggregation. options: variant, gene (default: gene). can run both.",
     )
     parser.add_argument(
         "--sigma_m_types",
@@ -926,7 +954,7 @@ def initialize_parser(valid_phenos):
         nargs="+",
         default=["sigma_m_var"],
         dest="sigma_m_types",
-        help="scaling factor for variants. options: var (i.e. 0.2 for ptvs, 0.05 for pavs/pcvs), 1, 0.05 (default: var). can run multiple.",
+        help="scaling factor(s) for variants. options: var (i.e. 0.2 for ptvs, 0.05 for pavs/pcvs), 1, 0.05 (default: var). can run multiple.",
     )
     parser.add_argument(
         "--variants",
@@ -935,7 +963,7 @@ def initialize_parser(valid_phenos):
         nargs="+",
         default=["ptv"],
         dest="variants",
-        help="variants to consider. options: proximal coding [pcv], protein-altering [pav], protein truncating [ptv] (default: ptv). can run multiple.",
+        help="variant set(s) to consider. options: proximal coding [pcv], protein-altering [pav], protein truncating [ptv] (default: ptv). can run multiple.",
     )
     parser.add_argument(
         "--datasets",
@@ -944,12 +972,20 @@ def initialize_parser(valid_phenos):
         nargs="+",
         default=["cal"],
         dest="datasets",
-        help="which UKBB dataset to use. options: cal, exome (default: cal). can run multiple.",
+        help="which UKBB dataset(s) to use. options: cal, exome (default: cal). can run multiple.",
+    )
+    parser.add_argument(
+        "--maf_thresh",
+        type=range_limited_float_type,
+        nargs="+",
+        default=[0.01],
+        dest="maf_threshes",
+        help="which MAF threshold(s) to use. must be a valid float between 0 and 1.",
     )
     return parser
 
 
-def output_file(bf_dfs, agg_type, dataset, pops, phenos):
+def output_file(bf_dfs, agg_type, dataset, pops, phenos, maf_thresh):
 
     """ 
     Outputs a file containing aggregation unit and Bayes Factors. 
@@ -974,11 +1010,14 @@ def output_file(bf_dfs, agg_type, dataset, pops, phenos):
         + "_".join(phenos)
         + "_"
         + agg_type
+        + "_"
+        + str(maf_thresh)
         + ".tsv"
     )
     out_df.to_csv(out_file, sep="\t", index=False)
     print("")
-    print("Results written to " + out_file + ".")
+    print(Fore.RED + "Results written to " + out_file + "." + Style.RESET_ALL)
+    print("")
 
 
 def loop_through_parameters(
@@ -995,9 +1034,10 @@ def loop_through_parameters(
     phenos,
     R_var_models,
     sigma_m_types,
-    sumstats_files,
+    sumstat_files,
     err_corr,
     conserved_columns,
+    maf_thresh,
 ):
 
     """ 
@@ -1020,12 +1060,20 @@ def loop_through_parameters(
     sumstats_files: List of dataframes containing filtered summary statistic files.
     err_corr: Matrix of correlation of errors across studies and phenotypes.
     conserved_columns: Columns in every annotated summary statistic file; basis of merges.
+    maf_thresh: Maximum MAF of variants in this run.
   
     """
 
+    print(Fore.YELLOW + "Running MRP across parameters for maf_thresh " + str(maf_thresh) + "..." + Style.RESET_ALL)
     for dataset in datasets:
         for agg_type in agg:
             bf_dfs = []
+            # If not aggregating, then R_var choice does not affect BF (just a 1x1 matrix, [1])
+            if ((agg_type == "variant") and (len(R_var_models) > 1)):
+                print(Fore.YELLOW)
+                print("Since we are not aggregating, R_var is just [1].")
+                print(Style.RESET_ALL)
+                R_var_models = ["independent"]
             for analysis in variant_filters:
                 analysis_files = filter_category(sumstat_files, analysis)
                 for R_study, R_study_model in zip(R_study_list, R_study_models):
@@ -1039,6 +1087,7 @@ def loop_through_parameters(
                                     R_var_model,
                                     agg_type,
                                     sigma_m_type,
+                                    maf_thresh,
                                 )
                                 bf_df = run_mrp(
                                     analysis_files,
@@ -1062,7 +1111,7 @@ def loop_through_parameters(
                                     ascending=False,
                                 )
                                 bf_dfs.append(bf_df)
-            output_file(bf_dfs, agg_type, dataset, pops, phenos)
+            output_file(bf_dfs, agg_type, dataset, pops, phenos, maf_thresh)
 
 
 if __name__ == "__main__":
@@ -1077,7 +1126,7 @@ if __name__ == "__main__":
 
     parser = initialize_parser(valid_phenos)
     args = parser.parse_args()
-
+    print("")
     print("Valid arguments. Importing required packages...")
     print("")
 
@@ -1094,11 +1143,11 @@ if __name__ == "__main__":
     import subprocess
     import math
     import os
-    from termcolor import cprint
+    from colorama import Fore, Back, Style
 
     print_banner()
 
-    S, K, pops, phenos, R_study_list, R_study_models, R_phen_list, R_phen_models, R_var_models, agg, sigma_m_types, variant_filters, datasets = return_input_args(
+    S, K, pops, phenos, R_study_list, R_study_models, R_phen_list, R_phen_models, R_var_models, agg, sigma_m_types, variant_filters, datasets, maf_threshes = return_input_args(
         args
     )
 
@@ -1120,25 +1169,27 @@ if __name__ == "__main__":
         "sigma_m_005",
     ]
 
-    sumstat_files, err_corr = collect_and_filter(
-        pops, phenos, datasets, conserved_columns
-    )
+    for maf_thresh in maf_threshes:
+        sumstat_files, err_corr = collect_and_filter(
+            pops, phenos, datasets, conserved_columns, maf_thresh
+        )
 
-    loop_through_parameters(
-        datasets,
-        agg,
-        variant_filters,
-        S,
-        R_study_list,
-        R_study_models,
-        pops,
-        K,
-        R_phen_list,
-        R_phen_models,
-        phenos,
-        R_var_models,
-        sigma_m_types,
-        sumstats_files,
-        err_corr,
-        conserved_columns,
-    )
+        loop_through_parameters(
+            datasets,
+            agg,
+            variant_filters,
+            S,
+            R_study_list,
+            R_study_models,
+            pops,
+            K,
+            R_phen_list,
+            R_phen_models,
+            phenos,
+            R_var_models,
+            sigma_m_types,
+            sumstat_files,
+            err_corr,
+            conserved_columns,
+            maf_thresh,
+        )
