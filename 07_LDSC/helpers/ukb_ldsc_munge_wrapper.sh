@@ -41,7 +41,7 @@ ldsc_munge ()  {
 	
 }
 
-if [ $in_type == "" ] ; then
+if [ "${in_type}" == "" ] ; then
 	echo " python $_ldsc_input_script -o $tmp_dir -ld ${ld_scores} $in_name"
 	python $_ldsc_input_script -o $tmp_dir -ld ${ld_scores} $in_name ;
 else

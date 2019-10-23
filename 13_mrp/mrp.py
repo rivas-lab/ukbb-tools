@@ -113,7 +113,7 @@ def assign_R_var(model, M):
         R_var = np.ones((M, M))
     return R_var
 
-def generate_beta_se_gene(disease_string, subset_df):
+def generate_beta_se_gene(subset_df):
     se2_list = subset_df['SE'].tolist()
     if 'BETA' in subset_df.columns:
         beta_list = subset_df['BETA'].tolist()
@@ -121,7 +121,7 @@ def generate_beta_se_gene(disease_string, subset_df):
         beta_list = np.log(subset_df['OR'].tolist())
     return beta_list, se2_list
 
-def calculate_all_params(df, disease_string, M, key, sigma_m_type, j, S):
+def calculate_all_params(df, M, key, sigma_m_type, j, S):
     R_study = np.diag(np.ones(S))
     subset_df = df[df['gene_symbol'] == key]
     sigma_m = subset_df[sigma_m_type].tolist()
@@ -130,7 +130,7 @@ def calculate_all_params(df, disease_string, M, key, sigma_m_type, j, S):
     R_var_sim = assign_R_var('similar_effects', M)
     S_var_indep = np.dot(np.dot(diag_sigma_m, R_var_indep), diag_sigma_m)
     S_var_sim = np.dot(np.dot(diag_sigma_m, R_var_sim), diag_sigma_m)
-    beta_list, se2_list = generate_beta_se_gene(disease_string, subset_df)
+    beta_list, se2_list = generate_beta_se_gene(subset_df)
     beta = np.array(beta_list).reshape(-1,1)
     mu = np.zeros(beta.shape)
     v_beta = np.diag(np.square(np.array(se2_list)).reshape(-1))
@@ -138,7 +138,7 @@ def calculate_all_params(df, disease_string, M, key, sigma_m_type, j, S):
     U_sim = np.kron(R_study, np.kron(S_var_sim, R_phen))
     return U_indep, U_sim, beta, v_beta, mu
 
-def run_mrp_gene_level(df, disease_string, S, mode):
+def run_mrp_gene_level(df, S, mode):
     m_dict = df.groupby('gene_symbol').size()
     bf_dict = {}
     bf_dfs = []
@@ -149,7 +149,7 @@ def run_mrp_gene_level(df, disease_string, S, mode):
             if i % 1000 == 0:
                 print('Done ' + str(i) + ' genes out of ' + str(len(m_dict)))
             M = value
-            U_indep, U_sim, beta, v_beta, mu = calculate_all_params(df, disease_string, M, key, sigma_m_type, i, S)
+            U_indep, U_sim, beta, v_beta, mu = calculate_all_params(df, M, key, sigma_m_type, i, S)
             bf_indep = return_BF(U_indep, beta, v_beta, mu, key)
             bf_sim = return_BF(U_sim, beta, v_beta, mu, key)
             bf_dict[key] = [bf_indep, bf_sim]

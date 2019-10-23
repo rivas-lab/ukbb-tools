@@ -17,10 +17,12 @@ GBE_ID_to_gwas_basename () {
     local GBE_ID=$1
     local gwas_variant_type=$2
     local prefix=$3
-    echo ${prefix}.${GBE_ID}.${gwas_variant_type}.PHENO1.glm
-
-#    ukb24983_v2_hg38.BIN1930.exome-spb.PHENO1.glm.logistic.hybrid.gz  
-#    ukb24983_v2_hg19.BIN10030500.genotyped.PHENO1.glm.logistic.hybrid.gz
+    local pop=$4
+    if [ $pop = "white_british" ]; then
+        echo ${prefix}.${GBE_ID}.${gwas_variant_type}.PHENO1.glm
+    else
+        echo ${prefix}.${GBE_ID}.${gwas_variant_type}.glm
+    fi
 }
 
 get_dir_from_variant_type () {
@@ -46,8 +48,8 @@ get_sumstats_name () {
     local variant_type=$4
 
     dir=$(phe_path_to_gwas_path $(dirname $phe_file) $population $(get_dir_from_variant_type ${variant_type}))
-    basename_prefix=$(GBE_ID_to_gwas_basename $(basename ${phe_file%.phe}) ${variant_type} ${prefix})
-    sumstats_file=$(find ${dir} -type f -name "${basename_prefix}*") 
+    basename_prefix=$(GBE_ID_to_gwas_basename $(basename ${phe_file%.phe}) ${variant_type} ${prefix} ${population})
+    sumstats_file=$(find ${dir} -type f -name "${basename_prefix}*gz") 
     echo ${sumstats_file}
 }
 
@@ -117,9 +119,28 @@ show_sumstats () {
     if [ -f $sumstats_file ] ; then
         local cols_tmp=$(create_colnames_tmpfile $sumstats_file)
         local cols=$(find_col_idxs_from_colnames_file $cols_tmp 'CHROM' 'POS' 'ID' 'REF' 'ALT' 'A1' 'BETA|OR' 'SE' 'Z_STAT|T_STAT' '^P$')
+
+        local col_beta="$(find_col_idx_from_colnames_file $cols_tmp 'BETA')"
+        local col_or="$(find_col_idx_from_colnames_file $cols_tmp 'OR')"
+
         rm $cols_tmp
-        cat_or_zcat $sumstats_file | awk 'NR>1' | grep -v 'NA' | cut -f $cols \
-            | awk -v OFS='\t' -v GBE_ID=${GBE_ID} -v p_val_thr=${p_val_thr} '($10 <= p_val_thr){print $1, $2, $3, GBE_ID, $4, $5, $6, $7, $8, $10, $9}'
-    fi
+
+        if [ "${col_beta}" != "" ] && [ "${col_or}" == "" ] ; then
+            cat_or_zcat $sumstats_file | awk 'NR>1' | grep -v 'NA' | cut -f $cols \
+                | awk -v OFS='\t' -v GBE_ID=${GBE_ID} -v p_val_thr=${p_val_thr} '($10 <= p_val_thr){print $1, $2, $3, GBE_ID, $4, $5, $6, $7, $8, $10, $9}' 
+                
+        elif [ "${col_or}" != "" ] && [ "${col_beta}" == "" ] ; then
+            cat_or_zcat $sumstats_file | awk 'NR>1' | grep -v 'NA' | cut -f $cols \
+                | awk -v OFS='\t' -v GBE_ID=${GBE_ID} -v p_val_thr=${p_val_thr} '($10 <= p_val_thr){print $1, $2, $3, GBE_ID, $4, $5, $6, log($7), $8, $10, $9}'
+        fi
+    fi       
+}
+
+
+get_field_from_pop () {
+    local pop=$1
+    local const=7
+    echo "white_british non_british_white african e_asian s_asian" \
+        | tr " " "\n" | awk -v pop=$pop -v const=$const '($0 == pop){print NR + const}'
 }
 
