@@ -166,7 +166,7 @@ def set_sigmas(df):
     return df
 
 
-def is_pos_def_and_full_rank(x):
+def is_pos_def_and_full_rank(X):
 
     """ 
     Ensures a matrix is positive definite and full rank.
@@ -174,23 +174,23 @@ def is_pos_def_and_full_rank(x):
     Keep diagonals and multiples every other cell by .99.
   
     Parameters: 
-    x: Matrix to verify.
+    X: Matrix to verify.
   
     Returns: 
-    x: Verified (and, if applicable, adjusted) matrix.
+    X: Verified (and, if applicable, adjusted) matrix.
   
     """
 
     i = 0
-    x = np.matrix(x)
-    if (np.all(np.linalg.eigvals(x) > 0)) and (np.linalg.matrix_rank(x) == len(x)):
-        return x
+    X = np.matrix(X)
+    if (np.all(np.linalg.eigvals(X) > 0)) and (np.linalg.matrix_rank(X) == len(X)):
+        return X
     else:
         while not (
-            (np.all(np.linalg.eigvals(x) > 0)) and (np.linalg.matrix_rank(x) == len(x))
+            (np.all(np.linalg.eigvals(X) > 0)) and (np.linalg.matrix_rank(X) == len(X))
         ):
-            x = 0.99 * x + 0.01 * np.diag(np.diag(x))
-        return x
+            X = 0.99 * X + 0.01 * np.diag(np.diag(X))
+        return X
 
 
 def safe_inv(X, matrix_name, block, agg_type):
@@ -248,17 +248,18 @@ def return_BF_pvals(beta, U, v_beta, v_beta_inv, fb, dm, im, methods):
     Computes a p-value from the quadratic form that is subsumed by the Bayes Factor.
   
     Parameters: 
-    beta:
-    U:
-    v_beta:
-    v_beta_inv:
-    fb:
-    dm:
-    im:
-    methods:
+
+    beta: Effect size vector without missing data.
+    U: Kronecker product of the three matrices (S*M*K x S*M*K) dictating correlation structures; no missing data.
+    v_beta: Diagonal matrix of variances of effect sizes without missing data.
+    v_beta_inv: Inverse of v_beta.
+    fb: Farebrother R method (rpy2 object).
+    dm: Davies R method (rpy2 object).
+    im: Imhof R method (rpy2 object).
+    methods: List of method(s) to apply to our data.
   
     Returns: 
-    p_values: 
+    p_values: List of p-values corresponding to each method specified as input.
   
     """
 
@@ -284,21 +285,77 @@ def return_BF_pvals(beta, U, v_beta, v_beta_inv, fb, dm, im, methods):
 
 
 def farebrother(quad_T, d, fb):
+
+    """ 
+    Farebrother method from CompQuadForm.
+  
+    Parameters: 
+
+    quad_T: Value point at which distribution function is to be evaluated.
+    d: Distinct non-zero characteristic root(s) of A*Sigma. 
+    fb: Farebrother R method (rpy2 object).
+  
+    Returns: 
+    p_value: Farebrother p-value.
+  
+    """
+
     res = fb(quad_T, d)
     return np.asarray(res)[0]
 
 
 def davies(quad_T, d, dm):
+
+    """ 
+    Davies method from CompQuadForm.
+  
+    Parameters: 
+
+    quad_T: Value point at which distribution function is to be evaluated.
+    d: Distinct non-zero characteristic root(s) of A*Sigma. 
+    dm: Davies R method (rpy2 object).
+  
+    Returns: 
+    p_value: Davies p-value.
+  
+    """
+
     res = dm(quad_T, d)
     return np.asarray(res)[0]
 
 
 def imhof(quad_T, d, im):
+ 
+    """ 
+    Imhof method from CompQuadForm.
+  
+    Parameters: 
+
+    quad_T: Value point at which distribution function is to be evaluated.
+    d: Distinct non-zero characteristic root(s) of A*Sigma. 
+    im: Imhof R method (rpy2 object).
+  
+    Returns: 
+    p_value: Imhof p-value.
+  
+    """
+
     res = im(quad_T, d)
     return np.asarray(res)[0]
 
 
 def initialize_r_objects():
+
+    """ 
+    Initializes Farebrother, Davies, and Imhof R methods as rpy2 objects.
+  
+    Returns: 
+    fb: Farebrother R method (rpy2 object).
+    dm: Davies R method (rpy2 object).
+    im: Imhof R method (rpy2 object).
+  
+    """
+
     robjects.r(
     """
     require(MASS)
@@ -351,7 +408,7 @@ def return_BF(
     agg_type: One of "gene"/"variant". Dictates block of aggregation.
     prior_odds_list: List of prior odds used as assumptions to calculate posterior probabilities of Bayes Factors.
     p_value_methods: List of p-value methods used to calculate p-values from Bayes Factors.
-    fb, dm, im: initialized R functions for Farebrother, Davies, and Imhof methods. NoneType if p_value_methods is None.
+    fb, dm, im: initialized R functions for Farebrother, Davies, and Imhof methods. NoneType if p_value_methods is [].
   
     Returns:, [] 
     log10BF: log_10 Bayes Factor (ratio of marginal likelihoods of alternative model, which accounts for priors, and null).
@@ -394,23 +451,23 @@ def return_BF(
         return np.nan, [], []
 
 
-def delete_rows_and_columns(matrix, indices_to_remove):
+def delete_rows_and_columns(X, indices_to_remove):
 
     """ 
     Helper function to delete rows and columns from a matrix.
   
     Parameters: 
-    matrix: Matrix that needs adjustment.
+    X: Matrix that needs adjustment.
     indices_to_remove: Rows and columns to be deleted
   
     Returns: 
-    matrix: Smaller matrix that has no missing data.
+    X: Smaller matrix that has no missing data.
   
     """
 
-    matrix = np.delete(matrix, indices_to_remove, axis=0)
-    matrix = np.delete(matrix, indices_to_remove, axis=1)
-    return matrix
+    X = np.delete(X, indices_to_remove, axis=0)
+    X = np.delete(X, indices_to_remove, axis=1)
+    return X
 
 
 def adjust_for_missingness(U, omega, beta, se, beta_list):
@@ -1041,6 +1098,8 @@ def print_params(
     agg_type: One of "gene"/"variant". Dictates block of aggregation.
     sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_005". Dictates variant scaling factor by functional annotation.
     maf_thresh: Maximum MAF of variants in this run.
+    prior_odds_list: List of prior odds used as assumptions to calculate posterior probabilities of Bayes Factors.
+    p_value_methods: List of p-value methods used to calculate p-values from Bayes Factors.
   
     """
 
@@ -1225,6 +1284,7 @@ def output_file(bf_dfs, agg_type, dataset, pops, phenos, maf_thresh):
     dataset: One of "cal"/"exome".
     pops: Unique set of populations (studies) to use for analysis.
     phenos: Unique set of GBE phenotypes to use for analysis.
+    maf_thresh: Maximum MAF of variants in this run.
 
     """
 
@@ -1292,8 +1352,8 @@ def loop_through_parameters(
     err_corr: Matrix of correlation of errors across studies and phenotypes.
     conserved_columns: Columns in every annotated summary statistic file; basis of merges.
     maf_thresh: Maximum MAF of variants in this run.
-    prior_odds_list:
-    p_value_methods:
+    prior_odds_list: List of prior odds used as assumptions to calculate posterior probabilities of Bayes Factors.
+    p_value_methods: List of p-value methods used to calculate p-values from Bayes Factors.
   
     """
 
