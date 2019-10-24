@@ -29,7 +29,7 @@ check_flip_header () {
 get_col_idx () {
     local file=$1
     local key=$2
-    show_header $file | tr "\t" "\n" | awk -v key=$key '($0 == key){print NR}'
+    show_header $file | sed -e "s/^#//g" | tr "\t" "\n" | awk -v key=$key '($0 == key){print NR}'
 }
 
 check_flip_body () {
@@ -37,9 +37,16 @@ check_flip_body () {
     local ref_fa=$2    
     local chr_prefix="chr"
     local field_sep="!"
+
+    local col_CHROM=$(get_col_idx $in_sumstats "CHROM")
+    local col_POS=$(get_col_idx $in_sumstats "POS")
+    local col_ID=$(get_col_idx $in_sumstats "ID")
+    local col_REF=$(get_col_idx $in_sumstats "REF")
+
     cat_or_zcat ${in_sumstats} | tr "\t" "${field_sep}" \
         | awk -v OFS='\t' -v FS=${field_sep} -v chr="${chr_prefix}" \
-        '(NR>1){print chr $1, $2-1, $2-1+length($4), $3, chr $0}' \
+        -v cCHROM=${col_CHROM} -v cPOS=${col_POS} -v cID=${col_ID} -v cREF=${col_REF} \
+        '(NR>1){print chr $cCHROM, $cPOS-1, $cPOS-1+length($cREF), $cID, chr $0}' \
         | sed -e "s/chrXY/chrX/g" \
         | sed -e "s/chrMT/chrM/g" \
         | bedtools getfasta -fi ${ref_fa} -bed /dev/stdin -bedOut \
