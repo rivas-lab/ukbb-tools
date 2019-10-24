@@ -28,7 +28,7 @@ if [ ${n_lines} -lt 1 ] ; then
     echo "Download finished!"
 else
     echo "Downloading ${n_lines} files (${bulk_file_missing})"
-
+    ml load parallel
     parallel --tmpdir ${LOCAL_SCRATCH} -j ${num_jobs} $(dirname $(readlink -f $0))/$(basename $0 .sh)_sub.sh ${bulk_file_missing} {} ${out_dir} ${key_file} :::  $(seq 1 ${n_batches}) 
 fi
 

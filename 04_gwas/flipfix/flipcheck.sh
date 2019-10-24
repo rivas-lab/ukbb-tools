@@ -16,6 +16,8 @@ echo "tmp_dir = $tmp_dir" >&2
 handler_exit () { rm -rf $tmp_dir ; }
 trap handler_exit EXIT
 
+ml load bedtools
+
 check_flip $in_sumstats $ref_fa ${tmp_dir}
 #fix_flip ${in_sumstats} ${ref_fa} ${tmp_dir}
 
