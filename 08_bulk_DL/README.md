@@ -51,6 +51,34 @@ Ask PI and get the key file and place the key file as `.ukbkey` in the download 
 We have a custom wrapper script for batch download. 
 https://github.com/rivas-lab/ukbb-tools/blob/master/08_bulk_DL/ukbfetch_bulk_wrapper.sh
 
+#### example: how to submit a download job
+
+```
+[ytanigaw@sh-109-53 /oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2005693/37855/bulk/ukb2005693.37855.20204]$ cat dl20204.sbatch
+#!/bin/bash
+#SBATCH --job-name=dl20204
+#SBATCH --output=dl20204.%A.out
+#SBATCH  --error=dl20204.%A.err
+#SBATCH --nodes=1
+#SBATCH --cores=4
+#SBATCH --mem=30000
+#SBATCH --time=7-00:00:00
+#SBATCH -p mrivas,normal
+
+set -beEuo pipefail
+
+cores=$( cat $0 | egrep '^#SBATCH --cores='  | awk -v FS='=' '{print $NF}' )
+mem=$(   cat $0 | egrep '^#SBATCH --mem='    | awk -v FS='=' '{print $NF}' )
+
+out_d="/scratch/groups/mrivas/ukbb/24983/bulk/ukb2005693.37855.20204"
+src="/oak/stanford/groups/mrivas/users/ytanigaw/repos/rivas-lab/ukbb-tools/08_bulk_DL/ukbfetch_bulk_wrapper.sh"
+
+bash ${src} ${out_d}/ukb37855.20204.bulk ${out_d} ${out_d}/k24983.key ${cores}
+
+[ytanigaw@sh-109-53 /oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2005693/37855/bulk/ukb2005693.37855.20204]$ sbatch dl20204.sbatch
+Submitted batch job 53180525
+```
+
 #### usage of the wrapper script
 
 ```
