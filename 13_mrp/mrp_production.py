@@ -233,14 +233,17 @@ def compute_posterior_probs(log10BF, prior_odds_list):
   
     """
 
-    BF = 10**(log10BF)
+    BF = 10 ** (log10BF)
     posterior_odds_list = [prior_odds * BF for prior_odds in prior_odds_list]
-    posterior_probs = [(posterior_odds/(1 + posterior_odds)) for posterior_odds in posterior_odds_list]
+    posterior_probs = [
+        (posterior_odds / (1 + posterior_odds))
+        for posterior_odds in posterior_odds_list
+    ]
     return posterior_probs
 
 
 def return_BF_pvals(beta, U, v_beta, v_beta_inv, fb, dm, im, methods):
-    
+
     """ 
     Computes a p-value from the quadratic form that is subsumed by the Bayes Factor.
   
@@ -263,10 +266,10 @@ def return_BF_pvals(beta, U, v_beta, v_beta_inv, fb, dm, im, methods):
     A = v_beta + U
     A = is_pos_def_and_full_rank(A)
     A_inv = np.linalg.inv(A)
-    quad_T = beta.T*(v_beta_inv - A_inv)*beta
-    B = is_pos_def_and_full_rank(np.eye(n) - A_inv*v_beta)
+    quad_T = beta.T * (v_beta_inv - A_inv) * beta
+    B = is_pos_def_and_full_rank(np.eye(n) - A_inv * v_beta)
     d = np.linalg.eig(B)[0]
-    d = [i for i in d if i > .01]
+    d = [i for i in d if i > 0.01]
     p_values = []
     for method in methods:
         if method == "farebrother":
@@ -296,37 +299,45 @@ def imhof(quad_T, d, im):
 
 
 def initialize_r_objects():
-    robjects.r('''
+    robjects.r(
+    """
     require(MASS)
     require(CompQuadForm)
     farebrother.method <- function(quadT, d, maxit=100000, epsilon=10^-16, mode=1) {
         return(farebrother(quadT, d, maxit=as.numeric(maxit), eps=as.numeric(epsilon), mode=as.numeric(mode))$res) 
     }
-    ''')
-    robjects.r('''
+    """
+    )
+    robjects.r(
+    """
     require(MASS)
     require(CompQuadForm)
     davies.method <- function(quadT, d, lim, acc) {
         return(davies(quadT, d, lim=1000000, acc=1e-9)$Qq)
     }
-    ''')
-    dm = robjects.globalenv['davies.method']
-    dm = robjects.r['davies.method']
-    fb = robjects.globalenv['farebrother.method']
-    fb = robjects.r['farebrother.method']
-    robjects.r('''
+    """
+    )
+    dm = robjects.globalenv["davies.method"]
+    dm = robjects.r["davies.method"]
+    fb = robjects.globalenv["farebrother.method"]
+    fb = robjects.r["farebrother.method"]
+    robjects.r(
+    """
     require(MASS)
     require(CompQuadForm)
     imhof.method <- function(quadT, d, lim, acc) {
         return(imhof(quadT, d, epsabs = 10^-16, epsrel = 10^-16, limit = 100000)$Qq)
     }
-    ''')
-    im = robjects.globalenv['imhof.method']
-    im = robjects.r['imhof.method']
+    """
+    )
+    im = robjects.globalenv["imhof.method"]
+    im = robjects.r["imhof.method"]
     return fb, dm, im
 
 
-def return_BF(U, beta, v_beta, mu, block, agg_type, prior_odds_list, p_value_methods, fb, dm, im):
+def return_BF(
+    U, beta, v_beta, mu, block, agg_type, prior_odds_list, p_value_methods, fb, dm, im
+):
 
     """ 
     Given quantities calculated previously and the inputs, returns the associated Bayes Factor.
@@ -370,8 +381,14 @@ def return_BF(U, beta, v_beta, mu, block, agg_type, prior_odds_list, p_value_met
         )
         logBF = float(np.array(logBF))
         log10BF = logBF / np.log(10)
-        posterior_probs = compute_posterior_probs(log10BF, prior_odds_list) if prior_odds_list else []
-        p_values = return_BF_pvals(beta, U, v_beta, v_beta_inv, fb, dm, im, p_value_methods) if p_value_methods else []
+        posterior_probs = (
+            compute_posterior_probs(log10BF, prior_odds_list) if prior_odds_list else []
+        )
+        p_values = (
+            return_BF_pvals(beta, U, v_beta, v_beta_inv, fb, dm, im, p_value_methods)
+            if p_value_methods
+            else []
+        )
         return log10BF, posterior_probs, p_values
     else:
         return np.nan, [], []
@@ -565,12 +582,57 @@ def run_mrp(
         if agg_type == "gene"
         else df.groupby("V").size()
     )
-    bf_df_columns = [agg_type, "log_10_BF" + "_study_" + R_study_model + "_phen_" + R_phen_model + "_var_" + R_var_model + "_" + sigma_m_type + "_" + analysis]
+    bf_df_columns = [
+        agg_type,
+        "log_10_BF"
+        + "_study_"
+        + R_study_model
+        + "_phen_"
+        + R_phen_model
+        + "_var_"
+        + R_var_model
+        + "_"
+        + sigma_m_type
+        + "_"
+        + analysis,
+    ]
     if prior_odds_list:
-        bf_df_columns.extend(["posterior_prob_w_prior_odds_" + str(prior_odds) + "_study_" + R_study_model + "_phen_" + R_phen_model + "_var_" + R_var_model + "_" + sigma_m_type + "_" + analysis for prior_odds in prior_odds_list])
+        bf_df_columns.extend(
+            [
+                "posterior_prob_w_prior_odds_"
+                + str(prior_odds)
+                + "_study_"
+                + R_study_model
+                + "_phen_"
+                + R_phen_model
+                + "_var_"
+                + R_var_model
+                + "_"
+                + sigma_m_type
+                + "_"
+                + analysis
+                for prior_odds in prior_odds_list
+            ]
+        )
     if p_value_methods:
         fb, dm, im = initialize_r_objects()
-        bf_df_columns.extend(["p_value_" + p_value_method + "_study_" + R_study_model + "_phen_" + R_phen_model + "_var_" + R_var_model + "_" + sigma_m_type + "_" + analysis for p_value_method in p_value_methods])
+        bf_df_columns.extend(
+            [
+                "p_value_"
+                + p_value_method
+                + "_study_"
+                + R_study_model
+                + "_phen_"
+                + R_phen_model
+                + "_var_"
+                + R_var_model
+                + "_"
+                + sigma_m_type
+                + "_"
+                + analysis
+                for p_value_method in p_value_methods
+            ]
+        )
     else:
         fb = dm = im = None
     data = []
@@ -591,9 +653,21 @@ def run_mrp(
             M,
             err_corr,
         )
-        bf, posterior_probs, p_values = return_BF(U, beta, v_beta, mu, key, agg_type, prior_odds_list, p_value_methods, fb, dm, im)
+        bf, posterior_probs, p_values = return_BF(
+            U,
+            beta,
+            v_beta,
+            mu,
+            key,
+            agg_type,
+            prior_odds_list,
+            p_value_methods,
+            fb,
+            dm,
+            im,
+        )
         data.append([key, bf] + posterior_probs + p_values)
-    bf_df = pd.DataFrame(data, columns = bf_df_columns)
+    bf_df = pd.DataFrame(data, columns=bf_df_columns)
     return bf_df
 
 
@@ -663,7 +737,7 @@ def get_beta(df, pop, pheno):
     beta: List of effect sizes from the specified (pop, pheno) tuple; used to compute correlation.
   
     """
-    
+
     if "BETA" + "_" + pop + "_" + pheno in df.columns:
         return list(df["BETA" + "_" + pop + "_" + pheno])
     elif "OR" + "_" + pop + "_" + pheno in df.columns:
@@ -979,9 +1053,19 @@ def print_params(
     print(Fore.YELLOW + "Variant weighting factor: " + Style.RESET_ALL + sigma_m_type)
     print(Fore.YELLOW + "MAF threshold: " + Style.RESET_ALL + str(maf_thresh))
     if prior_odds_list:
-        print(Fore.YELLOW + "Prior odds: " + Style.RESET_ALL + ", ".join([str(prior_odd) for prior_odd in prior_odds_list]))
+        print(
+            Fore.YELLOW
+            + "Prior odds: "
+            + Style.RESET_ALL
+            + ", ".join([str(prior_odd) for prior_odd in prior_odds_list])
+        )
     if p_value_methods:
-        print(Fore.YELLOW + "Methods for p-value generation: " + Style.RESET_ALL + ", ".join(p_value_methods))
+        print(
+            Fore.YELLOW
+            + "Methods for p-value generation: "
+            + Style.RESET_ALL
+            + ", ".join(p_value_methods)
+        )
     print("")
 
 
@@ -1126,7 +1210,7 @@ def initialize_parser(valid_phenos):
         dest="p_value_methods",
         help="which method(s) to use to convert Bayes Factors to p-values. if command line argument is invoked but method is not specified, will throw an error (i.e., specify a method when it is invoked). if not invoked, p-values will not be calculated. options: farebrother, davies, imhof. NOTE: imports R objects and methods, which slows down the method. imhof is fastest and recommended if p-values are a must.",
     )
-    
+
     return parser
 
 
@@ -1291,6 +1375,7 @@ if __name__ == "__main__":
 
     import pandas as pd
     from functools import partial, reduce
+
     pd.options.mode.chained_assignment = None
     import numpy as np
     import numpy.matlib as npm
@@ -1305,14 +1390,21 @@ if __name__ == "__main__":
     S, K, pops, phenos, R_study_list, R_study_models, R_phen_list, R_phen_models, R_var_models, agg, sigma_m_types, variant_filters, datasets, maf_threshes, prior_odds_list, p_value_methods = return_input_args(
         args
     )
-    
+
     if p_value_methods:
-        print(Fore.RED + "WARNING: Command line arguments indicate p-value generation. This can cause slowdowns of up to 12x.")
-        print("Consider using --prior_odds instead to generate posterior probabilities as opposed to p-values." + Style.RESET_ALL)
+        print(
+            Fore.RED
+            + "WARNING: Command line arguments indicate p-value generation. This can cause slowdowns of up to 12x."
+        )
+        print(
+            "Consider using --prior_odds instead to generate posterior probabilities as opposed to p-values."
+            + Style.RESET_ALL
+        )
         print("")
         import rpy2
         import rpy2.robjects as robjects
         import rpy2.robjects.numpy2ri
+
         rpy2.robjects.numpy2ri.activate()
         import rpy2.robjects.packages as rpackages
         from rpy2.robjects.vectors import StrVector
@@ -1320,6 +1412,7 @@ if __name__ == "__main__":
         from rpy2.robjects.vectors import FloatVector
         import warnings
         from rpy2.rinterface import RRuntimeWarning
+
         warnings.filterwarnings("ignore", category=RRuntimeWarning)
 
     # These columns are in every annotated summary statistic file and will be the basis of merges
