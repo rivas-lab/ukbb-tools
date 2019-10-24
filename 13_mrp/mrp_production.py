@@ -169,9 +169,9 @@ def set_sigmas(df):
 def is_pos_def_and_full_rank(x):
 
     """ 
-    Ensures a matrix is positive definite.
+    Ensures a matrix is positive definite and full rank.
   
-    Keep diagonals and multiples every other cell by .99
+    Keep diagonals and multiples every other cell by .99.
   
     Parameters: 
     x: Matrix to verify.
@@ -190,11 +190,6 @@ def is_pos_def_and_full_rank(x):
             (np.all(np.linalg.eigvals(x) > 0)) and (np.linalg.matrix_rank(x) == len(x))
         ):
             x = 0.99 * x + 0.01 * np.diag(np.diag(x))
-            break
-            i += 1
-            if i >= 2:
-                print("TAKING TOO LONG")
-                break
         return x
 
 
@@ -224,7 +219,114 @@ def safe_inv(X, matrix_name, block, agg_type):
     return X_inv
 
 
-def return_BF(U, beta, v_beta, mu, block, agg_type):
+def compute_posterior_probs(log10BF, prior_odds_list):
+
+    """ 
+    Computes posterior probability given prior odds and a log10 Bayes Factor.
+  
+    Parameters: 
+    log10BF: log10 Bayes Factor of given association.
+    prior_odds_list: List of assumed prior odds.
+  
+    Returns: 
+    posterior_prob: The posterior probability of the event given the prior odds and the Bayes Factor.
+  
+    """
+
+    BF = 10**(log10BF)
+    posterior_odds_list = [prior_odds * BF for prior_odds in prior_odds_list]
+    posterior_probs = [(posterior_odds/(1 + posterior_odds)) for posterior_odds in posterior_odds_list]
+    return posterior_probs
+
+
+def return_BF_pvals(beta, U, v_beta, v_beta_inv, fb, dm, im, methods):
+    
+    """ 
+    Computes a p-value from the quadratic form that is subsumed by the Bayes Factor.
+  
+    Parameters: 
+    beta:
+    U:
+    v_beta:
+    v_beta_inv:
+    fb:
+    dm:
+    im:
+    methods:
+  
+    Returns: 
+    p_values: 
+  
+    """
+
+    n = beta.shape[0]
+    A = v_beta + U
+    A = is_pos_def_and_full_rank(A)
+    A_inv = np.linalg.inv(A)
+    quad_T = beta.T*(v_beta_inv - A_inv)*beta
+    B = is_pos_def_and_full_rank(np.eye(n) - A_inv*v_beta)
+    d = np.linalg.eig(B)[0]
+    d = [i for i in d if i > .01]
+    p_values = []
+    for method in methods:
+        if method == "farebrother":
+            p_value = farebrother(quad_T, d, fb)
+        elif method == "davies":
+            p_value = davies(quad_T, d, dm)
+        elif method == "imhof":
+            p_value = imhof(quad_T, d, im)
+        p_value = max(0, min(1, p_value))
+        p_values.append(p_value)
+    return p_values
+
+
+def farebrother(quad_T, d, fb):
+    res = fb(quad_T, d)
+    return np.asarray(res)[0]
+
+
+def davies(quad_T, d, dm):
+    res = dm(quad_T, d)
+    return np.asarray(res)[0]
+
+
+def imhof(quad_T, d, im):
+    res = im(quad_T, d)
+    return np.asarray(res)[0]
+
+
+def initialize_r_objects():
+    robjects.r('''
+    require(MASS)
+    require(CompQuadForm)
+    farebrother.method <- function(quadT, d, maxit=100000, epsilon=10^-16, mode=1) {
+        return(farebrother(quadT, d, maxit=as.numeric(maxit), eps=as.numeric(epsilon), mode=as.numeric(mode))$res) 
+    }
+    ''')
+    robjects.r('''
+    require(MASS)
+    require(CompQuadForm)
+    davies.method <- function(quadT, d, lim, acc) {
+        return(davies(quadT, d, lim=1000000, acc=1e-9)$Qq)
+    }
+    ''')
+    dm = robjects.globalenv['davies.method']
+    dm = robjects.r['davies.method']
+    fb = robjects.globalenv['farebrother.method']
+    fb = robjects.r['farebrother.method']
+    robjects.r('''
+    require(MASS)
+    require(CompQuadForm)
+    imhof.method <- function(quadT, d, lim, acc) {
+        return(imhof(quadT, d, epsabs = 10^-16, epsrel = 10^-16, limit = 100000)$Qq)
+    }
+    ''')
+    im = robjects.globalenv['imhof.method']
+    im = robjects.r['imhof.method']
+    return fb, dm, im
+
+
+def return_BF(U, beta, v_beta, mu, block, agg_type, prior_odds_list, p_value_methods, fb, dm, im):
 
     """ 
     Given quantities calculated previously and the inputs, returns the associated Bayes Factor.
@@ -236,9 +338,14 @@ def return_BF(U, beta, v_beta, mu, block, agg_type):
     mu: A mean of genetic effects, size of beta (NOTE: default is 0, can change in the code below).
     block: Name of the aggregation block (gene/variant).
     agg_type: One of "gene"/"variant". Dictates block of aggregation.
+    prior_odds_list: List of prior odds used as assumptions to calculate posterior probabilities of Bayes Factors.
+    p_value_methods: List of p-value methods used to calculate p-values from Bayes Factors.
+    fb, dm, im: initialized R functions for Farebrother, Davies, and Imhof methods. NoneType if p_value_methods is None.
   
-    Returns: 
+    Returns:, [] 
     log10BF: log_10 Bayes Factor (ratio of marginal likelihoods of alternative model, which accounts for priors, and null).
+    posterior_probs: List of posterior probabilities corresponding to each prior odds in prior_odds_list.
+    p_values: List of p-values corresponding to each method in p_value_methods.
   
     """
 
@@ -252,7 +359,7 @@ def return_BF(U, beta, v_beta, mu, block, agg_type):
         try:
             Abinv = np.linalg.lstsq(A2, b2, rcond=-1)[0]
         except LinAlgError as err:
-            return np.nan
+            return np.nan, [], []
         fat_middle = v_beta_inv - (
             v_beta_inv.dot(np.linalg.inv(U_inv + v_beta_inv))
         ).dot(v_beta_inv)
@@ -263,9 +370,11 @@ def return_BF(U, beta, v_beta, mu, block, agg_type):
         )
         logBF = float(np.array(logBF))
         log10BF = logBF / np.log(10)
-        return log10BF
+        posterior_probs = compute_posterior_probs(log10BF, prior_odds_list) if prior_odds_list else []
+        p_values = return_BF_pvals(beta, U, v_beta, v_beta_inv, fb, dm, im, p_value_methods) if p_value_methods else []
+        return log10BF, posterior_probs, p_values
     else:
-        return np.nan
+        return np.nan, [], []
 
 
 def delete_rows_and_columns(matrix, indices_to_remove):
@@ -337,12 +446,11 @@ def generate_beta_se(subset_df, pops, phenos):
     se_list = []
     for pop in pops:
         for pheno in phenos:
-            for index, row in subset_df.iterrows():
-                if "BETA" + "_" + pop + "_" + pheno in subset_df.columns:
-                    beta_list.append(row["BETA" + "_" + pop + "_" + pheno])
-                elif "OR" + "_" + pop + "_" + pheno in subset_df.columns:
-                    beta_list.append(np.log(row["OR" + "_" + pop + "_" + pheno]))
-                se_list.append(row["SE" + "_" + pop + "_" + pheno])
+            if "BETA" + "_" + pop + "_" + pheno in subset_df.columns:
+                beta_list.extend(list(subset_df["BETA" + "_" + pop + "_" + pheno]))
+            elif "OR" + "_" + pop + "_" + pheno in subset_df.columns:
+                beta_list.extend(list(subset_df["OR" + "_" + pop + "_" + pheno]))
+            se_list.extend(list(subset_df["SE" + "_" + pop + "_" + pheno]))
     return beta_list, se_list
 
 
@@ -419,6 +527,8 @@ def run_mrp(
     sigma_m_type,
     conserved_columns,
     agg_type,
+    prior_odds_list,
+    p_value_methods,
 ):
 
     """ 
@@ -440,6 +550,8 @@ def run_mrp(
     sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_005". Dictates variant scaling factor by functional annotation.
     conserved_columns: Columns in every annotated summary statistic file; basis of merges.
     agg_type: One of "gene"/"variant". Dictates block of aggregation.
+    prior_odds_list: List of prior odds used as assumptions to calculate posterior probabilities of Bayes Factors.
+    p_value_methods: List of p-value methods used to calculate p-values from Bayes Factors.
 
     Returns: 
     bf_df: Dataframe with two columns: agg_type and log_10 Bayes Factor. 
@@ -453,7 +565,15 @@ def run_mrp(
         if agg_type == "gene"
         else df.groupby("V").size()
     )
-    bf_dict = {}
+    bf_df_columns = [agg_type, "log_10_BF" + "_study_" + R_study_model + "_phen_" + R_phen_model + "_var_" + R_var_model + "_" + sigma_m_type + "_" + analysis]
+    if prior_odds_list:
+        bf_df_columns.extend(["posterior_prob_w_prior_odds_" + str(prior_odds) + "_study_" + R_study_model + "_phen_" + R_phen_model + "_var_" + R_var_model + "_" + sigma_m_type + "_" + analysis for prior_odds in prior_odds_list])
+    if p_value_methods:
+        fb, dm, im = initialize_r_objects()
+        bf_df_columns.extend(["p_value_" + p_value_method + "_study_" + R_study_model + "_phen_" + R_phen_model + "_var_" + R_var_model + "_" + sigma_m_type + "_" + analysis for p_value_method in p_value_methods])
+    else:
+        fb = dm = im = None
+    data = []
     for i, (key, value) in enumerate(m_dict.items()):
         if i % 1000 == 0:
             print("Done " + str(i) + " " + agg_type + "s out of " + str(len(m_dict)))
@@ -471,28 +591,9 @@ def run_mrp(
             M,
             err_corr,
         )
-        bf = return_BF(U, beta, v_beta, mu, key, agg_type)
-        bf_dict[key] = bf
-    bf_df = (
-        pd.DataFrame.from_dict(bf_dict, orient="index")
-        .reset_index()
-        .rename(
-            columns={
-                "index": agg_type,
-                0: "log_10_BF"
-                + "_study_"
-                + R_study_model
-                + "_phen_"
-                + R_phen_model
-                + "_var_"
-                + R_var_model
-                + "_"
-                + sigma_m_type
-                + "_"
-                + analysis,
-            }
-        )
-    )
+        bf, posterior_probs, p_values = return_BF(U, beta, v_beta, mu, key, agg_type, prior_odds_list, p_value_methods, fb, dm, im)
+        data.append([key, bf] + posterior_probs + p_values)
+    bf_df = pd.DataFrame(data, columns = bf_df_columns)
     return bf_df
 
 
@@ -562,13 +663,12 @@ def get_beta(df, pop, pheno):
     beta: List of effect sizes from the specified (pop, pheno) tuple; used to compute correlation.
   
     """
-
+    
     if "BETA" + "_" + pop + "_" + pheno in df.columns:
         return list(df["BETA" + "_" + pop + "_" + pheno])
     elif "OR" + "_" + pop + "_" + pheno in df.columns:
         return np.log(list(df["OR" + "_" + pop + "_" + pheno]))
-    else:
-        return None
+    return None
 
 
 def get_betas(df, pop1, pheno1, pop2, pheno2):
@@ -665,8 +765,7 @@ def build_err_corr(dfs, pops, phenos, S, K):
             for x, pop2 in enumerate(pops):
                 for y, pheno2 in enumerate(phenos):
                     # Location in matrix
-                    a = K * i + j
-                    b = K * x + y
+                    a, b = K * i + j, K * x + y
                     # If in lower triangle, do not compute; symmetric matrix
                     if a > b:
                         err_corr[a, b] = err_corr[b, a]
@@ -778,6 +877,9 @@ def return_input_args(args):
     sigma_m_types: Unique list of sigma_m types ("sigma_m_var"/"sigma_m_1"/"sigma_m_005") to use for analysis.
     variant_filters: Unique list of variant filters ("ptv"/"pav"/"pcv") to use for analysis.
     datasets: Unique list of datasets ("cal"/"exome") to use for analysis.
+    maf_threshes: List of maximum MAFs of variants in your runs.
+    prior_odds_list: List of prior odds used as assumptions to calculate posterior probabilities of Bayes Factors.
+    p_value_methods: List of p-value methods used to calculate p-values from Bayes Factors.
   
     """
 
@@ -808,6 +910,8 @@ def return_input_args(args):
         args.variants,
         args.datasets,
         args.maf_threshes,
+        args.prior_odds_list,
+        args.p_value_methods,
     )
 
 
@@ -848,6 +952,8 @@ def print_params(
     agg_type,
     sigma_m_type,
     maf_thresh,
+    prior_odds_list,
+    p_value_methods,
 ):
 
     """ 
@@ -872,6 +978,10 @@ def print_params(
     print(Fore.YELLOW + "Aggregation by: " + Style.RESET_ALL + agg_type)
     print(Fore.YELLOW + "Variant weighting factor: " + Style.RESET_ALL + sigma_m_type)
     print(Fore.YELLOW + "MAF threshold: " + Style.RESET_ALL + str(maf_thresh))
+    if prior_odds_list:
+        print(Fore.YELLOW + "Prior odds: " + Style.RESET_ALL + ", ".join([str(prior_odd) for prior_odd in prior_odds_list]))
+    if p_value_methods:
+        print(Fore.YELLOW + "Methods for p-value generation: " + Style.RESET_ALL + ", ".join(p_value_methods))
     print("")
 
 
@@ -997,8 +1107,26 @@ def initialize_parser(valid_phenos):
         nargs="+",
         default=[0.01],
         dest="maf_threshes",
-        help="which MAF threshold(s) to use. must be a valid float between 0 and 1.",
+        help="which MAF threshold(s) to use. must be valid floats between 0 and 1.",
     )
+    parser.add_argument(
+        "--prior_odds",
+        type=range_limited_float_type,
+        nargs="+",
+        default=[],
+        dest="prior_odds_list",
+        help="which prior odds (can be multiple) to use in calculating posterior probabilities. must be valid floats between 0 and 1. if command line argument is invoked but a prior odds is not specified, will throw an error (i.e., specify a prior odds when it is invoked). if not invoked, posterior probabilities will not be calculated. recommended: 0.0005 (expect 1 in 2000 genes to be a discovery).",
+    )
+    parser.add_argument(
+        "--p_value",
+        choices=["farebrother", "davies", "imhof"],
+        type=str,
+        nargs="+",
+        default=[],
+        dest="p_value_methods",
+        help="which method(s) to use to convert Bayes Factors to p-values. if command line argument is invoked but method is not specified, will throw an error (i.e., specify a method when it is invoked). if not invoked, p-values will not be calculated. options: farebrother, davies, imhof. NOTE: imports R objects and methods, which slows down the method. imhof is fastest and recommended if p-values are a must.",
+    )
+    
     return parser
 
 
@@ -1008,7 +1136,7 @@ def output_file(bf_dfs, agg_type, dataset, pops, phenos, maf_thresh):
     Outputs a file containing aggregation unit and Bayes Factors. 
     
     Parameters: 
-    bf_dfs: List of dataframes containing Bayes Factors from each anOne of Unique set of GBE phenotypes to use for analysis.
+    bf_dfs: List of dataframes containing Bayes Factors from each analysis.
     agg_type: One of "gene"/"variant". Dictates block of aggregation.
     dataset: One of "cal"/"exome".
     pops: Unique set of populations (studies) to use for analysis.
@@ -1055,6 +1183,8 @@ def loop_through_parameters(
     err_corr,
     conserved_columns,
     maf_thresh,
+    prior_odds_list,
+    p_value_methods,
 ):
 
     """ 
@@ -1078,6 +1208,8 @@ def loop_through_parameters(
     err_corr: Matrix of correlation of errors across studies and phenotypes.
     conserved_columns: Columns in every annotated summary statistic file; basis of merges.
     maf_thresh: Maximum MAF of variants in this run.
+    prior_odds_list:
+    p_value_methods:
   
     """
 
@@ -1111,6 +1243,8 @@ def loop_through_parameters(
                                     agg_type,
                                     sigma_m_type,
                                     maf_thresh,
+                                    prior_odds_list,
+                                    p_value_methods,
                                 )
                                 bf_df = run_mrp(
                                     analysis_files,
@@ -1128,6 +1262,8 @@ def loop_through_parameters(
                                     sigma_m_type,
                                     conserved_columns,
                                     agg_type,
+                                    prior_odds_list,
+                                    p_value_methods,
                                 )
                                 bf_df = bf_df.sort_values(
                                     by=list(set(bf_df.columns) - set([agg_type])),
@@ -1155,24 +1291,36 @@ if __name__ == "__main__":
 
     import pandas as pd
     from functools import partial, reduce
-
     pd.options.mode.chained_assignment = None
     import numpy as np
     import numpy.matlib as npm
     from numpy.linalg import LinAlgError
-    from scipy.stats import describe, beta
     from scipy.stats.stats import pearsonr
-    from collections import defaultdict
     import subprocess
-    import math
     import os
     from colorama import Fore, Back, Style
 
     print_banner()
 
-    S, K, pops, phenos, R_study_list, R_study_models, R_phen_list, R_phen_models, R_var_models, agg, sigma_m_types, variant_filters, datasets, maf_threshes = return_input_args(
+    S, K, pops, phenos, R_study_list, R_study_models, R_phen_list, R_phen_models, R_var_models, agg, sigma_m_types, variant_filters, datasets, maf_threshes, prior_odds_list, p_value_methods = return_input_args(
         args
     )
+    
+    if p_value_methods:
+        print(Fore.RED + "WARNING: Command line arguments indicate p-value generation. This can cause slowdowns of up to 12x.")
+        print("Consider using --prior_odds instead to generate posterior probabilities as opposed to p-values." + Style.RESET_ALL)
+        print("")
+        import rpy2
+        import rpy2.robjects as robjects
+        import rpy2.robjects.numpy2ri
+        rpy2.robjects.numpy2ri.activate()
+        import rpy2.robjects.packages as rpackages
+        from rpy2.robjects.vectors import StrVector
+        from rpy2.robjects.vectors import ListVector
+        from rpy2.robjects.vectors import FloatVector
+        import warnings
+        from rpy2.rinterface import RRuntimeWarning
+        warnings.filterwarnings("ignore", category=RRuntimeWarning)
 
     # These columns are in every annotated summary statistic file and will be the basis of merges
     conserved_columns = [
@@ -1215,4 +1363,6 @@ if __name__ == "__main__":
             err_corr,
             conserved_columns,
             maf_thresh,
+            prior_odds_list,
+            p_value_methods,
         )
