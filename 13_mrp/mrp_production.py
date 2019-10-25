@@ -2,170 +2,6 @@ from __future__ import division
 import argparse
 
 
-def read_in_summary_stats(pops, phenos, datasets, conserved_columns):
-
-    """ 
-    Reads in GBE summary statistics from the Rivas Lab file organization system on Sherlock.
-  
-    Additionally: adds a variant identifier ("V"), renames columns, and filters on SE (<= 0.5).
-    Contains logic for handling the case that a summary statistic file is not found.
-  
-    Parameters: 
-    pops: Unique set of populations (studies) to use for analysis.
-    phenos: Unique set of GBE phenotypes to use for analysis.
-    datasets: Unique list of datasets ("cal"/"exome") to use for analysis.
-    conserved_columns: Columns in every annotated summary statistic file; basis of merges.
-  
-    Returns: 
-    file_paths: List of strings containing file paths.
-    sumstat_files: List of dataframes containing summary statistics.
-  
-    """
-
-    file_paths = []
-    sumstat_files = []
-    for pop in pops:
-        for pheno in phenos:
-            for dataset in datasets:
-                findCMD = (
-                    "find /oak/stanford/groups/mrivas/ukbb24983/"
-                    + dataset
-                    + '/gwas/ -name "*.gz" | grep '
-                    + pop
-                    + " | grep -v freeze | grep -v old | grep "
-                    + pheno
-                )
-                out = subprocess.Popen(
-                    findCMD,
-                    shell=True,
-                    stdin=subprocess.PIPE,
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
-                )
-                (stdout, stderr) = out.communicate()
-                file_path = stdout.strip().decode("utf-8")
-                if os.path.exists(file_path):
-                    print(file_path)
-                    df = pd.read_csv(file_path, sep="\t")
-                    df.insert(
-                        loc=0,
-                        column="V",
-                        value=df["#CHROM"]
-                        .astype(str)
-                        .str.cat(df["POS"].astype(str), sep=":")
-                        .str.cat(df["REF"], sep=":")
-                        .str.cat(df["ALT"], sep=":"),
-                    )
-                    # Filter for SE as you read it in
-                    df = rename_columns(df, conserved_columns, pop, pheno)
-                    df = df[df["SE" + "_" + pop + "_" + pheno].notnull()]
-                    df = df[df["SE" + "_" + pop + "_" + pheno] <= 0.5]
-                    sumstat_files.append(df)
-                    file_paths.append(file_path)
-                else:
-                    print(
-                        "A summary statistic file cannot be found for population: {}; phenotype: {}; dataset: {}. A placeholder df will be added instead.".format(
-                            pop, pheno, dataset
-                        )
-                    )
-                    if ("QT" in pheno) or ("INI" in pheno):
-                        df = pd.DataFrame(
-                            columns=conserved_columns
-                            + ["TEST", "OBS_CT", "BETA", "SE", "T_STAT", "P"]
-                        )
-                    else:
-                        df = pd.DataFrame(
-                            columns=conserved_columns
-                            + ["FIRTH?", "TEST", "OBS_CT", "OR", "SE", "Z_STAT", "P"]
-                        )
-                    df = rename_columns(df, conserved_columns, pop, pheno)
-                    sumstat_files.append(df)
-                    file_paths.append("file_not_found")
-    return file_paths, sumstat_files
-
-
-def set_sigmas(df):
-
-    """ 
-    Assigns appropriate sigmas to appropriate variants by annotation.
-  
-    Filters out variants not of interest;
-    Sets sigmas by functional annotation;
-    Additionally adds two extra columns for two other standard choices of a uniform sigma (1 and 0.05).
-  
-    Parameters: 
-    df: Merged dataframe containing all variants across all studies and phenotypes.
-  
-    Returns: 
-    df: Merged dataframe with three additional columns:
-        sigma_m_var: Column of sigma values (mapped to functional annotation via the lists inside this method).
-            NOTE: One can change the sigmas associated with each type of variant by adjusting this method.
-        sigma_m_1: Uniform column of 1.
-        sigma_m_005: Uniform column of 0.05.
-  
-    """
-
-    ptv = [
-        "frameshift_variant",
-        "splice_acceptor_variant",
-        "splice_donor_variant",
-        "stop_gained",
-        "start_lost",
-        "stop_lost",
-    ]
-    pav = [
-        "protein_altering_variant",
-        "inframe_deletion",
-        "inframe_insertion",
-        "splice_region_variant",
-        "start_retained_variant",
-        "stop_retained_variant",
-        "missense_variant",
-    ]
-    proximal_coding = [
-        "synonymous_variant",
-        "5_prime_UTR_variant",
-        "3_prime_UTR_variant",
-        "coding_sequence_variant",
-        "incomplete_terminal_codon_variant",
-        "TF_binding_site_variant",
-    ]
-    to_filter = [
-        "regulatory_region_variant",
-        "intron_variant",
-        "intergenic_variant",
-        "downstream_gene_variant",
-        "mature_miRNA_variant",
-        "non_coding_transcript_exon_variant",
-        "upstream_gene_variant",
-        "NA",
-        "NMD_transcript_variant",
-    ]
-
-    df = df[~df.most_severe_consequence.isin(to_filter)]
-    sigma_m_ptv = 0.2
-    sigma_m_pav = 0.05
-    sigma_m_pc = 0.05
-    sigma_m = dict(
-        [(variant, sigma_m_ptv) for variant in ptv]
-        + [(variant, sigma_m_pav) for variant in pav]
-        + [(variant, sigma_m_pc) for variant in proximal_coding]
-    )
-    category_dict = dict(
-        [(variant, "ptv") for variant in ptv]
-        + [(variant, "pav") for variant in pav]
-        + [(variant, "proximal_coding") for variant in proximal_coding]
-    )
-    sigma_m_list = list(map(sigma_m.get, df.most_severe_consequence.tolist()))
-    df["sigma_m_var"] = sigma_m_list
-    category_list = list(map(category_dict.get, df.most_severe_consequence.tolist()))
-    df["category"] = category_list
-    df = df.assign(sigma_m_1=1)
-    df = df.assign(sigma_m_005=0.05)
-    df = df[df.sigma_m_var.notnull()]
-    return df
-
-
 def is_pos_def_and_full_rank(X):
 
     """ 
@@ -201,8 +37,10 @@ def safe_inv(X, matrix_name, block, agg_type):
     Parameters: 
     X: Matrix to invert.
     matrix_name: One of "U"/"v_beta" - used to print messages when inversion fails.
-    block: Name of the aggregation block (gene/variant) - used to print messages when inversion fails.
-    agg_type: One of "gene"/"variant". Dictates block of aggregation. Used to print messages when inversion fails.
+    block: Name of the aggregation block (gene/variant). 
+        Used to print messages when inversion fails.
+    agg_type: One of "gene"/"variant". Dictates block of aggregation.
+        Used to print messages when inversion fails.
   
     Returns: 
     X_inv: Inverse of X.
@@ -217,71 +55,6 @@ def safe_inv(X, matrix_name, block, agg_type):
         )
         return np.nan
     return X_inv
-
-
-def compute_posterior_probs(log10BF, prior_odds_list):
-
-    """ 
-    Computes posterior probability given prior odds and a log10 Bayes Factor.
-  
-    Parameters: 
-    log10BF: log10 Bayes Factor of given association.
-    prior_odds_list: List of assumed prior odds.
-  
-    Returns: 
-    posterior_prob: The posterior probability of the event given the prior odds and the Bayes Factor.
-  
-    """
-
-    BF = 10 ** (log10BF)
-    posterior_odds_list = [prior_odds * BF for prior_odds in prior_odds_list]
-    posterior_probs = [
-        (posterior_odds / (1 + posterior_odds))
-        for posterior_odds in posterior_odds_list
-    ]
-    return posterior_probs
-
-
-def return_BF_pvals(beta, U, v_beta, v_beta_inv, fb, dm, im, methods):
-
-    """ 
-    Computes a p-value from the quadratic form that is subsumed by the Bayes Factor.
-  
-    Parameters: 
-
-    beta: Effect size vector without missing data.
-    U: Kronecker product of the three matrices (S*M*K x S*M*K) dictating correlation structures; no missing data.
-    v_beta: Diagonal matrix of variances of effect sizes without missing data.
-    v_beta_inv: Inverse of v_beta.
-    fb: Farebrother R method (rpy2 object).
-    dm: Davies R method (rpy2 object).
-    im: Imhof R method (rpy2 object).
-    methods: List of method(s) to apply to our data.
-  
-    Returns: 
-    p_values: List of p-values corresponding to each method specified as input.
-  
-    """
-
-    n = beta.shape[0]
-    A = v_beta + U
-    A = is_pos_def_and_full_rank(A)
-    A_inv = np.linalg.inv(A)
-    quad_T = beta.T * (v_beta_inv - A_inv) * beta
-    B = is_pos_def_and_full_rank(np.eye(n) - A_inv * v_beta)
-    d = np.linalg.eig(B)[0]
-    d = [i for i in d if i > 0.01]
-    p_values = []
-    for method in methods:
-        if method == "farebrother":
-            p_value = farebrother(quad_T, d, fb)
-        elif method == "davies":
-            p_value = davies(quad_T, d, dm)
-        elif method == "imhof":
-            p_value = imhof(quad_T, d, im)
-        p_value = max(0, min(1, p_value))
-        p_values.append(p_value)
-    return p_values
 
 
 def farebrother(quad_T, d, fb):
@@ -325,7 +98,7 @@ def davies(quad_T, d, dm):
 
 
 def imhof(quad_T, d, im):
- 
+
     """ 
     Imhof method from CompQuadForm.
   
@@ -357,39 +130,107 @@ def initialize_r_objects():
     """
 
     robjects.r(
-    """
+        """
     require(MASS)
     require(CompQuadForm)
-    farebrother.method <- function(quadT, d, maxit=100000, epsilon=10^-16, mode=1) {
-        return(farebrother(quadT, d, maxit=as.numeric(maxit), eps=as.numeric(epsilon), mode=as.numeric(mode))$res) 
+    farebrother.method <- function(quadT, d, h = rep(1, length(d)), delta = rep(0, length(d)), maxiter = 100000, epsilon = 10^-16, type = 1) {
+        return(farebrother(quadT, d, h, delta, maxit = as.numeric(maxiter), eps = as.numeric(epsilon), mode = as.numeric(type))$Qq)
     }
     """
     )
     robjects.r(
-    """
+        """
     require(MASS)
     require(CompQuadForm)
-    davies.method <- function(quadT, d, lim, acc) {
-        return(davies(quadT, d, lim=1000000, acc=1e-9)$Qq)
+    imhof.method <- function(quadT, d, h = rep(1, length(d)), delta = rep(0, length(d)), epsilon = 10^-16, lim = 10000) {
+        return(imhof(quadT, d, h, delta, epsabs = as.numeric(epsilon), epsrel = as.numeric(epsilon), limit=as.numeric(lim))$Qq)
     }
     """
     )
-    dm = robjects.globalenv["davies.method"]
-    dm = robjects.r["davies.method"]
+    robjects.r(
+        """
+    require(MASS)
+    require(CompQuadForm)
+    davies.method <- function(quadT, d, h = rep(1, length(d)), delta = rep(0, length(d)), sig = 0, limit = 10000, accuracy = 0.0001) {
+        return(davies(quadT, d, h, delta, sigma=as.numeric(sig), lim = as.numeric(limit), acc = as.numeric(accuracy))$Qq)
+    }
+    """
+    )
     fb = robjects.globalenv["farebrother.method"]
     fb = robjects.r["farebrother.method"]
-    robjects.r(
-    """
-    require(MASS)
-    require(CompQuadForm)
-    imhof.method <- function(quadT, d, lim, acc) {
-        return(imhof(quadT, d, epsabs = 10^-16, epsrel = 10^-16, limit = 100000)$Qq)
-    }
-    """
-    )
     im = robjects.globalenv["imhof.method"]
     im = robjects.r["imhof.method"]
+    dm = robjects.globalenv["davies.method"]
+    dm = robjects.r["davies.method"]
     return fb, dm, im
+
+
+def return_BF_pvals(beta, U, v_beta, v_beta_inv, fb, dm, im, methods):
+
+    """ 
+    Computes a p-value from the quadratic form that is subsumed by the Bayes Factor.
+  
+    Parameters: 
+
+    beta: Effect size vector without missing data.
+    U: Kronecker product of the three matrices (S*M*K x S*M*K)
+        dictating correlation structures; no missing data.
+    v_beta: Diagonal matrix of variances of effect sizes without missing data.
+    v_beta_inv: Inverse of v_beta.
+    fb: Farebrother R method (rpy2 object).
+    dm: Davies R method (rpy2 object).
+    im: Imhof R method (rpy2 object).
+    methods: List of method(s) to apply to our data.
+  
+    Returns: 
+    p_values: List of p-values corresponding to each method specified as input.
+  
+    """
+
+    n = beta.shape[0]
+    A = v_beta + U
+    A = is_pos_def_and_full_rank(A)
+    A_inv = np.linalg.inv(A)
+    quad_T = beta.T * (v_beta_inv - A_inv) * beta
+    B = is_pos_def_and_full_rank(np.eye(n) - A_inv * v_beta)
+    d = np.linalg.eig(B)[0]
+    d = [i for i in d if i > 0.01]
+    methods = ["imhof", "davies", "farebrother"]
+    p_values = []
+    for method in methods:
+        if method == "farebrother":
+            p_value = farebrother(quad_T, d, fb)
+        elif method == "davies":
+            p_value = davies(quad_T, d, dm)
+        elif method == "imhof":
+            p_value = imhof(quad_T, d, im)
+        p_value = max(0, min(1, p_value))
+        p_values.append(p_value)
+    return p_values
+
+
+def compute_posterior_probs(log10BF, prior_odds_list):
+
+    """ 
+    Computes posterior probability given prior odds and a log10 Bayes Factor.
+  
+    Parameters: 
+    log10BF: log10 Bayes Factor of given association.
+    prior_odds_list: List of assumed prior odds.
+  
+    Returns: 
+    posterior_prob: The posterior probability of the event
+        given the prior odds and the Bayes Factor.
+  
+    """
+
+    BF = 10 ** (log10BF)
+    posterior_odds_list = [prior_odds * BF for prior_odds in prior_odds_list]
+    posterior_probs = [
+        (posterior_odds / (1 + posterior_odds))
+        for posterior_odds in posterior_odds_list
+    ]
+    return posterior_probs
 
 
 def return_BF(
@@ -397,22 +238,30 @@ def return_BF(
 ):
 
     """ 
-    Given quantities calculated previously and the inputs, returns the associated Bayes Factor.
+    Given quantities calculated previously and the inputs, returns the associated 
+        Bayes Factor.
   
     Parameters: 
-    U: Kronecker product of the three matrices (S*M*K x S*M*K) dictating correlation structures; no missing data.
+    U: Kronecker product of the three matrices (S*M*K x S*M*K)
+        dictating correlation structures; no missing data.
     beta: Effect size vector without missing data.
     v_beta: Diagonal matrix of variances of effect sizes without missing data.
-    mu: A mean of genetic effects, size of beta (NOTE: default is 0, can change in the code below).
+    mu: A mean of genetic effects, size of beta 
+        (NOTE: default is 0, can change in the code below).
     block: Name of the aggregation block (gene/variant).
     agg_type: One of "gene"/"variant". Dictates block of aggregation.
-    prior_odds_list: List of prior odds used as assumptions to calculate posterior probabilities of Bayes Factors.
-    p_value_methods: List of p-value methods used to calculate p-values from Bayes Factors.
-    fb, dm, im: initialized R functions for Farebrother, Davies, and Imhof methods. NoneType if p_value_methods is [].
+    prior_odds_list: List of prior odds used as assumptions to calculate 
+        posterior probabilities of Bayes Factors.
+    p_value_methods: List of p-value methods used to calculate p-values from 
+        Bayes Factors.
+    fb, dm, im: initialized R functions for Farebrother, Davies, and Imhof methods. 
+        NoneType if p_value_methods is [].
   
     Returns:, [] 
-    log10BF: log_10 Bayes Factor (ratio of marginal likelihoods of alternative model, which accounts for priors, and null).
-    posterior_probs: List of posterior probabilities corresponding to each prior odds in prior_odds_list.
+    log10BF: log_10 Bayes Factor (ratio of marginal likelihoods of alternative model,
+        which accounts for priors, and null).
+    posterior_probs: List of posterior probabilities corresponding to each prior odds
+         in prior_odds_list.
     p_values: List of p-values corresponding to each method in p_value_methods.
   
     """
@@ -458,7 +307,7 @@ def delete_rows_and_columns(X, indices_to_remove):
   
     Parameters: 
     X: Matrix that needs adjustment.
-    indices_to_remove: Rows and columns to be deleted
+    indices_to_remove: Rows and columns to be deleted.
   
     Returns: 
     X: Smaller matrix that has no missing data.
@@ -475,14 +324,20 @@ def adjust_for_missingness(U, omega, beta, se, beta_list):
     """ 
     Deletes rows and columns where we do not have effect sizes/standard errors.
 
-    Calls method delete_rows_and_columns, a helper function that calls the numpy command.
+    Calls method delete_rows_and_columns, a helper function that calls the numpy
+        command.
   
     Parameters: 
-    U: Kronecker product of the three matrices (S*M*K x S*M*K) dictating correlation structures; may relate to missing data.
-    omega: (S*M*K x S*M*K) matrix that contains correlation of errors across variants, studies, and phenotypes. 
-    beta: Vector of effect sizes within the unit of aggregation; may contain missing data.
-    se: Vector of standard errors within the unit of aggregation; may contain missing data.
-    beta_list: List of effect sizes within the unit of aggregation; may contain missing data.
+    U: Kronecker product of the three matrices (S*M*K x S*M*K) 
+        dictating correlation structures; may relate to missing data.
+    omega: (S*M*K x S*M*K) matrix that contains correlation of errors
+        across variants, studies, and phenotypes. 
+    beta: Vector of effect sizes within the unit of aggregation;
+        may contain missing data.
+    se: Vector of standard errors within the unit of aggregation;
+        may contain missing data.
+    beta_list: List of effect sizes within the unit of aggregation;
+        may contain missing data.
   
     Returns: 
     U: Potentially smaller U matrix not associated with missing data.
@@ -506,7 +361,8 @@ def generate_beta_se(subset_df, pops, phenos):
     Gathers effect sizes and standard errors from a unit of aggregation (gene/variant).
   
     Parameters: 
-    subset_df: slice of the original df that encompasses the current unit of aggregation (gene/variant).
+    subset_df: Slice of the original dataframe that encompasses the current unit of 
+        aggregation (gene/variant).
     pops: Unique set of populations (studies) to use for analysis.
     phenos: Unique set of GBE phenotypes to use for analysis.
   
@@ -550,19 +406,24 @@ def calculate_all_params(
     pops: Unique set of populations (studies) to use for analysis.
     phenos: Unique set of GBE phenotypes to use for analysis.
     key: Variant/gene name.
-    sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_005". Dictates variant scaling factor by functional annotation.
+    sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_005".
+        Dictates variant scaling factor by functional annotation.
     R_study: R_study matrix to use for analysis (independent/similar).
-    R_phen: R_phen matrix to use for analysis (independent/similar).
-    R_var_model: String ("independent"/"similar") corresponding to R_var matrices to use for analysis.
+    R_phen: R_phen matrix to use for analysis (empirically calculated).
+    R_var_model: String ("independent"/"similar") corresponding to R_var matrices to 
+        use for analysis.
     agg_type: One of "gene"/"variant". Dictates block of aggregation.
     M: Number of variants within the gene block if agg_type is "gene"; if "variant", 1.
-    err_corr: A (S*K x S*K) matrix of correlation of errors across studies and phenotypes. Used to calculate v_beta.
+    err_corr: A (S*K x S*K) matrix of correlation of errors across studies 
+        and phenotypes. Used to calculate v_beta.
   
     Returns: 
-    U: Kronecker product of the three matrices (S*M*K x S*M*K) dictating correlation structures, adjusted for missingness.
+    U: Kronecker product of the three matrices (S*M*K x S*M*K)
+        dictating correlation structures, adjusted for missingness.
     beta: A S*M*K x 1 vector of effect sizes.
     v_beta: A (S*M*K x S*M*K) matrix of variances of effect sizes.
-    mu: A mean of genetic effects, size of beta (NOTE: default is 0, can change in the code below).
+    mu: A mean of genetic effects, size of beta
+        (NOTE: default is 0, can change in the code below).
   
     """
 
@@ -585,6 +446,42 @@ def calculate_all_params(
     return U, beta, v_beta, mu
 
 
+def output_file(bf_dfs, agg_type, dataset, pops, phenos, maf_thresh):
+
+    """ 
+    Outputs a file containing aggregation unit and Bayes Factors. 
+    
+    Parameters: 
+    bf_dfs: List of dataframes containing Bayes Factors from each analysis.
+    agg_type: One of "gene"/"variant". Dictates block of aggregation.
+    dataset: One of "cal"/"exome".
+    pops: Unique set of populations (studies) to use for analysis.
+    phenos: Unique set of GBE phenotypes to use for analysis.
+    maf_thresh: Maximum MAF of variants in this run.
+
+    """
+
+    outer_merge = partial(pd.merge, on=agg_type, how="outer")
+    out_df = reduce(outer_merge, bf_dfs)
+    out_file = (
+        "/oak/stanford/groups/mrivas/ukbb24983/"
+        + dataset
+        + "/mrp/"
+        + "_".join(pops)
+        + "_"
+        + "_".join(phenos)
+        + "_"
+        + agg_type
+        + "_"
+        + str(maf_thresh)
+        + ".tsv"
+    )
+    out_df.to_csv(out_file, sep="\t", index=False)
+    print("")
+    print(Fore.RED + "Results written to " + out_file + "." + Style.RESET_ALL)
+    print("")
+
+
 def run_mrp(
     dfs,
     S,
@@ -594,7 +491,6 @@ def run_mrp(
     R_study,
     R_study_model,
     R_phen,
-    R_phen_model,
     err_corr,
     R_var_model,
     analysis,
@@ -609,23 +505,29 @@ def run_mrp(
     Runs MRP with the given parameters.
   
     Parameters: 
-    dfs: List of dataframes that have been filtered and annotated for analysis; need to be merged.
+    dfs: List of dataframes that have been filtered and annotated for analysis;
+        need to be merged.
     S: Number of populations/studies.
     K: Number of GBE phenotypes.
     pops: Unique set of populations (studies) to use for analysis.
     phenos: Unique set of GBE phenotypes to use for analysis.
     R_study: R_study matrix to use for analysis (independent/similar).
     R_study_model: String ("independent"/"similar") corresponding to R_study.
-    R_phen: R_phen matrix to use for analysis (independent/similar).
-    R_phen_model: String ("independent"/"similar") corresponding to R_phen.
-    err_corr: A (S*K x S*K) matrix of correlation of errors across studies and phenotypes. Used to calculate v_beta.
-    R_var_model: String ("independent"/"similar") corresponding to R_var matrices to use for analysis.
+    R_phen: R_phen matrix to use for analysis (empirically calculated).
+    err_corr: A (S*K x S*K) matrix of correlation of errors across studies and 
+        phenotypes. Used to calculate v_beta.
+    R_var_model: String ("independent"/"similar") corresponding to R_var matrices to 
+        use for analysis.
     analysis: One of "ptv"/"pav"/"pcv". Dictates which variants are included.
-    sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_005". Dictates variant scaling factor by functional annotation.
-    conserved_columns: Columns in every annotated summary statistic file; basis of merges.
+    sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_005". Dictates variant 
+        scaling factor by functional annotation.
+    conserved_columns: Columns in every annotated summary statistic file; 
+        basis of merges.
     agg_type: One of "gene"/"variant". Dictates block of aggregation.
-    prior_odds_list: List of prior odds used as assumptions to calculate posterior probabilities of Bayes Factors.
-    p_value_methods: List of p-value methods used to calculate p-values from Bayes Factors.
+    prior_odds_list: List of prior odds used as assumptions to calculate posterior 
+        probabilities of Bayes Factors.
+    p_value_methods: List of p-value methods used to calculate p-values from Bayes 
+        Factors.
 
     Returns: 
     bf_df: Dataframe with two columns: agg_type and log_10 Bayes Factor. 
@@ -644,8 +546,6 @@ def run_mrp(
         "log_10_BF"
         + "_study_"
         + R_study_model
-        + "_phen_"
-        + R_phen_model
         + "_var_"
         + R_var_model
         + "_"
@@ -660,8 +560,6 @@ def run_mrp(
                 + str(prior_odds)
                 + "_study_"
                 + R_study_model
-                + "_phen_"
-                + R_phen_model
                 + "_var_"
                 + R_var_model
                 + "_"
@@ -679,8 +577,6 @@ def run_mrp(
                 + p_value_method
                 + "_study_"
                 + R_study_model
-                + "_phen_"
-                + R_phen_model
                 + "_var_"
                 + R_var_model
                 + "_"
@@ -728,6 +624,61 @@ def run_mrp(
     return bf_df
 
 
+def print_params(
+    analysis,
+    R_study_model,
+    R_var_model,
+    agg_type,
+    sigma_m_type,
+    maf_thresh,
+    prior_odds_list,
+    p_value_methods,
+):
+
+    """ 
+    Provides a text overview of each analysis in the terminal.
+  
+    Parameters: 
+    analysis: One of "ptv"/"pav"/"pcv". Dictates which variants are included.
+    R_study_model: One of "independent"/"similar". Dictates correlation structure
+        across studies.
+    R_var_model: One of "independent"/"similar". Dictates correlation structure
+        across variants.
+    agg_type: One of "gene"/"variant". Dictates block of aggregation.
+    sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_005". Dictates variant 
+        scaling factor by functional annotation.
+    maf_thresh: Maximum MAF of variants in this run.
+    prior_odds_list: List of prior odds used as assumptions to calculate posterior 
+        probabilities of Bayes Factors.
+    p_value_methods: List of p-value methods used to calculate p-values from Bayes
+        Factors.
+  
+    """
+
+    print("")
+    print(Fore.YELLOW + "Analysis: " + Style.RESET_ALL + analysis)
+    print(Fore.YELLOW + "R_study model: " + Style.RESET_ALL + R_study_model)
+    print(Fore.YELLOW + "R_var model: " + Style.RESET_ALL + R_var_model)
+    print(Fore.YELLOW + "Aggregation by: " + Style.RESET_ALL + agg_type)
+    print(Fore.YELLOW + "Variant weighting factor: " + Style.RESET_ALL + sigma_m_type)
+    print(Fore.YELLOW + "MAF threshold: " + Style.RESET_ALL + str(maf_thresh))
+    if prior_odds_list:
+        print(
+            Fore.YELLOW
+            + "Prior odds: "
+            + Style.RESET_ALL
+            + ", ".join([str(prior_odd) for prior_odd in prior_odds_list])
+        )
+    if p_value_methods:
+        print(
+            Fore.YELLOW
+            + "Methods for p-value generation: "
+            + Style.RESET_ALL
+            + ", ".join(p_value_methods)
+        )
+    print("")
+
+
 def filter_category(sumstats_files, variant_filter):
 
     """ 
@@ -736,7 +687,8 @@ def filter_category(sumstats_files, variant_filter):
     Dependent on the variant filter that is dictated by the analysis.
   
     Parameters: 
-    sumstats_files: The list of summary statistic files that have been read in and annotated.
+    sumstats_files: The list of summary statistic files that have been read
+        in and annotated.
     variant_filter: The variant filter dictated by the analysis ("ptv"/"pav"/"pcv").
   
     Returns: 
@@ -754,114 +706,165 @@ def filter_category(sumstats_files, variant_filter):
     return analysis_files
 
 
-def rename_columns(df, conserved_columns, pop, pheno):
+def loop_through_parameters(
+    dataset,
+    agg,
+    variant_filters,
+    S,
+    R_study_list,
+    R_study_models,
+    pops,
+    K,
+    R_phen,
+    phenos,
+    R_var_models,
+    sigma_m_types,
+    sumstat_files,
+    err_corr,
+    conserved_columns,
+    maf_thresh,
+    prior_odds_list,
+    p_value_methods,
+):
 
     """ 
-    Renames columns such that information on population/study and phenotype is available in the resultant df. 
-  
-    Additionally checks if the header contains "LOG(OR)_SE" instead of "SE".
-  
+    Loops through parameters specified through command line (or defaults). 
+
     Parameters: 
-    df: Input dataframe (from summary statistics).
-    conserved_columns: These columns are not renamed so that we can merge summary statistics across phenotypes and studies.
-    pop: The study from which the current summary statistic df comes from
-    pheno: The phenotype from which the current summary statistic df comes from.
-  
-    Returns: 
-    df: A df with adjusted column names, e.g., "OR_white_british_cancer1085".
-  
-    """
-
-    if "LOG(OR)_SE" in df.columns:
-        df.rename(columns={"LOG(OR)_SE": "SE"}, inplace=True)
-    columns_to_rename = list(set(df.columns) - set(conserved_columns))
-    renamed_columns = [(x + "_" + pop + "_" + pheno) for x in columns_to_rename]
-    df.rename(columns=dict(zip(columns_to_rename, renamed_columns)), inplace=True)
-    return df
-
-
-def get_beta(df, pop, pheno):
-
-    """
-    Retrieves betas from one (pop, pheno) tuple using non-significant, non-missing variants.
-  
-    Parameters:
-    df: Merged dataframe containing summary statistics.
-    pop: Population of interest.
-    pheno: Phenotype of interest.
-  
-    Returns: 
-    beta: List of effect sizes from the specified (pop, pheno) tuple; used to compute correlation.
-  
-    """
-
-    if "BETA" + "_" + pop + "_" + pheno in df.columns:
-        return list(df["BETA" + "_" + pop + "_" + pheno])
-    elif "OR" + "_" + pop + "_" + pheno in df.columns:
-        return np.log(list(df["OR" + "_" + pop + "_" + pheno]))
-    return None
-
-
-def get_betas(df, pop1, pheno1, pop2, pheno2):
-
-    """
-    Retrieves betas from a pair of (pop, pheno) tuples using non-significant, non-missing variants.
-  
-    Parameters: 
-    df: Merged dataframe containing summary statistics.
-    pop1: First population.
-    pheno1: First phenotype.
-    pop2: Second population.
-    pheno2: Second phenotype.
-  
-    Returns: 
-    beta1: List of effect sizes from the first (pop, pheno) tuple; used to compute correlation.
-    beta2: List of effect sizes from the second (pop, pheno) tuple; used to compute correlation.
-  
-    """
-
-    df = df[
-        (df["P_" + pop1 + "_" + pheno1] >= 0.01)
-        & (df["P_" + pop2 + "_" + pheno2] >= 0.01)
-    ]
-    beta1 = get_beta(df, pop1, pheno1)
-    beta2 = get_beta(df, pop2, pheno2)
-    return beta1, beta2
-
-
-def build_err_corr(dfs, pops, phenos, S, K):
-
-    """ 
-    Builds a matrix of correlations of errors across studies and phenotypes.
-  
-    Parameters: 
-    dfs: List of dataframes that contain summary statistics.
-    pops: Unique set of populations (studies) to use for analysis.
-    phenos: Unique set of GBE phenotypes to use for analysis.
+    dataset: One of ("cal"/"exome") to use for analysis.
+    agg: Unique list of aggregation units ("gene"/"variant") to use for analysis.
+    variant_filters: Unique list of variant filters ("ptv"/"pav"/"pcv") to use 
+        for analysis.
     S: Number of populations/studies.
+    R_study_list: Unique list of R_study matrices to use for analysis.
+    R_study_models: Unique strings ("independent"/"similar") corresponding to each 
+        matrix in R_study_list.
+    pops: Unique set of populations (studies) to use for analysis.
     K: Number of GBE phenotypes.
-
-    Returns:
-    err_corr: A (S*K x S*K) matrix of correlation of errors across studies and phenotypes. Used to calculate v_beta.
+    R_phen: R_phen matrix to use for analysis (empirically calculated).
+    phenos: Unique set of GBE phenotypes to use for analysis.
+    R_var_models: Unique strings ("independent"/"similar") corresponding to R_var 
+        matrices to use for analysis.
+    sigma_m_types: Unique list of sigma_m types ("sigma_m_var"/"sigma_m_1"/"sigma_m_005")
+        to use for analysis.
+    sumstats_files: List of dataframes containing filtered summary statistic files.
+    err_corr: Matrix of correlation of errors across studies and phenotypes.
+    conserved_columns: Columns in every annotated summary statistic file; 
+        basis of merges.
+    maf_thresh: Maximum MAF of variants in this run.
+    prior_odds_list: List of prior odds used as assumptions to calculate posterior 
+        probabilities of Bayes Factors.
+    p_value_methods: List of p-value methods used to calculate p-values from Bayes 
+        Factors.
   
     """
 
-    conserved_columns = [
-        "V",
-        "#CHROM",
-        "POS",
-        "ID",
-        "REF",
-        "ALT",
-        "A1",
-        "most_severe_consequence",
-        "wb_maf",
-        "gene_symbol",
-    ]
+    print(
+        Fore.YELLOW
+        + "Running MRP across parameters for maf_thresh "
+        + str(maf_thresh)
+        + "..."
+        + Style.RESET_ALL
+    )
+    for agg_type in agg:
+        bf_dfs = []
+        # If not aggregating, then R_var choice does not affect BF (just a 1x1 matrix, [1])
+        if (agg_type == "variant") and (len(R_var_models) > 1):
+            print(Fore.YELLOW)
+            print("Since we are not aggregating, R_var is just [1].")
+            print(Style.RESET_ALL)
+            R_var_models = ["independent"]
+        for analysis in variant_filters:
+            analysis_files = filter_category(sumstat_files, analysis)
+            for R_study, R_study_model in zip(R_study_list, R_study_models):
+                for R_var_model in R_var_models:
+                    for sigma_m_type in sigma_m_types:
+                        print_params(
+                            analysis,
+                            R_study_model,
+                            R_var_model,
+                            agg_type,
+                            sigma_m_type,
+                            maf_thresh,
+                            prior_odds_list,
+                            p_value_methods,
+                        )
+                        bf_df = run_mrp(
+                            analysis_files,
+                            S,
+                            K,
+                            pops,
+                            phenos,
+                            R_study,
+                            R_study_model,
+                            R_phen,
+                            err_corr,
+                            R_var_model,
+                            analysis,
+                            sigma_m_type,
+                            conserved_columns,
+                            agg_type,
+                            prior_odds_list,
+                            p_value_methods,
+                        )
+                        bf_df = bf_df.sort_values(
+                            by=list(set(bf_df.columns) - set([agg_type])),
+                            ascending=False,
+                        )
+                        bf_dfs.append(bf_df)
+        output_file(bf_dfs, agg_type, dataset, pops, phenos, maf_thresh)
 
-    outer_merge = partial(pd.merge, on=conserved_columns, how="outer")
-    df = reduce(outer_merge, dfs)
-    null_variants = [
+
+def set_sigmas(df):
+
+    """ 
+    Assigns appropriate sigmas to appropriate variants by annotation.
+  
+    Filters out variants not of interest;
+    Sets sigmas by functional annotation;
+    Additionally adds two extra columns for two other standard choices of a uniform 
+        sigma (1 and 0.05).
+  
+    Parameters: 
+    df: Merged dataframe containing all variants across all studies and phenotypes.
+  
+    Returns: 
+    df: Merged dataframe with three additional columns:
+        sigma_m_var: Column of sigma values (mapped to functional annotation via the 
+            lists inside this method).
+            NOTE: One can change the sigmas associated with each type of variant by 
+                adjusting the values within this method.
+        sigma_m_1: Uniform column of 1.
+        sigma_m_005: Uniform column of 0.05.
+  
+    """
+
+    ptv = [
+        "frameshift_variant",
+        "splice_acceptor_variant",
+        "splice_donor_variant",
+        "stop_gained",
+        "start_lost",
+        "stop_lost",
+    ]
+    pav = [
+        "protein_altering_variant",
+        "inframe_deletion",
+        "inframe_insertion",
+        "splice_region_variant",
+        "start_retained_variant",
+        "stop_retained_variant",
+        "missense_variant",
+    ]
+    proximal_coding = [
+        "synonymous_variant",
+        "5_prime_UTR_variant",
+        "3_prime_UTR_variant",
+        "coding_sequence_variant",
+        "incomplete_terminal_codon_variant",
+        "TF_binding_site_variant",
+    ]
+    to_filter = [
         "regulatory_region_variant",
         "intron_variant",
         "intergenic_variant",
@@ -871,100 +874,47 @@ def build_err_corr(dfs, pops, phenos, S, K):
         "upstream_gene_variant",
         "NA",
         "NMD_transcript_variant",
-        "synonymous_variant",
     ]
-
-    # Get only null variants
-    df = df[df.most_severe_consequence.isin(null_variants)]
-    # Get only common variants
-    df = df[df.wb_maf >= 0.01]
-
-    # Filter out any rows that have NA values
-    df = df[
-        conserved_columns
-        + [
-            col
-            for col in df.columns
-            if (("BETA" in col) or ("OR" in col) or ("P" in col))
-        ]
-    ]
-    df = df.dropna()
-
-    err_corr = np.zeros((S * K, S * K))
-    for i, pop1 in enumerate(pops):
-        for j, pheno1 in enumerate(phenos):
-            for x, pop2 in enumerate(pops):
-                for y, pheno2 in enumerate(phenos):
-                    # Location in matrix
-                    a, b = K * i + j, K * x + y
-                    # If in lower triangle, do not compute; symmetric matrix
-                    if a > b:
-                        err_corr[a, b] = err_corr[b, a]
-                    else:
-                        beta1, beta2 = get_betas(df, pop1, pheno1, pop2, pheno2)
-                        err_corr[a, b] = pearsonr(beta1, beta2)[0]
-    return err_corr
+    df = df[~df.most_severe_consequence.isin(to_filter)]
+    sigma_m_ptv = 0.2
+    sigma_m_pav = 0.05
+    sigma_m_pc = 0.05
+    sigma_m = dict(
+        [(variant, sigma_m_ptv) for variant in ptv]
+        + [(variant, sigma_m_pav) for variant in pav]
+        + [(variant, sigma_m_pc) for variant in proximal_coding]
+    )
+    category_dict = dict(
+        [(variant, "ptv") for variant in ptv]
+        + [(variant, "pav") for variant in pav]
+        + [(variant, "proximal_coding") for variant in proximal_coding]
+    )
+    sigma_m_list = list(map(sigma_m.get, df.most_severe_consequence.tolist()))
+    df["sigma_m_var"] = sigma_m_list
+    category_list = list(map(category_dict.get, df.most_severe_consequence.tolist()))
+    df["category"] = category_list
+    df = df.assign(sigma_m_1=1)
+    df = df.assign(sigma_m_005=0.05)
+    df = df[df.sigma_m_var.notnull()]
+    return df
 
 
-def collect_and_filter(pops, phenos, datasets, conserved_columns, maf_thresh):
+def filter_and_set_sigmas(metadata_sumstat_files, maf_thresh):
 
-    """ 
-    Collects the summary statistics of interest and applies filters. 
-  
-    Reads in summary statistics; 
-    Joins on metadata files that contain gene symbol, MAF, and consequence;
-    Sets sigma values associated with different types of consequences (PTV/PAV/PCV).
-    
-    Parameters: 
-    pops: Unique set of populations (studies) to use for analysis.
-    phenos: Unique set of GBE phenotypes to use for analysis.
-    datasets: Unique list of datasets ("cal"/"exome") to use for analysis.
-    conserved_columns: Columns in every annotated summary statistic file; basis of merges.
-    maf_thresh: Maximum MAF of variants in this run.
-  
-    Returns: 
-    filtered_sumstats_files: Annotated and filtered summary statistic files.
-    err_corr: A (S*K x S*K) matrix of correlation of errors across studies and phenotypes. Used to calculate v_beta.
-  
+    """
+    Filters each dataframe in the list provided given a MAF threshold.
+
+    Parameters:
+    metadata_sumstat_files: List of dataframes that have been joined with metadata 
+        containing MAF.
+    maf_thresh: Upper threshold at which MAF will be cut off.
+
+    Returns:
+    filtered_sumstat_files: List of dataframes with only variants with MAF below the 
+        threshold specified.
+
     """
 
-    print(Fore.CYAN + "Reading in summary stats for:" + Style.RESET_ALL)
-    print("")
-    print(Fore.CYAN + "Populations: " + Style.RESET_ALL + ", ".join(pops))
-    print(Fore.CYAN + "Phenotypes: " + Style.RESET_ALL + ", ".join(phenos))
-    print(Fore.CYAN + "Datasets: " + Style.RESET_ALL + ", ".join(datasets))
-    print("")
-
-    file_paths, sumstat_files = read_in_summary_stats(
-        pops, phenos, datasets, conserved_columns
-    )
-
-    metadata_sumstat_files = []
-    exome_metadata = pd.read_csv(
-        "/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-gene_consequence_wb_maf_final.tsv",
-        sep="\t",
-    )
-    cal_metadata = pd.read_csv(
-        "/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-gene_consequence_wb_maf_final.tsv",
-        sep="\t",
-    )
-
-    for file_path, sumstat_file in zip(file_paths, sumstat_files):
-        # Merge metadata
-        if "exome" in file_path:
-            sumstat_file = sumstat_file.merge(exome_metadata)
-        elif "cal" in file_path:
-            sumstat_file = sumstat_file.merge(cal_metadata)
-        metadata_sumstat_files.append(sumstat_file)
-
-    # Sample common variants, stuff in filter + synonymous
-    print("")
-    print(
-        Fore.MAGENTA + "Building matrix of correlations of errors..." + Style.RESET_ALL
-    )
-    err_corr = build_err_corr(
-        metadata_sumstat_files, pops, phenos, len(pops), len(phenos)
-    )
     filtered_sumstat_files = []
 
     print("")
@@ -981,7 +931,462 @@ def collect_and_filter(pops, phenos, datasets, conserved_columns, maf_thresh):
         ]
         filtered_sumstat_file = set_sigmas(filtered_sumstat_file)
         filtered_sumstat_files.append(filtered_sumstat_file)
-    return filtered_sumstat_files, err_corr
+    return filtered_sumstat_files
+
+
+def get_beta(df, pop, pheno):
+
+    """
+    Retrieves betas from one (pop, pheno) tuple using non-significant, 
+        non-missing variants.
+  
+    Parameters:
+    df: Merged dataframe containing summary statistics.
+    pop: Population of interest.
+    pheno: Phenotype of interest.
+  
+    Returns: 
+    beta: List of effect sizes from the specified (pop, pheno) tuple; 
+        used to compute correlation.
+  
+    """
+
+    if "BETA" + "_" + pop + "_" + pheno in df.columns:
+        return list(df["BETA" + "_" + pop + "_" + pheno])
+    elif "OR" + "_" + pop + "_" + pheno in df.columns:
+        return np.log(list(df["OR" + "_" + pop + "_" + pheno]))
+    return None
+
+
+def get_betas(df, pop1, pheno1, pop2, pheno2, mode):
+
+    """
+    Retrieves betas from a pair of (pop, pheno) tuples using non-significant, 
+        non-missing variants.
+  
+    Parameters: 
+    df: Merged dataframe containing summary statistics.
+    pop1: First population.
+    pheno1: First phenotype.
+    pop2: Second population.
+    pheno2: Second phenotype.
+    mode: One of "null", "sig". Determines whether we want to sample from null or 
+        significant variants. Useful for building out correlations of errors and 
+        phenotypes respectively.
+  
+    Returns: 
+    beta1: List of effect sizes from the first (pop, pheno) tuple; used to compute 
+        correlation.
+    beta2: List of effect sizes from the second (pop, pheno) tuple; used to compute
+        correlation.
+  
+    """
+
+    if ("P_" + pop1 + "_" + pheno1 not in df.columns) or (
+        "P_" + pop2 + "_" + pheno2 not in df.columns
+    ):
+        return None, None
+    if mode == "null":
+        df = df[
+            (df["P_" + pop1 + "_" + pheno1] >= 1e-2)
+            & (df["P_" + pop2 + "_" + pheno2] >= 1e-2)
+        ]
+    elif mode == "sig":
+        df = df[
+            (df["P_" + pop1 + "_" + pheno1] < 1e-7)
+            | (df["P_" + pop2 + "_" + pheno2] < 1e-7)
+        ]
+    beta1 = get_beta(df, pop1, pheno1)
+    beta2 = get_beta(df, pop2, pheno2)
+    return beta1, beta2
+
+
+def build_phen_corr(S, K, pops, phenos, df):
+
+    """
+    Builds out a matrix of correlations between all phenotypes and studies using:
+        - significant (P < 1e-7)
+        - common (MAF >= 0.01)
+        - LD independent
+    SNPs.
+
+    Parameters:
+    S: Number of populations/studies.
+    K: Number of GBE phenotypes.
+    pops: Unique set of populations (studies) to use for analysis.
+    phenos: Unique set of GBE phenotypes to use for analysis.
+    df: Merged dataframe containing all relevant summary statistics.
+
+    Returns:
+    phen_corr: (S*K x S*K) matrix of correlations between all phenotypes and studies 
+        for significant variants. Used to calculate R_phen.
+
+    """
+
+    phen_corr = np.zeros((S * K, S * K))
+    for i, pop1 in enumerate(pops):
+        for j, pheno1 in enumerate(phenos):
+            for x, pop2 in enumerate(pops):
+                for y, pheno2 in enumerate(phenos):
+                    # Location in matrix
+                    a, b = K * i + j, K * x + y
+                    # If in lower triangle, do not compute; symmetric matrix
+                    if a > b:
+                        phen_corr[a, b] = np.nan
+                    elif a == b:
+                        phen_corr[a, b] = np.nan
+                    else:
+                        phen_beta1, phen_beta2 = get_betas(
+                            df, pop1, pheno1, pop2, pheno2, "sig"
+                        )
+                        phen_corr[a, b] = (
+                            pearsonr(phen_beta1, phen_beta2)[0]
+                            if phen_beta1 is not None
+                            else np.nan
+                        )
+    return phen_corr
+
+
+def build_R_phen(S, K, pops, phenos, df):
+
+    """
+    Builds R_phen using phen_corr (calculated using the method directly above this).
+
+    Parameters:
+    S: Number of populations/studies.
+    K: Number of GBE phenotypes.
+    pops: Unique set of populations (studies) to use for analysis.
+    phenos: Unique set of GBE phenotypes to use for analysis.
+    df: Merged dataframe containing all relevant summary statistics.
+
+    Returns:
+    R_phen: Empirical estimates of genetic correlation across phenotypes.
+
+    """
+
+    if K == 1:
+        return np.ones((K, K))
+    phen_corr = build_phen_corr(S, K, pops, phenos, df)
+    R_phen = np.zeros((K, K))
+    for k1 in range(K):
+        for k2 in range(K):
+            if k1 == k2:
+                R_phen[k1, k2] = 1
+            elif k1 > k2:
+                R_phen[k1, k2] = R_phen[k2, k1]
+            else:
+                phenos_to_remove = list(set(range(K)) - set([k1, k2]))
+                indices_to_remove = []
+                for pheno_to_remove in phenos_to_remove:
+                    indices_to_remove.extend(
+                        range(S * pheno_to_remove, S * (pheno_to_remove + 1))
+                    )
+                pairwise_corrs = delete_rows_and_columns(phen_corr, indices_to_remove)
+                R_phen[k1, k2] = np.nanmedian(pairwise_corrs)
+    return R_phen
+
+
+def build_err_corr(S, K, pops, phenos, df):
+
+    """
+    Builds out a matrix of correlations between all phenotypes and studies using:
+        - null (i.e. synonymous or functionally uninteresting)
+        - not significant (P >= 1e-2)
+        - common (MAF >= 0.01)
+        - LD independent
+    SNPs.
+
+    Parameters:
+    S: Number of populations/studies.
+    K: Number of GBE phenotypes.
+    pops: Unique set of populations (studies) to use for analysis.
+    phenos: Unique set of GBE phenotypes to use for analysis.
+    df: Merged dataframe containing all relevant summary statistics.
+
+    Returns:
+    err_corr: (S*K x S*K) matrix of correlation of errors across studies and phenotypes 
+        for null variants. Used to calculate v_beta.
+
+    """
+
+    err_corr = np.zeros((S * K, S * K))
+    null_variants = [
+        "regulatory_region_variant",
+        "intron_variant",
+        "intergenic_variant",
+        "downstream_gene_variant",
+        "mature_miRNA_variant",
+        "non_coding_transcript_exon_variant",
+        "upstream_gene_variant",
+        "NA",
+        "NMD_transcript_variant",
+        "synonymous_variant",
+    ]
+    # Get only null variants to build err_corr
+    err_df = df[df.most_severe_consequence.isin(null_variants)]
+    for i, pop1 in enumerate(pops):
+        for j, pheno1 in enumerate(phenos):
+            for x, pop2 in enumerate(pops):
+                for y, pheno2 in enumerate(phenos):
+                    # Location in matrix
+                    a, b = K * i + j, K * x + y
+                    # If in lower triangle, do not compute; symmetric matrix
+                    if a > b:
+                        err_corr[a, b] = err_corr[b, a]
+                    elif a == b:
+                        err_corr[a, b] = 1
+                    else:
+                        err_beta1, err_beta2 = get_betas(
+                            err_df, pop1, pheno1, pop2, pheno2, "null"
+                        )
+                        err_corr[a, b] = (
+                            pearsonr(err_beta1, err_beta2)[0]
+                            if err_beta1 is not None
+                            else 0
+                        )
+    return err_corr
+
+
+def return_err_and_R_phen(dfs, pops, phenos, S, K):
+
+    """ 
+    Builds a matrix of correlations of errors across studies and phenotypes,
+        and correlations of phenotypes.
+  
+    Parameters: 
+    dfs: List of dataframes that contain summary statistics.
+    pops: Unique set of populations (studies) to use for analysis.
+    phenos: Unique set of GBE phenotypes to use for analysis.
+    S: Number of populations/studies.
+    K: Number of GBE phenotypes.
+
+    Returns:
+    err_corr: (S*K x S*K) matrix of correlation of errors across studies and phenotypes
+        for null variants. Used to calculate v_beta.
+    R_phen: Empirical estimates of genetic correlation across phenotypes.
+  
+    """
+
+    # Sample common variants, stuff in filter + synonymous
+    print("")
+    print(
+        Fore.MAGENTA + "Building matrix of correlations of errors..." + Style.RESET_ALL
+    )
+    conserved_columns = [
+        "V",
+        "#CHROM",
+        "POS",
+        "ID",
+        "REF",
+        "ALT",
+        "A1",
+        "most_severe_consequence",
+        "wb_maf",
+        "gene_symbol",
+        "ld_indep",
+    ]
+    outer_merge = partial(pd.merge, on=conserved_columns, how="outer")
+    df = reduce(outer_merge, dfs)
+    # Get only LD-independent, common variants
+    df = df[(df.wb_maf >= 0.01) & (df.ld_indep == True)]
+    # Get rid of unneeded rows
+    df = df[
+        conserved_columns
+        + [
+            col
+            for col in df.columns
+            if (("BETA" in col) or ("OR" in col) or ("P" in col))
+        ]
+    ]
+    df = df.dropna(axis=1, how="all")
+    df = df.dropna()
+    err_corr = build_err_corr(S, K, pops, phenos, df)
+    R_phen = build_R_phen(S, K, pops, phenos, df)
+    return err_corr, R_phen
+
+
+def merge_with_metadata(file_paths, sumstat_files):
+
+    """
+    Merges summary statistic files with associated metadata.
+
+    Parameters:
+    file_paths: Paths to summary statistic files.
+    sumstat_files: Corresponding summary statistic files.
+
+    Returns:
+    metadata_sumstat_files: Summary statistic files with additional columns denoting:
+        - Gene symbol
+        - Most severe consequence
+        - MAF in white british population
+        - LD independence
+    """
+
+    metadata_sumstat_files = []
+    exome_metadata = pd.read_csv(
+        "/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-consequence_wb_maf_gene_ld_indep.tsv",
+        sep="\t",
+    )
+    cal_metadata = pd.read_csv(
+        "/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-consequence_wb_maf_gene_ld_indep.tsv",
+        sep="\t",
+    )
+    for file_path, sumstat_file in zip(file_paths, sumstat_files):
+        # Merge metadata
+        if "exome" in file_path:
+            sumstat_file = sumstat_file.merge(exome_metadata)
+        elif "cal" in file_path:
+            sumstat_file = sumstat_file.merge(cal_metadata)
+        metadata_sumstat_files.append(sumstat_file)
+    return metadata_sumstat_files
+
+
+def rename_columns(df, conserved_columns, pop, pheno):
+
+    """ 
+    Renames columns such that information on population/study and phenotype is available 
+        in the resultant dataframe.
+  
+    Additionally checks if the header contains "LOG(OR)_SE" instead of "SE".
+  
+    Parameters: 
+    df: Input dataframe (from summary statistics).
+    conserved_columns: These columns are not renamed so that we can merge summary 
+        statistics across phenotypes and studies.
+    pop: The study from which the current summary statistic dataframef comes from.
+    pheno: The phenotype from which the current summary statistic dataframe comes from.
+  
+    Returns: 
+    df: A df with adjusted column names, e.g., "OR_white_british_cancer1085".
+  
+    """
+
+    if "LOG(OR)_SE" in df.columns:
+        df.rename(columns={"LOG(OR)_SE": "SE"}, inplace=True)
+    columns_to_rename = list(set(df.columns) - set(conserved_columns))
+    renamed_columns = [(x + "_" + pop + "_" + pheno) for x in columns_to_rename]
+    df.rename(columns=dict(zip(columns_to_rename, renamed_columns)), inplace=True)
+    return df
+
+
+def read_in_summary_stats(pops, phenos, dataset, conserved_columns):
+
+    """ 
+    Reads in GBE summary statistics from the Rivas Lab file organization system on Sherlock.
+  
+    Additionally: adds a variant identifier ("V"), renames columns, and filters on SE (<= 0.5).
+    Contains logic for handling the case that a summary statistic file is not found.
+  
+    Parameters: 
+    pops: Unique set of populations (studies) to use for analysis.
+    phenos: Unique set of GBE phenotypes to use for analysis.
+    dataset: One of ("cal"/"exome") to use for analysis.
+    conserved_columns: Columns in every annotated summary statistic file; basis of merges.
+  
+    Returns: 
+    file_paths: List of strings containing file paths.
+    sumstat_files: List of dataframes containing summary statistics.
+  
+    """
+
+    file_paths = []
+    sumstat_files = []
+    for pop in pops:
+        for pheno in phenos:
+            findCMD = (
+                "find /oak/stanford/groups/mrivas/ukbb24983/"
+                + dataset
+                + '/gwas/ -name "*.gz" | grep '
+                + pop
+                + " | grep -v freeze | grep -v old | grep "
+                + pheno
+            )
+            out = subprocess.Popen(
+                findCMD,
+                shell=True,
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+            (stdout, stderr) = out.communicate()
+            file_path = stdout.strip().decode("utf-8")
+            if os.path.exists(file_path):
+                print(file_path)
+                df = pd.read_csv(file_path, sep="\t")
+                df.insert(
+                    loc=0,
+                    column="V",
+                    value=df["#CHROM"]
+                    .astype(str)
+                    .str.cat(df["POS"].astype(str), sep=":")
+                    .str.cat(df["REF"], sep=":")
+                    .str.cat(df["ALT"], sep=":"),
+                )
+                # Filter for SE as you read it in
+                df = rename_columns(df, conserved_columns, pop, pheno)
+                df = df[df["SE" + "_" + pop + "_" + pheno].notnull()]
+                df = df[df["SE" + "_" + pop + "_" + pheno] <= 0.5]
+                sumstat_files.append(df)
+                file_paths.append(file_path)
+            else:
+                print(
+                    "A summary statistic file cannot be found for population: {}; phenotype: {}; dataset: {}. A placeholder df will be added instead.".format(
+                        pop, pheno, dataset
+                    )
+                )
+                if ("QT" in pheno) or ("INI" in pheno):
+                    df = pd.DataFrame(
+                        columns=conserved_columns
+                        + ["TEST", "OBS_CT", "BETA", "SE", "T_STAT", "P"]
+                    )
+                else:
+                    df = pd.DataFrame(
+                        columns=conserved_columns
+                        + ["FIRTH?", "TEST", "OBS_CT", "OR", "SE", "Z_STAT", "P"]
+                    )
+                df = rename_columns(df, conserved_columns, pop, pheno)
+                sumstat_files.append(df)
+                file_paths.append("file_not_found")
+    return file_paths, sumstat_files
+
+
+def collect_and_filter(pops, phenos, dataset, conserved_columns, maf_thresh):
+
+    """ 
+    Collects the summary statistics of interest and applies filters. 
+  
+    Reads in summary statistics; 
+    Joins on metadata files that contain gene symbol, MAF, and consequence;
+    Sets sigma values associated with different types of consequences (PTV/PAV/PCV).
+    
+    Parameters: 
+    pops: Unique set of populations (studies) to use for analysis.
+    phenos: Unique set of GBE phenotypes to use for analysis.
+    dataset: One of ("cal"/"exome") to use for analysis.
+    conserved_columns: Columns in every annotated summary statistic file; basis of merges.
+    maf_thresh: Maximum MAF of variants in this run.
+  
+    Returns: 
+    filtered_sumstats_files: Annotated and filtered summary statistic files.
+    err_corr: (S*K x S*K) matrix of correlation of errors across studies and phenotypes for null variants. Used to calculate v_beta.
+  
+    """
+
+    print(Fore.CYAN + "Reading in summary statistics for:" + Style.RESET_ALL)
+    print("")
+    print(Fore.CYAN + "Populations: " + Style.RESET_ALL + ", ".join(pops))
+    print(Fore.CYAN + "Phenotypes: " + Style.RESET_ALL + ", ".join(phenos))
+    print(Fore.CYAN + "Dataset: " + Style.RESET_ALL + dataset)
+    print("")
+    file_paths, sumstat_files = read_in_summary_stats(
+        pops, phenos, dataset, conserved_columns
+    )
+    metadata_sumstat_files = merge_with_metadata(file_paths, sumstat_files)
+    err_corr, R_phen = return_err_and_R_phen(
+        metadata_sumstat_files, pops, phenos, len(pops), len(phenos)
+    )
+    filtered_sumstat_files = filter_and_set_sigmas(metadata_sumstat_files)
+    return filtered_sumstat_files, err_corr, R_phen
 
 
 def return_input_args(args):
@@ -1001,8 +1406,6 @@ def return_input_args(args):
     phenos: Unique set of GBE phenotypes to use for analysis.
     R_study_list: Unique list of R_study matrices to use for analysis.
     R_study_models: Unique strings ("independent"/"similar") corresponding to each matrix in R_study_list.
-    R_phen_list: Unique list of R_phen matrices to use for analysis.
-    R_phen_models: Unique strings ("independent"/"similar") corresponding to each matrix in R_phen_list.
     R_var_models: Unique strings ("independent"/"similar") corresponding to R_var matrices to use for analysis.
     agg: Unique list of aggregation units ("gene"/"variant") to use for analysis.
     sigma_m_types: Unique list of sigma_m types ("sigma_m_var"/"sigma_m_1"/"sigma_m_005") to use for analysis.
@@ -1022,10 +1425,6 @@ def return_input_args(args):
         np.diag(np.ones(S)) if x == "independent" else np.ones((S, S))
         for x in args.R_study_models
     ]
-    R_phen = [
-        np.diag(np.ones(K)) if x == "independent" else np.ones((K, K))
-        for x in args.R_phen_models
-    ]
     return (
         S,
         K,
@@ -1033,8 +1432,6 @@ def return_input_args(args):
         args.phenos,
         R_study,
         args.R_study_models,
-        R_phen,
-        args.R_phen_models,
         args.R_var_models,
         args.agg,
         args.sigma_m_types,
@@ -1072,59 +1469,6 @@ def print_banner():
     print(Fore.GREEN + "Methods Developers:" + Style.RESET_ALL)
     print("Manuel A. Rivas, Ph.D.; Matti Pirinen, Ph.D.")
     print("Rivas Lab | Stanford University")
-    print("")
-
-
-def print_params(
-    analysis,
-    R_study_model,
-    R_phen_model,
-    R_var_model,
-    agg_type,
-    sigma_m_type,
-    maf_thresh,
-    prior_odds_list,
-    p_value_methods,
-):
-
-    """ 
-    Provides a text overview of each analysis in the terminal.
-  
-    Parameters: 
-    analysis: One of "ptv"/"pav"/"pcv". Dictates which variants are included.
-    R_study_model: One of "independent"/"similar". Dictates correlation structure across studies.
-    R_phen_model: One of "independent"/"similar". Dictates correlation structure across phenotypes.
-    R_var_model: One of "independent"/"similar". Dictates correlation structure across variants.
-    agg_type: One of "gene"/"variant". Dictates block of aggregation.
-    sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_005". Dictates variant scaling factor by functional annotation.
-    maf_thresh: Maximum MAF of variants in this run.
-    prior_odds_list: List of prior odds used as assumptions to calculate posterior probabilities of Bayes Factors.
-    p_value_methods: List of p-value methods used to calculate p-values from Bayes Factors.
-  
-    """
-
-    print("")
-    print(Fore.YELLOW + "Analysis: " + Style.RESET_ALL + analysis)
-    print(Fore.YELLOW + "R_study model: " + Style.RESET_ALL + R_study_model)
-    print(Fore.YELLOW + "R_phen model: " + Style.RESET_ALL + R_phen_model)
-    print(Fore.YELLOW + "R_var model: " + Style.RESET_ALL + R_var_model)
-    print(Fore.YELLOW + "Aggregation by: " + Style.RESET_ALL + agg_type)
-    print(Fore.YELLOW + "Variant weighting factor: " + Style.RESET_ALL + sigma_m_type)
-    print(Fore.YELLOW + "MAF threshold: " + Style.RESET_ALL + str(maf_thresh))
-    if prior_odds_list:
-        print(
-            Fore.YELLOW
-            + "Prior odds: "
-            + Style.RESET_ALL
-            + ", ".join([str(prior_odd) for prior_odd in prior_odds_list])
-        )
-    if p_value_methods:
-        print(
-            Fore.YELLOW
-            + "Methods for p-value generation: "
-            + Style.RESET_ALL
-            + ", ".join(p_value_methods)
-        )
     print("")
 
 
@@ -1189,15 +1533,6 @@ def initialize_parser(valid_phenos):
         required=True,
         dest="phenos",
         help="name(s) of phenotypes to be studied jointly; at least one required.",
-    )
-    parser.add_argument(
-        "--R_phen",
-        choices=["independent", "similar"],
-        type=str,
-        nargs="+",
-        default=["independent"],
-        dest="R_phen_models",
-        help="type(s) of model across phenotypes. options: independent, similar (default: independent). can run both.",
     )
     parser.add_argument(
         "--R_var",
@@ -1267,154 +1602,9 @@ def initialize_parser(valid_phenos):
         nargs="+",
         default=[],
         dest="p_value_methods",
-        help="which method(s) to use to convert Bayes Factors to p-values. if command line argument is invoked but method is not specified, will throw an error (i.e., specify a method when it is invoked). if not invoked, p-values will not be calculated. options: farebrother, davies, imhof. NOTE: imports R objects and methods, which slows down the method. imhof is fastest and recommended if p-values are a must.",
+        help="which method(s) to use to convert Bayes Factors to p-values. if command line argument is invoked but method is not specified, will throw an error (i.e., specify a method when it is invoked). if not invoked, p-values will not be calculated. options: farebrother, davies, imhof. NOTE: --p_value imports R objects and methods, which slows down MRP. farebrother is fastest and recommended if p-values are a must.",
     )
-
     return parser
-
-
-def output_file(bf_dfs, agg_type, dataset, pops, phenos, maf_thresh):
-
-    """ 
-    Outputs a file containing aggregation unit and Bayes Factors. 
-    
-    Parameters: 
-    bf_dfs: List of dataframes containing Bayes Factors from each analysis.
-    agg_type: One of "gene"/"variant". Dictates block of aggregation.
-    dataset: One of "cal"/"exome".
-    pops: Unique set of populations (studies) to use for analysis.
-    phenos: Unique set of GBE phenotypes to use for analysis.
-    maf_thresh: Maximum MAF of variants in this run.
-
-    """
-
-    outer_merge = partial(pd.merge, on=agg_type, how="outer")
-    out_df = reduce(outer_merge, bf_dfs)
-    out_file = (
-        "/oak/stanford/groups/mrivas/ukbb24983/"
-        + dataset
-        + "/mrp/"
-        + "_".join(pops)
-        + "_"
-        + "_".join(phenos)
-        + "_"
-        + agg_type
-        + "_"
-        + str(maf_thresh)
-        + ".tsv"
-    )
-    out_df.to_csv(out_file, sep="\t", index=False)
-    print("")
-    print(Fore.RED + "Results written to " + out_file + "." + Style.RESET_ALL)
-    print("")
-
-
-def loop_through_parameters(
-    datasets,
-    agg,
-    variant_filters,
-    S,
-    R_study_list,
-    R_study_models,
-    pops,
-    K,
-    R_phen_list,
-    R_phen_models,
-    phenos,
-    R_var_models,
-    sigma_m_types,
-    sumstat_files,
-    err_corr,
-    conserved_columns,
-    maf_thresh,
-    prior_odds_list,
-    p_value_methods,
-):
-
-    """ 
-    Loops through parameters specified through command line (or defaults). 
-
-    Parameters: 
-    datasets: Unique list of datasets ("cal"/"exome") to use for analysis.
-    agg: Unique list of aggregation units ("gene"/"variant") to use for analysis.
-    variant_filters: Unique list of variant filters ("ptv"/"pav"/"pcv") to use for analysis.
-    S: Number of populations/studies.
-    R_study_list: Unique list of R_study matrices to use for analysis.
-    R_study_models: Unique strings ("independent"/"similar") corresponding to each matrix in R_study_list.
-    pops: Unique set of populations (studies) to use for analysis.
-    K: Number of GBE phenotypes.
-    R_phen_list: Unique list of R_phen matrices to use for analysis.
-    R_phen_models: Unique strings ("independent"/"similar") corresponding to each matrix in R_phen_list.
-    phenos: Unique set of GBE phenotypes to use for analysis.
-    R_var_models: Unique strings ("independent"/"similar") corresponding to R_var matrices to use for analysis.
-    sigma_m_types: Unique list of sigma_m types ("sigma_m_var"/"sigma_m_1"/"sigma_m_005") to use for analysis.
-    sumstats_files: List of dataframes containing filtered summary statistic files.
-    err_corr: Matrix of correlation of errors across studies and phenotypes.
-    conserved_columns: Columns in every annotated summary statistic file; basis of merges.
-    maf_thresh: Maximum MAF of variants in this run.
-    prior_odds_list: List of prior odds used as assumptions to calculate posterior probabilities of Bayes Factors.
-    p_value_methods: List of p-value methods used to calculate p-values from Bayes Factors.
-  
-    """
-
-    print(
-        Fore.YELLOW
-        + "Running MRP across parameters for maf_thresh "
-        + str(maf_thresh)
-        + "..."
-        + Style.RESET_ALL
-    )
-    for dataset in datasets:
-        for agg_type in agg:
-            bf_dfs = []
-            # If not aggregating, then R_var choice does not affect BF (just a 1x1 matrix, [1])
-            if (agg_type == "variant") and (len(R_var_models) > 1):
-                print(Fore.YELLOW)
-                print("Since we are not aggregating, R_var is just [1].")
-                print(Style.RESET_ALL)
-                R_var_models = ["independent"]
-            for analysis in variant_filters:
-                analysis_files = filter_category(sumstat_files, analysis)
-                for R_study, R_study_model in zip(R_study_list, R_study_models):
-                    for R_phen, R_phen_model in zip(R_phen_list, R_phen_models):
-                        for R_var_model in R_var_models:
-                            for sigma_m_type in sigma_m_types:
-                                print_params(
-                                    analysis,
-                                    R_study_model,
-                                    R_phen_model,
-                                    R_var_model,
-                                    agg_type,
-                                    sigma_m_type,
-                                    maf_thresh,
-                                    prior_odds_list,
-                                    p_value_methods,
-                                )
-                                bf_df = run_mrp(
-                                    analysis_files,
-                                    S,
-                                    K,
-                                    pops,
-                                    phenos,
-                                    R_study,
-                                    R_study_model,
-                                    R_phen,
-                                    R_phen_model,
-                                    err_corr,
-                                    R_var_model,
-                                    analysis,
-                                    sigma_m_type,
-                                    conserved_columns,
-                                    agg_type,
-                                    prior_odds_list,
-                                    p_value_methods,
-                                )
-                                bf_df = bf_df.sort_values(
-                                    by=list(set(bf_df.columns) - set([agg_type])),
-                                    ascending=False,
-                                )
-                                bf_dfs.append(bf_df)
-            output_file(bf_dfs, agg_type, dataset, pops, phenos, maf_thresh)
 
 
 if __name__ == "__main__":
@@ -1426,13 +1616,11 @@ if __name__ == "__main__":
 
     with open("../05_gbe/phenotype_info.tsv", "r") as phe_file:
         valid_phenos = [line.split()[0] for line in phe_file][1:]
-
     parser = initialize_parser(valid_phenos)
     args = parser.parse_args()
     print("")
     print("Valid arguments. Importing required packages...")
     print("")
-
     import pandas as pd
     from functools import partial, reduce
 
@@ -1446,11 +1634,9 @@ if __name__ == "__main__":
     from colorama import Fore, Back, Style
 
     print_banner()
-
-    S, K, pops, phenos, R_study_list, R_study_models, R_phen_list, R_phen_models, R_var_models, agg, sigma_m_types, variant_filters, datasets, maf_threshes, prior_odds_list, p_value_methods = return_input_args(
+    S, K, pops, phenos, R_study_list, R_study_models, R_var_models, agg, sigma_m_types, variant_filters, datasets, maf_threshes, prior_odds_list, p_value_methods = return_input_args(
         args
     )
-
     if p_value_methods:
         print(
             Fore.RED
@@ -1474,7 +1660,6 @@ if __name__ == "__main__":
         from rpy2.rinterface import RRuntimeWarning
 
         warnings.filterwarnings("ignore", category=RRuntimeWarning)
-
     # These columns are in every annotated summary statistic file and will be the basis of merges
     conserved_columns = [
         "V",
@@ -1492,30 +1677,28 @@ if __name__ == "__main__":
         "sigma_m_1",
         "sigma_m_005",
     ]
-
     for maf_thresh in maf_threshes:
-        sumstat_files, err_corr = collect_and_filter(
-            pops, phenos, datasets, conserved_columns, maf_thresh
-        )
-
-        loop_through_parameters(
-            datasets,
-            agg,
-            variant_filters,
-            S,
-            R_study_list,
-            R_study_models,
-            pops,
-            K,
-            R_phen_list,
-            R_phen_models,
-            phenos,
-            R_var_models,
-            sigma_m_types,
-            sumstat_files,
-            err_corr,
-            conserved_columns,
-            maf_thresh,
-            prior_odds_list,
-            p_value_methods,
-        )
+        for dataset in datasets:
+            sumstat_files, err_corr, R_phen = collect_and_filter(
+                pops, phenos, dataset, conserved_columns, maf_thresh
+            )
+            loop_through_parameters(
+                dataset,
+                agg,
+                variant_filters,
+                S,
+                R_study_list,
+                R_study_models,
+                pops,
+                K,
+                R_phen,
+                phenos,
+                R_var_models,
+                sigma_m_types,
+                sumstat_files,
+                err_corr,
+                conserved_columns,
+                maf_thresh,
+                prior_odds_list,
+                p_value_methods,
+            )
