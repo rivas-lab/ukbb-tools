@@ -878,7 +878,7 @@ def set_sigmas(df):
     df = df[~df.most_severe_consequence.isin(to_filter)]
     sigma_m_ptv = 0.2
     sigma_m_pav = 0.05
-    sigma_m_pc = 0.05
+    sigma_m_pc = 0.03
     sigma_m = dict(
         [(variant, sigma_m_ptv) for variant in ptv]
         + [(variant, sigma_m_pav) for variant in pav]
@@ -1585,15 +1585,15 @@ def initialize_parser(valid_phenos):
         nargs="+",
         default=[0.01],
         dest="maf_threshes",
-        help="which MAF threshold(s) to use. must be valid floats between 0 and 1.",
+        help="which MAF threshold(s) to use. must be valid floats between 0 and 1 (default: 0.01).",
     )
     parser.add_argument(
         "--prior_odds",
         type=range_limited_float_type,
         nargs="+",
-        default=[],
+        default=[0.0005],
         dest="prior_odds_list",
-        help="which prior odds (can be multiple) to use in calculating posterior probabilities. must be valid floats between 0 and 1. if command line argument is invoked but a prior odds is not specified, will throw an error (i.e., specify a prior odds when it is invoked). if not invoked, posterior probabilities will not be calculated. recommended: 0.0005 (expect 1 in 2000 genes to be a discovery).",
+        help="which prior odds (can be multiple) to use in calculating posterior probabilities. must be valid floats between 0 and 1 (default: 0.0005, expect 1 in 2000 genes to be a discovery).",
     )
     parser.add_argument(
         "--p_value",
