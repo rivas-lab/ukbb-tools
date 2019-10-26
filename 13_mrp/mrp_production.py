@@ -379,7 +379,7 @@ def generate_beta_se(subset_df, pops, phenos):
             if "BETA" + "_" + pop + "_" + pheno in subset_df.columns:
                 beta_list.extend(list(subset_df["BETA" + "_" + pop + "_" + pheno]))
             elif "OR" + "_" + pop + "_" + pheno in subset_df.columns:
-                beta_list.extend(list(subset_df["OR" + "_" + pop + "_" + pheno]))
+                beta_list.extend(np.log(list(subset_df["OR" + "_" + pop + "_" + pheno])))
             se_list.extend(list(subset_df["SE" + "_" + pop + "_" + pheno]))
     return beta_list, se_list
 
@@ -993,8 +993,8 @@ def get_betas(df, pop1, pheno1, pop2, pheno2, mode):
         ]
     elif mode == "sig":
         df = df[
-            (df["P_" + pop1 + "_" + pheno1] < 1e-7)
-            | (df["P_" + pop2 + "_" + pheno2] < 1e-7)
+            (df["P_" + pop1 + "_" + pheno1] < 1e-5)
+            | (df["P_" + pop2 + "_" + pheno2] < 1e-5)
         ]
     beta1 = get_beta(df, pop1, pheno1)
     beta2 = get_beta(df, pop2, pheno2)
@@ -1005,7 +1005,7 @@ def build_phen_corr(S, K, pops, phenos, df):
 
     """
     Builds out a matrix of correlations between all phenotypes and studies using:
-        - significant (P < 1e-7)
+        - significant (P < 1e-5)
         - common (MAF >= 0.01)
         - LD independent
     SNPs.
@@ -1083,6 +1083,7 @@ def build_R_phen(S, K, pops, phenos, df):
                     )
                 pairwise_corrs = delete_rows_and_columns(phen_corr, indices_to_remove)
                 R_phen[k1, k2] = np.nanmedian(pairwise_corrs)
+    R_phen = np.nan_to_num(R_phen)
     return R_phen
 
 
@@ -1430,7 +1431,7 @@ def return_input_args(args):
     """
 
     for arg in vars(args):
-        setattr(args, arg, list(set(getattr(args, arg))))
+        setattr(args, arg, sorted(list(set(getattr(args, arg)))))
     S = len(args.pops)
     K = len(args.phenos)
     R_study = [
@@ -1694,6 +1695,10 @@ if __name__ == "__main__":
             sumstat_files, err_corr, R_phen = collect_and_filter(
                 pops, phenos, dataset, conserved_columns, maf_thresh
             )
+            print("err_corr")
+            print(err_corr)
+            print("R_phen")
+            print(R_phen)
             loop_through_parameters(
                 dataset,
                 agg,
