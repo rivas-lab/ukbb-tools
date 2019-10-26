@@ -1272,16 +1272,20 @@ def rename_columns(df, conserved_columns, pop, pheno):
 def read_in_summary_stats(pops, phenos, dataset, conserved_columns):
 
     """ 
-    Reads in GBE summary statistics from the Rivas Lab file organization system on Sherlock.
+    Reads in GBE summary statistics from the Rivas Lab file organization system on 
+        Sherlock.
   
-    Additionally: adds a variant identifier ("V"), renames columns, and filters on SE (<= 0.5).
+    Additionally: adds a variant identifier ("V"), renames columns, and filters on 
+        SE (<= 0.5).
+
     Contains logic for handling the case that a summary statistic file is not found.
   
     Parameters: 
     pops: Unique set of populations (studies) to use for analysis.
     phenos: Unique set of GBE phenotypes to use for analysis.
     dataset: One of ("cal"/"exome") to use for analysis.
-    conserved_columns: Columns in every annotated summary statistic file; basis of merges.
+    conserved_columns: Columns in every annotated summary statistic file; 
+        basis of merges.
   
     Returns: 
     file_paths: List of strings containing file paths.
@@ -1368,7 +1372,8 @@ def collect_and_filter(pops, phenos, dataset, conserved_columns, maf_thresh):
   
     Returns: 
     filtered_sumstats_files: Annotated and filtered summary statistic files.
-    err_corr: (S*K x S*K) matrix of correlation of errors across studies and phenotypes for null variants. Used to calculate v_beta.
+    err_corr: (S*K x S*K) matrix of correlation of errors across studies and phenotypes 
+        for null variants. Used to calculate v_beta.
   
     """
 
@@ -1385,7 +1390,7 @@ def collect_and_filter(pops, phenos, dataset, conserved_columns, maf_thresh):
     err_corr, R_phen = return_err_and_R_phen(
         metadata_sumstat_files, pops, phenos, len(pops), len(phenos)
     )
-    filtered_sumstat_files = filter_and_set_sigmas(metadata_sumstat_files)
+    filtered_sumstat_files = filter_and_set_sigmas(metadata_sumstat_files, maf_thresh)
     return filtered_sumstat_files, err_corr, R_phen
 
 
@@ -1394,7 +1399,8 @@ def return_input_args(args):
     """ 
     Further parses the command-line input.
   
-    Makes all lists unique; calculates S and K; and creates lists of appropriate matrices.
+    Makes all lists unique; calculates S and K; and creates lists of appropriate 
+        matrices.
   
     Parameters: 
     args: Command-line arguments that have been parsed by the parser.
@@ -1405,15 +1411,21 @@ def return_input_args(args):
     pops: Unique set of populations (studies) to use for analysis.
     phenos: Unique set of GBE phenotypes to use for analysis.
     R_study_list: Unique list of R_study matrices to use for analysis.
-    R_study_models: Unique strings ("independent"/"similar") corresponding to each matrix in R_study_list.
-    R_var_models: Unique strings ("independent"/"similar") corresponding to R_var matrices to use for analysis.
+    R_study_models: Unique strings ("independent"/"similar") corresponding to each 
+        matrix in R_study_list.
+    R_var_models: Unique strings ("independent"/"similar") corresponding to R_var 
+        matrices to use for analysis.
     agg: Unique list of aggregation units ("gene"/"variant") to use for analysis.
-    sigma_m_types: Unique list of sigma_m types ("sigma_m_var"/"sigma_m_1"/"sigma_m_005") to use for analysis.
-    variant_filters: Unique list of variant filters ("ptv"/"pav"/"pcv") to use for analysis.
+    sigma_m_types: Unique list of sigma_m types ("sigma_m_var"/"sigma_m_1"/"sigma_m_005") 
+        to use for analysis.
+    variant_filters: Unique list of variant filters ("ptv"/"pav"/"pcv") to use 
+        for analysis.
     datasets: Unique list of datasets ("cal"/"exome") to use for analysis.
     maf_threshes: List of maximum MAFs of variants in your runs.
-    prior_odds_list: List of prior odds used as assumptions to calculate posterior probabilities of Bayes Factors.
-    p_value_methods: List of p-value methods used to calculate p-values from Bayes Factors.
+    prior_odds_list: List of prior odds used as assumptions to calculate posterior 
+        probabilities of Bayes Factors.
+    p_value_methods: List of p-value methods used to calculate p-values from 
+        Bayes Factors.
   
     """
 
