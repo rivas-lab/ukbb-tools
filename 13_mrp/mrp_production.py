@@ -1695,10 +1695,6 @@ if __name__ == "__main__":
             sumstat_files, err_corr, R_phen = collect_and_filter(
                 pops, phenos, dataset, conserved_columns, maf_thresh
             )
-            print("err_corr")
-            print(err_corr)
-            print("R_phen")
-            print(R_phen)
             loop_through_parameters(
                 dataset,
                 agg,
