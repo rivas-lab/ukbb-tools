@@ -1070,6 +1070,8 @@ def filter_for_phen_corr(df, map_file):
     """
 
     files_to_use = map_file[map_file["R_phen"] == True]
+    if len(files_to_use) == 0:
+        return None, None
     pop_pheno_tuples = zip(list(files_to_use["study"]), list(files_to_use["pheno"]))
     cols_to_keep = ["V", "maf", "ld_indep"]
     for col_type in "BETA_", "P_":
@@ -1105,6 +1107,11 @@ def build_R_phen(S, K, pops, phenos, df, map_file):
     if K == 1:
         return np.ones((K, K))
     df, pop_pheno_tuples = filter_for_phen_corr(df, map_file)
+    if df is None:
+        print(Fore.RED + "WARNING: No files specified for R_phen generation.")
+        print("Assuming independent effects." + Style.RESET_ALL)
+        print("")
+        return np.diag(np.ones(K))
     phen_corr = build_phen_corr(S, K, pops, phenos, df, pop_pheno_tuples)
     R_phen = np.zeros((K, K))
     for k1, pheno1 in zip(range(K), phenos):
