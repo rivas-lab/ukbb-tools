@@ -443,7 +443,7 @@ def calculate_all_params(
     return U, beta, v_beta, mu
 
 
-def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh):
+def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, out_folder):
 
     """ 
     Outputs a file containing aggregation unit and Bayes Factors. 
@@ -459,17 +459,21 @@ def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh):
 
     outer_merge = partial(pd.merge, on=agg_type, how="outer")
     out_df = reduce(outer_merge, bf_dfs)
-    out_file = (
-        "/oak/stanford/groups/mrivas/ukbb24983/"
-        + "/mrp/"
-        + "_".join(pops)
+    if not os.path.exists(out_folder):
+        os.makedirs(out_folder)
+        print("")
+        print(Fore.RED + "Folder " + out_folder + " created." + Style.RESET_ALL)
+        print("")
+    out_file = os.path.join(
+        out_folder,
+        "_".join(pops)
         + "_"
         + "_".join(phenos)
         + "_"
         + agg_type
         + "_"
         + str(maf_thresh)
-        + ".tsv"
+        + ".tsv",
     )
     out_df.to_csv(out_file, sep="\t", index=False)
     print("")
@@ -499,7 +503,7 @@ def run_mrp(
     Runs MRP with the given parameters.
   
     Parameters: 
-    df: 
+    df: Merged dataframe containing all relevant summary statistics.
     S: Number of populations/studies.
     K: Number of GBE phenotypes.
     pops: Unique set of populations (studies) to use for analysis.
@@ -676,16 +680,15 @@ def filter_category(df, variant_filter):
     Dependent on the variant filter that is dictated by the analysis.
   
     Parameters: 
-    sumstats_files: The list of summary statistic files that have been read
-        in and annotated.
+    df: Merged dataframe containing all summary statistics.
     variant_filter: The variant filter dictated by the analysis ("ptv"/"pav"/"pcv").
   
     Returns: 
-    analysis_files: A list of summary statistic files ready for MRP.
+    df: Merged dataframe containing all relevant summary statistics; 
+        filters out variants excluded from analysis.
   
     """
 
-    analysis_files = []
     if variant_filter == "ptv":
         df = df[df.category == "ptv"]
     elif variant_filter == "pav":
@@ -710,12 +713,15 @@ def loop_through_parameters(
     err_corr,
     prior_odds_list,
     p_value_methods,
+    out_folder,
 ):
 
     """ 
     Loops through parameters specified through command line (or defaults). 
 
     Parameters: 
+    df: Merged dataframe containing all summary statistics.
+    maf_threshes: List of maximum MAFs of variants in your runs.
     agg: Unique list of aggregation units ("gene"/"variant") to use for analysis.
     variant_filters: Unique list of variant filters ("ptv"/"pav"/"pcv") to use 
         for analysis.
@@ -732,14 +738,22 @@ def loop_through_parameters(
     sigma_m_types: Unique list of sigma_m types ("sigma_m_var"/"sigma_m_1"/"sigma_m_005")
         to use for analysis.
     err_corr: Matrix of correlation of errors across studies and phenotypes.
-    maf_thresh: Maximum MAF of variants in this run.
     prior_odds_list: List of prior odds used as assumptions to calculate posterior 
         probabilities of Bayes Factors.
     p_value_methods: List of p-value methods used to calculate p-values from Bayes 
         Factors.
+    out_folder: Folder where output will be placed.
   
     """
-
+    if (S == 1) and (len(R_study_models) > 1):
+        print(
+            Fore.YELLOW
+            + "Since we are not meta-analyzing, R_study is just [1]."
+            + Style.RESET_ALL
+        )
+        print("")
+        R_study_models = ["independent"]
+        R_study_list = [R_study_list[0]]
     for maf_thresh in maf_threshes:
         print(
             Fore.YELLOW
@@ -760,7 +774,7 @@ def loop_through_parameters(
                 )
                 R_var_models = ["independent"]
             for analysis in variant_filters:
-                analysis_df = filter_category(df, analysis)
+                analysis_df = filter_category(maf_df, analysis)
                 for R_study, R_study_model in zip(R_study_list, R_study_models):
                     for R_var_model in R_var_models:
                         for sigma_m_type in sigma_m_types:
@@ -796,7 +810,7 @@ def loop_through_parameters(
                                 ascending=False,
                             )
                             bf_dfs.append(bf_df)
-        output_file(bf_dfs, agg_type, pops, phenos, maf_thresh)
+        output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, out_folder)
 
 
 def set_sigmas(df):
@@ -883,27 +897,6 @@ def set_sigmas(df):
     return df
 
 
-def get_beta(df, pop, pheno):
-
-    """
-    Retrieves betas from one (pop, pheno) tuple using non-significant, 
-        non-missing variants.
-  
-    Parameters:
-    df: Merged dataframe containing summary statistics.
-    pop: Population of interest.
-    pheno: Phenotype of interest.
-  
-    Returns: 
-    beta: List of effect sizes from the specified (pop, pheno) tuple; 
-        used to compute correlation.
-  
-    """
-
-    return list(df["BETA" + "_" + pop + "_" + pheno])
-    return None
-
-
 def get_betas(df, pop1, pheno1, pop2, pheno2, mode):
 
     """
@@ -942,8 +935,8 @@ def get_betas(df, pop1, pheno1, pop2, pheno2, mode):
             (df["P_" + pop1 + "_" + pheno1] < 1e-5)
             | (df["P_" + pop2 + "_" + pheno2] < 1e-5)
         ]
-    beta1 = get_beta(df, pop1, pheno1)
-    beta2 = get_beta(df, pop2, pheno2)
+    beta1 = list(df["BETA_" + pop1 + "_" + pheno1])
+    beta2 = list(df["BETA_" + pop2 + "_" + pheno2])
     return beta1, beta2
 
 
@@ -1009,6 +1002,7 @@ def build_R_phen(S, K, pops, phenos, df, map_file):
     pops: Unique set of populations (studies) to use for analysis.
     phenos: Unique set of GBE phenotypes to use for analysis.
     df: Merged dataframe containing all relevant summary statistics.
+    map_file: Input file containing summary statistic paths + pop and pheno data.
 
     Returns:
     R_phen: Empirical estimates of genetic correlation across phenotypes.
@@ -1019,9 +1013,11 @@ def build_R_phen(S, K, pops, phenos, df, map_file):
         return np.ones((K, K))
     files_to_use = map_file[map_file["R_phen"] == True]
     pop_pheno_tuples = zip(list(files_to_use["study"]), list(files_to_use["pheno"]))
-    cols_to_keep = ["maf", "ld_indep"]
+    cols_to_keep = ["V", "maf", "ld_indep"]
     for col_type in "BETA_", "P_":
-        cols_to_keep.extend([col_type + pop + "_" + pheno for pop, pheno in pop_pheno_tuples])
+        cols_to_keep.extend(
+            [col_type + pop + "_" + pheno for pop, pheno in pop_pheno_tuples]
+        )
     df = df[cols_to_keep]
     # Get only LD-independent, common variants
     df = df[(df.maf >= 0.01) & (df.ld_indep == True)]
@@ -1070,7 +1066,7 @@ def build_err_corr(S, K, pops, phenos, df):
         for null variants. Used to calculate v_beta.
 
     """
-    
+
     print("")
     print(
         Fore.MAGENTA
@@ -1132,6 +1128,7 @@ def return_err_and_R_phen(df, pops, phenos, S, K, map_file):
     phenos: Unique set of GBE phenotypes to use for analysis.
     S: Number of populations/studies.
     K: Number of GBE phenotypes.
+    map_file: Input file containing summary statistic paths + pop and pheno data.
 
     Returns:
     err_corr: (S*K x S*K) matrix of correlation of errors across studies and phenotypes
@@ -1175,6 +1172,10 @@ def rename_columns(df, pop, pheno):
 def check_map_file(map_file):
 
     """
+    Checks --file for malformed input.
+
+    Parameters:
+    map_file: Input file containing summary statistic paths + pop and pheno data.
 
     """
 
@@ -1211,15 +1212,16 @@ def read_in_summary_stats(map_file, metadata_path):
     Contains logic for handling the case that a summary statistic file is not found.
   
     Parameters: 
-    map_file:
+    map_file: Input file containing summary statistic paths + pop and pheno data.
+    metadata_path: Path to metadata file containing MAF, Gene symbol, etc.
   
     Returns: 
-    df:
+    df: Merged summary statistics.
     pops: Unique set of populations (studies) to use for analysis.
     phenos: Unique set of GBE phenotypes to use for analysis.
-    S:
-    K:
-  
+    S: Number of populations/studies.
+    K: Number of GBE phenotypes. 
+
     """
 
     pops, phenos, S, K = check_map_file(map_file)
@@ -1287,6 +1289,7 @@ def print_banner():
   
     """
 
+    print("")
     print(Fore.RED + " __  __ ____  ____")
     print("|  \/  |  _ \|  _ \\")
     print("| |\/| | |_) | |_) |")
@@ -1352,23 +1355,7 @@ def return_input_args(args):
         np.diag(np.ones(S)) if x == "independent" else np.ones((S, S))
         for x in args.R_study_models
     ]
-    return (
-        df,
-        map_file,
-        S,
-        K,
-        pops,
-        phenos,
-        R_study,
-        args.R_study_models,
-        args.R_var_models,
-        args.agg,
-        args.sigma_m_types,
-        args.variants,
-        args.maf_threshes,
-        args.prior_odds_list,
-        args.p_value_methods,
-    )
+    return (df, map_file, S, K, pops, phenos, R_study)
 
 
 def range_limited_float_type(arg):
@@ -1487,7 +1474,7 @@ def initialize_parser(valid_phenos):
         type=str,
         nargs="+",
         default=["ptv"],
-        dest="variants",
+        dest="variant_filters",
         help="""variant set(s) to consider. 
          options: proximal coding [pcv], 
                   protein-altering [pav], 
@@ -1527,6 +1514,15 @@ def initialize_parser(valid_phenos):
          objects and methods, which slows down MRP. farebrother is fastest and 
          recommended if p-values are a must.""",
     )
+    parser.add_argument(
+        "--out_folder",
+        type=str,
+        nargs=1,
+        default=[],
+        dest="out_folder",
+        help="""folder to which output(s) will be written (default: current folder).
+         if folder does not exist, it will be created.""",
+    )
     return parser
 
 
@@ -1539,6 +1535,8 @@ if __name__ == "__main__":
 
     with open("../05_gbe/phenotype_info.tsv", "r") as phe_file:
         valid_phenos = [line.split()[0] for line in phe_file][1:]
+    import os
+
     parser = initialize_parser(valid_phenos)
     args = parser.parse_args()
     print("")
@@ -1553,14 +1551,12 @@ if __name__ == "__main__":
     from numpy.linalg import LinAlgError
     from scipy.stats.stats import pearsonr
     import subprocess
-    import os
     from colorama import Fore, Back, Style
 
-    df, map_file, S, K, pops, phenos, R_study_list, R_study_models, R_var_models, agg, sigma_m_types, variant_filters, maf_threshes, prior_odds_list, p_value_methods = return_input_args(
-        args
-    )
+    df, map_file, S, K, pops, phenos, R_study_list = return_input_args(args)
+    out_folder = args.out_folder[0] if args.out_folder else os.getcwd()
     print_banner()
-    if p_value_methods:
+    if args.p_value_methods:
         print(
             Fore.RED
             + "WARNING: Command line arguments indicate p-value generation. This can cause slowdowns of up to 12x."
@@ -1588,19 +1584,20 @@ if __name__ == "__main__":
     )
     loop_through_parameters(
         df,
-        maf_threshes,
-        agg,
-        variant_filters,
+        args.maf_threshes,
+        args.agg,
+        args.variant_filters,
         S,
         R_study_list,
-        R_study_models,
+        args.R_study_models,
         pops,
         K,
         R_phen,
         phenos,
-        R_var_models,
-        sigma_m_types,
+        args.R_var_models,
+        args.sigma_m_types,
         err_corr,
-        prior_odds_list,
-        p_value_methods,
+        args.prior_odds_list,
+        args.p_value_methods,
+        out_folder,
     )
