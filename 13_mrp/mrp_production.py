@@ -1711,6 +1711,7 @@ if __name__ == "__main__":
     out_folder = args.out_folder[0] if args.out_folder else os.getcwd()
     print_banner()
     if args.p_value_methods:
+        print("")
         print(
             Fore.RED
             + "WARNING: Command line arguments indicate p-value generation. "
@@ -1721,7 +1722,6 @@ if __name__ == "__main__":
             + " as opposed to p-values."
             + Style.RESET_ALL
         )
-        print("")
         import rpy2
         import rpy2.robjects as robjects
         import rpy2.robjects.numpy2ri
