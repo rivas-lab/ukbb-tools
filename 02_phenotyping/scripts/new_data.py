@@ -107,9 +107,12 @@ def update_summary_stats(phe_files):
     return
 
 def update_symlinks(in_b, new_dir):
-    for root_dir in ['/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/',
-                     '/oak/stanford/groups/mrivas/ukbb24983/cal/gwas', 
-                     '/oak/stanford/groups/mrivas/ukbb24983/imp/gwas']
+    root_dirs=[
+        '/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/',
+        '/oak/stanford/groups/mrivas/ukbb24983/cal/gwas',
+        '/oak/stanford/groups/mrivas/ukbb24983/imp/gwas'
+    ]
+    for root_dir in root_dirs:
         old_dir = os.path.join(root_dir, in_b, 'current')
         for root, dirs, files in os.walk(old_dir):
             for subdir in dirs:
@@ -178,4 +181,4 @@ if __name__ == "__main__":
     if not args.no_gwas and phe_files:
         update_summary_stats(phe_files)
     # 6. update symlink
-    update_symlinks(in_b, os.dirname(os.dirname(new_f)))
+    update_symlinks(in_b, os.path.dirname(os.path.dirname(new_f)))
