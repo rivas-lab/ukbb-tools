@@ -17,12 +17,13 @@ def is_pos_def_and_full_rank(X):
   
     """
     # Check that it's not only pos def but also above a certain threshold
-    if np.all(np.linalg.eigvals(X) > 1e-12):
-        while not (np.all(np.linalg.eigvals(X) > 1e-12)):
-            X = 0.99 * X + 0.01 * np.diag(np.diag(X))
-        return X
-    else:
-        return np.nan
+    i = 0
+    while not (np.all(np.linalg.eigvals(X) > 1e-15)):
+        X = 0.99 * X + 0.01 * np.diag(np.diag(X))
+        i += 1
+        if i > 5:
+            return np.nan
+    return X
 
 
 def safe_inv(X, matrix_name, block, agg_type):
