@@ -18,9 +18,7 @@ def is_pos_def_and_full_rank(X):
     """
     # Check that it's not only pos def but also above a certain threshold
     if np.all(np.linalg.eigvals(X) > 1e-12):
-        while not (
-            np.all(np.linalg.eigvals(X) > 1e-12)
-        ):
+        while not (np.all(np.linalg.eigvals(X) > 1e-12)):
             X = 0.99 * X + 0.01 * np.diag(np.diag(X))
         return X
     else:
@@ -1405,7 +1403,7 @@ def read_in_summary_stat(subset_df, pop, pheno):
         .str.cat(df["ALT"], sep=":"),
     )
     if "OR" in df.columns:
-        df["BETA"] = np.log(df["OR"].astype('float64'))
+        df["BETA"] = np.log(df["OR"].astype("float64"))
     # Filter for SE as you read it in
     df = rename_columns(df, pop, pheno)
     df = df[df["SE" + "_" + pop + "_" + pheno].notnull()]
