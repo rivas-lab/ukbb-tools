@@ -16,17 +16,15 @@ def is_pos_def_and_full_rank(X):
     X: Verified (and, if applicable, adjusted) matrix.
   
     """
-
-    i = 0
-    X = np.matrix(X)
-    if (np.all(np.linalg.eigvals(X) > 0)) and (np.linalg.matrix_rank(X) == len(X)):
-        return X
-    else:
+    # Check that it's not only pos def but also above a certain threshold
+    if np.all(np.linalg.eigvals(X) > 1e-12):
         while not (
-            (np.all(np.linalg.eigvals(X) > 0)) and (np.linalg.matrix_rank(X) == len(X))
+            np.all(np.linalg.eigvals(X) > 1e-12)
         ):
             X = 0.99 * X + 0.01 * np.diag(np.diag(X))
         return X
+    else:
+        return np.nan
 
 
 def safe_inv(X, matrix_name, block, agg_type):
@@ -130,7 +128,7 @@ def initialize_r_objects():
     """
 
     robjects.r(
-    """
+        """
     require(MASS)
     require(CompQuadForm)
     farebrother.method <- function(quadT, d, h = rep(1, length(d)), delta = rep(0, length(d)), maxiter = 100000, epsilon = 10^-16, type = 1) {
@@ -139,7 +137,7 @@ def initialize_r_objects():
     """
     )
     robjects.r(
-    """
+        """
     require(MASS)
     require(CompQuadForm)
     imhof.method <- function(quadT, d, h = rep(1, length(d)), delta = rep(0, length(d)), epsilon = 10^-16, lim = 10000) {
@@ -148,7 +146,7 @@ def initialize_r_objects():
     """
     )
     robjects.r(
-    """
+        """
     require(MASS)
     require(CompQuadForm)
     davies.method <- function(quadT, d, h = rep(1, length(d)), delta = rep(0, length(d)), sig = 0, limit = 10000, accuracy = 0.0001) {
@@ -190,9 +188,13 @@ def return_BF_pvals(beta, U, v_beta, v_beta_inv, fb, dm, im, methods):
     n = beta.shape[0]
     A = v_beta + U
     A = is_pos_def_and_full_rank(A)
+    if np.any(np.isnan(A)):
+        return [np.nan] * len(methods)
     A_inv = np.linalg.inv(A)
     quad_T = beta.T * (v_beta_inv - A_inv) * beta
     B = is_pos_def_and_full_rank(np.eye(n) - A_inv * v_beta)
+    if np.any(np.isnan(B)):
+        return [np.nan] * len(methods)
     d = np.linalg.eig(B)[0]
     d = [i for i in d if i > 0.01]
     methods = ["imhof", "davies", "farebrother"]
@@ -265,10 +267,13 @@ def return_BF(
     p_values: List of p-values corresponding to each method in p_value_methods.
   
     """
-
     v_beta = is_pos_def_and_full_rank(v_beta)
-    v_beta_inv = safe_inv(v_beta, "v_beta", block, agg_type)
+    if np.any(np.isnan(v_beta)):
+        return np.nan, [], []
     U = is_pos_def_and_full_rank(U)
+    if np.any(np.isnan(U)):
+        return np.nan, [], []
+    v_beta_inv = safe_inv(v_beta, "v_beta", block, agg_type)
     U_inv = safe_inv(U, "U", block, agg_type)
     if v_beta_inv is not np.nan and U_inv is not np.nan:
         A2 = U_inv + v_beta_inv
@@ -612,7 +617,6 @@ def run_mrp(
     bf_df: Dataframe with two columns: agg_type and log_10 Bayes Factor. 
   
     """
-
     m_dict = (
         df.groupby("gene_symbol").size()
         if agg_type == "gene"
@@ -971,7 +975,7 @@ def get_betas(df, pop1, pheno1, pop2, pheno2, mode):
     if ("P_" + pop1 + "_" + pheno1 not in df.columns) or (
         "P_" + pop2 + "_" + pheno2 not in df.columns
     ):
-        return None, None
+        return [], []
     if mode == "null":
         df = df[
             (df["P_" + pop1 + "_" + pheno1] >= 1e-2)
@@ -1071,7 +1075,7 @@ def filter_for_phen_corr(df, map_file):
 
     files_to_use = map_file[map_file["R_phen"] == True]
     if len(files_to_use) == 0:
-        return None, None
+        return [], []
     pop_pheno_tuples = zip(list(files_to_use["study"]), list(files_to_use["pheno"]))
     cols_to_keep = ["V", "maf", "ld_indep"]
     for col_type in "BETA_", "P_":
@@ -1107,10 +1111,10 @@ def build_R_phen(S, K, pops, phenos, df, map_file):
     if K == 1:
         return np.ones((K, K))
     df, pop_pheno_tuples = filter_for_phen_corr(df, map_file)
-    if df is None:
+    if not df:
+        print("")
         print(Fore.RED + "WARNING: No files specified for R_phen generation.")
         print("Assuming independent effects." + Style.RESET_ALL)
-        print("")
         return np.diag(np.ones(K))
     phen_corr = build_phen_corr(S, K, pops, phenos, df, pop_pheno_tuples)
     R_phen = np.zeros((K, K))
@@ -1157,8 +1161,9 @@ def calculate_err(a, b, pop1, pheno1, pop2, pheno2, err_corr, err_df):
     elif a == b:
         return 1
     else:
+        err_df = err_df.dropna()
         err_beta1, err_beta2 = get_betas(err_df, pop1, pheno1, pop2, pheno2, "null")
-        return pearsonr(err_beta1, err_beta2)[0] if err_beta1 is not None else 0
+        return pearsonr(err_beta1, err_beta2)[0] if err_beta1 else 0
 
 
 def filter_for_err_corr(df):
@@ -1199,8 +1204,9 @@ def filter_for_err_corr(df):
         "synonymous_variant",
     ]
     # Get only null variants to build err_corr
-    err_df = df[df.most_severe_consequence.isin(null_variants)]
-    return err_df
+    if len(df) != 0:
+        df = df[df.most_severe_consequence.isin(null_variants)]
+    return df
 
 
 def build_err_corr(S, K, pops, phenos, df):
@@ -1226,6 +1232,11 @@ def build_err_corr(S, K, pops, phenos, df):
 
     """
     err_df = filter_for_err_corr(df)
+    if len(err_df) == 0:
+        print(Fore.RED + "WARNING: Correlation of errors is noisy.")
+        print("Assuming independent effects." + Style.RESET_ALL)
+        print("")
+        return np.diag(np.ones(S * K))
     err_corr = np.zeros((S * K, S * K))
     for i, pop1 in enumerate(pops):
         for j, pheno1 in enumerate(phenos):
@@ -1236,6 +1247,7 @@ def build_err_corr(S, K, pops, phenos, df):
                     err_corr[a, b] = calculate_err(
                         a, b, pop1, pheno1, pop2, pheno2, err_corr, err_df
                     )
+    err_corr = np.nan_to_num(err_corr)
     return err_corr
 
 
@@ -1304,17 +1316,14 @@ def check_map_file(map_file):
     map_file: Input file containing summary statistic paths + pop and pheno data.
 
     """
-
+    if map_file.isnull().values.sum() > 0:
+        raise ValueError("NaNs in map file.")
     file_paths = np.unique(list(map_file["path"]))
     if len(file_paths) < len(map_file):
-        raise ValueError(
-            "File specified in " + map_file + " contains duplicate path entries."
-        )
+        raise ValueError("File specified in map file contains duplicate path entries.")
     for file_path in file_paths:
         if not os.path.exists(file_path):
-            raise IOError(
-                "File " + file_path + ", listed in " + map_file + ", does not exist."
-            )
+            raise IOError("File " + file_path + ", listed in map file does not exist.")
     if (map_file.groupby(["study", "pheno"]).size() > 1).sum() > 0:
         raise ValueError(
             "Multiple summary statistic files specified for a (study, phenotype) tuple."
@@ -1372,7 +1381,20 @@ def read_in_summary_stat(subset_df, pop, pheno):
 
     file_path = list(subset_df["path"])[0]
     print(file_path)
-    df = pd.read_csv(file_path, sep="\t")
+    df = pd.read_csv(
+        file_path,
+        sep="\t",
+        dtype={
+            "#CHROM": str,
+            "POS": np.int32,
+            "ID": str,
+            "REF": str,
+            "ALT": str,
+            "A1": str,
+            "FIRTH?": str,
+            "TEST": str,
+        },
+    )
     df.insert(
         loc=0,
         column="V",
@@ -1383,7 +1405,7 @@ def read_in_summary_stat(subset_df, pop, pheno):
         .str.cat(df["ALT"], sep=":"),
     )
     if "OR" in df.columns:
-        df["BETA"] = np.log(df["OR"])
+        df["BETA"] = np.log(df["OR"].astype('float64'))
     # Filter for SE as you read it in
     df = rename_columns(df, pop, pheno)
     df = df[df["SE" + "_" + pop + "_" + pheno].notnull()]
