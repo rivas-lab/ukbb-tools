@@ -1,4 +1,4 @@
-Annotator	Annotation date	Name	GBE ID	TableID	Field	FieldID	QT_total_num	BIN_total_num	QT_index	BIN_index	coding_exclude	coding_QT	coding_binary_case	coding_binary_control	Participants	Stability	ValueType	Units	Strata	Sexed	Instances	Array	Coding	Link
+Annotator	Annotation date	Name	GBE ID	TableID	Field	FieldID	QT_total_num	BIN_total_num	QT_index	BIN_index	coding_exclude	coding_QT	coding_binary_case	coding_binary_control	Participants	Stability	ValueType	Units	Strata	Sexed	Instances	Array	Coding	Link	Notes
 					Heel ultrasound method	19									324783	Complete	Categorical single		Primary	Unisex	1	1	100260.0	http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=19
 					Weight method	21									500856	Complete	Categorical single		Primary	Unisex	4	1	100261.0	http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=21
 					Blood pressure device ID	36									498757	Complete	Text		Auxiliary	Unisex	4	1		http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=36

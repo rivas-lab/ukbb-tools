@@ -1,4 +1,4 @@
-Annotator	Annotation date	Name	GBE ID	TableID	Field	FieldID	QT_total_num	BIN_total_num	QT_index	BIN_index	coding_exclude	coding_QT	coding_binary_case	coding_binary_control	Participants	Stability	ValueType	Units	Strata	Sexed	Instances	Array	Coding	Link	Note
+Annotator	Annotation date	Name	GBE ID	TableID	Field	FieldID	QT_total_num	BIN_total_num	QT_index	BIN_index	coding_exclude	coding_QT	coding_binary_case	coding_binary_control	Participants	Stability	ValueType	Units	Strata	Sexed	Instances	Array	Coding	Link	Notes
 Guhan	11/26/2018	Hand_grip_strength_(left)	INI46	10137	Hand grip strength (left)	46	1		1						499247	Complete	Integer	Kg	Primary	Unisex	3	1		http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=46	
 Guhan	11/26/2018	Hand_grip_strength_(right)	INI47	10137	Hand grip strength (right)	47	1		1						499320	Complete	Integer	Kg	Primary	Unisex	3	1		http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=47	
 Guhan	11/26/2018	Waist_circumference	INI48	9797	Waist circumference	48	1		1						500433	Complete	Continuous	cm	Primary	Unisex	3	1		http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=48	

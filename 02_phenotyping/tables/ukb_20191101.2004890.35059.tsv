@@ -1,4 +1,4 @@
-Annotator	Annotation date	Name	GBE ID	TableID	Field	FieldID	QT_total_num	BIN_total_num	QT_index	BIN_index	coding_exclude	coding_QT	coding_binary_case	coding_binary_control	Participants	Stability	ValueType	Units	Strata	Sexed	Instances	Array	Coding	Link
+Annotator	Annotation date	Name	GBE ID	TableID	Field	FieldID	QT_total_num	BIN_total_num	QT_index	BIN_index	coding_exclude	coding_QT	coding_binary_case	coding_binary_control	Participants	Stability	ValueType	Units	Strata	Sexed	Instances	Array	Coding	Link	Notes
 					Current tobacco smoking	1239									501649	Complete	Categorical single		Primary	Unisex	4	1	100347.0	http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=1239
 					Past tobacco smoking	1249									463631	Complete	Categorical single		Primary	Unisex	4	1	100348.0	http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=1249
 					Smoking/smokers in household	1259									461082	Complete	Categorical single		Primary	Unisex	4	1	100370.0	http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=1259

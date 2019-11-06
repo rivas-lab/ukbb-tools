@@ -1,4 +1,4 @@
-GBE ID	gbe_name	coding	FieldID	TableID	codingLink	fieldLink	n_qt	n_bin	qt_index	bin_index	qt_exclude	qt_coding	bin_case	bin_control	note
+GBE ID	Name	Coding	FieldID	TableID	Link	fieldLink	QT_total_num	BIN_total_num	QT_index	BIN_index	coding_exclude	coding_QT	coding_binary_case	coding_binary_control	Notes
 BIN_FC10006154	Ranitidine_use_self-reported	100628	6154	9797	http://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=100628	http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=6154		12		10	-3		4	-7	
 BIN_FC10006155	Vitamin_D_vs_multivitamin	100629	6155	9797	http://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=100629	http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=6155		19		10	-3		4	7	
 BIN_FC10006179	Zinc_supplements	100630	6179	9797	http://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=100630	http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=6179		12		10	-3		4	-7	

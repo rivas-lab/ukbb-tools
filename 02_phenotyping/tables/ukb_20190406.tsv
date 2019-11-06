@@ -1,4 +1,4 @@
-Annotator	Annotation date	Name	GBE ID	TableID	Field	FieldID	QT_total_num	BIN_total_num	QT_index	BIN_index	coding_exclude	coding_QT	coding_binary_case	coding_binary_control	Participants	Stability	ValueType	Units	Strata	Sexed	Instances	Array	Coding	Link
+Annotator	Annotation date	Name	GBE ID	TableID	Field	FieldID	QT_total_num	BIN_total_num	QT_index	BIN_index	coding_exclude	coding_QT	coding_binary_case	coding_binary_control	Participants	Stability	ValueType	Units	Strata	Sexed	Instances	Array	Coding	Link	Notes
 					Recent worrying too much about different things	20520									157356	Accruing	Categorical single		Primary	Unisex	1	1	504.0	http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=20520
 					Length of menstrual cycle	3710									64164	Complete	Integer	days	Primary	Female	3	1	100582.0	http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=3710
 					Age when periods started (menarche)	2714									272935	Complete	Integer	years	Primary	Female	3	1	100291.0	http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2714

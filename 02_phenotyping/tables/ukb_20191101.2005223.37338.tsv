@@ -1,4 +1,4 @@
-Annotator	Annotation date	Name	GBE ID	TableID	Field	FieldID	QT_total_num	BIN_total_num	QT_index	BIN_index	coding_exclude	coding_QT	coding_binary_case	coding_binary_control	Participants	Stability	ValueType	Units	Strata	Sexed	Instances	Array	Coding	Link
+Annotator	Annotation date	Name	GBE ID	TableID	Field	FieldID	QT_total_num	BIN_total_num	QT_index	BIN_index	coding_exclude	coding_QT	coding_binary_case	coding_binary_control	Participants	Stability	ValueType	Units	Strata	Sexed	Instances	Array	Coding	Link	Notes
 					Hearing difficulty/problems	2247									498721	Complete	Categorical single		Primary	Unisex	4	1	100631.0	http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2247
 					Hearing difficulty/problems with background noise	2257									501491	Complete	Categorical single		Primary	Unisex	4	1	100349.0	http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=2257
 					Hearing aid user	3393									330206	Complete	Categorical single		Primary	Unisex	4	1	100352.0	http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=3393
