@@ -266,6 +266,10 @@ if __name__ == "__main__":
                             help='Run CNV burden test (GWAS on 0/1 CNV overlaps gene, from array-derived CNV genotypes)') 
     parser.add_argument('--run-hla', dest="hla", action='store_true',
                             help='Run GWAS on imputed HLA allelotypes') 
+    parser.add_argument('--run-array-imp-combined', dest="array_imp_combined", action='store_true',
+                            help='Run GWAS on the array_imp_combined dataset')
+    parser.add_argument('--run-array-combined', dest="array_combined", action='store_true',
+                            help='Run GWAS on the array_combined dataset')
     parser.add_argument('--pheno', dest="pheno", required=True, nargs='*',
                             help='Path to phenotype file(s)')
     parser.add_argument('--out', dest="outDir", required=True, nargs=1,
