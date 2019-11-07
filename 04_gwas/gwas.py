@@ -7,7 +7,7 @@ A script for running GWAS with UK Biobank data (array/exome/imputed/cnv genotype
 Author: Matthew Aguirre (SUNET: magu)
 
 (Updated 10/14/2019 by E Flynn for sex-div analysis)
-
+(Updated 11/06/2019 by Yosuke Tanigawa; add support for array_combined and array_imp_combined; code clean up)
 '''
 
 def filterPopFile(outDir, popFile='', keepSexFile=''):
@@ -34,13 +34,12 @@ def filterPopFile(outDir, popFile='', keepSexFile=''):
         return popFileSexFiltered
 
 def make_plink_command(bpFile, pheFile, outFile, outDir, pop, cores=None, memory=None, related=False, plink1=False, 
-                       arrayCovar=False, sexDiv=False, keepSex='', keepSexFile='', includeX=False):
+                       variantSubsetStr='', arrayCovar=False, sexDiv=False, keepSex='', keepSexFile='', includeX=False, maf=None):
     # paths to plink genotypes, input phenotypes, output directory are passed
     qcDir         = '/oak/stanford/groups/mrivas/ukbb24983/sqc/'
     popFile       = os.path.join(qcDir,'population_stratification','ukb24983_{}.phe'.format(pop)) if pop != 'all' else ''
-    unrelatedFile = os.path.join(qcDir,'ukb24983_v2.not_used_in_pca.phe') if not related else '' 
-    arrayVarFile  = os.path.join(qcDir,'{}_array_variants.txt'.format('both' if arrayCovar else 'one')) if '/cal/' in bpFile else ''
-    is_cnv_burden = os.path.basename(bpFile) == 'burden'
+    unrelatedFile = os.path.join(qcDir,'ukb24983_v2.not_used_in_pca.phe') if not related else ''
+    is_cnv_burden = os.path.basename(bpFile[1]) == 'burden'
     if os.path.dirname(pheFile).split('/')[-1] == "binary": 
         is_biomarker_binary = True
     elif len(os.path.basename(pheFile).split('_')) < 2:
@@ -57,42 +56,88 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, cores=None, memory
     # filter the population file to only contain IIDs of the specified sex
     if sexDiv:
         popFileSexFiltered=filterPopFile(outDir, popFile, keepSexFile)
-                                                                                                                
-    if not includeX:
-        xChrStr=""
+
+    if (plink1 or (bpFile[0] == 'bfile')):
+        genotypeStr='--bfile {}'.format(bpFile[1])
+    elif (bpFile[0] == 'bpfile'):
+        genotypeStr='--bpfile {}'.format(bpFile[1])
+    elif (bpFile[0] == 'pfile_vzs'):
+        genotypeStr='--pfile {} vzs'.format(bpFile[1])
+    elif (bpFile[0] == 'pfile'):
+        genotypeStr='--pfile {}'.format(bpFile[1])
     else:
-        xChrStr=",X,XY"
+        raise ValueError("Error: unsupported genotype file flag ({0})".format(bpFile[0]))
+    
     # paste together the command from constituent parts
-    return " ".join(["plink" if plink1 else "plink2", 
-                     "--threads {0}".format(cores) if cores is not None else "",
-                     "--memory {0}".format(memory) if memory is not None else "",                     
-                     "--bfile" if plink1 or '/imp/' in bpFile else "--bpfile", bpFile, "--chr 1-22{0}".format(xChrStr),
-                     "--maf 0.005" if "/imp" in bpFile else "",
-                     "--pheno", pheFile, "--pheno-quantile-normalize",
-                     "--glm firth-fallback hide-covar omit-ref",
-                     "--keep {0}".format(popFile) if (popFile and not sexDiv) else '', "--keep {0}".format(popFileSexFiltered) if sexDiv else "", 
-                     "--remove {0}".format(unrelatedFile) if unrelatedFile else "",
-                     "--extract {0}".format(arrayVarFile) if arrayVarFile else "",
-                     "--covar", covarFile, 
-                     "--covar-name age ", "sex " if not sexDiv else "", 
-                     "Array " if arrayCovar else "", "PC1-PC4", "N_CNV LEN_CNV --covar-variance-standardize" if is_cnv_burden else "PC5-PC10 FastingTime --covar-variance-standardize" if is_biomarker_binary else "",
-                     "--covar-variance-standardize --vif 100000000" if pop in ['non_british_white', 'african', 'e_asian', 's_asian'] else "",
-                     "--out", outFile]) 
+    return (" ".join([
+        "plink" if plink1 else "plink2", 
+        "--threads {0}".format(cores) if cores is not None else "",
+        "--memory {0}".format(memory) if memory is not None else "",
+        genotypeStr,
+        "--chr 1-22{0}".format(",X,XY" if includeX else ''),
+        "--maf {0}".format(maf) if (maf is not None) else "",
+        "--pheno", pheFile, "--pheno-quantile-normalize",
+        "--glm firth-fallback hide-covar omit-ref",
+        "--keep {0}".format(popFile) if (popFile and not sexDiv) else '', 
+        "--keep {0}".format(popFileSexFiltered) if sexDiv else "", 
+        "--remove {0}".format(unrelatedFile) if unrelatedFile else "",
+        variantSubsetStr,
+        "--covar", covarFile, 
+        "--covar-name age ", "sex " if not sexDiv else "", 
+        "Array " if arrayCovar else "", 
+        "PC1-PC4", 
+        "N_CNV LEN_CNV --covar-variance-standardize" if is_cnv_burden else "PC5-PC10 FastingTime --covar-variance-standardize" if is_biomarker_binary else "",
+        "--covar-variance-standardize --vif 100000000" if pop in ['non_british_white', 'african', 'e_asian', 's_asian'] else "",
+        "--out", outFile
+    ]))
+
+def make_plink_commands_arrayCovar(bpFile, outFile, make_plink_command_common_args):
+        # needs one plink call with genotyping array a covariate, and one without
+        one_array_variants_txt='/oak/stanford/groups/mrivas/private_data/ukbb/24983/sqc/one_array_variants.txt'
+        outFile1 = outFile+'.both_arrays'
+        cmd1 = make_plink_command(
+            bpFile  = bpFile,
+            outFile = outFile1,
+            arrayCovar = True,
+            variantSubsetStr = "--exclude {0}".format(one_array_variants_txt),
+            **make_plink_command_common_args
+        )
+        outFile2 = outFile+'.one_array'
+        cmd2 = make_plink_command(
+            bpFile  = bpFile,
+            outFile = outFile2,
+            arrayCovar = False,
+            variantSubsetStr = "--extract {0}".format(one_array_variants_txt),
+            **make_plink_command_common_args
+        )
+        # join the plink calls, add some bash at the bottom to combine the output        
+        cmd = "\n\n".join(
+            [cmd1, cmd2] +  # this is the plink part, below joins the two files
+            ["if [ -f {0}.*.{3} ]; then cat {0}.*.{3} {1}.*.{3} | sort -k1,1n -k2,2n -u > {2}.{3}; fi".format(
+                outFile1, outFile2, outFile, suffix
+            ) for suffix in ['glm.linear', 'glm.logistic.hybrid']] + 
+            ["cat {0}.log {1}.log > {2}.log".format(outFile1, outFile2, outFile),
+             "rm {0}.* {1}.*".format(outFile1, outFile2)]
+        )
+        return(cmd)
 
 
 def make_batch_file(batchFile, plinkCmd, cores, memory, time, partitions):
     with open(batchFile, 'w') as f:
        # formats options for sbatch header and pastes input command below it
-       f.write("\n".join(["#!/bin/bash","",
-                          "#SBATCH --job-name=RL_GWAS",
-                          "#SBATCH --output={}".format(os.path.join(os.path.dirname(batchFile), "rl-gwas.%A-%a.out")),
-                          "#SBATCH --cores={}".format(cores),
-                          "#SBATCH --mem={}".format(memory),
-                          "#SBATCH --time={}".format(time),
-                          "#SBATCH -p {}".format(','.join(partitions)),
-                          '#SBATCH --constraint="CPU_GEN:HSW|CPU_GEN:BDW|CPU_GEN:SKX"', # plink2 avx2 compatibility
-                          "", plinkCmd]))
-    return batchFile
+       f.write("\n".join([
+           "#!/bin/bash","",
+           "#SBATCH --job-name=RL_GWAS",
+           "#SBATCH --output={}".format(os.path.join(os.path.dirname(batchFile), "rl-gwas.%A-%a.out")),
+           "#SBATCH  --error={}".format(os.path.join(os.path.dirname(batchFile), "rl-gwas.%A-%a.err")),
+           "#SBATCH --cores={}".format(cores),
+           "#SBATCH --mem={}".format(memory),
+           "#SBATCH --time={}".format(time),
+           "#SBATCH -p {}".format(','.join(partitions)),
+           '#SBATCH --constraint="CPU_GEN:HSW|CPU_GEN:BDW|CPU_GEN:SKX"', # plink2 avx2 compatibility
+           "", plinkCmd
+       ]))
+    return(batchFile)
 
 
 def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink1=False, 
@@ -114,123 +159,61 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
         raise ValueError("population must be one of (all, white_british, non_british_white, african, s_asian, e_asian)")
     # paths for running gwas
     pgen_root='/oak/stanford/groups/mrivas/private_data/ukbb/24983/'
-    imp_bfile_path=os.path.join(pgen_root,'imp','pgen','ukb24983_imp_chr${SLURM_ARRAY_TASK_ID}_v3')
-    cal_bfile_path=os.path.join(pgen_root,'cal','pgen','ukb24983_cal_cALL_v2_hg19')
-    exome_spb_path=os.path.join(pgen_root,'exome','pgen','spb','data','ukb_exm_spb')
-    exome_fe_path=os.path.join(pgen_root,'exome','pgen','fe','data','ukb_exm_fe')
-    cnv_bfile_path=os.path.join(pgen_root,'cnv','pgen','cnv') + ' --mac 15'
-    cnv_burden_path=os.path.join(pgen_root,'cnv','pgen','burden')
-    hla_bfile_path=os.path.join(pgen_root,'hla','pgen','ukb_hla_v3')
+    genotype_file={
+        'imputed':            ('pfile_vzs', os.path.join(pgen_root,'imp','pgen','ukb24983_imp_chr${SLURM_ARRAY_TASK_ID}_v3')),
+        'genotyped':          ('bpfile',    os.path.join(pgen_root,'cal','pgen','ukb24983_cal_cALL_v2_hg19')),
+        'array-combined':     ('bpfile',    os.path.join(pgen_root,'array_combined','pgen','ukb24983_cal_hla_cnv')),
+        'array-imp-combined': ('pfile_vzs', os.path.join(pgen_root,'array_imp_combined','pgen','ukb24983_ukb24983_cal_hla_cnv_imp')),
+        'cnv':                ('bpfile',    os.path.join(pgen_root,'cnv','pgen','cnv') + ' --mac 15'),
+        'cnv-burden':         ('bpfile',    os.path.join(pgen_root,'cnv','pgen','burden')),
+        'exome-spb':          ('bpfile',    os.path.join(pgen_root,'exome','pgen','spb','data','ukb_exm_spb')),
+        'exome-fe':           ('bpfile',    os.path.join(pgen_root,'exome','pgen','fe','data','ukb_exm_fe')),
+        'hla':                ('bpfile',    os.path.join(pgen_root,'hla','pgen','ukb_hla_v3'))
+    }
     pheName=os.path.basename(pheFile).split('.')[0]
-    outFile=os.path.join(outDir, 'ukb24983_v2_{0}.{1}{2}.{3}'.format('hg38' if 'exome' in kind else 'hg19', pheName, "_{0}".format(keepSex) if sexDiv else "", kind))
+    outFile=os.path.join(outDir, 'ukb24983_v2_{0}.{1}{2}.{3}'.format(
+        'hg38' if 'exome' in kind else 'hg19', 
+        pheName, 
+        "_{0}".format(keepSex) if sexDiv else "", 
+        kind
+    ))
+    
+    make_plink_command_common_args = {
+        'pheFile' : pheFile,
+        'outDir'  : outDir,
+        'pop'     : pop,
+        'related' : related,
+        'plink1'  : plink1,
+        'cores'   : cores,
+        'memory'  : memory,
+        'sexDiv'  : sexDiv,
+        'keepSex' : keepSex,
+        'keepSexFile' : keepSexFile,
+        'includeX' : includeX
+    }
+    
     # this is where the fun happens
     if kind == 'imputed':
         # needs one array job per chromosome (for compute time), hence the slurm variable
         outFile += '.chr${SLURM_ARRAY_TASK_ID}'
-        cmd = make_plink_command(bpFile  = imp_bfile_path,
-                                 pheFile = pheFile,
-                                 outFile = outFile,
-                                 outDir  = outDir,
-                                 pop     = pop,
-                                 related = related,
-                                 plink1  = plink1,
-                                 cores   = cores,
-                                 memory  = memory,
-                                 arrayCovar = True,
-                                 sexDiv = sexDiv,
-                                 keepSex = keepSex,
-                                 keepSexFile = keepSexFile,
-                                 includeX = includeX)
-    elif kind == 'genotyped': 
-        # needs one plink call with genotyping array a covariate, and one without
-        outFile1 = outFile+'.both_arrays'
-        cmd1 = make_plink_command(bpFile  = cal_bfile_path,
-                                  pheFile = pheFile,
-                                  outFile = outFile1,
-                                  outDir = outDir,
-                                  pop     = pop,
-                                  related = related,
-                                  plink1  = plink1,
-                                  cores   = cores,
-                                  memory  = memory,
-                                  arrayCovar = True,
-                                  sexDiv = sexDiv,
-                                  keepSex = keepSex,
-                                  keepSexFile = keepSexFile, 
-                                  includeX = includeX)
-        outFile2 = outFile+'.one_array'
-        cmd2 = make_plink_command(bpFile  = cal_bfile_path,
-                                  pheFile = pheFile,
-                                  outFile = outFile2,
-                                  outDir  = outDir,
-                                  pop     = pop,
-                                  related = related,
-                                  plink1  = plink1,
-                                  cores   = cores,
-                                  memory  = memory,
-                                  arrayCovar = False,
-                                  sexDiv = sexDiv,
-                                  keepSex = keepSex,
-                                  keepSexFile = keepSexFile, 
-                                  includeX = includeX)
-        # join the plink calls, add some bash at the bottom to combine the output
-        cmd = "\n\n".join([cmd1, cmd2] +  # this is the plink part, below joins the two files
-                          ["if [ -f {0}.*.{3} ]; then cat {0}.*.{3} {1}.*.{3} | sort -k1,1n -k2,2n -u > {2}.{3}; fi".format(
-                               outFile1, outFile2, outFile, suffix) for suffix in ['glm.linear', 'glm.logistic.hybrid']] + 
-                          ["cat {0}.log {1}.log > {2}.log".format(outFile1, outFile2, outFile),
-                           "rm {0}.* {1}.*".format(outFile1, outFile2)])
-    elif kind == 'cnv' or kind == 'cnv-burden':
-        cnv_path = cnv_bfile_path if kind == 'cnv' else cnv_burden_path
-        cmd = make_plink_command(bpFile  = cnv_path,
-                                 pheFile = pheFile,
-                                 outFile = outFile,
-                                 outDir  = outDir,
-                                 pop     = pop,
-                                 related = related,
-                                 plink1  = plink1,
-                                 cores   = cores,
-                                 memory  = memory,
-                                 arrayCovar = False,
-                                 sexDiv = sexDiv,
-                                 keepSex = keepSex,
-                                 keepSexFile = keepSexFile, 
-                                 includeX = includeX) 
+        cmd = make_plink_command(
+            bpFile  = genotype_file[kind],
+            outFile = outFile,
+            maf = 0.005,
+            arrayCovar = True, # why we have array for the imputation?
+            **make_plink_command_common_args
+        )
+    elif kind in ['genotyped', 'array-combined', 'array-imp-combined']:
+        cmd = make_plink_commands_arrayCovar(
+            genotype_file[kind], outFile, make_plink_command_common_args
+        )
     # more usage management, in case someone wants to import the function for use elsewhere
-    elif kind == 'exome-spb' or kind == 'exome-fe':
-        exome_bfile_path = exome_spb_path if kind == 'exome-spb' else exome_fe_path
-        cmd = make_plink_command(bpFile  = exome_bfile_path,
-                                 pheFile = pheFile,
-                                 outFile = outFile,
-                                 outDir  = outDir,
-                                 pop     = pop,
-                                 related = related,
-                                 plink1  = plink1,
-                                 cores   = cores,
-                                 memory  = memory,
-                                 arrayCovar = False,
-                                 sexDiv = sexDiv,
-                                 keepSex = keepSex,
-                                 keepSexFile = keepSexFile, 
-                                 includeX = includeX)
-    elif kind == 'hla':
-        cmd = make_plink_command(bpFile  = hla_bfile_path,
-                                 pheFile = pheFile,
-                                 outFile = outFile,
-                                 outDir  = outDir,
-                                 pop     = pop,
-                                 related = related,
-                                 plink1  = plink1,
-                                 cores   = cores,
-                                 memory  = memory,
-                                 arrayCovar = False,
-                                 sexDiv = sexDiv,
-                                 keepSex = keepSex,
-                                 keepSexFile = keepSexFile, 
-                                 includeX = includeX)
-    elif kind == 'array-imp-combined':
-        pass
-    elif kind == 'array-combined':
-        pass
+    elif kind in ['cnv', 'cnv-burden', 'exome-spb', 'exome-fe', 'hla']:
+        cmd = make_plink_command(
+            bpFile  = genotype_file[kind],
+            outFile = outFile,
+            **make_plink_command_common_args
+        ) 
     else:
         raise ValueError("argument kind must be one of (imputed, genotyped, exome-spb, exome-fe): {0} was provided".format(kind))
     # run immediately, OR make the batch job submission file, then call it with an appropriate array handler
@@ -256,7 +239,6 @@ if __name__ == "__main__":
     )
     parser.add_argument('--plink1', dest='plink1', action='store_true',
                             help='Flag to run GWAS with PLINK v1.9 instead of v2.0')
-
     parser.add_argument('--run-array', dest="arr", action='store_true',
                             help='Run GWAS on directly genotyped (array) data')
     parser.add_argument('--run-exome', dest="ex1", action='store_true',
@@ -275,18 +257,17 @@ if __name__ == "__main__":
                             help='Run GWAS on the array_imp_combined dataset')
     parser.add_argument('--run-array-combined', dest="array_combined", action='store_true',
                             help='Run GWAS on the array_combined dataset')
-
     parser.add_argument('--pheno', dest="pheno", required=True, nargs='*',
                             help='Path to phenotype file(s)')
     parser.add_argument('--out', dest="outDir", required=True, nargs=1,
                             help='Path to desired output *directory*. Summary stats will be output according to phenotype name (derived from passed file) and Rivas Lab specification for GBE. Defaults to current working directory.')
-    parser.add_argument('--population', dest="pop", required=False, default=["white_british"], nargs=1,
+    parser.add_argument('--population', dest="pop", required=False, default="white_british",
                             help='Flag to indicate which ethnic group to use for GWAS. Must be one of all, white_british, non_british_white, e_asian, s_asian, african')
     parser.add_argument('--keep-related', dest="relatives", action='store_true',
                             help='Flag to keep related individuals in GWAS. Default is to remove them.')
-    parser.add_argument('--cores', dest="cores", required=False, default=[None], nargs=1,
+    parser.add_argument('--cores', dest="cores", required=False, default=4, type=int,
                             help='For underlying plink command/batch job submission: Amount of cores to request. Default is 4 cores for batch jobs.')    
-    parser.add_argument('--memory', dest="mem", required=False, default=[None], nargs=1,
+    parser.add_argument('--memory', dest="mem", required=False, default=24000, type=int,
                             help='For underlying plink command/batch job submission: Amount of memory (in MB) to request. Default is 24000 for batch jobs.')
     parser.add_argument('--batch-time', dest="sb_time", required=False, default=["24:00:00"], nargs=1,
                             help='For underlying batch job submission: Amount of time (DD-HH:MM:SS) to request. Default is 24 hours.')
@@ -317,17 +298,11 @@ if __name__ == "__main__":
         raise ValueError("--run-imputed cannot be present in conjunction with --run-now!")
     if (args.sex_div and args.keep_sex == '') or (args.sex_div and args.keep_sex_file == ''):
         raise ValueError("Sex-div analysis is indicated but either the sex to keep or the file for that is missing. Please use --keep-sex and --keep-sex-file to specify both.")
-    # add default parameters to batch job submission
-    if not args.local:
-        if args.cores[0] is None:
-            args.cores[0] = "4"
-        if args.mem[0] is None:
-            args.mem[0] = "24000"
     # lol i hope this works
     for flag,kind in filter(lambda x:x[0], zip(flags,kinds)):
         run_gwas(kind=kind, pheFile=args.pheno[0], outDir=args.outDir[0], 
-                 pop=args.pop[0], related=args.relatives, plink1=args.plink1, 
-                 logDir=args.log[0], cores=args.cores[0], memory=args.mem[0], 
+                 pop=args.pop, related=args.relatives, plink1=args.plink1, 
+                 logDir=args.log[0], cores=args.cores, memory=args.mem,
                  time=args.sb_time[0], partition=args.sb_parti, now=args.local, 
                  sexDiv=args.sex_div, keepSex=args.keep_sex, keepSexFile=args.keep_sex_file,
                  includeX=args.include_x)
