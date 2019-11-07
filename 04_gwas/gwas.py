@@ -227,6 +227,10 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
                                  keepSex = keepSex,
                                  keepSexFile = keepSexFile, 
                                  includeX = includeX)
+    elif kind == 'array-imp-combined':
+        pass
+    elif kind == 'array-combined':
+        pass
     else:
         raise ValueError("argument kind must be one of (imputed, genotyped, exome-spb, exome-fe): {0} was provided".format(kind))
     # run immediately, OR make the batch job submission file, then call it with an appropriate array handler
@@ -252,6 +256,7 @@ if __name__ == "__main__":
     )
     parser.add_argument('--plink1', dest='plink1', action='store_true',
                             help='Flag to run GWAS with PLINK v1.9 instead of v2.0')
+
     parser.add_argument('--run-array', dest="arr", action='store_true',
                             help='Run GWAS on directly genotyped (array) data')
     parser.add_argument('--run-exome', dest="ex1", action='store_true',
@@ -270,6 +275,7 @@ if __name__ == "__main__":
                             help='Run GWAS on the array_imp_combined dataset')
     parser.add_argument('--run-array-combined', dest="array_combined", action='store_true',
                             help='Run GWAS on the array_combined dataset')
+
     parser.add_argument('--pheno', dest="pheno", required=True, nargs='*',
                             help='Path to phenotype file(s)')
     parser.add_argument('--out', dest="outDir", required=True, nargs=1,
@@ -303,8 +309,8 @@ if __name__ == "__main__":
     # TODO: feature add: genotype model  
     print(args) 
     # ensure handler-relevant usage (more insurance is in run_gwas()):
-    flags = [args.imp, args.arr, args.ex1, args.ex2, args.cnva, args.cnvb, args.hla]
-    kinds = ['imputed','genotyped','exome-spb','exome-fe','cnv','cnv-burden', 'hla']
+    flags = [args.imp, args.arr, args.ex1, args.ex2, args.cnva, args.cnvb, args.hla, args.array_imp_combined, args.array_combined]
+    kinds = ['imputed','genotyped','exome-spb','exome-fe','cnv','cnv-burden', 'hla', 'array-imp-combined', 'array-combined']
     if not any(flags):
         raise ValueError("Error: no analysis specified, did you mean to add --run-array?")
     if args.local and args.imp:
