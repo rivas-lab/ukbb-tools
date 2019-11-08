@@ -1,4 +1,4 @@
-Annotator	Annotation date	Name	GBE_ID	TableID	Field	FieldID	QT_total_num	BIN_total_num	QT_index	BIN_index	coding_exclude	coding_QT	coding_binary_case	coding_binary_control	Participants	Stability	ValueType	Units	Strata	Sexed	Instances	Array	Coding	Link	Notes
+Annotator	Annotation date	Name	GBE ID	TableID	Field	FieldID	QT_total_num	BIN_total_num	QT_index	BIN_index	coding_exclude	coding_QT	coding_binary_case	coding_binary_control	Participants	Stability	ValueType	Units	Strata	Sexed	Instances	Array	Coding	Link	Notes
 Guhan	4/9/19	Hayfever_allergic_rhinitis_or_eczema	BIN_FC10006152	9797		6152		12		10	-3		9	"5,6,7,8,-7"									100610	http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=6152	Need expert opinion on combination for cases/controls
 Guhan	4/9/19	Oral_contraceptive_pill_or_minipill	BIN_FC10006153	9797		6153		10		10	"-3,-1"		5	"1,2,3,4,-7"									100626	http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=6153	
 Guhan	4/9/19	Aspirin	BIN_FC1006154	9797		6154		12		1	-3		1	"2,3,4,5,6,-7"									100628	http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=6154	
