@@ -8,5 +8,7 @@ This directory contains documentation and scripts for additional phenotype defin
 - High-confidence phenotypes verified by multiple criteria
 - Physical activity phenotypes obtained from Ashley lab
 - Rohit's phenotypes
+- Intra-ocular_pressure (iop) for Glaucoma project (https://github.com/rivas-lab/ANGPTL7/)
 
 Each one of the above has its own script in its directory that makes the `.info` files for those phenotypes (and a symlink to `../../scripts/annotate_phe.py` in order to import the `make_phe_info` function). Each directory `XXXX` also has a `XXXX_gbe_map.tsv` that maps the names of the phenotypes to the GBE IDs.
+
