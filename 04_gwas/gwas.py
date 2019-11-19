@@ -33,6 +33,11 @@ def filterPopFile(outDir, popFile='', keepSexFile=''):
                     keep_f.write("{0}\t{1}\n".format(filt_iid, filt_iid))
         return popFileSexFiltered
 
+def common_bash_funcs():
+    '''
+    
+    '''
+
 def make_plink_command(bpFile, pheFile, outFile, outDir, pop, cores=None, memory=None, related=False, plink1=False, 
                        variantSubsetStr='', arrayCovar=False, sexDiv=False, keepSex='', keepSexFile='', includeX=False, maf=None):
     # paths to plink genotypes, input phenotypes, output directory are passed
@@ -67,20 +72,20 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, cores=None, memory
         genotypeStr='--pfile {}'.format(bpFile[1])
     else:
         raise ValueError("Error: unsupported genotype file flag ({0})".format(bpFile[0]))
-    
+        
     # paste together the command from constituent parts
     cmd_plink = " ".join([
         "plink" if plink1 else "plink2", 
-        "--threads {0}".format(cores) if cores is not None else "",
-        "--memory {0}".format(memory) if memory is not None else "",
+        f'--threads {cores}' if (cores is not None) else "",
+        f"--memory {memory}" if (memory is not None) else "",
         genotypeStr,
-        "--chr 1-22{0}".format(",X,XY" if includeX else ''),
-        "--maf {0}".format(maf) if (maf is not None) else "",
+        "--chr 1-22" + (",X,XY" if includeX else ""),
+        f"--maf {maf}" if (maf is not None) else "",
         "--pheno", pheFile, "--pheno-quantile-normalize",
         "--glm firth-fallback hide-covar omit-ref",
-        "--keep {0}".format(popFile) if (popFile and not sexDiv) else '', 
-        "--keep {0}".format(popFileSexFiltered) if sexDiv else "", 
-        "--remove {0}".format(unrelatedFile) if unrelatedFile else "",
+        f"--keep {popFile}" if (popFile and not sexDiv) else '', 
+        f"--keep {popFileSexFiltered}" if sexDiv else "", 
+        f"--remove {unrelatedFile}" if unrelatedFile else "",
         variantSubsetStr,
         "--covar", covarFile, 
         "--covar-name age ", "sex " if not sexDiv else "", 
@@ -90,19 +95,16 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, cores=None, memory
         "--covar-variance-standardize --vif 100000000" if pop in ['non_british_white', 'african', 'e_asian', 's_asian'] else "",
         "--out", outFile
     ])
-    cmds_bgzip = [ 
-        f'if [ -f {outFile}.glm.{ending} ] ; then bgzip -l 9 -f {outFile}.glm.{ending} ; fi'
-        for ending in ["logistic.hybrid", "linear"]
+    
+    gwas_sh=os.path.join(os.path.dirname(__file__), '04_gwas_misc.sh')
+    cmds = [
+        f'source {gwas_sh}',
+        cmd_plink,
+        f'post_processing {outFile}'
     ]
-    cmd_log = [
-        f'if [ ! -d {os.path.dirname(outFile)}/logs ] ; then mkdir -p {os.path.dirname(outFile)}/logs ; fi',
-        f'mv {outFile} {os.path.dirname(outFile)}/logs/'
-    ]
-    cmds = [cmd_plink] + cmds_bgzip + cmd_log
-    print(cmds)    
     return("\n\n".join(cmds))
 
-def make_plink_commands_arrayCovar(bpFile, outFile, make_plink_command_common_args):
+def make_plink_commands_arrayCovar(bpFile, outFile, make_plink_command_common_args, cores):
         # needs one plink call with genotyping array a covariate, and one without
         one_array_variants_txt='/oak/stanford/groups/mrivas/private_data/ukbb/24983/sqc/one_array_variants.txt'
         outFile1 = outFile+'.both_arrays'
@@ -121,26 +123,13 @@ def make_plink_commands_arrayCovar(bpFile, outFile, make_plink_command_common_ar
             variantSubsetStr = "--extract {0}".format(one_array_variants_txt),
             **make_plink_command_common_args
         )
-        # join the plink calls, add some bash at the bottom to combine the output        
-        cmd = "\n\n".join(
-            [cmd1, cmd2] +  # this is the plink part, below joins the two files
-            ["if [ -f {0}.*.{3} ]; then zcat {0}.*.{3} {1}.*.{3} | sort -k1,1n -k2,2n -u | bgzip -l 9 > {2}.{3}; fi".format(
-                outFile1, outFile2, outFile, suffix
-            ) for suffix in ['glm.linear.gz', 'glm.logistic.hybrid.gz']] + 
-            ["cat {0}.log {1}.log > {2}.log".format(
-                os.path.join(os.path.dirname(outFile1), 'logs', os.path.basename(outFile1)), 
-                os.path.join(os.path.dirname(outFile2), 'logs', os.path.basename(outFile2)), 
-                os.path.join(os.path.dirname(outFile), 'logs', os.path.basename(outFile))
-            ),
-             "rm {0}.* {1}.*".format(outFile1, outFile2),
-             "rm {0}.log {1}.log".format(
-                os.path.join(os.path.dirname(outFile1), 'logs', os.path.basename(outFile1)), 
-                os.path.join(os.path.dirname(outFile2), 'logs', os.path.basename(outFile2))
-             )
-            ]
-        )
-        return(cmd)
-
+        if(cores is None):
+            cores=1
+        # join the plink calls, add some bash at the bottom to combine the output  
+        return("\n\n".join([
+            cmd2, cmd1,
+            f'combine_two_sumstats {outFile1} {outFile2} {outFile} {cores}'
+        ]))
 
 def make_batch_file(batchFile, plinkCmd, cores, memory, time, partitions):
     with open(batchFile, 'w') as f:
@@ -226,7 +215,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
         )
     elif kind in ['genotyped', 'array-combined', 'array-imp-combined']:
         cmd = make_plink_commands_arrayCovar(
-            genotype_file[kind], outFile, make_plink_command_common_args
+            genotype_file[kind], outFile, make_plink_command_common_args, cores
         )
     # more usage management, in case someone wants to import the function for use elsewhere
     elif kind in ['cnv', 'cnv-burden', 'exome-spb', 'exome-fe', 'hla']:

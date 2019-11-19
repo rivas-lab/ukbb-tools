@@ -1,10 +1,85 @@
 #!/bin/bash
 set -beEuo pipefail
 
+#########################################################
+# Common helper functions
+#########################################################
+
 cat_or_zcat () {
     local file=$1
     if [ ${file%.gz}.gz == ${file} ] ; then zcat ${file} ; else cat ${file} ; fi
 }
+
+#########################################################
+# Helper functions used in gwas.py
+#########################################################
+
+find_file () {
+    local filePrefix=$1
+    
+    find $(dirname $filePrefix) -name "$(basename $filePrefix)*glm*"
+}
+
+find_suffix () {
+    local filePrefix=$1
+    
+    find_file $filePrefix | sed -e "s%${filePrefix}.%%"
+}
+
+mv_glm_file () {
+    local filePrefix=$1
+    
+    mv $(find_file $filePrefix) $filePrefix.$(find_suffix $filePrefix | cut -d'.' -f2-)
+}
+
+apply_bgzip () {
+    local filePrefix=$1
+    
+    local sumstats=$(find_file $filePrefix)
+    if [ "${sumstats%.gz}.gz" != ${sumstats} ] ; then bgzip -l 9 ${sumstats} ; fi
+}
+
+get_log_filename () {
+    local filePrefix=$1
+    
+    echo "$(dirname ${filePrefix})/log/$(basename ${filePrefix}).log"
+}
+
+post_processing () {
+    local filePrefix=$1
+    
+    local logFile=$(get_log_filename ${filePrefix})
+    if [ ! -d $(dirname ${logFile}) ] ; then mkdir -p $(dirname ${logFile}) ; fi
+    mv ${filePrefix}.log ${logFile}
+    mv_glm_file $filePrefix
+    apply_bgzip $filePrefix
+}
+
+combine_two_sumstats () {
+# combine two summary statistics (as well as the corresponding log files)
+    local inFile1Prefix=$1
+    local inFile2Prefix=$2
+    local outFilePrefix=$3
+    
+    if [ $# -gt 3 ] ; then threads=$4 ; else threads=1 ; fi
+    
+    local file1=$(find_file $inFile1Prefix)
+    local file2=$(find_file $inFile2Prefix)    
+    local ending=$(find_suffix $inFile1Prefix)
+
+    cat $(get_log_filename ${inFile1Prefix}) $(get_log_filename ${inFile2Prefix}) > $(get_log_filename ${outFilePrefix})
+    rm $(get_log_filename ${inFile1Prefix}) $(get_log_filename ${inFile2Prefix})
+
+    { 
+    zcat $file1 | egrep '^#' #header
+    zcat $file1 $file2 | egrep -v '^#' | sort -k1,1V -k2,2n -u --parallel=${threads}
+    } | bgzip -l 9 > ${outFilePrefix}.${ending%.gz}.gz
+    rm $file1 $file2
+}
+
+#########################################################
+# Common helper functions
+#########################################################
 
 phe_path_to_gwas_path () {
     local phe_path=$1
