@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/env python3
 import os
 from random import randint
 _README_='''
@@ -69,7 +69,7 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, cores=None, memory
         raise ValueError("Error: unsupported genotype file flag ({0})".format(bpFile[0]))
     
     # paste together the command from constituent parts
-    return (" ".join([
+    cmd_plink = " ".join([
         "plink" if plink1 else "plink2", 
         "--threads {0}".format(cores) if cores is not None else "",
         "--memory {0}".format(memory) if memory is not None else "",
@@ -89,7 +89,18 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, cores=None, memory
         "N_CNV LEN_CNV --covar-variance-standardize" if is_cnv_burden else "PC5-PC10 FastingTime --covar-variance-standardize" if is_biomarker_binary else "",
         "--covar-variance-standardize --vif 100000000" if pop in ['non_british_white', 'african', 'e_asian', 's_asian'] else "",
         "--out", outFile
-    ]))
+    ])
+    cmds_bgzip = [ 
+        f'if [ -f {outFile}.glm.{ending} ] ; then bgzip -l 9 -f {outFile}.glm.{ending} ; fi'
+        for ending in ["logistic.hybrid", "linear"]
+    ]
+    cmd_log = [
+        f'if [ ! -d {os.path.dirname(outFile)}/logs ] ; then mkdir -p {os.path.dirname(outFile)}/logs ; fi',
+        f'mv {outFile} {os.path.dirname(outFile)}/logs/'
+    ]
+    cmds = [cmd_plink] + cmds_bgzip + cmd_log
+    print(cmds)    
+    return("\n\n".join(cmds))
 
 def make_plink_commands_arrayCovar(bpFile, outFile, make_plink_command_common_args):
         # needs one plink call with genotyping array a covariate, and one without
@@ -113,11 +124,20 @@ def make_plink_commands_arrayCovar(bpFile, outFile, make_plink_command_common_ar
         # join the plink calls, add some bash at the bottom to combine the output        
         cmd = "\n\n".join(
             [cmd1, cmd2] +  # this is the plink part, below joins the two files
-            ["if [ -f {0}.*.{3} ]; then cat {0}.*.{3} {1}.*.{3} | sort -k1,1n -k2,2n -u > {2}.{3}; fi".format(
+            ["if [ -f {0}.*.{3} ]; then zcat {0}.*.{3} {1}.*.{3} | sort -k1,1n -k2,2n -u | bgzip -l 9 > {2}.{3}; fi".format(
                 outFile1, outFile2, outFile, suffix
-            ) for suffix in ['glm.linear', 'glm.logistic.hybrid']] + 
-            ["cat {0}.log {1}.log > {2}.log".format(outFile1, outFile2, outFile),
-             "rm {0}.* {1}.*".format(outFile1, outFile2)]
+            ) for suffix in ['glm.linear.gz', 'glm.logistic.hybrid.gz']] + 
+            ["cat {0}.log {1}.log > {2}.log".format(
+                os.path.join(os.path.dirname(outFile1), 'logs', os.path.basename(outFile1)), 
+                os.path.join(os.path.dirname(outFile2), 'logs', os.path.basename(outFile2)), 
+                os.path.join(os.path.dirname(outFile), 'logs', os.path.basename(outFile))
+            ),
+             "rm {0}.* {1}.*".format(outFile1, outFile2),
+             "rm {0}.log {1}.log".format(
+                os.path.join(os.path.dirname(outFile1), 'logs', os.path.basename(outFile1)), 
+                os.path.join(os.path.dirname(outFile2), 'logs', os.path.basename(outFile2))
+             )
+            ]
         )
         return(cmd)
 
@@ -135,22 +155,23 @@ def make_batch_file(batchFile, plinkCmd, cores, memory, time, partitions):
            "#SBATCH --time={}".format(time),
            "#SBATCH -p {}".format(','.join(partitions)),
            '#SBATCH --constraint="CPU_GEN:HSW|CPU_GEN:BDW|CPU_GEN:SKX"', # plink2 avx2 compatibility
+           'set -beEuo pipefail',
            "", plinkCmd
        ]))
     return(batchFile)
 
 
 def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink1=False, 
-             logDir='', cores="4", memory="24000", time="1-00:00:00", partition=["normal","owners"], now=False,
+             logDir=None, cores="4", memory="24000", time="1-00:00:00", partition=["normal","owners"], now=False,
              sexDiv=False, keepSex='', keepSexFile='', includeX=False):
     # ensure usage
     if not os.path.isfile(pheFile):
         raise ValueError("Error: phenotype file {0} does not exist!".format(pheFile))
     if not os.path.isdir(outDir):
         raise ValueError("output directory {0} does not exist!".format(outDir))
-    if not os.path.isdir(logDir):
-        print("Warning: Logging directory either does not exist or was unspecified. Defaulting to {0}...".format(os.getcwd()))
+    if ((logDir is None) or (not os.path.isdir(logDir))):
         logDir=os.getcwd()
+        print(f'Warning: Logging directory either does not exist or was unspecified. Defaulting to {logDir}...')
     if sexDiv and not os.path.isfile(keepSexFile):
         raise ValueError("Error: keep sex file {0} does not exist!".format(keepSexFile))
     if sexDiv and kind != "genotyped":
@@ -218,8 +239,9 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
         raise ValueError("argument kind must be one of (imputed, genotyped, exome-spb, exome-fe): {0} was provided".format(kind))
     # run immediately, OR make the batch job submission file, then call it with an appropriate array handler
     if now:
-        print("Running the below: \n'''\n" + cmd + "\n'''\n") 
-        os.system(cmd)
+        now_cmd = '\n\n'.join(['set -beEuo pipefail', cmd])
+        print("Running the below: \n'''\n" + now_cmd + "\n'''\n") 
+        os.system(now_cmd)
     else:
         sbatch = make_batch_file(batchFile = os.path.join(logDir, "gwas.{0}.{1}.sbatch.sh".format(kind,pheName)),
                                  plinkCmd  = cmd,
@@ -257,9 +279,9 @@ if __name__ == "__main__":
                             help='Run GWAS on the array_imp_combined dataset')
     parser.add_argument('--run-array-combined', dest="array_combined", action='store_true',
                             help='Run GWAS on the array_combined dataset')
-    parser.add_argument('--pheno', dest="pheno", required=True, nargs='*',
-                            help='Path to phenotype file(s)')
-    parser.add_argument('--out', dest="outDir", required=True, nargs=1,
+    parser.add_argument('--pheno', dest="pheno", required=True,
+                            help='Path to a phenotype file')
+    parser.add_argument('--out', dest="outDir", required=True, 
                             help='Path to desired output *directory*. Summary stats will be output according to phenotype name (derived from passed file) and Rivas Lab specification for GBE. Defaults to current working directory.')
     parser.add_argument('--population', dest="pop", required=False, default="white_british",
                             help='Flag to indicate which ethnic group to use for GWAS. Must be one of all, white_british, non_british_white, e_asian, s_asian, african')
@@ -269,11 +291,11 @@ if __name__ == "__main__":
                             help='For underlying plink command/batch job submission: Amount of cores to request. Default is 4 cores for batch jobs.')    
     parser.add_argument('--memory', dest="mem", required=False, default=24000, type=int,
                             help='For underlying plink command/batch job submission: Amount of memory (in MB) to request. Default is 24000 for batch jobs.')
-    parser.add_argument('--batch-time', dest="sb_time", required=False, default=["24:00:00"], nargs=1,
+    parser.add_argument('--batch-time', dest="sb_time", required=False, default="24:00:00",
                             help='For underlying batch job submission: Amount of time (DD-HH:MM:SS) to request. Default is 24 hours.')
     parser.add_argument('--batch-partitions', dest="sb_parti", required=False, default=["normal","owners"], nargs='*',
                             help='For underlying batch job submission: Compute partition to submit jobs. Default is normal,owners.')
-    parser.add_argument('--log-dir', dest="log", required=False, nargs=1, default=[''],
+    parser.add_argument('--log-dir', dest="log", required=False, default=None,
                             help="Directory in which to place log files from this script and its related SLURM jobs. Default is current working directory.")
     parser.add_argument('--run-now', dest="local", action='store_true',
                             help='Flag to run GWAS immediately, on the local machine, rather than submitting a script with sbatch. Not available for use with --run-imputed.')
@@ -298,11 +320,10 @@ if __name__ == "__main__":
         raise ValueError("--run-imputed cannot be present in conjunction with --run-now!")
     if (args.sex_div and args.keep_sex == '') or (args.sex_div and args.keep_sex_file == ''):
         raise ValueError("Sex-div analysis is indicated but either the sex to keep or the file for that is missing. Please use --keep-sex and --keep-sex-file to specify both.")
-    # lol i hope this works
     for flag,kind in filter(lambda x:x[0], zip(flags,kinds)):
-        run_gwas(kind=kind, pheFile=args.pheno[0], outDir=args.outDir[0], 
+        run_gwas(kind=kind, pheFile=os.path.realpath(args.pheno), outDir=args.outDir,
                  pop=args.pop, related=args.relatives, plink1=args.plink1, 
-                 logDir=args.log[0], cores=args.cores, memory=args.mem,
-                 time=args.sb_time[0], partition=args.sb_parti, now=args.local, 
+                 logDir=args.log, cores=args.cores, memory=args.mem,
+                 time=args.sb_time, partition=args.sb_parti, now=args.local, 
                  sexDiv=args.sex_div, keepSex=args.keep_sex, keepSexFile=args.keep_sex_file,
                  includeX=args.include_x)
