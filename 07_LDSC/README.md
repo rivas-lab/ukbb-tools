@@ -6,8 +6,8 @@ We compute genetic parameters by [LD score regression (LDSC)](https://github.com
 
 The results of LDSC are written in the following directories:
 
-- `$OAK/dev-ukbb-tools/ldsc/h2`: Estimated heritability ($h^2$)
-- `$OAK/dev-ukbb-tools/ldsc/munged`: "Munged" summary statistics. This directory contains summary statistics files in a format that can be used for LDSC (In fact we call [LDSC's `munge_sumstats.py`](https://github.com/bulik/ldsc/blob/master/munge_sumstats.py)) to generate these "munged" files.
+- `$OAK/projects/ukbb-tools-ldsc/h2`: Estimated heritability ($h^2$)
+- `$OAK/projects/ukbb-tools-ldsc/munged`: "Munged" summary statistics. This directory contains summary statistics files in a format that can be used for LDSC (In fact we call [LDSC's `munge_sumstats.py`](https://github.com/bulik/ldsc/blob/master/munge_sumstats.py)) to generate these "munged" files.
 - `/oak/stanford/groups/mrivas/projects/h2-estimation/private_output/ukb_ld_scores/TWINSUK`: LD score files. We use these LD score files for White British samples in the UK Biobank. These files are computed from other project ([Genetic parameter estimation project in the Rivas lab](https://github.com/rivas-lab/genetic-parameter-estimation)).
 
 ## Relevant info

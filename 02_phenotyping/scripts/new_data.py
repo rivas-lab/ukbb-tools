@@ -18,22 +18,30 @@ Actions:
     c. Optionally, suppress either of the above with flags described below.
 
 Authors: Matthew Aguirre and Guhan Venkataraman(SUNETs: magu and guhan)
+Updated: 2019/10/30
 """
 
 # TODO: add flag to update master phenotype file
 
-def find_new_data(new_f, old_f, make_table):
-    # get new fields
-    complete_new_df = pd.read_table(new_f, sep="\t", index_col='f.eid')
-    new_df_col = set([s.split('.')[1] for s in complete_new_df.columns])
-    if os.path.exists(old_f):
-        complete_old_df = pd.read_table(old_f, sep="\t", index_col='f.eid')
-        old_df_col = set([s.split('.')[1] for s in complete_old_df.columns]) 
-        old_fields = {i for i in iter(new_df_col) if i in old_df_col}
-    else:
+def find_new_data(new_f, old_f, make_table, force_new=False):
+    if(force_new):
+        complete_new_header_df = pd.read_table(new_f, sep="\t", index_col='f.eid', nrows=1)
+        new_df_col = set([s.split('.')[1] for s in complete_new_header_df.columns])
         old_df_col = set()
         old_fields = {}
-    new_fields = {i for i in iter(new_df_col) if i not in old_df_col}
+    else:
+        # get new fields
+        complete_new_df = pd.read_table(new_f, sep="\t", index_col='f.eid')
+        new_df_col = set([s.split('.')[1] for s in complete_new_df.columns])
+        if os.path.exists(old_f):
+            complete_old_df = pd.read_table(old_f, sep="\t", index_col='f.eid')
+            old_df_col = set([s.split('.')[1] for s in complete_old_df.columns]) 
+            old_fields = {i for i in iter(new_df_col) if i in old_df_col}
+        else:
+            old_df_col = set()
+            old_fields = {}
+            
+    new_fields = {i for i in iter(new_df_col) if i not in old_df_col}        
     print("New fields:\n" + "\n".join(iter(new_fields)))
     # make table for computing session with showcase_and_list_to_tsv 
     if len(new_fields) != 0 and make_table:
@@ -99,9 +107,12 @@ def update_summary_stats(phe_files):
     return
 
 def update_symlinks(in_b, new_dir):
-    for root_dir in ['/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/',
-                     '/oak/stanford/groups/mrivas/ukbb24983/cal/gwas', 
-                     '/oak/stanford/groups/mrivas/ukbb24983/imp/gwas']
+    root_dirs=[
+        '/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/',
+        '/oak/stanford/groups/mrivas/ukbb24983/cal/gwas',
+        '/oak/stanford/groups/mrivas/ukbb24983/imp/gwas'
+    ]
+    for root_dir in root_dirs:
         old_dir = os.path.join(root_dir, in_b, 'current')
         for root, dirs, files in os.walk(old_dir):
             for subdir in dirs:
@@ -120,7 +131,9 @@ if __name__ == "__main__":
     parser.add_argument('--table', dest='table', required=True,
                         help='input table id/path')
     parser.add_argument('--old-table', dest='old_table', required=False, default=None,
-                        help='old table id/path')   
+                        help='old table id/path')
+    parser.add_argument('--force-new', dest='force_new', action='store_true', default=False,
+                        help='treat the table as a new table and perform a full update')
     parser.add_argument('--no-update', dest='no_update', action='store_true', default=False,
                         help='flag to not automagically update phenotypes or run array gwas')
     parser.add_argument('--no-gwas', dest='no_gwas', action='store_true', default=False,
@@ -133,28 +146,29 @@ if __name__ == "__main__":
     # 1. determine if table is new 
     in_b = args.basket
     if os.path.exists(args.table):
-        new_f = args.table
+        new_f = os.path.abspath(args.table)
     else:
-        new_f = os.path.join("/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/",
-                             in_b, args.table, "download", 'ukb'+args.table+'.tab')
+        new_f = os.path.abspath(os.path.join("/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/",
+                             in_b, args.table, "download", 'ukb'+args.table+'.tab'))
         if not os.path.exists(new_f):
             raise OSError("Could not find input file {0}".format(new_f))
     # 2. determine which table to compare input to 
     if args.old_table:
         if os.path.exists(args.old_table):
-            old_f = args.old_table
+            old_f = os.path.abspath(args.old_table)
         else:
-            old_f = os.path.join("/oak/stanford/groups/mrivas/ukbb24983/phenotypedata", in_b, args.old_table, "download", "raw.tsv")
+            old_f = os.path.abspath(os.path.join("/oak/stanford/groups/mrivas/ukbb24983/phenotypedata", in_b, args.old_table, "download", "raw.tsv"))
     else:
-        old_f = os.path.join("/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/", in_b, "current", "download", "raw.tsv")
+        old_f = os.path.abspath(os.path.join("/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/", in_b, "current", "download", "raw.tsv"))
     print("Analyzing new table for basket {0}:\n {1}...\n".format(in_b, new_f))
     
-    if not os.path.exists(old_f):
+    if ((not os.path.exists(old_f)) or (old_f == new_f)):
         print("could not find existing table for basket {0}, assuming this is a new basket!\n".format(in_b))
       
     # 3. diff files to get new (printed/written to file) and updated fields (stored as variable)
-    fields = find_new_data(new_f=new_f, old_f=old_f, make_table=not args.no_table)
+    fields = find_new_data(new_f=new_f, old_f=old_f, make_table=not args.no_table, force_new=args.force_new)
     print(fields)
+    
     # 4. update phenotypes
     if not args.no_update:
         phe_files = update_phenos(fields=fields, 
@@ -167,4 +181,4 @@ if __name__ == "__main__":
     if not args.no_gwas and phe_files:
         update_summary_stats(phe_files)
     # 6. update symlink
-    update_symlinks(in_b, os.dirname(os.dirname(new_f)))
+    update_symlinks(in_b, os.path.dirname(os.path.dirname(new_f)))
