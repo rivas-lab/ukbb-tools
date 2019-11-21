@@ -190,8 +190,8 @@ def return_BF_pvals(beta, U, v_beta, v_beta_inv, fb, dm, im, methods):
     if np.any(np.isnan(A)):
         return [np.nan] * len(methods)
     A_inv = np.linalg.inv(A)
-    quad_T = beta.T * (v_beta_inv - A_inv) * beta
-    B = is_pos_def_and_full_rank(np.eye(n) - A_inv * v_beta)
+    quad_T = np.asmatrix(beta.T) * np.asmatrix((v_beta_inv - A_inv)) * np.asmatrix(beta)
+    B = is_pos_def_and_full_rank(npm.eye(n) - np.asmatrix(A_inv) * np.asmatrix(v_beta))
     if np.any(np.isnan(B)):
         return [np.nan] * len(methods)
     d = np.linalg.eig(B)[0]
@@ -275,7 +275,7 @@ def return_BF(
     U_inv = safe_inv(U, "U", block, agg_type)
     if v_beta_inv is not np.nan and U_inv is not np.nan:
         A2 = U_inv + v_beta_inv
-        b2 = v_beta_inv * beta
+        b2 = np.asmatrix(v_beta_inv) * np.asmatrix(beta)
         try:
             Abinv = np.linalg.lstsq(A2, b2, rcond=-1)[0]
         except LinAlgError as err:
