@@ -196,7 +196,6 @@ def return_BF_pvals(beta, U, v_beta, v_beta_inv, fb, dm, im, methods):
         return [np.nan] * len(methods)
     d = np.linalg.eig(B)[0]
     d = [i for i in d if i > 0.01]
-    methods = ["imhof", "davies", "farebrother"]
     p_values = []
     for method in methods:
         if method == "farebrother":
@@ -812,9 +811,9 @@ def loop_through_parameters(
             + "..."
             + Style.RESET_ALL
         )
-        bf_dfs = []
         maf_df = df[(df.maf <= maf_thresh) & (df.maf > 0)]
         for agg_type in agg:
+            bf_dfs = []
             # If not aggregating, then R_var choice does not affect BF
             if (agg_type == "variant") and (len(R_var_models) > 1):
                 print(
@@ -860,7 +859,7 @@ def loop_through_parameters(
                                 ascending=False,
                             )
                             bf_dfs.append(bf_df)
-        output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, out_folder)
+            output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, out_folder)
 
 
 def set_sigmas(df):
@@ -977,13 +976,13 @@ def get_betas(df, pop1, pheno1, pop2, pheno2, mode):
         return [], []
     if mode == "null":
         df = df[
-            (df["P_" + pop1 + "_" + pheno1] >= 1e-2)
-            & (df["P_" + pop2 + "_" + pheno2] >= 1e-2)
+            (df["P_" + pop1 + "_" + pheno1].astype(float) >= 1e-2)
+            & (df["P_" + pop2 + "_" + pheno2].astype(float) >= 1e-2)
         ]
     elif mode == "sig":
         df = df[
-            (df["P_" + pop1 + "_" + pheno1] < 1e-5)
-            | (df["P_" + pop2 + "_" + pheno2] < 1e-5)
+            ((df["P_" + pop1 + "_" + pheno1].astype(float) <= 1e-5)
+            | (df["P_" + pop2 + "_" + pheno2].astype(float) <= 1e-5))
         ]
     beta1 = list(df["BETA_" + pop1 + "_" + pheno1])
     beta2 = list(df["BETA_" + pop2 + "_" + pheno2])
@@ -1110,7 +1109,7 @@ def build_R_phen(S, K, pops, phenos, df, map_file):
     if K == 1:
         return np.ones((K, K))
     df, pop_pheno_tuples = filter_for_phen_corr(df, map_file)
-    if not df:
+    if len(df) == 0:
         print("")
         print(Fore.RED + "WARNING: No files specified for R_phen generation.")
         print("Assuming independent effects." + Style.RESET_ALL)
@@ -1408,7 +1407,7 @@ def read_in_summary_stat(subset_df, pop, pheno):
     # Filter for SE as you read it in
     df = rename_columns(df, pop, pheno)
     df = df[df["SE" + "_" + pop + "_" + pheno].notnull()]
-    df = df[df["SE" + "_" + pop + "_" + pheno] <= 0.5]
+    df = df[df["SE" + "_" + pop + "_" + pheno].astype(float) <= 0.5]
     return df
 
 
