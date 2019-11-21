@@ -28,7 +28,7 @@ source "${helper_src_dir}/3-0_merge_misc.sh"
 ##############
 
 merge_list_tsv=$1
-out="/oak/stanford/groups/mrivas/ukbb/24983/array_imp_combined/pgen/ukb24983_ukb24983_cal_hla_imp/ukb24983_ukb24983_cal_hla_imp"
+out="/oak/stanford/groups/mrivas/ukbb/24983/array_imp_combined_no_cnv/pgen/ukb24983_ukb24983_cal_hla_imp"
 
 plink_opts="--memory 40000 --threads ${cores}"
 tmp_merge_list=${tmp_dir}/merge.lst
