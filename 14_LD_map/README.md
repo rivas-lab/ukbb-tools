@@ -11,11 +11,8 @@ The first two files are the results of LD pruning.
 
 The last one is the output from `--r2`.
 
-## some scripts in this directory
+## datasets
 
-### `imp_v3_ldmap.sbatch.sh` 
-This is a job script to compute LD map for imputation dataset
-
-### `imp_v3_ldmap.check.sh`
-This is a check script to see if we have the results
+- `array_imp_combined_no_cnv`: the LD map for the combined dataset of array (cal) + HLA + imputation (v3) (no CNV).
+- `imp_v3_ldmap`: an initial attempt to make LD map for the imputed dataset. This is not useful.
 
