@@ -2,23 +2,25 @@
  
 #SBATCH  --job-name=gbe
 #SBATCH    --output=logs/test_paths.%A_%a.out
-#SBATCH       --mem=16000
-#SBATCH      --time=1-00:00:00
-#SBATCH --partition=normal,owners
+#SBATCH     --error=logs/test_paths.%A_%a.err
+#SBATCH       --mem=24000
+#SBATCH      --time=7-00:00:00
+#SBATCH --partition=mrivas,normal
 
 ml load plink2
 
 # step 0: identify phenotype for processing
-pheno_index=$(expr ${SLURM_ARRAY_TASK_ID} - 1)
+pheno_index=$(expr ${SLURM_ARRAY_TASK_ID:=1} - 1)
 
 # step 1: process phenotypes from input table
-tsv_in="../02_phenotyping/tables/ukb_20171015.tsv"
+#tsv_in="../02_phenotyping/tables/ukb_20191110.tsv"
+tsv_in="../02_phenotyping/tables/ukb_20191110_priority_1.tsv"
 gbe_input_tsv="../02_phenotyping/tables/gbe_sh_input_params.tsv"
 
 # look for table in reference above, throw error if it isn't
 tsv_name="$(basename $tsv_in)"
 relevant_row="$(grep $tsv_name $gbe_input_tsv)"
-if [ -z $relevant_row ]; then
+if [ -z "${relevant_row}" ]; then
     echo "Could not find input table ${tsv_name} in reference table ${gbe_input_tsv}!"
     exit 2
 fi
@@ -31,7 +33,7 @@ caseCol="$(cut -d' ' -f5 <<< $relevant_row)"  # Binary case codes
 ctrlCol="$(cut -d' ' -f6 <<< $relevant_row)"  # Binary control codes
 exclCol="$(cut -d' ' -f7 <<< $relevant_row)"  # Quantitative values to mark as missing
 orderCol="$(cut -d' ' -f8 <<< $relevant_row)" # Order of quantitative values (least to greatest) in categorical fields 
-descCol="$(cut -d' ' -f9 <<< $relevant_row)"   # String description of input phenotype (e.g. "Standing_height")
+descCol="$(awk '{print $9}' <<< $relevant_row)"   # String description of input phenotype (e.g. "Standing_height")
 
 # step 2. handle output directory for gwas - this gets appended to later
 gwasDir="/oak/stanford/groups/mrivas/ukbb24983/cal/gwas/"

@@ -1,5 +1,23 @@
 This is a holding tank for tables we've made at previous computing sessions. Links to the Google Spreadsheets for each of the above tables are below. 
 
+## current table
+
+- [ukb_20191110.tsv](http://bit.ly/ukb_20191110)
+  - We performed the merge with the existing annotation tables.
+  - For the new UKB fields, we asked Manny to annotate the priority (Priority = 1).
+- ukb_20191110_priority_1.tsv (subset of ukb_20191110)
+  - To generate `phe` files for the existing ones and the annotated new fields, we exported the subset (see below):
+- [ukb_20191206.tsv](http://bit.ly/ukb_20191206)
+  - This is a folk of the `20191110` table.
+  - We will annotate the phenotypes for those marked as priority = 2.
+
+
+```
+cat ukb_20191110.tsv | awk 'NR==1 || $5 != ""' > ukb_20191110_priority_1.tsv
+```
+
+## older tables
+
 [2017-07-27](https://docs.google.com/spreadsheets/d/1cvRNHh9f2o89m_33VsnOABCgekBaaUz_Ron9YHEpC60/edit?usp=sharing)
 
 [2017-08-18](https://docs.google.com/spreadsheets/d/1bw2UZrh4k7hQBgkyKUina99ycyDzRxYcALJGc-BZjjs/edit#gid=103327750)
@@ -23,3 +41,6 @@ Want info on how to define [phenotypes](https://github.com/rivas-lab/ukbb-tools/
 Want more info on the phenotypes, or on what we have access to in the UK Biobank? You can answer most of those questions with our annotated copy of the [Data Showcase](https://docs.google.com/spreadsheets/d/103waV0b6J8RC9Z9hq0A2ooIjh9BGJQYITuBAVjQouyo).
 
 To see the release dates of each table, you can check here: https://github.com/rivas-lab/ukbb24983wiki/blob/master/AMS/README.md
+
+
+
