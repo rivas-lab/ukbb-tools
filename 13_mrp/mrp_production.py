@@ -1714,7 +1714,7 @@ if __name__ == "__main__":
 
     """
 
-    with open("../05_gbe/phenotype_info.tsv", "r") as phe_file:
+    with open("/oak/stanford/groups/mrivas/users/guhan/repos/ukbb-tools/05_gbe/phenotype_info.tsv", "r") as phe_file:
         valid_phenos = [line.split()[0] for line in phe_file][1:]
     import os
 
