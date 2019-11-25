@@ -19,3 +19,22 @@ gcta_grm_part () {
         --out ${out}
 }
 
+gcta_grm_combine () {
+    local pop=$1
+    local part="/oak/stanford/groups/mrivas/ukbb24983/cal/grm/part/ukb24983_cal_cALL_v2_hg19.${pop}"
+    local out="/oak/stanford/groups/mrivas/ukbb24983/cal/grm/ukb24983_cal_cALL_v2_hg19.${pop}"
+
+    local n_parts=1000
+
+    for ext in log grm.id grm.bin grm.N.bin ; do
+        for i in $(seq -w $n_parts) ; do
+            file_part="${part}.part_${n_parts}_${i}.${ext}"
+            if [ -f ${file_part} ] ; then
+                cat ${file_part}
+            else
+                echo [warning] missing_file: ${file_part} >&2
+            fi
+        done > ${out}.${ext}
+    done
+}
+
