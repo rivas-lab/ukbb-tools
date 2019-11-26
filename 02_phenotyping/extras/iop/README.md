@@ -38,5 +38,5 @@ f.5263.1.0      f       5263    1       0
 
 We defined the followings
 
-- `INI2005254`: Intra-ocular_pressure,_corneal-compensated
-- `INI2005255`: Intra-ocular_pressure,_Goldmann-correlated 
+- `INI2005254`: Intra-ocular_pressure,_corneal-compensated_(median)
+- `INI2005255`: Intra-ocular_pressure,_Goldmann-correlated_(median)
