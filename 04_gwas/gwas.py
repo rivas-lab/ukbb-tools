@@ -33,12 +33,17 @@ def filterPopFile(outDir, popFile='', keepSexFile=''):
                     keep_f.write("{0}\t{1}\n".format(filt_iid, filt_iid))
         return popFileSexFiltered
 
-def common_bash_funcs():
-    '''
-    
-    '''
 
-def make_plink_command(bpFile, pheFile, outFile, outDir, pop, cores=None, memory=None, related=False, plink1=False, 
+def updateKeepFile(outDir, keepFile=None, pop=None, sexDiv=False, keepSexFile=''):
+    if(pop is None or pop == 'all'):
+        keepFile=None
+    else:
+        keepFile=os.path.join(qcDir,'population_stratification','ukb24983_{}.phe'.format(pop))
+    if sexDiv:
+        keepFile=filterPopFile(outDir, keepFile, keepSexFile)
+    return(keepFile)
+
+def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cores=None, memory=None, related=False, plink1=False, 
                        variantSubsetStr='', arrayCovar=False, sexDiv=False, keepSex='', keepSexFile='', includeX=False, maf=None):
     # paths to plink genotypes, input phenotypes, output directory are passed
     qcDir         = '/oak/stanford/groups/mrivas/ukbb24983/sqc/'
@@ -58,6 +63,7 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, cores=None, memory
     else:
         covarFile = os.path.join(qcDir, 'ukb24983_GWAS_covar.phe')
     
+    keepFile=updateKeepFile(outDir, keepFile=None, pop=None, sexDiv=False, keepSexFile='')
     # filter the population file to only contain IIDs of the specified sex
     if sexDiv:
         popFileSexFiltered=filterPopFile(outDir, popFile, keepSexFile)
@@ -274,6 +280,8 @@ if __name__ == "__main__":
                             help='Path to desired output *directory*. Summary stats will be output according to phenotype name (derived from passed file) and Rivas Lab specification for GBE. Defaults to current working directory.')
     parser.add_argument('--population', dest="pop", required=False, default="white_british",
                             help='Flag to indicate which ethnic group to use for GWAS. Must be one of all, white_british, non_british_white, e_asian, s_asian, african')
+    parser.add_argument('--keep', dest="keep", required=False, default=None,
+                            help='A file that specifies the list of individuals for GWAS. It can be overwritten by sex-specific subcommands')
     parser.add_argument('--keep-related', dest="relatives", action='store_true',
                             help='Flag to keep related individuals in GWAS. Default is to remove them.')
     parser.add_argument('--cores', dest="cores", required=False, default=4, type=int,
@@ -311,7 +319,7 @@ if __name__ == "__main__":
         raise ValueError("Sex-div analysis is indicated but either the sex to keep or the file for that is missing. Please use --keep-sex and --keep-sex-file to specify both.")
     for flag,kind in filter(lambda x:x[0], zip(flags,kinds)):
         run_gwas(kind=kind, pheFile=os.path.realpath(args.pheno), outDir=args.outDir,
-                 pop=args.pop, related=args.relatives, plink1=args.plink1, 
+                 pop=args.pop, keepFile=args.keep, related=args.relatives, plink1=args.plink1, 
                  logDir=args.log, cores=args.cores, memory=args.mem,
                  time=args.sb_time, partition=args.sb_parti, now=args.local, 
                  sexDiv=args.sex_div, keepSex=args.keep_sex, keepSexFile=args.keep_sex_file,
