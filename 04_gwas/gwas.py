@@ -39,7 +39,7 @@ def common_bash_funcs():
     '''
 
 def make_plink_command(bpFile, pheFile, outFile, outDir, pop, cores=None, memory=None, related=False, plink1=False, 
-                       variantSubsetStr='', arrayCovar=False, sexDiv=False, keepSex='', keepSexFile='', includeX=False, maf=None):
+                       variantSubsetStr='', arrayCovar=False, sexDiv=False, keepSex='', keepSexFile='', includeX=False, maf=None, rmadd=''):
     # paths to plink genotypes, input phenotypes, output directory are passed
     qcDir         = '/oak/stanford/groups/mrivas/ukbb24983/sqc/'
     popFile       = os.path.join(qcDir,'population_stratification','ukb24983_{}.phe'.format(pop)) if pop != 'all' else ''
@@ -74,6 +74,8 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, cores=None, memory
         raise ValueError("Error: unsupported genotype file flag ({0})".format(bpFile[0]))
         
     # paste together the command from constituent parts
+    if unrelatedFile and len(rmadd) > 0:
+        os.system('cat ' + unrelatedFile + ' ' + rmadd + ' > tmp')
     cmd_plink = " ".join([
         "plink" if plink1 else "plink2", 
         f'--threads {cores}' if (cores is not None) else "",
@@ -85,7 +87,9 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, cores=None, memory
         "--glm firth-fallback hide-covar omit-ref",
         f"--keep {popFile}" if (popFile and not sexDiv) else '', 
         f"--keep {popFileSexFiltered}" if sexDiv else "", 
-        f"--remove {unrelatedFile}" if unrelatedFile else "",
+        f"--remove {unrelatedFile}" if unrelatedFile and len(rmadd) == 0 else "",
+        f"--remove {rmadd}" if len(rmadd) > 0 and not unrelatedFile else "",
+        f"--remove tmp" if len(rmadd) > 0 and unrelatedFile else "",
         variantSubsetStr,
         "--covar", covarFile, 
         "--covar-name age ", "sex " if not sexDiv else "", 
@@ -96,7 +100,8 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, cores=None, memory
         "--out", outFile
     ])
     
-    gwas_sh=os.path.join(os.path.dirname(__file__), '04_gwas_misc.sh')
+    gwas_sh="/oak/stanford/groups/mrivas/users/mrivas/repos/ukbb-tools-git/04_gwas/04_gwas_misc.sh"
+#    print(os.path.dirname(__file__))
     cmds = [
         f'source {gwas_sh}',
         cmd_plink,
@@ -151,11 +156,14 @@ def make_batch_file(batchFile, plinkCmd, cores, memory, time, partitions):
 
 
 def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink1=False, 
-             logDir=None, cores="4", memory="24000", time="1-00:00:00", partition=["normal","owners"], now=False,
+             logDir=None, cores="4", memory="24000", rmAdd=None, time="1-00:00:00", partition=["normal","owners"], now=False,
              sexDiv=False, keepSex='', keepSexFile='', includeX=False):
     # ensure usage
+    rmadd = ""
     if not os.path.isfile(pheFile):
         raise ValueError("Error: phenotype file {0} does not exist!".format(pheFile))
+    if rmAdd is not None:
+        rmadd = rmAdd
     if not os.path.isdir(outDir):
         raise ValueError("output directory {0} does not exist!".format(outDir))
     if ((logDir is None) or (not os.path.isdir(logDir))):
@@ -199,7 +207,8 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink
         'sexDiv'  : sexDiv,
         'keepSex' : keepSex,
         'keepSexFile' : keepSexFile,
-        'includeX' : includeX
+        'includeX' : includeX, 
+        'rmadd' : rmadd
     }
     
     # this is where the fun happens
@@ -274,6 +283,8 @@ if __name__ == "__main__":
                             help='Path to desired output *directory*. Summary stats will be output according to phenotype name (derived from passed file) and Rivas Lab specification for GBE. Defaults to current working directory.')
     parser.add_argument('--population', dest="pop", required=False, default="white_british",
                             help='Flag to indicate which ethnic group to use for GWAS. Must be one of all, white_british, non_british_white, e_asian, s_asian, african')
+    parser.add_argument('--remove-add', dest="rmadd", required=False, default=None,
+                            help='Flag to indicate file of list of additional individuals to remove')
     parser.add_argument('--keep-related', dest="relatives", action='store_true',
                             help='Flag to keep related individuals in GWAS. Default is to remove them.')
     parser.add_argument('--cores', dest="cores", required=False, default=4, type=int,
@@ -312,7 +323,7 @@ if __name__ == "__main__":
     for flag,kind in filter(lambda x:x[0], zip(flags,kinds)):
         run_gwas(kind=kind, pheFile=os.path.realpath(args.pheno), outDir=args.outDir,
                  pop=args.pop, related=args.relatives, plink1=args.plink1, 
-                 logDir=args.log, cores=args.cores, memory=args.mem,
+                 logDir=args.log, cores=args.cores, memory=args.mem, rmAdd = args.rmadd, 
                  time=args.sb_time, partition=args.sb_parti, now=args.local, 
                  sexDiv=args.sex_div, keepSex=args.keep_sex, keepSexFile=args.keep_sex_file,
                  includeX=args.include_x)

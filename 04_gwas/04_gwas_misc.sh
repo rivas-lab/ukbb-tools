@@ -1,5 +1,5 @@
 #!/bin/bash
-set -beEuo pipefail
+#set -beEuo pipefail
 
 #########################################################
 # Common helper functions
