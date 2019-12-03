@@ -7,7 +7,8 @@ A script for running GWAS with UK Biobank data (array/exome/imputed/cnv genotype
 Author: Matthew Aguirre (SUNET: magu)
 
 (Updated 10/14/2019 by E Flynn for sex-div analysis)
-(Updated 11/06/2019 by Yosuke Tanigawa; add support for array_combined and array_imp_combined; code clean up)
+(Updated 11/06/2019 by Yosuke Tanigawa; add support for array_combined and array_imp_combined; code clean up.)
+(Updated 11/27/2019 by Yosuke Tanigawa; add --keep option; code clean up.)
 '''
 
 def filterPopFile(outDir, popFile='', keepSexFile=''):
@@ -34,12 +35,13 @@ def filterPopFile(outDir, popFile='', keepSexFile=''):
         return popFileSexFiltered
 
 
-def updateKeepFile(outDir, keepFile=None, pop=None, sexDiv=False, keepSexFile=''):
+def updateKeepFile(outDir, qcDir, keepFile=None, pop=None, sexDiv=False, keepSexFile=''):
     if(pop is None or pop == 'all'):
         keepFile=None
     else:
-        keepFile=os.path.join(qcDir,'population_stratification','ukb24983_{}.phe'.format(pop))
+        keepFile=os.path.join(qcDir, 'population_stratification','ukb24983_{}.phe'.format(pop))
     if sexDiv:
+        # filter the population file to only contain IIDs of the specified sex        
         keepFile=filterPopFile(outDir, keepFile, keepSexFile)
     return(keepFile)
 
@@ -47,7 +49,7 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cor
                        variantSubsetStr='', arrayCovar=False, sexDiv=False, keepSex='', keepSexFile='', includeX=False, maf=None):
     # paths to plink genotypes, input phenotypes, output directory are passed
     qcDir         = '/oak/stanford/groups/mrivas/ukbb24983/sqc/'
-    popFile       = os.path.join(qcDir,'population_stratification','ukb24983_{}.phe'.format(pop)) if pop != 'all' else ''
+    keepFile=updateKeepFile(outDir, qcDir, keepFile=keepFile, pop=pop, sexDiv=sexDiv, keepSexFile=keepSexFile)
     unrelatedFile = os.path.join(qcDir,'ukb24983_v2.not_used_in_pca.phe') if not related else ''
     is_cnv_burden = os.path.basename(bpFile[1]) == 'burden'
     if os.path.dirname(pheFile).split('/')[-1] == "binary": 
@@ -61,12 +63,7 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cor
     elif is_biomarker_binary:
         covarFile = '/oak/stanford/groups/mrivas/projects/biomarkers/covariate_corrected/output/covariates/logistic.covariates.phe'
     else:
-        covarFile = os.path.join(qcDir, 'ukb24983_GWAS_covar.phe')
-    
-    keepFile=updateKeepFile(outDir, keepFile=None, pop=None, sexDiv=False, keepSexFile='')
-    # filter the population file to only contain IIDs of the specified sex
-    if sexDiv:
-        popFileSexFiltered=filterPopFile(outDir, popFile, keepSexFile)
+        covarFile = os.path.join(qcDir, 'ukb24983_GWAS_covar.phe')    
 
     if (plink1 or (bpFile[0] == 'bfile')):
         genotypeStr='--bfile {}'.format(bpFile[1])
@@ -89,8 +86,7 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cor
         f"--maf {maf}" if (maf is not None) else "",
         "--pheno", pheFile, "--pheno-quantile-normalize",
         "--glm firth-fallback hide-covar omit-ref",
-        f"--keep {popFile}" if (popFile and not sexDiv) else '', 
-        f"--keep {popFileSexFiltered}" if sexDiv else "", 
+        f"--keep {keepFile}" if (keepFile is not None) else '', 
         f"--remove {unrelatedFile}" if unrelatedFile else "",
         variantSubsetStr,
         "--covar", covarFile, 
@@ -156,7 +152,7 @@ def make_batch_file(batchFile, plinkCmd, cores, memory, time, partitions):
     return(batchFile)
 
 
-def run_gwas(kind, pheFile, outDir='', pop='white_british', related=False, plink1=False, 
+def run_gwas(kind, pheFile, outDir='', pop='white_british', keepFile=None, related=False, plink1=False, 
              logDir=None, cores="4", memory="24000", time="1-00:00:00", partition=["normal","owners"], now=False,
              sexDiv=False, keepSex='', keepSexFile='', includeX=False):
     # ensure usage
