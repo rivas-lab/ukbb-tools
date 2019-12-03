@@ -35,9 +35,7 @@ def filterPopFile(outDir, popFile='', keepSexFile=''):
         return popFileSexFiltered
 
 def updateKeepFile(outDir, qcDir, keepFile=None, pop=None, sexDiv=False, keepSexFile=''):
-    if(pop is None or pop == 'all'):
-        keepFile=None
-    else:
+    if((keepFile is None) and (pop is not None) and (pop != 'all')):
         keepFile=os.path.join(qcDir, 'population_stratification','ukb24983_{}.phe'.format(pop))
     if sexDiv:
         # filter the population file to only contain IIDs of the specified sex        
@@ -45,7 +43,7 @@ def updateKeepFile(outDir, qcDir, keepFile=None, pop=None, sexDiv=False, keepSex
     return(keepFile)
 
 def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cores=None, memory=None, related=False, plink1=False, 
-                       variantSubsetStr='', arrayCovar=False, sexDiv=False, keepSex='', keepSexFile='', includeX=False, maf=None, rmadd=''):
+                       variantSubsetStr='', arrayCovar=False, sexDiv=False, keepSex='', keepSexFile='', includeX=False, maf=None, rmadd='', plink_opts=''):
     # paths to plink genotypes, input phenotypes, output directory are passed
     qcDir         = '/oak/stanford/groups/mrivas/ukbb24983/sqc/'
     keepFile=updateKeepFile(outDir, qcDir, keepFile=keepFile, pop=pop, sexDiv=sexDiv, keepSexFile=keepSexFile)
@@ -88,9 +86,6 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cor
         "--pheno", pheFile, "--pheno-quantile-normalize",
         "--glm firth-fallback hide-covar omit-ref",
         f"--keep {keepFile}" if (keepFile is not None) else '', 
-        f"--remove {unrelatedFile}" if unrelatedFile else "",
-        f"--keep {popFile}" if (popFile and not sexDiv) else '', 
-        f"--keep {popFileSexFiltered}" if sexDiv else "", 
         f"--remove {unrelatedFile}" if unrelatedFile and len(rmadd) == 0 else "",
         f"--remove {rmadd}" if len(rmadd) > 0 and not unrelatedFile else "",
         f"--remove tmp" if len(rmadd) > 0 and unrelatedFile else "",
@@ -101,10 +96,11 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cor
         "PC1-PC4", 
         "N_CNV LEN_CNV --covar-variance-standardize" if is_cnv_burden else "PC5-PC10 FastingTime --covar-variance-standardize" if is_biomarker_binary else "",
         "--covar-variance-standardize --vif 100000000" if pop in ['non_british_white', 'african', 'e_asian', 's_asian'] else "",
-        "--out", outFile
+        "--out", outFile,
+        plink_opts
     ])
-    
-    gwas_sh="/oak/stanford/groups/mrivas/users/mrivas/repos/ukbb-tools-git/04_gwas/04_gwas_misc.sh"
+    gwas_sh=os.path.join(os.path.dirname(__file__), '04_gwas_misc.sh')
+    # gwas_sh="/oak/stanford/groups/mrivas/users/mrivas/repos/ukbb-tools-git/04_gwas/04_gwas_misc.sh"
 #    print(os.path.dirname(__file__))
     cmds = [
         f'source {gwas_sh}',
@@ -161,7 +157,7 @@ def make_batch_file(batchFile, plinkCmd, cores, memory, time, partitions):
 
 def run_gwas(kind, pheFile, outDir='', pop='white_british', keepFile=None, related=False, plink1=False, 
              logDir=None, cores="4", memory="24000", rmAdd=None, time="1-00:00:00", partition=["normal","owners"], now=False,
-             sexDiv=False, keepSex='', keepSexFile='', includeX=False):
+             sexDiv=False, keepSex='', keepSexFile='', includeX=False, plink_opts=''):
     # ensure usage
     rmadd = ""
     if not os.path.isfile(pheFile):
@@ -209,10 +205,12 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', keepFile=None, relat
         'cores'   : cores,
         'memory'  : memory,
         'sexDiv'  : sexDiv,
+        'keepFile' : keepFile,
         'keepSex' : keepSex,
         'keepSexFile' : keepSexFile,
         'includeX' : includeX, 
-        'rmadd' : rmadd
+        'rmadd' : rmadd,
+        'plink_opts': plink_opts
     }
     
     # this is where the fun happens
@@ -313,6 +311,8 @@ if __name__ == "__main__":
                             help='Location of the file specifying the IIDs to include related to that sex, for use with --sex-div.')
     parser.add_argument('--include-x', dest="include_x", required=False, default=False,
                             help='Whether to include the X chromosome, defaults to False')
+    parser.add_argument('--additional-plink-opts', dest="plink_opts", required=False, default=[], nargs='*',
+                            help='Addtional options for plink')
 
     args = parser.parse_args()
     # TODO: feature add: genotype model  
@@ -332,4 +332,4 @@ if __name__ == "__main__":
                  logDir=args.log, cores=args.cores, memory=args.mem,
                  time=args.sb_time, partition=args.sb_parti, now=args.local, 
                  sexDiv=args.sex_div, keepSex=args.keep_sex, keepSexFile=args.keep_sex_file,
-                 includeX=args.include_x)
+                 includeX=args.include_x, plink_opts=' '.join([f'--{x}' for x in args.plink_opts]))
