@@ -1,6 +1,7 @@
 # Python notebook
 .ipynb_checkpoints
 .DS_Store
+.vscode
 
 
 # Byte-compiled / optimized / DLL files
