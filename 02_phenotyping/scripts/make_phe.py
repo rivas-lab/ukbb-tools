@@ -114,7 +114,7 @@ def create_qt_phe_file(in_tsv, out_phe, out_log, field_id, order=[], exclude=[])
         data_raw = np.where(np.any(np.isnan(np.array([np.where(data_raw==i,np.nan,data_raw) for i in exclude])),axis=0),np.nan,data_raw)
     
     if(order[0] != ""): # remap values, if applicable
-        order=sorted([float(u) for u in order]) # some tables are split by commas instead ):
+        order=[float(u) for u in order] # some tables are split by commas instead ):
         logger_phe.info('order of coded values: ' + str('<'.join([str(int(x)) for x in order])))
         data_decode_dict = dict(zip(order,range(1, len(order) + 1)))
         data = np.array([np.nan if np.isnan(x) else data_decode_dict[x] if x in data_decode_dict else np.nan for row in data_raw for x in row]).reshape(data_raw.shape)
