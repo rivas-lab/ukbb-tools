@@ -6,6 +6,15 @@ We generate the `array_imp_combined` dataset in the following procedure.
 
 `/oak/stanford/groups/mrivas/ukbb24983/array_imp_combined/pgen`
 
+### file name prefix error fix
+
+We fixed some errors in file name prefix:
+
+```
+find /oak/stanford/groups/mrivas/ukbb24983/array_imp_combined -name "*ukb24983_ukb24983*" -type f | tee files.txt
+paste files.txt <(cat files.txt | sed -e "s/ukb24983_ukb24983/ukb24983_hg19/g") | while read f g ; do mv $f $g ; done
+```
+
 ## `3-1_merge.sh`
 
 We merge the following datasets:
