@@ -22,3 +22,10 @@ where,
 - `*bool*` is the results from LD pruning (`plink2 --indep-pairwise 50 5 0.5`)
 - `*ld_map*` is the results from `--ld-window-kb 1000 --ld-window-r2 0.1 --r2 gz`
 
+### Back-up in Google Drive
+
+- https://drive.google.com/drive/folders/1mwKZtGfrOadASYVui6FQcy8k-Kk7f5k5 
+
+### Copy of the data in GBE
+
+- `/opt/biobankengine/GlobalBioBankEngineRepo/gbe_browser/static/ldmap`

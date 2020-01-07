@@ -1,0 +1,1114 @@
+filename|controls|cases|phenotypename|icd10
+coxnet_status_f.131286.0.0.csv|253425|83727|essential (primary) hypertension|I10
+coxnet_status_f.130814.0.0.csv|268675|68477|disorders of lipoprotein metabolism and other lipidaemias|E78
+coxnet_status_f.131888.0.0.csv|279289|57863|other joint disorders, not elsewhere classified|M25
+coxnet_status_f.131960.0.0.csv|282194|54958|other soft tissue disorders, not elsewhere classified|M79
+coxnet_status_f.131876.0.0.csv|286652|50500|other arthrosis|M19
+coxnet_status_f.131928.0.0.csv|290213|46939|dorsalgia|M54
+coxnet_status_f.131494.0.0.csv|291977|45175|asthma|J45
+coxnet_status_f.131584.0.0.csv|296719|40433|gastro-oesophageal reflux disease|K21
+coxnet_status_f.131462.0.0.csv|296795|40357|unspecified acute lower respiratory infection|J22
+coxnet_status_f.130894.0.0.csv|301896|35256|depressive episode|F32
+coxnet_status_f.131436.0.0.csv|302865|34287|acute upper respiratory infections of multiple and unspecified sites|J06
+coxnet_status_f.131636.0.0.csv|304852|32300|diverticular disease of intestine|K57
+coxnet_status_f.131464.0.0.csv|305022|32130|vasomotor and allergic rhinitis|J30
+coxnet_status_f.131740.0.0.csv|305184|31968|other dermatitis|L30
+coxnet_status_f.131836.0.0.csv|305372|31780|other disorders of skin and subcutaneous tissue, not elsewhere classified|L98
+coxnet_status_f.131598.0.0.csv|305440|31712|gastritis and duodenitis|K29
+coxnet_status_f.131620.0.0.csv|306606|30546|diaphragmatic hernia|K44
+coxnet_status_f.132070.0.0.csv|306977|30175|other disorders of urinary system|N39
+coxnet_status_f.131646.0.0.csv|310899|26253|other diseases of anus and rectum|K62
+coxnet_status_f.130868.0.0.csv|311504|25648|mental and behavioural disorders due to use of tobacco|F17
+coxnet_status_f.131306.0.0.csv|311774|25378|chronic ischaemic heart disease|I25
+coxnet_status_f.132152.0.0.csv|312378|24774|menopausal and other perimenopausal disorders|N95
+coxnet_status_f.131872.0.0.csv|313027|24125|gonarthrosis [arthrosis of knee]|M17
+coxnet_status_f.130696.0.0.csv|314422|22730|other hypothyroidism|E03
+coxnet_status_f.130792.0.0.csv|314485|22667|obesity|E66
+coxnet_status_f.131650.0.0.csv|314556|22596|haemorrhoids and perianal venous thrombosis|K64
+coxnet_status_f.130226.0.0.csv|314934|22218|dermatophytosis|B35
+coxnet_status_f.131958.0.0.csv|314986|22166|other enthesopathies|M77
+coxnet_status_f.131638.0.0.csv|315273|21879|irritable bowel syndrome|K58
+coxnet_status_f.131954.0.0.csv|315275|21877|shoulder lesions|M75
+coxnet_status_f.131806.0.0.csv|315748|21404|seborrhoeic keratosis|L82
+coxnet_status_f.131224.0.0.csv|316126|21026|other disorders of external ear|H61
+coxnet_status_f.131404.0.0.csv|316147|21005|haemorrhoids|I84
+coxnet_status_f.131296.0.0.csv|316610|20542|angina pectoris|I20
+coxnet_status_f.130708.0.0.csv|316677|20475|non-insulin-dependent diabetes mellitus|E11
+coxnet_status_f.131864.0.0.csv|316732|20420|other arthritis|M13
+coxnet_status_f.131166.0.0.csv|316991|20161|other cataract|H26
+coxnet_status_f.131702.0.0.csv|317633|19519|cellulitis|L03
+coxnet_status_f.132146.0.0.csv|317733|19419|excessive, frequent and irregular menstruation|N92
+coxnet_status_f.131916.0.0.csv|317767|19385|spondylosis|M47
+coxnet_status_f.131674.0.0.csv|318393|18759|cholelithiasis|K80
+coxnet_status_f.131612.0.0.csv|318401|18751|inguinal hernia|K40
+coxnet_status_f.132072.0.0.csv|319449|17703|hyperplasia of prostate|N40
+coxnet_status_f.131350.0.0.csv|319986|17166|atrial fibrillation and flutter|I48
+coxnet_status_f.131426.0.0.csv|320132|17020|acute sinusitis|J01
+coxnet_status_f.131630.0.0.csv|320350|16802|other non-infective gastro-enteritis and colitis|K52
+coxnet_status_f.131052.0.0.csv|320501|16651|migraine|G43
+coxnet_status_f.131648.0.0.csv|320718|16434|other diseases of intestine|K63
+coxnet_status_f.131456.0.0.csv|320949|16203|pneumonia, organism unspecified|J18
+coxnet_status_f.131950.0.0.csv|321030|16122|fibroblastic disorders|M72
+coxnet_status_f.131428.0.0.csv|321107|16045|acute pharyngitis|J02
+coxnet_status_f.131142.0.0.csv|321201|15951|conjunctivitis|H10
+coxnet_status_f.130906.0.0.csv|321611|15541|other anxiety disorders|F41
+coxnet_status_f.131924.0.0.csv|321715|15437|other intervertebral disk disorders|M51
+coxnet_status_f.131074.0.0.csv|321969|15183|mononeuropathies of upper limb|G56
+coxnet_status_f.131640.0.0.csv|322044|15108|other functional intestinal disorders|K59
+coxnet_status_f.131402.0.0.csv|322107|15045|varicose veins of lower extremities|I83
+coxnet_status_f.131222.0.0.csv|322188|14964|otitis externa|H60
+coxnet_status_f.130714.0.0.csv|322401|14751|unspecified diabetes mellitus|E14
+coxnet_status_f.131884.0.0.csv|322420|14732|internal derangement of knee|M23
+coxnet_status_f.130648.0.0.csv|322846|14306|other anaemias|D64
+coxnet_status_f.130622.0.0.csv|323213|13939|iron deficiency anaemia|D50
+coxnet_status_f.131870.0.0.csv|323460|13692|coxarthrosis [arthrosis of hip]|M16
+coxnet_status_f.131878.0.0.csv|323536|13616|acquired deformities of fingers and toes|M20
+coxnet_status_f.131768.0.0.csv|323716|13436|skin changes due to chronic exposure to nonionising radiation|L57
+coxnet_status_f.131298.0.0.csv|324638|12514|acute myocardial infarction|I21
+coxnet_status_f.131938.0.0.csv|324914|12238|synovitis and tenosynovitis|M65
+coxnet_status_f.132124.0.0.csv|324951|12201|female genital prolapse|N81
+coxnet_status_f.130188.0.0.csv|325037|12115|viral warts|B07
+coxnet_status_f.131600.0.0.csv|325129|12023|dyspepsia|K30
+coxnet_status_f.132032.0.0.csv|325224|11928|chronic renal failure|N18
+coxnet_status_f.132054.0.0.csv|325379|11773|cystitis|N30
+coxnet_status_f.131964.0.0.csv|325503|11649|osteoporosis without pathological fracture|M81
+coxnet_status_f.131858.0.0.csv|325551|11601|gout|M10
+coxnet_status_f.131586.0.0.csv|325566|11586|other diseases of oesophagus|K22
+coxnet_status_f.131396.0.0.csv|325619|11533|phlebitis and thrombophlebitis|I80
+coxnet_status_f.132130.0.0.csv|325628|11524|polyp of female genital tract|N84
+coxnet_status_f.131946.0.0.csv|325795|11357|soft tissue disorders related to use, overuse and pressure|M70
+coxnet_status_f.131472.0.0.csv|325828|11324|other disorders of nose and nasal sinuses|J34
+coxnet_status_f.132058.0.0.csv|325862|11290|other disorders of bladder|N32
+coxnet_status_f.130178.0.0.csv|326040|11112|zoster [herpes zoster]|B02
+coxnet_status_f.131692.0.0.csv|326104|11048|other diseases of digestive system|K92
+coxnet_status_f.131060.0.0.csv|326177|10975|sleep disorders|G47
+coxnet_status_f.131262.0.0.csv|326242|10910|otalgia and effusion of ear|H92
+coxnet_status_f.132102.0.0.csv|326293|10859|unspecified lump in breast|N63
+coxnet_status_f.131492.0.0.csv|326390|10762|other chronic obstructive pulmonary disease|J44
+coxnet_status_f.131430.0.0.csv|326789|10363|acute tonsillitis|J03
+coxnet_status_f.132276.0.0.csv|326831|10321|single spontaneous delivery|O80
+coxnet_status_f.130018.0.0.csv|326923|10229|diarrhoea and gastro-enteritis of presumed infectious origin|A09
+coxnet_status_f.131548.0.0.csv|327033|10119|other respiratory disorders|J98
+coxnet_status_f.131794.0.0.csv|327108|10044|follicular cysts of skin and subcutaneous tissue|L72
+coxnet_status_f.131164.0.0.csv|327192|9960|senile cataract|H25
+coxnet_status_f.131708.0.0.csv|327223|9929|other local infections of skin and subcutaneous tissue|L08
+coxnet_status_f.131186.0.0.csv|327236|9916|glaucoma|H40
+coxnet_status_f.131582.0.0.csv|327271|9881|oesophagitis|K20
+coxnet_status_f.130910.0.0.csv|327535|9617|reaction to severe stress, and adjustment disorders|F43
+coxnet_status_f.131742.0.0.csv|327559|9593|psoriasis|L40
+coxnet_status_f.131264.0.0.csv|327681|9471|other disorders of ear, not elsewhere classified|H93
+coxnet_status_f.131720.0.0.csv|327832|9320|atopic dermatitis|L20
+coxnet_status_f.131136.0.0.csv|327903|9249|disorders of lachrymal system|H04
+coxnet_status_f.131260.0.0.csv|328039|9113|other hearing loss|H91
+coxnet_status_f.132104.0.0.csv|328256|8896|other disorders of breast|N64
+coxnet_status_f.131602.0.0.csv|328367|8785|other diseases of stomach and duodenum|K31
+coxnet_status_f.131468.0.0.csv|328584|8568|chronic sinusitis|J32
+coxnet_status_f.131128.0.0.csv|328727|8425|hordeolum and chalazion|H00
+coxnet_status_f.131972.0.0.csv|328765|8387|other disorders of bone density and structure|M85
+coxnet_status_f.130338.0.0.csv|328834|8318|other bacterial agents as the cause of diseases classified to other chapters|B96
+coxnet_status_f.132096.0.0.csv|328893|8259|benign mammary dysplasia|N60
+coxnet_status_f.132140.0.0.csv|328916|8236|other noninflammatory disorders of vagina|N89
+coxnet_status_f.131738.0.0.csv|328952|8200|pruritus|L29
+coxnet_status_f.131918.0.0.csv|328955|8197|other spondylopathies|M48
+coxnet_status_f.131252.0.0.csv|329019|8133|disorders of vestibular function|H81
+coxnet_status_f.132150.0.0.csv|329021|8131|pain and other conditions associated with female genital organs and menstrual cycle|N94
+coxnet_status_f.132128.0.0.csv|329102|8050|noninflammatory disorders of ovary, fallopian tube and broad ligament|N83
+coxnet_status_f.131256.0.0.csv|329121|8031|other diseases of inner ear|H83
+coxnet_status_f.132092.0.0.csv|329331|7821|other disorders of male genital organs|N50
+coxnet_status_f.131942.0.0.csv|329350|7802|other disorders of synovium and tendon|M67
+coxnet_status_f.131774.0.0.csv|329425|7727|nail disorders|L60
+coxnet_status_f.130828.0.0.csv|329434|7718|other disorders of fluid, electrolyte and acid-base balance|E87
+coxnet_status_f.131700.0.0.csv|329459|7693|cutaneous abscess, furuncle and carbuncle|L02
+coxnet_status_f.131182.0.0.csv|329476|7676|other retinal disorders|H35
+coxnet_status_f.131132.0.0.csv|329523|7629|other disorders of eyelid|H02
+coxnet_status_f.130224.0.0.csv|329734|7418|viral infection of unspecified site|B34
+coxnet_status_f.131754.0.0.csv|329804|7348|urticaria|L50
+coxnet_status_f.132148.0.0.csv|329872|7280|other abnormal uterine and vaginal bleeding|N93
+coxnet_status_f.131442.0.0.csv|329967|7185|influenza, virus not identified|J11
+coxnet_status_f.131416.0.0.csv|330007|7145|hypotension|I95
+coxnet_status_f.131868.0.0.csv|330112|7040|polyarthrosis|M15
+coxnet_status_f.131386.0.0.csv|330138|7014|other peripheral vascular diseases|I73
+coxnet_status_f.131210.0.0.csv|330149|7003|visual disturbances|H53
+coxnet_status_f.131230.0.0.csv|330294|6858|suppurative and unspecified otitis media|H66
+coxnet_status_f.131190.0.0.csv|330327|6825|disorders of vitreous body|H43
+coxnet_status_f.131354.0.0.csv|330340|6812|heart failure|I50
+coxnet_status_f.130176.0.0.csv|330357|6795|varicella [chickenpox]|B01
+coxnet_status_f.131722.0.0.csv|330395|6757|seborrhoeic dermatitis|L21
+coxnet_status_f.131590.0.0.csv|330417|6735|gastric ulcer|K25
+coxnet_status_f.131850.0.0.csv|330575|6577|other rheumatoid arthritis|M06
+coxnet_status_f.130230.0.0.csv|330611|6541|candidiasis|B37
+coxnet_status_f.130854.0.0.csv|330691|6461|mental and behavioural disorders due to use of alcohol|F10
+coxnet_status_f.132122.0.0.csv|330714|6438|endometriosis|N80
+coxnet_status_f.131352.0.0.csv|330813|6339|other cardiac arrhythmias|I49
+coxnet_status_f.132030.0.0.csv|330893|6259|acute renal failure|N17
+coxnet_status_f.131484.0.0.csv|330923|6229|bronchitis, not specified as acute or chronic|J40
+coxnet_status_f.131356.0.0.csv|331083|6069|complications and ill-defined descriptions of heart disease|I51
+coxnet_status_f.131368.0.0.csv|331234|5918|stroke, not specified as haemorrhage or infarction|I64
+coxnet_status_f.131308.0.0.csv|331262|5890|pulmonary embolism|I26
+coxnet_status_f.131534.0.0.csv|331263|5889|pleural effusion, not elsewhere classified|J90
+coxnet_status_f.131670.0.0.csv|331313|5839|other diseases of liver|K76
+coxnet_status_f.131056.0.0.csv|331427|5725|transient cerebral ischaemic attacks and related syndromes|G45
+coxnet_status_f.131592.0.0.csv|331442|5710|duodenal ulcer|K26
+coxnet_status_f.131144.0.0.csv|331485|5667|other disorders of conjunctiva|H11
+coxnet_status_f.131956.0.0.csv|331733|5419|enthesopathies of lower limb, excluding foot|M76
+coxnet_status_f.132036.0.0.csv|332052|5100|calculus of kidney and ureter|N20
+coxnet_status_f.131560.0.0.csv|332087|5065|diseases of pulp and periapical tissues|K04
+coxnet_status_f.131258.0.0.csv|332088|5064|conductive and sensorineural hearing loss|H90
+coxnet_status_f.131216.0.0.csv|332093|5059|other disorders of eye and adnexa|H57
+coxnet_status_f.132132.0.0.csv|332120|5032|other noninflammatory disorders of uterus, except cervix|N85
+coxnet_status_f.131470.0.0.csv|332144|5008|nasal polyp|J33
+coxnet_status_f.130070.0.0.csv|332165|4987|other septicaemia|A41
+coxnet_status_f.132136.0.0.csv|332191|4961|dysplasia of cervix uteri|N87
+coxnet_status_f.131048.0.0.csv|332224|4928|epilepsy|G40
+coxnet_status_f.130184.0.0.csv|332232|4920|measles|B05
+coxnet_status_f.131616.0.0.csv|332323|4829|umbilical hernia|K42
+coxnet_status_f.130008.0.0.csv|332336|4816|other bacterial intestinal infections|A04
+coxnet_status_f.130700.0.0.csv|332489|4663|thyrotoxicosis [hyperthyroidism]|E05
+coxnet_status_f.131634.0.0.csv|332587|4565|paralytic ileus and intestinal obstruction without hernia|K56
+coxnet_status_f.131578.0.0.csv|332653|4499|other diseases of lip and oral mucosa|K13
+coxnet_status_f.131466.0.0.csv|332681|4471|chronic rhinitis, nasopharyngitis and pharyngitis|J31
+coxnet_status_f.131342.0.0.csv|332693|4459|atrioventricular and left bundle-branch block|I44
+coxnet_status_f.132050.0.0.csv|332702|4450|other disorders of kidney and ureter, not elsewhere classified|N28
+coxnet_status_f.132088.0.0.csv|332738|4414|other disorders of penis|N48
+coxnet_status_f.132264.0.0.csv|332780|4372|perineal laceration during delivery|O70
+coxnet_status_f.131178.0.0.csv|332850|4302|retinal detachments and breaks|H33
+coxnet_status_f.131926.0.0.csv|332929|4223|other dorsopathies, not elsewhere classified|M53
+coxnet_status_f.131072.0.0.csv|332995|4157|nerve root and plexus compressions in diseases classified elsewhere|G55
+coxnet_status_f.131642.0.0.csv|333016|4136|fissure and fistula of anal and rectal regions|K60
+coxnet_status_f.132142.0.0.csv|333022|4130|other noninflammatory disorders of vulva and perineum|N90
+coxnet_status_f.131618.0.0.csv|333026|4126|ventral hernia|K43
+coxnet_status_f.131348.0.0.csv|333047|4105|paroxysmal tachycardia|I47
+coxnet_status_f.130336.0.0.csv|333104|4048|streptococcus and staphylococcus as the cause of diseases classified to other chapters|B95
+coxnet_status_f.131228.0.0.csv|333126|4026|nonsuppurative otitis media|H65
+coxnet_status_f.131792.0.0.csv|333197|3955|rosacea|L71
+coxnet_status_f.131366.0.0.csv|333245|3907|cerebral infarction|I63
+coxnet_status_f.131790.0.0.csv|333319|3833|acne|L70
+coxnet_status_f.132168.0.0.csv|333381|3771|spontaneous abortion|O03
+coxnet_status_f.131628.0.0.csv|333417|3735|ulcerative colitis|K51
+coxnet_status_f.131458.0.0.csv|333421|3731|acute bronchitis|J20
+coxnet_status_f.132042.0.0.csv|333458|3694|unspecified renal colic|N23
+coxnet_status_f.130228.0.0.csv|333465|3687|other superficial mycoses|B36
+coxnet_status_f.131424.0.0.csv|333466|3686|acute nasopharyngitis [common cold]|J00
+coxnet_status_f.131054.0.0.csv|333481|3671|other headache syndromes|G44
+coxnet_status_f.131822.0.0.csv|333534|3618|atrophic disorders of skin|L90
+coxnet_status_f.131608.0.0.csv|333534|3618|unspecified appendicitis|K37
+coxnet_status_f.130660.0.0.csv|333599|3553|agranulocytosis|D70
+coxnet_status_f.131208.0.0.csv|333635|3517|disorders of refraction and accommodation|H52
+coxnet_status_f.131676.0.0.csv|333650|3502|cholecystitis|K81
+coxnet_status_f.131910.0.0.csv|333690|3462|other deforming dorsopathies|M43
+coxnet_status_f.131130.0.0.csv|333718|3434|other inflammation of eyelid|H01
+coxnet_status_f.131654.0.0.csv|333723|3429|other disorders of peritoneum|K66
+coxnet_status_f.130826.0.0.csv|333771|3381|volume depletion|E86
+coxnet_status_f.131824.0.0.csv|333827|3325|hypertrophic disorders of skin|L91
+coxnet_status_f.130016.0.0.csv|333834|3318|viral and other specified intestinal infections|A08
+coxnet_status_f.131076.0.0.csv|333837|3315|mononeuropathies of lower limb|G57
+coxnet_status_f.132118.0.0.csv|333848|3304|other inflammation of vagina and vulva|N76
+coxnet_status_f.132056.0.0.csv|333850|3302|neuromuscular dysfunction of bladder, not elsewhere classified|N31
+coxnet_status_f.131374.0.0.csv|333866|3286|other cerebrovascular diseases|I67
+coxnet_status_f.131900.0.0.csv|333898|3254|other systemic involvement of connective tissue|M35
+coxnet_status_f.131980.0.0.csv|333918|3234|other disorders of bone|M89
+coxnet_status_f.131324.0.0.csv|333980|3172|nonrheumatic aortic valve disorders|I35
+coxnet_status_f.130216.0.0.csv|333987|3165|mumps|B26
+coxnet_status_f.131432.0.0.csv|334005|3147|acute laryngitis and tracheitis|J04
+coxnet_status_f.132064.0.0.csv|334014|3138|urethral stricture|N35
+coxnet_status_f.131032.0.0.csv|334022|3130|other extrapyramidal and movement disorders|G25
+coxnet_status_f.130174.0.0.csv|334052|3100|herpesviral [herpes simplex] infections|B00
+coxnet_status_f.131322.0.0.csv|334122|3030|nonrheumatic mitral valve disorders|I34
+coxnet_status_f.131556.0.0.csv|334132|3020|dental caries|K02
+coxnet_status_f.132112.0.0.csv|334139|3013|other female pelvic inflammatory diseases|N73
+coxnet_status_f.130698.0.0.csv|334146|3006|other non-toxic goitre|E04
+coxnet_status_f.131604.0.0.csv|334172|2980|acute appendicitis|K35
+coxnet_status_f.132022.0.0.csv|334195|2957|obstructive and reflux uropathy|N13
+coxnet_status_f.131934.0.0.csv|334221|2931|other disorders of muscle|M62
+coxnet_status_f.130820.0.0.csv|334224|2928|disorders of mineral metabolism|E83
+coxnet_status_f.131886.0.0.csv|334233|2919|other specific joint derangements|M24
+coxnet_status_f.131804.0.0.csv|334244|2908|other disorders of pigmentation|L81
+coxnet_status_f.131880.0.0.csv|334274|2878|other acquired deformities of limbs|M21
+coxnet_status_f.131688.0.0.csv|334327|2825|intestinal malabsorption|K90
+coxnet_status_f.131344.0.0.csv|334330|2822|other conduction disorders|I45
+coxnet_status_f.132074.0.0.csv|334366|2786|inflammatory diseases of prostate|N41
+coxnet_status_f.130706.0.0.csv|334374|2778|insulin-dependent diabetes mellitus|E10
+coxnet_status_f.131498.0.0.csv|334389|2763|bronchiectasis|J47
+coxnet_status_f.131568.0.0.csv|334437|2715|other disorders of teeth and supporting structures|K08
+coxnet_status_f.131114.0.0.csv|334444|2708|other disorders of brain|G93
+coxnet_status_f.132156.0.0.csv|334486|2666|female infertility|N97
+coxnet_status_f.132260.0.0.csv|334540|2612|labour and delivery complicated by foetal stress [distress]|O68
+coxnet_status_f.131922.0.0.csv|334592|2560|cervical disk disorders|M50
+coxnet_status_f.132170.0.0.csv|334625|2527|medical abortion|O04
+coxnet_status_f.131546.0.0.csv|334643|2509|respiratory failure, not elsewhere classified|J96
+coxnet_status_f.131796.0.0.csv|334668|2484|other follicular disorders|L73
+coxnet_status_f.130896.0.0.csv|334688|2464|recurrent depressive disorder|F33
+coxnet_status_f.130658.0.0.csv|334691|2461|purpura and other haemorrhagic conditions|D69
+coxnet_status_f.131682.0.0.csv|334712|2440|acute pancreatitis|K85
+coxnet_status_f.131576.0.0.csv|334726|2426|stomatitis and related lesions|K12
+coxnet_status_f.131810.0.0.csv|334737|2415|corns and callosities|L84
+coxnet_status_f.131970.0.0.csv|334770|2382|disorders of continuity of bone|M84
+coxnet_status_f.131914.0.0.csv|334784|2368|other inflammatory spondylopathies|M46
+coxnet_status_f.131580.0.0.csv|334831|2321|diseases of tongue|K14
+coxnet_status_f.131812.0.0.csv|334849|2303|other epidermal thickening|L85
+coxnet_status_f.131680.0.0.csv|334864|2288|other diseases of biliary tract|K83
+coxnet_status_f.131086.0.0.csv|334866|2286|other polyneuropathies|G62
+coxnet_status_f.130218.0.0.csv|334882|2270|infectious mononucleosis|B27
+coxnet_status_f.132086.0.0.csv|334883|2269|redundant prepuce, phimosis and paraphimosis|N47
+coxnet_status_f.131574.0.0.csv|334903|2249|diseases of salivary glands|K11
+coxnet_status_f.130624.0.0.csv|334987|2165|vitamin b12 deficiency anaemia|D51
+coxnet_status_f.131678.0.0.csv|334998|2154|other diseases of gallbladder|K82
+coxnet_status_f.131882.0.0.csv|335000|2152|disorders of patella|M22
+coxnet_status_f.131730.0.0.csv|335001|2151|unspecified contact dermatitis|L25
+coxnet_status_f.131490.0.0.csv|335023|2129|emphysema|J43
+coxnet_status_f.131948.0.0.csv|335032|2120|other bursopathies|M71
+coxnet_status_f.131652.0.0.csv|335049|2103|peritonitis|K65
+coxnet_status_f.130342.0.0.csv|335051|2101|other specified infectious agents as the cause of diseases classified to other chapters|B98
+coxnet_status_f.131304.0.0.csv|335057|2095|other acute ischaemic heart diseases|I24
+coxnet_status_f.131064.0.0.csv|335064|2088|facial nerve disorders|G51
+coxnet_status_f.131282.0.0.csv|335071|2081|multiple valve diseases|I08
+coxnet_status_f.130904.0.0.csv|335091|2061|phobic anxiety disorders|F40
+coxnet_status_f.131062.0.0.csv|335107|2045|disorders of trigeminal nerve|G50
+coxnet_status_f.132034.0.0.csv|335118|2034|unspecified renal failure|N19
+coxnet_status_f.130914.0.0.csv|335132|2020|somatoform disorders|F45
+coxnet_status_f.131480.0.0.csv|335133|2019|diseases of vocal cords and larynx, not elsewhere classified|J38
+coxnet_status_f.132076.0.0.csv|335159|1993|other disorders of prostate|N42
+coxnet_status_f.131382.0.0.csv|335169|1983|aortic aneurysm and dissection|I71
+coxnet_status_f.131782.0.0.csv|335177|1975|other nonscarring hair loss|L65
+coxnet_status_f.131644.0.0.csv|335184|1968|abscess of anal and rectal regions|K61
+coxnet_status_f.131906.0.0.csv|335185|1967|scoliosis|M41
+coxnet_status_f.130186.0.0.csv|335186|1966|rubella [german measles]|B06
+coxnet_status_f.131626.0.0.csv|335201|1951|crohn's disease [regional enteritis]|K50
+coxnet_status_f.130718.0.0.csv|335215|1937|other disorders of pancreatic internal secretion|E16
+coxnet_status_f.132138.0.0.csv|335249|1903|other noninflammatory disorders of cervix uteri|N88
+coxnet_status_f.131236.0.0.csv|335283|1869|other disorders of eustachian tube|H69
+coxnet_status_f.131540.0.0.csv|335288|1864|pneumothorax|J93
+coxnet_status_f.131184.0.0.csv|335289|1863|retinal disorders in diseases classified elsewhere|H36
+coxnet_status_f.132082.0.0.csv|335297|1855|orchitis and epididymitis|N45
+coxnet_status_f.132280.0.0.csv|335369|1783|single delivery by caesarean section|O82
+coxnet_status_f.131392.0.0.csv|335370|1782|diseases of capillaries|I78
+coxnet_status_f.131234.0.0.csv|335374|1778|eustachian salpingitis and obstruction|H68
+coxnet_status_f.131158.0.0.csv|335380|1772|iridocyclitis|H20
+coxnet_status_f.131102.0.0.csv|335413|1739|hemiplegia|G81
+coxnet_status_f.131554.0.0.csv|335446|1706|embedded and impacted teeth|K01
+coxnet_status_f.131566.0.0.csv|335451|1701|dentofacial anomalies [including malocclusion]|K07
+coxnet_status_f.131212.0.0.csv|335455|1697|blindness and low vision|H54
+coxnet_status_f.130020.0.0.csv|335493|1659|respiratory tuberculosis, bacteriologically and histologically confirmed|A15
+coxnet_status_f.131690.0.0.csv|335516|1636|postprocedural disorders of digestive system, not elsewhere classified|K91
+coxnet_status_f.131990.0.0.csv|335517|1635|other disorders of cartilage|M94
+coxnet_status_f.130320.0.0.csv|335519|1633|scabies|B86
+coxnet_status_f.131390.0.0.csv|335521|1631|other disorders of arteries and arterioles|I77
+coxnet_status_f.131042.0.0.csv|335526|1626|multiple sclerosis|G35
+coxnet_status_f.130770.0.0.csv|335531|1621|deficiency of other b group vitamins|E53
+coxnet_status_f.130998.0.0.csv|335542|1610|meningitis due to other and unspecified causes|G03
+coxnet_status_f.131022.0.0.csv|335543|1609|parkinson's disease|G20
+coxnet_status_f.132144.0.0.csv|335544|1608|absent, scanty and rare menstruation|N91
+coxnet_status_f.131338.0.0.csv|335580|1572|cardiomyopathy|I42
+coxnet_status_f.132312.0.0.csv|335596|1556|other maternal diseases classifiable elsewhere but complicating pregnancy, childbirth and the puerperium|O99
+coxnet_status_f.132116.0.0.csv|335597|1555|diseases of bartholin's gland|N75
+coxnet_status_f.131204.0.0.csv|335599|1553|other strabismus|H50
+coxnet_status_f.132224.0.0.csv|335604|1548|maternal care for other known or suspected foetal problems|O36
+coxnet_status_f.131154.0.0.csv|335609|1543|other disorders of cornea|H18
+coxnet_status_f.132078.0.0.csv|335617|1535|hydrocele and spermatocele|N43
+coxnet_status_f.131992.0.0.csv|335640|1512|other acquired deformities of musculoskeletal system and connective tissue|M95
+coxnet_status_f.131528.0.0.csv|335640|1512|other interstitial pulmonary diseases|J84
+coxnet_status_f.131974.0.0.csv|335645|1507|osteomyelitis|M86
+coxnet_status_f.132250.0.0.csv|335651|1501|long labour|O63
+coxnet_status_f.131748.0.0.csv|335658|1494|lichen planus|L43
+coxnet_status_f.130832.0.0.csv|335662|1490|postprocedural endocrine and metabolic disorders, not elsewhere classified|E89
+coxnet_status_f.131380.0.0.csv|335671|1481|atherosclerosis|I70
+coxnet_status_f.131820.0.0.csv|335680|1472|decubitus ulcer|L89
+coxnet_status_f.132206.0.0.csv|335698|1454|maternal care for other conditions predominantly related to pregnancy|O26
+coxnet_status_f.131834.0.0.csv|335699|1453|ulcer of lower limb, not elsewhere classified|L97
+coxnet_status_f.130656.0.0.csv|335707|1445|other coagulation defects|D68
+coxnet_status_f.132166.0.0.csv|335714|1438|other abnormal products of conception|O02
+coxnet_status_f.131124.0.0.csv|335715|1437|other disorders of nervous system, not elsewhere classified|G98
+coxnet_status_f.131316.0.0.csv|335739|1413|other diseases of pericardium|I31
+coxnet_status_f.130922.0.0.csv|335747|1405|sexual dysfunction, not caused by organic disorder or disease|F52
+coxnet_status_f.132134.0.0.csv|335753|1399|erosion and ectropion of cervix uteri|N86
+coxnet_status_f.132110.0.0.csv|335760|1392|inflammatory disease of cervix uteri|N72
+coxnet_status_f.131874.0.0.csv|335760|1392|arthrosis of first carpometacarpal joint|M18
+coxnet_status_f.130736.0.0.csv|335761|1391|ovarian dysfunction|E28
+coxnet_status_f.130062.0.0.csv|335778|1374|whooping cough|A37
+coxnet_status_f.130670.0.0.csv|335786|1366|other diseases of blood and blood-forming organs|D75
+coxnet_status_f.132100.0.0.csv|335787|1365|hypertrophy of breast|N62
+coxnet_status_f.130704.0.0.csv|335791|1361|other disorders of thyroid|E07
+coxnet_status_f.131242.0.0.csv|335813|1339|perforation of tympanic membrane|H72
+coxnet_status_f.131180.0.0.csv|335813|1339|retinal vascular occlusions|H34
+coxnet_status_f.131378.0.0.csv|335814|1338|sequelae of cerebrovascular disease|I69
+coxnet_status_f.132278.0.0.csv|335818|1334|single delivery by forceps and vacuum extractor|O81
+coxnet_status_f.131408.0.0.csv|335818|1334|varicose veins of other sites|I86
+coxnet_status_f.131684.0.0.csv|335828|1324|other diseases of pancreas|K86
+coxnet_status_f.132268.0.0.csv|335843|1309|postpartum haemorrhage|O72
+coxnet_status_f.131668.0.0.csv|335843|1309|other inflammatory liver diseases|K75
+coxnet_status_f.132098.0.0.csv|335847|1305|inflammatory disorders of breast|N61
+coxnet_status_f.131912.0.0.csv|335862|1290|ankylosing spondylitis|M45
+coxnet_status_f.131632.0.0.csv|335862|1290|vascular disorders of intestine|K55
+coxnet_status_f.131290.0.0.csv|335863|1289|hypertensive renal disease|I12
+coxnet_status_f.130106.0.0.csv|335885|1267|other predominantly sexually transmitted diseases, not elsewhere classified|A63
+coxnet_status_f.131624.0.0.csv|335914|1238|unspecified abdominal hernia|K46
+coxnet_status_f.130774.0.0.csv|335925|1227|vitamin d deficiency|E55
+coxnet_status_f.131826.0.0.csv|335946|1206|granulomatous disorders of skin and subcutaneous tissue|L92
+coxnet_status_f.131414.0.0.csv|335959|1193|other non-infective disorders of lymphatic vessels and lymph nodes|I89
+coxnet_status_f.131666.0.0.csv|335960|1192|fibrosis and cirrhosis of liver|K74
+coxnet_status_f.132220.0.0.csv|335963|1189|maternal care for known or suspected abnormality of pelvic organs|O34
+coxnet_status_f.131346.0.0.csv|335974|1178|cardiac arrest|I46
+coxnet_status_f.131192.0.0.csv|335976|1176|disorders of globe|H44
+coxnet_status_f.130686.0.0.csv|335984|1168|sarcoidosis|D86
+coxnet_status_f.131562.0.0.csv|335988|1164|gingivitis and periodontal diseases|K05
+coxnet_status_f.131572.0.0.csv|335992|1160|other diseases of jaws|K10
+coxnet_status_f.130722.0.0.csv|336001|1151|hyperparathyroidism and other disorders of parathyroid gland|E21
+coxnet_status_f.131746.0.0.csv|336012|1140|pityriasis rosea|L42
+coxnet_status_f.132020.0.0.csv|336013|1139|tubulo-interstitial nephritis, not specified as acute or chronic|N12
+coxnet_status_f.131538.0.0.csv|336032|1120|pleural plaque|J92
+coxnet_status_f.131474.0.0.csv|336038|1114|chronic diseases of tonsils and adenoids|J35
+coxnet_status_f.132574.0.0.csv|336040|1112|other congenital malformations of skin|Q82
+coxnet_status_f.130082.0.0.csv|336046|1106|bacterial infection of unspecified site|A49
+coxnet_status_f.131370.0.0.csv|336049|1103|occlusion and stenosis of precerebral arteries, not resulting in cerebral infarction|I65
+coxnet_status_f.131594.0.0.csv|336051|1101|peptic ulcer, site unspecified|K27
+coxnet_status_f.131126.0.0.csv|336055|1097|other disorders of nervous system in diseases classified elsewhere|G99
+coxnet_status_f.132160.0.0.csv|336056|1096|postprocedural disorders of genito-urinary system, not elsewhere classified|N99
+coxnet_status_f.131658.0.0.csv|336064|1088|alcoholic liver disease|K70
+coxnet_status_f.131150.0.0.csv|336064|1088|keratitis|H16
+coxnet_status_f.130892.0.0.csv|336069|1083|bipolar affective disorder|F31
+coxnet_status_f.131270.0.0.csv|336077|1075|rheumatic fever without mention of heart involvement|I00
+coxnet_status_f.130846.0.0.csv|336077|1075|delirium, not induced by alcohol and other psychoactive substances|F05
+coxnet_status_f.131310.0.0.csv|336091|1061|other pulmonary heart diseases|I27
+coxnet_status_f.130818.0.0.csv|336094|1058|disorders of porphyrin and bilirubin metabolism|E80
+coxnet_status_f.131706.0.0.csv|336106|1046|pilonidal cyst|L05
+coxnet_status_f.131962.0.0.csv|336109|1043|osteoporosis with pathological fracture|M80
+coxnet_status_f.131360.0.0.csv|336112|1040|subarachnoid haemorrhage|I60
+coxnet_status_f.131482.0.0.csv|336115|1037|other diseases of upper respiratory tract|J39
+coxnet_status_f.132016.0.0.csv|336133|1019|acute tubulo-interstitial nephritis|N10
+coxnet_status_f.131118.0.0.csv|336134|1018|other diseases of spinal cord|G95
+coxnet_status_f.131698.0.0.csv|336136|1016|impetigo|L01
+coxnet_status_f.131736.0.0.csv|336137|1015|lichen simplex chronicus and prurigo|L28
+coxnet_status_f.132216.0.0.csv|336154|998|maternal care for known or suspected malpresentation of foetus|O32
+coxnet_status_f.131388.0.0.csv|336160|992|arterial embolism and thrombosis|I74
+coxnet_status_f.132194.0.0.csv|336167|985|haemorrhage in early pregnancy|O20
+coxnet_status_f.132066.0.0.csv|336170|982|other disorders of urethra|N36
+coxnet_status_f.131892.0.0.csv|336190|962|other necrotising vasculopathies|M31
+coxnet_status_f.132242.0.0.csv|336196|956|prolonged pregnancy|O48
+coxnet_status_f.131362.0.0.csv|336210|942|intracerebral haemorrhage|I61
+coxnet_status_f.131410.0.0.csv|336222|930|other disorders of veins|I87
+coxnet_status_f.131038.0.0.csv|336235|917|other degenerative diseases of nervous system, not elsewhere classified|G31
+coxnet_status_f.131518.0.0.csv|336254|898|pneumonitis due to solids and liquids|J69
+coxnet_status_f.130842.0.0.csv|336255|897|unspecified dementia|F03
+coxnet_status_f.132002.0.0.csv|336260|892|recurrent and persistent haematuria|N02
+coxnet_status_f.131198.0.0.csv|336292|860|other disorders of optic [2nd] nerve and visual pathways|H47
+coxnet_status_f.130924.0.0.csv|336295|857|mental and behavioural disorders associated with the puerperium, not elsewhere classified|F53
+coxnet_status_f.131940.0.0.csv|336299|853|spontaneous rupture of synovium and tendon|M66
+coxnet_status_f.131148.0.0.csv|336299|853|disorders of sclera|H15
+coxnet_status_f.132230.0.0.csv|336302|850|premature rupture of membranes|O42
+coxnet_status_f.130064.0.0.csv|336308|844|scarlet fever|A38
+coxnet_status_f.131614.0.0.csv|336309|843|femoral hernia|K41
+coxnet_status_f.132240.0.0.csv|336320|832|false labour|O47
+coxnet_status_f.131070.0.0.csv|336328|824|nerve root and plexus disorders|G54
+coxnet_status_f.130202.0.0.csv|336335|817|unspecified viral hepatitis|B19
+coxnet_status_f.132038.0.0.csv|336342|810|calculus of lower urinary tract|N21
+coxnet_status_f.132004.0.0.csv|336350|802|chronic nephritic syndrome|N03
+coxnet_status_f.130702.0.0.csv|336365|787|thyroiditis|E06
+coxnet_status_f.131760.0.0.csv|336377|775|other erythematous conditions|L53
+coxnet_status_f.130646.0.0.csv|336385|767|anaemia in chronic diseases classified elsewhere|D63
+coxnet_status_f.131798.0.0.csv|336386|766|eccrine sweat disorders|L74
+coxnet_status_f.131106.0.0.csv|336386|766|other paralytic syndromes|G83
+coxnet_status_f.132542.0.0.csv|336397|755|congenital deformities of feet|Q66
+coxnet_status_f.131036.0.0.csv|336398|754|alzheimer's disease|G30
+coxnet_status_f.132468.0.0.csv|336401|751|congenital malformations of cardiac septa|Q21
+coxnet_status_f.132062.0.0.csv|336409|743|urethritis and urethral syndrome|N34
+coxnet_status_f.130190.0.0.csv|336413|739|other viral infections characterised by skin and mucous membrane lesions, not elsewhere classified|B08
+coxnet_status_f.130194.0.0.csv|336426|726|acute hepatitis a|B15
+coxnet_status_f.131030.0.0.csv|336433|719|dystonia|G24
+coxnet_status_f.131852.0.0.csv|336434|718|psoriatic and enteropathic arthropathies|M07
+coxnet_status_f.131250.0.0.csv|336441|711|otosclerosis|H80
+coxnet_status_f.131802.0.0.csv|336449|703|vitiligo|L80
+coxnet_status_f.131384.0.0.csv|336457|695|other aneurysm|I72
+coxnet_status_f.130726.0.0.csv|336457|695|hypofunction and other disorders of pituitary gland|E23
+coxnet_status_f.131138.0.0.csv|336461|691|disorders of orbit|H05
+coxnet_status_f.131450.0.0.csv|336480|672|bacterial pneumonia, not elsewhere classified|J15
+coxnet_status_f.132106.0.0.csv|336482|670|salpingitis and oophoritis|N70
+coxnet_status_f.131734.0.0.csv|336498|654|dermatitis due to substances taken internally|L27
+coxnet_status_f.130664.0.0.csv|336500|652|other disorders of white blood cells|D72
+coxnet_status_f.131400.0.0.csv|336503|649|other venous embolism and thrombosis|I82
+coxnet_status_f.130830.0.0.csv|336514|638|other metabolic disorders|E88
+coxnet_status_f.131848.0.0.csv|336516|636|seropositive rheumatoid arthritis|M05
+coxnet_status_f.130642.0.0.csv|336516|636|other aplastic anaemias|D61
+coxnet_status_f.130874.0.0.csv|336526|626|schizophrenia|F20
+coxnet_status_f.130902.0.0.csv|336527|625|unspecified mood [affective] disorder|F39
+coxnet_status_f.132274.0.0.csv|336531|621|other complications of labour and delivery, not elsewhere classified|O75
+coxnet_status_f.130918.0.0.csv|336540|612|eating disorders|F50
+coxnet_status_f.132162.0.0.csv|336542|610|ectopic pregnancy|O00
+coxnet_status_f.131976.0.0.csv|336543|609|osteonecrosis|M87
+coxnet_status_f.130734.0.0.csv|336543|609|other disorders of adrenal gland|E27
+coxnet_status_f.132532.0.0.csv|336544|608|cystic kidney disease|Q61
+coxnet_status_f.131280.0.0.csv|336549|603|rheumatic tricuspid valve diseases|I07
+coxnet_status_f.130898.0.0.csv|336550|602|persistent mood [affective] disorders|F34
+coxnet_status_f.131300.0.0.csv|336553|599|subsequent myocardial infarction|I22
+coxnet_status_f.131446.0.0.csv|336559|593|pneumonia due to streptococcus pneumoniae|J13
+coxnet_status_f.131726.0.0.csv|336560|592|allergic contact dermatitis|L23
+coxnet_status_f.132244.0.0.csv|336565|587|preterm delivery|O60
+coxnet_status_f.131524.0.0.csv|336565|587|pulmonary oedema|J81
+coxnet_status_f.131246.0.0.csv|336571|581|other disorders of middle ear and mastoid|H74
+coxnet_status_f.131078.0.0.csv|336576|576|other mononeuropathies|G58
+coxnet_status_f.131570.0.0.csv|336579|573|cysts of oral region, not elsewhere classified|K09
+coxnet_status_f.131406.0.0.csv|336582|570|oesophageal varices|I85
+coxnet_status_f.131860.0.0.csv|336584|568|other crystal arthropathies|M11
+coxnet_status_f.131476.0.0.csv|336587|565|peritonsillar abscess|J36
+coxnet_status_f.130908.0.0.csv|336587|565|obsessive-compulsive disorder|F42
+coxnet_status_f.131988.0.0.csv|336589|563|other osteochondropathies|M93
+coxnet_status_f.131778.0.0.csv|336589|563|alopecia areata|L63
+coxnet_status_f.130340.0.0.csv|336615|537|viral agents as the cause of diseases classified to other chapters|B97
+coxnet_status_f.131894.0.0.csv|336616|536|systemic lupus erythematosus|M32
+coxnet_status_f.131704.0.0.csv|336621|531|acute lymphadenitis|L04
+coxnet_status_f.130666.0.0.csv|336623|529|diseases of spleen|D73
+coxnet_status_f.130004.0.0.csv|336623|529|other salmonella infections|A02
+coxnet_status_f.132192.0.0.csv|336630|522|unspecified maternal hypertension|O16
+coxnet_status_f.132186.0.0.csv|336633|519|gestational [pregnancy-induced] hypertension without significant proteinuria|O13
+coxnet_status_f.130784.0.0.csv|336633|519|deficiency of other nutrient elements|E61
+coxnet_status_f.132262.0.0.csv|336638|514|labour and delivery complicated by umbilical cord complications|O69
+coxnet_status_f.131160.0.0.csv|336642|510|other disorders of iris and ciliary body|H21
+coxnet_status_f.132238.0.0.csv|336643|509|antepartum haemorrhage, not elsewhere classified|O46
+coxnet_status_f.130724.0.0.csv|336655|497|hyperfunction of pituitary gland|E22
+coxnet_status_f.131994.0.0.csv|336656|496|postprocedural musculoskeletal disorders, not elsewhere classified|M96
+coxnet_status_f.130848.0.0.csv|336656|496|other mental disorders due to brain damage and dysfunction and to physical disease|F06
+coxnet_status_f.132562.0.0.csv|336657|495|congenital malformations of spine and bony thorax|Q76
+coxnet_status_f.130344.0.0.csv|336663|489|other and unspecified infectious diseases|B99
+coxnet_status_f.131330.0.0.csv|336665|487|endocarditis, valve unspecified|I38
+coxnet_status_f.131244.0.0.csv|336671|481|other disorders of tympanic membrane|H73
+coxnet_status_f.131110.0.0.csv|336673|479|hydrocephalus|G91
+coxnet_status_f.131862.0.0.csv|336675|477|other specific arthropathies|M12
+coxnet_status_f.130310.0.0.csv|336675|477|enterobiasis|B80
+coxnet_status_f.131364.0.0.csv|336677|475|other nontraumatic intracranial haemorrhage|I62
+coxnet_status_f.130264.0.0.csv|336679|473|unspecified malaria|B54
+coxnet_status_f.131662.0.0.csv|336680|472|hepatic failure, not elsewhere classified|K72
+coxnet_status_f.131986.0.0.csv|336686|466|other juvenile osteochondrosis|M92
+coxnet_status_f.130838.0.0.csv|336690|462|vascular dementia|F01
+coxnet_status_f.131240.0.0.csv|336696|456|cholesteatoma of middle ear|H71
+coxnet_status_f.131000.0.0.csv|336700|452|encephalitis, myelitis and encephalomyelitis|G04
+coxnet_status_f.131840.0.0.csv|336701|451|pyogenic arthritis|M00
+coxnet_status_f.131564.0.0.csv|336701|451|other disorders of gingiva and edentulous alveolar ridge|K06
+coxnet_status_f.132008.0.0.csv|336706|446|unspecified nephritic syndrome|N05
+coxnet_status_f.131766.0.0.csv|336711|441|other acute skin changes due to ultraviolet radiation|L56
+coxnet_status_f.132202.0.0.csv|336713|439|diabetes mellitus in pregnancy|O24
+coxnet_status_f.132014.0.0.csv|336713|439|glomerular disorders in diseases classified elsewhere|N08
+coxnet_status_f.131088.0.0.csv|336719|433|polyneuropathy in diseases classified elsewhere|G63
+coxnet_status_f.131314.0.0.csv|336721|431|acute pericarditis|I30
+coxnet_status_f.132212.0.0.csv|336722|430|multiple gestation|O30
+coxnet_status_f.131174.0.0.csv|336731|421|other disorders of choroid|H31
+coxnet_status_f.130932.0.0.csv|336732|420|specific personality disorders|F60
+coxnet_status_f.131084.0.0.csv|336739|413|inflammatory polyneuropathy|G61
+coxnet_status_f.131288.0.0.csv|336744|408|hypertensive heart disease|I11
+coxnet_status_f.131544.0.0.csv|336748|404|postprocedural respiratory disorders, not elsewhere classified|J95
+coxnet_status_f.130836.0.0.csv|336748|404|dementia in alzheimer's disease|F00
+coxnet_status_f.131202.0.0.csv|336751|401|paralytic strabismus|H49
+coxnet_status_f.131830.0.0.csv|336755|397|other localised connective tissue disorders|L94
+coxnet_status_f.131478.0.0.csv|336762|390|chronic laryngitis and laryngotracheitis|J37
+coxnet_status_f.132084.0.0.csv|336763|389|male infertility|N46
+coxnet_status_f.131276.0.0.csv|336763|389|rheumatic mitral valve diseases|I05
+coxnet_status_f.131046.0.0.csv|336763|389|other demyelinating diseases of central nervous system|G37
+coxnet_status_f.131108.0.0.csv|336764|388|disorders of autonomic nervous system|G90
+coxnet_status_f.130688.0.0.csv|336764|388|other disorders involving the immune mechanism, not elsewhere classified|D89
+coxnet_status_f.132522.0.0.csv|336774|378|undescended testicle|Q53
+coxnet_status_f.132536.0.0.csv|336775|377|other congenital malformations of kidney|Q63
+coxnet_status_f.131440.0.0.csv|336776|376|influenza due to identified influenza virus|J10
+coxnet_status_f.130022.0.0.csv|336777|375|respiratory tuberculosis, not confirmed bacteriologically or histologically|A16
+coxnet_status_f.131532.0.0.csv|336778|374|pyothorax|J86
+coxnet_status_f.131904.0.0.csv|336784|368|kyphosis and lordosis|M40
+coxnet_status_f.131542.0.0.csv|336791|361|other pleural conditions|J94
+coxnet_status_f.132248.0.0.csv|336796|356|abnormalities of forces of labour|O62
+coxnet_status_f.132174.0.0.csv|336797|355|unspecified abortion|O06
+coxnet_status_f.130816.0.0.csv|336797|355|disorders of purine and pyrimidine metabolism|E79
+coxnet_status_f.131502.0.0.csv|336801|351|pneumoconiosis due to asbestos and other mineral fibres|J61
+coxnet_status_f.131488.0.0.csv|336801|351|unspecified chronic bronchitis|J42
+coxnet_status_f.131728.0.0.csv|336802|350|irritant contact dermatitis|L24
+coxnet_status_f.132500.0.0.csv|336806|346|other congenital malformations of tongue, mouth and pharynx|Q38
+coxnet_status_f.131016.0.0.csv|336806|346|spinal muscular atrophy and related syndromes|G12
+coxnet_status_f.130014.0.0.csv|336806|346|other protozoal intestinal diseases|A07
+coxnet_status_f.130148.0.0.csv|336808|344|viral meningitis|A87
+coxnet_status_f.130920.0.0.csv|336811|341|nonorganic sleep disorders|F51
+coxnet_status_f.131982.0.0.csv|336812|340|osteopathies in diseases classified elsewhere|M90
+coxnet_status_f.131422.0.0.csv|336814|338|other and unspecified disorders of circulatory system|I99
+coxnet_status_f.132188.0.0.csv|336817|335|gestational [pregnancy-induced] hypertension with significant proteinuria|O14
+coxnet_status_f.132108.0.0.csv|336817|335|inflammatory disease of uterus, except cervix|N71
+coxnet_status_f.131104.0.0.csv|336817|335|paraplegia and tetraplegia|G82
+coxnet_status_f.130852.0.0.csv|336822|330|unspecified organic or symptomatic mental disorder|F09
+coxnet_status_f.130626.0.0.csv|336824|328|folate deficiency anaemia|D52
+coxnet_status_f.131066.0.0.csv|336826|326|disorders of other cranial nerves|G52
+coxnet_status_f.131196.0.0.csv|336827|325|optic neuritis|H46
+coxnet_status_f.130738.0.0.csv|336827|325|testicular dysfunction|E29
+coxnet_status_f.132090.0.0.csv|336828|324|inflammatory disorders of male genital organs, not elsewhere classified|N49
+coxnet_status_f.132252.0.0.csv|336829|323|obstructed labour due to malposition and malpresentation of foetus|O64
+coxnet_status_f.130134.0.0.csv|336831|321|acute poliomyelitis|A80
+coxnet_status_f.132472.0.0.csv|336833|319|congenital malformations of aortic and mitral valves|Q23
+coxnet_status_f.131788.0.0.csv|336834|318|hypertrichosis|L68
+coxnet_status_f.130200.0.0.csv|336839|313|chronic viral hepatitis|B18
+coxnet_status_f.131496.0.0.csv|336842|310|status asthmaticus|J46
+coxnet_status_f.130254.0.0.csv|336850|302|unspecified mycosis|B49
+coxnet_status_f.131412.0.0.csv|336854|298|nonspecific lymphadenitis|I88
+coxnet_status_f.130068.0.0.csv|336855|297|streptococcal septicaemia|A40
+coxnet_status_f.131082.0.0.csv|336856|296|hereditary and idiopathic neuropathy|G60
+coxnet_status_f.132510.0.0.csv|336859|293|other congenital malformations of intestine|Q43
+coxnet_status_f.131214.0.0.csv|336861|291|nystagmus and other irregular eye movements|H55
+coxnet_status_f.131978.0.0.csv|336863|289|paget's disease of bone [osteitis deformans]|M88
+coxnet_status_f.131764.0.0.csv|336864|288|sunburn|L55
+coxnet_status_f.130104.0.0.csv|336866|286|anogenital herpesviral [herpes simplex] infections|A60
+coxnet_status_f.131120.0.0.csv|336867|285|other disorders of central nervous system|G96
+coxnet_status_f.131092.0.0.csv|336868|284|myasthenia gravis and other myoneural disorders|G70
+coxnet_status_f.131610.0.0.csv|336869|283|other diseases of appendix|K38
+coxnet_status_f.131930.0.0.csv|336873|279|myositis|M60
+coxnet_status_f.130890.0.0.csv|336873|279|manic episode|F30
+coxnet_status_f.131420.0.0.csv|336874|278|other disorders of circulatory system in diseases classified elsewhere|I98
+coxnet_status_f.132256.0.0.csv|336881|271|other obstructed labour|O66
+coxnet_status_f.130944.0.0.csv|336883|269|psychological and behavioural disorders associated with sexual development and orientation|F66
+coxnet_status_f.131320.0.0.csv|336885|267|acute and subacute endocarditis|I33
+coxnet_status_f.131168.0.0.csv|336886|266|other disorders of lens|H27
+coxnet_status_f.130806.0.0.csv|336888|264|other disorders of carbohydrate metabolism|E74
+coxnet_status_f.130212.0.0.csv|336893|259|unspecified human immunodeficiency virus [hiv] disease|B24
+coxnet_status_f.130888.0.0.csv|336895|257|unspecified nonorganic psychosis|F29
+coxnet_status_f.130878.0.0.csv|336900|252|persistent delusional disorders|F22
+coxnet_status_f.130746.0.0.csv|336900|252|other endocrine disorders|E34
+coxnet_status_f.130010.0.0.csv|336900|252|other bacterial foodborne intoxications|A05
+coxnet_status_f.130916.0.0.csv|336903|249|other neurotic disorders|F48
+coxnet_status_f.132196.0.0.csv|336913|239|excessive vomiting in pregnancy|O21
+coxnet_status_f.130644.0.0.csv|336914|238|acute posthaemorrhagic anaemia|D62
+coxnet_status_f.132442.0.0.csv|336918|234|spina bifida|Q05
+coxnet_status_f.131898.0.0.csv|336918|234|systemic sclerosis|M34
+coxnet_status_f.132586.0.0.csv|336919|233|other congenital malformations, not elsewhere classified|Q89
+coxnet_status_f.131152.0.0.csv|336924|228|corneal scars and opacities|H17
+coxnet_status_f.131550.0.0.csv|336928|224|respiratory disorders in diseases classified elsewhere|J99
+coxnet_status_f.131828.0.0.csv|336931|221|lupus erythematosus|L93
+coxnet_status_f.131536.0.0.csv|336931|221|pleural effusion in conditions classified elsewhere|J91
+coxnet_status_f.131096.0.0.csv|336931|221|other myopathies|G72
+coxnet_status_f.132298.0.0.csv|336932|220|infections of breast associated with childbirth|O91
+coxnet_status_f.132006.0.0.csv|336935|217|nephrotic syndrome|N04
+coxnet_status_f.130762.0.0.csv|336935|217|unspecified protein-energy malnutrition|E46
+coxnet_status_f.132228.0.0.csv|336936|216|other disorders of amniotic fluid and membranes|O41
+coxnet_status_f.132120.0.0.csv|336936|216|vulvovaginal ulceration and inflammation in diseases classified elsewhere|N77
+coxnet_status_f.132222.0.0.csv|336937|215|maternal care for known or suspected foetal abnormality and damage|O35
+coxnet_status_f.130990.0.0.csv|336937|215|mental disorder, not otherwise specified|F99
+coxnet_status_f.130804.0.0.csv|336938|214|lactose intolerance|E73
+coxnet_status_f.132518.0.0.csv|336939|213|congenital malformations of uterus and cervix|Q51
+coxnet_status_f.131418.0.0.csv|336939|213|postprocedural disorders of circulatory system, not elsewhere classified|I97
+coxnet_status_f.130078.0.0.csv|336939|213|erysipelas|A46
+coxnet_status_f.131122.0.0.csv|336940|212|postprocedural disorders of nervous system, not elsewhere classified|G97
+coxnet_status_f.130244.0.0.csv|336943|209|aspergillosis|B44
+coxnet_status_f.130318.0.0.csv|336945|207|pediculosis and phthiriasis|B85
+coxnet_status_f.131998.0.0.csv|336946|206|acute nephritic syndrome|N00
+coxnet_status_f.130964.0.0.csv|336947|205|specific developmental disorders of scholastic skills|F81
+coxnet_status_f.130840.0.0.csv|336947|205|dementia in other diseases classified elsewhere|F02
+coxnet_status_f.130712.0.0.csv|336947|205|other specified diabetes mellitus|E13
+coxnet_status_f.132474.0.0.csv|336948|204|other congenital malformations of heart|Q24
+coxnet_status_f.132200.0.0.csv|336948|204|infections of genito-urinary tract in pregnancy|O23
+coxnet_status_f.131220.0.0.csv|336948|204|postprocedural disorders of eye and adnexa, not elsewhere classified|H59
+coxnet_status_f.131090.0.0.csv|336949|203|other disorders of peripheral nervous system|G64
+coxnet_status_f.131756.0.0.csv|336951|201|erythema multiforme|L51
+coxnet_status_f.132232.0.0.csv|336952|200|placental disorders|O43
+coxnet_status_f.132580.0.0.csv|336953|199|phakomatoses, not elsewhere classified|Q85
+coxnet_status_f.132540.0.0.csv|336954|198|congenital deformities of hip|Q65
+coxnet_status_f.132126.0.0.csv|336954|198|fistulae involving female genital tract|N82
+coxnet_status_f.131552.0.0.csv|336954|198|disorders of tooth development and eruption|K00
+coxnet_status_f.131080.0.0.csv|336954|198|mononeuropathy in diseases classified elsewhere|G59
+coxnet_status_f.130676.0.0.csv|336956|196|immunodeficiency with predominantly antibody defects|D80
+coxnet_status_f.132516.0.0.csv|336957|195|congenital malformations of ovaries, fallopian tubes and broad ligaments|Q50
+coxnet_status_f.132296.0.0.csv|336957|195|complications of the puerperium, not elsewhere classified|O90
+coxnet_status_f.131014.0.0.csv|336957|195|hereditary ataxia|G11
+coxnet_status_f.132584.0.0.csv|336961|191|other specified congenital malformation syndromes affecting multiple systems|Q87
+coxnet_status_f.132544.0.0.csv|336963|189|congenital musculoskeletal deformities of head, face, spine and chest|Q67
+coxnet_status_f.131996.0.0.csv|336963|189|biomechanical lesions, not elsewhere classified|M99
+coxnet_status_f.132270.0.0.csv|336964|188|retained placenta and membranes, without haemorrhage|O73
+coxnet_status_f.131100.0.0.csv|336964|188|infantile cerebral palsy|G80
+coxnet_status_f.130912.0.0.csv|336964|188|dissociative [conversion] disorders|F44
+coxnet_status_f.132288.0.0.csv|336967|185|other puerperal infections|O86
+coxnet_status_f.132018.0.0.csv|336967|185|chronic tubulo-interstitial nephritis|N11
+coxnet_status_f.131664.0.0.csv|336967|185|chronic hepatitis, not elsewhere classified|K73
+coxnet_status_f.131328.0.0.csv|336967|185|pulmonary valve disorders|I37
+coxnet_status_f.131758.0.0.csv|336971|181|erythema nodosum|L52
+coxnet_status_f.132504.0.0.csv|336972|180|other congenital malformations of upper alimentary tract|Q40
+coxnet_status_f.132266.0.0.csv|336972|180|other obstetric trauma|O71
+coxnet_status_f.131398.0.0.csv|336973|179|portal vein thrombosis|I81
+coxnet_status_f.132568.0.0.csv|336974|178|congenital malformations of musculoskeletal system, not elsewhere classified|Q79
+coxnet_status_f.132452.0.0.csv|336974|178|congenital lens malformations|Q12
+coxnet_status_f.131094.0.0.csv|336975|177|primary disorders of muscles|G71
+coxnet_status_f.130884.0.0.csv|336976|176|schizoaffective disorders|F25
+coxnet_status_f.131004.0.0.csv|336977|175|intracranial and intraspinal abscess and granuloma|G06
+coxnet_status_f.131522.0.0.csv|336979|173|adult respiratory distress syndrome|J80
+coxnet_status_f.130638.0.0.csv|336979|173|acquired haemolytic anaemia|D59
+coxnet_status_f.132456.0.0.csv|336981|171|congenital malformations of posterior segment of eye|Q14
+coxnet_status_f.130860.0.0.csv|336983|169|mental and behavioural disorders due to use of sedatives or hypnotics|F13
+coxnet_status_f.130118.0.0.csv|336983|169|other spirochaetal infections|A69
+coxnet_status_f.130092.0.0.csv|336983|169|gonococcal infection|A54
+coxnet_status_f.131844.0.0.csv|336985|167|reactive arthropathies|M02
+coxnet_status_f.131050.0.0.csv|336985|167|status epilepticus|G41
+coxnet_status_f.131238.0.0.csv|336986|166|mastoiditis and related conditions|H70
+coxnet_status_f.132480.0.0.csv|336987|165|other congenital malformations of peripheral vascular system|Q27
+coxnet_status_f.132524.0.0.csv|336988|164|hypospadias|Q54
+coxnet_status_f.132530.0.0.csv|336989|163|renal agenesis and other reduction defects of kidney|Q60
+coxnet_status_f.132080.0.0.csv|336989|163|torsion of testis|N44
+coxnet_status_f.132512.0.0.csv|336991|161|congenital malformations of gallbladder, bile ducts and liver|Q44
+coxnet_status_f.131454.0.0.csv|336992|160|pneumonia in diseases classified elsewhere|J17
+coxnet_status_f.130222.0.0.csv|336992|160|other viral diseases, not elsewhere classified|B33
+coxnet_status_f.131206.0.0.csv|336993|159|other disorders of binocular movement|H51
+coxnet_status_f.132558.0.0.csv|336996|156|other congenital malformations of limb(s|Q74
+coxnet_status_f.131832.0.0.csv|336996|156|vasculitis limited to skin, not elsewhere classified|L95
+coxnet_status_f.132184.0.0.csv|336998|154|gestational [pregnancy-induced] oedema and proteinuria without hypertension|O12
+coxnet_status_f.130858.0.0.csv|336998|154|mental and behavioural disorders due to use of cannabinoids|F12
+coxnet_status_f.132482.0.0.csv|336999|153|other congenital malformations of circulatory system|Q28
+coxnet_status_f.132046.0.0.csv|336999|153|unspecified contracted kidney|N26
+coxnet_status_f.132234.0.0.csv|337000|152|placenta praevia|O44
+coxnet_status_f.131172.0.0.csv|337000|152|chorioretinal inflammation|H30
+coxnet_status_f.131622.0.0.csv|337001|151|other abdominal hernia|K45
+coxnet_status_f.130880.0.0.csv|337001|151|acute and transient psychotic disorders|F23
+coxnet_status_f.130824.0.0.csv|337001|151|amyloidosis|E85
+coxnet_status_f.132464.0.0.csv|337002|150|other congenital malformations of face and neck|Q18
+coxnet_status_f.132476.0.0.csv|337003|149|congenital malformations of great arteries|Q25
+coxnet_status_f.130872.0.0.csv|337003|149|mental and behavioural disorders due to multiple drug use and use of other psychoactive substances|F19
+coxnet_status_f.131294.0.0.csv|337004|148|secondary hypertension|I15
+coxnet_status_f.130198.0.0.csv|337004|148|other acute viral hepatitis|B17
+coxnet_status_f.130962.0.0.csv|337006|146|specific developmental disorders of speech and language|F80
+coxnet_status_f.130006.0.0.csv|337006|146|shigellosis|A03
+coxnet_status_f.131920.0.0.csv|337007|145|spondylopathies in diseases classified elsewhere|M49
+coxnet_status_f.131058.0.0.csv|337007|145|vascular syndromes of brain in cerebrovascular diseases|G46
+coxnet_status_f.130856.0.0.csv|337007|145|mental and behavioural disorders due to use of opioids|F11
+coxnet_status_f.131326.0.0.csv|337008|144|nonrheumatic tricuspid valve disorders|I36
+coxnet_status_f.131896.0.0.csv|337010|142|dermatopolymyositis|M33
+coxnet_status_f.130776.0.0.csv|337010|142|other vitamin deficiencies|E56
+coxnet_status_f.130072.0.0.csv|337010|142|actinomycosis|A42
+coxnet_status_f.132430.0.0.csv|337011|141|other conditions originating in the perinatal period|P96
+coxnet_status_f.132164.0.0.csv|337011|141|hydatidiform mole|O01
+coxnet_status_f.130850.0.0.csv|337011|141|personality and behavioural disorders due to brain disease, damage and dysfunction|F07
+coxnet_status_f.131444.0.0.csv|337015|137|viral pneumonia, not elsewhere classified|J12
+coxnet_status_f.132538.0.0.csv|337016|136|other congenital malformations of urinary system|Q64
+coxnet_status_f.132300.0.0.csv|337017|135|other disorders of breast and lactation associated with childbirth|O92
+coxnet_status_f.132044.0.0.csv|337018|134|disorders resulting from impaired renal tubular function|N25
+coxnet_status_f.131984.0.0.csv|337019|133|juvenile osteochondrosis of hip and pelvis|M91
+coxnet_status_f.130214.0.0.csv|337019|133|cytomegaloviral disease|B25
+coxnet_status_f.131530.0.0.csv|337020|132|abscess of lung and mediastinum|J85
+coxnet_status_f.131866.0.0.csv|337021|131|arthropathies in other diseases classified elsewhere|M14
+coxnet_status_f.130992.0.0.csv|337021|131|bacterial meningitis, not elsewhere classified|G00
+coxnet_status_f.131784.0.0.csv|337022|130|cicatricial alopecia [scarring hair loss]|L66
+coxnet_status_f.130220.0.0.csv|337022|130|viral conjunctivitis|B30
+coxnet_status_f.130196.0.0.csv|337023|129|acute hepatitis b|B16
+coxnet_status_f.131514.0.0.csv|337026|126|hypersensitivity pneumonitis due to organic dust|J67
+coxnet_status_f.130720.0.0.csv|337028|124|hypoparathyroidism|E20
+coxnet_status_f.130324.0.0.csv|337028|124|other infestations|B88
+coxnet_status_f.130080.0.0.csv|337028|124|other bacterial diseases, not elsewhere classified|A48
+coxnet_status_f.131140.0.0.csv|337029|123|disorders of lachrymal system and orbit in diseases classified elsewhere|H06
+coxnet_status_f.132320.0.0.csv|337030|122|foetus and newborn affected by other complications of labour and delivery|P03
+coxnet_status_f.131890.0.0.csv|337031|121|polyarteritis nodosa and related conditions|M30
+coxnet_status_f.131808.0.0.csv|337031|121|acanthosis nigricans|L83
+coxnet_status_f.132502.0.0.csv|337032|120|congenital malformations of oesophagus|Q39
+coxnet_status_f.132246.0.0.csv|337033|119|failed induction of labour|O61
+coxnet_status_f.130728.0.0.csv|337034|118|cushing's syndrome|E24
+coxnet_status_f.132520.0.0.csv|337035|117|other congenital malformations of female genitalia|Q52
+coxnet_status_f.130330.0.0.csv|337037|115|sequelae of poliomyelitis|B91
+coxnet_status_f.130970.0.0.csv|337039|113|pervasive developmental disorders|F84
+coxnet_status_f.130636.0.0.csv|337039|113|other hereditary haemolytic anaemias|D58
+coxnet_status_f.131714.0.0.csv|337042|110|pemphigoid|L12
+coxnet_status_f.130628.0.0.csv|337042|110|other nutritional anaemias|D53
+coxnet_status_f.131908.0.0.csv|337043|109|spinal osteochondrosis|M42
+coxnet_status_f.131448.0.0.csv|337043|109|pneumonia due to haemophilus influenzae|J14
+coxnet_status_f.130632.0.0.csv|337043|109|thalassaemia|D56
+coxnet_status_f.130900.0.0.csv|337046|106|other mood [affective] disorders|F38
+coxnet_status_f.132526.0.0.csv|337047|105|other congenital malformations of male genital organs|Q55
+coxnet_status_f.132026.0.0.csv|337047|105|other renal tubulo-interstitial diseases|N15
+coxnet_status_f.131606.0.0.csv|337047|105|other appendicitis|K36
+coxnet_status_f.130988.0.0.csv|337047|105|other behavioural and emotional disorders with onset usually occurring in childhood and adolescence|F98
+coxnet_status_f.132226.0.0.csv|337048|104|polyhydramnios|O40
+coxnet_status_f.131966.0.0.csv|337048|104|osteoporosis in diseases classified elsewhere|M82
+coxnet_status_f.132576.0.0.csv|337049|103|congenital malformations of breast|Q83
+coxnet_status_f.132534.0.0.csv|337050|102|congenital obstructive defects of renal pelvis and congenital malformations of ureter|Q62
+coxnet_status_f.132290.0.0.csv|337050|102|venous complications in the puerperium|O87
+coxnet_status_f.132566.0.0.csv|337051|101|other osteochondrodysplasias|Q78
+coxnet_status_f.131268.0.0.csv|337052|100|postprocedural disorders of ear and mastoid process, not elsewhere classified|H95
+coxnet_status_f.132448.0.0.csv|337053|99|congenital malformations of eyelid, lachrymal apparatus and orbit|Q10
+coxnet_status_f.131218.0.0.csv|337054|98|other disorders of eye and adnexa in diseases classified elsewhere|H58
+coxnet_status_f.132258.0.0.csv|337058|94|labour and delivery complicated by intrapartum haemorrhage, not elsewhere classified|O67
+coxnet_status_f.131434.0.0.csv|337058|94|acute obstructive laryngitis [croup] and epiglottitis|J05
+coxnet_status_f.131028.0.0.csv|337058|94|other degenerative diseases of basal ganglia|G23
+coxnet_status_f.131372.0.0.csv|337059|93|occlusion and stenosis of cerebral arteries, not resulting in cerebral infarction|I66
+coxnet_status_f.130948.0.0.csv|337059|93|unspecified disorder of adult personality and behaviour|F69
+coxnet_status_f.132446.0.0.csv|337060|92|other congenital malformations of nervous system|Q07
+coxnet_status_f.132198.0.0.csv|337060|92|venous complications in pregnancy|O22
+coxnet_status_f.130732.0.0.csv|337061|91|hyperaldosteronism|E26
+coxnet_status_f.132208.0.0.csv|337062|90|abnormal findings on antenatal screening of mother|O28
+coxnet_status_f.131716.0.0.csv|337062|90|other bullous disorders|L13
+coxnet_status_f.131156.0.0.csv|337063|89|disorders of sclera and cornea in diseases classified elsewhere|H19
+coxnet_status_f.131068.0.0.csv|337063|89|cranial nerve disorders in diseases classified elsewhere|G53
+coxnet_status_f.130822.0.0.csv|337064|88|cystic fibrosis|E84
+coxnet_status_f.131660.0.0.csv|337065|87|toxic liver disease|K71
+coxnet_status_f.130060.0.0.csv|337065|87|diphtheria|A36
+coxnet_status_f.132428.0.0.csv|337066|86|foetal death of unspecified cause|P95
+coxnet_status_f.131780.0.0.csv|337066|86|androgenic alopecia|L64
+coxnet_status_f.131460.0.0.csv|337067|85|acute bronchiolitis|J21
+coxnet_status_f.131558.0.0.csv|337068|84|other diseases of hard tissues of teeth|K03
+coxnet_status_f.131146.0.0.csv|337068|84|disorders of conjunctiva in diseases classified elsewhere|H13
+coxnet_status_f.131024.0.0.csv|337068|84|secondary parkinsonism|G21
+coxnet_status_f.130790.0.0.csv|337068|84|localised adiposity|E65
+coxnet_status_f.132462.0.0.csv|337069|83|other congenital malformations of ear|Q17
+coxnet_status_f.130058.0.0.csv|337069|83|other tetanus|A35
+coxnet_status_f.131744.0.0.csv|337070|82|parapsoriasis|L41
+coxnet_status_f.130684.0.0.csv|337070|82|other immunodeficiencies|D84
+coxnet_status_f.132048.0.0.csv|337071|81|small kidney of unknown cause|N27
+coxnet_status_f.132570.0.0.csv|337073|79|congenital ichthyosis|Q80
+coxnet_status_f.130026.0.0.csv|337073|79|tuberculosis of other organs|A18
+coxnet_status_f.131486.0.0.csv|337074|78|simple and mucopurulent chronic bronchitis|J41
+coxnet_status_f.131394.0.0.csv|337074|78|disorders of arteries, arterioles and capillaries in diseases classified elsewhere|I79
+coxnet_status_f.130652.0.0.csv|337074|78|hereditary factor viii deficiency|D66
+coxnet_status_f.131520.0.0.csv|337076|76|respiratory conditions due to other external agents|J70
+coxnet_status_f.130978.0.0.csv|337076|76|conduct disorders|F91
+coxnet_status_f.131596.0.0.csv|337077|75|gastrojejunal ulcer|K28
+coxnet_status_f.130066.0.0.csv|337078|74|meningococcal infection|A39
+coxnet_status_f.130672.0.0.csv|337079|73|certain diseases involving lymphoreticular tissue and reticulohistiocytic system|D76
+coxnet_status_f.132578.0.0.csv|337080|72|other congenital malformations of integument|Q84
+coxnet_status_f.131526.0.0.csv|337080|72|pulmonary eosinophilia, not elsewhere classified|J82
+coxnet_status_f.132180.0.0.csv|337081|71|pre-existing hypertension complicating pregnancy, childbirth and the puerperium|O10
+coxnet_status_f.130012.0.0.csv|337081|71|amoebiasis|A06
+coxnet_status_f.130002.0.0.csv|337081|71|typhoid and paratyphoid fevers|A01
+coxnet_status_f.132484.0.0.csv|337082|70|congenital malformations of nose|Q30
+coxnet_status_f.131116.0.0.csv|337083|69|other disorders of brain in diseases classified elsewhere|G94
+coxnet_status_f.131968.0.0.csv|337085|67|adult osteomalacia|M83
+coxnet_status_f.131712.0.0.csv|337085|67|other acantholytic disorders|L11
+coxnet_status_f.132546.0.0.csv|337086|66|other congenital musculoskeletal deformities|Q68
+coxnet_status_f.132190.0.0.csv|337086|66|eclampsia|O15
+coxnet_status_f.131312.0.0.csv|337088|64|other diseases of pulmonary vessels|I28
+coxnet_status_f.130050.0.0.csv|337089|63|infection due to other mycobacteria|A31
+coxnet_status_f.130692.0.0.csv|337090|62|iodine-deficiency-related thyroid disorders and allied conditions|E01
+coxnet_status_f.130280.0.0.csv|337090|62|schistosomiasis [bilharziasis]|B65
+coxnet_status_f.131452.0.0.csv|337091|61|pneumonia due to other infectious organisms, not elsewhere classified|J16
+coxnet_status_f.130694.0.0.csv|337092|60|subclinical iodine-deficiency hypothyroidism|E02
+coxnet_status_f.130274.0.0.csv|337092|60|pneumocystosis|B59
+coxnet_status_f.131284.0.0.csv|337093|59|other rheumatic heart diseases|I09
+coxnet_status_f.131302.0.0.csv|337095|57|certain current complications following acute myocardial infarction|I23
+coxnet_status_f.131134.0.0.csv|337095|57|disorders of eyelid in diseases classified elsewhere|H03
+coxnet_status_f.130146.0.0.csv|337096|56|unspecified viral encephalitis|A86
+coxnet_status_f.132218.0.0.csv|337097|55|maternal care for known or suspected disproportion|O33
+coxnet_status_f.131278.0.0.csv|337097|55|rheumatic aortic valve diseases|I06
+coxnet_status_f.130996.0.0.csv|337097|55|meningitis in other infectious and parasitic diseases classified elsewhere|G02
+coxnet_status_f.130960.0.0.csv|337097|55|unspecified mental retardation|F79
+coxnet_status_f.130808.0.0.csv|337097|55|disorders of sphingolipid metabolism and other lipid storage disorders|E75
+coxnet_status_f.130316.0.0.csv|337097|55|other helminthiases|B83
+coxnet_status_f.130256.0.0.csv|337097|55|plasmodium falciparum malaria|B50
+coxnet_status_f.132286.0.0.csv|337098|54|puerperal sepsis|O85
+coxnet_status_f.131854.0.0.csv|337099|53|juvenile arthritis|M08
+coxnet_status_f.131002.0.0.csv|337099|53|encephalitis, myelitis and encephalomyelitis in diseases classified elsewhere|G05
+coxnet_status_f.130102.0.0.csv|337099|53|trichomoniasis|A59
+coxnet_status_f.130314.0.0.csv|337100|52|unspecified intestinal parasitism|B82
+coxnet_status_f.130864.0.0.csv|337101|51|mental and behavioural disorders due to use of other stimulants, including caffeine|F15
+coxnet_status_f.130334.0.0.csv|337101|51|sequelae of other and unspecified infectious and parasitic diseases|B94
+coxnet_status_f.131008.0.0.csv|337103|49|intracranial and intraspinal phlebitis and thrombophlebitis|G08
+coxnet_status_f.130802.0.0.csv|337103|49|other disorders of amino-acid metabolism|E72
+coxnet_status_f.130164.0.0.csv|337103|49|yellow fever|A95
+coxnet_status_f.132310.0.0.csv|337105|47|maternal infectious and parasitic diseases classifiable elsewhere but complicating pregnancy, childbirth and the puerperium|O98
+coxnet_status_f.131818.0.0.csv|337105|47|pyoderma gangrenosum|L88
+coxnet_status_f.132178.0.0.csv|337106|46|complications following abortion and ectopic and molar pregnancy|O08
+coxnet_status_f.131010.0.0.csv|337106|46|sequelae of inflammatory diseases of central nervous system|G09
+coxnet_status_f.131750.0.0.csv|337107|45|other papulosquamous disorders|L44
+coxnet_status_f.131710.0.0.csv|337107|45|pemphigus|L10
+coxnet_status_f.131334.0.0.csv|337107|45|acute myocarditis|I40
+coxnet_status_f.132158.0.0.csv|337108|44|complications associated with artificial fertilisation|N98
+coxnet_status_f.132440.0.0.csv|337109|43|other congenital malformations of brain|Q04
+coxnet_status_f.131932.0.0.csv|337109|43|calcification and ossification of muscle|M61
+coxnet_status_f.132460.0.0.csv|337110|42|congenital malformations of ear causing impairment of hearing|Q16
+coxnet_status_f.130096.0.0.csv|337110|42|other sexually transmitted chlamydial diseases|A56
+coxnet_status_f.130798.0.0.csv|337111|41|disorders of aromatic amino-acid metabolism|E70
+coxnet_status_f.130650.0.0.csv|337111|41|disseminated intravascular coagulation [defibrination syndrome]|D65
+coxnet_status_f.132514.0.0.csv|337112|40|other congenital malformations of digestive system|Q45
+coxnet_status_f.132486.0.0.csv|337112|40|congenital malformations of larynx|Q31
+coxnet_status_f.132470.0.0.csv|337112|40|congenital malformations of pulmonary and tricuspid valves|Q22
+coxnet_status_f.132236.0.0.csv|337112|40|premature separation of placenta [abruptio placentae]|O45
+coxnet_status_f.132024.0.0.csv|337113|39|drug- and heavy-metal-induced tubulo-interstitial and tubular conditions|N14
+coxnet_status_f.132454.0.0.csv|337114|38|congenital malformations of anterior segment of eye|Q13
+coxnet_status_f.131226.0.0.csv|337114|38|disorders of external ear in diseases classified elsewhere|H62
+coxnet_status_f.131376.0.0.csv|337115|37|cerebrovascular disorders in diseases classified elsewhere|I68
+coxnet_status_f.130994.0.0.csv|337115|37|meningitis in bacterial diseases classified elsewhere|G01
+coxnet_status_f.130938.0.0.csv|337115|37|habit and impulse disorders|F63
+coxnet_status_f.132490.0.0.csv|337116|36|congenital malformations of lung|Q33
+coxnet_status_f.132254.0.0.csv|337116|36|obstructed labour due to maternal pelvic abnormality|O65
+coxnet_status_f.132458.0.0.csv|337117|35|other congenital malformations of eye|Q15
+coxnet_status_f.131508.0.0.csv|337117|35|unspecified pneumoconiosis|J64
+coxnet_status_f.131772.0.0.csv|337118|34|other disorders of skin and subcutaneous tissue related to radiation|L59
+coxnet_status_f.131588.0.0.csv|337118|34|disorders of oesophagus in diseases classified elsewhere|K23
+coxnet_status_f.131340.0.0.csv|337119|33|cardiomyopathy in diseases classified elsewhere|I43
+coxnet_status_f.130136.0.0.csv|337119|33|atypical virus infections of central nervous system|A81
+coxnet_status_f.132364.0.0.csv|337120|32|bacterial sepsis of newborn|P36
+coxnet_status_f.130862.0.0.csv|337120|32|mental and behavioural disorders due to use of cocaine|F14
+coxnet_status_f.130046.0.0.csv|337120|32|other zoonotic bacterial diseases, not elsewhere classified|A28
+coxnet_status_f.132604.0.0.csv|337121|31|other chromosome abnormalities, not elsewhere classified|Q99
+coxnet_status_f.132550.0.0.csv|337121|31|syndactyly|Q70
+coxnet_status_f.131842.0.0.csv|337122|30|direct infections of joint in infectious and parasitic diseases classified elsewhere|M01
+coxnet_status_f.130986.0.0.csv|337122|30|tic disorders|F95
+coxnet_status_f.132554.0.0.csv|337124|28|reduction defects of lower limb|Q72
+coxnet_status_f.131786.0.0.csv|337124|28|hair colour and hair shaft abnormalities|L67
+coxnet_status_f.131012.0.0.csv|337124|28|huntington's disease|G10
+coxnet_status_f.130680.0.0.csv|337124|28|immunodeficiency associated with other major defects|D82
+coxnet_status_f.130272.0.0.csv|337124|28|toxoplasmosis|B58
+coxnet_status_f.132498.0.0.csv|337125|27|cleft palate with cleft lip|Q37
+coxnet_status_f.132052.0.0.csv|337125|27|other disorders of kidney and ureter in diseases classified elsewhere|N29
+coxnet_status_f.131724.0.0.csv|337125|27|diaper [napkin] dermatitis|L22
+coxnet_status_f.131292.0.0.csv|337125|27|hypertensive heart and renal disease|I13
+coxnet_status_f.130976.0.0.csv|337125|27|hyperkinetic disorders|F90
+coxnet_status_f.130950.0.0.csv|337125|27|mild mental retardation|F70
+coxnet_status_f.132588.0.0.csv|337126|26|down's syndrome|Q90
+coxnet_status_f.132214.0.0.csv|337126|26|complications specific to multiple gestation|O31
+coxnet_status_f.131020.0.0.csv|337126|26|postpolio syndrome|G14
+coxnet_status_f.130682.0.0.csv|337126|26|common variable immunodeficiency|D83
+coxnet_status_f.130786.0.0.csv|337127|25|other nutritional deficiencies|E63
+coxnet_status_f.130716.0.0.csv|337127|25|nondiabetic hypoglycaemic coma|E15
+coxnet_status_f.130204.0.0.csv|337127|25|human immunodeficiency virus [hiv] disease resulting in infectious and parasitic diseases|B20
+coxnet_status_f.132564.0.0.csv|337128|24|osteochondrodysplasia with defects of growth of tubular bones and spine|Q77
+coxnet_status_f.132444.0.0.csv|337128|24|other congenital malformations of spinal cord|Q06
+coxnet_status_f.132094.0.0.csv|337128|24|disorders of male genital organs in diseases classified elsewhere|N51
+coxnet_status_f.132028.0.0.csv|337128|24|renal tubulo-interstitial disorders in diseases classified elsewhere|N16
+coxnet_status_f.131500.0.0.csv|337128|24|coalworker's pneumoconiosis|J60
+coxnet_status_f.131170.0.0.csv|337128|24|cataract and other disorders of lens in diseases classified elsewhere|H28
+coxnet_status_f.131162.0.0.csv|337128|24|disorders of iris and ciliary body in diseases classified elsewhere|H22
+coxnet_status_f.130936.0.0.csv|337128|24|enduring personality changes, not attributable to brain damage and disease|F62
+coxnet_status_f.130866.0.0.csv|337128|24|mental and behavioural disorders due to use of hallucinogens|F16
+coxnet_status_f.130152.0.0.csv|337128|24|unspecified viral infection of central nervous system|A89
+coxnet_status_f.130140.0.0.csv|337128|24|mosquito-borne viral encephalitis|A83
+coxnet_status_f.132560.0.0.csv|337129|23|other congenital malformations of skull and face bones|Q75
+coxnet_status_f.132494.0.0.csv|337129|23|cleft palate|Q35
+coxnet_status_f.132272.0.0.csv|337129|23|complications of anaesthesia during labour and delivery|O74
+coxnet_status_f.130766.0.0.csv|337129|23|thiamine deficiency|E51
+coxnet_status_f.130634.0.0.csv|337129|23|sickle-cell disorders|D57
+coxnet_status_f.130120.0.0.csv|337129|23|chlamydia psittaci infection|A70
+coxnet_status_f.131044.0.0.csv|337130|22|other acute disseminated demyelination|G36
+coxnet_status_f.130942.0.0.csv|337130|22|disorders of sexual preference|F65
+coxnet_status_f.132478.0.0.csv|337131|21|congenital malformations of great veins|Q26
+coxnet_status_f.132438.0.0.csv|337131|21|congenital hydrocephalus|Q03
+coxnet_status_f.130730.0.0.csv|337131|21|adrenogenital disorders|E25
+coxnet_status_f.132450.0.0.csv|337132|20|anophthalmos, microphthalmos and macrophthalmos|Q11
+coxnet_status_f.130778.0.0.csv|337132|20|dietary calcium deficiency|E58
+coxnet_status_f.130036.0.0.csv|337132|20|brucellosis|A23
+coxnet_status_f.132294.0.0.csv|337133|19|complications of anaesthesia during the puerperium|O89
+coxnet_status_f.131272.0.0.csv|337133|19|rheumatic fever with heart involvement|I01
+coxnet_status_f.130302.0.0.csv|337133|19|hookworm diseases|B76
+coxnet_status_f.130122.0.0.csv|337133|19|trachoma|A71
+coxnet_status_f.130044.0.0.csv|337133|19|leptospirosis|A27
+coxnet_status_f.132572.0.0.csv|337134|18|epidermolysis bullosa|Q81
+coxnet_status_f.132154.0.0.csv|337134|18|habitual aborter|N96
+coxnet_status_f.131902.0.0.csv|337134|18|systemic disorders of connective tissue in diseases classified elsewhere|M36
+coxnet_status_f.131506.0.0.csv|337134|18|pneumoconiosis due to other inorganic dusts|J63
+coxnet_status_f.131098.0.0.csv|337134|18|disorders of myoneural junction and muscle in diseases classified elsewhere|G73
+coxnet_status_f.130168.0.0.csv|337134|18|dengue|A97
+coxnet_status_f.130000.0.0.csv|337134|18|cholera|A00
+coxnet_status_f.132508.0.0.csv|337135|17|congenital absence, atresia and stenosis of large intestine|Q42
+coxnet_status_f.131516.0.0.csv|337135|17|respiratory conditions due to inhalation of chemicals, gases, fumes and vapours|J68
+coxnet_status_f.131274.0.0.csv|337135|17|rheumatic chorea|I02
+coxnet_status_f.131040.0.0.csv|337135|17|other degenerative disorders of nervous system in diseases classified elsewhere|G32
+coxnet_status_f.131018.0.0.csv|337135|17|systemic atrophies primarily affecting central nervous system in diseases classified elsewhere|G13
+coxnet_status_f.130940.0.0.csv|337135|17|gender identity disorders|F64
+coxnet_status_f.130742.0.0.csv|337135|17|polyglandular dysfunction|E31
+coxnet_status_f.130124.0.0.csv|337135|17|other diseases caused by chlamydiae|A74
+coxnet_status_f.132552.0.0.csv|337136|16|reduction defects of upper limb|Q71
+coxnet_status_f.132326.0.0.csv|337136|16|disorders related to short gestation and low birth weight, not elsewhere classified|P07
+coxnet_status_f.132182.0.0.csv|337136|16|pre-existing hypertensive disorder with superimposed proteinuria|O11
+coxnet_status_f.131672.0.0.csv|337136|16|liver disorders in diseases classified elsewhere|K77
+coxnet_status_f.130934.0.0.csv|337136|16|mixed and other personality disorders|F61
+coxnet_status_f.130662.0.0.csv|337136|16|functional disorders of polymorphonuclear neutrophils|D71
+coxnet_status_f.130252.0.0.csv|337136|16|other mycoses, not elsewhere classified|B48
+coxnet_status_f.130210.0.0.csv|337136|16|human immunodeficiency virus [hiv] disease resulting in other conditions|B23
+coxnet_status_f.130192.0.0.csv|337136|16|unspecified viral infection characterised by skin and mucous membrane lesions|B09
+coxnet_status_f.130150.0.0.csv|337136|16|other viral infections of central nervous system, not elsewhere classified|A88
+coxnet_status_f.132598.0.0.csv|337137|15|turner's syndrome|Q96
+coxnet_status_f.132284.0.0.csv|337137|15|multiple delivery|O84
+coxnet_status_f.131770.0.0.csv|337137|15|radiodermatitis|L58
+coxnet_status_f.130740.0.0.csv|337137|15|disorders of puberty, not elsewhere classified|E30
+coxnet_status_f.130258.0.0.csv|337137|15|plasmodium vivax malaria|B51
+coxnet_status_f.132368.0.0.csv|337138|14|omphalitis of newborn with or without mild haemorrhage|P38
+coxnet_status_f.132176.0.0.csv|337138|14|failed attempted abortion|O07
+coxnet_status_f.130982.0.0.csv|337138|14|emotional disorders with onset specific to childhood|F93
+coxnet_status_f.130782.0.0.csv|337138|14|dietary zinc deficiency|E60
+coxnet_status_f.130328.0.0.csv|337138|14|sequelae of tuberculosis|B90
+coxnet_status_f.130128.0.0.csv|337138|14|spotted fever [tick-borne rickettsioses]|A77
+coxnet_status_f.132466.0.0.csv|337139|13|congenital malformations of cardiac chambers and connexions|Q20
+coxnet_status_f.132390.0.0.csv|337139|13|neonatal jaundice from other and unspecified causes|P59
+coxnet_status_f.132114.0.0.csv|337139|13|female pelvic inflammatory disorders in diseases classified elsewhere|N74
+coxnet_status_f.131504.0.0.csv|337139|13|pneumoconiosis due to dust containing silica|J62
+coxnet_status_f.130966.0.0.csv|337139|13|specific developmental disorder of motor function|F82
+coxnet_status_f.130772.0.0.csv|337139|13|ascorbic acid deficiency|E54
+coxnet_status_f.130744.0.0.csv|337139|13|diseases of thymus|E32
+coxnet_status_f.130312.0.0.csv|337139|13|other intestinal helminthiases, not elsewhere classified|B81
+coxnet_status_f.130138.0.0.csv|337139|13|rabies|A82
+coxnet_status_f.130088.0.0.csv|337139|13|late syphilis|A52
+coxnet_status_f.132370.0.0.csv|337140|12|other infections specific to the perinatal period|P39
+coxnet_status_f.132282.0.0.csv|337140|12|other assisted single delivery|O83
+coxnet_status_f.131800.0.0.csv|337140|12|apocrine sweat disorders|L75
+coxnet_status_f.131732.0.0.csv|337140|12|exfoliative dermatitis|L26
+coxnet_status_f.130946.0.0.csv|337140|12|other disorders of adult personality and behaviour|F68
+coxnet_status_f.130876.0.0.csv|337140|12|schizotypal disorder|F21
+coxnet_status_f.130812.0.0.csv|337140|12|disorders of glycoprotein metabolism|E77
+coxnet_status_f.130654.0.0.csv|337140|12|hereditary factor ix deficiency|D67
+coxnet_status_f.130180.0.0.csv|337140|12|smallpox|B03
+coxnet_status_f.132548.0.0.csv|337141|11|polydactyly|Q69
+coxnet_status_f.132362.0.0.csv|337141|11|congenital viral diseases|P35
+coxnet_status_f.132340.0.0.csv|337141|11|other birth injuries|P15
+coxnet_status_f.132338.0.0.csv|337141|11|birth injury to peripheral nervous system|P14
+coxnet_status_f.132292.0.0.csv|337141|11|obstetric embolism|O88
+coxnet_status_f.131838.0.0.csv|337141|11|other disorders of skin and subcutaneous tissue in diseases classified elsewhere|L99
+coxnet_status_f.131816.0.0.csv|337141|11|transepidermal elimination disorders|L87
+coxnet_status_f.131438.0.0.csv|337141|11|influenza due to certain identified influenza virus|J09
+coxnet_status_f.130928.0.0.csv|337141|11|abuse of non-dependence-producing substances|F55
+coxnet_status_f.130678.0.0.csv|337141|11|combined immunodeficiencies|D81
+coxnet_status_f.130250.0.0.csv|337141|11|mycetoma|B47
+coxnet_status_f.130112.0.0.csv|337141|11|yaws|A66
+coxnet_status_f.130090.0.0.csv|337141|11|other and unspecified syphilis|A53
+coxnet_status_f.130024.0.0.csv|337141|11|tuberculosis of nervous system|A17
+coxnet_status_f.132602.0.0.csv|337142|10|other sex chromosome abnormalities, male phenotype, not elsewhere classified|Q98
+coxnet_status_f.132488.0.0.csv|337142|10|congenital malformations of trachea and bronchus|Q32
+coxnet_status_f.132366.0.0.csv|337142|10|other congenital infectious and parasitic diseases|P37
+coxnet_status_f.132358.0.0.csv|337142|10|other respiratory conditions originating in the perinatal period|P28
+coxnet_status_f.132000.0.0.csv|337142|10|rapidly progressive nephritic syndrome|N01
+coxnet_status_f.131318.0.0.csv|337142|10|pericarditis in diseases classified elsewhere|I32
+coxnet_status_f.131200.0.0.csv|337142|10|disorders of optic [2nd] nerve and visual pathways in diseases classified elsewhere|H48
+coxnet_status_f.130952.0.0.csv|337142|10|moderate mental retardation|F71
+coxnet_status_f.130794.0.0.csv|337142|10|other hyperalimentation|E67
+coxnet_status_f.130296.0.0.csv|337142|10|onchocerciasis|B73
+coxnet_status_f.132422.0.0.csv|337143|9|feeding problems of newborn|P92
+coxnet_status_f.132382.0.0.csv|337143|9|haemolytic disease of foetus and newborn|P55
+coxnet_status_f.131194.0.0.csv|337143|9|disorders of vitreous body and globe in diseases classified elsewhere|H45
+coxnet_status_f.131112.0.0.csv|337143|9|toxic encephalopathy|G92
+coxnet_status_f.130844.0.0.csv|337143|9|organic amnesic syndrome, not induced by alcohol and other psychoactive substances|F04
+coxnet_status_f.130640.0.0.csv|337143|9|acquired pure red cell aplasia [erythroblastopenia]|D60
+coxnet_status_f.130304.0.0.csv|337143|9|ascariasis|B77
+coxnet_status_f.130144.0.0.csv|337143|9|other viral encephalitis, not elsewhere classified|A85
+coxnet_status_f.130086.0.0.csv|337143|9|early syphilis|A51
+coxnet_status_f.130052.0.0.csv|337143|9|listeriosis|A32
+coxnet_status_f.132434.0.0.csv|337144|8|encephalocele|Q01
+coxnet_status_f.132416.0.0.csv|337144|8|other conditions of integument specific to foetus and newborn|P83
+coxnet_status_f.132360.0.0.csv|337144|8|cardiovascular disorders originating in the perinatal period|P29
+coxnet_status_f.132010.0.0.csv|337144|8|isolated proteinuria with specified morphological lesion|N06
+coxnet_status_f.131696.0.0.csv|337144|8|staphylococcal scalded skin syndrome|L00
+coxnet_status_f.131266.0.0.csv|337144|8|other disorders of ear in diseases classified elsewhere|H94
+coxnet_status_f.130234.0.0.csv|337144|8|histoplasmosis|B39
+coxnet_status_f.130206.0.0.csv|337144|8|human immunodeficiency virus [hiv] disease resulting in malignant neoplasms|B21
+coxnet_status_f.130130.0.0.csv|337144|8|q fever|A78
+coxnet_status_f.130028.0.0.csv|337144|8|miliary tuberculosis|A19
+coxnet_status_f.132592.0.0.csv|337145|7|other trisomies and partial trisomies of the autosomes, not elsewhere classified|Q92
+coxnet_status_f.132556.0.0.csv|337145|7|reduction defects of unspecified limb|Q73
+coxnet_status_f.132496.0.0.csv|337145|7|cleft lip|Q36
+coxnet_status_f.130752.0.0.csv|337145|7|nutritional marasmus|E41
+coxnet_status_f.130292.0.0.csv|337145|7|other cestode infections|B71
+coxnet_status_f.130208.0.0.csv|337145|7|human immunodeficiency virus [hiv] disease resulting in other specified diseases|B22
+coxnet_status_f.130158.0.0.csv|337145|7|other mosquito-borne viral fevers|A92
+coxnet_status_f.130084.0.0.csv|337145|7|congenital syphilis|A50
+coxnet_status_f.132594.0.0.csv|337146|6|monosomies and deletions from the autosomes, not elsewhere classified|Q93
+coxnet_status_f.132590.0.0.csv|337146|6|edwards' syndrome and patau's syndrome|Q91
+coxnet_status_f.132324.0.0.csv|337146|6|slow foetal growth and foetal malnutrition|P05
+coxnet_status_f.132060.0.0.csv|337146|6|bladder disorders in diseases classified elsewhere|N33
+coxnet_status_f.131332.0.0.csv|337146|6|endocarditis and heart valve disorders in diseases classified elsewhere|I39
+coxnet_status_f.131232.0.0.csv|337146|6|otitis media in diseases classified elsewhere|H67
+coxnet_status_f.130886.0.0.csv|337146|6|other nonorganic psychotic disorders|F28
+coxnet_status_f.130800.0.0.csv|337146|6|disorders of branched-chain amino-acid metabolism and fatty-acid metabolism|E71
+coxnet_status_f.130756.0.0.csv|337146|6|unspecified severe protein-energy malnutrition|E43
+coxnet_status_f.130630.0.0.csv|337146|6|anaemia due to enzyme disorders|D55
+coxnet_status_f.130286.0.0.csv|337146|6|taeniasis|B68
+coxnet_status_f.130284.0.0.csv|337146|6|echinococcosis|B67
+coxnet_status_f.130266.0.0.csv|337146|6|leishmaniasis|B55
+coxnet_status_f.130042.0.0.csv|337146|6|erysipeloid|A26
+coxnet_status_f.132600.0.0.csv|337147|5|other sex chromosome abnormalities, female phenotype, not elsewhere classified|Q97
+coxnet_status_f.132394.0.0.csv|337147|5|other perinatal haematological disorders|P61
+coxnet_status_f.132380.0.0.csv|337147|5|other neonatal haemorrhages|P54
+coxnet_status_f.132374.0.0.csv|337147|5|umbilical haemorrhage of newborn|P51
+coxnet_status_f.132328.0.0.csv|337147|5|disorders related to long gestation and high birth weight|P08
+coxnet_status_f.132318.0.0.csv|337147|5|foetus and newborn affected by complications of placenta, cord and membranes|P02
+coxnet_status_f.132172.0.0.csv|337147|5|other abortion|O05
+coxnet_status_f.131694.0.0.csv|337147|5|disorders of other digestive organs in diseases classified elsewhere|K93
+coxnet_status_f.131176.0.0.csv|337147|5|chorioretinal disorders in diseases classified elsewhere|H32
+coxnet_status_f.130926.0.0.csv|337147|5|psychological and behavioural factors associated with disorders or diseases classified elsewhere|F54
+coxnet_status_f.130870.0.0.csv|337147|5|mental and behavioural disorders due to use of volatile solvents|F18
+coxnet_status_f.130154.0.0.csv|337147|5|dengue fever [classical dengue]|A90
+coxnet_status_f.130142.0.0.csv|337147|5|tick-borne viral encephalitis|A84
+coxnet_status_f.130114.0.0.csv|337147|5|pinta [carate]|A67
+coxnet_status_f.132492.0.0.csv|337148|4|other congenital malformations of respiratory system|Q34
+coxnet_status_f.132342.0.0.csv|337148|4|intra-uterine hypoxia|P20
+coxnet_status_f.132336.0.0.csv|337148|4|birth injury to skeleton|P13
+coxnet_status_f.132314.0.0.csv|337148|4|foetus and newborn affected by maternal conditions that may be unrelated to present pregnancy|P00
+coxnet_status_f.132068.0.0.csv|337148|4|urethral disorders in diseases classified elsewhere|N37
+coxnet_status_f.132012.0.0.csv|337148|4|hereditary nephropathy, not elsewhere classified|N07
+coxnet_status_f.131944.0.0.csv|337148|4|disorders of synovium and tendon in diseases classified elsewhere|M68
+coxnet_status_f.131846.0.0.csv|337148|4|postinfective and reactive arthropathies in diseases classified elsewhere|M03
+coxnet_status_f.131026.0.0.csv|337148|4|parkinsonism in diseases classified elsewhere|G22
+coxnet_status_f.130810.0.0.csv|337148|4|disorders of glycosaminoglycan metabolism|E76
+coxnet_status_f.130322.0.0.csv|337148|4|myiasis|B87
+coxnet_status_f.130288.0.0.csv|337148|4|cysticercosis|B69
+coxnet_status_f.130276.0.0.csv|337148|4|other protozoal diseases, not elsewhere classified|B60
+coxnet_status_f.130162.0.0.csv|337148|4|unspecified arthropod-borne viral fever|A94
+coxnet_status_f.130160.0.0.csv|337148|4|other arthropod-borne viral fevers, not elsewhere classified|A93
+coxnet_status_f.132596.0.0.csv|337149|3|balanced rearrangements and structural markers, not elsewhere classified|Q95
+coxnet_status_f.132506.0.0.csv|337149|3|congenital absence, atresia and stenosis of small intestine|Q41
+coxnet_status_f.132432.0.0.csv|337149|3|anencephaly and similar malformations|Q00
+coxnet_status_f.132426.0.0.csv|337149|3|disorders of muscle tone of newborn|P94
+coxnet_status_f.132346.0.0.csv|337149|3|respiratory distress of newborn|P22
+coxnet_status_f.132332.0.0.csv|337149|3|other birth injuries to central nervous system|P11
+coxnet_status_f.132302.0.0.csv|337149|3|sequelae of complication of pregnancy, childbirth and the puerperium|O94
+coxnet_status_f.131656.0.0.csv|337149|3|disorders of peritoneum in infectious diseases classified elsewhere|K67
+coxnet_status_f.131512.0.0.csv|337149|3|airway disease due to specific organic dust|J66
+coxnet_status_f.131336.0.0.csv|337149|3|myocarditis in diseases classified elsewhere|I41
+coxnet_status_f.131248.0.0.csv|337149|3|other disorders of middle ear and mastoid in diseases classified elsewhere|H75
+coxnet_status_f.130980.0.0.csv|337149|3|mixed disorders of conduct and emotions|F92
+coxnet_status_f.130958.0.0.csv|337149|3|other mental retardation|F78
+coxnet_status_f.130954.0.0.csv|337149|3|severe mental retardation|F72
+coxnet_status_f.130768.0.0.csv|337149|3|niacin deficiency [pellagra]|E52
+coxnet_status_f.130764.0.0.csv|337149|3|vitamin a deficiency|E50
+coxnet_status_f.130758.0.0.csv|337149|3|protein-energy malnutrition of moderate and mild degree|E44
+coxnet_status_f.130710.0.0.csv|337149|3|malnutrition-related diabetes mellitus|E12
+coxnet_status_f.130674.0.0.csv|337149|3|other disorders of blood and blood-forming organs in diseases classified elsewhere|D77
+coxnet_status_f.130668.0.0.csv|337149|3|methaemoglobinaemia|D74
+coxnet_status_f.130326.0.0.csv|337149|3|unspecified parasitic disease|B89
+coxnet_status_f.130298.0.0.csv|337149|3|filariasis|B74
+coxnet_status_f.130246.0.0.csv|337149|3|cryptococcosis|B45
+coxnet_status_f.130074.0.0.csv|337149|3|nocardiosis|A43
+coxnet_status_f.132396.0.0.csv|337150|2|transitory disorders of carbohydrate metabolism specific to foetus and newborn|P70
+coxnet_status_f.132388.0.0.csv|337150|2|neonatal jaundice due to other excessive haemolysis|P58
+coxnet_status_f.132378.0.0.csv|337150|2|haemorrhagic disease of foetus and newborn|P53
+coxnet_status_f.132350.0.0.csv|337150|2|neonatal aspiration syndromes|P24
+coxnet_status_f.132348.0.0.csv|337150|2|congenital pneumonia|P23
+coxnet_status_f.132344.0.0.csv|337150|2|birth asphyxia|P21
+coxnet_status_f.132334.0.0.csv|337150|2|birth injury to scalp|P12
+coxnet_status_f.132330.0.0.csv|337150|2|intracranial laceration and haemorrhage due to birth injury|P10
+coxnet_status_f.132210.0.0.csv|337150|2|complications of anaesthesia during pregnancy|O29
+coxnet_status_f.131686.0.0.csv|337150|2|disorders of gallbladder, biliary tract and pancreas in diseases classified elsewhere|K87
+coxnet_status_f.131358.0.0.csv|337150|2|other heart disorders in diseases classified elsewhere|I52
+coxnet_status_f.131188.0.0.csv|337150|2|glaucoma in diseases classified elsewhere|H42
+coxnet_status_f.131006.0.0.csv|337150|2|intracranial and intraspinal abscess and granuloma in diseases classified elsewhere|G07
+coxnet_status_f.130974.0.0.csv|337150|2|unspecified disorder of psychological development|F89
+coxnet_status_f.130930.0.0.csv|337150|2|unspecified behavioural syndromes associated with physiological disturbances and physical factors|F59
+coxnet_status_f.130882.0.0.csv|337150|2|induced delusional disorder|F24
+coxnet_status_f.130780.0.0.csv|337150|2|dietary selenium deficiency|E59
+coxnet_status_f.130306.0.0.csv|337150|2|strongyloidiasis|B78
+coxnet_status_f.130262.0.0.csv|337150|2|other parasitologically confirmed malaria|B53
+coxnet_status_f.130260.0.0.csv|337150|2|plasmodium malariae malaria|B52
+coxnet_status_f.130248.0.0.csv|337150|2|zygomycosis|B46
+coxnet_status_f.130126.0.0.csv|337150|2|typhus fever|A75
+coxnet_status_f.130116.0.0.csv|337150|2|relapsing fevers|A68
+coxnet_status_f.130108.0.0.csv|337150|2|unspecified sexually transmitted disease|A64
+coxnet_status_f.130040.0.0.csv|337150|2|rat-bite fevers|A25
+coxnet_status_f.130034.0.0.csv|337150|2|anthrax|A22
+coxnet_status_f.132582.0.0.csv|337151|1|congenital malformation syndromes due to known exogenous causes, not elsewhere classified|Q86
+coxnet_status_f.132436.0.0.csv|337151|1|microcephaly|Q02
+coxnet_status_f.132420.0.0.csv|337151|1|other disturbances of cerebral status of newborn|P91
+coxnet_status_f.132410.0.0.csv|337151|1|other perinatal digestive system disorders|P78
+coxnet_status_f.132398.0.0.csv|337151|1|transitory neonatal disorders of calcium and magnesium metabolism|P71
+coxnet_status_f.132352.0.0.csv|337151|1|interstitial emphysema and related conditions originating in the perinatal period|P25
+coxnet_status_f.132322.0.0.csv|337151|1|foetus and newborn affected by noxious influences transmitted via placenta or breast milk|P04
+coxnet_status_f.131952.0.0.csv|337151|1|soft tissue disorders in diseases classified elsewhere|M73
+coxnet_status_f.131936.0.0.csv|337151|1|disorders of muscle in diseases classified elsewhere|M63
+coxnet_status_f.131762.0.0.csv|337151|1|erythema in diseases classified elsewhere|L54
+coxnet_status_f.131718.0.0.csv|337151|1|bullous disorders in diseases classified elsewhere|L14
+coxnet_status_f.131254.0.0.csv|337151|1|vertiginous syndromes in diseases classified elsewhere|H82
+coxnet_status_f.130984.0.0.csv|337151|1|disorders of social functioning with onset specific to childhood and adolescence|F94
+coxnet_status_f.130972.0.0.csv|337151|1|other disorders of psychological development|F88
+coxnet_status_f.130796.0.0.csv|337151|1|sequelae of hyperalimentation|E68
+coxnet_status_f.130788.0.0.csv|337151|1|sequelae of malnutrition and other nutritional deficiencies|E64
+coxnet_status_f.130760.0.0.csv|337151|1|retarded development following protein-energy malnutrition|E45
+coxnet_status_f.130748.0.0.csv|337151|1|disorders of endocrine glands in diseases classified elsewhere|E35
+coxnet_status_f.130308.0.0.csv|337151|1|trichuriasis|B79
+coxnet_status_f.130300.0.0.csv|337151|1|trichinellosis|B75
+coxnet_status_f.130282.0.0.csv|337151|1|other fluke infections|B66
+coxnet_status_f.130270.0.0.csv|337151|1|chagas' disease|B57
+coxnet_status_f.130242.0.0.csv|337151|1|chromomycosis and phaeomycotic abscess|B43
+coxnet_status_f.130240.0.0.csv|337151|1|sporotrichosis|B42
+coxnet_status_f.130236.0.0.csv|337151|1|blastomycosis|B40
+coxnet_status_f.130232.0.0.csv|337151|1|coccidioidomycosis|B38
+coxnet_status_f.130170.0.0.csv|337151|1|other viral haemorrhagic fevers, not elsewhere classified|A98
+coxnet_status_f.130156.0.0.csv|337151|1|dengue haemorrhagic fever|A91
+coxnet_status_f.130100.0.0.csv|337151|1|granuloma inguinale|A58
+coxnet_status_f.130094.0.0.csv|337151|1|chlamydial lymphogranuloma (venereum|A55
+coxnet_status_f.130054.0.0.csv|337151|1|tetanus neonatorum|A33
+coxnet_status_f.130030.0.0.csv|337151|1|plague|A20
