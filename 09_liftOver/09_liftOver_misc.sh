@@ -244,14 +244,12 @@ liftOverWrapper () {
         } | bgzip -l9 --threads ${threads} > ${tmp_intermediate}
 
         fix_flip ${tmp_intermediate} ${ref_fa} ${to_bed_field_sep} ${bed_chr_prefix}
+
+        rm ${tmp_intermediate}
     else
         show_header ${in_file}
         liftOver_body ${in_file} ${src_genome} ${dst_genome} ${out_unmapped%.gz} ${threads} ${to_bed_field_sep} ${bed_chr_prefix} 
     fi | bgzip -l9 --threads ${threads} > ${out_mapped%.gz}.gz
 
     gzip -9 ${out_unmapped%.gz}
-
-    if   [ ! -z "${col_OR}" ] || [ ! -z "${col_BETA}" ] ; then
-        rm ${tmp_intermediate}
-    fi
 }
