@@ -3,8 +3,8 @@ set -beEuo pipefail
 
 SRCNAME=$(readlink -f $0)
 PROGNAME=$(basename $SRCNAME)
-VERSION="0.1.0"
-NUM_POS_ARGS="3"
+VERSION="1.0.0"
+NUM_POS_ARGS="1"
 
 # read common func
 source "$(dirname ${SRCNAME})/09_liftOver_misc.sh"
@@ -26,18 +26,15 @@ show_default () {
 usage () {
 cat <<- EOF
 	$PROGNAME (version $VERSION)
-	Apply UCSC liftOver. If the input file contains OR or BETA column, the script will also automatically apply the flipfix.
+	Partially apply flipfix and check the flip.
 	  Author: Yosuke Tanigawa (ytanigaw@stanford.edu)
 	
-	Usage: $PROGNAME [options] in_file out_mapped out_unmapped
-	  in_file       The input file. It needs to have the following columns: CHROM, POS, REF, and ID
-	  out_mapped    The output file of the mapped elements.
-	  out_unmapped  The output file of the unmapped elements.
+	Usage: $PROGNAME [options] in_file
+	  in_file       The input file. It needs to have the following columns: CHROM, POS, ID, REF, ALT, A1, and one of the following: OR or BETA.
 	
 	Options:
-	  --threads  (-t) Number of CPU cores
-	  --src_genome    The genome build for the input file
-	  --dst_genome    The genome build for the output file
+	  --assembly    The genome build for the input file
+	  --ref_fa      The reference genome sequence. It it's specified as AUTO, it will be automatically grab one from ${REF_FA_DIR} (the default behavior).
 	
 	Default configurations (please use the options above to modify them):
 	  to_bed_field_sep=${TO_BED_FIELD_SEP}
@@ -52,9 +49,8 @@ EOF
 to_bed_field_sep=${TO_BED_FIELD_SEP}
 bed_chr_prefix=${BED_CHR_PREFIX}
 ## == Default_parameters_(start) == ##
-threads=4
-src_genome="hg19"
-dst_genome="hg38"
+ref_fa="AUTO"
+assembly="hg19"
 ## == Default_parameters_(end) == ##
 
 declare -a params=()
@@ -66,14 +62,11 @@ for OPT in "$@" ; do
         '-v' | '--version' )
             echo $VERSION ; exit 0 ;
             ;;
-        '-t' | '--threads' )
-            threads=$2 ; shift 2 ;
+        '--ref_fa' )
+            ref_fa=$2 ; shift 2 ;
             ;;
-        '--src_genome' )
-            src_genome=$2 ; shift 2 ;
-            ;;
-        '--dst_genome' )
-            dst_genome=$2 ; shift 2 ;
+        '--assembly' )
+            assembly=$2 ; shift 2 ;
             ;;
         '--to_bed_field_sep' )
             to_bed_field_sep=$2 ; shift 2 ;
@@ -101,9 +94,9 @@ if [ ${#params[@]} -lt ${NUM_POS_ARGS} ]; then
 fi
 
 in_file="${params[0]}"
-out_mapped="${params[1]}"
-out_unmapped="${params[2]}"
 
 ############################################################
-ml load ucsc-liftover
-liftOverWrapper ${in_file} ${src_genome} ${dst_genome} ${out_mapped} ${out_unmapped} ${threads} ${to_bed_field_sep} ${bed_chr_prefix}
+ml load bedtools
+
+if [ "${ref_fa}" == "AUTO" ] ; then ref_fa=$(get_ref_fa "${assembly}"); fi
+check_flip ${in_file} ${ref_fa} ${to_bed_field_sep} ${bed_chr_prefix}
