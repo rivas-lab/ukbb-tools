@@ -26,17 +26,17 @@ find_suffix () {
     find_file $filePrefix | sed -e "s%${filePrefix}.%%"
 }
 
-mv_glm_file () {
+mv_glm_file_and_bgzip () {
     local filePrefix=$1
-    
-    mv $(find_file $filePrefix) $filePrefix.$(find_suffix $filePrefix | cut -d'.' -f2-)
+    local src=$(find_file $filePrefix)
+    local dst=$filePrefix.$(find_suffix $filePrefix | cut -d'.' -f2-)
+    mv $src $dst
+    apply_bgzip $dst
 }
 
 apply_bgzip () {
-    local filePrefix=$1
-    
-    local sumstats=$(find_file $filePrefix)
-    if [ "${sumstats%.gz}.gz" != ${sumstats} ] ; then bgzip -l 9 ${sumstats} ; fi
+    local file=$1
+    if [ "${file%.gz}.gz" != "${file}" ] ; then bgzip -l 9 ${file} ; fi
 }
 
 get_log_filename () {
@@ -51,8 +51,7 @@ post_processing () {
     local logFile=$(get_log_filename ${filePrefix})
     if [ ! -d $(dirname ${logFile}) ] ; then mkdir -p $(dirname ${logFile}) ; fi
     mv ${filePrefix}.log ${logFile}
-    mv_glm_file $filePrefix
-    apply_bgzip $filePrefix
+    mv_glm_file_and_bgzip $filePrefix    
 }
 
 combine_two_sumstats () {

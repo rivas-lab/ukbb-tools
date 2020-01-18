@@ -41,7 +41,7 @@ Default configurations (please use the options above to modify them):
   dst_genome="hg38"
 ```
 
-### Example usage
+### Example usage (liftOver)
 
 ```{bash}
 ml load ukbb-tools
@@ -79,7 +79,7 @@ Default configurations (please use the options above to modify them):
   assembly="hg19"
 ```
 
-### Example usage
+### Example usage (flipfix)
 
 ```{bash}
 ml load ukbb-tools
