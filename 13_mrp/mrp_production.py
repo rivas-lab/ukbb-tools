@@ -17,12 +17,13 @@ def is_pos_def_and_full_rank(X):
   
     """
     # Check that it's not only pos def but also above a certain threshold
+    X = np.matrix(X)
     i = 0
-    while not (np.all(np.linalg.eigvals(X) > 1e-15)):
+    while (np.linalg.cond(X) >= 1/np.finfo(X.dtype).eps):
         X = 0.99 * X + 0.01 * np.diag(np.diag(X))
         i += 1
-        if i > 5:
-            return np.nan
+        if i >= 5:
+            return X
     return X
 
 
@@ -47,10 +48,14 @@ def safe_inv(X, matrix_name, block, agg_type):
     try:
         X_inv = np.linalg.inv(X)
     except LinAlgError as err:
-        print(
-            "Could not invert " + matrix_name + " for " + agg_type + " " + block + "."
-        )
-        return np.nan
+        X = is_pos_def_and_full_rank(X)
+        try:
+            X_inv = np.linalg.inv(X)
+        except LinAlgError as err:
+            print(
+                "Could not invert " + matrix_name + " for " + agg_type + " " + block + "."
+            )
+            return np.nan
     return X_inv
 
 
@@ -219,8 +224,8 @@ def compute_posterior_probs(log10BF, prior_odds_list):
     prior_odds_list: List of assumed prior odds.
   
     Returns: 
-    posterior_prob: The posterior probability of the event
-        given the prior odds and the Bayes Factor.
+    posterior_probs: List of posterior probabilities of the event
+        given the list of prior odds and the Bayes Factor.
   
     """
 
@@ -265,12 +270,6 @@ def return_BF(
     p_values: List of p-values corresponding to each method in p_value_methods.
   
     """
-    v_beta = is_pos_def_and_full_rank(v_beta)
-    if np.any(np.isnan(v_beta)):
-        return np.nan, [], []
-    U = is_pos_def_and_full_rank(U)
-    if np.any(np.isnan(U)):
-        return np.nan, [], []
     v_beta_inv = safe_inv(v_beta, "v_beta", block, agg_type)
     U_inv = safe_inv(U, "U", block, agg_type)
     if v_beta_inv is not np.nan and U_inv is not np.nan:
@@ -367,7 +366,7 @@ def generate_beta_se(subset_df, pops, phenos):
     subset_df: Slice of the original dataframe that encompasses the current unit of 
         aggregation (gene/variant).
     pops: Unique set of populations (studies) to use for analysis.
-    phenos: Unique set of GBE phenotypes to use for analysis.
+    phenos: Unique set of phenotypes to use for analysis.
   
     Returns: 
     beta_list: A list of effect sizes (some may be missing) from the subset.
@@ -404,7 +403,7 @@ def calculate_all_params(
     Parameters: 
     df: Merged, filtered, and annotated dataframe containing summary statistics.
     pops: Unique set of populations (studies) to use for analysis.
-    phenos: Unique set of GBE phenotypes to use for analysis.
+    phenos: Unique set of phenotypes to use for analysis.
     key: Variant/gene name.
     sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_005".
         Dictates variant scaling factor by functional annotation.
@@ -432,14 +431,24 @@ def calculate_all_params(
     )
     sigma_m = subset_df[sigma_m_type].tolist()
     diag_sigma_m = np.diag(np.atleast_1d(np.array(sigma_m)))
+    print("diag_sigma_m")
+    print(diag_sigma_m)
+    np.save("HADH_diag_sigma_m", diag_sigma_m)
     R_var = np.diag(np.ones(M)) if R_var_model == "independent" else np.ones((M, M))
     S_var = np.dot(np.dot(diag_sigma_m, R_var), diag_sigma_m)
+    if R_var_model == "independent":
+        np.save("HADH_Svar_independent.npy", S_var)
+    else:
+        np.save("HADH_Svar_similar.npy", S_var)
     beta_list, se_list = generate_beta_se(subset_df, pops, phenos)
     beta = np.array(beta_list).reshape(-1, 1)
     se = np.array(se_list)
     omega = np.kron(err_corr, np.diag(np.ones(M)))
     U = np.kron(np.kron(R_study, R_phen), S_var)
     U, omega, beta, se = adjust_for_missingness(U, omega, beta, se, beta_list)
+    print("se")
+    print(se)
+    np.save('HADH_se.npy', se)
     diag_se = np.diag(se)
     v_beta = np.dot(np.dot(diag_se, omega), diag_se)
     mu = np.zeros(beta.shape)
@@ -455,8 +464,9 @@ def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, out_folder):
     bf_dfs: List of dataframes containing Bayes Factors from each analysis.
     agg_type: One of "gene"/"variant". Dictates block of aggregation.
     pops: Unique set of populations (studies) to use for analysis.
-    phenos: Unique set of GBE phenotypes to use for analysis.
+    phenos: Unique set of phenotypes to use for analysis.
     maf_thresh: Maximum MAF of variants in this run.
+    out_folder: Output folder in which results are stored.
 
     """
 
@@ -477,6 +487,10 @@ def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, out_folder):
         + "_"
         + str(maf_thresh)
         + ".tsv",
+    )
+    out_df = out_df.sort_values(
+        by=out_df.columns[1],
+        ascending=False,
     )
     out_df.to_csv(out_file, sep="\t", index=False)
     print("")
@@ -592,9 +606,9 @@ def run_mrp(
     Parameters: 
     df: Merged dataframe containing all relevant summary statistics.
     S: Number of populations/studies.
-    K: Number of GBE phenotypes.
+    K: Number of phenotypes.
     pops: Unique set of populations (studies) to use for analysis.
-    phenos: Unique set of GBE phenotypes to use for analysis.
+    phenos: Unique set of phenotypes to use for analysis.
     R_study: R_study matrix to use for analysis (independent/similar).
     R_study_model: String ("independent"/"similar") corresponding to R_study.
     R_phen: R_phen matrix to use for analysis (empirically calculated).
@@ -647,6 +661,15 @@ def run_mrp(
             M,
             err_corr,
         )
+        print("U")
+        print(U)
+        np.save("HADH_U.npy", U)
+        print("beta")
+        print(beta)
+        np.save("HADH_beta.npy", beta)
+        print("v_beta")
+        print(v_beta)
+        np.save("HADH_v_beta.npy", v_beta)
         bf, posterior_probs, p_values = return_BF(
             U,
             beta,
@@ -778,9 +801,9 @@ def loop_through_parameters(
     R_study_models: Unique strings ("independent"/"similar") corresponding to each 
         matrix in R_study_list.
     pops: Unique set of populations (studies) to use for analysis.
-    K: Number of GBE phenotypes.
+    K: Number of phenotypes.
     R_phen: R_phen matrix to use for analysis (empirically calculated).
-    phenos: Unique set of GBE phenotypes to use for analysis.
+    phenos: Unique set of phenotypes to use for analysis.
     R_var_models: Unique strings ("independent"/"similar") corresponding to R_var 
         matrices to use for analysis.
     sigma_m_types: Unique list of sigma_m types ("sigma_m_var"/"sigma_m_1"/"sigma_m_005")
@@ -853,10 +876,6 @@ def loop_through_parameters(
                                 agg_type,
                                 prior_odds_list,
                                 p_value_methods,
-                            )
-                            bf_df = bf_df.sort_values(
-                                by=list(set(bf_df.columns) - set([agg_type])),
-                                ascending=False,
                             )
                             bf_dfs.append(bf_df)
             output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, out_folder)
@@ -1034,10 +1053,11 @@ def build_phen_corr(S, K, pops, phenos, df, pop_pheno_tuples):
 
     Parameters:
     S: Number of populations/studies.
-    K: Number of GBE phenotypes.
+    K: Number of phenotypes.
     pops: Unique set of populations (studies) to use for analysis.
-    phenos: Unique set of GBE phenotypes to use for analysis.
+    phenos: Unique set of phenotypes to use for analysis.
     df: Merged dataframe containing all relevant summary statistics.
+    pop_pheno_tuples: Indicate which populations/phenotypes to use to build R_phen.
 
     Returns:
     phen_corr: (S*K x S*K) matrix of correlations between all phenotypes and studies 
@@ -1095,9 +1115,9 @@ def build_R_phen(S, K, pops, phenos, df, map_file):
 
     Parameters:
     S: Number of populations/studies.
-    K: Number of GBE phenotypes.
+    K: Number of phenotypes.
     pops: Unique set of populations (studies) to use for analysis.
-    phenos: Unique set of GBE phenotypes to use for analysis.
+    phenos: Unique set of phenotypes to use for analysis.
     df: Merged dataframe containing all relevant summary statistics.
     map_file: Input file containing summary statistic paths + pop and pheno data.
 
@@ -1141,6 +1161,7 @@ def calculate_err(a, b, pop1, pheno1, pop2, pheno2, err_corr, err_df):
     Calculates a single entry in the err_corr matrix.
     
     Parameters:
+    a, b: Positional parameters within the err_corr matrix.
     pop1: Name of first population.
     pheno1: Name of first phenotype.
     pop2: Name of second population.
@@ -1171,7 +1192,6 @@ def filter_for_err_corr(df):
 
     Parameters:
     df: Merged dataframe containing all summary statistics.
-    map_file: Dataframe indicating which summary statistics to use to build err_corr.
 
     Returns:
     df: Filtered dataframe that contains null, common, LD-independent variants.
@@ -1219,9 +1239,9 @@ def build_err_corr(S, K, pops, phenos, df):
 
     Parameters:
     S: Number of populations/studies.
-    K: Number of GBE phenotypes.
+    K: Number of phenotypes.
     pops: Unique set of populations (studies) to use for analysis.
-    phenos: Unique set of GBE phenotypes to use for analysis.
+    phenos: Unique set of phenotypes to use for analysis.
     df: Merged dataframe containing all relevant summary statistics.
 
     Returns:
@@ -1256,11 +1276,11 @@ def return_err_and_R_phen(df, pops, phenos, S, K, map_file):
         and correlations of phenotypes.
   
     Parameters: 
-    dfs: List of dataframes that contain summary statistics.
+    df: Dataframe that containa summary statistics.
     pops: Unique set of populations (studies) to use for analysis.
-    phenos: Unique set of GBE phenotypes to use for analysis.
+    phenos: Unique set of phenotypes to use for analysis.
     S: Number of populations/studies.
-    K: Number of GBE phenotypes.
+    K: Number of phenotypes.
     map_file: Input file containing summary statistic paths + pop and pheno data.
 
     Returns:
@@ -1276,6 +1296,9 @@ def return_err_and_R_phen(df, pops, phenos, S, K, map_file):
     err_corr[abs(err_corr) < 0.01] = 0
     R_phen = build_R_phen(S, K, pops, phenos, df, map_file)
     R_phen[abs(R_phen) < 0.01] = 0
+    # Get rid of any values above 0.95
+    while (np.max(R_phen - np.eye(len(R_phen))) > 0.9):
+        R_phen = 0.9 * R_phen + 0.1 * np.diag(np.diag(R_phen))
     return err_corr, R_phen
 
 
@@ -1312,6 +1335,12 @@ def check_map_file(map_file):
 
     Parameters:
     map_file: Input file containing summary statistic paths + pop and pheno data.
+    
+    Returns:
+    pops: Unique set of populations (studies) to use for analysis.
+    phenos: Unique set of phenotypes to use for analysis.
+    S: Number of populations/studies.
+    K: Number of phenotypes.
 
     """
     if map_file.isnull().values.sum() > 0:
@@ -1407,15 +1436,16 @@ def read_in_summary_stat(subset_df, pop, pheno):
     # Filter for SE as you read it in
     df = rename_columns(df, pop, pheno)
     df = df[df["SE" + "_" + pop + "_" + pheno].notnull()]
-    df = df[df["SE" + "_" + pop + "_" + pheno].astype(float) <= 0.5]
+    df = df[df["SE" + "_" + pop + "_" + pheno].astype(float) <= 0.2]
+    # Filter out HLA region
+    df = df[~((df["#CHROM"] == 6) & (df["POS"].between(25477797, 36448354)))]
     return df
 
 
-def read_in_summary_stats(map_file, metadata_path):
+def read_in_summary_stats(map_file, metadata_path, exclude_path):
 
     """ 
-    Reads in GBE summary statistics from the Rivas Lab file organization system on 
-        Sherlock.
+    Reads in summary statistics.
   
     Additionally: adds a variant identifier ("V"), renames columns, and filters on 
         SE (<= 0.5).
@@ -1429,9 +1459,9 @@ def read_in_summary_stats(map_file, metadata_path):
     Returns: 
     df: Merged summary statistics.
     pops: Unique set of populations (studies) to use for analysis.
-    phenos: Unique set of GBE phenotypes to use for analysis.
+    phenos: Unique set of phenotypes to use for analysis.
     S: Number of populations/studies.
-    K: Number of GBE phenotypes. 
+    K: Number of phenotypes. 
 
     """
 
@@ -1457,7 +1487,15 @@ def read_in_summary_stats(map_file, metadata_path):
                     + "population: {}; phenotype: {}.".format(pop, pheno)
                     + Style.RESET_ALL
                 )
+    try:
+        if exclude_path:
+            exclude_path = exclude_path[0]
+            variants_to_exclude = [line.rstrip('\n') for line in open(exclude_path)]
+    except:
+        raise IOError("Could not open exclusions file (--exclude).")
     df = merge_dfs(sumstat_files, metadata_path)
+    if exclude_path:
+        df = df[~df["V"].isin(variants_to_exclude)]
     return df, pops, phenos, S, K
 
 
@@ -1502,25 +1540,12 @@ def return_input_args(args):
     args: Command-line arguments that have been parsed by the parser.
   
     Returns: 
-    S: Number of populations/studies.
-    K: Number of GBE phenotypes.
+    df: Merged summary statistics.
     pops: Unique set of populations (studies) to use for analysis.
-    phenos: Unique set of GBE phenotypes to use for analysis.
+    phenos: Unique set of phenotypes to use for analysis.
+    S: Number of populations/studies.
+    K: Number of phenotypes. 
     R_study_list: Unique list of R_study matrices to use for analysis.
-    R_study_models: Unique strings ("independent"/"similar") corresponding to each 
-        matrix in R_study_list.
-    R_var_models: Unique strings ("independent"/"similar") corresponding to R_var 
-        matrices to use for analysis.
-    agg: Unique list of aggregation units ("gene"/"variant") to use for analysis.
-    sigma_m_types: Unique list of sigma_m types ("sigma_m_var"/"sigma_m_1"/"sigma_m_005") 
-        to use for analysis.
-    variant_filters: Unique list of variant filters ("ptv"/"pav"/"pcv") to use 
-        for analysis.
-    maf_threshes: List of maximum MAFs of variants in your runs.
-    prior_odds_list: List of prior odds used as assumptions to calculate posterior 
-        probabilities of Bayes Factors.
-    p_value_methods: List of p-value methods used to calculate p-values from 
-        Bayes Factors.
   
     """
 
@@ -1528,7 +1553,7 @@ def return_input_args(args):
         map_file = pd.read_csv(args.map_file, sep="\t")
     except:
         raise IOError("File specified in --file does not exist.")
-    df, pops, phenos, S, K = read_in_summary_stats(map_file, args.metadata_path)
+    df, pops, phenos, S, K = read_in_summary_stats(map_file, args.metadata_path, args.exclude)
     for arg in vars(args):
         setattr(args, arg, sorted(list(set(getattr(args, arg)))))
     R_study = [
@@ -1563,7 +1588,7 @@ def initialize_parser(valid_phenos):
     Parses inputs using argparse. 
     
     Parameters: 
-    valid_phenos: List of valid GBE phenotypes read in from phenotype_info.tsv.
+    valid_phenos: List of valid phenotypes.
 
     """
 
@@ -1594,7 +1619,7 @@ def initialize_parser(valid_phenos):
         type=str,
         required=True,
         dest="metadata_path",
-        help="""path tab-separated file containing:
+        help="""path to tab-separated file containing:
          variants,
          gene symbols,
          consequences,
@@ -1695,6 +1720,20 @@ def initialize_parser(valid_phenos):
          recommended if p-values are a must.""",
     )
     parser.add_argument(
+        "--exclude",
+        type=str,
+        nargs=1,
+        default=[],
+        dest="exclude",
+        help="""path to file containing list of variants to exclude from analysis.
+
+         format of file:
+
+         1:69081:G:C
+         1:70001:G:A
+        """,
+    )
+    parser.add_argument(
         "--out_folder",
         type=str,
         nargs=1,
@@ -1709,7 +1748,7 @@ def initialize_parser(valid_phenos):
 if __name__ == "__main__":
 
     """ 
-    Runs MRP analysis on GBE summary statistics with the parameters specified 
+    Runs MRP analysis on summary statistics with the parameters specified 
         by the command line.
 
     """
@@ -1765,6 +1804,7 @@ if __name__ == "__main__":
     err_corr, R_phen = return_err_and_R_phen(
         df, pops, phenos, len(pops), len(phenos), map_file
     )
+    df = df[(df["gene_symbol"] == "HADH")]# | (df["gene_symbol"] == "ANGPTL7")]
     loop_through_parameters(
         df,
         args.maf_threshes,
