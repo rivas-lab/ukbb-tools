@@ -4,6 +4,13 @@
 
 This directory contains helper scripts to run Metal.
 
+## ToDo
+
+- Add post-processing scripts so that metal file has CHROM and POS column.
+- Apply flipfix
+- Apply `bgzip`
+
+
 ## `run_metal.sh`
 
 This is the helper script to run Metal.

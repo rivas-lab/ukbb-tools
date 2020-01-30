@@ -27,17 +27,16 @@ cat <<- EOF
 	$PROGNAME (version $VERSION)
 	Run run_metal
 	
-	Usage: $PROGNAME [options] in_file_list outfile
+	Usage: $PROGNAME [options] in_file_list masterfile outfile_prefix
 	  in_file_list      A file that has a list of input files for METAL
       masterfile        Master file (output)
-      outfile           An output file
+      metal_out_prefix  The prefix of output files from METAL
 	
 	Options:
 	  --nCores     (-t)  Number of CPU cores
 	  --memory     (-m)  The memory amount
 	
 	Default configurations:
-	  snpnet_dir=${snpnet_dir}
 EOF
     show_default | awk -v spacer="  " '{print spacer $0}'
 }
