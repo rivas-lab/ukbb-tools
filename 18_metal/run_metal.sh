@@ -36,7 +36,7 @@ cat <<- EOF
 	  --nCores     (-t)  Number of CPU cores
 	  --memory     (-m)  The memory amount
 	
-	Default configurations for snpnet (please use the options above to modify them):
+	Default configurations:
 	  snpnet_dir=${snpnet_dir}
 EOF
     show_default | awk -v spacer="  " '{print spacer $0}'

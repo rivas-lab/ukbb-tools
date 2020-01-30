@@ -4,7 +4,7 @@ set -beEuo pipefail
 SRCNAME=$(readlink -f $0)
 PROGNAME=$(basename $SRCNAME)
 VERSION="0.0.1"
-NUM_POS_ARGS="2"
+NUM_POS_ARGS="1"
 
 source "$(dirname ${SRCNAME})/18_metal_misc.sh"
 
@@ -25,11 +25,11 @@ show_default () {
 usage () {
 cat <<- EOF
 	$PROGNAME (version $VERSION)
-	Run metal
+	Run add_BETA_from_OR
 	
-	Usage: $PROGNAME [options] in_file_list outfile
-	  in_file_list      A file that has a list of input files for METAL
-      outfile           An output file
+	Usage: $PROGNAME [options] input_file output_file
+	  input_file      The input file
+      output_file     The output file
 	
 	Options:
 	  --nCores     (-t)  Number of CPU cores
@@ -93,8 +93,12 @@ if [ ${#params[@]} -lt ${NUM_POS_ARGS} ]; then
 fi
 
 input_file="${params[0]}"
-out_file="${params[1]}"
+output_file="${params[1]}"
 
 ############################################################
 
-show_master_file ${input_file} ${out_file}
+tmp_out=${tmp_dir}/$(basename ${output_file})
+
+add_BETA_from_OR ${input_file} | bgzip -l9 --threads ${nCores} > "${tmp_out%.gz}.gz"
+
+cp ${tmp_out%.gz}.gz ${output_file%.gz}.gz
