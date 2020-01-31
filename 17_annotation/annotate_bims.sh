@@ -72,7 +72,7 @@ echo "Result written to" $output"."
 #rm $vcf*
 
 echo "Zipping and tabixing output..."
-bgzip $output
+bgzip -f $output
 tabix -p vcf $output.gz
 
 echo "Exporting as .tsv..."

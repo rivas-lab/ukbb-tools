@@ -9,7 +9,7 @@
 
 - `annotate_imp_bims.sh`: Wrapper for submitting jobs to annotate imputation BIMs.
 
-- `combine_cALL.sh`: Concatenates imputation annotations (Autosome only for now).
+- `combine_cALL.sh`: Concatenates imputation annotations, including XY.
    Results are written to `/oak/stanford/groups/mrivas/ukbb24983/imp/annotation/annot.tsv.gz`.
 
 - `convert_to_vcf.py`: Converts a given BIM file into a VCF to be annotated by VEP.
