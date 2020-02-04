@@ -43,11 +43,11 @@ dictConfig(dict(
 
 
 def get_tsv_from_tab(in_tab, field_id):
-    return pd.read_csv(in_tab, sep='\t', usecols=lambda col: col=="f.eid" or field_id == col.split(".")[1])
+    return pd.read_csv(in_tab, sep='\t', usecols=lambda col: col=="f.eid" or field_id == col.split(".")[1], dtype={"f.eid": str})
 
 
 def create_bin_phe_file(in_tsv, out_phe, out_log, field_id, case, control, missing_is_control):
-    logger_phe = logging.getLogger('create_phe_file')    
+    logger_phe = logging.getLogger('create_phe_file')
     hdlr = logging.FileHandler(out_log)
     formatter = logging.Formatter('%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
     hdlr.setFormatter(formatter)    

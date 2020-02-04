@@ -7,7 +7,7 @@
 if [ $# -gt 0 ]; then
   PHE_DIR=$1
 else
-  PHE_DIR="/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/"
+  PHE_DIR="/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/current/info/"
 fi
 
 # output redirect
