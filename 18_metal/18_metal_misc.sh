@@ -1,4 +1,4 @@
-# #!/bin/bash
+#!/bin/bash
 # set -beEuo pipefail
 
 show_master_file_header () {
@@ -70,13 +70,36 @@ get_col_idx () {
 }
 
 add_BETA_from_OR () {
-	local in_file=$1
-	
-	local col_OR=$( get_col_idx $in_file "CHROM")
+    local in_file=$1
 
-	echo "$(show_header $in_file) BETA" | tr " " "\t"
+    local col_OR=$( get_col_idx $in_file "CHROM")
 
-	cat_or_zcat ${in_file} \
+    echo "$(show_header $in_file) BETA" | tr " " "\t"
+
+    cat_or_zcat ${in_file} \
     | egrep -v '^#' \
     | awk -v OFS='\t' -v cOR=${col_OR} '{print $0, log($cOR)}'
+}
+
+extract_loci () {
+    local in_file=$1
+    
+    local col_CHROM=$( get_col_idx $in_file "CHROM")
+    local col_POS=$(   get_col_idx $in_file "POS")
+    local col_ID=$(    get_col_idx $in_file "ID")
+   
+    cat_or_zcat ${in_file} \
+    | awk -v OFS='\t' -v cCHROM=${col_CHROM} -v cPOS=${col_POS} -v cID=${col_ID} \
+    '(NR>1){print $cCHROM, $cPOS, $cID}'
+}
+
+extract_loci_for_files () {
+    local in_files=$1
+    if [ $# -gt 1 ] ; then nCores=$2 ; else nCores=1 ; fi
+    
+    echo "#CHROM POS ID" | tr " " "\t"
+    
+    cat_or_zcat ${in_files} | while read f ; do 
+        extract_loci $f
+    done | sort --parallel ${nCores} -k1,1V -k2,2n -k3,3 -u
 }

@@ -3,7 +3,7 @@ set -beEuo pipefail
 
 SRCNAME=$(readlink -f $0)
 PROGNAME=$(basename $SRCNAME)
-VERSION="0.0.1"
+VERSION="0.1.0"
 NUM_POS_ARGS="2"
 
 source "$(dirname ${SRCNAME})/18_metal_misc.sh"
@@ -25,19 +25,14 @@ show_default () {
 usage () {
 cat <<- EOF
 	$PROGNAME (version $VERSION)
-	Run metal
+	Generate master file to run Metal.
 	
 	Usage: $PROGNAME [options] in_file_list outfile
 	  in_file_list      A file that has a list of input files for METAL
-      outfile           An output file
+	  outfile           An output file
 	
-	Options:
-	  --nCores     (-t)  Number of CPU cores
-	  --memory     (-m)  The memory amount
-	
-	Default configurations:
 EOF
-    show_default | awk -v spacer="  " '{print spacer $0}'
+#    show_default | awk -v spacer="  " '{print spacer $0}'
 }
 
 ############################################################
@@ -54,8 +49,6 @@ trap handler_exit EXIT
 # parser start
 ############################################################
 ## == Default parameters (start) == ##
-nCores=4
-memory=30000
 ## == Default parameters (end) == ##
 
 declare -a params=()
@@ -66,12 +59,6 @@ for OPT in "$@" ; do
             ;;
         '-v' | '--version' )
             echo $VERSION ; exit 0 ;
-            ;;
-        '-t' | '--nCores' )
-            nCores=$2 ; shift 2 ;
-            ;;
-        '-m' | '--memory' )
-            memory=$2 ; shift 2 ;
             ;;
         '--'|'-' )
             shift 1 ; params+=( "$@" ) ; break

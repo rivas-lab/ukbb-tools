@@ -3,7 +3,7 @@ set -beEuo pipefail
 
 SRCNAME=$(readlink -f $0)
 PROGNAME=$(basename $SRCNAME)
-VERSION="1.0.0"
+VERSION="1.1.0"
 NUM_POS_ARGS="1"
 
 # read common func

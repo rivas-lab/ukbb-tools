@@ -2,11 +2,14 @@
 set -beEuo pipefail
 
 SRCNAME=$(readlink -f $0)
+SRCDIR=$(dirname ${SRCNAME})
 PROGNAME=$(basename $SRCNAME)
-VERSION="0.0.1"
-NUM_POS_ARGS="3"
+VERSION="0.1.0"
+NUM_POS_ARGS="2"
 
-source "$(dirname ${SRCNAME})/18_metal_misc.sh"
+source "${SRCDIR}/18_metal_misc.sh"
+
+flipcheck_sh="$(dirname ${SRCDIR})/09_liftOver/flipcheck.sh"
 
 ############################################################
 # functions
@@ -25,18 +28,18 @@ show_default () {
 usage () {
 cat <<- EOF
 	$PROGNAME (version $VERSION)
-	Run run_metal
+	Run run_metal for the specified set of summary statistics and apply flipfix.
 	
-	Usage: $PROGNAME [options] in_file_list masterfile outfile_prefix
+	Usage: $PROGNAME [options] in_file_list outfile_prefix
 	  in_file_list      A file that has a list of input files for METAL
-      masterfile        Master file (output)
-      metal_out_prefix  The prefix of output files from METAL
+	  metal_out_prefix  The prefix of output files from METAL
 	
 	Options:
+	  --flipcheck_sh     The location of flip check script
 	  --nCores     (-t)  Number of CPU cores
-	  --memory     (-m)  The memory amount
 	
 	Default configurations:
+	  flipcheck_sh=${flipcheck_sh}
 EOF
     show_default | awk -v spacer="  " '{print spacer $0}'
 }
@@ -56,7 +59,6 @@ trap handler_exit EXIT
 ############################################################
 ## == Default parameters (start) == ##
 nCores=4
-memory=30000
 ## == Default parameters (end) == ##
 
 declare -a params=()
@@ -71,8 +73,8 @@ for OPT in "$@" ; do
         '-t' | '--nCores' )
             nCores=$2 ; shift 2 ;
             ;;
-        '-m' | '--memory' )
-            memory=$2 ; shift 2 ;
+        '--flipcheck_sh' )
+            flipcheck_sh=$2 ; shift 2 ;
             ;;
         '--'|'-' )
             shift 1 ; params+=( "$@" ) ; break
@@ -94,12 +96,33 @@ if [ ${#params[@]} -lt ${NUM_POS_ARGS} ]; then
 fi
 
 input_file="${params[0]}"
-master_file="${params[1]}"
-out_file="${params[2]}"
+out_file="${params[1]}"
 
 ############################################################
 
 ml load metal
 
-show_master_file ${input_file} ${out_file} > ${master_file}
+tmp_out=${tmp_dir}/$(basename ${out_file})
+master_file="${tmp_dir}/metal.masterfile"
+
+show_master_file ${input_file} ${tmp_out} > ${master_file}
+
+cd ${tmp_dir}
 metal ${master_file}
+cd -
+
+extract_loci_for_files ${input_file} ${nCores} | bgzip -l9 -@ ${nCores} > ${tmp_out}.loci.gz
+
+Rscript ${SRCDIR}/metal_post_processing_step1.R \
+${tmp_out}.loci.gz ${tmp_out}1.tbl ${tmp_out}.metal.tsv
+
+bash ${flipcheck_sh} ${tmp_out}.metal.tsv \
+| bgzip -l 9 -@ ${nCores} > ${tmp_out}.metal.check.tsv.gz
+
+Rscript ${SRCDIR}/metal_post_processing_step2.R \
+${tmp_out}.metal.check.tsv.gz ${tmp_out}.metal.fixed.tsv
+
+bgzip -l 9 -@ ${nCores} ${tmp_out}.metal.fixed.tsv
+
+cp ${tmp_out}.metal.fixed.tsv.gz ${out_file}.metal.tsv.gz
+cat ${tmp_out}1.tbl.info ${master_file} > ${out_file}.metal.info.txt
