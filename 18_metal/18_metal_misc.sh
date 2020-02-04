@@ -72,7 +72,7 @@ get_col_idx () {
 add_BETA_from_OR () {
     local in_file=$1
 
-    local col_OR=$( get_col_idx $in_file "CHROM")
+    local col_OR=$( get_col_idx $in_file "OR")
 
     echo "$(show_header $in_file) BETA" | tr " " "\t"
 

@@ -3,8 +3,8 @@ set -beEuo pipefail
 
 SRCNAME=$(readlink -f $0)
 PROGNAME=$(basename $SRCNAME)
-VERSION="0.0.1"
-NUM_POS_ARGS="1"
+VERSION="0.1.0"
+NUM_POS_ARGS="2"
 
 source "$(dirname ${SRCNAME})/18_metal_misc.sh"
 
@@ -29,7 +29,7 @@ cat <<- EOF
 	
 	Usage: $PROGNAME [options] input_file output_file
 	  input_file      The input file
-      output_file     The output file
+	  output_file     The output file
 	
 	Options:
 	  --nCores     (-t)  Number of CPU cores
