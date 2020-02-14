@@ -81,17 +81,17 @@ def initialize_MCMC(
     # initialize pc (proportions across all variants)
     # store the probabilities (proportions) of cluster memberships
     pc = np.zeros((niter + 2, 1, C))
-    pc[0,0,:] = np.random.dirichlet([1]*C)
+    pc[0, 0, :] = np.random.dirichlet([1] * C)
     # initialize pcj (proportions for each gene j)
     # store the probabilities (proportions) of cluster memberships for each gene
     pcj = np.zeros((niter + 2, gene_len, C))
     for gene_idx in range(0, gene_len):
-        pcj[0, gene_idx, :] = np.random.dirichlet(alpha[0, 0] *pc[0, 0, :])
+        pcj[0, gene_idx, :] = np.random.dirichlet(alpha[0, 0] * pc[0, 0, :])
     # store the mean trait value across the clusters for individuals that are members
     bc = np.zeros((niter + 2, C, K))
     bc[0, 0, :] = np.array([0] * K)
     for c in range(1, C):
-        bc[0, c, :] = np.random.multivariate_normal(np.array([0]*K).T, Theta_0)
+        bc[0, c, :] = np.random.multivariate_normal(np.array([0] * K).T, Theta_0)
     scales = np.zeros((niter + 2, annot_len))
     for scaleidx in range(0, annot_len):
         scales[0, scaleidx] = np.power(0.2, 2)
@@ -231,7 +231,7 @@ def MH(
 ):
     quantity = None
     ## Metropolis-Hastings step
-    if np.log(np.random.uniform(0,1,size = 1)[0]) < min(0, thresh):
+    if np.log(np.random.uniform(0, 1, size=1)[0]) < min(0, thresh):
         accept += 1
         quantity = accept_quantity
         if iteration > burn:
@@ -290,11 +290,11 @@ def update_pcj(alpha, pc, pcj, delta_m, gene_len, gene_vec, gene_map, iteration)
 
 
 def calculate_Vjm(ses, var_idx, err_corr, Vjm_scale):
-    atmp = np.array(ses[var_idx,:])[0]
+    atmp = np.array(ses[var_idx, :])[0]
     dtmp = npm.eye(len(atmp))
-    np.fill_diagonal(dtmp,atmp)
+    np.fill_diagonal(dtmp, atmp)
     Vjm = dtmp * err_corr * dtmp + np.matlib.eye(err_corr.shape[0]) * Vjm_scale
-    #dtmp = np.diag(np.array(ses[var_idx, :])[0])
+    # dtmp = np.diag(np.array(ses[var_idx, :])[0])
     return Vjm
 
 
@@ -343,7 +343,7 @@ def update_delta_jm(
     for c in range(0, C):
         probmjc[c] = uc[c] / np.sum(uc)
     if np.isnan(probmjc[0]):
-        wstmp = np.random.dirichlet(np.repeat(np.array([1]), C, axis = 0))
+        wstmp = np.random.dirichlet(np.repeat(np.array([1]), C, axis=0))
         custm = stats.rv_discrete(name="custm", values=(xk, wstmp))
     else:
         custm = stats.rv_discrete(name="custm", values=(xk, probmjc))
@@ -422,12 +422,12 @@ def update_sigma_2(
     accept_mh2_postburnin,
     reject_mh2,
     reject_mh2_postburnin,
-    Vjm_scale
+    Vjm_scale,
 ):
     # e) Update scale sigma^2 annot.
     for annot_idx in range(0, annot_len):
         scaleprop = abs(
-            np.random.normal(np.sqrt(scales[iteration - 1, annot_idx]), xi_0, size = 1)[0]
+            np.random.normal(np.sqrt(scales[iteration - 1, annot_idx]), xi_0, size=1)[0]
         )
         annotdata = annot_map[annot_idx]
         probnum1 = stats.invgamma.logpdf(np.power(scaleprop, 2), 1, scale=1)
@@ -513,12 +513,10 @@ def calculate_l_adir_den(alpha, iteration, pc, pcj, epsilon, gene_len, C):
     return l_adir_den
 
 
-def calculate_l_adir(
-    alpha, xi_alpha_0, iteration, pc, pcj, epsilon, gene_len, C
-):
+def calculate_l_adir(alpha, xi_alpha_0, iteration, pc, pcj, epsilon, gene_len, C):
     ### Calculate acceptance probability (l_adir)
     alpha_proposal = abs(
-        np.random.normal(alpha[iteration - 1, 0], xi_alpha_0, size = 1)[0]
+        np.random.normal(alpha[iteration - 1, 0], xi_alpha_0, size=1)[0]
     )
     l_adir_num = calculate_l_adir_num(
         alpha_proposal, iteration, pc, pcj, epsilon, gene_len, C
@@ -695,7 +693,9 @@ def write_prot(
             + "\t"
             + gene_vec[var_idx]
             + "\t"
-            + str(gene_vec[var_idx] + ":" + annot_vec[var_idx] + ":" + prot_vec[var_idx])
+            + str(
+                gene_vec[var_idx] + ":" + annot_vec[var_idx] + ":" + prot_vec[var_idx]
+            )
         )
         protdattmp = np.where(protind[burn + 1 : niter + 1, var_idx] == 1)[0].shape[
             0
@@ -913,7 +913,9 @@ def mrpmm(
             + "\t"
             + gene_vec[var_idx]
             + "\t"
-            + str(gene_vec[var_idx] + ":" + annot_vec[var_idx] + ":" + prot_vec[var_idx])
+            + str(
+                gene_vec[var_idx] + ":" + annot_vec[var_idx] + ":" + prot_vec[var_idx]
+            )
         )
         for c in range(0, C):
             probclustervar = np.where(delta_m[burn + 1 : niter + 1, var_idx] == c)[
@@ -1168,7 +1170,9 @@ def targeted(
             + "\t"
             + gene_vec[var_idx]
             + "\t"
-            + str(gene_vec[var_idx] + ":" + annot_vec[var_idx] + ":" + prot_vec[var_idx])
+            + str(
+                gene_vec[var_idx] + ":" + annot_vec[var_idx] + ":" + prot_vec[var_idx]
+            )
         )
         for c in range(0, C):
             probclustervar = np.where(delta_m[burn + 1 : niter + 1, var_idx] == c)[
@@ -1179,7 +1183,16 @@ def targeted(
     mcout.close()
     ## Write output for input files
     write_prot(
-        outpath, fout, chroff_vec, annot_vec, prot_vec, gene_vec, protind, burn, niter, M
+        outpath,
+        fout,
+        chroff_vec,
+        annot_vec,
+        prot_vec,
+        gene_vec,
+        protind,
+        burn,
+        niter,
+        M,
     )
     print_rejection_rates(
         accept_mh1_postburnin,
@@ -1214,43 +1227,92 @@ def targeted(
 
 
 if __name__ == "__main__":
-    ang = pd.read_table('ANGPTL7.tsv')
+    ang = pd.read_table("ANGPTL7.tsv")
     # for now, put 0 if missing
-    betas = ang[['BETA_white_british_HC276', 'BETA_white_british_INI5255', 'BETA_white_british_INI5257']].fillna(0).values
-    ses = ang[['SE_white_british_HC276', 'SE_white_british_INI5255', 'SE_white_british_INI5257']].fillna(0).values
+    betas = (
+        ang[
+            [
+                "BETA_white_british_HC276",
+                "BETA_white_british_INI5255",
+                "BETA_white_british_INI5257",
+            ]
+        ]
+        .fillna(0)
+        .values
+    )
+    ses = (
+        ang[
+            [
+                "SE_white_british_HC276",
+                "SE_white_british_INI5255",
+                "SE_white_british_INI5257",
+            ]
+        ]
+        .fillna(0)
+        .values
+    )
     # vymat = err_corr
-    err_corr = np.array([[1, 0.06741325, 0.03541408],
-                      [0.06741325, 1, 0.56616657],
-                      [0.03541408, 0.56616657, 1]])
-    annot_vec = ["missense_variant", "missense_variant", "missense_variant", "stop_gained"]
+    err_corr = np.array(
+        [
+            [1, 0.06741325, 0.03541408],
+            [0.06741325, 1, 0.56616657],
+            [0.03541408, 0.56616657, 1],
+        ]
+    )
+    annot_vec = [
+        "missense_variant",
+        "missense_variant",
+        "missense_variant",
+        "stop_gained",
+    ]
     gene_vec = ["ANGPTL7"] * len(annot_vec)
     prot_vec = ["hgvsp1", "hgvsp2", "hgvsp3", "hgvsp4"]
-    chroff_vec = ["1:11252369:G:A", "1:11253684:G:T", "1:11252357:A:G", "1:11253688:C:T"]
+    chroff_vec = [
+        "1:11252369:G:A",
+        "1:11253684:G:T",
+        "1:11252357:A:G",
+        "1:11253688:C:T",
+    ]
     C = 2
     fout = "ANGPTL7_test"
-    R_phen = np.array([[1, 0.8568072, 0.61924757],
-                      [0.8568072, 1, 0.82642932],
-                      [0.61924757, 0.82642932, 1]])
+    R_phen = np.array(
+        [
+            [1, 0.8568072, 0.61924757],
+            [0.8568072, 1, 0.82642932],
+            [0.61924757, 0.82642932, 1],
+        ]
+    )
     R_phen_inv = np.linalg.inv(R_phen)
-    phenotypes = ["HC276", "HC276", "INI5255", "INI5255", "INI5255", "INI5255", "INI5257", "INI5257", "INI5257", "INI5257"]
+    phenotypes = [
+        "HC276",
+        "HC276",
+        "INI5255",
+        "INI5255",
+        "INI5255",
+        "INI5255",
+        "INI5257",
+        "INI5257",
+        "INI5257",
+        "INI5257",
+    ]
     [BIC, AIC, genedat] = mrpmm(
-                                betas,
-                                ses,
-                                err_corr,
-                                annot_vec,
-                                gene_vec,
-                                prot_vec,
-                                chroff_vec,
-                                C,
-                                fout,
-                                R_phen,
-                                R_phen_inv,
-                                phenotypes,
-                                R_phen_use=True,
-                                fdr=0.05,
-                                niter=1000,
-                                burn=100,
-                                thinning=1,
-                                verbose=True,
-                                outpath="",
-                            )
+        betas,
+        ses,
+        err_corr,
+        annot_vec,
+        gene_vec,
+        prot_vec,
+        chroff_vec,
+        C,
+        fout,
+        R_phen,
+        R_phen_inv,
+        phenotypes,
+        R_phen_use=True,
+        fdr=0.05,
+        niter=1000,
+        burn=100,
+        thinning=1,
+        verbose=True,
+        outpath="",
+    )
