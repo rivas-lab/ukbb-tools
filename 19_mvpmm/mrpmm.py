@@ -28,9 +28,23 @@ from scipy.stats import multivariate_normal
 import random
 
 
-def is_pos_def(x):
-    x = np.matrix(x)
-    if np.all(np.linalg.eigvals(x) > 0):
+def is_pos_def(X):
+
+    """ 
+    Ensures a matrix is positive definite.
+  
+    Keep diagonals and multiples every other cell by .99.
+  
+    Parameters: 
+    X: Matrix to verify.
+  
+    Returns: 
+    Boolean: Indicator of whether or not X is positive definite.
+  
+    """
+
+    X = np.matrix(X)
+    if np.all(np.linalg.eigvals(X) > 0):
         return True
     else:
         return False
@@ -39,10 +53,50 @@ def is_pos_def(x):
 def initialize_MCMC(
     niter, R_phen, R_phen_inv, err_corr, betas, ses, C, R_phen_use, gene_vec, annot_vec
 ):
+
+    """ 
+    Initializes the parameters of the MCMC run.
+  
+    Parameters: 
+    niter: Number of iterations of the run.
+    R_phen: K*K matrix of estimated genotype correlations (significant vars).
+    R_phen_inv: Inverse of R_phen.
+    err_corr: Correlation of errors (common vars).
+    betas: An M*K matrix of betas, padded with 0s if missing summary statistics.
+    ses: An M*K matrix of standard errors, padded with 0s if missing summary statistics.
+    C: Hypothesized number of clusters.
+    R_phen_use: Whether or not to use R_phen to initialize parameters.
+    gene_vec: Vector of length M of gene symbols for the M variants.
+    annot_vec: Vector of length M of functional annotations for the M variants.
+  
+    Returns: 
+    betas: Numpy matrix version of betas.
+    ses: Numpy matrix version of standard errors.
+    err_corr: Numpy matrix version of correlation of errors.
+    K: Number of phenotypes.
+    M: Number of variants.
+    gene_len: Number of unique genes.
+    annot_len: Number of unique annotations.
+    gene_map: List of unique genes.
+    annot_map: List of unique annotations.
+    alpha: Inverse-gamma prior for pcj.
+    pc: C-dimensional probability vector dictating sharing of clusters across genes.
+    pcj: Per-gene probability vector dictating how much sharing of clusters exists
+        across genes with prior alpha.
+    bc: Mean effect size per cluster.
+    scales: Scale parameters for annotations across clusters.
+    delta_m: Indices of cluster memberships for each variant m in gene j.
+    maxloglkiter: Max log likelihood of the iteration.
+    Theta_0: Prior estimate of genetic correlation across traits; if R_phen_use is
+        true, Theta_0 = R_phen. Else, it is the identity matrix.
+    Theta_0_inv: Inverse of Theta_0.
+    [accept/reject]_mh[1,2,3]: Trackers for MH steps. Step 1 corresponds to updating
+        pc, step 2 corresponds to scales, and step 3 to alpha.
+    [accept/reject]_mh[1,2,3]_postburnin: Trackers for MH steps post-burn iterations.
+  
+    """
+
     print("Running MCMC algorithm...")
-    epsilon = 1e-16
-    # Below: hyperparameters to control spread of proposals for annotation + gamma
-    xi_0, xi_alpha_0, gamma = 1, 1, 1
     # Convert all parameters to matrices
     betas, ses, err_corr = np.matrix(betas), np.matrix(ses), np.matrix(err_corr)
     # C is the number of clusters, where cluster 1 is the null model cluster
@@ -101,11 +155,8 @@ def initialize_MCMC(
         betas,
         ses,
         err_corr,
-        C,
         K,
         M,
-        epsilon,
-        gamma,
         gene_len,
         annot_len,
         gene_map,
@@ -119,8 +170,6 @@ def initialize_MCMC(
         maxloglkiter,
         Theta_0,
         Theta_0_inv,
-        xi_0,
-        xi_alpha_0,
         accept_mh1,
         accept_mh1_postburnin,
         reject_mh1,
@@ -137,6 +186,29 @@ def initialize_MCMC(
 
 
 def return_norm_const(mult, proposal, epsilon):
+
+    """
+    Returns the log of the normalizing constant D(z) given the proposal.
+
+                              C       
+                             ___      
+                             ╲        
+                        Γ ⋅  ╱    z_c 
+                             ‾‾‾      
+                            c = 1     
+             D(z) =    ───────────────
+                         C            
+                       ━┳┳━           
+                        ┃┃   Γ ⋅ (z_c)
+                       c = 1          
+
+    Parameters:
+    mult: Multiplicative factor in conditional. E.g. gamma / alpha.
+    proposal: z_c.
+    epsilon: Tolerance.
+
+    """
+
     norm_const = math.lgamma(np.sum([mult * i for i in proposal])) - np.sum(
         [math.lgamma(max(mult * i, epsilon)) for i in proposal]
     )
@@ -144,6 +216,26 @@ def return_norm_const(mult, proposal, epsilon):
 
 
 def return_product_density(mult, proposal, previous, C):
+ 
+    """
+    The density at point x given the normalization constant as defined in
+    return_norm_const is:
+
+                                   C               
+                                 ____     (z_c - 1)
+             p_dir(x|z) = D(z) .  ||   x_c         
+                                 c = 1
+ 
+    This function returns the product part of the density (after D(z)).
+
+    Parameters:
+    mult: Multiplicative factor in conditional. E.g. gamma / alpha.
+    proposal: z_c.
+    previous: x_c.
+    C: Number of hypothesized clusters.
+
+    """
+
     density_prod = np.sum(
         [(mult * proposal[i] - 1) * np.log(previous[i]) for i in range(0, C)]
     )
@@ -153,26 +245,44 @@ def return_product_density(mult, proposal, previous, C):
 def calculate_l_pdir_num(
     gamma, C, pc_proposal, epsilon, iteration, gene_len, alpha, pc, pcj
 ):
-    ## Work on numerator (l_pdir_num)
-    # Set l_pdir_num, LHS of numerator
+
+    """
+    Calculates the log of the numerator of the lambda value as described in
+    calculate_l_pdir.
+
+    Parameters:
+    gamma: Multiplicative part of the proposal value.
+    C:Number of hypothesized clusters.
+    pc_proposal: Sampled proposal value from the Dirichlet distribution using alpha and
+        previous iteration as the parameters.
+    epsilon: Tolerance.
+    iteration: Iteration number.
+    gene_len: Number of unique genes among M variants.
+    alpha: Prior for pcj.
+    pc: C-dimensional probability vector dictating sharing of clusters across genes.
+    pcj: Per-gene probability vector dictating how much sharing of clusters exists
+        across genes with prior alpha.
+
+    Returns:
+    l_pdir_den: The log of the numerator of the lambda value as described in
+    calculate_l_pdir.
+
+    """
+
     lhs_num_norm_const = return_norm_const(gamma, pc_proposal, epsilon)
-    # product part of density
     num_density_prod = return_product_density(
         gamma, pc_proposal, pc[iteration - 1, 0, :], C
     )
     l_pdir_prop = lhs_num_norm_const + num_density_prod
-    # Set lpdirpropgene, RHS of numerator
     l_pdir_prop_gene = 0
     rhs_num_norm_const = return_norm_const(
         alpha[iteration - 1, 0], pc_proposal, epsilon
     )
     for gene_idx in range(0, gene_len):
-        # product part of density
         num_gene_density_prod = return_product_density(
             alpha[iteration - 1, 0], pc_proposal, pcj[iteration - 1, gene_idx, :], C
         )
         l_pdir_prop_gene += num_gene_density_prod + rhs_num_norm_const
-    # Set numerator
     l_pdir_num = l_pdir_prop + l_pdir_prop_gene
     return l_pdir_num
 
@@ -180,20 +290,40 @@ def calculate_l_pdir_num(
 def calculate_l_pdir_den(
     gamma, C, pc_proposal, epsilon, iteration, gene_len, alpha, pc, pcj
 ):
-    ## Denominator (iteration - 1 in conditional)
+
+    """
+    Calculates the log of the denominator of the lambda value as described in
+    calculate_l_pdir.
+
+    Parameters:
+    gamma: Multiplicative part of the proposal value.
+    C:Number of hypothesized clusters.
+    pc_proposal: Sampled proposal value from the Dirichlet distribution using alpha and
+        previous iteration as the parameters.
+    epsilon: Tolerance.
+    iteration: Iteration number.
+    gene_len: Number of unique genes among M variants.
+    alpha: Prior for pcj.
+    pc: C-dimensional probability vector dictating sharing of clusters across genes.
+    pcj: Per-gene probability vector dictating how much sharing of clusters exists
+        across genes with prior alpha.
+
+    Returns:
+    l_pdir_den: The log of the denominator of the lambda value as described in
+    calculate_l_pdir.
+
+    """
+
     lhs_den_norm_const = return_norm_const(gamma, pc[iteration - 1, 0, :], epsilon)
-    # product part of density
     den_density_prod = return_product_density(
         gamma, pc[iteration - 1, 0, :], pc_proposal, C
     )
     l_pdir = lhs_den_norm_const + den_density_prod
-    # go through each gene
     l_pdir_gene = 0
     rhs_den_norm_const = return_norm_const(
         alpha[iteration - 1, 0], pc[iteration - 1, 0, :], epsilon
     )
     for gene_idx in range(0, gene_len):
-        # second part of density
         den_gene_density_prod = return_product_density(
             alpha[iteration - 1, 0],
             pc[iteration - 1, 0, :],
@@ -206,7 +336,41 @@ def calculate_l_pdir_den(
 
 
 def calculate_l_pdir(alpha, iteration, gamma, pc, pcj, epsilon, gene_len, C):
-    ### Calculate acceptance probability (l_pdir)
+
+    """
+    Returns the log of the transition probability of the proposal. Probability:
+
+            /                                            J                                  \
+            |            /   (t - 1)               \   ____                                 |
+            |       p_dir \π_0        | gamma . π_0'/ .  ||   p_dir(π_j | alpha . π_0')     |
+            |                                          j = 1                                |
+    Λ = min | 1, ---------------------------------------------------------------------------|
+            |                                         J                                     |
+            |         /                  (t - 1) \   ____                        (t - 1)    |
+            |    p_dir \π_0' | gamma . π_0        / .  ||   p_dir(π_j | alpha . π_0)        |
+            |                                       j = 1                                   | 
+            \                                                                               /
+
+    Calls helper functions for numerator and denominator.
+
+    Parameters:
+    alpha: Prior for pcj.
+    iteration: Iteration number.
+    gamma: Multiplicative part of the proposal value.
+    pc: C-dimensional probability vector dictating sharing of clusters across genes.
+    pcj: Per-gene probability vector dictating how much sharing of clusters exists
+        across genes with prior alpha.
+    epsilon: Tolerance.
+    gene_len: Number of unique genes among M variants.
+    C: Number of hypothesized clusters.
+
+    Returns:
+    l_pdir: Log of lambda as above.
+    pc_proposal: Sampled proposal value from the Dirichlet distribution using alpha and
+        previous iteration as the parameters.
+
+    """
+
     pc_proposal = np.random.dirichlet(alpha[iteration - 1, 0] * pc[iteration - 1, 0, :])
     l_pdir_num = calculate_l_pdir_num(
         gamma, C, pc_proposal, epsilon, iteration, gene_len, alpha, pc, pcj
@@ -229,8 +393,29 @@ def MH(
     iteration,
     burn,
 ):
+
+    """
+    Metropolis-Hastings step. With probability exp(thresh), we return the
+    accept_quantity. With probability 1-exp(thresh), we return the 
+    reject_quantity.
+
+    Parameters:
+    thresh: Log threshold at which we accept the new proposal.
+    [accept/reject]: Tracker for acceptance rate.
+    [accept/reject]_postburnin: Tracker for acceptance rate after burn-in.
+    accept_quantity: Quantity to return if accepted.
+    reject_quantity: Quantity to return if rejected.
+    iteration: Iteration number.
+    burn: Number of target burn-in iterations.
+
+    Returns:
+    [accept/reject]: Augmented tracker for acceptance rate.
+    [accept/reject]_postburnin: Augmented tracker for acceptance rate after burn-in.
+    quantity: One of [accept_quantity/reject_quantity] based on probability.
+
+    """
+
     quantity = None
-    ## Metropolis-Hastings step
     if np.log(np.random.uniform(0, 1, size=1)[0]) < min(0, thresh):
         accept += 1
         quantity = accept_quantity
@@ -259,6 +444,31 @@ def update_pc(
     burn,
     iteration,
 ):
+
+    """
+    Calculates lambda, performs MH, and updates pc with the returned quantity.
+
+    Parameters:
+    alpha: Prior for pcj.
+    pc: C-dimensional probability vector dictating sharing of clusters across genes.
+    pcj: Per-gene probability vector dictating how much sharing of clusters exists
+        across genes with prior alpha.
+    epsilon: Tolerance.
+    gamma: Multiplicative part of the proposal value.
+    C: Number of hypothesized clusters.
+    gene_len: Number of unique genes.
+    [accept/reject]_mh1: Tracker for acceptance rate.
+    [accept/reject]_mh1_postburnin: Tracker for acceptance rate after burn-in.
+    burn: Number of target burn-in iterations.
+    iteration: Iteration number.
+    
+    Returns:
+    pc: Updated probability vector.
+    [accept/reject]: Augmented tracker for acceptance rate.
+    [accept/reject]_postburnin: Augmented tracker for acceptance rate after burn-in.
+    """
+
+    # Calculate lambda
     l_pdir, pc_proposal = calculate_l_pdir(
         alpha, iteration, gamma, pc, pcj, epsilon, gene_len, C
     )
@@ -279,7 +489,26 @@ def update_pc(
 
 
 def update_pcj(alpha, pc, pcj, delta_m, gene_len, gene_vec, gene_map, iteration):
-    # b) For each gene j = 1, ..., J update \pi_j
+
+    """
+    Updates per-gene probability vector dictating sharing.
+    
+    Parameters:
+    alpha: Prior for pcj.
+    pc: C-dimensional probability vector dictating sharing of clusters across genes.
+    pcj: Per-gene probability vector dictating how much sharing of clusters exists
+        across genes with prior alpha.
+    delta_m: Indices of cluster memberships for each variant m in gene j.
+    gene_len: Number of unique genes.
+    gene_vec: Vector of length M of gene symbols for the M variants.
+    gene_map: List of unique genes.
+    iteration: Iteration number.
+    
+    Returns:
+    pcj: Updated per-gene probability vector dictating sharing.
+    
+    """
+
     for gene_idx in range(0, gene_len):
         param_vec_shared = alpha[iteration - 1, 0] * pc[iteration, 0, :]
         for gene_iteration in range(0, len(gene_vec)):
@@ -290,11 +519,21 @@ def update_pcj(alpha, pc, pcj, delta_m, gene_len, gene_vec, gene_map, iteration)
 
 
 def calculate_Vjm(ses, var_idx, err_corr, Vjm_scale):
-    atmp = np.array(ses[var_idx, :])[0]
-    dtmp = npm.eye(len(atmp))
-    np.fill_diagonal(dtmp, atmp)
+
+    """
+    Calculates covariance structure from summary statistics that remains 
+    constant across clusters.
+
+    Parameters:
+    ses: M*K matrix of standard errors.
+    var_idx: Variant number in range (1 - M).
+    err_corr: Correlation of errors (common vars).
+    Vjm_scale: Small number added to diagonals to make sure Vjm is invertible.
+
+    """
+
+    dtmp = np.diag(np.array(ses[var_idx, :])[0])
     Vjm = dtmp * err_corr * dtmp + np.matlib.eye(err_corr.shape[0]) * Vjm_scale
-    # dtmp = np.diag(np.array(ses[var_idx, :])[0])
     return Vjm
 
 
@@ -318,7 +557,35 @@ def update_delta_jm(
     gene_map,
     Vjm_scale,
 ):
-    # c) Update delta_jm
+    
+    """
+    Updates delta_jm: Indices of cluster memberships for each variant m in gene j.
+
+    Parameters:
+    betas:
+    ses:
+    err_corr:
+    C:
+    bc:
+    pcj:
+    delta_m:
+    scales:
+    maxloglkiter:
+    var_idx:
+    iteration:
+    annot_len:
+    annot_vec:
+    annot_map:
+    gene_len:
+    gene_vec:
+    gene_map:
+    Vjm_scale:
+
+    Returns:
+    
+    """
+
+    # c) Update 
     xk = np.arange(0, C)
     probmjc, lprobmjcu, uc = [0] * C, [0] * C, [0] * C
     var_annot = annot_vec[var_idx]
@@ -326,7 +593,8 @@ def update_delta_jm(
     gene_var = gene_vec[var_idx]
     Vjm = calculate_Vjm(ses, var_idx, err_corr, Vjm_scale)
     gene_id = [i for i in range(0, len(gene_map)) if gene_map[i] == gene_var][0]
-    # Gives covariance matrix of variant effect on sets of phenotypes (after fixed effect meta-analysis has been applied across all studies available)
+    # Gives covariance matrix of variant effect on sets of phenotypes
+    # (after fixed effect meta-analysis has been applied across all studies available)
     for c in range(0, C):
         llk2 = multivariate_normal.logpdf(
             betas[var_idx, :],
@@ -705,7 +973,6 @@ def write_prot(
     protout.close()
 
 
-# return BIC -2*log(p(Data | theta that maximizes C, Mc)) + vc log(n) : vc is the number of parameters (K+J)*(C-1), K is the number of phenotypes, J is the number of genes, C is the number of clusters
 def mrpmm(
     betas,
     ses,
@@ -720,12 +987,17 @@ def mrpmm(
     R_phen_inv,
     phenotypes,
     R_phen_use=True,
+    epsilon=1e-16,
+    gamma=1,
+    xi_0=1,
+    xi_alpha_0=1,
     fdr=0.05,
     niter=1000,
     burn=100,
     thinning=1,
     verbose=True,
     outpath="/Users/mrivas/",
+    targeted=False,
 ):
 
     """ 
@@ -734,7 +1006,7 @@ def mrpmm(
     Parameters: 
     betas: M*K vector of effect sizes.
     ses: M*K vector of standard errors effect sizes.
-    err_corr: 
+    err_corr: Correlation of errors (common vars).
     annot_vec: Vector of length M of consequence annotations.
     gene_vec: Vector of length M of gene symbols.
     prot_vec: Vector of length M of HGVSp annotations.
@@ -745,15 +1017,22 @@ def mrpmm(
     R_phen_inv: Inverse of R_phen.
     phenotypes: Vector of length K of phenotype IDs.
     R_phen_use: Toggles whether or not R_phen is used.
+    epsilon: Default value for calculating Gamma probabilities.
     fdr: Threshold for false discovery rate (default: 0.05)
     niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
     burn: Burn-in iterations for MCMC.
     thinning: MCMC thinning paramter.
     verbose: Prints extra materials to output files.
     outpath: Path prefix for output files.
+    targeted: Whether or not we want to perform targeted analysis.
   
     Returns: 
-    [BIC, AIC, genedat]: Measures of confidence in the cluster count + ????
+    [BIC, AIC, genedat]: Measures of confidence in the cluster count.
+    BIC = -2*log(p(Data | theta that maximizes C, Mc)) + vc log(n), where:
+        - vc is the number of parameters (K+J)*(C-1), 
+        - K is the number of phenotypes, 
+        - J is the number of genes, and
+        - C is the number of clusters
   
     """
 
@@ -761,11 +1040,8 @@ def mrpmm(
         betas,
         ses,
         err_corr,
-        C,
         K,
         M,
-        epsilon,
-        gamma,
         gene_len,
         annot_len,
         gene_map,
@@ -779,8 +1055,6 @@ def mrpmm(
         maxloglkiter,
         Theta_0,
         Theta_0_inv,
-        xi_0,
-        xi_alpha_0,
         accept_mh1,
         accept_mh1_postburnin,
         reject_mh1,
@@ -991,6 +1265,10 @@ def targeted(
     R_phen,
     R_phen_inv,
     R_phen_use=True,
+    epsilon=1e-16,
+    gamma=1,
+    xi_0=1,
+    xi_alpha_0=1,
     niter=1000,
     burn=100,
     thinning=1,
@@ -1003,11 +1281,8 @@ def targeted(
         betas,
         ses,
         err_corr,
-        C,
         K,
         M,
-        epsilon,
-        gamma,
         gene_len,
         annot_len,
         gene_map,
@@ -1021,8 +1296,6 @@ def targeted(
         maxloglkiter,
         Theta_0,
         Theta_0_inv,
-        xi_0,
-        xi_alpha_0,
         accept_mh1,
         accept_mh1_postburnin,
         reject_mh1,
