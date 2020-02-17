@@ -1,3 +1,4 @@
+# coding: utf-8
 from __future__ import print_function
 from __future__ import division
 from random import shuffle
@@ -75,8 +76,8 @@ def initialize_MCMC(
     err_corr: Numpy matrix version of correlation of errors.
     K: Number of phenotypes.
     M: Number of variants.
-    gene_len: Number of unique genes.
-    annot_len: Number of unique annotations.
+    gene_len: Number of unique genes among M variants.
+    annot_len: Number of unique annotations among M variants
     gene_map: List of unique genes.
     annot_map: List of unique annotations.
     alpha: Inverse-gamma prior for pcj.
@@ -190,17 +191,17 @@ def return_norm_const(mult, proposal, epsilon):
     """
     Returns the log of the normalizing constant D(z) given the proposal.
 
-                              C       
-                             ___      
-                             ╲        
-                        Γ ⋅  ╱    z_c 
-                             ‾‾‾      
-                            c = 1     
-             D(z) =    ───────────────
-                         C            
-                       ━┳┳━           
-                        ┃┃   Γ ⋅ (z_c)
-                       c = 1          
+                                  C       
+                                 ___      
+                                 \        
+                           Γ  ⋅  /    z_c 
+                                 ‾‾‾      
+                                c = 1     
+             D(z) = ────────────────────────────
+                             C            
+                           ━┳┳━           
+                            ┃┃   Γ ⋅ (z_c)
+                           c = 1          
 
     Parameters:
     mult: Multiplicative factor in conditional. E.g. gamma / alpha.
@@ -340,16 +341,16 @@ def calculate_l_pdir(alpha, iteration, gamma, pc, pcj, epsilon, gene_len, C):
     """
     Returns the log of the transition probability of the proposal. Probability:
 
-            /                                            J                                  \
-            |            /   (t - 1)               \   ____                                 |
-            |       p_dir \π_0        | gamma . π_0'/ .  ||   p_dir(π_j | alpha . π_0')     |
-            |                                          j = 1                                |
-    Λ = min | 1, ---------------------------------------------------------------------------|
-            |                                         J                                     |
-            |         /                  (t - 1) \   ____                        (t - 1)    |
-            |    p_dir \π_0' | gamma . π_0        / .  ||   p_dir(π_j | alpha . π_0)        |
-            |                                       j = 1                                   | 
-            \                                                                               /
+            /                                         J                               \
+            |             /   (t - 1)           \   ____                              |
+            |       p_dir \ π_0       | Γ . π_0'/ .  ||   p_dir(π_j | α . π_0')       |
+            |                                      j = 1                              |
+    λ = min | 1, ---------------------------------------------------------------------|
+            |                                       J                                 |
+            |          /               (t - 1) \   ____                     (t - 1)   |
+            |    p_dir \ π_0' | Γ . π_0        / .  ||   p_dir(π_j | α . π_0        ) |
+            |                                     j = 1                               | 
+            \                                                                         /
 
     Calls helper functions for numerator and denominator.
 
@@ -456,7 +457,7 @@ def update_pc(
     epsilon: Tolerance.
     gamma: Multiplicative part of the proposal value.
     C: Number of hypothesized clusters.
-    gene_len: Number of unique genes.
+    gene_len: Number of unique genes among M variants.
     [accept/reject]_mh1: Tracker for acceptance rate.
     [accept/reject]_mh1_postburnin: Tracker for acceptance rate after burn-in.
     burn: Number of target burn-in iterations.
@@ -466,6 +467,7 @@ def update_pc(
     pc: Updated probability vector.
     [accept/reject]: Augmented tracker for acceptance rate.
     [accept/reject]_postburnin: Augmented tracker for acceptance rate after burn-in.
+
     """
 
     # Calculate lambda
@@ -492,6 +494,13 @@ def update_pcj(alpha, pc, pcj, delta_m, gene_len, gene_vec, gene_map, iteration)
 
     """
     Updates per-gene probability vector dictating sharing.
+
+                    /         / M_j           M_j              M_j         \\
+                    |         | ===           ===              ===         ||
+                    |         | \             \                \           ||
+    π_0 ~ Dirichlet | απ_0  + | /    δ = 1,   /    δ = 2, ...  /    δ = C  ||
+                    |         | ===           ===              ===         ||
+                    \         \m = 1         m = 1            m = 1        //
     
     Parameters:
     alpha: Prior for pcj.
@@ -499,7 +508,7 @@ def update_pcj(alpha, pc, pcj, delta_m, gene_len, gene_vec, gene_map, iteration)
     pcj: Per-gene probability vector dictating how much sharing of clusters exists
         across genes with prior alpha.
     delta_m: Indices of cluster memberships for each variant m in gene j.
-    gene_len: Number of unique genes.
+    gene_len: Number of unique genes among M variants.
     gene_vec: Vector of length M of gene symbols for the M variants.
     gene_map: List of unique genes.
     iteration: Iteration number.
@@ -561,33 +570,39 @@ def update_delta_jm(
     """
     Updates delta_jm: Indices of cluster memberships for each variant m in gene j.
 
+               ^ 
+    p_mjc = p( β_jm; bc, scales) * π_jc
+    δ ~ Discrete(p_mjc)
+
     Parameters:
-    betas:
-    ses:
-    err_corr:
-    C:
-    bc:
-    pcj:
-    delta_m:
-    scales:
-    maxloglkiter:
-    var_idx:
-    iteration:
-    annot_len:
-    annot_vec:
-    annot_map:
-    gene_len:
-    gene_vec:
-    gene_map:
-    Vjm_scale:
+    betas: M*K matrix of effect sizes.
+    ses: M*K matrix of standard errors effect sizes.
+    err_corr: Correlation of errors (common vars).
+    C: Hypothesized number of clusters; input parameter.
+    bc: Mean effect size per cluster.
+    pcj: Per-gene probability vector dictating how much sharing of clusters exists
+        across genes with prior alpha.
+    delta_m: Indices of cluster memberships for each variant m in gene j.
+    scales: Scale parameters for annotations across clusters.
+    maxloglkiter: Max log likelihood of the iteration.
+    var_idx: Variant number in range (1 - M).
+    iteration: Iteration number.
+    annot_len: Number of unique annotations among M variants.
+    annot_vec: Vector of length M of functional annotations.
+    annot_map: List of unique annotations.
+    gene_len: Number of unique genes among M variants.
+    gene_vec: Vector of length M of gene symbols.
+    gene_map: List of unique genes.
+    Vjm_scale: Small number added to diagonals to make sure Vjm is invertible.
 
     Returns:
+    annot_idx: Which index, in the set of unique annotations, this one corresponds to.
+    delta_m: Updated indices of cluster memberships.
     
     """
 
-    # c) Update 
     xk = np.arange(0, C)
-    probmjc, lprobmjcu, uc = [0] * C, [0] * C, [0] * C
+    p_mjc, l_p_mjcu, uc = [0] * C, [0] * C, [0] * C
     var_annot = annot_vec[var_idx]
     annot_idx = [i for i in range(0, annot_len) if annot_map[i] == var_annot][0]
     gene_var = gene_vec[var_idx]
@@ -603,18 +618,18 @@ def update_delta_jm(
         ) + np.log(pcj[iteration, gene_id, c])
         if delta_m[iteration - 1, var_idx] == c:
             maxloglkiter[iteration - 1, 0] += llk2
-        lprobmjcu[c] += llk2
+        l_p_mjcu[c] += llk2
         # normalize uc - set to wc
-    maxloglk = np.max(lprobmjcu)
+    maxloglk = np.max(l_p_mjcu)
     for c in range(0, C):
-        uc[c] = np.exp(lprobmjcu[c] - maxloglk)
+        uc[c] = np.exp(l_p_mjcu[c] - maxloglk)
     for c in range(0, C):
-        probmjc[c] = uc[c] / np.sum(uc)
-    if np.isnan(probmjc[0]):
+        p_mjc[c] = uc[c] / np.sum(uc)
+    if np.isnan(p_mjc[0]):
         wstmp = np.random.dirichlet(np.repeat(np.array([1]), C, axis=0))
         custm = stats.rv_discrete(name="custm", values=(xk, wstmp))
     else:
-        custm = stats.rv_discrete(name="custm", values=(xk, probmjc))
+        custm = stats.rv_discrete(name="custm", values=(xk, p_mjc))
     delta_m[iteration, var_idx] = custm.rvs(size=1)[0]
     return annot_idx, delta_m
 
@@ -635,7 +650,33 @@ def update_bc(
     annot_map,
     Vjm_scale,
 ):
-    # d) Update b_c using a Gibbs update from a Gaussian distribution
+
+    """
+    Updates bc using a Gibbs update from a Gaussian distribution, with mean
+    and variance dependent on Theta_inv_0, scales, betas.
+
+    Parameters:
+    betas: M*K matrix of effect sizes.
+    ses: M*K matrix of standard errors effect sizes.
+    err_corr: Correlation of errors (common vars).
+    C: Hypothesized number of clusters; input parameter.
+    bc: Mean effect size per cluster.
+    M: Number of variants.
+    delta_m: Indices of cluster memberships for each variant m in gene j.
+    scales: Scale parameters for annotations across clusters.
+    Theta_0_inv: Inverse of the prior estimate of genetic correlation 
+        across traits.
+    iteration: Iteration number.
+    annot_len: Number of unique annotations among M variants.
+    annot_vec: Vector of length M of functional annotations.
+    annot_map: List of unique annotations.
+    Vjm_scale:  Small number added to diagonals to make sure Vjm is invertible.
+
+    Returns:
+    bc: Updated mean effect size per cluster.
+
+    """
+
     for c in range(1, C):
         count = 0
         mu_lhs = 0
@@ -692,6 +733,45 @@ def update_sigma_2(
     reject_mh2_postburnin,
     Vjm_scale,
 ):
+
+    """
+    Updates sigma^2 using a MH sub-step with a random-walk proposal.
+    Sequentially, for each annotation a, we sample a proposal value:
+    
+    σ'_a = |η|, where η ~ N(σ_a^(t-1), xi_0)
+
+            /                               ____   ^                  ^        \
+            |        p(σ_a' | sh_a, sc_a) .  ||  N(β_jm | σ_a' b_cjm, V_jm)    |
+            |                          anno(v_jm)=a                            |
+    λ = min | 1, --------------------------------------------------------------|
+            |         (t-1)                 ____   ^         (t-1)       ^     |     
+            |    p(σ_a      | sh_a, sc_a) .  ||  N(β_jm | σ_a     b_cjm, V_jm) |
+            \                           anno(v_jm)=a                           /
+
+    Parameters:
+    betas: M*K matrix of effect sizes.
+    ses: M*K matrix of standard errors effect sizes.
+    err_corr: Correlation of errors (common vars).
+    xi_0: Hyperparameter controlling the spread of the proposals.
+    M: Number of variants.
+    delta_m: Indices of cluster memberships for each variant m in gene j.
+    bc: Mean effect size per cluster.
+    scales: Scale parameters for annotations across clusters.
+    iteration: Iteration number.
+    burn: Number of target burn-in iterations.
+    annot_len: Number of unique annotations among M variants.
+    annot_vec: Vector of length M of functional annotations.
+    annot_map: List of unique annotations.
+    [accept/reject]_mh2: Tracker for acceptance rate.
+    [accept/reject]_mh2_postburnin: Tracker for acceptance rate after burn-in.
+    Vjm_scale: Small number added to diagonals to make sure Vjm is invertible.
+
+    Returns:
+    [accept/reject]_mh2: Augmented tracker for acceptance rate.
+    [accept/reject]_mh2_postburnin: tracker for acceptance rate after burn-in.
+    
+    """
+
     # e) Update scale sigma^2 annot.
     for annot_idx in range(0, annot_len):
         scaleprop = abs(
@@ -739,6 +819,15 @@ def update_sigma_2(
 
 
 def return_alpha_product_density(mult, proposal, previous, C):
+    
+    """
+    Parameters:
+    
+    
+    Returns:
+
+    """
+
     num_gene_density_prod = np.sum(
         [(mult * proposal - 1) * np.log(previous[i]) for i in range(0, C)]
     )
@@ -746,6 +835,15 @@ def return_alpha_product_density(mult, proposal, previous, C):
 
 
 def calculate_l_adir_num(alpha_proposal, iteration, pc, pcj, epsilon, gene_len, C):
+
+    """
+    Parameters:
+    
+    
+    Returns:
+
+    """
+
     ## Work on numerator (l_adir_num)
     # Set alpha_num, LHS of numerator
     alpha_num = -2 * np.log(alpha_proposal) - 1 / alpha_proposal
@@ -762,6 +860,15 @@ def calculate_l_adir_num(alpha_proposal, iteration, pc, pcj, epsilon, gene_len, 
 
 
 def calculate_l_adir_den(alpha, iteration, pc, pcj, epsilon, gene_len, C):
+
+    """
+    Parameters:
+    
+    
+    Returns:
+
+    """
+
     ## Denominator (iteration - 1 in conditional)
     alpha_den = -2 * np.log(alpha[iteration - 1, 0]) - 1 / alpha[iteration - 1, 0]
     rhs_den_norm_const = return_norm_const(
@@ -782,6 +889,15 @@ def calculate_l_adir_den(alpha, iteration, pc, pcj, epsilon, gene_len, C):
 
 
 def calculate_l_adir(alpha, xi_alpha_0, iteration, pc, pcj, epsilon, gene_len, C):
+
+    """
+    Parameters:
+    
+    
+    Returns:
+
+    """
+
     ### Calculate acceptance probability (l_adir)
     alpha_proposal = abs(
         np.random.normal(alpha[iteration - 1, 0], xi_alpha_0, size=1)[0]
@@ -809,6 +925,15 @@ def update_alpha(
     reject_mh3,
     reject_mh3_postburnin,
 ):
+
+    """
+    Parameters:
+    
+    
+    Returns:
+
+    """
+
     # f) alpha
     l_adir, alpha_proposal = calculate_l_adir(
         alpha, xi_alpha_0, iteration, pc, pcj, epsilon, gene_len, C
@@ -832,6 +957,15 @@ def update_alpha(
 def calculate_metrics(
     outpath, fout, alpha, burn, niter, thinning, maxloglkiter, gene_len, k, m, C
 ):
+
+    """
+    Parameters:
+    
+    
+    Returns:
+
+    """
+
     alphaout = open(outpath + str(fout) + ".mcmc.alpha", "w+")
     mean = np.mean(alpha[burn + 1 : niter + 1 : thinning, 0], axis=0)
     l95ci = np.percentile(alpha[burn + 1 : niter + 1 : thinning, 0], 2.5, axis=0)
@@ -846,6 +980,15 @@ def calculate_metrics(
 
 
 def scaleout_write(outpath, fout, annot_len, scales, burn, niter, thinning, annot_map):
+
+    """
+    Parameters:
+    
+    
+    Returns:
+
+    """
+
     scaleout = open(outpath + str(fout) + ".mcmc.scale", "w+")
     for annot_idx in range(0, annot_len):
         mean = np.mean(
@@ -866,6 +1009,15 @@ def scaleout_write(outpath, fout, annot_len, scales, burn, niter, thinning, anno
 
 
 def tmpbc_write(outpath, fout, k, Theta_0):
+    
+    """
+    Parameters:
+    
+    
+    Returns:
+
+    """
+
     tmpbc = open(outpath + str(fout) + ".theta.bc", "w+")
     for jidx in range(0, k):
         for kidx in range(0, k):
@@ -873,8 +1025,64 @@ def tmpbc_write(outpath, fout, k, Theta_0):
         print("\n", end="", file=tmpbc)
     tmpbc.close()
 
+def mcout_write(outpath, fout, M, chroff_vec, annot_vec, prot_vec, gene_vec, C, delta_m, burn, niter):
 
-def write_confidence_intervals(C, bc, burn, niter, thinning, bcout):
+    """
+    Parameters:
+    
+    
+    Returns:
+
+    """
+
+    mcout = open(outpath + str(fout) + '.mcmc.posteriors','w+')
+    var_prob_dict = {}
+    for var_idx in range(0, M):
+        mcout.write(
+            chroff_vec[var_idx]
+            + "\t"
+            + annot_vec[var_idx]
+            + "\t"
+            + prot_vec[var_idx]
+            + "\t"
+            + gene_vec[var_idx]
+            + "\t"
+            + str(
+                gene_vec[var_idx] + ":" + annot_vec[var_idx] + ":" + prot_vec[var_idx]
+            )
+        )
+        for c in range(0, C):
+            probclustervar = np.where(delta_m[burn + 1 : niter + 1, var_idx] == c)[
+                0
+            ].shape[0] / (niter - burn)
+            var_prob_dict[chroff_vec[var_idx], c + 1] = probclustervar
+            mcout.write("\t" + str(probclustervar))
+        mcout.write("\n")
+    mcout.close()
+    return var_prob_dict
+
+def probout_bcout_write(outpath, fout, C, bc, delta_m, burn, niter, thinning):
+
+    """
+    Parameters:
+    
+    
+    Returns:
+
+    """
+
+    probout = fout + ".mcmc.probs"
+    np.savetxt(outpath + probout, delta_m, fmt="%1.3f")
+    bcout = open(outpath + str(fout) + ".mcmc.bc", "w+")
+    bcout.write("cluster")
+    for phenotype in phenotypes:
+        print(
+            ("\t%s\t%s\t%s")
+            % (phenotype + "m50", phenotype + "l95", phenotype + "u95"),
+            end="",
+            file=bcout,
+        )
+    bcout.write("\n")
     for c in range(0, C):
         mean = np.mean(bc[burn + 1 : niter + 1 : thinning, c, :], axis=0)
         l95ci = np.percentile(bc[burn + 1 : niter + 1 : thinning, c, :], 2.5, axis=0)
@@ -888,6 +1096,7 @@ def write_confidence_intervals(C, bc, burn, niter, thinning, bcout):
                 file=bcout,
             )
         bcout.write("\n")
+    bcout.close()
 
 
 def print_rejection_rates(
@@ -898,6 +1107,15 @@ def print_rejection_rates(
     accept_mh3_postburnin,
     reject_mh3_postburnin,
 ):
+
+    """
+    Parameters:
+    
+    
+    Returns:
+
+    """
+
     rejectionrate = reject_mh1_postburnin / (
         accept_mh1_postburnin + reject_mh1_postburnin
     )
@@ -911,29 +1129,58 @@ def print_rejection_rates(
     print(reject_mh3_postburnin, accept_mh3_postburnin)
 
 
-def write_fdr(outpath, fout, fdr, m, chroff_vec, varprobdict):
+def fdr_write(outpath, fout, fdr, m, chroff_vec, var_prob_dict):
+
+    """
+    Parameters:
+    
+    
+    Returns:
+
+    """
+
     fdrout = open(outpath + str(fout) + ".fdr", "w+")
     print(str(fdr), file=fdrout)
-    varprobnull = []
-    varfdrid = []
+    var_prob_null = []
+    var_fdr_id = []
     for var_idx in range(0, m):
-        varfdrid.append(chroff_vec[var_idx])
-        varprobnull.append(varprobdict[chroff_vec[var_idx], 1])
-    idxsort = sorted(range(len(varprobnull)), key=lambda k: varprobnull[k])
-    varprobnullsort = [varprobnull[i] for i in idxsort]
-    varfdridsort = [varfdrid[i] for i in idxsort]
-    numfdrtmp = 0
+        var_fdr_id.append(chroff_vec[var_idx])
+        var_prob_null.append(var_prob_dict[chroff_vec[var_idx], 1])
+    idx_sort = sorted(range(len(var_prob_null)), key=lambda k: var_prob_null[k])
+    var_prob_null_sort = [var_prob_null[i] for i in idx_sort]
+    var_fdr_id_sort = [var_fdr_id[i] for i in idx_sort]
+    num_fdr_tmp = 0
     counter = 0
-    for i in range(0, len(varprobnullsort)):
+    for i in range(0, len(var_prob_null_sort)):
         counter += 1
-        numfdrtmp += varprobnullsort[i]
-        fdrtmp = numfdrtmp / counter
-        if fdrtmp <= fdr:
-            print(varfdridsort[i], file=fdrout)
+        num_fdr_tmp += var_prob_null_sort[i]
+        fdr_tmp = num_fdr_tmp / counter
+        if fdr_tmp <= fdr:
+            print(var_fdr_id_sort[i], file=fdrout)
     fdrout.close()
 
 
-def write_gene(outpath, fout, genesdict, genedatm50, genedatl95, genedatu95):
+def gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning, genesdict, genedatm50, genedatl95, genedatu95):
+
+    """
+    Parameters:
+    
+    
+    Returns:
+
+    """
+
+    for gene_idx in range(0, gene_len):
+        genesdict[gene_map[gene_idx]] = gene_map[gene_idx]
+        genedatm50[gene_map[gene_idx]] = np.mean(
+            pcj[burn + 1 : niter + 1 : thinning, gene_idx, :], axis=0
+        )
+        genedatl95[gene_map[gene_idx]] = np.percentile(
+            pcj[burn + 1 : niter + 1 : thinning, gene_idx, :], 2.5, axis=0
+        )
+        genedatu95[gene_map[gene_idx]] = np.percentile(
+            pcj[burn + 1 : niter + 1 : thinning, gene_idx, :], 97.5, axis=0
+        )
     geneout = open(outpath + str(fout) + ".mcmc.gene.posteriors", "w+")
     for genekey in genesdict.keys():
         print(genekey, file=geneout, end="")
@@ -947,9 +1194,18 @@ def write_gene(outpath, fout, genesdict, genedatm50, genedatl95, genedatu95):
     geneout.close()
 
 
-def write_prot(
+def prot_write(
     outpath, fout, chroff_vec, annot_vec, prot_vec, gene_vec, protind, burn, niter, m
 ):
+
+    """
+    Parameters:
+    
+    
+    Returns:
+
+    """
+
     protout = open(outpath + str(fout) + ".mcmc.protective", "w+")
     for var_idx in range(0, m):
         protout.write(
@@ -998,14 +1254,15 @@ def mrpmm(
     verbose=True,
     outpath="/Users/mrivas/",
     targeted=False,
+    maxlor=0.693,
 ):
 
     """ 
     Performs MRPMM.
   
     Parameters: 
-    betas: M*K vector of effect sizes.
-    ses: M*K vector of standard errors effect sizes.
+    betas: M*K matrix of effect sizes.
+    ses: M*K matrix of standard errors effect sizes.
     err_corr: Correlation of errors (common vars).
     annot_vec: Vector of length M of consequence annotations.
     gene_vec: Vector of length M of gene symbols.
@@ -1018,6 +1275,9 @@ def mrpmm(
     phenotypes: Vector of length K of phenotype IDs.
     R_phen_use: Toggles whether or not R_phen is used.
     epsilon: Default value for calculating Gamma probabilities.
+    gamma: Multiplicative part of the proposal value.
+    xi_0: Hyperparameter controlling the spread of the proposals.
+    xi_alpha_0: Fixed value controlling the variance of the proposal distribution.
     fdr: Threshold for false discovery rate (default: 0.05)
     niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
     burn: Burn-in iterations for MCMC.
@@ -1080,6 +1340,10 @@ def mrpmm(
         annot_vec,
     )
 
+    if targeted:
+        # prot scan array
+        protind = np.zeros((niter + 2, M))
+
     # Iterations MCMC samplers
     for iteration in range(1, niter + 1):
         if iteration % 100 == 0:
@@ -1123,6 +1387,24 @@ def mrpmm(
                 gene_map,
                 0.000001,
             )
+            if targeted:
+                protbool = 0
+                protadverse = 0
+                for tmptidx in range(0, K):
+                    if (
+                        np.sqrt(scales[iteration - 1, annot_idx])
+                        * bc[iteration - 1, delta_m[iteration, var_idx], tmptidx]
+                        >= maxlor
+                    ):
+                        protadverse = 1
+                    if (
+                        np.sqrt(scales[iteration - 1, annot_idx])
+                        * bc[iteration - 1, delta_m[iteration, var_idx], tmptidx]
+                        < -0.1
+                    ):
+                        protbool = 1
+                if protbool == 1 and protadverse == 0:
+                    protind[iteration, var_idx] = 1
         bc = update_bc(
             betas,
             ses,
@@ -1174,32 +1456,10 @@ def mrpmm(
             reject_mh3,
             reject_mh3_postburnin,
         )
-    ## Write output for input files
-    mcout = open(outpath + str(fout) + ".mcmc.posteriors", "w+")
-    varprobdict = {}
-    for var_idx in range(0, M):
-        mcout.write(
-            chroff_vec[var_idx]
-            + "\t"
-            + annot_vec[var_idx]
-            + "\t"
-            + prot_vec[var_idx]
-            + "\t"
-            + gene_vec[var_idx]
-            + "\t"
-            + str(
-                gene_vec[var_idx] + ":" + annot_vec[var_idx] + ":" + prot_vec[var_idx]
-            )
-        )
-        for c in range(0, C):
-            probclustervar = np.where(delta_m[burn + 1 : niter + 1, var_idx] == c)[
-                0
-            ].shape[0] / (niter - burn)
-            varprobdict[chroff_vec[var_idx], c + 1] = probclustervar
-            mcout.write("\t" + str(probclustervar))
-        mcout.write("\n")
-    mcout.close()
-    write_fdr(outpath, fout, fdr, M, chroff_vec, varprobdict)
+    var_prob_dict = mcout_write(outpath, fout, M, chroff_vec, annot_vec, prot_vec, gene_vec, C, delta_m, burn, niter)
+    if targeted:
+        prot_write(outpath, fout, chroff_vec, annot_vec, prot_vec, gene_vec, protind, burn, niter, M)
+    fdr_write(outpath, fout, fdr, M, chroff_vec, var_prob_dict)
     print_rejection_rates(
         accept_mh1_postburnin,
         reject_mh1_postburnin,
@@ -1212,291 +1472,18 @@ def mrpmm(
     genedatl95 = {}
     genedatu95 = {}
     if verbose:
-        probout = fout + ".mcmc.probs"
-        np.savetxt(outpath + probout, delta_m, fmt="%1.3f")
-        bcout = open(outpath + str(fout) + ".mcmc.bc", "w+")
-        bcout.write("cluster")
-        for i in range(0, len(phenotypes)):
-            print(
-                ("\t%s\t%s\t%s")
-                % (phenotypes[i] + "m50", phenotypes[i] + "l95", phenotypes[i] + "u95"),
-                end="",
-                file=bcout,
-            )
-        bcout.write("\n")
-        write_confidence_intervals(C, bc, burn, niter, thinning, bcout)
-        bcout.close()
+        probout_bcout_write(outpath, fout, C, bc, delta_m, burn, niter, thinning)
         scaleout_write(
             outpath, fout, annot_len, scales, burn, niter, thinning, annot_map
         )
         tmpbc_write(outpath, fout, K, Theta_0)
-        pc[0, 0, :]
         print("gene_set", np.mean(pcj[burn + 1 : niter + 1 : thinning, :], axis=0))
-        # initialize pcj (proportions for each gene j)
         genesdict = {}
-        for gene_idx in range(0, gene_len):
-            genesdict[gene_map[gene_idx]] = gene_map[gene_idx]
-            genedatm50[gene_map[gene_idx]] = np.mean(
-                pcj[burn + 1 : niter + 1 : thinning, gene_idx, :], axis=0
-            )
-            genedatl95[gene_map[gene_idx]] = np.percentile(
-                pcj[burn + 1 : niter + 1 : thinning, gene_idx, :], 2.5, axis=0
-            )
-            genedatu95[gene_map[gene_idx]] = np.percentile(
-                pcj[burn + 1 : niter + 1 : thinning, gene_idx, :], 97.5, axis=0
-            )
     BIC, AIC = calculate_metrics(
         outpath, fout, alpha, burn, niter, thinning, maxloglkiter, gene_len, K, M, C
     )
-    write_gene(outpath, fout, genesdict, genedatm50, genedatl95, genedatu95)
+    gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning, genesdict, genedatm50, genedatl95, genedatu95)
     return [BIC, AIC, genedatm50]
-
-
-def targeted(
-    betas,
-    ses,
-    err_corr,
-    annot_vec,
-    gene_vec,
-    prot_vec,
-    chroff_vec,
-    C,
-    fout,
-    R_phen,
-    R_phen_inv,
-    R_phen_use=True,
-    epsilon=1e-16,
-    gamma=1,
-    xi_0=1,
-    xi_alpha_0=1,
-    niter=1000,
-    burn=100,
-    thinning=1,
-    verbose=True,
-    maxlor=0.693,
-    outpath="/Users/mrivas/",
-):
-
-    (
-        betas,
-        ses,
-        err_corr,
-        K,
-        M,
-        gene_len,
-        annot_len,
-        gene_map,
-        annot_map,
-        alpha,
-        pc,
-        pcj,
-        bc,
-        scales,
-        delta_m,
-        maxloglkiter,
-        Theta_0,
-        Theta_0_inv,
-        accept_mh1,
-        accept_mh1_postburnin,
-        reject_mh1,
-        reject_mh1_postburnin,
-        accept_mh2,
-        accept_mh2_postburnin,
-        reject_mh2,
-        reject_mh2_postburnin,
-        accept_mh3,
-        accept_mh3_postburnin,
-        reject_mh3,
-        reject_mh3_postburnin,
-    ) = initialize_MCMC(
-        niter,
-        R_phen,
-        R_phen_inv,
-        err_corr,
-        betas,
-        ses,
-        C,
-        R_phen_use,
-        gene_vec,
-        annot_vec,
-    )
-
-    # prot scan array
-    protind = np.zeros((niter + 2, M))
-
-    # Iterations MCMC samplers
-    for iteration in range(1, niter + 1):
-        pc, accept_mh1, accept_mh1_postburnin, reject_mh1, reject_mh1_postburnin = update_pc(
-            alpha,
-            pc,
-            pcj,
-            epsilon,
-            gamma,
-            C,
-            gene_len,
-            accept_mh1,
-            accept_mh1_postburnin,
-            reject_mh1,
-            reject_mh1_postburnin,
-            burn,
-            iteration,
-        )
-        pcj = update_pcj(
-            alpha, pc, pcj, delta_m, gene_len, gene_vec, gene_map, iteration
-        )
-        for var_idx in range(0, M):
-            annot_idx, delta_m = update_delta_jm(
-                betas,
-                ses,
-                err_corr,
-                C,
-                bc,
-                pcj,
-                delta_m,
-                scales,
-                maxloglkiter,
-                var_idx,
-                iteration,
-                annot_len,
-                annot_vec,
-                annot_map,
-                gene_len,
-                gene_vec,
-                gene_map,
-                0.000001,
-            )
-            protbool = 0
-            protadverse = 0
-            for tmptidx in range(0, K):
-                if (
-                    np.sqrt(scales[iteration - 1, annot_idx])
-                    * bc[iteration - 1, delta_m[iteration, var_idx], tmptidx]
-                    >= maxlor
-                ):
-                    protadverse = 1
-                if (
-                    np.sqrt(scales[iteration - 1, annot_idx])
-                    * bc[iteration - 1, delta_m[iteration, var_idx], tmptidx]
-                    < -0.1
-                ):
-                    protbool = 1
-            if protbool == 1 and protadverse == 0:
-                protind[iteration, var_idx] = 1
-        update_bc(
-            betas,
-            ses,
-            err_corr,
-            C,
-            M,
-            delta_m,
-            bc,
-            scales,
-            Theta_0_inv,
-            iteration,
-            annot_len,
-            annot_vec,
-            annot_map,
-        )
-        scales, accept_mh2, accept_mh2_postburnin, reject_mh2, reject_mh2_postburnin = update_sigma_2(
-            betas,
-            ses,
-            xi_0,
-            err_corr,
-            M,
-            delta_m,
-            bc,
-            scales,
-            iteration,
-            burn,
-            annot_len,
-            annot_vec,
-            annot_map,
-            accept_mh2,
-            accept_mh2_postburnin,
-            reject_mh2,
-            reject_mh2_postburnin,
-        )
-        alpha, accept_mh3, reject_mh3, accept_mh3_postburnin, reject_mh3_postburnin = update_alpha(
-            alpha,
-            pc,
-            pcj,
-            epsilon,
-            C,
-            gene_len,
-            xi_alpha_0,
-            iteration,
-            burn,
-            accept_mh3,
-            accept_mh3_postburnin,
-            reject_mh3,
-            reject_mh3_postburnin,
-        )
-    ## Write output for input files
-    mcout = open(outpath + str(fout) + ".mcmc.posteriors", "w+")
-    for var_idx in range(0, M):
-        mcout.write(
-            chroff_vec[var_idx]
-            + "\t"
-            + annot_vec[var_idx]
-            + "\t"
-            + prot_vec[var_idx]
-            + "\t"
-            + gene_vec[var_idx]
-            + "\t"
-            + str(
-                gene_vec[var_idx] + ":" + annot_vec[var_idx] + ":" + prot_vec[var_idx]
-            )
-        )
-        for c in range(0, C):
-            probclustervar = np.where(delta_m[burn + 1 : niter + 1, var_idx] == c)[
-                0
-            ].shape[0] / (niter - burn)
-            mcout.write("\t" + str(probclustervar))
-        mcout.write("\n")
-    mcout.close()
-    ## Write output for input files
-    write_prot(
-        outpath,
-        fout,
-        chroff_vec,
-        annot_vec,
-        prot_vec,
-        gene_vec,
-        protind,
-        burn,
-        niter,
-        M,
-    )
-    print_rejection_rates(
-        accept_mh1_postburnin,
-        reject_mh1_postburnin,
-        accept_mh2_postburnin,
-        reject_mh2_postburnin,
-        accept_mh3_postburnin,
-        reject_mh3_postburnin,
-    )
-    genedat = {}
-    if verbose:
-        probout = fout + ".mcmc.probs"
-        np.savetxt(outpath + probout, delta_m, fmt="%1.3f")
-        bcout = open(outpath + str(fout) + ".mcmc.bc", "w+")
-        write_confidence_intervals(C, bc, burn, niter, thinning, bcout)
-        bcout.close()
-        scaleout_write(
-            outpath, fout, annot_len, scales, burn, niter, thinning, annot_map
-        )
-        tmpbc_write(outpath, fout, K, Theta_0)
-        pc[0, 0, :]
-        print("gene_set", np.mean(pcj[burn + 1 : niter + 1 : thinning, :], axis=0))
-        # initialize pcj (proportions for each gene j)
-        for gene_idx in range(0, gene_len):
-            genedat[gene_map[gene_idx]] = np.mean(
-                pcj[burn + 1 : niter + 1 : thinning, gene_idx, :], axis=0
-            )
-    BIC, AIC = calculate_metrics(
-        outpath, fout, alpha, burn, niter, thinning, maxloglkiter, gene_len, K, M, C
-    )
-    return [BIC, AIC, genedat]
 
 
 if __name__ == "__main__":
@@ -1558,14 +1545,7 @@ if __name__ == "__main__":
     R_phen_inv = np.linalg.inv(R_phen)
     phenotypes = [
         "HC276",
-        "HC276",
         "INI5255",
-        "INI5255",
-        "INI5255",
-        "INI5255",
-        "INI5257",
-        "INI5257",
-        "INI5257",
         "INI5257",
     ]
     [BIC, AIC, genedat] = mrpmm(
