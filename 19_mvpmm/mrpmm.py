@@ -65,7 +65,7 @@ def initialize_MCMC(
     err_corr: Correlation of errors (common vars).
     betas: An M*K matrix of betas, padded with 0s if missing summary statistics.
     ses: An M*K matrix of standard errors, padded with 0s if missing summary statistics.
-    C: Hypothesized number of clusters.
+    C: Number of hypothesized clusters.
     R_phen_use: Whether or not to use R_phen to initialize parameters.
     gene_vec: Vector of length M of gene symbols for the M variants.
     annot_vec: Vector of length M of functional annotations for the M variants.
@@ -235,6 +235,9 @@ def return_product_density(mult, proposal, previous, C):
     previous: x_c.
     C: Number of hypothesized clusters.
 
+    Returns:
+    density_prod: Product part of the density.
+
     """
 
     density_prod = np.sum(
@@ -253,7 +256,7 @@ def calculate_l_pdir_num(
 
     Parameters:
     gamma: Multiplicative part of the proposal value.
-    C:Number of hypothesized clusters.
+    C: Number of hypothesized clusters.
     pc_proposal: Sampled proposal value from the Dirichlet distribution using alpha and
         previous iteration as the parameters.
     epsilon: Tolerance.
@@ -265,7 +268,7 @@ def calculate_l_pdir_num(
         across genes with prior alpha.
 
     Returns:
-    l_pdir_den: The log of the numerator of the lambda value as described in
+    l_pdir_num: The log of the numerator of the lambda value as described in
     calculate_l_pdir.
 
     """
@@ -298,7 +301,7 @@ def calculate_l_pdir_den(
 
     Parameters:
     gamma: Multiplicative part of the proposal value.
-    C:Number of hypothesized clusters.
+    C: Number of hypothesized clusters.
     pc_proposal: Sampled proposal value from the Dirichlet distribution using alpha and
         previous iteration as the parameters.
     epsilon: Tolerance.
@@ -578,7 +581,7 @@ def update_delta_jm(
     betas: M*K matrix of effect sizes.
     ses: M*K matrix of standard errors effect sizes.
     err_corr: Correlation of errors (common vars).
-    C: Hypothesized number of clusters; input parameter.
+    C: Number of hypothesized clusters.
     bc: Mean effect size per cluster.
     pcj: Per-gene probability vector dictating how much sharing of clusters exists
         across genes with prior alpha.
@@ -659,7 +662,7 @@ def update_bc(
     betas: M*K matrix of effect sizes.
     ses: M*K matrix of standard errors effect sizes.
     err_corr: Correlation of errors (common vars).
-    C: Hypothesized number of clusters; input parameter.
+    C: Number of hypothesized clusters.
     bc: Mean effect size per cluster.
     M: Number of variants.
     delta_m: Indices of cluster memberships for each variant m in gene j.
@@ -822,25 +825,54 @@ def return_alpha_product_density(mult, proposal, previous, C):
     
     """
     Parameters:
-    
+    The density at point x given the normalization constant as defined in
+    return_norm_const is:
+
+                                   C               
+                                 ____     (z_c - 1)
+             p_dir(x|z) = D(z) .  ||   x_c         
+                                 c = 1
+ 
+    This function returns the product part of the density (after D(z)).
+
+    Parameters:
+    mult: Multiplicative factor in conditional. E.g. gamma / alpha.
+    proposal: z_c.
+    previous: x_c.
+    C: Number of hypothesized clusters.
     
     Returns:
+    gene_density_prod:
 
     """
 
-    num_gene_density_prod = np.sum(
+    gene_density_prod = np.sum(
         [(mult * proposal - 1) * np.log(previous[i]) for i in range(0, C)]
     )
-    return num_gene_density_prod
+    return gene_density_prod
 
 
 def calculate_l_adir_num(alpha_proposal, iteration, pc, pcj, epsilon, gene_len, C):
 
     """
+    Calculates the log of the numerator of the lambda value as described in
+    calculate_l_adir.
+
     Parameters:
-    
+    alpha_proposal: Sampled proposal value from the normal distribution using alpha and
+        xi_alpha_0 as the mean and spread parameters.
+    iteration: Iteration number.
+    gamma: Multiplicative part of the proposal value.
+    pc: C-dimensional probability vector dictating sharing of clusters across genes.
+    pcj: Per-gene probability vector dictating how much sharing of clusters exists
+        across genes with prior alpha.
+    epsilon: Tolerance.
+    gene_len: Number of unique genes among M variants.
+    C: Number of hypothesized clusters.
     
     Returns:
+    l_adir_num: The log of the numerator of the lambda value as described in
+    calculate_l_adir.
 
     """
 
@@ -862,10 +894,22 @@ def calculate_l_adir_num(alpha_proposal, iteration, pc, pcj, epsilon, gene_len, 
 def calculate_l_adir_den(alpha, iteration, pc, pcj, epsilon, gene_len, C):
 
     """
+    Calculates the log of the denominator of the lambda value as described in
+    calculate_l_adir.
+
     Parameters:
-    
+    alpha: Inverse-gamma prior for pcj.
+    iteration: Iteration number.
+    pc: C-dimensional probability vector dictating sharing of clusters across genes.
+    pcj: Per-gene probability vector dictating how much sharing of clusters exists
+        across genes with prior alpha.
+    epsilon: Tolerance.
+    gene_len: Number of unique genes among M variants.
+    C: Number of hypothesized clusters.
     
     Returns:
+    l_adir_den: The log of the denominator of the lambda value as described in
+    calculate_l_adir.
 
     """
 
@@ -891,11 +935,36 @@ def calculate_l_adir_den(alpha, iteration, pc, pcj, epsilon, gene_len, C):
 def calculate_l_adir(alpha, xi_alpha_0, iteration, pc, pcj, epsilon, gene_len, C):
 
     """
-    Parameters:
-    
-    
-    Returns:
+    Returns the log of the transition probability of the proposal. Probability:
 
+            /                  J                                          \
+            |                ____        /    (t)            (t) \        |
+            |       p(α')  .  ||   p_dir \ π_j     | α' . π_0    /        |
+            |               j = 1                                         |
+    λ = min | 1, ---------------------------------------------------------|
+            |                       J                                     |
+            |      /  (t - 1) \   ____       /    (t)     (t-1)      (t)\ |
+            |    p \ α        / .  ||  p_dir \ π_j     | α      . π_0   / |
+            |                    j = 1                                    | 
+            \                                                             /
+
+    Calls helper functions for numerator and denominator.
+
+    Parameters:
+    alpha: Prior for pcj.
+    xi_alpha_0: Fixed value controlling the variance of the proposal distribution.
+    iteration: Iteration number.
+    pc: C-dimensional probability vector dictating sharing of clusters across genes.
+    pcj: Per-gene probability vector dictating how much sharing of clusters exists
+        across genes with prior alpha.
+    epsilon: Tolerance.
+    gene_len: Number of unique genes among M variants.
+    C: Number of hypothesized clusters.
+
+    Returns:
+    l_adir: Log of lambda as above.
+    alpha_proposal: Sampled proposal value from the normal distribution using alpha and
+        xi_alpha_0 as the mean and spread parameters.
     """
 
     ### Calculate acceptance probability (l_adir)
@@ -927,10 +996,26 @@ def update_alpha(
 ):
 
     """
+    Updates alpha using a MH sub-step with a random-walk proposal.
+
     Parameters:
-    
+    alpha: Prior for pcj.
+    pc: C-dimensional probability vector dictating sharing of clusters across genes.
+    pcj: Per-gene probability vector dictating how much sharing of clusters exists
+        across genes with prior alpha.
+    epsilon: Tolerance.
+    C: Number of hypothesized clusters.
+    gene_len: Number of unique genes among M variants.
+    xi_alpha_0: Fixed value controlling the variance of the proposal distribution.
+    iteration: Iteration number.
+    burn: Number of target burn-in iterations.
+    [accept/reject]_mh3: Tracker for acceptance rate.
+    [accept/reject]_mh3_postburnin: Tracker for acceptance rate after burn-in.
     
     Returns:
+    alpha: Updated prior for pcj.
+    [accept/reject]_mh3: Augmented racker for acceptance rate.
+    [accept/reject]_mh3_postburnin: Augmented tracker for acceptance rate after burn-in.
 
     """
 
@@ -955,14 +1040,27 @@ def update_alpha(
 
 
 def calculate_metrics(
-    outpath, fout, alpha, burn, niter, thinning, maxloglkiter, gene_len, k, m, C
+    outpath, fout, alpha, burn, niter, thinning, maxloglkiter, gene_len, K, M, C
 ):
 
     """
+    Writes alphas out to file and returns BIC/AIC for the given C value.
+
     Parameters:
-    
+    outpath: Folder path prefix for output files.
+    fout: Prefix for output files.
+    alpha: Prior for pcj.
+    burn: Number of target burn-in iterations.
+    niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
+    thinning: MCMC thinning paramter.
+    maxloglkiter: Max log likelihood of the iteration.
+    gene_len: Number of unique genes among M variants.
+    K: Number of phenotypes.
+    M: Number of variants.
+    C: Number of hypothesized clusters.
     
     Returns:
+    BIC, AIC: Goodness-of-fit measures for the C input.
 
     """
 
@@ -974,18 +1072,28 @@ def calculate_metrics(
     print(("%2.2f\t%2.2f\t%2.2f") % (mean, l95ci, u95ci), file=alphaout)
     alphaout.close()
     maxllkiter = np.max(maxloglkiter[burn + 1 : niter : thinning, 0])
-    BIC = -2 * maxllkiter + (k + gene_len) * (C - 1) * np.log(m)
-    AIC = -2 * maxllkiter + (k + gene_len) * (C - 1) * 2
+    BIC = -2 * maxllkiter + (K + gene_len) * (C - 1) * np.log(M)
+    AIC = -2 * maxllkiter + (K + gene_len) * (C - 1) * 2
     return BIC, AIC
 
 
 def scaleout_write(outpath, fout, annot_len, scales, burn, niter, thinning, annot_map):
 
     """
+    Writes scales out to file.
+
     Parameters:
-    
+    outpath: Folder path prefix for output files.
+    fout: Prefix for output files.
+    annot_len: Number of unique annotations among M variants.
+    scales: Scale parameters for annotations across clusters.
+    burn: Number of target burn-in iterations.
+    niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
+    thinning: MCMC thinning paramter.
+    annot_map: List of unique annotations.
     
     Returns:
+    None.
 
     """
 
@@ -1008,30 +1116,50 @@ def scaleout_write(outpath, fout, annot_len, scales, burn, niter, thinning, anno
     scaleout.close()
 
 
-def tmpbc_write(outpath, fout, k, Theta_0):
+def tmpbc_write(outpath, fout, K, Theta_0):
     
     """
+    Writes out the Theta_0 matrix to file.
+
     Parameters:
-    
+    outpath: Folder path prefix for output files.
+    fout: Prefix for output files.
+    K: Number of phenotypes.
+    Theta_0: Prior estimate of genetic correlation across traits; if R_phen_use is
+        true, Theta_0 = R_phen. Else, it is the identity matrix.
     
     Returns:
+    None.
 
     """
 
     tmpbc = open(outpath + str(fout) + ".theta.bc", "w+")
-    for jidx in range(0, k):
-        for kidx in range(0, k):
-            print(Theta_0[jidx, kidx], file=tmpbc, end=" ")
+    for i in range(0, K):
+        for j in range(0, K):
+            print(Theta_0[i, j], file=tmpbc, end=" ")
         print("\n", end="", file=tmpbc)
     tmpbc.close()
 
 def mcout_write(outpath, fout, M, chroff_vec, annot_vec, prot_vec, gene_vec, C, delta_m, burn, niter):
 
     """
+    Writes out variant cluster membership posterior probabilities to file.
+
     Parameters:
-    
+    outpath: Folder path prefix for output files.
+    fout: Prefix for output files.
+    M: Number of variants.
+    chroff_vec: Vector of length M of CHROM:POS:REF:ALT.
+    annot_vec: Vector of length M of functional annotations for the M variants.
+    prot_vec: Vector of length M of HGVSp annotations.
+    gene_vec: Vector of length M of gene symbols.
+    C: Number of hypothesized clusters.
+    delta_m: Indices of cluster memberships for each variant m in gene j.
+    burn: Number of target burn-in iterations.
+    niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
     
     Returns:
+    var_prob_dict: Dictionary; key = [variant, cluster]; value = probability.
 
     """
 
@@ -1064,10 +1192,20 @@ def mcout_write(outpath, fout, M, chroff_vec, annot_vec, prot_vec, gene_vec, C, 
 def probout_bcout_write(outpath, fout, C, bc, delta_m, burn, niter, thinning):
 
     """
+    Writes cluster memberships per iteration and mean + CI of effect sizes to file.
+
     Parameters:
-    
+    outpath: Folder path prefix for output files.
+    fout: Prefix for output files.
+    C: Number of hypothesized clusters.
+    bc: Mean effect size per cluster.
+    delta_m: Indices of cluster memberships for each variant m in gene j.
+    burn: Number of target burn-in iterations.
+    niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
+    thinning: MCMC thinning paramter.
     
     Returns:
+    None.
 
     """
 
@@ -1109,10 +1247,14 @@ def print_rejection_rates(
 ):
 
     """
-    Parameters:
+    Prints rejection rates per MH step (pc, scales, alpha).
     
+    Parameters:
+    [accept/reject]_mh[1/2/3]: Trackers for acceptance rates at each step.
+    [accept/reject]_mh[1/2/3]_postburnin: Tracker for acceptance rates after burn-in.
     
     Returns:
+    None.
 
     """
 
@@ -1129,13 +1271,21 @@ def print_rejection_rates(
     print(reject_mh3_postburnin, accept_mh3_postburnin)
 
 
-def fdr_write(outpath, fout, fdr, m, chroff_vec, var_prob_dict):
+def fdr_write(outpath, fout, fdr, M, chroff_vec, var_prob_dict):
 
     """
+    Writes FDR and those variants that pass FDR to file.
+
     Parameters:
-    
+    outpath: Folder path prefix for output files.
+    fout: Prefix for output files.
+    fdr: Threshold for false discovery rate (default: 0.05).
+    M: Number of variants.
+    chroff_vec: Vector of length M of CHROM:POS:REF:ALT.
+    var_prob_dict: Dictionary; key = [variant, cluster]; value = probability.
     
     Returns:
+    None.
 
     """
 
@@ -1143,7 +1293,7 @@ def fdr_write(outpath, fout, fdr, m, chroff_vec, var_prob_dict):
     print(str(fdr), file=fdrout)
     var_prob_null = []
     var_fdr_id = []
-    for var_idx in range(0, m):
+    for var_idx in range(0, M):
         var_fdr_id.append(chroff_vec[var_idx])
         var_prob_null.append(var_prob_dict[chroff_vec[var_idx], 1])
     idx_sort = sorted(range(len(var_prob_null)), key=lambda k: var_prob_null[k])
@@ -1160,18 +1310,30 @@ def fdr_write(outpath, fout, fdr, m, chroff_vec, var_prob_dict):
     fdrout.close()
 
 
-def gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning, genesdict, genedatm50, genedatl95, genedatu95):
+def gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning):
 
     """
+    Writes out mean and 95% CI for each gene.
+
     Parameters:
-    
+    outpath: Folder path prefix for output files.
+    fout: Prefix for output files.
+    gene_len: Number of unique genes among M variants.
+    gene_map: List of unique genes.
+    pcj: Per-gene probability vector dictating how much sharing of clusters exists
+        across genes with prior alpha.
+    burn: Number of target burn-in iterations.
+    niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
+    thinning: MCMC thinning paramter.
     
     Returns:
+    None.
 
     """
 
+    genes_dict, genedatm50, genedatl95, genedatu95 = {}, {}, {}, {}
     for gene_idx in range(0, gene_len):
-        genesdict[gene_map[gene_idx]] = gene_map[gene_idx]
+        genes_dict[gene_map[gene_idx]] = gene_map[gene_idx]
         genedatm50[gene_map[gene_idx]] = np.mean(
             pcj[burn + 1 : niter + 1 : thinning, gene_idx, :], axis=0
         )
@@ -1182,7 +1344,7 @@ def gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning, ge
             pcj[burn + 1 : niter + 1 : thinning, gene_idx, :], 97.5, axis=0
         )
     geneout = open(outpath + str(fout) + ".mcmc.gene.posteriors", "w+")
-    for genekey in genesdict.keys():
+    for genekey in genes_dict.keys():
         print(genekey, file=geneout, end="")
         for i in range(0, len(genedatm50[genekey])):
             print(("\t%2.2f") % (genedatm50[genekey][i]), file=geneout, end="")
@@ -1192,22 +1354,35 @@ def gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning, ge
             print(("\t%2.2f") % (genedatu95[genekey][i]), file=geneout, end="")
         geneout.write("\n")
     geneout.close()
+    return genedatm50
 
 
 def prot_write(
-    outpath, fout, chroff_vec, annot_vec, prot_vec, gene_vec, protind, burn, niter, m
+    outpath, fout, chroff_vec, annot_vec, prot_vec, gene_vec, protind, burn, niter, M
 ):
 
     """
+    Writes out variant cluster membership posterior probabilities to file.
+
     Parameters:
-    
+    outpath: Folder path prefix for output files.
+    fout: Prefix for output files.
+    chroff_vec: Vector of length M of CHROM:POS:REF:ALT.
+    annot_vec: Vector of length M of functional annotations for the M variants.
+    prot_vec: Vector of length M of HGVSp annotations.
+    gene_vec: Vector of length M of gene symbols.
+    protind: Protective scan array.
+    burn: Number of target burn-in iterations.
+    niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
+    M: Number of variants.
     
     Returns:
-
+    None.
+    
     """
 
     protout = open(outpath + str(fout) + ".mcmc.protective", "w+")
-    for var_idx in range(0, m):
+    for var_idx in range(0, M):
         protout.write(
             chroff_vec[var_idx]
             + "\t"
@@ -1268,8 +1443,8 @@ def mrpmm(
     gene_vec: Vector of length M of gene symbols.
     prot_vec: Vector of length M of HGVSp annotations.
     chroff_vec: Vector of length M of CHROM:POS:REF:ALT.
-    C: Hypothesized number of clusters; input parameter.
-    fout: 
+    C: Number of hypothesized clusters.
+    fout: Prefix for output files.
     R_phen: K*K matrix of correlations of effect sizes across phenotypes.
     R_phen_inv: Inverse of R_phen.
     phenotypes: Vector of length K of phenotype IDs.
@@ -1278,12 +1453,12 @@ def mrpmm(
     gamma: Multiplicative part of the proposal value.
     xi_0: Hyperparameter controlling the spread of the proposals.
     xi_alpha_0: Fixed value controlling the variance of the proposal distribution.
-    fdr: Threshold for false discovery rate (default: 0.05)
+    fdr: Threshold for false discovery rate (default: 0.05).
     niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
-    burn: Burn-in iterations for MCMC.
+    burn: Number of target burn-in iterations.
     thinning: MCMC thinning paramter.
     verbose: Prints extra materials to output files.
-    outpath: Path prefix for output files.
+    outpath: Folder path prefix for output files.
     targeted: Whether or not we want to perform targeted analysis.
   
     Returns: 
@@ -1341,7 +1516,6 @@ def mrpmm(
     )
 
     if targeted:
-        # prot scan array
         protind = np.zeros((niter + 2, M))
 
     # Iterations MCMC samplers
@@ -1468,9 +1642,6 @@ def mrpmm(
         accept_mh3_postburnin,
         reject_mh3_postburnin,
     )
-    genedatm50 = {}
-    genedatl95 = {}
-    genedatu95 = {}
     if verbose:
         probout_bcout_write(outpath, fout, C, bc, delta_m, burn, niter, thinning)
         scaleout_write(
@@ -1478,11 +1649,10 @@ def mrpmm(
         )
         tmpbc_write(outpath, fout, K, Theta_0)
         print("gene_set", np.mean(pcj[burn + 1 : niter + 1 : thinning, :], axis=0))
-        genesdict = {}
-    BIC, AIC = calculate_metrics(
+    BIC, AIC  = calculate_metrics(
         outpath, fout, alpha, burn, niter, thinning, maxloglkiter, gene_len, K, M, C
     )
-    gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning, genesdict, genedatm50, genedatl95, genedatu95)
+    genedatm50 = gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning)
     return [BIC, AIC, genedatm50]
 
 
