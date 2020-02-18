@@ -47,11 +47,11 @@ def safe_inv(X, matrix_name, block, agg_type):
 
     try:
         X_inv = np.linalg.inv(X)
-    except LinAlgError as err:
+    except LinAlgError:
         X = is_pos_def_and_full_rank(X)
         try:
             X_inv = np.linalg.inv(X)
-        except LinAlgError as err:
+        except LinAlgError:
             print(
                 "Could not invert " + matrix_name + " for " + agg_type + " " + block + "."
             )
@@ -273,12 +273,6 @@ def return_BF(
     v_beta_inv = safe_inv(v_beta, "v_beta", block, agg_type)
     U_inv = safe_inv(U, "U", block, agg_type)
     if v_beta_inv is not np.nan and U_inv is not np.nan:
-        A2 = U_inv + v_beta_inv
-        b2 = np.asmatrix(v_beta_inv) * np.asmatrix(beta)
-        try:
-            Abinv = np.linalg.lstsq(A2, b2, rcond=-1)[0]
-        except LinAlgError as err:
-            return np.nan, [], []
         fat_middle = v_beta_inv - (
             v_beta_inv.dot(np.linalg.inv(U_inv + v_beta_inv))
         ).dot(v_beta_inv)
@@ -1136,8 +1130,8 @@ def build_R_phen(S, K, pops, phenos, df, map_file):
         return np.diag(np.ones(K))
     phen_corr = build_phen_corr(S, K, pops, phenos, df, pop_pheno_tuples)
     R_phen = np.zeros((K, K))
-    for k1, pheno1 in zip(range(K), phenos):
-        for k2, pheno2 in zip(range(K), phenos):
+    for k1 in range(K):
+        for k2 in range(K):
             if k1 == k2:
                 R_phen[k1, k2] = 1
             elif k1 > k2:

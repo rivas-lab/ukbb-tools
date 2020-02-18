@@ -6,18 +6,21 @@ from optparse import OptionParser
 from collections import Counter
 import array
 import itertools
+import argparse
 import math
 import sys, re
 import os
 import pandas as pd
 import logging
 from scipy.stats import binom as binomial
+from scipy.stats.stats import pearsonr
 import numpy as np
 import numpy.matlib as npm
 import time
 from scipy.stats import invgamma
 import sklearn
 import sklearn.covariance
+from functools import partial, reduce
 
 # Written by Manuel A. Rivas
 # Updated 02.11.2020, Guhan R. Venkataraman
@@ -207,6 +210,9 @@ def return_norm_const(mult, proposal, epsilon):
     mult: Multiplicative factor in conditional. E.g. gamma / alpha.
     proposal: z_c.
     epsilon: Tolerance.
+
+    Returns:
+    norm_const: Normalization constant as described above.
 
     """
 
@@ -965,6 +971,7 @@ def calculate_l_adir(alpha, xi_alpha_0, iteration, pc, pcj, epsilon, gene_len, C
     l_adir: Log of lambda as above.
     alpha_proposal: Sampled proposal value from the normal distribution using alpha and
         xi_alpha_0 as the mean and spread parameters.
+
     """
 
     ### Calculate acceptance probability (l_adir)
@@ -1077,7 +1084,7 @@ def calculate_metrics(
     return BIC, AIC
 
 
-def scaleout_write(outpath, fout, annot_len, scales, burn, niter, thinning, annot_map):
+def scaleout_write(outpath, fout, annot_len, scales, burn, niter, thinning, annot_map, C):
 
     """
     Writes scales out to file.
@@ -1097,7 +1104,7 @@ def scaleout_write(outpath, fout, annot_len, scales, burn, niter, thinning, anno
 
     """
 
-    scaleout = open(outpath + str(fout) + ".mcmc.scale", "w+")
+    scaleout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.scale", "w+")
     for annot_idx in range(0, annot_len):
         mean = np.mean(
             np.sqrt(scales[burn + 1 : niter + 1 : thinning, annot_idx]), axis=0
@@ -1116,7 +1123,7 @@ def scaleout_write(outpath, fout, annot_len, scales, burn, niter, thinning, anno
     scaleout.close()
 
 
-def tmpbc_write(outpath, fout, K, Theta_0):
+def tmpbc_write(outpath, fout, K, Theta_0, C):
     
     """
     Writes out the Theta_0 matrix to file.
@@ -1133,7 +1140,7 @@ def tmpbc_write(outpath, fout, K, Theta_0):
 
     """
 
-    tmpbc = open(outpath + str(fout) + ".theta.bc", "w+")
+    tmpbc = open(outpath + str(fout) + "_" + str(C) + ".theta.bc", "w+")
     for i in range(0, K):
         for j in range(0, K):
             print(Theta_0[i, j], file=tmpbc, end=" ")
@@ -1163,7 +1170,7 @@ def mcout_write(outpath, fout, M, chroff_vec, annot_vec, prot_vec, gene_vec, C, 
 
     """
 
-    mcout = open(outpath + str(fout) + '.mcmc.posteriors','w+')
+    mcout = open(outpath + str(fout) + "_" + str(C) + '.mcmc.posteriors','w+')
     var_prob_dict = {}
     for var_idx in range(0, M):
         mcout.write(
@@ -1209,9 +1216,9 @@ def probout_bcout_write(outpath, fout, C, bc, delta_m, burn, niter, thinning):
 
     """
 
-    probout = fout + ".mcmc.probs"
+    probout = fout + "_" + str(C) + ".mcmc.probs"
     np.savetxt(outpath + probout, delta_m, fmt="%1.3f")
-    bcout = open(outpath + str(fout) + ".mcmc.bc", "w+")
+    bcout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.bc", "w+")
     bcout.write("cluster")
     for phenotype in phenotypes:
         print(
@@ -1271,7 +1278,7 @@ def print_rejection_rates(
     print(reject_mh3_postburnin, accept_mh3_postburnin)
 
 
-def fdr_write(outpath, fout, fdr, M, chroff_vec, var_prob_dict):
+def fdr_write(outpath, fout, fdr, M, chroff_vec, var_prob_dict, C):
 
     """
     Writes FDR and those variants that pass FDR to file.
@@ -1289,7 +1296,7 @@ def fdr_write(outpath, fout, fdr, M, chroff_vec, var_prob_dict):
 
     """
 
-    fdrout = open(outpath + str(fout) + ".fdr", "w+")
+    fdrout = open(outpath + str(fout) + "_" + str(C) + ".fdr", "w+")
     print(str(fdr), file=fdrout)
     var_prob_null = []
     var_fdr_id = []
@@ -1310,7 +1317,7 @@ def fdr_write(outpath, fout, fdr, M, chroff_vec, var_prob_dict):
     fdrout.close()
 
 
-def gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning):
+def gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning, C):
 
     """
     Writes out mean and 95% CI for each gene.
@@ -1343,7 +1350,7 @@ def gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning):
         genedatu95[gene_map[gene_idx]] = np.percentile(
             pcj[burn + 1 : niter + 1 : thinning, gene_idx, :], 97.5, axis=0
         )
-    geneout = open(outpath + str(fout) + ".mcmc.gene.posteriors", "w+")
+    geneout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.gene.posteriors", "w+")
     for genekey in genes_dict.keys():
         print(genekey, file=geneout, end="")
         for i in range(0, len(genedatm50[genekey])):
@@ -1358,7 +1365,7 @@ def gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning):
 
 
 def prot_write(
-    outpath, fout, chroff_vec, annot_vec, prot_vec, gene_vec, protind, burn, niter, M
+    outpath, fout, chroff_vec, annot_vec, prot_vec, gene_vec, protind, burn, niter, M, C
 ):
 
     """
@@ -1381,7 +1388,7 @@ def prot_write(
     
     """
 
-    protout = open(outpath + str(fout) + ".mcmc.protective", "w+")
+    protout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.protective", "w+")
     for var_idx in range(0, M):
         protout.write(
             chroff_vec[var_idx]
@@ -1632,8 +1639,8 @@ def mrpmm(
         )
     var_prob_dict = mcout_write(outpath, fout, M, chroff_vec, annot_vec, prot_vec, gene_vec, C, delta_m, burn, niter)
     if targeted:
-        prot_write(outpath, fout, chroff_vec, annot_vec, prot_vec, gene_vec, protind, burn, niter, M)
-    fdr_write(outpath, fout, fdr, M, chroff_vec, var_prob_dict)
+        prot_write(outpath, fout, chroff_vec, annot_vec, prot_vec, gene_vec, protind, burn, niter, M, C)
+    fdr_write(outpath, fout, fdr, M, chroff_vec, var_prob_dict, C)
     print_rejection_rates(
         accept_mh1_postburnin,
         reject_mh1_postburnin,
@@ -1645,97 +1652,641 @@ def mrpmm(
     if verbose:
         probout_bcout_write(outpath, fout, C, bc, delta_m, burn, niter, thinning)
         scaleout_write(
-            outpath, fout, annot_len, scales, burn, niter, thinning, annot_map
+            outpath, fout, annot_len, scales, burn, niter, thinning, annot_map, C
         )
-        tmpbc_write(outpath, fout, K, Theta_0)
+        tmpbc_write(outpath, fout, K, Theta_0, C)
         print("gene_set", np.mean(pcj[burn + 1 : niter + 1 : thinning, :], axis=0))
     BIC, AIC  = calculate_metrics(
         outpath, fout, alpha, burn, niter, thinning, maxloglkiter, gene_len, K, M, C
     )
-    genedatm50 = gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning)
+    genedatm50 = gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning, C)
     return [BIC, AIC, genedatm50]
+
+def delete_rows_and_columns(X, indices_to_remove):
+
+    """ 
+    Helper function to delete rows and columns from a matrix.
+  
+    Parameters: 
+    X: Matrix that needs adjustment.
+    indices_to_remove: Rows and columns to be deleted.
+  
+    Returns: 
+    X: Smaller matrix that has no missing data.
+  
+    """
+
+    X = np.delete(X, indices_to_remove, axis=0)
+    X = np.delete(X, indices_to_remove, axis=1)
+    return X
+
+
+def get_betas(df, pheno1, pheno2, mode):
+
+    """
+    Retrieves betas from a pair of phenotypes using non-significant, 
+        non-missing variants.
+  
+    Parameters: 
+    df: Merged dataframe containing summary statistics.
+    pheno1: First phenotype.
+    pheno2: Second phenotype.
+    mode: One of "null", "sig". Determines whether we want to sample from null or 
+        significant variants. Useful for building out correlations of errors and 
+        phenotypes respectively.
+  
+    Returns: 
+    beta1: List of effect sizes from the first phenotype; used to compute 
+        correlation.
+    beta2: List of effect sizes from the second phenotype; used to compute
+        correlation.
+  
+    """
+
+    if ("P_" + pheno1 not in df.columns) or (
+        "P_" + pheno2 not in df.columns
+    ):
+        return [], []
+    if mode == "null":
+        df = df[
+            (df["P_" + pheno1].astype(float) >= 1e-2)
+            & (df["P_" + pheno2].astype(float) >= 1e-2)
+        ]
+    elif mode == "sig":
+        df = df[
+            ((df["P_" + pheno1].astype(float) <= 1e-5)
+            | (df["P_" + pheno2].astype(float) <= 1e-5))
+        ]
+    beta1 = list(df["BETA_" + pheno1])
+    beta2 = list(df["BETA_" + pheno2])
+    return beta1, beta2
+
+def calculate_err(a, b, pheno1, pheno2, err_corr, err_df):
+
+    """
+    Calculates a single entry in the err_corr matrix.
+    
+    Parameters:
+    a, b: Positional parameters within the err_corr matrix.
+    pheno1: Name of first phenotype.
+    pheno2: Name of second phenotype.
+    err_corr: The err_corr matrix thus far.
+    err_df: Dataframe containing null, common, LD-independent variants.
+
+    Returns:
+    err_corr[a, b]: One entry in the err_corr matrix.
+
+    """
+
+    # If in lower triangle, do not compute; symmetric matrix
+    if a > b:
+        return err_corr[b, a]
+    elif a == b:
+        return 1
+    else:
+        err_df = err_df.dropna()
+        err_beta1, err_beta2 = get_betas(err_df, pheno1, pheno2, "null")
+        return pearsonr(err_beta1, err_beta2)[0] if err_beta1 else 0
+
+def filter_for_err_corr(df):
+
+    """
+    Filters the initial dataframe for the criteria used to build err_corr.
+
+    Parameters:
+    df: Merged dataframe containing all summary statistics.
+
+    Returns:
+    df: Filtered dataframe that contains null, common, LD-independent variants.
+
+    """
+
+    # Get only LD-independent, common variants
+    df = df[(df.maf >= 0.01) & (df.ld_indep == True)]
+    df = df.dropna(axis=1, how="all")
+    df = df.dropna()
+    null_variants = [
+        "regulatory_region_variant",
+        "intron_variant",
+        "intergenic_variant",
+        "downstream_gene_variant",
+        "mature_miRNA_variant",
+        "non_coding_transcript_exon_variant",
+        "upstream_gene_variant",
+        "NA",
+        "NMD_transcript_variant",
+        "synonymous_variant",
+    ]
+    # Get only null variants to build err_corr
+    if len(df) != 0:
+        df = df[df.most_severe_consequence.isin(null_variants)]
+    return df
+
+def build_err_corr(K, phenos, df):
+
+    """
+    Builds out a matrix of correlations between all phenotypes and studies using:
+        - null (i.e. synonymous or functionally uninteresting)
+        - not significant (P >= 1e-2)
+        - common (MAF >= 0.01)
+        - LD independent
+    SNPs.
+
+    Parameters:
+    K: Number of phenotypes.
+    phenos: Unique set of phenotypes to use for analysis.
+    df: Merged dataframe containing all relevant summary statistics.
+
+    Returns:
+    err_corr: (S*K x S*K) matrix of correlation of errors across studies and phenotypes 
+        for null variants. Used to calculate v_beta.
+
+    """
+    err_df = filter_for_err_corr(df)
+    if len(err_df) == 0:
+        return np.diag(np.ones(K))
+    err_corr = np.zeros((K, K))
+    for a, pheno1 in enumerate(phenos):
+        for b, pheno2 in enumerate(phenos):
+            # Location in matrix
+            err_corr[a, b] = calculate_err(
+                a, b, pheno1, pheno2, err_corr, err_df
+            )
+    err_corr = np.nan_to_num(err_corr)
+    return err_corr
+
+def calculate_phen(a, b, pheno1, pheno2, df, phenos_to_use):
+
+    """
+    Calculates a single entry in the phen_corr matrix.
+    
+    Parameters:
+    pheno1: Name of first phenotype.
+    pheno2: Name of second phenotype.
+    df: Dataframe containing significant, common, LD-independent variants.
+    phenos_to_use: Indicate which phenotypes to use to build R_phen.
+
+    Returns:
+    phen_corr[a, b]: One entry in the phen_corr matrix.
+
+    """
+
+    # If in lower triangle, do not compute; symmetric matrix
+    if (a > b) or (a == b):
+        return np.nan
+    else:
+        # if this combination of phenos doesn't exist in the map file, then nan
+        if (pheno1 in phenos_to_use) and (pheno2 in phenos_to_use):
+            phen_beta1, phen_beta2 = get_betas(df, pheno1, pheno2, "sig")
+            return (
+                pearsonr(phen_beta1, phen_beta2)[0]
+                if phen_beta1 is not None
+                else np.nan
+            )
+        else:
+            return np.nan
+
+def build_phen_corr(K, phenos, df, phenos_to_use):
+
+    """
+    Builds out a matrix of correlations between all phenotypes and studies using:
+        - significant (P < 1e-5)
+        - common (MAF >= 0.01)
+        - LD-independent
+    SNPs.
+
+    Parameters:
+    K: Number of phenotypes.
+    phenos: Unique set of phenotypes to use for analysis.
+    df: Merged dataframe containing all relevant summary statistics.
+    phenos_to_use: Indicate which phenotypes to use to build R_phen.
+
+    Returns:
+    phen_corr: (K*K) matrix of correlations between all phenotypes and studies 
+        for significant variants. Used to calculate R_phen.
+
+    """
+    
+    phen_corr = np.zeros((K, K))
+    for a, pheno1 in enumerate(phenos):
+        for b, pheno2 in enumerate(phenos):
+            # Location in matrix
+            phen_corr[a, b] = calculate_phen(
+                a, b, pheno1, pheno2, df, phenos_to_use
+            )
+    return phen_corr
+
+def filter_for_phen_corr(df, sumstat_data):
+
+    """
+    Filters the initial dataframe for the criteria used to build R_phen.
+
+    Parameters:
+    df: Merged dataframe containing all summary statistics.
+    sumstat_data: Dataframe indicating which summary statistics to use to build R_phen.
+
+    Returns:
+    df: Filtered dataframe that contains significant, common, LD-independent variants.
+
+    """
+
+    files_to_use = sumstat_data[sumstat_data["R_phen"] == True]
+    if len(files_to_use) == 0:
+        return [], []
+    phenos_to_use = list(files_to_use["pheno"])
+    cols_to_keep = ["V", "maf", "ld_indep"]
+    for col_type in "BETA_", "P_":
+        cols_to_keep.extend(
+            [col_type + "_" + pheno for pheno in phenos_to_use]
+        )
+    df = df[cols_to_keep]
+    # Get only LD-independent, common variants
+    df = df[(df.maf >= 0.01) & (df.ld_indep == True)]
+    df = df.dropna(axis=1, how="all")
+    df = df.dropna()
+    return df, phenos_to_use
+
+def build_R_phen(K, phenos, df, map_file):
+
+    """
+    Builds R_phen using phen_corr (calculated using the method directly above this).
+
+    Parameters:
+    K: Number of phenotypes.
+    phenos: Unique set of phenotypes to use for analysis.
+    df: Merged dataframe containing all relevant summary statistics.
+    map_file: Input file containing summary statistic paths + pheno data.
+
+    Returns:
+    R_phen: Empirical estimates of genetic correlation across phenotypes.
+
+    """
+
+    if K == 1:
+        return np.ones((K, K))
+    df, phenos_to_use = filter_for_phen_corr(df, map_file)
+    if len(df) == 0:
+        return np.diag(np.ones(K))
+    phen_corr = build_phen_corr(K, phenos, df, phenos_to_use)
+    R_phen = np.zeros((K, K))
+    for k1 in range(K):
+        for k2 in range(K):
+            if k1 == k2:
+                R_phen[k1, k2] = 1
+            elif k1 > k2:
+                R_phen[k1, k2] = R_phen[k2, k1]
+            else:
+                phenos_to_remove = list(set(range(K)) - set([k1, k2]))
+                indices_to_remove = []
+                for pheno_to_remove in phenos_to_remove:
+                    indices_to_remove.extend(
+                        [pheno_to_remove + K]
+                    )
+                pairwise_corrs = delete_rows_and_columns(phen_corr, indices_to_remove)
+                R_phen[k1, k2] = np.nanmedian(pairwise_corrs)
+    R_phen = np.nan_to_num(R_phen)
+    return R_phen
+
+
+
+def return_err_and_R_phen(df, phenos, K, map_file):
+
+    """ 
+    Builds a matrix of correlations of errors across studies and phenotypes,
+        and correlations of phenotypes.
+  
+    Parameters: 
+    df: Dataframe that containa summary statistics.
+    phenos: Unique set of phenotypes to use for analysis.
+    K: Number of phenotypes.
+    map_file: Input file containing summary statistic paths + pheno data.
+
+    Returns:
+    err_corr: (S*K x S*K) matrix of correlation of errors across studies and phenotypes
+        for null variants. Used to calculate v_beta.
+    R_phen: Empirical estimates of genetic correlation across phenotypes.
+  
+    """
+
+    # Sample common variants, stuff in filter + synonymous
+    err_corr = build_err_corr(K, phenos, df)
+    # Faster calculations, better accounts for uncertainty in estimates
+    err_corr[abs(err_corr) < 0.01] = 0
+    R_phen = build_R_phen(K, phenos, df, map_file)
+    R_phen[abs(R_phen) < 0.01] = 0
+    # Get rid of any values above 0.95
+    while (np.max(R_phen - np.eye(len(R_phen))) > 0.9):
+        R_phen = 0.9 * R_phen + 0.1 * np.diag(np.diag(R_phen))
+    return err_corr, R_phen
+
+
+def initialize_parser():
+
+    """
+    Parses inputs using argparse. 
+    
+    Parameters: 
+    valid_phenos: List of valid phenotypes.
+
+    """
+
+    parser = argparse.ArgumentParser(
+        description="MRP takes in several variables that affect how it runs.",
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
+    parser.add_argument(
+        "--variants",
+        type=str,
+        nargs=1,
+        default=[],
+        required=True,
+        dest="variants",
+        help="""path to file containing list of variants to include,
+         one line per variant. Has a header of "V".
+
+         format of file:
+
+         V
+         1:69081:G:C
+         1:70001:G:A
+         """,
+    )
+    parser.add_argument(
+        "--phenotypes",
+        type=str,
+        nargs="+",
+        required=True,
+        dest="phenotypes",
+        help="""path to tab-separated file containing list of: 
+         summary statistic file paths,
+         phenotypes, and
+         whether or not to use the file in R_phen generation.
+       
+         format:
+         
+         path        pheno        R_phen
+         /path/to/file1   pheno1     TRUE
+         /path/to/file2   pheno2     FALSE
+         """,
+    )
+    parser.add_argument(
+        "--num_clust",
+        type=int,
+        nargs="+",
+        required=True,
+        dest="clusters",
+        help="""number of clusters hypothesized - can input more than one,
+         e.g. --num_clust 3 2 4. MUST be integers.""",
+    )
+    parser.add_argument(
+        "--metadata_path",
+        type=str,
+        required=True,
+        dest="metadata_path",
+        help="""path to tab-separated file containing:
+         variants,
+         gene symbols,
+         consequences,
+         and HGVSp annotations.
+       
+         format:
+         
+         V       gene_symbol     most_severe_consequence HGVSp  
+         1:69081:G:C     OR4F5   5_prime_UTR_variant     ""
+        """,
+    )
+    parser.add_argument(
+        "--out_folder",
+        type=str,
+        nargs=1,
+        default=[],
+        dest="out_folder",
+        help="""folder to which output(s) will be written (default: current folder).
+         if folder does not exist, it will be created.""",
+    )
+    parser.add_argument(
+        "--fout",
+        type=str,
+        nargs=1,
+        default=[],
+        dest="fout",
+        help="""file prefix for output.""",
+    )
+    return parser
+
+def merge_dfs(sumstat_files, metadata):
+
+    """
+    Performs an outer merge on all of the files that have been read in;
+    Annotates with metadata and sigma values.
+
+    Parameters:
+    sumstat_files: List of dataframes that contain summary statistics.
+    metadata: df containing gene symbol, HGVSp, etc.
+
+    Returns:
+    df: Dataframe that is ready for err_corr/R_phen generation and for running MRPMM.
+
+    """
+
+    conserved_columns = ["V", "#CHROM", "POS", "REF", "ALT", "A1"]
+    outer_merge = partial(pd.merge, on=conserved_columns, how="outer")
+    df = reduce(outer_merge, sumstat_files)
+    df = df.merge(metadata)
+    return df
+
+def rename_columns(df, pheno):
+
+    """ 
+    Renames columns such that information on phenotype is available 
+        in the resultant dataframe.
+  
+    Additionally checks if the header contains "LOG(OR)_SE" instead of "SE".
+  
+    Parameters: 
+    df: Input dataframe (from summary statistics).
+    pheno: The phenotype from which the current summary statistic dataframe comes from.
+  
+    Returns: 
+    df: A df with adjusted column names, e.g., "OR_white_british_cancer1085".
+  
+    """
+
+    if "LOG(OR)_SE" in df.columns:
+        df.rename(columns={"LOG(OR)_SE": "SE"}, inplace=True)
+    columns_to_rename = ["BETA", "SE", "P"]
+    renamed_columns = [(x +  "_" + pheno) for x in columns_to_rename]
+    df.rename(columns=dict(zip(columns_to_rename, renamed_columns)), inplace=True)
+    return df
+
+def read_in_summary_stat(path, pheno, chroff_vec):
+
+    """
+    Reads in one summary statistics file.
+  
+    Additionally: adds a variant identifier ("V"), renames columns, and filters on 
+        SE (<= 0.5).
+
+    Parameters: 
+    path: Path to file.
+    pheno: Phenotype of interest.
+  
+    Returns: 
+    df: Dataframe with renamed columns, ready for merge.
+
+    """
+
+    print(path)
+    df = pd.read_csv(
+        path,
+        sep="\t",
+        dtype={
+            "#CHROM": str,
+            "POS": np.int32,
+            "ID": str,
+            "REF": str,
+            "ALT": str,
+            "A1": str,
+            "FIRTH?": str,
+            "TEST": str,
+        },
+    )
+    df.insert(
+        loc=0,
+        column="V",
+        value=df["#CHROM"]
+        .astype(str)
+        .str.cat(df["POS"].astype(str), sep=":")
+        .str.cat(df["REF"], sep=":")
+        .str.cat(df["ALT"], sep=":"),
+    )
+    if "OR" in df.columns:
+        df["BETA"] = np.log(df["OR"].astype("float64"))
+    # Filter for SE as you read it in
+    df = rename_columns(df, pheno)
+    df = df[df["SE" + "_" + pheno].notnull()]
+    df = df[df["SE" + "_" + pheno].astype(float) <= 0.2]
+    # Filter out HLA region
+    df = df[~((df["#CHROM"] == 6) & (df["POS"].between(25477797, 36448354)))]
+    return df
 
 
 if __name__ == "__main__":
-    ang = pd.read_table("ANGPTL7.tsv")
+
+    parser = initialize_parser()
+    args = parser.parse_args()
+
+    variants = pd.read_table(args.variants)
+    metadata = pd.read_table(args.metadata_path)
+    metadata = variants.merge(metadata)
+    sumstat_data = pd.read_table(args.phenotypes)
+
+    chroff_vec = list(metadata['V'])
+    annot_vec = list(metadata['most_severe_conseqeunce'])
+    gene_vec = list(metadata['gene_symbol'])
+    prot_vec = list(metadata['HGVSp'])
+    
+    phenotypes = np.unique(sumstat_data['pheno'])
+    sumstat_paths = list(sumstat_data['path'])
+    sumstat_files = []
+
+    for path, pheno in zip(sumstat_paths, phenotypes):
+        sumstat = read_in_summary_stat(path, pheno, chroff_vec)
+        sumstat_files.append(sumstat)
+
+    df = merge_dfs(sumstat_files, metadata)
+
+    err_corr, R_phen = return_err_and_R_phen(
+        df, phenotypes, len(phenotypes), sumstat_data
+    )
+
+    # Filter only for variants of interest
+    df = df[df['V'].isin(chroff_vec)]
+    # ang = pd.read_table("ANGPTL7.tsv")
     # for now, put 0 if missing
-    betas = (
-        ang[
-            [
-                "BETA_white_british_HC276",
-                "BETA_white_british_INI5255",
-                "BETA_white_british_INI5257",
-            ]
-        ]
-        .fillna(0)
-        .values
-    )
-    ses = (
-        ang[
-            [
-                "SE_white_british_HC276",
-                "SE_white_british_INI5255",
-                "SE_white_british_INI5257",
-            ]
-        ]
-        .fillna(0)
-        .values
-    )
+    # betas = (
+    #     ang[
+    #         [
+    #             "BETA_white_british_HC276",
+    #             "BETA_white_british_INI5255",
+    #             "BETA_white_british_INI5257",
+    #         ]
+    #     ]
+    #     .fillna(0)
+    #     .values
+    # )
+    betas = df[["BETA_" + pheno for pheno in phenotypes]].fillna(0).values
+    ses = df[["SE_" + pheno for pheno in phenotypes]].fillna(0).values
+    # ses = (
+    #     ang[
+    #         [
+    #             "SE_white_british_HC276",
+    #             "SE_white_british_INI5255",
+    #             "SE_white_british_INI5257",
+    #         ]
+    #     ]
+    #     .fillna(0)
+    #     .values
+    # )
     # vymat = err_corr
-    err_corr = np.array(
-        [
-            [1, 0.06741325, 0.03541408],
-            [0.06741325, 1, 0.56616657],
-            [0.03541408, 0.56616657, 1],
-        ]
-    )
-    annot_vec = [
-        "missense_variant",
-        "missense_variant",
-        "missense_variant",
-        "stop_gained",
-    ]
-    gene_vec = ["ANGPTL7"] * len(annot_vec)
-    prot_vec = ["hgvsp1", "hgvsp2", "hgvsp3", "hgvsp4"]
-    chroff_vec = [
-        "1:11252369:G:A",
-        "1:11253684:G:T",
-        "1:11252357:A:G",
-        "1:11253688:C:T",
-    ]
-    C = 2
-    fout = "ANGPTL7_test"
-    R_phen = np.array(
-        [
-            [1, 0.8568072, 0.61924757],
-            [0.8568072, 1, 0.82642932],
-            [0.61924757, 0.82642932, 1],
-        ]
-    )
+    
+    # err_corr = np.array(
+    #     [
+    #         [1, 0.06741325, 0.03541408],
+    #         [0.06741325, 1, 0.56616657],
+    #         [0.03541408, 0.56616657, 1],
+    #     ]
+    # )
+    # annot_vec = [
+    #     "missense_variant",
+    #     "missense_variant",
+    #     "missense_variant",
+    #     "stop_gained",
+    # ]
+
+    # gene_vec = ["ANGPTL7"] * len(annot_vec)
+    # prot_vec = ["hgvsp1", "hgvsp2", "hgvsp3", "hgvsp4"]
+    # chroff_vec = [
+    #     "1:11252369:G:A",
+    #     "1:11253684:G:T",
+    #     "1:11252357:A:G",
+    #     "1:11253688:C:T",
+    # ]
+    # C = 2
+    clusters = args.num_clust
+    # fout = "ANGPTL7_test"
+    # R_phen = np.array(
+    #     [
+    #         [1, 0.8568072, 0.61924757],
+    #         [0.8568072, 1, 0.82642932],
+    #         [0.61924757, 0.82642932, 1],
+    #     ]
+    # )
     R_phen_inv = np.linalg.inv(R_phen)
-    phenotypes = [
-        "HC276",
-        "INI5255",
-        "INI5257",
-    ]
-    [BIC, AIC, genedat] = mrpmm(
-        betas,
-        ses,
-        err_corr,
-        annot_vec,
-        gene_vec,
-        prot_vec,
-        chroff_vec,
-        C,
-        fout,
-        R_phen,
-        R_phen_inv,
-        phenotypes,
-        R_phen_use=True,
-        fdr=0.05,
-        niter=1000,
-        burn=100,
-        thinning=1,
-        verbose=True,
-        outpath="",
-    )
+    # phenotypes = [
+    #     "HC276",
+    #     "INI5255",
+    #     "INI5257",
+    # ]
+    for C in clusters:
+        [BIC, AIC, genedat] = mrpmm(
+            betas,
+            ses,
+            err_corr,
+            annot_vec,
+            gene_vec,
+            prot_vec,
+            chroff_vec,
+            C,
+            args.fout,
+            R_phen,
+            R_phen_inv,
+            phenotypes,
+            R_phen_use=True,
+            fdr=0.05,
+            niter=1000,
+            burn=100,
+            thinning=1,
+            verbose=True,
+            outpath=args.out_folder,
+        )
