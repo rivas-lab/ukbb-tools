@@ -1,36 +1,10 @@
 # coding: utf-8
 from __future__ import print_function
 from __future__ import division
-from random import shuffle
-from optparse import OptionParser
-from collections import Counter
-import array
-import itertools
 import argparse
-import math
-import sys, re
-import os
-import pandas as pd
-import logging
-from scipy.stats import binom as binomial
-from scipy.stats.stats import pearsonr
-import numpy as np
-import numpy.matlib as npm
-import time
-from scipy.stats import invgamma
-import sklearn
-import sklearn.covariance
-from functools import partial, reduce
 
 # Written by Manuel A. Rivas
 # Updated 02.11.2020, Guhan R. Venkataraman
-
-# Set up basic logging
-logger = logging.getLogger("Log")
-from scipy import stats
-from scipy.stats import multivariate_normal
-import random
-
 
 def is_pos_def(X):
 
@@ -115,7 +89,7 @@ def initialize_MCMC(
             Theta_0 = R_phen
             Theta_0_inv = R_phen_inv
         else:
-            Theta_0 = sklearn.covariance.shrunk_covariance(R_phen)
+            Theta_0 = covariance.shrunk_covariance(R_phen)
             Theta_0_inv = np.linalg.inv(Theta_0)
     else:
         Theta_0 = np.eye(R_phen.shape[0])
@@ -1815,7 +1789,7 @@ def build_err_corr(K, phenos, df):
     err_corr = np.nan_to_num(err_corr)
     return err_corr
 
-def calculate_phen(a, b, pheno1, pheno2, df, phenos_to_use):
+def calculate_phen(a, b, pheno1, pheno2, df, phenos_to_use, phen_corr):
 
     """
     Calculates a single entry in the phen_corr matrix.
@@ -1832,8 +1806,10 @@ def calculate_phen(a, b, pheno1, pheno2, df, phenos_to_use):
     """
 
     # If in lower triangle, do not compute; symmetric matrix
-    if (a > b) or (a == b):
-        return np.nan
+    if (a > b):
+        return phen_corr[b, a]
+    elif (a == b):
+        return 1
     else:
         # if this combination of phenos doesn't exist in the map file, then nan
         if (pheno1 in phenos_to_use) and (pheno2 in phenos_to_use):
@@ -1872,7 +1848,7 @@ def build_phen_corr(K, phenos, df, phenos_to_use):
         for b, pheno2 in enumerate(phenos):
             # Location in matrix
             phen_corr[a, b] = calculate_phen(
-                a, b, pheno1, pheno2, df, phenos_to_use
+                a, b, pheno1, pheno2, df, phenos_to_use, phen_corr
             )
     return phen_corr
 
@@ -1897,7 +1873,7 @@ def filter_for_phen_corr(df, sumstat_data):
     cols_to_keep = ["V", "maf", "ld_indep"]
     for col_type in "BETA_", "P_":
         cols_to_keep.extend(
-            [col_type + "_" + pheno for pheno in phenos_to_use]
+            [col_type + pheno for pheno in phenos_to_use]
         )
     df = df[cols_to_keep]
     # Get only LD-independent, common variants
@@ -1927,24 +1903,7 @@ def build_R_phen(K, phenos, df, map_file):
     df, phenos_to_use = filter_for_phen_corr(df, map_file)
     if len(df) == 0:
         return np.diag(np.ones(K))
-    phen_corr = build_phen_corr(K, phenos, df, phenos_to_use)
-    R_phen = np.zeros((K, K))
-    for k1 in range(K):
-        for k2 in range(K):
-            if k1 == k2:
-                R_phen[k1, k2] = 1
-            elif k1 > k2:
-                R_phen[k1, k2] = R_phen[k2, k1]
-            else:
-                phenos_to_remove = list(set(range(K)) - set([k1, k2]))
-                indices_to_remove = []
-                for pheno_to_remove in phenos_to_remove:
-                    indices_to_remove.extend(
-                        [pheno_to_remove + K]
-                    )
-                pairwise_corrs = delete_rows_and_columns(phen_corr, indices_to_remove)
-                R_phen[k1, k2] = np.nanmedian(pairwise_corrs)
-    R_phen = np.nan_to_num(R_phen)
+    R_phen = build_phen_corr(K, phenos, df, phenos_to_use)
     return R_phen
 
 
@@ -1997,8 +1956,6 @@ def initialize_parser():
     parser.add_argument(
         "--variants",
         type=str,
-        nargs=1,
-        default=[],
         required=True,
         dest="variants",
         help="""path to file containing list of variants to include,
@@ -2014,7 +1971,6 @@ def initialize_parser():
     parser.add_argument(
         "--phenotypes",
         type=str,
-        nargs="+",
         required=True,
         dest="phenotypes",
         help="""path to tab-separated file containing list of: 
@@ -2030,13 +1986,13 @@ def initialize_parser():
          """,
     )
     parser.add_argument(
-        "--num_clust",
+        "--clusters",
         type=int,
         nargs="+",
         required=True,
         dest="clusters",
         help="""number of clusters hypothesized - can input more than one,
-         e.g. --num_clust 3 2 4. MUST be integers.""",
+         e.g. --clusters 3 2 4. MUST be integers.""",
     )
     parser.add_argument(
         "--metadata_path",
@@ -2058,7 +2014,6 @@ def initialize_parser():
     parser.add_argument(
         "--out_folder",
         type=str,
-        nargs=1,
         default=[],
         dest="out_folder",
         help="""folder to which output(s) will be written (default: current folder).
@@ -2067,8 +2022,7 @@ def initialize_parser():
     parser.add_argument(
         "--fout",
         type=str,
-        nargs=1,
-        default=[],
+        required=True,
         dest="fout",
         help="""file prefix for output.""",
     )
@@ -2093,6 +2047,40 @@ def merge_dfs(sumstat_files, metadata):
     outer_merge = partial(pd.merge, on=conserved_columns, how="outer")
     df = reduce(outer_merge, sumstat_files)
     df = df.merge(metadata)
+    to_keep = [
+        "frameshift_variant",
+        "splice_acceptor_variant",
+        "splice_donor_variant",
+        "stop_gained",
+        "start_lost",
+        "stop_lost",
+        "protein_altering_variant",
+        "inframe_deletion",
+        "inframe_insertion",
+        "splice_region_variant",
+        "start_retained_variant",
+        "stop_retained_variant",
+        "missense_variant",
+        "synonymous_variant",
+        "5_prime_UTR_variant",
+        "3_prime_UTR_variant",
+        "coding_sequence_variant",
+        "incomplete_terminal_codon_variant",
+        "TF_binding_site_variant",
+    ]
+    to_filter = [
+        "regulatory_region_variant",
+        "intron_variant",
+        "intergenic_variant",
+        "downstream_gene_variant",
+        "mature_miRNA_variant",
+        "non_coding_transcript_exon_variant",
+        "upstream_gene_variant",
+        "NA",
+        "NMD_transcript_variant",
+    ]
+    df = df[~df['most_severe_consequence'].isin(to_filter)]
+    df = df[df['most_severe_consequence'].isin(to_keep)]
     return df
 
 def rename_columns(df, pheno):
@@ -2119,7 +2107,7 @@ def rename_columns(df, pheno):
     df.rename(columns=dict(zip(columns_to_rename, renamed_columns)), inplace=True)
     return df
 
-def read_in_summary_stat(path, pheno, chroff_vec):
+def read_in_summary_stat(path, pheno):
 
     """
     Reads in one summary statistics file.
@@ -2176,22 +2164,37 @@ if __name__ == "__main__":
     parser = initialize_parser()
     args = parser.parse_args()
 
+    print("")
+    print("Valid command line arguments. Importing required packages...")
+    print("")
+
+    import array
+    import math
+    import pandas as pd
+    import logging
+    import numpy as np
+    import numpy.matlib as npm
+    from scipy import stats
+    from scipy.stats import multivariate_normal
+    from scipy.stats import invgamma
+    from scipy.stats.stats import pearsonr
+    from sklearn import covariance
+    from functools import partial, reduce
+    # Set up basic logging
+    logger = logging.getLogger("Log")
+
     variants = pd.read_table(args.variants)
     metadata = pd.read_table(args.metadata_path)
-    metadata = variants.merge(metadata)
     sumstat_data = pd.read_table(args.phenotypes)
 
-    chroff_vec = list(metadata['V'])
-    annot_vec = list(metadata['most_severe_conseqeunce'])
-    gene_vec = list(metadata['gene_symbol'])
-    prot_vec = list(metadata['HGVSp'])
-    
+    chroff_vec = list(variants['V'])
+   
     phenotypes = np.unique(sumstat_data['pheno'])
     sumstat_paths = list(sumstat_data['path'])
     sumstat_files = []
 
     for path, pheno in zip(sumstat_paths, phenotypes):
-        sumstat = read_in_summary_stat(path, pheno, chroff_vec)
+        sumstat = read_in_summary_stat(path, pheno)
         sumstat_files.append(sumstat)
 
     df = merge_dfs(sumstat_files, metadata)
@@ -2202,73 +2205,23 @@ if __name__ == "__main__":
 
     # Filter only for variants of interest
     df = df[df['V'].isin(chroff_vec)]
-    # ang = pd.read_table("ANGPTL7.tsv")
+    chroff_vec = list(df['V'])
+    annot_vec = list(df['most_severe_consequence'])
+    gene_vec = list(df['gene_symbol'])
+    #prot_vec = list(metadata['HGVSp'])
+    prot_vec = ["hgvsp1", "hgvsp2", "hgvsp3", "hgvsp4"]
+
     # for now, put 0 if missing
-    # betas = (
-    #     ang[
-    #         [
-    #             "BETA_white_british_HC276",
-    #             "BETA_white_british_INI5255",
-    #             "BETA_white_british_INI5257",
-    #         ]
-    #     ]
-    #     .fillna(0)
-    #     .values
-    # )
     betas = df[["BETA_" + pheno for pheno in phenotypes]].fillna(0).values
     ses = df[["SE_" + pheno for pheno in phenotypes]].fillna(0).values
-    # ses = (
-    #     ang[
-    #         [
-    #             "SE_white_british_HC276",
-    #             "SE_white_british_INI5255",
-    #             "SE_white_british_INI5257",
-    #         ]
-    #     ]
-    #     .fillna(0)
-    #     .values
-    # )
-    # vymat = err_corr
     
-    # err_corr = np.array(
-    #     [
-    #         [1, 0.06741325, 0.03541408],
-    #         [0.06741325, 1, 0.56616657],
-    #         [0.03541408, 0.56616657, 1],
-    #     ]
-    # )
-    # annot_vec = [
-    #     "missense_variant",
-    #     "missense_variant",
-    #     "missense_variant",
-    #     "stop_gained",
-    # ]
+    if args.out_folder:
+        out_folder = args.out_folder
+    else:
+        out_folder = ""
 
-    # gene_vec = ["ANGPTL7"] * len(annot_vec)
-    # prot_vec = ["hgvsp1", "hgvsp2", "hgvsp3", "hgvsp4"]
-    # chroff_vec = [
-    #     "1:11252369:G:A",
-    #     "1:11253684:G:T",
-    #     "1:11252357:A:G",
-    #     "1:11253688:C:T",
-    # ]
-    # C = 2
-    clusters = args.num_clust
-    # fout = "ANGPTL7_test"
-    # R_phen = np.array(
-    #     [
-    #         [1, 0.8568072, 0.61924757],
-    #         [0.8568072, 1, 0.82642932],
-    #         [0.61924757, 0.82642932, 1],
-    #     ]
-    # )
     R_phen_inv = np.linalg.inv(R_phen)
-    # phenotypes = [
-    #     "HC276",
-    #     "INI5255",
-    #     "INI5257",
-    # ]
-    for C in clusters:
+    for C in args.clusters:
         [BIC, AIC, genedat] = mrpmm(
             betas,
             ses,
@@ -2288,5 +2241,5 @@ if __name__ == "__main__":
             burn=100,
             thinning=1,
             verbose=True,
-            outpath=args.out_folder,
+            outpath=out_folder,
         )
