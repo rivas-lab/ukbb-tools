@@ -1670,25 +1670,6 @@ def mrpmm(
     return [BIC, AIC, genedatm50]
 
 
-def delete_rows_and_columns(X, indices_to_remove):
-
-    """ 
-    Helper function to delete rows and columns from a matrix.
-  
-    Parameters: 
-    X: Matrix that needs adjustment.
-    indices_to_remove: Rows and columns to be deleted.
-  
-    Returns: 
-    X: Smaller matrix that has no missing data.
-  
-    """
-
-    X = np.delete(X, indices_to_remove, axis=0)
-    X = np.delete(X, indices_to_remove, axis=1)
-    return X
-
-
 def get_betas(df, pheno1, pheno2, mode):
 
     """
@@ -1831,6 +1812,7 @@ def calculate_phen(a, b, pheno1, pheno2, df, phenos_to_use, phen_corr):
     Calculates a single entry in the phen_corr matrix.
     
     Parameters:
+    a, b: Positional parameters within the R_phen matrix.
     pheno1: Name of first phenotype.
     pheno2: Name of second phenotype.
     df: Dataframe containing significant, common, LD-independent variants.
@@ -1919,7 +1901,7 @@ def filter_for_phen_corr(df, sumstat_data):
     return df, phenos_to_use
 
 
-def build_R_phen(K, phenos, df, map_file):
+def build_R_phen(K, phenos, df, sumstat_data):
 
     """
     Builds R_phen using phen_corr (calculated using the method directly above this).
@@ -1928,7 +1910,7 @@ def build_R_phen(K, phenos, df, map_file):
     K: Number of phenotypes.
     phenos: Unique set of phenotypes to use for analysis.
     df: Merged dataframe containing all relevant summary statistics.
-    map_file: Input file containing summary statistic paths + pheno data.
+    sumstat_data: Input file containing summary statistic paths + pheno data.
 
     Returns:
     R_phen: Empirical estimates of genetic correlation across phenotypes.
@@ -1937,14 +1919,14 @@ def build_R_phen(K, phenos, df, map_file):
 
     if K == 1:
         return np.ones((K, K))
-    df, phenos_to_use = filter_for_phen_corr(df, map_file)
+    df, phenos_to_use = filter_for_phen_corr(df, sumstat_data)
     if len(df) == 0:
         return np.diag(np.ones(K))
     R_phen = build_phen_corr(K, phenos, df, phenos_to_use)
     return R_phen
 
 
-def return_err_and_R_phen(df, phenos, K, map_file):
+def return_err_and_R_phen(df, phenos, K, sumstat_file):
 
     """ 
     Builds a matrix of correlations of errors across studies and phenotypes,
@@ -1954,7 +1936,7 @@ def return_err_and_R_phen(df, phenos, K, map_file):
     df: Dataframe that containa summary statistics.
     phenos: Unique set of phenotypes to use for analysis.
     K: Number of phenotypes.
-    map_file: Input file containing summary statistic paths + pheno data.
+    sumstat_file: Input file containing summary statistic paths + pheno data.
 
     Returns:
     err_corr: (S*K x S*K) matrix of correlation of errors across studies and phenotypes
@@ -1967,7 +1949,7 @@ def return_err_and_R_phen(df, phenos, K, map_file):
     err_corr = build_err_corr(K, phenos, df)
     # Faster calculations, better accounts for uncertainty in estimates
     err_corr[abs(err_corr) < 0.01] = 0
-    R_phen = build_R_phen(K, phenos, df, map_file)
+    R_phen = build_R_phen(K, phenos, df, sumstat_file)
     R_phen[abs(R_phen) < 0.01] = 0
     # Get rid of any values above 0.95
     while np.max(R_phen - np.eye(len(R_phen))) > 0.9:
@@ -1979,9 +1961,6 @@ def initialize_parser():
 
     """
     Parses inputs using argparse. 
-    
-    Parameters: 
-    valid_phenos: List of valid phenotypes.
 
     """
 
