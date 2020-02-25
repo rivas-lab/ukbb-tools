@@ -94,8 +94,9 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cor
         "--covar-name age ", "sex " if not sexDiv else "", 
         "Array " if arrayCovar else "", 
         "PC1-PC4", 
-        "N_CNV LEN_CNV --covar-variance-standardize" if is_cnv_burden else "PC5-PC10 FastingTime --covar-variance-standardize" if is_biomarker_binary else "",
-        "--covar-variance-standardize --vif 100000000" if pop in ['non_british_white', 'african', 'e_asian', 's_asian'] else "",
+        "N_CNV LEN_CNV" if is_cnv_burden else "PC5-PC10 FastingTime" if is_biomarker_binary else "",
+        "--covar-variance-standardize",
+        "--vif 100000000" if pop in ['non_british_white', 'african', 'e_asian', 's_asian'] else "",
         "--out", outFile,
         plink_opts
     ])

@@ -47,11 +47,11 @@ def safe_inv(X, matrix_name, block, agg_type):
 
     try:
         X_inv = np.linalg.inv(X)
-    except LinAlgError as err:
+    except LinAlgError:
         X = is_pos_def_and_full_rank(X)
         try:
             X_inv = np.linalg.inv(X)
-        except LinAlgError as err:
+        except LinAlgError:
             print(
                 "Could not invert " + matrix_name + " for " + agg_type + " " + block + "."
             )
@@ -273,12 +273,6 @@ def return_BF(
     v_beta_inv = safe_inv(v_beta, "v_beta", block, agg_type)
     U_inv = safe_inv(U, "U", block, agg_type)
     if v_beta_inv is not np.nan and U_inv is not np.nan:
-        A2 = U_inv + v_beta_inv
-        b2 = np.asmatrix(v_beta_inv) * np.asmatrix(beta)
-        try:
-            Abinv = np.linalg.lstsq(A2, b2, rcond=-1)[0]
-        except LinAlgError as err:
-            return np.nan, [], []
         fat_middle = v_beta_inv - (
             v_beta_inv.dot(np.linalg.inv(U_inv + v_beta_inv))
         ).dot(v_beta_inv)
@@ -431,8 +425,6 @@ def calculate_all_params(
     )
     sigma_m = subset_df[sigma_m_type].tolist()
     diag_sigma_m = np.diag(np.atleast_1d(np.array(sigma_m)))
-    print("diag_sigma_m")
-    print(diag_sigma_m)
     np.save("HADH_diag_sigma_m", diag_sigma_m)
     R_var = np.diag(np.ones(M)) if R_var_model == "independent" else np.ones((M, M))
     S_var = np.dot(np.dot(diag_sigma_m, R_var), diag_sigma_m)
@@ -446,8 +438,6 @@ def calculate_all_params(
     omega = np.kron(err_corr, np.diag(np.ones(M)))
     U = np.kron(np.kron(R_study, R_phen), S_var)
     U, omega, beta, se = adjust_for_missingness(U, omega, beta, se, beta_list)
-    print("se")
-    print(se)
     np.save('HADH_se.npy', se)
     diag_se = np.diag(se)
     v_beta = np.dot(np.dot(diag_se, omega), diag_se)
@@ -661,14 +651,8 @@ def run_mrp(
             M,
             err_corr,
         )
-        print("U")
-        print(U)
         np.save("HADH_U.npy", U)
-        print("beta")
-        print(beta)
         np.save("HADH_beta.npy", beta)
-        print("v_beta")
-        print(v_beta)
         np.save("HADH_v_beta.npy", v_beta)
         bf, posterior_probs, p_values = return_BF(
             U,
@@ -1136,8 +1120,8 @@ def build_R_phen(S, K, pops, phenos, df, map_file):
         return np.diag(np.ones(K))
     phen_corr = build_phen_corr(S, K, pops, phenos, df, pop_pheno_tuples)
     R_phen = np.zeros((K, K))
-    for k1, pheno1 in zip(range(K), phenos):
-        for k2, pheno2 in zip(range(K), phenos):
+    for k1 in range(K):
+        for k2 in range(K):
             if k1 == k2:
                 R_phen[k1, k2] = 1
             elif k1 > k2:

@@ -1,31 +1,10 @@
+# coding: utf-8
 from __future__ import print_function
 from __future__ import division
-from random import shuffle
-from optparse import OptionParser
-from collections import Counter
-import array
-import itertools
-import math
-import sys, re
-import os
-import pandas as pd
-import logging
-from scipy.stats import binom as binomial
-import numpy as np
-import numpy.matlib as npm
-import time
-from scipy.stats import invgamma
-import sklearn
-import sklearn.covariance
+import argparse
 
 # Written by Manuel A. Rivas
 # Updated 02.11.2020, Guhan R. Venkataraman
-
-# Set up basic logging
-logger = logging.getLogger("Log")
-from scipy import stats
-from scipy.stats import multivariate_normal
-import random
 
 
 def is_pos_def(X):
@@ -64,7 +43,7 @@ def initialize_MCMC(
     err_corr: Correlation of errors (common vars).
     betas: An M*K matrix of betas, padded with 0s if missing summary statistics.
     ses: An M*K matrix of standard errors, padded with 0s if missing summary statistics.
-    C: Hypothesized number of clusters.
+    C: Number of hypothesized clusters.
     R_phen_use: Whether or not to use R_phen to initialize parameters.
     gene_vec: Vector of length M of gene symbols for the M variants.
     annot_vec: Vector of length M of functional annotations for the M variants.
@@ -75,8 +54,8 @@ def initialize_MCMC(
     err_corr: Numpy matrix version of correlation of errors.
     K: Number of phenotypes.
     M: Number of variants.
-    gene_len: Number of unique genes.
-    annot_len: Number of unique annotations.
+    gene_len: Number of unique genes among M variants.
+    annot_len: Number of unique annotations among M variants
     gene_map: List of unique genes.
     annot_map: List of unique annotations.
     alpha: Inverse-gamma prior for pcj.
@@ -111,7 +90,7 @@ def initialize_MCMC(
             Theta_0 = R_phen
             Theta_0_inv = R_phen_inv
         else:
-            Theta_0 = sklearn.covariance.shrunk_covariance(R_phen)
+            Theta_0 = covariance.shrunk_covariance(R_phen)
             Theta_0_inv = np.linalg.inv(Theta_0)
     else:
         Theta_0 = np.eye(R_phen.shape[0])
@@ -190,22 +169,25 @@ def return_norm_const(mult, proposal, epsilon):
     """
     Returns the log of the normalizing constant D(z) given the proposal.
 
-                              C       
-                             ___      
-                             ╲        
-                        Γ ⋅  ╱    z_c 
-                             ‾‾‾      
-                            c = 1     
-             D(z) =    ───────────────
-                         C            
-                       ━┳┳━           
-                        ┃┃   Γ ⋅ (z_c)
-                       c = 1          
+                                  C       
+                                 ___      
+                                 \        
+                           Γ  ⋅  /    z_c 
+                                 ‾‾‾      
+                                c = 1     
+             D(z) = ────────────────────────────
+                             C            
+                           ━┳┳━           
+                            ┃┃   Γ ⋅ (z_c)
+                           c = 1          
 
     Parameters:
     mult: Multiplicative factor in conditional. E.g. gamma / alpha.
     proposal: z_c.
     epsilon: Tolerance.
+
+    Returns:
+    norm_const: Normalization constant as described above.
 
     """
 
@@ -216,7 +198,7 @@ def return_norm_const(mult, proposal, epsilon):
 
 
 def return_product_density(mult, proposal, previous, C):
- 
+
     """
     The density at point x given the normalization constant as defined in
     return_norm_const is:
@@ -233,6 +215,9 @@ def return_product_density(mult, proposal, previous, C):
     proposal: z_c.
     previous: x_c.
     C: Number of hypothesized clusters.
+
+    Returns:
+    density_prod: Product part of the density.
 
     """
 
@@ -252,7 +237,7 @@ def calculate_l_pdir_num(
 
     Parameters:
     gamma: Multiplicative part of the proposal value.
-    C:Number of hypothesized clusters.
+    C: Number of hypothesized clusters.
     pc_proposal: Sampled proposal value from the Dirichlet distribution using alpha and
         previous iteration as the parameters.
     epsilon: Tolerance.
@@ -264,7 +249,7 @@ def calculate_l_pdir_num(
         across genes with prior alpha.
 
     Returns:
-    l_pdir_den: The log of the numerator of the lambda value as described in
+    l_pdir_num: The log of the numerator of the lambda value as described in
     calculate_l_pdir.
 
     """
@@ -297,7 +282,7 @@ def calculate_l_pdir_den(
 
     Parameters:
     gamma: Multiplicative part of the proposal value.
-    C:Number of hypothesized clusters.
+    C: Number of hypothesized clusters.
     pc_proposal: Sampled proposal value from the Dirichlet distribution using alpha and
         previous iteration as the parameters.
     epsilon: Tolerance.
@@ -340,16 +325,16 @@ def calculate_l_pdir(alpha, iteration, gamma, pc, pcj, epsilon, gene_len, C):
     """
     Returns the log of the transition probability of the proposal. Probability:
 
-            /                                            J                                  \
-            |            /   (t - 1)               \   ____                                 |
-            |       p_dir \π_0        | gamma . π_0'/ .  ||   p_dir(π_j | alpha . π_0')     |
-            |                                          j = 1                                |
-    Λ = min | 1, ---------------------------------------------------------------------------|
-            |                                         J                                     |
-            |         /                  (t - 1) \   ____                        (t - 1)    |
-            |    p_dir \π_0' | gamma . π_0        / .  ||   p_dir(π_j | alpha . π_0)        |
-            |                                       j = 1                                   | 
-            \                                                                               /
+            /                                         J                               \
+            |             /   (t - 1)           \   ____                              |
+            |       p_dir \ π_0       | Γ . π_0'/ .  ||   p_dir(π_j | α . π_0')       |
+            |                                      j = 1                              |
+    λ = min | 1, ---------------------------------------------------------------------|
+            |                                       J                                 |
+            |          /               (t - 1) \   ____                     (t - 1)   |
+            |    p_dir \ π_0' | Γ . π_0        / .  ||   p_dir(π_j | α . π_0        ) |
+            |                                     j = 1                               | 
+            \                                                                         /
 
     Calls helper functions for numerator and denominator.
 
@@ -456,7 +441,7 @@ def update_pc(
     epsilon: Tolerance.
     gamma: Multiplicative part of the proposal value.
     C: Number of hypothesized clusters.
-    gene_len: Number of unique genes.
+    gene_len: Number of unique genes among M variants.
     [accept/reject]_mh1: Tracker for acceptance rate.
     [accept/reject]_mh1_postburnin: Tracker for acceptance rate after burn-in.
     burn: Number of target burn-in iterations.
@@ -466,6 +451,7 @@ def update_pc(
     pc: Updated probability vector.
     [accept/reject]: Augmented tracker for acceptance rate.
     [accept/reject]_postburnin: Augmented tracker for acceptance rate after burn-in.
+
     """
 
     # Calculate lambda
@@ -492,6 +478,13 @@ def update_pcj(alpha, pc, pcj, delta_m, gene_len, gene_vec, gene_map, iteration)
 
     """
     Updates per-gene probability vector dictating sharing.
+
+                    /         / M_j           M_j              M_j         \\
+                    |         | ===           ===              ===         ||
+                    |         | \             \                \           ||
+    π_0 ~ Dirichlet | απ_0  + | /    δ = 1,   /    δ = 2, ...  /    δ = C  ||
+                    |         | ===           ===              ===         ||
+                    \         \m = 1         m = 1            m = 1        //
     
     Parameters:
     alpha: Prior for pcj.
@@ -499,7 +492,7 @@ def update_pcj(alpha, pc, pcj, delta_m, gene_len, gene_vec, gene_map, iteration)
     pcj: Per-gene probability vector dictating how much sharing of clusters exists
         across genes with prior alpha.
     delta_m: Indices of cluster memberships for each variant m in gene j.
-    gene_len: Number of unique genes.
+    gene_len: Number of unique genes among M variants.
     gene_vec: Vector of length M of gene symbols for the M variants.
     gene_map: List of unique genes.
     iteration: Iteration number.
@@ -557,37 +550,43 @@ def update_delta_jm(
     gene_map,
     Vjm_scale,
 ):
-    
+
     """
     Updates delta_jm: Indices of cluster memberships for each variant m in gene j.
 
+               ^ 
+    p_mjc = p( β_jm; bc, scales) * π_jc
+    δ ~ Discrete(p_mjc)
+
     Parameters:
-    betas:
-    ses:
-    err_corr:
-    C:
-    bc:
-    pcj:
-    delta_m:
-    scales:
-    maxloglkiter:
-    var_idx:
-    iteration:
-    annot_len:
-    annot_vec:
-    annot_map:
-    gene_len:
-    gene_vec:
-    gene_map:
-    Vjm_scale:
+    betas: M*K matrix of effect sizes.
+    ses: M*K matrix of standard errors effect sizes.
+    err_corr: Correlation of errors (common vars).
+    C: Number of hypothesized clusters.
+    bc: Mean effect size per cluster.
+    pcj: Per-gene probability vector dictating how much sharing of clusters exists
+        across genes with prior alpha.
+    delta_m: Indices of cluster memberships for each variant m in gene j.
+    scales: Scale parameters for annotations across clusters.
+    maxloglkiter: Max log likelihood of the iteration.
+    var_idx: Variant number in range (1 - M).
+    iteration: Iteration number.
+    annot_len: Number of unique annotations among M variants.
+    annot_vec: Vector of length M of functional annotations.
+    annot_map: List of unique annotations.
+    gene_len: Number of unique genes among M variants.
+    gene_vec: Vector of length M of gene symbols.
+    gene_map: List of unique genes.
+    Vjm_scale: Small number added to diagonals to make sure Vjm is invertible.
 
     Returns:
+    annot_idx: Which index, in the set of unique annotations, this one corresponds to.
+    delta_m: Updated indices of cluster memberships.
     
     """
 
-    # c) Update 
     xk = np.arange(0, C)
-    probmjc, lprobmjcu, uc = [0] * C, [0] * C, [0] * C
+    p_mjc, l_p_mjcu, uc = [0] * C, [0] * C, [0] * C
     var_annot = annot_vec[var_idx]
     annot_idx = [i for i in range(0, annot_len) if annot_map[i] == var_annot][0]
     gene_var = gene_vec[var_idx]
@@ -603,18 +602,18 @@ def update_delta_jm(
         ) + np.log(pcj[iteration, gene_id, c])
         if delta_m[iteration - 1, var_idx] == c:
             maxloglkiter[iteration - 1, 0] += llk2
-        lprobmjcu[c] += llk2
+        l_p_mjcu[c] += llk2
         # normalize uc - set to wc
-    maxloglk = np.max(lprobmjcu)
+    maxloglk = np.max(l_p_mjcu)
     for c in range(0, C):
-        uc[c] = np.exp(lprobmjcu[c] - maxloglk)
+        uc[c] = np.exp(l_p_mjcu[c] - maxloglk)
     for c in range(0, C):
-        probmjc[c] = uc[c] / np.sum(uc)
-    if np.isnan(probmjc[0]):
+        p_mjc[c] = uc[c] / np.sum(uc)
+    if np.isnan(p_mjc[0]):
         wstmp = np.random.dirichlet(np.repeat(np.array([1]), C, axis=0))
         custm = stats.rv_discrete(name="custm", values=(xk, wstmp))
     else:
-        custm = stats.rv_discrete(name="custm", values=(xk, probmjc))
+        custm = stats.rv_discrete(name="custm", values=(xk, p_mjc))
     delta_m[iteration, var_idx] = custm.rvs(size=1)[0]
     return annot_idx, delta_m
 
@@ -635,7 +634,33 @@ def update_bc(
     annot_map,
     Vjm_scale,
 ):
-    # d) Update b_c using a Gibbs update from a Gaussian distribution
+
+    """
+    Updates bc using a Gibbs update from a Gaussian distribution, with mean
+    and variance dependent on Theta_inv_0, scales, betas.
+
+    Parameters:
+    betas: M*K matrix of effect sizes.
+    ses: M*K matrix of standard errors effect sizes.
+    err_corr: Correlation of errors (common vars).
+    C: Number of hypothesized clusters.
+    bc: Mean effect size per cluster.
+    M: Number of variants.
+    delta_m: Indices of cluster memberships for each variant m in gene j.
+    scales: Scale parameters for annotations across clusters.
+    Theta_0_inv: Inverse of the prior estimate of genetic correlation 
+        across traits.
+    iteration: Iteration number.
+    annot_len: Number of unique annotations among M variants.
+    annot_vec: Vector of length M of functional annotations.
+    annot_map: List of unique annotations.
+    Vjm_scale:  Small number added to diagonals to make sure Vjm is invertible.
+
+    Returns:
+    bc: Updated mean effect size per cluster.
+
+    """
+
     for c in range(1, C):
         count = 0
         mu_lhs = 0
@@ -692,6 +717,45 @@ def update_sigma_2(
     reject_mh2_postburnin,
     Vjm_scale,
 ):
+
+    """
+    Updates sigma^2 using a MH sub-step with a random-walk proposal.
+    Sequentially, for each annotation a, we sample a proposal value:
+    
+    σ'_a = |η|, where η ~ N(σ_a^(t-1), xi_0)
+
+            /                               ____   ^                  ^        \
+            |        p(σ_a' | sh_a, sc_a) .  ||  N(β_jm | σ_a' b_cjm, V_jm)    |
+            |                          anno(v_jm)=a                            |
+    λ = min | 1, --------------------------------------------------------------|
+            |         (t-1)                 ____   ^         (t-1)       ^     |     
+            |    p(σ_a      | sh_a, sc_a) .  ||  N(β_jm | σ_a     b_cjm, V_jm) |
+            \                           anno(v_jm)=a                           /
+
+    Parameters:
+    betas: M*K matrix of effect sizes.
+    ses: M*K matrix of standard errors effect sizes.
+    err_corr: Correlation of errors (common vars).
+    xi_0: Hyperparameter controlling the spread of the proposals.
+    M: Number of variants.
+    delta_m: Indices of cluster memberships for each variant m in gene j.
+    bc: Mean effect size per cluster.
+    scales: Scale parameters for annotations across clusters.
+    iteration: Iteration number.
+    burn: Number of target burn-in iterations.
+    annot_len: Number of unique annotations among M variants.
+    annot_vec: Vector of length M of functional annotations.
+    annot_map: List of unique annotations.
+    [accept/reject]_mh2: Tracker for acceptance rate.
+    [accept/reject]_mh2_postburnin: Tracker for acceptance rate after burn-in.
+    Vjm_scale: Small number added to diagonals to make sure Vjm is invertible.
+
+    Returns:
+    [accept/reject]_mh2: Augmented tracker for acceptance rate.
+    [accept/reject]_mh2_postburnin: tracker for acceptance rate after burn-in.
+    
+    """
+
     # e) Update scale sigma^2 annot.
     for annot_idx in range(0, annot_len):
         scaleprop = abs(
@@ -739,13 +803,60 @@ def update_sigma_2(
 
 
 def return_alpha_product_density(mult, proposal, previous, C):
-    num_gene_density_prod = np.sum(
+
+    """
+    Parameters:
+    The density at point x given the normalization constant as defined in
+    return_norm_const is:
+
+                                   C               
+                                 ____     (z_c - 1)
+             p_dir(x|z) = D(z) .  ||   x_c         
+                                 c = 1
+ 
+    This function returns the product part of the density (after D(z)).
+
+    Parameters:
+    mult: Multiplicative factor in conditional. E.g. gamma / alpha.
+    proposal: z_c.
+    previous: x_c.
+    C: Number of hypothesized clusters.
+    
+    Returns:
+    gene_density_prod:
+
+    """
+
+    gene_density_prod = np.sum(
         [(mult * proposal - 1) * np.log(previous[i]) for i in range(0, C)]
     )
-    return num_gene_density_prod
+    return gene_density_prod
 
 
 def calculate_l_adir_num(alpha_proposal, iteration, pc, pcj, epsilon, gene_len, C):
+
+    """
+    Calculates the log of the numerator of the lambda value as described in
+    calculate_l_adir.
+
+    Parameters:
+    alpha_proposal: Sampled proposal value from the normal distribution using alpha and
+        xi_alpha_0 as the mean and spread parameters.
+    iteration: Iteration number.
+    gamma: Multiplicative part of the proposal value.
+    pc: C-dimensional probability vector dictating sharing of clusters across genes.
+    pcj: Per-gene probability vector dictating how much sharing of clusters exists
+        across genes with prior alpha.
+    epsilon: Tolerance.
+    gene_len: Number of unique genes among M variants.
+    C: Number of hypothesized clusters.
+    
+    Returns:
+    l_adir_num: The log of the numerator of the lambda value as described in
+    calculate_l_adir.
+
+    """
+
     ## Work on numerator (l_adir_num)
     # Set alpha_num, LHS of numerator
     alpha_num = -2 * np.log(alpha_proposal) - 1 / alpha_proposal
@@ -762,6 +873,27 @@ def calculate_l_adir_num(alpha_proposal, iteration, pc, pcj, epsilon, gene_len, 
 
 
 def calculate_l_adir_den(alpha, iteration, pc, pcj, epsilon, gene_len, C):
+
+    """
+    Calculates the log of the denominator of the lambda value as described in
+    calculate_l_adir.
+
+    Parameters:
+    alpha: Inverse-gamma prior for pcj.
+    iteration: Iteration number.
+    pc: C-dimensional probability vector dictating sharing of clusters across genes.
+    pcj: Per-gene probability vector dictating how much sharing of clusters exists
+        across genes with prior alpha.
+    epsilon: Tolerance.
+    gene_len: Number of unique genes among M variants.
+    C: Number of hypothesized clusters.
+    
+    Returns:
+    l_adir_den: The log of the denominator of the lambda value as described in
+    calculate_l_adir.
+
+    """
+
     ## Denominator (iteration - 1 in conditional)
     alpha_den = -2 * np.log(alpha[iteration - 1, 0]) - 1 / alpha[iteration - 1, 0]
     rhs_den_norm_const = return_norm_const(
@@ -782,6 +914,41 @@ def calculate_l_adir_den(alpha, iteration, pc, pcj, epsilon, gene_len, C):
 
 
 def calculate_l_adir(alpha, xi_alpha_0, iteration, pc, pcj, epsilon, gene_len, C):
+
+    """
+    Returns the log of the transition probability of the proposal. Probability:
+
+            /                  J                                          \
+            |                ____        /    (t)            (t) \        |
+            |       p(α')  .  ||   p_dir \ π_j     | α' . π_0    /        |
+            |               j = 1                                         |
+    λ = min | 1, ---------------------------------------------------------|
+            |                       J                                     |
+            |      /  (t - 1) \   ____       /    (t)     (t-1)      (t)\ |
+            |    p \ α        / .  ||  p_dir \ π_j     | α      . π_0   / |
+            |                    j = 1                                    | 
+            \                                                             /
+
+    Calls helper functions for numerator and denominator.
+
+    Parameters:
+    alpha: Prior for pcj.
+    xi_alpha_0: Fixed value controlling the variance of the proposal distribution.
+    iteration: Iteration number.
+    pc: C-dimensional probability vector dictating sharing of clusters across genes.
+    pcj: Per-gene probability vector dictating how much sharing of clusters exists
+        across genes with prior alpha.
+    epsilon: Tolerance.
+    gene_len: Number of unique genes among M variants.
+    C: Number of hypothesized clusters.
+
+    Returns:
+    l_adir: Log of lambda as above.
+    alpha_proposal: Sampled proposal value from the normal distribution using alpha and
+        xi_alpha_0 as the mean and spread parameters.
+
+    """
+
     ### Calculate acceptance probability (l_adir)
     alpha_proposal = abs(
         np.random.normal(alpha[iteration - 1, 0], xi_alpha_0, size=1)[0]
@@ -809,6 +976,31 @@ def update_alpha(
     reject_mh3,
     reject_mh3_postburnin,
 ):
+
+    """
+    Updates alpha using a MH sub-step with a random-walk proposal.
+
+    Parameters:
+    alpha: Prior for pcj.
+    pc: C-dimensional probability vector dictating sharing of clusters across genes.
+    pcj: Per-gene probability vector dictating how much sharing of clusters exists
+        across genes with prior alpha.
+    epsilon: Tolerance.
+    C: Number of hypothesized clusters.
+    gene_len: Number of unique genes among M variants.
+    xi_alpha_0: Fixed value controlling the variance of the proposal distribution.
+    iteration: Iteration number.
+    burn: Number of target burn-in iterations.
+    [accept/reject]_mh3: Tracker for acceptance rate.
+    [accept/reject]_mh3_postburnin: Tracker for acceptance rate after burn-in.
+    
+    Returns:
+    alpha: Updated prior for pcj.
+    [accept/reject]_mh3: Augmented racker for acceptance rate.
+    [accept/reject]_mh3_postburnin: Augmented tracker for acceptance rate after burn-in.
+
+    """
+
     # f) alpha
     l_adir, alpha_proposal = calculate_l_adir(
         alpha, xi_alpha_0, iteration, pc, pcj, epsilon, gene_len, C
@@ -830,8 +1022,30 @@ def update_alpha(
 
 
 def calculate_metrics(
-    outpath, fout, alpha, burn, niter, thinning, maxloglkiter, gene_len, k, m, C
+    outpath, fout, alpha, burn, niter, thinning, maxloglkiter, gene_len, K, M, C
 ):
+
+    """
+    Writes alphas out to file and returns BIC/AIC for the given C value.
+
+    Parameters:
+    outpath: Folder path prefix for output files.
+    fout: Prefix for output files.
+    alpha: Prior for pcj.
+    burn: Number of target burn-in iterations.
+    niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
+    thinning: MCMC thinning paramter.
+    maxloglkiter: Max log likelihood of the iteration.
+    gene_len: Number of unique genes among M variants.
+    K: Number of phenotypes.
+    M: Number of variants.
+    C: Number of hypothesized clusters.
+    
+    Returns:
+    BIC, AIC: Goodness-of-fit measures for the C input.
+
+    """
+
     alphaout = open(outpath + str(fout) + ".mcmc.alpha", "w+")
     mean = np.mean(alpha[burn + 1 : niter + 1 : thinning, 0], axis=0)
     l95ci = np.percentile(alpha[burn + 1 : niter + 1 : thinning, 0], 2.5, axis=0)
@@ -840,13 +1054,34 @@ def calculate_metrics(
     print(("%2.2f\t%2.2f\t%2.2f") % (mean, l95ci, u95ci), file=alphaout)
     alphaout.close()
     maxllkiter = np.max(maxloglkiter[burn + 1 : niter : thinning, 0])
-    BIC = -2 * maxllkiter + (k + gene_len) * (C - 1) * np.log(m)
-    AIC = -2 * maxllkiter + (k + gene_len) * (C - 1) * 2
+    BIC = -2 * maxllkiter + (K + gene_len) * (C - 1) * np.log(M)
+    AIC = -2 * maxllkiter + (K + gene_len) * (C - 1) * 2
     return BIC, AIC
 
 
-def scaleout_write(outpath, fout, annot_len, scales, burn, niter, thinning, annot_map):
-    scaleout = open(outpath + str(fout) + ".mcmc.scale", "w+")
+def scaleout_write(
+    outpath, fout, annot_len, scales, burn, niter, thinning, annot_map, C
+):
+
+    """
+    Writes scales out to file.
+
+    Parameters:
+    outpath: Folder path prefix for output files.
+    fout: Prefix for output files.
+    annot_len: Number of unique annotations among M variants.
+    scales: Scale parameters for annotations across clusters.
+    burn: Number of target burn-in iterations.
+    niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
+    thinning: MCMC thinning paramter.
+    annot_map: List of unique annotations.
+    
+    Returns:
+    None.
+
+    """
+
+    scaleout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.scale", "w+")
     for annot_idx in range(0, annot_len):
         mean = np.mean(
             np.sqrt(scales[burn + 1 : niter + 1 : thinning, annot_idx]), axis=0
@@ -865,16 +1100,115 @@ def scaleout_write(outpath, fout, annot_len, scales, burn, niter, thinning, anno
     scaleout.close()
 
 
-def tmpbc_write(outpath, fout, k, Theta_0):
-    tmpbc = open(outpath + str(fout) + ".theta.bc", "w+")
-    for jidx in range(0, k):
-        for kidx in range(0, k):
-            print(Theta_0[jidx, kidx], file=tmpbc, end=" ")
+def tmpbc_write(outpath, fout, K, Theta_0, C):
+
+    """
+    Writes out the Theta_0 matrix to file.
+
+    Parameters:
+    outpath: Folder path prefix for output files.
+    fout: Prefix for output files.
+    K: Number of phenotypes.
+    Theta_0: Prior estimate of genetic correlation across traits; if R_phen_use is
+        true, Theta_0 = R_phen. Else, it is the identity matrix.
+    
+    Returns:
+    None.
+
+    """
+
+    tmpbc = open(outpath + str(fout) + "_" + str(C) + ".theta.bc", "w+")
+    for i in range(0, K):
+        for j in range(0, K):
+            print(Theta_0[i, j], file=tmpbc, end=" ")
         print("\n", end="", file=tmpbc)
     tmpbc.close()
 
 
-def write_confidence_intervals(C, bc, burn, niter, thinning, bcout):
+def mcout_write(
+    outpath, fout, M, chroff_vec, annot_vec, prot_vec, gene_vec, C, delta_m, burn, niter
+):
+
+    """
+    Writes out variant cluster membership posterior probabilities to file.
+
+    Parameters:
+    outpath: Folder path prefix for output files.
+    fout: Prefix for output files.
+    M: Number of variants.
+    chroff_vec: Vector of length M of CHROM:POS:REF:ALT.
+    annot_vec: Vector of length M of functional annotations for the M variants.
+    prot_vec: Vector of length M of HGVSp annotations.
+    gene_vec: Vector of length M of gene symbols.
+    C: Number of hypothesized clusters.
+    delta_m: Indices of cluster memberships for each variant m in gene j.
+    burn: Number of target burn-in iterations.
+    niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
+    
+    Returns:
+    var_prob_dict: Dictionary; key = [variant, cluster]; value = probability.
+
+    """
+
+    mcout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.posteriors", "w+")
+    var_prob_dict = {}
+    for var_idx in range(0, M):
+        mcout.write(
+            chroff_vec[var_idx]
+            + "\t"
+            + annot_vec[var_idx]
+            + "\t"
+            + prot_vec[var_idx]
+            + "\t"
+            + gene_vec[var_idx]
+            + "\t"
+            + str(
+                gene_vec[var_idx] + ":" + annot_vec[var_idx] + ":" + prot_vec[var_idx]
+            )
+        )
+        for c in range(0, C):
+            probclustervar = np.where(delta_m[burn + 1 : niter + 1, var_idx] == c)[
+                0
+            ].shape[0] / (niter - burn)
+            var_prob_dict[chroff_vec[var_idx], c + 1] = probclustervar
+            mcout.write("\t" + str(probclustervar))
+        mcout.write("\n")
+    mcout.close()
+    return var_prob_dict
+
+
+def probout_bcout_write(outpath, fout, C, bc, delta_m, burn, niter, thinning):
+
+    """
+    Writes cluster memberships per iteration and mean + CI of effect sizes to file.
+
+    Parameters:
+    outpath: Folder path prefix for output files.
+    fout: Prefix for output files.
+    C: Number of hypothesized clusters.
+    bc: Mean effect size per cluster.
+    delta_m: Indices of cluster memberships for each variant m in gene j.
+    burn: Number of target burn-in iterations.
+    niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
+    thinning: MCMC thinning paramter.
+    
+    Returns:
+    None.
+
+    """
+
+    probout = fout + "_" + str(C) + ".mcmc.probs"
+    np.savetxt(outpath + probout, delta_m, fmt="%1.3f")
+    bcout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.bc", "w+")
+    bcout.write("cluster")
+    for phenotype in phenotypes:
+        print(
+            ("\t%s\t%s\t%s")
+            % (phenotype + "m50", phenotype + "l95", phenotype + "u95"),
+            end="",
+            file=bcout,
+        )
+    bcout.write("\n")
     for c in range(0, C):
         mean = np.mean(bc[burn + 1 : niter + 1 : thinning, c, :], axis=0)
         l95ci = np.percentile(bc[burn + 1 : niter + 1 : thinning, c, :], 2.5, axis=0)
@@ -888,6 +1222,7 @@ def write_confidence_intervals(C, bc, burn, niter, thinning, bcout):
                 file=bcout,
             )
         bcout.write("\n")
+    bcout.close()
 
 
 def print_rejection_rates(
@@ -898,6 +1233,19 @@ def print_rejection_rates(
     accept_mh3_postburnin,
     reject_mh3_postburnin,
 ):
+
+    """
+    Prints rejection rates per MH step (pc, scales, alpha).
+    
+    Parameters:
+    [accept/reject]_mh[1/2/3]: Trackers for acceptance rates at each step.
+    [accept/reject]_mh[1/2/3]_postburnin: Tracker for acceptance rates after burn-in.
+    
+    Returns:
+    None.
+
+    """
+
     rejectionrate = reject_mh1_postburnin / (
         accept_mh1_postburnin + reject_mh1_postburnin
     )
@@ -911,31 +1259,80 @@ def print_rejection_rates(
     print(reject_mh3_postburnin, accept_mh3_postburnin)
 
 
-def write_fdr(outpath, fout, fdr, m, chroff_vec, varprobdict):
-    fdrout = open(outpath + str(fout) + ".fdr", "w+")
+def fdr_write(outpath, fout, fdr, M, chroff_vec, var_prob_dict, C):
+
+    """
+    Writes FDR and those variants that pass FDR to file.
+
+    Parameters:
+    outpath: Folder path prefix for output files.
+    fout: Prefix for output files.
+    fdr: Threshold for false discovery rate (default: 0.05).
+    M: Number of variants.
+    chroff_vec: Vector of length M of CHROM:POS:REF:ALT.
+    var_prob_dict: Dictionary; key = [variant, cluster]; value = probability.
+    
+    Returns:
+    None.
+
+    """
+
+    fdrout = open(outpath + str(fout) + "_" + str(C) + ".fdr", "w+")
     print(str(fdr), file=fdrout)
-    varprobnull = []
-    varfdrid = []
-    for var_idx in range(0, m):
-        varfdrid.append(chroff_vec[var_idx])
-        varprobnull.append(varprobdict[chroff_vec[var_idx], 1])
-    idxsort = sorted(range(len(varprobnull)), key=lambda k: varprobnull[k])
-    varprobnullsort = [varprobnull[i] for i in idxsort]
-    varfdridsort = [varfdrid[i] for i in idxsort]
-    numfdrtmp = 0
+    var_prob_null = []
+    var_fdr_id = []
+    for var_idx in range(0, M):
+        var_fdr_id.append(chroff_vec[var_idx])
+        var_prob_null.append(var_prob_dict[chroff_vec[var_idx], 1])
+    idx_sort = sorted(range(len(var_prob_null)), key=lambda k: var_prob_null[k])
+    var_prob_null_sort = [var_prob_null[i] for i in idx_sort]
+    var_fdr_id_sort = [var_fdr_id[i] for i in idx_sort]
+    num_fdr_tmp = 0
     counter = 0
-    for i in range(0, len(varprobnullsort)):
+    for i in range(0, len(var_prob_null_sort)):
         counter += 1
-        numfdrtmp += varprobnullsort[i]
-        fdrtmp = numfdrtmp / counter
-        if fdrtmp <= fdr:
-            print(varfdridsort[i], file=fdrout)
+        num_fdr_tmp += var_prob_null_sort[i]
+        fdr_tmp = num_fdr_tmp / counter
+        if fdr_tmp <= fdr:
+            print(var_fdr_id_sort[i], file=fdrout)
     fdrout.close()
 
 
-def write_gene(outpath, fout, genesdict, genedatm50, genedatl95, genedatu95):
-    geneout = open(outpath + str(fout) + ".mcmc.gene.posteriors", "w+")
-    for genekey in genesdict.keys():
+def gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning, C):
+
+    """
+    Writes out mean and 95% CI for each gene.
+
+    Parameters:
+    outpath: Folder path prefix for output files.
+    fout: Prefix for output files.
+    gene_len: Number of unique genes among M variants.
+    gene_map: List of unique genes.
+    pcj: Per-gene probability vector dictating how much sharing of clusters exists
+        across genes with prior alpha.
+    burn: Number of target burn-in iterations.
+    niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
+    thinning: MCMC thinning paramter.
+    
+    Returns:
+    None.
+
+    """
+
+    genes_dict, genedatm50, genedatl95, genedatu95 = {}, {}, {}, {}
+    for gene_idx in range(0, gene_len):
+        genes_dict[gene_map[gene_idx]] = gene_map[gene_idx]
+        genedatm50[gene_map[gene_idx]] = np.mean(
+            pcj[burn + 1 : niter + 1 : thinning, gene_idx, :], axis=0
+        )
+        genedatl95[gene_map[gene_idx]] = np.percentile(
+            pcj[burn + 1 : niter + 1 : thinning, gene_idx, :], 2.5, axis=0
+        )
+        genedatu95[gene_map[gene_idx]] = np.percentile(
+            pcj[burn + 1 : niter + 1 : thinning, gene_idx, :], 97.5, axis=0
+        )
+    geneout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.gene.posteriors", "w+")
+    for genekey in genes_dict.keys():
         print(genekey, file=geneout, end="")
         for i in range(0, len(genedatm50[genekey])):
             print(("\t%2.2f") % (genedatm50[genekey][i]), file=geneout, end="")
@@ -945,13 +1342,35 @@ def write_gene(outpath, fout, genesdict, genedatm50, genedatl95, genedatu95):
             print(("\t%2.2f") % (genedatu95[genekey][i]), file=geneout, end="")
         geneout.write("\n")
     geneout.close()
+    return genedatm50
 
 
-def write_prot(
-    outpath, fout, chroff_vec, annot_vec, prot_vec, gene_vec, protind, burn, niter, m
+def prot_write(
+    outpath, fout, chroff_vec, annot_vec, prot_vec, gene_vec, protind, burn, niter, M, C
 ):
-    protout = open(outpath + str(fout) + ".mcmc.protective", "w+")
-    for var_idx in range(0, m):
+
+    """
+    Writes out variant cluster membership posterior probabilities to file.
+
+    Parameters:
+    outpath: Folder path prefix for output files.
+    fout: Prefix for output files.
+    chroff_vec: Vector of length M of CHROM:POS:REF:ALT.
+    annot_vec: Vector of length M of functional annotations for the M variants.
+    prot_vec: Vector of length M of HGVSp annotations.
+    gene_vec: Vector of length M of gene symbols.
+    protind: Protective scan array.
+    burn: Number of target burn-in iterations.
+    niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
+    M: Number of variants.
+    
+    Returns:
+    None.
+    
+    """
+
+    protout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.protective", "w+")
+    for var_idx in range(0, M):
         protout.write(
             chroff_vec[var_idx]
             + "\t"
@@ -998,32 +1417,36 @@ def mrpmm(
     verbose=True,
     outpath="/Users/mrivas/",
     targeted=False,
+    maxlor=0.693,
 ):
 
     """ 
     Performs MRPMM.
   
     Parameters: 
-    betas: M*K vector of effect sizes.
-    ses: M*K vector of standard errors effect sizes.
+    betas: M*K matrix of effect sizes.
+    ses: M*K matrix of standard errors effect sizes.
     err_corr: Correlation of errors (common vars).
     annot_vec: Vector of length M of consequence annotations.
     gene_vec: Vector of length M of gene symbols.
     prot_vec: Vector of length M of HGVSp annotations.
     chroff_vec: Vector of length M of CHROM:POS:REF:ALT.
-    C: Hypothesized number of clusters; input parameter.
-    fout: 
+    C: Number of hypothesized clusters.
+    fout: Prefix for output files.
     R_phen: K*K matrix of correlations of effect sizes across phenotypes.
     R_phen_inv: Inverse of R_phen.
     phenotypes: Vector of length K of phenotype IDs.
     R_phen_use: Toggles whether or not R_phen is used.
     epsilon: Default value for calculating Gamma probabilities.
-    fdr: Threshold for false discovery rate (default: 0.05)
+    gamma: Multiplicative part of the proposal value.
+    xi_0: Hyperparameter controlling the spread of the proposals.
+    xi_alpha_0: Fixed value controlling the variance of the proposal distribution.
+    fdr: Threshold for false discovery rate (default: 0.05).
     niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
-    burn: Burn-in iterations for MCMC.
+    burn: Number of target burn-in iterations.
     thinning: MCMC thinning paramter.
     verbose: Prints extra materials to output files.
-    outpath: Path prefix for output files.
+    outpath: Folder path prefix for output files.
     targeted: Whether or not we want to perform targeted analysis.
   
     Returns: 
@@ -1080,6 +1503,9 @@ def mrpmm(
         annot_vec,
     )
 
+    if targeted:
+        protind = np.zeros((niter + 2, M))
+
     # Iterations MCMC samplers
     for iteration in range(1, niter + 1):
         if iteration % 100 == 0:
@@ -1123,6 +1549,24 @@ def mrpmm(
                 gene_map,
                 0.000001,
             )
+            if targeted:
+                protbool = 0
+                protadverse = 0
+                for tmptidx in range(0, K):
+                    if (
+                        np.sqrt(scales[iteration - 1, annot_idx])
+                        * bc[iteration - 1, delta_m[iteration, var_idx], tmptidx]
+                        >= maxlor
+                    ):
+                        protadverse = 1
+                    if (
+                        np.sqrt(scales[iteration - 1, annot_idx])
+                        * bc[iteration - 1, delta_m[iteration, var_idx], tmptidx]
+                        < -0.1
+                    ):
+                        protbool = 1
+                if protbool == 1 and protadverse == 0:
+                    protind[iteration, var_idx] = 1
         bc = update_bc(
             betas,
             ses,
@@ -1174,32 +1618,34 @@ def mrpmm(
             reject_mh3,
             reject_mh3_postburnin,
         )
-    ## Write output for input files
-    mcout = open(outpath + str(fout) + ".mcmc.posteriors", "w+")
-    varprobdict = {}
-    for var_idx in range(0, M):
-        mcout.write(
-            chroff_vec[var_idx]
-            + "\t"
-            + annot_vec[var_idx]
-            + "\t"
-            + prot_vec[var_idx]
-            + "\t"
-            + gene_vec[var_idx]
-            + "\t"
-            + str(
-                gene_vec[var_idx] + ":" + annot_vec[var_idx] + ":" + prot_vec[var_idx]
-            )
+    var_prob_dict = mcout_write(
+        outpath,
+        fout,
+        M,
+        chroff_vec,
+        annot_vec,
+        prot_vec,
+        gene_vec,
+        C,
+        delta_m,
+        burn,
+        niter,
+    )
+    if targeted:
+        prot_write(
+            outpath,
+            fout,
+            chroff_vec,
+            annot_vec,
+            prot_vec,
+            gene_vec,
+            protind,
+            burn,
+            niter,
+            M,
+            C,
         )
-        for c in range(0, C):
-            probclustervar = np.where(delta_m[burn + 1 : niter + 1, var_idx] == c)[
-                0
-            ].shape[0] / (niter - burn)
-            varprobdict[chroff_vec[var_idx], c + 1] = probclustervar
-            mcout.write("\t" + str(probclustervar))
-        mcout.write("\n")
-    mcout.close()
-    write_fdr(outpath, fout, fdr, M, chroff_vec, varprobdict)
+    fdr_write(outpath, fout, fdr, M, chroff_vec, var_prob_dict, C)
     print_rejection_rates(
         accept_mh1_postburnin,
         reject_mh1_postburnin,
@@ -1208,384 +1654,611 @@ def mrpmm(
         accept_mh3_postburnin,
         reject_mh3_postburnin,
     )
-    genedatm50 = {}
-    genedatl95 = {}
-    genedatu95 = {}
     if verbose:
-        probout = fout + ".mcmc.probs"
-        np.savetxt(outpath + probout, delta_m, fmt="%1.3f")
-        bcout = open(outpath + str(fout) + ".mcmc.bc", "w+")
-        bcout.write("cluster")
-        for i in range(0, len(phenotypes)):
-            print(
-                ("\t%s\t%s\t%s")
-                % (phenotypes[i] + "m50", phenotypes[i] + "l95", phenotypes[i] + "u95"),
-                end="",
-                file=bcout,
-            )
-        bcout.write("\n")
-        write_confidence_intervals(C, bc, burn, niter, thinning, bcout)
-        bcout.close()
+        probout_bcout_write(outpath, fout, C, bc, delta_m, burn, niter, thinning)
         scaleout_write(
-            outpath, fout, annot_len, scales, burn, niter, thinning, annot_map
+            outpath, fout, annot_len, scales, burn, niter, thinning, annot_map, C
         )
-        tmpbc_write(outpath, fout, K, Theta_0)
-        pc[0, 0, :]
+        tmpbc_write(outpath, fout, K, Theta_0, C)
         print("gene_set", np.mean(pcj[burn + 1 : niter + 1 : thinning, :], axis=0))
-        # initialize pcj (proportions for each gene j)
-        genesdict = {}
-        for gene_idx in range(0, gene_len):
-            genesdict[gene_map[gene_idx]] = gene_map[gene_idx]
-            genedatm50[gene_map[gene_idx]] = np.mean(
-                pcj[burn + 1 : niter + 1 : thinning, gene_idx, :], axis=0
-            )
-            genedatl95[gene_map[gene_idx]] = np.percentile(
-                pcj[burn + 1 : niter + 1 : thinning, gene_idx, :], 2.5, axis=0
-            )
-            genedatu95[gene_map[gene_idx]] = np.percentile(
-                pcj[burn + 1 : niter + 1 : thinning, gene_idx, :], 97.5, axis=0
-            )
     BIC, AIC = calculate_metrics(
         outpath, fout, alpha, burn, niter, thinning, maxloglkiter, gene_len, K, M, C
     )
-    write_gene(outpath, fout, genesdict, genedatm50, genedatl95, genedatu95)
+    genedatm50 = gene_write(
+        outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning, C
+    )
     return [BIC, AIC, genedatm50]
 
 
-def targeted(
-    betas,
-    ses,
-    err_corr,
-    annot_vec,
-    gene_vec,
-    prot_vec,
-    chroff_vec,
-    C,
-    fout,
-    R_phen,
-    R_phen_inv,
-    R_phen_use=True,
-    epsilon=1e-16,
-    gamma=1,
-    xi_0=1,
-    xi_alpha_0=1,
-    niter=1000,
-    burn=100,
-    thinning=1,
-    verbose=True,
-    maxlor=0.693,
-    outpath="/Users/mrivas/",
-):
+def get_betas(df, pheno1, pheno2, mode):
 
-    (
-        betas,
-        ses,
-        err_corr,
-        K,
-        M,
-        gene_len,
-        annot_len,
-        gene_map,
-        annot_map,
-        alpha,
-        pc,
-        pcj,
-        bc,
-        scales,
-        delta_m,
-        maxloglkiter,
-        Theta_0,
-        Theta_0_inv,
-        accept_mh1,
-        accept_mh1_postburnin,
-        reject_mh1,
-        reject_mh1_postburnin,
-        accept_mh2,
-        accept_mh2_postburnin,
-        reject_mh2,
-        reject_mh2_postburnin,
-        accept_mh3,
-        accept_mh3_postburnin,
-        reject_mh3,
-        reject_mh3_postburnin,
-    ) = initialize_MCMC(
-        niter,
-        R_phen,
-        R_phen_inv,
-        err_corr,
-        betas,
-        ses,
-        C,
-        R_phen_use,
-        gene_vec,
-        annot_vec,
-    )
+    """
+    Retrieves betas from a pair of phenotypes using non-significant, 
+        non-missing variants.
+  
+    Parameters: 
+    df: Merged dataframe containing summary statistics.
+    pheno1: First phenotype.
+    pheno2: Second phenotype.
+    mode: One of "null", "sig". Determines whether we want to sample from null or 
+        significant variants. Useful for building out correlations of errors and 
+        phenotypes respectively.
+  
+    Returns: 
+    beta1: List of effect sizes from the first phenotype; used to compute 
+        correlation.
+    beta2: List of effect sizes from the second phenotype; used to compute
+        correlation.
+  
+    """
 
-    # prot scan array
-    protind = np.zeros((niter + 2, M))
+    if ("P_" + pheno1 not in df.columns) or ("P_" + pheno2 not in df.columns):
+        return [], []
+    if mode == "null":
+        df = df[
+            (df["P_" + pheno1].astype(float) >= 1e-2)
+            & (df["P_" + pheno2].astype(float) >= 1e-2)
+        ]
+    elif mode == "sig":
+        df = df[
+            (
+                (df["P_" + pheno1].astype(float) <= 1e-5)
+                | (df["P_" + pheno2].astype(float) <= 1e-5)
+            )
+        ]
+    beta1 = list(df["BETA_" + pheno1])
+    beta2 = list(df["BETA_" + pheno2])
+    return beta1, beta2
 
-    # Iterations MCMC samplers
-    for iteration in range(1, niter + 1):
-        pc, accept_mh1, accept_mh1_postburnin, reject_mh1, reject_mh1_postburnin = update_pc(
-            alpha,
-            pc,
-            pcj,
-            epsilon,
-            gamma,
-            C,
-            gene_len,
-            accept_mh1,
-            accept_mh1_postburnin,
-            reject_mh1,
-            reject_mh1_postburnin,
-            burn,
-            iteration,
-        )
-        pcj = update_pcj(
-            alpha, pc, pcj, delta_m, gene_len, gene_vec, gene_map, iteration
-        )
-        for var_idx in range(0, M):
-            annot_idx, delta_m = update_delta_jm(
-                betas,
-                ses,
-                err_corr,
-                C,
-                bc,
-                pcj,
-                delta_m,
-                scales,
-                maxloglkiter,
-                var_idx,
-                iteration,
-                annot_len,
-                annot_vec,
-                annot_map,
-                gene_len,
-                gene_vec,
-                gene_map,
-                0.000001,
+
+def calculate_err(a, b, pheno1, pheno2, err_corr, err_df):
+
+    """
+    Calculates a single entry in the err_corr matrix.
+    
+    Parameters:
+    a, b: Positional parameters within the err_corr matrix.
+    pheno1: Name of first phenotype.
+    pheno2: Name of second phenotype.
+    err_corr: The err_corr matrix thus far.
+    err_df: Dataframe containing null, common, LD-independent variants.
+
+    Returns:
+    err_corr[a, b]: One entry in the err_corr matrix.
+
+    """
+
+    # If in lower triangle, do not compute; symmetric matrix
+    if a > b:
+        return err_corr[b, a]
+    elif a == b:
+        return 1
+    else:
+        err_df = err_df.dropna()
+        err_beta1, err_beta2 = get_betas(err_df, pheno1, pheno2, "null")
+        return pearsonr(err_beta1, err_beta2)[0] if err_beta1 else 0
+
+
+def filter_for_err_corr(df):
+
+    """
+    Filters the initial dataframe for the criteria used to build err_corr.
+
+    Parameters:
+    df: Merged dataframe containing all summary statistics.
+
+    Returns:
+    df: Filtered dataframe that contains null, common, LD-independent variants.
+
+    """
+
+    # Get only LD-independent, common variants
+    df = df[(df.maf >= 0.01) & (df.ld_indep == True)]
+    df = df.dropna(axis=1, how="all")
+    df = df.dropna()
+    null_variants = [
+        "regulatory_region_variant",
+        "intron_variant",
+        "intergenic_variant",
+        "downstream_gene_variant",
+        "mature_miRNA_variant",
+        "non_coding_transcript_exon_variant",
+        "upstream_gene_variant",
+        "NA",
+        "NMD_transcript_variant",
+        "synonymous_variant",
+    ]
+    # Get only null variants to build err_corr
+    if len(df) != 0:
+        df = df[df.most_severe_consequence.isin(null_variants)]
+    return df
+
+
+def build_err_corr(K, phenos, df):
+
+    """
+    Builds out a matrix of correlations between all phenotypes and studies using:
+        - null (i.e. synonymous or functionally uninteresting)
+        - not significant (P >= 1e-2)
+        - common (MAF >= 0.01)
+        - LD independent
+    SNPs.
+
+    Parameters:
+    K: Number of phenotypes.
+    phenos: Unique set of phenotypes to use for analysis.
+    df: Merged dataframe containing all relevant summary statistics.
+
+    Returns:
+    err_corr: (S*K x S*K) matrix of correlation of errors across studies and phenotypes 
+        for null variants. Used to calculate v_beta.
+
+    """
+    err_df = filter_for_err_corr(df)
+    if len(err_df) == 0:
+        return np.diag(np.ones(K))
+    err_corr = np.zeros((K, K))
+    for a, pheno1 in enumerate(phenos):
+        for b, pheno2 in enumerate(phenos):
+            # Location in matrix
+            err_corr[a, b] = calculate_err(a, b, pheno1, pheno2, err_corr, err_df)
+    err_corr = np.nan_to_num(err_corr)
+    return err_corr
+
+
+def calculate_phen(a, b, pheno1, pheno2, df, phenos_to_use, phen_corr):
+
+    """
+    Calculates a single entry in the phen_corr matrix.
+    
+    Parameters:
+    a, b: Positional parameters within the R_phen matrix.
+    pheno1: Name of first phenotype.
+    pheno2: Name of second phenotype.
+    df: Dataframe containing significant, common, LD-independent variants.
+    phenos_to_use: Indicate which phenotypes to use to build R_phen.
+
+    Returns:
+    phen_corr[a, b]: One entry in the phen_corr matrix.
+
+    """
+
+    # If in lower triangle, do not compute; symmetric matrix
+    if a > b:
+        return phen_corr[b, a]
+    elif a == b:
+        return 1
+    else:
+        # if this combination of phenos doesn't exist in the map file, then nan
+        if (pheno1 in phenos_to_use) and (pheno2 in phenos_to_use):
+            phen_beta1, phen_beta2 = get_betas(df, pheno1, pheno2, "sig")
+            return (
+                pearsonr(phen_beta1, phen_beta2)[0]
+                if phen_beta1 is not None
+                else np.nan
             )
-            protbool = 0
-            protadverse = 0
-            for tmptidx in range(0, K):
-                if (
-                    np.sqrt(scales[iteration - 1, annot_idx])
-                    * bc[iteration - 1, delta_m[iteration, var_idx], tmptidx]
-                    >= maxlor
-                ):
-                    protadverse = 1
-                if (
-                    np.sqrt(scales[iteration - 1, annot_idx])
-                    * bc[iteration - 1, delta_m[iteration, var_idx], tmptidx]
-                    < -0.1
-                ):
-                    protbool = 1
-            if protbool == 1 and protadverse == 0:
-                protind[iteration, var_idx] = 1
-        update_bc(
-            betas,
-            ses,
-            err_corr,
-            C,
-            M,
-            delta_m,
-            bc,
-            scales,
-            Theta_0_inv,
-            iteration,
-            annot_len,
-            annot_vec,
-            annot_map,
-        )
-        scales, accept_mh2, accept_mh2_postburnin, reject_mh2, reject_mh2_postburnin = update_sigma_2(
-            betas,
-            ses,
-            xi_0,
-            err_corr,
-            M,
-            delta_m,
-            bc,
-            scales,
-            iteration,
-            burn,
-            annot_len,
-            annot_vec,
-            annot_map,
-            accept_mh2,
-            accept_mh2_postburnin,
-            reject_mh2,
-            reject_mh2_postburnin,
-        )
-        alpha, accept_mh3, reject_mh3, accept_mh3_postburnin, reject_mh3_postburnin = update_alpha(
-            alpha,
-            pc,
-            pcj,
-            epsilon,
-            C,
-            gene_len,
-            xi_alpha_0,
-            iteration,
-            burn,
-            accept_mh3,
-            accept_mh3_postburnin,
-            reject_mh3,
-            reject_mh3_postburnin,
-        )
-    ## Write output for input files
-    mcout = open(outpath + str(fout) + ".mcmc.posteriors", "w+")
-    for var_idx in range(0, M):
-        mcout.write(
-            chroff_vec[var_idx]
-            + "\t"
-            + annot_vec[var_idx]
-            + "\t"
-            + prot_vec[var_idx]
-            + "\t"
-            + gene_vec[var_idx]
-            + "\t"
-            + str(
-                gene_vec[var_idx] + ":" + annot_vec[var_idx] + ":" + prot_vec[var_idx]
+        else:
+            return np.nan
+
+
+def build_phen_corr(K, phenos, df, phenos_to_use):
+
+    """
+    Builds out a matrix of correlations between all phenotypes and studies using:
+        - significant (P < 1e-5)
+        - common (MAF >= 0.01)
+        - LD-independent
+    SNPs.
+
+    Parameters:
+    K: Number of phenotypes.
+    phenos: Unique set of phenotypes to use for analysis.
+    df: Merged dataframe containing all relevant summary statistics.
+    phenos_to_use: Indicate which phenotypes to use to build R_phen.
+
+    Returns:
+    phen_corr: (K*K) matrix of correlations between all phenotypes and studies 
+        for significant variants. Used to calculate R_phen.
+
+    """
+
+    phen_corr = np.zeros((K, K))
+    for a, pheno1 in enumerate(phenos):
+        for b, pheno2 in enumerate(phenos):
+            # Location in matrix
+            phen_corr[a, b] = calculate_phen(
+                a, b, pheno1, pheno2, df, phenos_to_use, phen_corr
             )
-        )
-        for c in range(0, C):
-            probclustervar = np.where(delta_m[burn + 1 : niter + 1, var_idx] == c)[
-                0
-            ].shape[0] / (niter - burn)
-            mcout.write("\t" + str(probclustervar))
-        mcout.write("\n")
-    mcout.close()
-    ## Write output for input files
-    write_prot(
-        outpath,
-        fout,
-        chroff_vec,
-        annot_vec,
-        prot_vec,
-        gene_vec,
-        protind,
-        burn,
-        niter,
-        M,
+    return phen_corr
+
+
+def filter_for_phen_corr(df, sumstat_data):
+
+    """
+    Filters the initial dataframe for the criteria used to build R_phen.
+
+    Parameters:
+    df: Merged dataframe containing all summary statistics.
+    sumstat_data: Dataframe indicating which summary statistics to use to build R_phen.
+
+    Returns:
+    df: Filtered dataframe that contains significant, common, LD-independent variants.
+
+    """
+
+    files_to_use = sumstat_data[sumstat_data["R_phen"] == True]
+    if len(files_to_use) == 0:
+        return [], []
+    phenos_to_use = list(files_to_use["pheno"])
+    cols_to_keep = ["V", "maf", "ld_indep"]
+    for col_type in "BETA_", "P_":
+        cols_to_keep.extend([col_type + pheno for pheno in phenos_to_use])
+    df = df[cols_to_keep]
+    # Get only LD-independent, common variants
+    df = df[(df.maf >= 0.01) & (df.ld_indep == True)]
+    df = df.dropna(axis=1, how="all")
+    df = df.dropna()
+    return df, phenos_to_use
+
+
+def build_R_phen(K, phenos, df, sumstat_data):
+
+    """
+    Builds R_phen using phen_corr (calculated using the method directly above this).
+
+    Parameters:
+    K: Number of phenotypes.
+    phenos: Unique set of phenotypes to use for analysis.
+    df: Merged dataframe containing all relevant summary statistics.
+    sumstat_data: Input file containing summary statistic paths + pheno data.
+
+    Returns:
+    R_phen: Empirical estimates of genetic correlation across phenotypes.
+
+    """
+
+    if K == 1:
+        return np.ones((K, K))
+    df, phenos_to_use = filter_for_phen_corr(df, sumstat_data)
+    if len(df) == 0:
+        return np.diag(np.ones(K))
+    R_phen = build_phen_corr(K, phenos, df, phenos_to_use)
+    return R_phen
+
+
+def return_err_and_R_phen(df, phenos, K, sumstat_file):
+
+    """ 
+    Builds a matrix of correlations of errors across studies and phenotypes,
+        and correlations of phenotypes.
+  
+    Parameters: 
+    df: Dataframe that containa summary statistics.
+    phenos: Unique set of phenotypes to use for analysis.
+    K: Number of phenotypes.
+    sumstat_file: Input file containing summary statistic paths + pheno data.
+
+    Returns:
+    err_corr: (S*K x S*K) matrix of correlation of errors across studies and phenotypes
+        for null variants. Used to calculate v_beta.
+    R_phen: Empirical estimates of genetic correlation across phenotypes.
+  
+    """
+
+    # Sample common variants, stuff in filter + synonymous
+    err_corr = build_err_corr(K, phenos, df)
+    # Faster calculations, better accounts for uncertainty in estimates
+    err_corr[abs(err_corr) < 0.01] = 0
+    R_phen = build_R_phen(K, phenos, df, sumstat_file)
+    R_phen[abs(R_phen) < 0.01] = 0
+    # Get rid of any values above 0.95
+    while np.max(R_phen - np.eye(len(R_phen))) > 0.9:
+        R_phen = 0.9 * R_phen + 0.1 * np.diag(np.diag(R_phen))
+    return err_corr, R_phen
+
+
+def initialize_parser():
+
+    """
+    Parses inputs using argparse. 
+
+    """
+
+    parser = argparse.ArgumentParser(
+        description="MRP takes in several variables that affect how it runs.",
+        formatter_class=argparse.RawTextHelpFormatter,
     )
-    print_rejection_rates(
-        accept_mh1_postburnin,
-        reject_mh1_postburnin,
-        accept_mh2_postburnin,
-        reject_mh2_postburnin,
-        accept_mh3_postburnin,
-        reject_mh3_postburnin,
+    parser.add_argument(
+        "--variants",
+        type=str,
+        required=True,
+        dest="variants",
+        help="""path to file containing list of variants to include,
+         one line per variant. Has a header of "V".
+
+         format of file:
+
+         V
+         1:69081:G:C
+         1:70001:G:A
+         """,
     )
-    genedat = {}
-    if verbose:
-        probout = fout + ".mcmc.probs"
-        np.savetxt(outpath + probout, delta_m, fmt="%1.3f")
-        bcout = open(outpath + str(fout) + ".mcmc.bc", "w+")
-        write_confidence_intervals(C, bc, burn, niter, thinning, bcout)
-        bcout.close()
-        scaleout_write(
-            outpath, fout, annot_len, scales, burn, niter, thinning, annot_map
-        )
-        tmpbc_write(outpath, fout, K, Theta_0)
-        pc[0, 0, :]
-        print("gene_set", np.mean(pcj[burn + 1 : niter + 1 : thinning, :], axis=0))
-        # initialize pcj (proportions for each gene j)
-        for gene_idx in range(0, gene_len):
-            genedat[gene_map[gene_idx]] = np.mean(
-                pcj[burn + 1 : niter + 1 : thinning, gene_idx, :], axis=0
-            )
-    BIC, AIC = calculate_metrics(
-        outpath, fout, alpha, burn, niter, thinning, maxloglkiter, gene_len, K, M, C
+    parser.add_argument(
+        "--phenotypes",
+        type=str,
+        required=True,
+        dest="phenotypes",
+        help="""path to tab-separated file containing list of: 
+         summary statistic file paths,
+         phenotypes, and
+         whether or not to use the file in R_phen generation.
+       
+         format:
+         
+         path        pheno        R_phen
+         /path/to/file1   pheno1     TRUE
+         /path/to/file2   pheno2     FALSE
+         """,
     )
-    return [BIC, AIC, genedat]
+    parser.add_argument(
+        "--clusters",
+        type=int,
+        nargs="+",
+        required=True,
+        dest="clusters",
+        help="""number of clusters hypothesized - can input more than one,
+         e.g. --clusters 3 2 4. MUST be integers.""",
+    )
+    parser.add_argument(
+        "--metadata_path",
+        type=str,
+        required=True,
+        dest="metadata_path",
+        help="""path to tab-separated file containing:
+         variants,
+         gene symbols,
+         consequences,
+         and HGVSp annotations.
+       
+         format:
+         
+         V       gene_symbol     most_severe_consequence HGVSp  
+         1:69081:G:C     OR4F5   5_prime_UTR_variant     ""
+        """,
+    )
+    parser.add_argument(
+        "--out_folder",
+        type=str,
+        default=[],
+        dest="out_folder",
+        help="""folder to which output(s) will be written (default: current folder).
+         if folder does not exist, it will be created.""",
+    )
+    parser.add_argument(
+        "--fout",
+        type=str,
+        required=True,
+        dest="fout",
+        help="""file prefix for output.""",
+    )
+    return parser
+
+
+def merge_dfs(sumstat_files, metadata):
+
+    """
+    Performs an outer merge on all of the files that have been read in;
+    Annotates with metadata and sigma values.
+
+    Parameters:
+    sumstat_files: List of dataframes that contain summary statistics.
+    metadata: df containing gene symbol, HGVSp, etc.
+
+    Returns:
+    df: Dataframe that is ready for err_corr/R_phen generation and for running MRPMM.
+
+    """
+
+    conserved_columns = ["V", "#CHROM", "POS", "REF", "ALT", "A1"]
+    outer_merge = partial(pd.merge, on=conserved_columns, how="outer")
+    df = reduce(outer_merge, sumstat_files)
+    df = df.merge(metadata)
+    to_keep = [
+        "frameshift_variant",
+        "splice_acceptor_variant",
+        "splice_donor_variant",
+        "stop_gained",
+        "start_lost",
+        "stop_lost",
+        "protein_altering_variant",
+        "inframe_deletion",
+        "inframe_insertion",
+        "splice_region_variant",
+        "start_retained_variant",
+        "stop_retained_variant",
+        "missense_variant",
+        "synonymous_variant",
+        "5_prime_UTR_variant",
+        "3_prime_UTR_variant",
+        "coding_sequence_variant",
+        "incomplete_terminal_codon_variant",
+        "TF_binding_site_variant",
+    ]
+    to_filter = [
+        "regulatory_region_variant",
+        "intron_variant",
+        "intergenic_variant",
+        "downstream_gene_variant",
+        "mature_miRNA_variant",
+        "non_coding_transcript_exon_variant",
+        "upstream_gene_variant",
+        "NA",
+        "NMD_transcript_variant",
+    ]
+    df = df[~df["most_severe_consequence"].isin(to_filter)]
+    df = df[df["most_severe_consequence"].isin(to_keep)]
+    return df
+
+
+def rename_columns(df, pheno):
+
+    """ 
+    Renames columns such that information on phenotype is available 
+        in the resultant dataframe.
+  
+    Additionally checks if the header contains "LOG(OR)_SE" instead of "SE".
+  
+    Parameters: 
+    df: Input dataframe (from summary statistics).
+    pheno: The phenotype from which the current summary statistic dataframe comes from.
+  
+    Returns: 
+    df: A df with adjusted column names, e.g., "OR_white_british_cancer1085".
+  
+    """
+
+    if "LOG(OR)_SE" in df.columns:
+        df.rename(columns={"LOG(OR)_SE": "SE"}, inplace=True)
+    columns_to_rename = ["BETA", "SE", "P"]
+    renamed_columns = [(x + "_" + pheno) for x in columns_to_rename]
+    df.rename(columns=dict(zip(columns_to_rename, renamed_columns)), inplace=True)
+    return df
+
+
+def read_in_summary_stat(path, pheno):
+
+    """
+    Reads in one summary statistics file.
+  
+    Additionally: adds a variant identifier ("V"), renames columns, and filters on 
+        SE (<= 0.5).
+
+    Parameters: 
+    path: Path to file.
+    pheno: Phenotype of interest.
+  
+    Returns: 
+    df: Dataframe with renamed columns, ready for merge.
+
+    """
+
+    print(path)
+    df = pd.read_csv(
+        path,
+        sep="\t",
+        dtype={
+            "#CHROM": str,
+            "POS": np.int32,
+            "ID": str,
+            "REF": str,
+            "ALT": str,
+            "A1": str,
+            "FIRTH?": str,
+            "TEST": str,
+        },
+    )
+    df.insert(
+        loc=0,
+        column="V",
+        value=df["#CHROM"]
+        .astype(str)
+        .str.cat(df["POS"].astype(str), sep=":")
+        .str.cat(df["REF"], sep=":")
+        .str.cat(df["ALT"], sep=":"),
+    )
+    if "OR" in df.columns:
+        df["BETA"] = np.log(df["OR"].astype("float64"))
+    # Filter for SE as you read it in
+    df = rename_columns(df, pheno)
+    df = df[df["SE" + "_" + pheno].notnull()]
+    df = df[df["SE" + "_" + pheno].astype(float) <= 0.2]
+    # Filter out HLA region
+    df = df[~((df["#CHROM"] == 6) & (df["POS"].between(25477797, 36448354)))]
+    return df
 
 
 if __name__ == "__main__":
-    ang = pd.read_table("ANGPTL7.tsv")
-    # for now, put 0 if missing
-    betas = (
-        ang[
-            [
-                "BETA_white_british_HC276",
-                "BETA_white_british_INI5255",
-                "BETA_white_british_INI5257",
-            ]
-        ]
-        .fillna(0)
-        .values
+
+    parser = initialize_parser()
+    args = parser.parse_args()
+
+    print("")
+    print("Valid command line arguments. Importing required packages...")
+    print("")
+
+    import array
+    import math
+    import pandas as pd
+    import logging
+    import numpy as np
+    import numpy.matlib as npm
+    from scipy import stats
+    from scipy.stats import multivariate_normal
+    from scipy.stats import invgamma
+    from scipy.stats.stats import pearsonr
+    from sklearn import covariance
+    from functools import partial, reduce
+
+    # Set up basic logging
+    logger = logging.getLogger("Log")
+
+    variants = pd.read_table(args.variants)
+    metadata = pd.read_table(args.metadata_path)
+    sumstat_data = pd.read_table(args.phenotypes)
+
+    chroff_vec = list(variants["V"])
+
+    phenotypes = np.unique(sumstat_data["pheno"])
+    sumstat_paths = list(sumstat_data["path"])
+    sumstat_files = []
+
+    for path, pheno in zip(sumstat_paths, phenotypes):
+        sumstat = read_in_summary_stat(path, pheno)
+        sumstat_files.append(sumstat)
+
+    df = merge_dfs(sumstat_files, metadata)
+
+    err_corr, R_phen = return_err_and_R_phen(
+        df, phenotypes, len(phenotypes), sumstat_data
     )
-    ses = (
-        ang[
-            [
-                "SE_white_british_HC276",
-                "SE_white_british_INI5255",
-                "SE_white_british_INI5257",
-            ]
-        ]
-        .fillna(0)
-        .values
-    )
-    # vymat = err_corr
-    err_corr = np.array(
-        [
-            [1, 0.06741325, 0.03541408],
-            [0.06741325, 1, 0.56616657],
-            [0.03541408, 0.56616657, 1],
-        ]
-    )
-    annot_vec = [
-        "missense_variant",
-        "missense_variant",
-        "missense_variant",
-        "stop_gained",
-    ]
-    gene_vec = ["ANGPTL7"] * len(annot_vec)
+
+    # Filter only for variants of interest
+    df = df[df["V"].isin(chroff_vec)]
+    chroff_vec = list(df["V"])
+    annot_vec = list(df["most_severe_consequence"])
+    gene_vec = list(df["gene_symbol"])
+    # prot_vec = list(metadata['HGVSp'])
     prot_vec = ["hgvsp1", "hgvsp2", "hgvsp3", "hgvsp4"]
-    chroff_vec = [
-        "1:11252369:G:A",
-        "1:11253684:G:T",
-        "1:11252357:A:G",
-        "1:11253688:C:T",
-    ]
-    C = 2
-    fout = "ANGPTL7_test"
-    R_phen = np.array(
-        [
-            [1, 0.8568072, 0.61924757],
-            [0.8568072, 1, 0.82642932],
-            [0.61924757, 0.82642932, 1],
-        ]
-    )
+
+    # for now, put 0 if missing
+    betas = df[["BETA_" + pheno for pheno in phenotypes]].fillna(0).values
+    ses = df[["SE_" + pheno for pheno in phenotypes]].fillna(0).values
+
+    if args.out_folder:
+        out_folder = args.out_folder
+    else:
+        out_folder = ""
+
     R_phen_inv = np.linalg.inv(R_phen)
-    phenotypes = [
-        "HC276",
-        "HC276",
-        "INI5255",
-        "INI5255",
-        "INI5255",
-        "INI5255",
-        "INI5257",
-        "INI5257",
-        "INI5257",
-        "INI5257",
-    ]
-    [BIC, AIC, genedat] = mrpmm(
-        betas,
-        ses,
-        err_corr,
-        annot_vec,
-        gene_vec,
-        prot_vec,
-        chroff_vec,
-        C,
-        fout,
-        R_phen,
-        R_phen_inv,
-        phenotypes,
-        R_phen_use=True,
-        fdr=0.05,
-        niter=1000,
-        burn=100,
-        thinning=1,
-        verbose=True,
-        outpath="",
-    )
+    for C in args.clusters:
+        [BIC, AIC, genedat] = mrpmm(
+            betas,
+            ses,
+            err_corr,
+            annot_vec,
+            gene_vec,
+            prot_vec,
+            chroff_vec,
+            C,
+            args.fout,
+            R_phen,
+            R_phen_inv,
+            phenotypes,
+            R_phen_use=True,
+            fdr=0.05,
+            niter=1000,
+            burn=100,
+            thinning=1,
+            verbose=True,
+            outpath=out_folder,
+        )
