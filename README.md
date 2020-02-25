@@ -12,9 +12,10 @@ This repo contains the complete set of tools for preprocessing, quality control,
 
 # `ukbb-tools` module in Sherlock
 
+https://github.com/rivas-lab/sherlock-modules/tree/master/ukbb-tools
+
 There is an updater script.
 
 ```{bash}
 $ bash ukbb-tools.module.updater.sh 20200225
 ```
-
