@@ -181,7 +181,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', keepFile=None, relat
         'imputed':            ('pfile_vzs', os.path.join(pgen_root,'imp','pgen','ukb24983_imp_chr${SLURM_ARRAY_TASK_ID}_v3')),
         'genotyped':          ('bpfile',    os.path.join(pgen_root,'cal','pgen','ukb24983_cal_cALL_v2_hg19')),
         'array-combined':     ('bpfile',    os.path.join(pgen_root,'array_combined','pgen','ukb24983_cal_hla_cnv')),
-        'array-imp-combined': ('pfile_vzs', os.path.join(pgen_root,'array_imp_combined','pgen','ukb24983_ukb24983_cal_hla_cnv_imp')),
+        'array-imp-combined': ('pfile_vzs', os.path.join(pgen_root,'array_imp_combined','pgen','ukb24983_hg19_cal_hla_cnv_imp')),
         'cnv':                ('bpfile',    os.path.join(pgen_root,'cnv','pgen','cnv') + ' --mac 15'),
         'cnv-burden':         ('bpfile',    os.path.join(pgen_root,'cnv','pgen','burden')),
         'exome-spb':          ('bpfile',    os.path.join(pgen_root,'exome','pgen','spb','data','ukb_exm_spb')),
