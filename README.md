@@ -9,3 +9,13 @@ This repo contains the complete set of tools for preprocessing, quality control,
 5. [PheWAS](https://github.com/rivas-lab/ukbb-tools/tree/master/05_phewas)
 6. [GBE](https://github.com/rivas-lab/ukbb-tools/tree/master/06_gbe)
 7. [LD score regression (LDSC)](https://github.com/rivas-lab/ukbb-tools/tree/master/07_LDSC)
+
+# `ukbb-tools` module in Sherlock
+
+https://github.com/rivas-lab/sherlock-modules/tree/master/ukbb-tools
+
+There is an updater script.
+
+```{bash}
+$ bash ukbb-tools.module.updater.sh 20200225
+```

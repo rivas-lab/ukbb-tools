@@ -6,6 +6,7 @@ import argparse
 # Written by Manuel A. Rivas
 # Updated 02.11.2020, Guhan R. Venkataraman
 
+
 def is_pos_def(X):
 
     """ 
@@ -197,7 +198,7 @@ def return_norm_const(mult, proposal, epsilon):
 
 
 def return_product_density(mult, proposal, previous, C):
- 
+
     """
     The density at point x given the normalization constant as defined in
     return_norm_const is:
@@ -549,7 +550,7 @@ def update_delta_jm(
     gene_map,
     Vjm_scale,
 ):
-    
+
     """
     Updates delta_jm: Indices of cluster memberships for each variant m in gene j.
 
@@ -802,7 +803,7 @@ def update_sigma_2(
 
 
 def return_alpha_product_density(mult, proposal, previous, C):
-    
+
     """
     Parameters:
     The density at point x given the normalization constant as defined in
@@ -1058,7 +1059,9 @@ def calculate_metrics(
     return BIC, AIC
 
 
-def scaleout_write(outpath, fout, annot_len, scales, burn, niter, thinning, annot_map, C):
+def scaleout_write(
+    outpath, fout, annot_len, scales, burn, niter, thinning, annot_map, C
+):
 
     """
     Writes scales out to file.
@@ -1098,7 +1101,7 @@ def scaleout_write(outpath, fout, annot_len, scales, burn, niter, thinning, anno
 
 
 def tmpbc_write(outpath, fout, K, Theta_0, C):
-    
+
     """
     Writes out the Theta_0 matrix to file.
 
@@ -1121,7 +1124,10 @@ def tmpbc_write(outpath, fout, K, Theta_0, C):
         print("\n", end="", file=tmpbc)
     tmpbc.close()
 
-def mcout_write(outpath, fout, M, chroff_vec, annot_vec, prot_vec, gene_vec, C, delta_m, burn, niter):
+
+def mcout_write(
+    outpath, fout, M, chroff_vec, annot_vec, prot_vec, gene_vec, C, delta_m, burn, niter
+):
 
     """
     Writes out variant cluster membership posterior probabilities to file.
@@ -1144,7 +1150,7 @@ def mcout_write(outpath, fout, M, chroff_vec, annot_vec, prot_vec, gene_vec, C, 
 
     """
 
-    mcout = open(outpath + str(fout) + "_" + str(C) + '.mcmc.posteriors','w+')
+    mcout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.posteriors", "w+")
     var_prob_dict = {}
     for var_idx in range(0, M):
         mcout.write(
@@ -1169,6 +1175,7 @@ def mcout_write(outpath, fout, M, chroff_vec, annot_vec, prot_vec, gene_vec, C, 
         mcout.write("\n")
     mcout.close()
     return var_prob_dict
+
 
 def probout_bcout_write(outpath, fout, C, bc, delta_m, burn, niter, thinning):
 
@@ -1611,9 +1618,33 @@ def mrpmm(
             reject_mh3,
             reject_mh3_postburnin,
         )
-    var_prob_dict = mcout_write(outpath, fout, M, chroff_vec, annot_vec, prot_vec, gene_vec, C, delta_m, burn, niter)
+    var_prob_dict = mcout_write(
+        outpath,
+        fout,
+        M,
+        chroff_vec,
+        annot_vec,
+        prot_vec,
+        gene_vec,
+        C,
+        delta_m,
+        burn,
+        niter,
+    )
     if targeted:
-        prot_write(outpath, fout, chroff_vec, annot_vec, prot_vec, gene_vec, protind, burn, niter, M, C)
+        prot_write(
+            outpath,
+            fout,
+            chroff_vec,
+            annot_vec,
+            prot_vec,
+            gene_vec,
+            protind,
+            burn,
+            niter,
+            M,
+            C,
+        )
     fdr_write(outpath, fout, fdr, M, chroff_vec, var_prob_dict, C)
     print_rejection_rates(
         accept_mh1_postburnin,
@@ -1630,29 +1661,13 @@ def mrpmm(
         )
         tmpbc_write(outpath, fout, K, Theta_0, C)
         print("gene_set", np.mean(pcj[burn + 1 : niter + 1 : thinning, :], axis=0))
-    BIC, AIC  = calculate_metrics(
+    BIC, AIC = calculate_metrics(
         outpath, fout, alpha, burn, niter, thinning, maxloglkiter, gene_len, K, M, C
     )
-    genedatm50 = gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning, C)
+    genedatm50 = gene_write(
+        outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning, C
+    )
     return [BIC, AIC, genedatm50]
-
-def delete_rows_and_columns(X, indices_to_remove):
-
-    """ 
-    Helper function to delete rows and columns from a matrix.
-  
-    Parameters: 
-    X: Matrix that needs adjustment.
-    indices_to_remove: Rows and columns to be deleted.
-  
-    Returns: 
-    X: Smaller matrix that has no missing data.
-  
-    """
-
-    X = np.delete(X, indices_to_remove, axis=0)
-    X = np.delete(X, indices_to_remove, axis=1)
-    return X
 
 
 def get_betas(df, pheno1, pheno2, mode):
@@ -1677,9 +1692,7 @@ def get_betas(df, pheno1, pheno2, mode):
   
     """
 
-    if ("P_" + pheno1 not in df.columns) or (
-        "P_" + pheno2 not in df.columns
-    ):
+    if ("P_" + pheno1 not in df.columns) or ("P_" + pheno2 not in df.columns):
         return [], []
     if mode == "null":
         df = df[
@@ -1688,12 +1701,15 @@ def get_betas(df, pheno1, pheno2, mode):
         ]
     elif mode == "sig":
         df = df[
-            ((df["P_" + pheno1].astype(float) <= 1e-5)
-            | (df["P_" + pheno2].astype(float) <= 1e-5))
+            (
+                (df["P_" + pheno1].astype(float) <= 1e-5)
+                | (df["P_" + pheno2].astype(float) <= 1e-5)
+            )
         ]
     beta1 = list(df["BETA_" + pheno1])
     beta2 = list(df["BETA_" + pheno2])
     return beta1, beta2
+
 
 def calculate_err(a, b, pheno1, pheno2, err_corr, err_df):
 
@@ -1721,6 +1737,7 @@ def calculate_err(a, b, pheno1, pheno2, err_corr, err_df):
         err_df = err_df.dropna()
         err_beta1, err_beta2 = get_betas(err_df, pheno1, pheno2, "null")
         return pearsonr(err_beta1, err_beta2)[0] if err_beta1 else 0
+
 
 def filter_for_err_corr(df):
 
@@ -1756,6 +1773,7 @@ def filter_for_err_corr(df):
         df = df[df.most_severe_consequence.isin(null_variants)]
     return df
 
+
 def build_err_corr(K, phenos, df):
 
     """
@@ -1783,11 +1801,10 @@ def build_err_corr(K, phenos, df):
     for a, pheno1 in enumerate(phenos):
         for b, pheno2 in enumerate(phenos):
             # Location in matrix
-            err_corr[a, b] = calculate_err(
-                a, b, pheno1, pheno2, err_corr, err_df
-            )
+            err_corr[a, b] = calculate_err(a, b, pheno1, pheno2, err_corr, err_df)
     err_corr = np.nan_to_num(err_corr)
     return err_corr
+
 
 def calculate_phen(a, b, pheno1, pheno2, df, phenos_to_use, phen_corr):
 
@@ -1795,6 +1812,7 @@ def calculate_phen(a, b, pheno1, pheno2, df, phenos_to_use, phen_corr):
     Calculates a single entry in the phen_corr matrix.
     
     Parameters:
+    a, b: Positional parameters within the R_phen matrix.
     pheno1: Name of first phenotype.
     pheno2: Name of second phenotype.
     df: Dataframe containing significant, common, LD-independent variants.
@@ -1806,9 +1824,9 @@ def calculate_phen(a, b, pheno1, pheno2, df, phenos_to_use, phen_corr):
     """
 
     # If in lower triangle, do not compute; symmetric matrix
-    if (a > b):
+    if a > b:
         return phen_corr[b, a]
-    elif (a == b):
+    elif a == b:
         return 1
     else:
         # if this combination of phenos doesn't exist in the map file, then nan
@@ -1821,6 +1839,7 @@ def calculate_phen(a, b, pheno1, pheno2, df, phenos_to_use, phen_corr):
             )
         else:
             return np.nan
+
 
 def build_phen_corr(K, phenos, df, phenos_to_use):
 
@@ -1842,7 +1861,7 @@ def build_phen_corr(K, phenos, df, phenos_to_use):
         for significant variants. Used to calculate R_phen.
 
     """
-    
+
     phen_corr = np.zeros((K, K))
     for a, pheno1 in enumerate(phenos):
         for b, pheno2 in enumerate(phenos):
@@ -1851,6 +1870,7 @@ def build_phen_corr(K, phenos, df, phenos_to_use):
                 a, b, pheno1, pheno2, df, phenos_to_use, phen_corr
             )
     return phen_corr
+
 
 def filter_for_phen_corr(df, sumstat_data):
 
@@ -1872,9 +1892,7 @@ def filter_for_phen_corr(df, sumstat_data):
     phenos_to_use = list(files_to_use["pheno"])
     cols_to_keep = ["V", "maf", "ld_indep"]
     for col_type in "BETA_", "P_":
-        cols_to_keep.extend(
-            [col_type + pheno for pheno in phenos_to_use]
-        )
+        cols_to_keep.extend([col_type + pheno for pheno in phenos_to_use])
     df = df[cols_to_keep]
     # Get only LD-independent, common variants
     df = df[(df.maf >= 0.01) & (df.ld_indep == True)]
@@ -1882,7 +1900,8 @@ def filter_for_phen_corr(df, sumstat_data):
     df = df.dropna()
     return df, phenos_to_use
 
-def build_R_phen(K, phenos, df, map_file):
+
+def build_R_phen(K, phenos, df, sumstat_data):
 
     """
     Builds R_phen using phen_corr (calculated using the method directly above this).
@@ -1891,7 +1910,7 @@ def build_R_phen(K, phenos, df, map_file):
     K: Number of phenotypes.
     phenos: Unique set of phenotypes to use for analysis.
     df: Merged dataframe containing all relevant summary statistics.
-    map_file: Input file containing summary statistic paths + pheno data.
+    sumstat_data: Input file containing summary statistic paths + pheno data.
 
     Returns:
     R_phen: Empirical estimates of genetic correlation across phenotypes.
@@ -1900,15 +1919,14 @@ def build_R_phen(K, phenos, df, map_file):
 
     if K == 1:
         return np.ones((K, K))
-    df, phenos_to_use = filter_for_phen_corr(df, map_file)
+    df, phenos_to_use = filter_for_phen_corr(df, sumstat_data)
     if len(df) == 0:
         return np.diag(np.ones(K))
     R_phen = build_phen_corr(K, phenos, df, phenos_to_use)
     return R_phen
 
 
-
-def return_err_and_R_phen(df, phenos, K, map_file):
+def return_err_and_R_phen(df, phenos, K, sumstat_file):
 
     """ 
     Builds a matrix of correlations of errors across studies and phenotypes,
@@ -1918,7 +1936,7 @@ def return_err_and_R_phen(df, phenos, K, map_file):
     df: Dataframe that containa summary statistics.
     phenos: Unique set of phenotypes to use for analysis.
     K: Number of phenotypes.
-    map_file: Input file containing summary statistic paths + pheno data.
+    sumstat_file: Input file containing summary statistic paths + pheno data.
 
     Returns:
     err_corr: (S*K x S*K) matrix of correlation of errors across studies and phenotypes
@@ -1931,10 +1949,10 @@ def return_err_and_R_phen(df, phenos, K, map_file):
     err_corr = build_err_corr(K, phenos, df)
     # Faster calculations, better accounts for uncertainty in estimates
     err_corr[abs(err_corr) < 0.01] = 0
-    R_phen = build_R_phen(K, phenos, df, map_file)
+    R_phen = build_R_phen(K, phenos, df, sumstat_file)
     R_phen[abs(R_phen) < 0.01] = 0
     # Get rid of any values above 0.95
-    while (np.max(R_phen - np.eye(len(R_phen))) > 0.9):
+    while np.max(R_phen - np.eye(len(R_phen))) > 0.9:
         R_phen = 0.9 * R_phen + 0.1 * np.diag(np.diag(R_phen))
     return err_corr, R_phen
 
@@ -1943,9 +1961,6 @@ def initialize_parser():
 
     """
     Parses inputs using argparse. 
-    
-    Parameters: 
-    valid_phenos: List of valid phenotypes.
 
     """
 
@@ -2028,6 +2043,7 @@ def initialize_parser():
     )
     return parser
 
+
 def merge_dfs(sumstat_files, metadata):
 
     """
@@ -2079,9 +2095,10 @@ def merge_dfs(sumstat_files, metadata):
         "NA",
         "NMD_transcript_variant",
     ]
-    df = df[~df['most_severe_consequence'].isin(to_filter)]
-    df = df[df['most_severe_consequence'].isin(to_keep)]
+    df = df[~df["most_severe_consequence"].isin(to_filter)]
+    df = df[df["most_severe_consequence"].isin(to_keep)]
     return df
+
 
 def rename_columns(df, pheno):
 
@@ -2103,9 +2120,10 @@ def rename_columns(df, pheno):
     if "LOG(OR)_SE" in df.columns:
         df.rename(columns={"LOG(OR)_SE": "SE"}, inplace=True)
     columns_to_rename = ["BETA", "SE", "P"]
-    renamed_columns = [(x +  "_" + pheno) for x in columns_to_rename]
+    renamed_columns = [(x + "_" + pheno) for x in columns_to_rename]
     df.rename(columns=dict(zip(columns_to_rename, renamed_columns)), inplace=True)
     return df
+
 
 def read_in_summary_stat(path, pheno):
 
@@ -2180,6 +2198,7 @@ if __name__ == "__main__":
     from scipy.stats.stats import pearsonr
     from sklearn import covariance
     from functools import partial, reduce
+
     # Set up basic logging
     logger = logging.getLogger("Log")
 
@@ -2187,10 +2206,10 @@ if __name__ == "__main__":
     metadata = pd.read_table(args.metadata_path)
     sumstat_data = pd.read_table(args.phenotypes)
 
-    chroff_vec = list(variants['V'])
-   
-    phenotypes = np.unique(sumstat_data['pheno'])
-    sumstat_paths = list(sumstat_data['path'])
+    chroff_vec = list(variants["V"])
+
+    phenotypes = np.unique(sumstat_data["pheno"])
+    sumstat_paths = list(sumstat_data["path"])
     sumstat_files = []
 
     for path, pheno in zip(sumstat_paths, phenotypes):
@@ -2204,17 +2223,17 @@ if __name__ == "__main__":
     )
 
     # Filter only for variants of interest
-    df = df[df['V'].isin(chroff_vec)]
-    chroff_vec = list(df['V'])
-    annot_vec = list(df['most_severe_consequence'])
-    gene_vec = list(df['gene_symbol'])
-    #prot_vec = list(metadata['HGVSp'])
+    df = df[df["V"].isin(chroff_vec)]
+    chroff_vec = list(df["V"])
+    annot_vec = list(df["most_severe_consequence"])
+    gene_vec = list(df["gene_symbol"])
+    # prot_vec = list(metadata['HGVSp'])
     prot_vec = ["hgvsp1", "hgvsp2", "hgvsp3", "hgvsp4"]
 
     # for now, put 0 if missing
     betas = df[["BETA_" + pheno for pheno in phenotypes]].fillna(0).values
     ses = df[["SE_" + pheno for pheno in phenotypes]].fillna(0).values
-    
+
     if args.out_folder:
         out_folder = args.out_folder
     else:
