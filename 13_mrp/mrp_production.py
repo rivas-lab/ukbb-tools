@@ -2,7 +2,7 @@ from __future__ import division
 import argparse
 
 
-def is_pos_def_and_full_rank(X):
+def is_pos_def_and_full_rank(X, tol=0.99):
 
     """ 
     Ensures a matrix is positive definite and full rank.
@@ -16,15 +16,17 @@ def is_pos_def_and_full_rank(X):
     X: Verified (and, if applicable, adjusted) matrix.
   
     """
-    # Check that it's not only pos def but also above a certain threshold
-    X = np.matrix(X)
     i = 0
-    while (np.linalg.cond(X) >= 1/np.finfo(X.dtype).eps):
-        X = 0.99 * X + 0.01 * np.diag(np.diag(X))
-        i += 1
-        if i >= 5:
-            return X
-    return X
+    X = np.matrix(X)
+    if np.all(np.linalg.eigvals(X) > 0):
+        return X, True
+    else:
+        while not np.all(np.linalg.eigvals(X) > 0):
+            X = np.diag(np.diag(X)) + tol*X - tol*np.diag(np.diag(X))
+            i += 1 
+            if i > 4:
+                return X, False
+        return X, True
 
 
 def safe_inv(X, matrix_name, block, agg_type):
@@ -191,12 +193,12 @@ def return_BF_pvals(beta, U, v_beta, v_beta_inv, fb, dm, im, methods):
 
     n = beta.shape[0]
     A = v_beta + U
-    A = is_pos_def_and_full_rank(A)
+    A, _ = is_pos_def_and_full_rank(A)
     if np.any(np.isnan(A)):
         return [np.nan] * len(methods)
     A_inv = np.linalg.inv(A)
     quad_T = np.asmatrix(beta.T) * np.asmatrix((v_beta_inv - A_inv)) * np.asmatrix(beta)
-    B = is_pos_def_and_full_rank(npm.eye(n) - np.asmatrix(A_inv) * np.asmatrix(v_beta))
+    B, _ = is_pos_def_and_full_rank(npm.eye(n) - np.asmatrix(A_inv) * np.asmatrix(v_beta))
     if np.any(np.isnan(B)):
         return [np.nan] * len(methods)
     d = np.linalg.eig(B)[0]
@@ -291,9 +293,9 @@ def return_BF(
             if p_value_methods
             else []
         )
-        return log10BF, posterior_probs, p_values
+        return log10BF, posterior_probs, p_values, True
     else:
-        return np.nan, [], []
+        return np.nan, [], [], False
 
 
 def delete_rows_and_columns(X, indices_to_remove):
@@ -399,7 +401,7 @@ def calculate_all_params(
     pops: Unique set of populations (studies) to use for analysis.
     phenos: Unique set of phenotypes to use for analysis.
     key: Variant/gene name.
-    sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_005".
+    sigma_m_type: One of "sigma_m_mpc_pli"/"sigma_m_var"/"sigma_m_1"/"sigma_m_005".
         Dictates variant scaling factor by functional annotation.
     R_study: R_study matrix to use for analysis (independent/similar).
     R_phen: R_phen matrix to use for analysis (empirically calculated).
@@ -425,27 +427,23 @@ def calculate_all_params(
     )
     sigma_m = subset_df[sigma_m_type].tolist()
     diag_sigma_m = np.diag(np.atleast_1d(np.array(sigma_m)))
-    np.save("HADH_diag_sigma_m", diag_sigma_m)
     R_var = np.diag(np.ones(M)) if R_var_model == "independent" else np.ones((M, M))
     S_var = np.dot(np.dot(diag_sigma_m, R_var), diag_sigma_m)
-    if R_var_model == "independent":
-        np.save("HADH_Svar_independent.npy", S_var)
-    else:
-        np.save("HADH_Svar_similar.npy", S_var)
     beta_list, se_list = generate_beta_se(subset_df, pops, phenos)
     beta = np.array(beta_list).reshape(-1, 1)
     se = np.array(se_list)
     omega = np.kron(err_corr, np.diag(np.ones(M)))
     U = np.kron(np.kron(R_study, R_phen), S_var)
     U, omega, beta, se = adjust_for_missingness(U, omega, beta, se, beta_list)
-    np.save('HADH_se.npy', se)
+    U, converged = is_pos_def_and_full_rank(U, 0.8)
     diag_se = np.diag(se)
     v_beta = np.dot(np.dot(diag_se, omega), diag_se)
+    v_beta, _ = is_pos_def_and_full_rank(v_beta)
     mu = np.zeros(beta.shape)
-    return U, beta, v_beta, mu
+    return U, beta, v_beta, mu, converged
 
 
-def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, out_folder):
+def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, out_folder, out_filename):
 
     """ 
     Outputs a file containing aggregation unit and Bayes Factors. 
@@ -457,6 +455,7 @@ def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, out_folder):
     phenos: Unique set of phenotypes to use for analysis.
     maf_thresh: Maximum MAF of variants in this run.
     out_folder: Output folder in which results are stored.
+    out_filename: Optional prefix for file output.
 
     """
 
@@ -467,17 +466,30 @@ def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, out_folder):
         print("")
         print(Fore.RED + "Folder " + out_folder + " created." + Style.RESET_ALL)
         print("")
-    out_file = os.path.join(
-        out_folder,
-        "_".join(pops)
-        + "_"
-        + "_".join(phenos)
-        + "_"
-        + agg_type
-        + "_"
-        + str(maf_thresh)
-        + ".tsv",
-    )
+    if not out_filename:
+        out_file = os.path.join(
+            out_folder,
+            "_".join(pops)
+            + "_"
+            + "_".join(phenos)
+            + "_"
+            + agg_type
+            + "_"
+            + str(maf_thresh)
+            + ".tsv",
+        )
+    else:
+        out_file = os.path.join(
+            out_folder,
+            "_".join(pops)
+            + "_"
+            + out_filename
+            + "_"
+            + agg_type
+            + "_"
+            + str(maf_thresh)
+            + ".tsv",
+        )
     out_df = out_df.sort_values(
         by=out_df.columns[1],
         ascending=False,
@@ -506,7 +518,7 @@ def get_output_file_columns(
     R_study_model: String ("independent"/"similar") corresponding to R_study.
     R_var_model: String ("independent"/"similar") corresponding to R_var matrices to 
         use for analysis.
-    sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_005". Dictates variant 
+    sigma_m_type: One of "sigma_m_mpc_pli"/"sigma_m_var"/"sigma_m_1"/"sigma_m_005".
         scaling factor by functional annotation.
     analysis: One of "ptv"/"pav"/"pcv". Dictates which variants are included.
     prior_odds_list: List of prior odds used as assumptions to calculate posterior 
@@ -607,7 +619,7 @@ def run_mrp(
     R_var_model: String ("independent"/"similar") corresponding to R_var matrices to 
         use for analysis.
     analysis: One of "ptv"/"pav"/"pcv". Dictates which variants are included.
-    sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_005". Dictates variant 
+    sigma_m_type: One of "sigma_m_mpc_pli"/"sigma_m_var"/"sigma_m_1"/"sigma_m_005".
         scaling factor by functional annotation.
     agg_type: One of "gene"/"variant". Dictates block of aggregation.
     prior_odds_list: List of prior odds used as assumptions to calculate posterior 
@@ -634,11 +646,12 @@ def run_mrp(
         p_value_methods,
     )
     data = []
+    num_converged = 0
     for i, (key, value) in enumerate(m_dict.items()):
         if i % 1000 == 0:
             print("Done " + str(i) + " " + agg_type + "s out of " + str(len(m_dict)))
         M = value
-        U, beta, v_beta, mu = calculate_all_params(
+        U, beta, v_beta, mu, converged = calculate_all_params(
             df,
             pops,
             phenos,
@@ -651,10 +664,7 @@ def run_mrp(
             M,
             err_corr,
         )
-        np.save("HADH_U.npy", U)
-        np.save("HADH_beta.npy", beta)
-        np.save("HADH_v_beta.npy", v_beta)
-        bf, posterior_probs, p_values = return_BF(
+        bf, posterior_probs, p_values, converged = return_BF(
             U,
             beta,
             v_beta,
@@ -667,7 +677,11 @@ def run_mrp(
             dm,
             im,
         )
+        if converged:
+            num_converged += 1
         data.append([key, bf] + posterior_probs + p_values)
+    print("")
+    print(str(num_converged) + "/" + str(len(m_dict)) + " genes' matrices had well-behaved eigenvalues.")
     bf_df = pd.DataFrame(data, columns=bf_df_columns)
     return bf_df
 
@@ -693,7 +707,7 @@ def print_params(
     R_var_model: One of "independent"/"similar". Dictates correlation structure
         across variants.
     agg_type: One of "gene"/"variant". Dictates block of aggregation.
-    sigma_m_type: One of "sigma_m_var"/"sigma_m_1"/"sigma_m_005". Dictates variant 
+    sigma_m_type: One of "sigma_m_mpc_pli"/"sigma_m_var"/"sigma_m_1"/"sigma_m_005".
         scaling factor by functional annotation.
     maf_thresh: Maximum MAF of variants in this run.
     prior_odds_list: List of prior odds used as assumptions to calculate posterior 
@@ -769,6 +783,7 @@ def loop_through_parameters(
     prior_odds_list,
     p_value_methods,
     out_folder,
+    out_filename,
 ):
 
     """ 
@@ -790,7 +805,7 @@ def loop_through_parameters(
     phenos: Unique set of phenotypes to use for analysis.
     R_var_models: Unique strings ("independent"/"similar") corresponding to R_var 
         matrices to use for analysis.
-    sigma_m_types: Unique list of sigma_m types ("sigma_m_var"/"sigma_m_1"/"sigma_m_005")
+    sigma_m_types: Unique list of sigma_m types ("sigma_m_mpc_pli"/"sigma_m_var"/"sigma_m_1"/"sigma_m_005")
         to use for analysis.
     err_corr: Matrix of correlation of errors across studies and phenotypes.
     prior_odds_list: List of prior odds used as assumptions to calculate posterior 
@@ -862,7 +877,7 @@ def loop_through_parameters(
                                 p_value_methods,
                             )
                             bf_dfs.append(bf_df)
-            output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, out_folder)
+            output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, out_folder, out_filename)
 
 
 def set_sigmas(df):
@@ -879,7 +894,9 @@ def set_sigmas(df):
     df: Merged dataframe containing all variants across all studies and phenotypes.
   
     Returns: 
-    df: Merged dataframe with three additional columns:
+    df: Merged dataframe with four additional columns:
+        sigma_m_mpc_pli: Column of sigma values (mapped to functional annotation via the 
+            lists inside this method + adding pLI and MPC effects).
         sigma_m_var: Column of sigma values (mapped to functional annotation via the 
             lists inside this method).
             NOTE: One can change the sigmas associated with each type of variant by 
@@ -906,7 +923,7 @@ def set_sigmas(df):
         "stop_retained_variant",
         "missense_variant",
     ]
-    proximal_coding = [
+    pcv = [
         "synonymous_variant",
         "5_prime_UTR_variant",
         "3_prime_UTR_variant",
@@ -928,16 +945,16 @@ def set_sigmas(df):
     df = df[~df.most_severe_consequence.isin(to_filter)]
     sigma_m_ptv = 0.2
     sigma_m_pav = 0.05
-    sigma_m_pc = 0.03
+    sigma_m_pcv = 0.03
     sigma_m = dict(
         [(variant, sigma_m_ptv) for variant in ptv]
         + [(variant, sigma_m_pav) for variant in pav]
-        + [(variant, sigma_m_pc) for variant in proximal_coding]
+        + [(variant, sigma_m_pcv) for variant in pcv]
     )
     category_dict = dict(
         [(variant, "ptv") for variant in ptv]
         + [(variant, "pav") for variant in pav]
-        + [(variant, "proximal_coding") for variant in proximal_coding]
+        + [(variant, "pcv") for variant in pcv]
     )
     sigma_m_list = list(map(sigma_m.get, df.most_severe_consequence.tolist()))
     df["sigma_m_var"] = sigma_m_list
@@ -946,6 +963,15 @@ def set_sigmas(df):
     df = df.assign(sigma_m_1=1)
     df = df.assign(sigma_m_005=0.05)
     df = df[df.sigma_m_var.notnull()]
+    sigma_m_mpc_pli = sigma_m_list
+    row_count = 0
+    for i, row in df.iterrows():
+        if (row['most_severe_consequence'] in ptv) and (row['pLI'] == True):
+            sigma_m_mpc_pli[row_count] = 2 * sigma_m_mpc_pli[row_count]
+        elif (row['most_severe_consequence'] in pav) and (row['MPC'] >= 1):
+            sigma_m_mpc_pli[row_count] = row['MPC'] * sigma_m_mpc_pli[row_count]
+        row_count += 1
+    df['sigma_m_mpc_pli'] = sigma_m_mpc_pli
     return df
 
 
@@ -1017,13 +1043,11 @@ def calculate_phen(a, b, pop1, pheno1, pop2, pheno2, df, pop_pheno_tuples):
             (pop2, pheno2) in pop_pheno_tuples
         ):
             phen_beta1, phen_beta2 = get_betas(df, pop1, pheno1, pop2, pheno2, "sig")
-            return (
-                pearsonr(phen_beta1, phen_beta2)[0]
-                if phen_beta1 is not None
-                else np.nan
-            )
-        else:
+            if phen_beta1 is not None:
+                corr, p = pearsonr(phen_beta1, phen_beta2)
+                return corr if (p <= 0.01) else np.nan
             return np.nan
+        return np.nan
 
 
 def build_phen_corr(S, K, pops, phenos, df, pop_pheno_tuples):
@@ -1166,7 +1190,10 @@ def calculate_err(a, b, pop1, pheno1, pop2, pheno2, err_corr, err_df):
     else:
         err_df = err_df.dropna()
         err_beta1, err_beta2 = get_betas(err_df, pop1, pheno1, pop2, pheno2, "null")
-        return pearsonr(err_beta1, err_beta2)[0] if err_beta1 else 0
+        if err_beta1:
+            corr, p = pearsonr(err_beta1, err_beta2)
+            return corr if (p <= 0.01) else 0
+        return 0
 
 
 def filter_for_err_corr(df):
@@ -1233,6 +1260,8 @@ def build_err_corr(S, K, pops, phenos, df):
         for null variants. Used to calculate v_beta.
 
     """
+    if K == 1 and S == 1:
+        return np.ones((S * K, S * K))
     err_df = filter_for_err_corr(df)
     if len(err_df) == 0:
         print(Fore.RED + "WARNING: Correlation of errors is noisy.")
@@ -1648,7 +1677,7 @@ def initialize_parser(valid_phenos):
     )
     parser.add_argument(
         "--sigma_m_types",
-        choices=["sigma_m_var", "sigma_m_1", "sigma_m_005"],
+        choices=["sigma_m_mpc_pli", "sigma_m_var", "sigma_m_1", "sigma_m_005"],
         type=str,
         nargs="+",
         default=["sigma_m_var"],
@@ -1726,6 +1755,15 @@ def initialize_parser(valid_phenos):
         help="""folder to which output(s) will be written (default: current folder).
          if folder does not exist, it will be created.""",
     )
+    parser.add_argument(
+        "--out_filename",
+        type=str,
+        nargs=1,
+        default=[],
+        dest="out_filename",
+        help="""file prefix with which output(s) will be written (default: underscore-delimited
+         phenotypes).""",
+    )
     return parser
 
 
@@ -1759,6 +1797,7 @@ if __name__ == "__main__":
 
     df, map_file, S, K, pops, phenos, R_study_list = return_input_args(args)
     out_folder = args.out_folder[0] if args.out_folder else os.getcwd()
+    out_filename = args.out_filename[0] if args.out_filename else []
     print_banner()
     if args.p_value_methods:
         print("")
@@ -1788,7 +1827,6 @@ if __name__ == "__main__":
     err_corr, R_phen = return_err_and_R_phen(
         df, pops, phenos, len(pops), len(phenos), map_file
     )
-    df = df[(df["gene_symbol"] == "HADH")]# | (df["gene_symbol"] == "ANGPTL7")]
     loop_through_parameters(
         df,
         args.maf_threshes,
@@ -1807,4 +1845,5 @@ if __name__ == "__main__":
         args.prior_odds_list,
         args.p_value_methods,
         out_folder,
+        out_filename,
     )

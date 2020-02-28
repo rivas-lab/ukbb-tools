@@ -5,13 +5,12 @@
 #SBATCH --cores=8
 #SBATCH --mem=16000
 #SBATCH --time=01:00:00
-#SBATCH -p normal,owners,mrivas
 
 # define functions
 usage () {
     echo "$0: MRP script to run rare-variant aggregation for white british array data"
-    echo "usage: sbatch --array=1-<number of array jobs> $0 start_idx (inclusive) output_folder"
-    echo "e.g. sbatch --array=1-1000 $0 1 /path/to/output_folder"
+    echo "usage: sbatch -p <partition(s)> --array=1-<number of array jobs> $0 start_idx (inclusive) output_folder"
+    echo "e.g. sbatch -p normal,owners --array=1-1000 $0 1 /path/to/output_folder"
     echo '  You may check the status of the job (which jobs are finished) using the array-job module:'
     echo '  $ ml load array-job'
     echo '  $ array-job-find_ok.sh rerun_logs'
@@ -39,7 +38,7 @@ start_idx=$1
 output_folder=$2
 this_idx=$_SLURM_ARRAY_TASK_ID
 
-min_N_count=10
+min_N_count=100
 GBE_ID=$(cat ../05_gbe/phenotype_info.tsv | awk -v min_N=${min_N_count} 'NR > 1 && $7 >= min_N' | egrep -v MED | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $1}' )
 POP="white_british"
 echo $GBE_ID >&1
@@ -49,6 +48,6 @@ echo -e "path\tstudy\tpheno\tR_phen\n$FILEPATH\t$POP\t$GBE_ID\tTRUE" > $output_f
 
 cat $output_folder/$GBE_ID.tmp.txt
 
-/share/software/user/open/python/2.7.13/bin/python mrp_production.py --file $output_folder/$GBE_ID.tmp.txt --R_var independent similar --variants ptv pav --metadata_path /oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-consequence_wb_maf_gene_ld_indep.tsv --out_folder $output_folder
+/share/software/user/open/python/2.7.13/bin/python mrp_production.py --file $output_folder/$GBE_ID.tmp.txt --R_var independent similar --variants ptv pav --metadata_path /oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-consequence_wb_maf_gene_ld_indep_mpc_pli.tsv --out_folder $output_folder
 
 rm $output_folder/$GBE_ID.tmp.txt

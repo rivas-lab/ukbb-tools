@@ -26,4 +26,4 @@ for i, row in clusters.iterrows():
     tmp_df = pd.DataFrame(data={'path': paths, 'study': studies, 'pheno': phenos, 'R_phen': R_phen})
     tmp_df.to_csv('tmp.txt', sep='\t', index=False)
     print(' '.join(row['phen_cluster']))
-    stream = os.popen('sbatch -t 04:00:00 -p normal,owners,mrivas --wrap="/share/software/user/open/python/2.7.13/bin/python mrp_production.py --file tmp.txt --R_var independent similar --variants ptv pav --metadata_path /oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-consequence_wb_maf_gene_ld_indep.tsv --out_folder /oak/stanford/groups/mrivas/users/guhan/sandbox/mrp_multitrait_array/"')
+    stream = os.popen('sbatch -t 04:00:00 -p normal,owners,mrivas --wrap="/share/software/user/open/python/2.7.13/bin/python mrp_production.py --file tmp.txt --R_var independent similar --variants ptv pav --metadata_path /oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-consequence_wb_maf_gene_ld_indep_mpc_pli.tsv --out_folder /oak/stanford/groups/mrivas/users/guhan/sandbox/mrp_multitrait_array/"')

@@ -5,13 +5,12 @@
 #SBATCH --cores=8
 #SBATCH --mem=32000
 #SBATCH --time=04:00:00
-#SBATCH -p normal,owners,mrivas
 
 # define functions
 usage () {
     echo "$0: MRP script to run rare-variant aggregation meta-analysis on array data"
-    echo "usage: sbatch --array=1-<number of array jobs> $0 start_idx (inclusive) output_folder"
-    echo "e.g. sbatch --array=1-1000 $0 1 /path/to/output_folder"
+    echo "usage: sbatch -p <partition(s)> --array=1-<number of array jobs> $0 start_idx (inclusive) output_folder"
+    echo "e.g. sbatch -p normal,owners --array=1-1000 $0 1 /path/to/output_folder"
     echo '  You may check the status of the job (which jobs are finished) using the array-job module:'
     echo '  $ ml load array-job'
     echo '  $ array-job-find_ok.sh rerun_logs'
@@ -39,15 +38,27 @@ start_idx=$1
 output_folder=$2
 this_idx=$_SLURM_ARRAY_TASK_ID
 
-min_N_count=10
+min_N_count=100
 GBE_ID=$(cat ../05_gbe/phenotype_info.tsv | awk -v min_N=${min_N_count} 'NR > 1 && $7 >= min_N' | egrep -v MED | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $1}' )
 
 echo -e "path\tstudy\tpheno\tR_phen" > $output_folder/$GBE_ID.tmp.txt
 echo -e "$GBE_ID" >&1
 
-for POP in white_british african e_asian s_asian non_british_white; do
+line_phenotype="$(awk -F'\t' -v GBE=${GBE_ID} '{if ($1 == GBE) {print}}' ../05_gbe/phenotype_info.tsv)"
+
+echo -e "white_british\nafrican\ne_asian\ns_asian\nnon_british_white" > $GBE_ID.POP
+
+N_GBE="$(echo $line_phenotype | cut -d' ' -f8)"
+N_NBW="$(echo $line_phenotype | cut -d' ' -f9)"
+N_AFR="$(echo $line_phenotype | cut -d' ' -f10)"
+N_EAS="$(echo $line_phenotype | cut -d' ' -f11)"
+N_SAS="$(echo $line_phenotype | cut -d' ' -f12)"
+
+echo -e "$N_GBE\n$N_AFR\n$N_EAS\n$N_SAS\n$N_NBW" > $GBE_ID.POP_NUM
+
+paste $GBE_ID.POP $GBE_ID.POP_NUM | while read POP NUM; do
     lines=$(find /oak/stanford/groups/mrivas/ukbb24983/cal/gwas -name "*.$GBE_ID.*gz" | grep -v freeze | grep -v old | grep -v ldsc | grep $POP | wc -l)
-    if [ $lines -eq 1 ]; then
+    if [ $lines -eq 1 ] && [ $NUM -ge $min_N_count ]; then
         PATH_TO_FILE=$(find /oak/stanford/groups/mrivas/ukbb24983/cal/gwas -name "*.$GBE_ID.*gz" | grep -v freeze | grep -v old | grep -v ldsc | grep $POP)
         echo -e "$PATH_TO_FILE\t$POP\t$GBE_ID\tTRUE" >> $output_folder/$GBE_ID.tmp.txt
     fi
@@ -55,6 +66,8 @@ done
 
 cat $output_folder/$GBE_ID.tmp.txt
 
-/share/software/user/open/python/2.7.13/bin/python mrp_production.py --file $output_folder/$GBE_ID.tmp.txt --R_study independent similar --R_var independent similar --variants ptv pav --metadata_path /oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-consequence_wb_maf_gene_ld_indep.tsv --out_folder $output_folder
+/share/software/user/open/python/2.7.13/bin/python mrp_production.py --file $output_folder/$GBE_ID.tmp.txt --R_study independent similar --R_var independent similar --variants ptv pav --metadata_path /oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-consequence_wb_maf_gene_ld_indep_mpc_pli.tsv --out_folder $output_folder
 
 rm $output_folder/$GBE_ID.tmp.txt
+rm $GBE_ID.POP_NUM
+rm $GBE_ID.POP
