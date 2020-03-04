@@ -1,5 +1,8 @@
 # LD map for the `cal + hla + imp` dataset
 
+## change log
+
+- 2020 March: rerunning the analysis with `--ld-window 100000000`
 
 ## File location
 
@@ -7,7 +10,7 @@
 
 For each population (`${pop}`), we have the following files:
 
-```
+```{bash}
 ukb24983_ukb24983_cal_hla_imp.${pop}.bool.log
 ukb24983_ukb24983_cal_hla_imp.${pop}.bool.prune.in
 ukb24983_ukb24983_cal_hla_imp.${pop}.bool.prune.out
@@ -17,10 +20,10 @@ ukb24983_ukb24983_cal_hla_imp.${pop}.ld_map.log
 ukb24983_ukb24983_cal_hla_imp.${pop}.ld_map.nosex
 ```
 
-where, 
+where,
 
 - `*bool*` is the results from LD pruning (`plink2 --indep-pairwise 50 5 0.5`)
-- `*ld_map*` is the results from `--ld-window-kb 1000 --ld-window-r2 0.1 --r2 gz`
+- `*ld_map*` is the results from `--ld-window 100000000 --ld-window-kb 1000 --ld-window-r2 0.1 --r2 gz`
 
 ### Back-up in Google Drive
 
