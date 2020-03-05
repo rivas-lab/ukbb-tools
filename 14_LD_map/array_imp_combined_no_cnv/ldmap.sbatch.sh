@@ -16,7 +16,8 @@ VERSION="0.0.1"
 set -beEuo pipefail
 ############################################################
 
-source "$(dirname ${SRCDIR})/14_LD_map_misc.sh"
+source /oak/stanford/groups/mrivas/users/ytanigaw/repos/rivas-lab/ukbb-tools/14_LD_map/14_LD_map_misc.sh
+#source "$(dirname ${SRCDIR})/14_LD_map_misc.sh"
 ml load plink plink2
 
 cores=$( cat $0 | egrep '^#SBATCH --cores='  | awk -v FS='=' '{print $NF}' )

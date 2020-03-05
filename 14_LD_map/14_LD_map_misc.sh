@@ -40,3 +40,14 @@ compute_ld_map_wrapper () {
         tabix -c '#' -s 1 -b 2 -e 5 ${out_prefix}.ld_map.tsv.gz 
     fi
 }
+
+check_ldmap_out () {
+    local basename=$1
+
+    for ext in "bool.prune.in" "bool.prune.out" "ld_map.ld.gz" "ld_map.tsv.gz" "ld_map.tsv.gz.tbi" ; do
+        local file="${basename}.${ext}"
+        if [ ! -f ${file} ] ; then
+            echo "$(basename ${basename}) ${file}" | tr " " "\t"
+        fi
+    done
+}
