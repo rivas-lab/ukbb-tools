@@ -1,33 +1,24 @@
 # LD map
 
-We compute some files representing linkage disequilibrium (LD) structure. 
+We compute some files representing linkage disequilibrium (LD) structure.
 Specifically, we generate the following for each population for each dataset type.
 
 - `bool.prune.in`
 - `bool.orune.out`
 - `ld_map.ld.gz`
 
-The first two files are the results of LD pruning. 
+The first two files are the results of LD pruning (`plink2 --indep-pairwise 50 5 0.5`).
 
-The last one is the output from `--r2`.
+The last one is the output from `plink --ld-window 100000000 --ld-window-kb 1000 --ld-window-r2 0.1 --r2 gz`.
 
-## reformatting output from `r2`
-
-The output from r2 is a table file, but with unclear column separater.
-
-```{bash}
-cd /oak/stanford/groups/mrivas/ukbb24983/array_imp_combined_no_cnv/ldmap
-zcat ukb24983_ukb24983_cal_hla_imp.white_british.ld_map.ld.gz | awk -v OFS='\t' '{print $1, $2, $3, $4, $5, $6, $7}' | sed -e "s/^CHR_A/#CHR_A/g" | bgzip -l9 -@6 > ukb24983_ukb24983_cal_hla_imp.white_british.ld_map.tsv.gz
-tabix -c '#' -s 1 -b 2 -e 5 ukb24983_ukb24983_cal_hla_imp.white_british.ld_map.tsv.gz
-```
-
-We create tabix index for `CHR_A:[SNP_A, BP_B]` interval.
+`14_LD_map_misc.sh` has a `bash` function to peform those plink commands.
 
 ## datasets
 
 - `array_imp_combined_no_cnv`: the LD map for the combined dataset of array (cal) + HLA + imputation (v3) (no CNV).
-  - The results files are copied to the Google Drive folder: https://drive.google.com/drive/folders/1mwKZtGfrOadASYVui6FQcy8k-Kk7f5k5
-- `imp_v3_ldmap`: an initial attempt to make LD map for the imputed dataset. This is not useful.
+  - The results files are copied to the Google Drive folder. Please see [here](https://github.com/rivas-lab/ukbb-tools/tree/master/14_LD_map/array_imp_combined_no_cnv) for more details.
+- `imp_v3_common`: the LD map for the common variants on the imputed dataset.
+- `imp_v3_ldmap`: an initial attempt to make LD map for the imputed dataset.
 
 ## `LD_lookup.sh`
 
@@ -44,3 +35,17 @@ $ bash LD_lookup.sh --r2 0.95 1 838732
 1       838732  1:838732:G:A    1       839528  1:839528:A:G    0.994058
 1       838732  1:838732:G:A    1       839529  1:839529:T:G    0.996713
 ```
+
+## reformatting output from `r2`
+
+The output from r2 is a table file, but with unclear column separater.
+
+```{bash}
+cd /oak/stanford/groups/mrivas/ukbb24983/array_imp_combined_no_cnv/ldmap
+zcat ukb24983_ukb24983_cal_hla_imp.white_british.ld_map.ld.gz | awk -v OFS='\t' '{print $1, $2, $3, $4, $5, $6, $7}' | sed -e "s/^CHR_A/#CHR_A/g" | bgzip -l9 -@6 > ukb24983_ukb24983_cal_hla_imp.white_british.ld_map.tsv.gz
+tabix -c '#' -s 1 -b 2 -e 5 ukb24983_ukb24983_cal_hla_imp.white_british.ld_map.tsv.gz
+```
+
+We create tabix index for `CHR_A:[SNP_A, BP_B]` interval.
+
+Those post-processing are now part of the `bash` function in `14_LD_map_misc.sh`.
