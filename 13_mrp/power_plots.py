@@ -13,7 +13,7 @@ included = 0
 
 for i, pheno in enumerate(phenos):
     if i % 100 == 0:
-        print("Done " + str(i) + " phenotypes out of 2537")
+        print("Done " + str(i) + " phenotypes out of 2369")
     stream = os.popen('find /oak/stanford/groups/mrivas/users/guhan/sandbox/mrp_rv_array -name "*_' + pheno + '_*"')
     wb_path = stream.read().strip()
     stream = os.popen('find /oak/stanford/groups/mrivas/users/guhan/sandbox/mrp_rv_ma_array -name "*_' + pheno + '_*"')
