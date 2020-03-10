@@ -374,8 +374,12 @@ def generate_beta_se(subset_df, pops, phenos):
     se_list = []
     for pop in pops:
         for pheno in phenos:
-            beta_list.extend(list(subset_df["BETA" + "_" + pop + "_" + pheno]))
-            se_list.extend(list(subset_df["SE" + "_" + pop + "_" + pheno]))
+            if ("BETA_" + pop + "_" + pheno) in subset_df.columns:
+                beta_list.extend(list(subset_df["BETA_" + pop + "_" + pheno]))
+                se_list.extend(list(subset_df["SE_" + pop + "_" + pheno]))
+            else:
+                beta_list.extend([np.nan] * len(subset_df))
+                se_list.extend([np.nan] * len(subset_df))
     return beta_list, se_list
 
 

@@ -75,7 +75,7 @@ def initialize_MCMC(
   
     """
 
-    print("Running MCMC algorithm...")
+    print("Running MCMC algorithm with " + str(C) + " clusters...")
     # Convert all parameters to matrices
     betas, ses, err_corr = np.matrix(betas), np.matrix(ses), np.matrix(err_corr)
     # C is the number of clusters, where cluster 1 is the null model cluster
@@ -355,8 +355,11 @@ def calculate_l_pdir(alpha, iteration, gamma, pc, pcj, epsilon, gene_len, C):
         previous iteration as the parameters.
 
     """
-
-    pc_proposal = np.random.dirichlet(alpha[iteration - 1, 0] * pc[iteration - 1, 0, :])
+    
+    param = alpha[iteration - 1, 0] * pc[iteration - 1, 0, :]
+    if np.any(param <= 0):
+        param[np.where(param <= 0)] = 1e-6
+    pc_proposal = np.random.dirichlet(param)
     l_pdir_num = calculate_l_pdir_num(
         gamma, C, pc_proposal, epsilon, iteration, gene_len, alpha, pc, pcj
     )
@@ -507,6 +510,8 @@ def update_pcj(alpha, pc, pcj, delta_m, gene_len, gene_vec, gene_map, iteration)
         for gene_iteration in range(0, len(gene_vec)):
             if gene_vec[gene_iteration] == gene_map[gene_idx]:
                 param_vec_shared[int(delta_m[iteration - 1, gene_iteration])] += 1
+        if np.any(param_vec_shared <= 0):
+            param_vec_shared[np.where(param_vec_shared <= 0)] = 1e-6
         pcj[iteration, gene_idx, :] = np.random.dirichlet(param_vec_shared)
     return pcj
 
@@ -779,8 +784,8 @@ def update_sigma_2(
                     Vjm,
                 )
         ## Metropolis-Hastings step
-        if iteration % 100 == 0:
-            print(probnum1, probdenom1, lnum2, ldenom2)
+        #if iteration % 100 == 0:
+        #    print(probnum1, probdenom1, lnum2, ldenom2)
         (
             accept_mh2[annot_idx],
             reject_mh2[annot_idx],
@@ -1046,10 +1051,11 @@ def calculate_metrics(
 
     """
 
-    alphaout = open(outpath + str(fout) + ".mcmc.alpha", "w+")
+    alphaout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.alpha", "w+")
     mean = np.mean(alpha[burn + 1 : niter + 1 : thinning, 0], axis=0)
     l95ci = np.percentile(alpha[burn + 1 : niter + 1 : thinning, 0], 2.5, axis=0)
     u95ci = np.percentile(alpha[burn + 1 : niter + 1 : thinning, 0], 97.5, axis=0)
+    print("Mean alpha:")
     print(mean)
     print(("%2.2f\t%2.2f\t%2.2f") % (mean, l95ci, u95ci), file=alphaout)
     alphaout.close()
@@ -1246,16 +1252,18 @@ def print_rejection_rates(
 
     """
 
-    rejectionrate = reject_mh1_postburnin / (
+    rejection_rate = reject_mh1_postburnin / (
         accept_mh1_postburnin + reject_mh1_postburnin
     )
-    print(rejectionrate)
+    print("Rejections and acceptances, step 1:")
     print(reject_mh1_postburnin, accept_mh1_postburnin)
     logger.info(
         ("Your acceptance rate is %2.2f")
-        % (reject_mh1_postburnin / (accept_mh1_postburnin + reject_mh1_postburnin))
+        % (rejection_rate)
     )
+    print("Rejections and acceptances, step 2:")
     print(reject_mh2_postburnin, accept_mh2_postburnin)
+    print("Rejections and acceptances, step 3:")
     print(reject_mh3_postburnin, accept_mh3_postburnin)
 
 
@@ -1509,7 +1517,7 @@ def mrpmm(
     # Iterations MCMC samplers
     for iteration in range(1, niter + 1):
         if iteration % 100 == 0:
-            print(iteration)
+            print("Iteration " + str(iteration))
         pc, accept_mh1, reject_mh1, accept_mh1_postburnin, reject_mh1_postburnin = update_pc(
             alpha,
             pc,
@@ -1528,96 +1536,100 @@ def mrpmm(
         pcj = update_pcj(
             alpha, pc, pcj, delta_m, gene_len, gene_vec, gene_map, iteration
         )
-        for var_idx in range(0, M):
-            annot_idx, delta_m = update_delta_jm(
+
+        if pcj is None:
+            return [np.nan, np.nan, {}]
+        else:
+            for var_idx in range(0, M):
+                annot_idx, delta_m = update_delta_jm(
+                    betas,
+                    ses,
+                    err_corr,
+                    C,
+                    bc,
+                    pcj,
+                    delta_m,
+                    scales,
+                    maxloglkiter,
+                    var_idx,
+                    iteration,
+                    annot_len,
+                    annot_vec,
+                    annot_map,
+                    gene_len,
+                    gene_vec,
+                    gene_map,
+                    0.000001,
+                )
+                if targeted:
+                    protbool = 0
+                    protadverse = 0
+                    for tmptidx in range(0, K):
+                        if (
+                            np.sqrt(scales[iteration - 1, annot_idx])
+                            * bc[iteration - 1, delta_m[iteration, var_idx], tmptidx]
+                            >= maxlor
+                        ):
+                            protadverse = 1
+                        if (
+                            np.sqrt(scales[iteration - 1, annot_idx])
+                            * bc[iteration - 1, delta_m[iteration, var_idx], tmptidx]
+                            < -0.1
+                        ):
+                            protbool = 1
+                    if protbool == 1 and protadverse == 0:
+                        protind[iteration, var_idx] = 1
+            bc = update_bc(
                 betas,
                 ses,
                 err_corr,
                 C,
-                bc,
-                pcj,
+                M,
                 delta_m,
+                bc,
                 scales,
-                maxloglkiter,
-                var_idx,
+                Theta_0_inv,
                 iteration,
                 annot_len,
                 annot_vec,
                 annot_map,
-                gene_len,
-                gene_vec,
-                gene_map,
                 0.000001,
             )
-            if targeted:
-                protbool = 0
-                protadverse = 0
-                for tmptidx in range(0, K):
-                    if (
-                        np.sqrt(scales[iteration - 1, annot_idx])
-                        * bc[iteration - 1, delta_m[iteration, var_idx], tmptidx]
-                        >= maxlor
-                    ):
-                        protadverse = 1
-                    if (
-                        np.sqrt(scales[iteration - 1, annot_idx])
-                        * bc[iteration - 1, delta_m[iteration, var_idx], tmptidx]
-                        < -0.1
-                    ):
-                        protbool = 1
-                if protbool == 1 and protadverse == 0:
-                    protind[iteration, var_idx] = 1
-        bc = update_bc(
-            betas,
-            ses,
-            err_corr,
-            C,
-            M,
-            delta_m,
-            bc,
-            scales,
-            Theta_0_inv,
-            iteration,
-            annot_len,
-            annot_vec,
-            annot_map,
-            0.000001,
-        )
-        scales, accept_mh2, accept_mh2_postburnin, reject_mh2, reject_mh2_postburnin = update_sigma_2(
-            betas,
-            ses,
-            xi_0,
-            err_corr,
-            M,
-            delta_m,
-            bc,
-            scales,
-            iteration,
-            burn,
-            annot_len,
-            annot_vec,
-            annot_map,
-            accept_mh2,
-            accept_mh2_postburnin,
-            reject_mh2,
-            reject_mh2_postburnin,
-            0.000001,
-        )
-        alpha, accept_mh3, reject_mh3, accept_mh3_postburnin, reject_mh3_postburnin = update_alpha(
-            alpha,
-            pc,
-            pcj,
-            epsilon,
-            C,
-            gene_len,
-            xi_alpha_0,
-            iteration,
-            burn,
-            accept_mh3,
-            accept_mh3_postburnin,
-            reject_mh3,
-            reject_mh3_postburnin,
-        )
+            scales, accept_mh2, accept_mh2_postburnin, reject_mh2, reject_mh2_postburnin = update_sigma_2(
+                betas,
+                ses,
+                xi_0,
+                err_corr,
+                M,
+                delta_m,
+                bc,
+                scales,
+                iteration,
+                burn,
+                annot_len,
+                annot_vec,
+                annot_map,
+                accept_mh2,
+                accept_mh2_postburnin,
+                reject_mh2,
+                reject_mh2_postburnin,
+                0.000001,
+            )
+            alpha, accept_mh3, reject_mh3, accept_mh3_postburnin, reject_mh3_postburnin = update_alpha(
+                alpha,
+                pc,
+                pcj,
+                epsilon,
+                C,
+                gene_len,
+                xi_alpha_0,
+                iteration,
+                burn,
+                accept_mh3,
+                accept_mh3_postburnin,
+                reject_mh3,
+                reject_mh3_postburnin,
+            )
     var_prob_dict = mcout_write(
         outpath,
         fout,
@@ -1660,7 +1672,7 @@ def mrpmm(
             outpath, fout, annot_len, scales, burn, niter, thinning, annot_map, C
         )
         tmpbc_write(outpath, fout, K, Theta_0, C)
-        print("gene_set", np.mean(pcj[burn + 1 : niter + 1 : thinning, :], axis=0))
+        print("Mean pcj:", np.mean(pcj[burn + 1 : niter + 1 : thinning, :], axis=0))
     BIC, AIC = calculate_metrics(
         outpath, fout, alpha, burn, niter, thinning, maxloglkiter, gene_len, K, M, C
     )
@@ -2001,15 +2013,6 @@ def initialize_parser():
          """,
     )
     parser.add_argument(
-        "--clusters",
-        type=int,
-        nargs="+",
-        required=True,
-        dest="clusters",
-        help="""number of clusters hypothesized - can input more than one,
-         e.g. --clusters 3 2 4. MUST be integers.""",
-    )
-    parser.add_argument(
         "--metadata_path",
         type=str,
         required=True,
@@ -2202,11 +2205,11 @@ if __name__ == "__main__":
     # Set up basic logging
     logger = logging.getLogger("Log")
 
-    variants = pd.read_table(args.variants)
-    metadata = pd.read_table(args.metadata_path)
-    sumstat_data = pd.read_table(args.phenotypes)
+    variants = pd.read_csv(args.variants, sep='\t').drop_duplicates()
+    metadata = pd.read_csv(args.metadata_path, sep='\t')
+    sumstat_data = pd.read_csv(args.phenotypes, sep='\t').drop_duplicates()
 
-    chroff_vec = list(variants["V"])
+    chroff_vec = list(set(variants["V"]))
 
     phenotypes = np.unique(sumstat_data["pheno"])
     sumstat_paths = list(sumstat_data["path"])
@@ -2217,7 +2220,6 @@ if __name__ == "__main__":
         sumstat_files.append(sumstat)
 
     df = merge_dfs(sumstat_files, metadata)
-
     err_corr, R_phen = return_err_and_R_phen(
         df, phenotypes, len(phenotypes), sumstat_data
     )
@@ -2228,7 +2230,7 @@ if __name__ == "__main__":
     annot_vec = list(df["most_severe_consequence"])
     gene_vec = list(df["gene_symbol"])
     # prot_vec = list(metadata['HGVSp'])
-    prot_vec = ["hgvsp1", "hgvsp2", "hgvsp3", "hgvsp4"]
+    prot_vec = ["hgvsp"] * len(chroff_vec)
 
     # for now, put 0 if missing
     betas = df[["BETA_" + pheno for pheno in phenotypes]].fillna(0).values
@@ -2240,7 +2242,12 @@ if __name__ == "__main__":
         out_folder = ""
 
     R_phen_inv = np.linalg.inv(R_phen)
-    for C in args.clusters:
+    bics, aics, genedats, clusters, diffbics = [], [], [], [], []
+    #C = 0
+    clusters = [6]
+    for C in clusters:
+    #while True:
+        #C += 1
         [BIC, AIC, genedat] = mrpmm(
             betas,
             ses,
@@ -2262,3 +2269,21 @@ if __name__ == "__main__":
             verbose=True,
             outpath=out_folder,
         )
+        bics.append(BIC)
+        print("BIC: " + str(BIC))
+        aics.append(AIC)
+        genedats.append(genedat)
+        #clusters.append(C)
+        #diffbic = bics[0] - BIC
+        #if C > 2:
+        #    if diffbic < diffbics[-1]:
+        #        break
+        #    else:
+        #        diffbics.append(diffbic)
+        #elif C == 2:
+        #    diffbics.append(diffbic)
+        #else:
+        #    diffbics.append(0)
+    #print("Stopping at C = " + str(C) + "...")
+    out_df = pd.DataFrame({'num_clusters': clusters, 'BIC': bics, 'AIC': aics})
+    out_df.to_csv(out_folder + str(args.fout) + ".mcmc.bic.aic", sep='\t', index=False)
