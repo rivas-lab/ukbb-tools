@@ -29,10 +29,12 @@ Script
 
 ## Map of first occurrence data-field 
 Head of `mapfinal.txt`
-```filename|controls|cases|phenotypename|icd10
+``` 
+filename|controls|cases|phenotypename|icd10
 coxnet_status_f.131286.0.0.csv|253425|83727|essential (primary) hypertension|I10
 coxnet_status_f.130814.0.0.csv|268675|68477|disorders of lipoprotein metabolism and other lipidaemias|E78
 coxnet_status_f.131888.0.0.csv|279289|57863|other joint disorders, not elsewhere classified|M25
-coxnet_status_f.131960.0.0.csv|282194|54958|other soft tissue disorders, not elsewhere classified|M79```
+coxnet_status_f.131960.0.0.csv|282194|54958|other soft tissue disorders, not elsewhere classified|M79
+```
 
 
