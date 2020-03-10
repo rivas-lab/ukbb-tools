@@ -24,10 +24,13 @@ Script to reshape data format with columns FID and all the 8125 OPCS4 codes.
 ## OPCS4: Make individual phenotype files for snpnet-cox
 
 Script
+
 `opcs_snpnet_cox.R`
 
 y - age at event or censoring/death
+
 status - disease status: 0 is no event and 1 is event
+
 inc - status on prevalent case = 0 and incident case = 1 (at UKBB baseline assessment)
 
 ## First Occurrence: Make individual phenotype files for snpnet-cox
