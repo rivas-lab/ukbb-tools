@@ -12,6 +12,7 @@ The OPCS4 operative procedures are data-field 41272. Array indices run from 0-11
 There are matching data-fields with date of first operative procedure - data-field 41282 (0-116).
 There is a total of 8125 different OPCD4 codes in a 4-character structure.
 Script to reshape data format with columns FID and all the 8125 OPCS4 codes.
+
 `opcs.formatting.R`
 
 ## Make individual phenotype files for snpnet-cox
@@ -36,5 +37,5 @@ coxnet_status_f.130814.0.0.csv|268675|68477|disorders of lipoprotein metabolism 
 coxnet_status_f.131888.0.0.csv|279289|57863|other joint disorders, not elsewhere classified|M25
 coxnet_status_f.131960.0.0.csv|282194|54958|other soft tissue disorders, not elsewhere classified|M79
 ```
-
+Control and case numbers are for the White British population.
 
