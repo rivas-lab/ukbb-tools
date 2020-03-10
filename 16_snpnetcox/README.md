@@ -3,7 +3,13 @@
 This directory contains scripts and files for running snpnetcox. 
 
 The location of the master cox phe file:
-`/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/master_phe/master.cox.20200205.phe`
+`/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/master_phe/master.cox.20200205.phe.zst`
+
+## Compress files using zstd
+```
+$ ml load zstd
+$ zstd -z file 
+```
 
 ## Reshape OPCS4 codes
 [Information on UKBB OPCS4 operative procedures](http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=41272).
