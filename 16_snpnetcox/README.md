@@ -21,16 +21,28 @@ Script to reshape data format with columns FID and all the 8125 OPCS4 codes.
 
 `opcs.formatting.R`
 
-## Make individual phenotype files for snpnet-cox
+## OPCS4: Make individual phenotype files for snpnet-cox
+
+Script
+`opcs_snpnet_cox.R`
+
+y - age at event or censoring/death
+status - disease status: 0 is no event and 1 is event
+inc - status on prevalent case = 0 and incident case = 1 (at UKBB baseline assessment)
+
+## First Occurrence: Make individual phenotype files for snpnet-cox
 [Documentation of UKBB first occurrence data-fields](http://biobank.ndph.ox.ac.uk/showcase/showcase/docs/first_occurrences_outcomes.pdf).
 [UKBB first occurrence showcase data](http://biobank.ctsu.ox.ac.uk/crystal/search.cgi?wot=0&srch=first+occurrence&sta0=on&sta1=on&sta2=on&sta3=on&str0=on&str3=on&fit0=on&fit10=on&fit20=on&fit30=on&fvt11=on&fvt21=on&fvt22=on&fvt31=on&fvt41=on&fvt51=on&fvt61=on&fvt101=on).
+
+The First Occurrence data-fields are composed of data from primary care, in-patient hospital, x and self-reported data. This information is all mapped to ICD-10 3-character structure with an event date. 
+
 
 Script to make file with columns: FID, coxnet_y_(phenotype), coxnet_status_(phenotype) and coxnet_inc_(phenotype)
 `first_occ_snpnet_cox.R`
 
 
 ## Make new phenotypes
-Make a new phenotype file based on a disease (first occurrence based on ICD10 codes) status = 1.
+Make a new phenotype file based on a disease (First Occurrence based on ICD10 codes) status = 1.
 Script
 `make_new_snpnet_cox_phe.R`
 
