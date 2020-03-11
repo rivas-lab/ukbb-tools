@@ -51,7 +51,7 @@ All individual phenotype files for First Occurrence (ICD-10 codes) and OPCS4 are
 `/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/master_phe/opcs/phenotypefiles`
 
 
-## Make new phenotype file based on multiple operational procedure codes (OPCS4)
+## Make new phenotype file based on one disease and multiple event phenotype files 
 Based on the files in the former section, we have a script in order to create new phenotype files by combining multiple OPCS4 codes. For some phenotypes we wish to combine several OPCS4 into one phenotype and use first event. 
 
 To use disease diagnosis time to surgery as a proxy of disease progression.
