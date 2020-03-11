@@ -43,13 +43,18 @@ The First Occurrence data-fields are composed of data from primary care, in-pati
 Script to make file with columns: FID, coxnet_y_(phenotype), coxnet_status_(phenotype) and coxnet_inc_(phenotype)
 `first_occ_snpnet_cox.R`
 
-## 
+## File on Sherlock
 All individual phenotype files for First Occurrence (ICD-10 codes) and OPCS4 are stored in this directory on Sherlock:
 `/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/master_phe/opcs/phenotypefiles`
 
 
-## Make new phenotypes
-Based on the files in the former section, we have a script in order to create new phenotype files by combining multiple OPCS4 codes. 
+## Make new phenotype file based on multiple operational procedure codes (OPCS4)
+Based on the files in the former section, we have a script in order to create new phenotype files by combining multiple OPCS4 codes. For some phenotypes we wish to combine several OPCS4 into one phenotype and use first event. 
+
+To use disease diagnosis time to surgery as a proxy of disease progression.
+
+Args[1] will subset to disease ICD-10 (status = 1)
+Args[-1] are all the phenotypes you wish to combine as event.
 
 Make a new phenotype file based on a disease (First Occurrence based on ICD10 codes) status = 1.
 Script
@@ -57,7 +62,10 @@ Script
 
 Example of running the script:
 
-`$ Rscript make_new_snpnet_cox_phe.R Args`
+`$ Rscript make_new_snpnet_cox_phe.R f.130814.0.0 f.131306.0.0`
+
+The file generated includes all individuals who was diagnosed (status = 1) with f.130814.0.0 (disorders of lipoprotein metabolism and other lipidaemias|E78) and the event is f.131306.0.0 (chronic ischaemic heart disease|I25) 
+
 
 ## Map of first occurrence data-field 
 Head of `mapfinal.txt`
