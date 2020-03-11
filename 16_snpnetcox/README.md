@@ -2,8 +2,11 @@
 
 This directory contains scripts and files for running snpnetcox. 
 
-The location of the master cox phe file:
+The location of the master snpnet-cox phenotype file for White British individuals:
 `/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/master_phe/master.cox.20200205.phe.zst`
+
+The location of the master snpnet-cox phenotype file for all individuals:
+`/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/master_phe/master.cox.20200221.allinds.phe.zst`
 
 ## Compress files using zstd
 ```
