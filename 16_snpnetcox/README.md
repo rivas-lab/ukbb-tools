@@ -60,7 +60,7 @@ Make a new phenotype file based on a disease (First Occurrence based on ICD10 co
 Script
 `make_new_snpnet_cox_phe.R`
 
-## Examples of running the script:
+## Examples of running the script
 
 ```
 $ Rscript make_new_snpnet_cox_phe.R f.130814.0.0 f.131306.0.0
@@ -79,7 +79,7 @@ This file includes individuals having type 2 diabetes (non-insulin-dependent dia
 Output file: `snpnet_cox_f.130708.0.0_X093_X094_X095.phe`
 
 
-## Map of first occurrence data-field 
+## File that maps First Occurrence codes to phenotype name and ICD-10 code
 Head of `mapfinal.txt`
 ``` 
 filename|controls|cases|phenotypename|icd10
