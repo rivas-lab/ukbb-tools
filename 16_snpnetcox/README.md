@@ -60,7 +60,8 @@ To use disease diagnosis time to surgery as a proxy of disease progression.
 - Args[-1] are all the phenotypes you wish to combine as event.
 
 Make a new phenotype file based on a disease (First Occurrence based on ICD10 codes) status = 1.
-Script
+
+Script:
 `make_new_snpnet_cox_phe.R`
 
 ## Examples of running the script
