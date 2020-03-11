@@ -62,12 +62,16 @@ Script
 
 ## Examples of running the script:
 
-`$ Rscript make_new_snpnet_cox_phe.R f.130814.0.0 f.131306.0.0`
+```
+$ Rscript make_new_snpnet_cox_phe.R f.130814.0.0 f.131306.0.0
+```
 
 The file generated includes all individuals who was diagnosed (status = 1) with f.130814.0.0 (disorders of lipoprotein metabolism and other lipidaemias|E78) and the event is f.131306.0.0 (chronic ischaemic heart disease|I25) 
 Output file: `snpnet_cox_f.130814.0.0_f.131306.0.0.phe`
 
-`$ Rscript make_new_snpnet_cox_phe.R f.130708.0.0 X093 X094 X095`
+```
+$ Rscript make_new_snpnet_cox_phe.R f.130708.0.0 X093 X094 X095
+```
 
 This file includes individuals having type 2 diabetes (non-insulin-dependent diabetes mellitus|E11) and the events are combined operational procedures for amputation of leg.
 Output file: `snpnet_cox_f.130708.0.0_X093_X094_X095.phe`
