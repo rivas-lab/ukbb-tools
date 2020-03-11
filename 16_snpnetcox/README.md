@@ -1,4 +1,4 @@
-# Analyses snpnet-cox
+# Phenotype files for snpnet-cox
 
 This directory contains scripts and files for running snpnetcox. 
 
