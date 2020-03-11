@@ -30,11 +30,11 @@ Script
 
 `opcs_snpnet_cox.R`
 
-y - age at event or censoring/death
+- y - age at event or censoring/death
 
-status - disease status: 0 is no event and 1 is event
+- status - disease status: 0 is no event and 1 is event
 
-inc - status on prevalent case = 0 and incident case = 1 (at UKBB baseline assessment)
+- inc - status on prevalent case = 0 and incident case = 1 (at UKBB baseline assessment)
 
 ## First Occurrence: Make individual phenotype files for snpnet-cox
 [Documentation of UKBB first occurrence data-fields](http://biobank.ndph.ox.ac.uk/showcase/showcase/docs/first_occurrences_outcomes.pdf).
@@ -56,8 +56,8 @@ Based on the files in the former section, we have a script in order to create ne
 
 To use disease diagnosis time to surgery as a proxy of disease progression.
 
-Args[1] will subset to disease ICD-10 (status = 1)
-Args[-1] are all the phenotypes you wish to combine as event.
+- Args[1] will subset to disease ICD-10 (status = 1)
+- Args[-1] are all the phenotypes you wish to combine as event.
 
 Make a new phenotype file based on a disease (First Occurrence based on ICD10 codes) status = 1.
 Script
