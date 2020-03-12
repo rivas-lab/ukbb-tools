@@ -129,8 +129,9 @@ if __name__=="__main__":
     args = parser.parse_args()
     # File gives the mapping between table, field, basket, and release date 
     ftbd = pd.read_csv('/oak/stanford/groups/mrivas/users/guhan/repos/ukbb-tools/05_gbe/field_table_basket_date.tsv', sep='\t', dtype=object)
+    ftbd['Release_Date'] = pd.to_datetime(ftbd.Release_Date)
     # Retain only the latest release per field
-    ftbd = ftbd.sort_values('Release_Date').groupby('Field_ID').first().reset_index()
+    ftbd = ftbd.sort_values('Release_Date', ascending=False).groupby('Field_ID').first().reset_index()
     define_phenos(in_tsv = args.input[0],
            field_col = int(args.field[0]),
            name_col  = int(args.name[0]),
