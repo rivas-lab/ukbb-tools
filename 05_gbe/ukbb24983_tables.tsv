@@ -1,26 +1,28 @@
-Basket_ID	Table_ID	is_current	is_expired	Description	Size_MB	Release_Date	Path
-9796	39887	TRUE	FALSE	Refresh 30169	2,482	1/9/2020	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/9796/39887/download/ukb39887.tab
-2005693	37855	TRUE	FALSE	Additional data	4,370	10/8/2019	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2005693/37855/download/ukb37855.tab
-2005473	37512	TRUE	FALSE	Additional data	3.66	9/25/2019	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2005473/37512/download/ukb37512.tab
-2005223	37338	TRUE	FALSE	Additional data	181.0	9/19/2019	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2005223/37338/download/ukb37338.tab
-2004890	35059	TRUE	FALSE	Additional data	8.3	7/26/2019	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2004890/35059/download/ukb35059.tab
-2004575	33364	TRUE	FALSE	Additional data	3.6	6/25/2019	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2004575/33364/download/ukb33364.tab
-2004275	31017	TRUE	FALSE	Additional data	177.0	5/28/2019	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2004275/31017/download/ukb31017.tab
-2002843	28983	TRUE	FALSE	Additional data	268.0	4/12/2019	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2002843/28983/download/ukb28983.tab
-2003422	28249	TRUE	FALSE	Automated exome 50K release	2.5	3/29/2019	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2003422/28249/download/ukb28249.tab
-10136	25826	TRUE	FALSE	Refresh	765.0	12/20/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/10136/25826/download/ukb25826.tab
-2001702	25279	TRUE	FALSE	Additional data	50.6	11/21/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2001702/25279/download/ukb25279.tab
-9796	24611	FALSE	FALSE	Refresh 23009	2,460.0	11/7/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/9796/24611/download/ukb24611.tab
-10483	24613	TRUE	FALSE	Refresh 23011	14.1	11/7/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/10483/24613/download/ukb24613.tab
-11139	24614	TRUE	FALSE	Refresh 23012	79.3	11/7/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/11139/24614/download/ukb24614.tab
-2000269	24615	TRUE	FALSE	Refresh 23013	148.0	11/7/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2000269/24615/download/ukb24615.tab
-9796	21732	FALSE	TRUE	Refresh 20987	2,350.0	4/18/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/9796/21732/download/ukb21732.tab
-10136	21731	FALSE	TRUE	Refresh 20986	744.0	4/18/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/10136/21731/download/ukb21731.tab
-10483	21733	FALSE	TRUE	Refresh 20988	14.1	4/18/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/10483/21733/download/ukb21733.tab
-11139	21734	FALSE	TRUE	Refresh 20989	78.4	4/18/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/11139/21734/download/ukb21734.tab
-2000269	21730	FALSE	TRUE	Refresh 20985	143.0	4/18/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2000269/21730/download/ukb21730.tab
-2000269	21729	FALSE	TRUE	add data	143.0	4/18/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2000269/21729/download/ukb21729.tab
-11139	11140	FALSE	TRUE	Dataset R11140, released 03-Nov-2017	78.4	11/3/2017	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/11139/11140/download/ukb11140.tab
-10483	10484	FALSE	TRUE	Dataset R10484, released 04-Sep-2017	14.1	9/4/2017	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/10483/10484/download/ukb10484.tab
-10136	10137	FALSE	TRUE	Dataset R10137, released 28-Jul-2017	731.0	6/28/2017	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/10136/10137/download/ukb10137.tab
-9796	9797	FALSE	TRUE	Dataset R9797, released 31-May-2017	2,150.0	5/31/2017	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/9796/9797/download/ukb9797.tab
+Basket_ID	Table_ID	is_current	is_expired	Description	Size_MB	Release_Date	Path	Notes
+2007183	40831	TRUE	FALSE	Additional data	3,180	2/25/2020	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2007183/40831/download/ukb40831.tab	
+2007034	40763	TRUE	FALSE	Additional data	2.85	2/22/2020	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2007034/40763/download/ukb40763.tab	imaging fields (DICOM etc.)
+9796	39887	TRUE	FALSE	Refresh 30169	2,482	1/9/2020	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/9796/39887/download/ukb39887.tab	
+2005693	37855	TRUE	FALSE	Additional data	4,370	10/8/2019	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2005693/37855/download/ukb37855.tab	
+2005473	37512	TRUE	FALSE	Additional data	3.66	9/25/2019	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2005473/37512/download/ukb37512.tab	
+2005223	37338	TRUE	FALSE	Additional data	181.0	9/19/2019	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2005223/37338/download/ukb37338.tab	
+2004890	35059	TRUE	FALSE	Additional data	8.3	7/26/2019	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2004890/35059/download/ukb35059.tab	
+2004575	33364	TRUE	FALSE	Additional data	3.6	6/25/2019	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2004575/33364/download/ukb33364.tab	
+2004275	31017	TRUE	FALSE	Additional data	177.0	5/28/2019	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2004275/31017/download/ukb31017.tab	
+2002843	28983	TRUE	FALSE	Additional data	268.0	4/12/2019	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2002843/28983/download/ukb28983.tab	
+2003422	28249	TRUE	FALSE	Automated exome 50K release	2.5	3/29/2019	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2003422/28249/download/ukb28249.tab	
+10136	25826	TRUE	TRUE	Refresh	765.0	12/20/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/10136/25826/download/ukb25826.tab	
+2001702	25279	TRUE	TRUE	Additional data	50.6	11/21/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2001702/25279/download/ukb25279.tab	
+9796	24611	FALSE	TRUE	Refresh 23009	2,460.0	11/7/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/9796/24611/download/ukb24611.tab	
+10483	24613	TRUE	TRUE	Refresh 23011	14.1	11/7/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/10483/24613/download/ukb24613.tab	
+11139	24614	TRUE	TRUE	Refresh 23012	79.3	11/7/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/11139/24614/download/ukb24614.tab	
+2000269	24615	TRUE	TRUE	Refresh 23013	148.0	11/7/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2000269/24615/download/ukb24615.tab	
+9796	21732	FALSE	TRUE	Refresh 20987	2,350.0	4/18/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/9796/21732/download/ukb21732.tab	
+10136	21731	FALSE	TRUE	Refresh 20986	744.0	4/18/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/10136/21731/download/ukb21731.tab	
+10483	21733	FALSE	TRUE	Refresh 20988	14.1	4/18/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/10483/21733/download/ukb21733.tab	
+11139	21734	FALSE	TRUE	Refresh 20989	78.4	4/18/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/11139/21734/download/ukb21734.tab	
+2000269	21730	FALSE	TRUE	Refresh 20985	143.0	4/18/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2000269/21730/download/ukb21730.tab	
+2000269	21729	FALSE	TRUE	add data	143.0	4/18/2018	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2000269/21729/download/ukb21729.tab	
+11139	11140	FALSE	TRUE	Dataset R11140, released 03-Nov-2017	78.4	11/3/2017	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/11139/11140/download/ukb11140.tab	
+10483	10484	FALSE	TRUE	Dataset R10484, released 04-Sep-2017	14.1	9/4/2017	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/10483/10484/download/ukb10484.tab	
+10136	10137	FALSE	TRUE	Dataset R10137, released 28-Jul-2017	731.0	6/28/2017	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/10136/10137/download/ukb10137.tab	
+9796	9797	FALSE	TRUE	Dataset R9797, released 31-May-2017	2,150.0	5/31/2017	/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/9796/9797/download/ukb9797.tab	
