@@ -19,13 +19,13 @@ def join_and_add_cols(field_list, ref=os.path.abspath('../Data_Dictionary_Showca
     subsetted = fields.merge(dds, left_on='FieldID', right_on='FieldID')
 
     #Add in the extra column names
-    add_colnames = ['Annotator', 'Annotation date', 'Name', 'GBE ID', 'TableID', 'Field',
+    add_colnames = ['Annotator', 'Annotation date', 'Name', 'GBE ID', 'Field',
         'QT_total_num', 'BIN_total_num', 'QT_index', 'BIN_index', 'coding_exclude', 'coding_QT',
         'coding_binary_case', 'coding_binary_control']
     subsetted = pd.concat([subsetted,pd.DataFrame(columns=add_colnames)]).sort_values('FieldID')
 
     #Reorder the columns
-    new_col_order = ['Annotator', 'Annotation date', 'Name', 'GBE ID', 'TableID', 'Field', 'FieldID',
+    new_col_order = ['Annotator', 'Annotation date', 'Name', 'GBE ID', 'Field', 'FieldID',
         'QT_total_num', 'BIN_total_num', 'QT_index', 'BIN_index', 'coding_exclude', 'coding_QT',
         'coding_binary_case', 'coding_binary_control', 'Participants', 'Stability', 'ValueType',
         'Units', 'Strata', 'Sexed', 'Instances', 'Array', 'Coding', 'Link']

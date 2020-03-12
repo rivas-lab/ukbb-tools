@@ -35,11 +35,10 @@ def create_tsv(new_f):
         out_file = '../tables/ukb_' + str(pd.datetime.today().date()).replace('-','') + '.tsv'
         out_df = join_and_add_cols(map(int, [x for x in iter(new_fields)]))
         # Add in all previous annotations
-        col_df = pd.read_csv('/oak/stanford/groups/mrivas/users/guhan/repos/ukbb-tools/02_phenotyping/tables/gbe_input_params.tsv', sep='\t')
         tsvs = glob.glob('/oak/stanford/groups/mrivas/users/guhan/repos/ukbb-tools/02_phenotyping/tables/*.tsv')
         tsvs = [tsv for tsv in tsvs if ((not 'params' in tsv) and (not 'priority' in tsv))]
         for tsv in tsvs:
-            out_df.merge(tsv, on="GBE ID", how="left")
+            out_df.update(pd.read_table(tsv, dtype=object))
         out_df.to_csv(out_file, sep='\t', index=False)
         print("New .tsv made: " + out_file)
 
