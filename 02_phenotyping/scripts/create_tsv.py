@@ -21,11 +21,11 @@ Actions:
 Authors: Matthew Aguirre and Guhan Venkataraman(SUNETs: magu and guhan)
 Updated: 2020/01/29
 """
+
 new_col_order = ['Annotator', 'Annotation date', 'Name', 'GBE ID', 'Field', 'FieldID',
         'QT_total_num', 'BIN_total_num', 'QT_index', 'BIN_index', 'coding_exclude', 'coding_QT',
         'coding_binary_case', 'coding_binary_control', 'Participants', 'Stability', 'ValueType',
         'Units', 'Strata', 'Sexed', 'Instances', 'Array', 'Coding', 'Link']
-
 
 def create_tsv(new_f):
     complete_new_header_df = pd.read_table(new_f, sep="\t", index_col='f.eid', nrows=1)
@@ -33,12 +33,18 @@ def create_tsv(new_f):
     # make table for computing session with showcase_and_list_to_tsv 
     if len(new_fields) != 0:
         out_file = '../tables/ukb_' + str(pd.datetime.today().date()).replace('-','') + '.tsv'
-        out_df = join_and_add_cols(map(int, [x for x in iter(new_fields)]))
+        out_df = join_and_add_cols(map(int, [x for x in iter(new_fields)])).astype(object)
         # Add in all previous annotations
         tsvs = glob.glob('/oak/stanford/groups/mrivas/users/guhan/repos/ukbb-tools/02_phenotyping/tables/*.tsv')
         tsvs = [tsv for tsv in tsvs if ((not 'params' in tsv) and (not 'priority' in tsv))]
         for tsv in tsvs:
-            out_df.update(pd.read_table(tsv, dtype=object))
+            tsv_df = pd.read_table(tsv, dtype={'FieldID':int})
+            tsv_df = tsv_df[tsv_df['GBE ID'].notna()]
+            out_df = out_df.merge(tsv_df, on=['FieldID'], how='left')
+            for col in new_col_order:
+                if col != 'FieldID':
+                    out_df[col] = np.max(out_df[[col+'_x', col+'_y']], axis=1)
+            out_df = out_df[new_col_order]
         out_df.to_csv(out_file, sep='\t', index=False)
         print("New .tsv made: " + out_file)
 

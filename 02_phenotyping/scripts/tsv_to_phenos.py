@@ -63,6 +63,7 @@ def define_phenos(in_tsv, field_col, name_col, case_col, ctrl_col,
         #if os.path.exists(phe) and os.path.exists(info_file):
         #    print("Phenotype for " + phe_name + " already exists at " + phe + ".")
         #else:
+        #    print(phe_values)
         if True:
             tab_f = 'ukb{}.tab'.format(phe_values['table_id'] )
             # this will throw an indexing error if a bad table is supplied
