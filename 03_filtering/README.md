@@ -5,9 +5,26 @@ We do not employ sample- and variant-level QC in the traditional sense in this p
 The notebooks in this folder do two distinct tasks:
 
 1) [Go over the overall marker quality of different BioBank arrays](https://github.com/rivas-lab/ukbb-tools/blob/master/03_filtering/Marker_QC.ipynb) (marker_QC.ipynb)
-2) [Redact individuals from the dataset, define populations, and generate the GWAS covariate file](https://github.com/rivas-lab/ukbb-tools/blob/master/03_filtering/sample_qc_v3.1.ipynb) (rsample_qc_v3.1.ipynb)
+2) [sample-level QC, define populations, and generate the GWAS covariate file](https://github.com/rivas-lab/ukbb-tools/blob/master/03_filtering/sample_qc_v3.2.ipynb) (rsample_qc_v3.2.ipynb)
 
-## Sample level QC
+## Variant-level QC
+
+We document variant annotation in [17_annotation](/17_annotation) directory.
+
+### array dataset
+
+The variant QC procedure for the genotyped array dataset is well described in the publications from the lab.
+
+1. [DeBoever, C. et al. Medical relevance of protein-truncating variants across 337,205 individuals in the UK Biobank study. Nature Communications 9, 1612 (2018).](https://doi.org/10.1038/s41467-018-03910-9)
+2. [Tanigawa, Y. et al. Components of genetic associations across 2,138 phenotypes in the UK Biobank highlight adipocyte biology. Nat Commun 10, 1–14 (2019).](https://doi.org/10.1038/s41467-019-11953-9)
+
+The second paper has the variant QC flowchart as Supplementary Figure 1.
+
+### imputation dataset
+
+We have [`imp`](imp) directory to document the QC and filtering procedure for the imputation dataset. Specifically, [`imp/2_var_QC`](imp/2_var_QC) has the variant QC procedure.
+
+## Sample-level QC
 
 ### Participant Withdrawal
 
@@ -35,6 +52,8 @@ $ comm -13 <( sort w24983_20181016.csv ) <( sort w2498_20170726.csv ) | wc -l
 
 ### Population definition
 
+Please see [sample_qc_v3.2.ipynb](sample_qc_v3.2.ipynb) for more details.
+
 #### summary
 
 We used a combination of PCA (on array genotype data) and self-reported ancestry to define the following five population groups
@@ -48,7 +67,19 @@ We used a combination of PCA (on array genotype data) and self-reported ancestry
 In total, we have 378,292 unrelated individuals
 
 - Those files are available: `/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification_w24983_20200313`
-  - In the directory, we have 
+- In the directory, we have the following files:
+  - `ukb24983_<population>.phe`: the list of individuals in the population.
+  - `ukb24983_<population>.exclude.phe`: the list of individuals that are not in the population.
+  - `ukb24983_GWAS_covar.20200313.phe`: GWAS covariate file
+  - `ukb24983_master_sqc.20200313.phe`: the all sample QC columns and potentially interesting covariates. The GWAS covariate file is a subset of this file.
+
+##### Self-reported ethnicity
+
+![PC plot for the self-reported ethnicity](figs/sample_qc_v3.2.PCA.self.reported.ethnicity.png)
+
+##### Our population definition
+
+![PC plot for each population](figs/sample_qc_v3.2.PC1.vs.PC2.png)
 
 #### sample-level QC criteria
 
@@ -88,8 +119,48 @@ We defined the following thresholds to define ethnic groups
 
 See more details in notebook (v3.1)
 
-#### Population-specific PCA
+#### Population-specific PCA for further refinement
 
 We applied PCA for 4 populations (all, but White British) and characterized population-specific PCs.
 
 #### Additional clean-up using population specific PCs
+
+Using the population-specific PCs, we refined the definitions for South Asian and East Asian.
+
+##### Non-British White
+
+![PC plot for Non-British White](figs/sample_qc_v3.2.local.PCA.non_british_white.png)
+
+##### African
+
+![PC plot for African](figs/sample_qc_v3.2.local.PCA.african.png)
+
+##### South Asian
+
+![PC plot for South Asian](figs/sample_qc_v3.2.local.PCA.s_asian.png)
+
+##### East Asian
+
+![PC plot for East Asian](figs/sample_qc_v3.2.local.PCA.e_asian.png)
+
+#### Re-computing the population-specific PCs
+
+We recompute the population-specific PCs for the refined populations.
+
+![Local PCs](figs/sample_qc_v3.2.local.PC1.vs.PC2.png)
+
+#### GWAS covariate file
+
+In the GWAS covariate file, we included the followings:
+
+- FID and IID: the family and individual ID
+- population: the final population definition
+- split: train/val/test (70%, 20%, and 10% for each) split for the White British cohort. We used the one from the DeGAs-risk project.
+- age: (computed as 2017 - birth year)
+- age0, age1, age2 and age3: the age of the assessment center visits
+- sex: 1 indicates male; 0 indicates female
+- BMI: The BMI phenotype (from `INI21001.phe` in basket 9796 and table 24611)
+- N_CNV and LEN_CNV: the number and length of CNVs.
+- Array: 1 indicates UKBB array; 0 indicates UKBL array.
+- PC1-PC40: the population-specific PCs for 4 populations (Non-British White, African, South Asian, and East Asian) and the global PCs for White British
+- Global_PC1-Global_PC40: the Global PCs provided by UK Biobank

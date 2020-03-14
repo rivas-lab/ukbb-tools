@@ -380,3 +380,15 @@ plot_local_pc <- function(evec_df, master_sqc_pop_ref_df, x_axis, y_axis){
     ) +
     facet_wrap( ~ population, ncol=2)     
 }
+
+replace_colnames <- function(df, pattern, replacement){
+    new_colnames <- df %>% 
+    colnames() %>%
+    lapply(
+        function(x){
+            str_replace(x, pattern, replacement)
+        }
+    )    
+    colnames(df) <- new_colnames
+    df
+}
