@@ -28,7 +28,7 @@ new_col_order = ['Annotator', 'Annotation date', 'Name', 'GBE ID', 'Field', 'Fie
         'Units', 'Strata', 'Sexed', 'Instances', 'Array', 'Coding', 'Link']
 
 def create_tsv(new_f):
-    complete_new_header_df = pd.read_table(new_f, sep="\t", index_col='f.eid', nrows=1)
+    complete_new_header_df = pd.read_csv(new_f, sep="\t", index_col='f.eid', nrows=1)
     new_fields = set([s.split('.')[1] for s in complete_new_header_df.columns])
     # make table for computing session with showcase_and_list_to_tsv 
     if len(new_fields) != 0:
@@ -37,8 +37,8 @@ def create_tsv(new_f):
         # Add in all previous annotations
         fields_to_keep = set(out_df['FieldID'])
         tsvs = glob.glob('/oak/stanford/groups/mrivas/users/guhan/repos/ukbb-tools/02_phenotyping/tables/*.tsv')
-        tsvs = [pd.read_table(tsv, dtype={'FieldID':int}) for tsv in tsvs if ((not 'params' in tsv) and (not 'priority' in tsv))]
-        prev_annots = pd.concat(tsvs)[new_col_order]
+        tsvs = [pd.read_csv(tsv, sep='\t', dtype={'FieldID':int}) for tsv in tsvs if ((not 'params' in tsv) and (not 'priority' in tsv))]
+        prev_annots = pd.concat(tsvs, sort=True)[new_col_order]
         prev_annots = prev_annots[prev_annots['FieldID'].isin(fields_to_keep)]
         prev_annots = prev_annots[prev_annots['GBE ID'].notna()]
         prev_annots = prev_annots.merge(out_df, how='left', on=['FieldID'])
@@ -55,7 +55,6 @@ def create_tsv(new_f):
         out_df[['FieldID', 'QT_total_num', 'BIN_total_num', 'QT_index', 'BIN_index', 'Participants', 'Instances', 'Array', 'Coding']] = out_df[['FieldID', 'QT_total_num', 'BIN_total_num', 'QT_index', 'BIN_index', 'Participants', 'Instances', 'Array', 'Coding']].astype(float)
         out_df[['FieldID', 'QT_total_num', 'BIN_total_num', 'QT_index', 'BIN_index', 'Participants', 'Instances', 'Array', 'Coding']] = out_df[['FieldID', 'QT_total_num', 'BIN_total_num', 'QT_index', 'BIN_index', 'Participants', 'Instances', 'Array', 'Coding']].astype("Int64")
         out_df = out_df.drop_duplicates()
-        print(len(out_df))
         out_df.to_csv(out_file, sep='\t', index=False)
         print("New .tsv made: " + out_file)
 
@@ -80,5 +79,5 @@ if __name__ == "__main__":
         if not os.path.exists(new_f):
             raise OSError("Could not find input file {0}".format(new_f))
     # 2. determine which table to compare input to 
-    print("Creating .tsv for new table for basket {0}:\n {1}...\n".format(in_b, new_f))
+    print("Creating .tsv for new table {1} in basket {0}...".format(in_b, new_f))
     create_tsv(new_f)
