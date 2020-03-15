@@ -60,11 +60,11 @@ def define_phenos(in_tsv, field_col, name_col, case_col, ctrl_col,
         log = os.path.join(os.path.dirname(os.path.dirname(phe)), "logs/{0}.log".format(phe_name))
         info_dir = os.path.join(os.path.dirname(os.path.dirname(phe)), "info")
         info_file = os.path.join(info_dir, "{}.info".format(phe_name))
-        #if os.path.exists(phe) and os.path.exists(info_file):
-        #    print("Phenotype for " + phe_name + " already exists at " + phe + ".")
-        #else:
+        if os.path.exists(phe) and os.path.exists(info_file):
+            print("Phenotype for " + phe_name + " already exists at " + phe + ".")
+        else:
         #    print(phe_values)
-        if True:
+        #if True:
             tab_f = 'ukb{}.tab'.format(phe_values['table_id'] )
             # this will throw an indexing error if a bad table is supplied
             tsv = os.path.join(home_dir, phe_values['basket_id'], phe_values['table_id'], 'download', tab_f)

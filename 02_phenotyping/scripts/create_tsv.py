@@ -35,16 +35,27 @@ def create_tsv(new_f):
         out_file = '../tables/ukb_' + str(pd.datetime.today().date()).replace('-','') + '.tsv'
         out_df = join_and_add_cols(map(int, [x for x in iter(new_fields)])).astype(object)
         # Add in all previous annotations
+        fields_to_keep = set(out_df['FieldID'])
         tsvs = glob.glob('/oak/stanford/groups/mrivas/users/guhan/repos/ukbb-tools/02_phenotyping/tables/*.tsv')
-        tsvs = [tsv for tsv in tsvs if ((not 'params' in tsv) and (not 'priority' in tsv))]
-        for tsv in tsvs:
-            tsv_df = pd.read_table(tsv, dtype={'FieldID':int})
-            tsv_df = tsv_df[tsv_df['GBE ID'].notna()]
-            out_df = out_df.merge(tsv_df, on=['FieldID'], how='left')
-            for col in new_col_order:
-                if col != 'FieldID':
-                    out_df[col] = np.max(out_df[[col+'_x', col+'_y']], axis=1)
-            out_df = out_df[new_col_order]
+        tsvs = [pd.read_table(tsv, dtype={'FieldID':int}) for tsv in tsvs if ((not 'params' in tsv) and (not 'priority' in tsv))]
+        prev_annots = pd.concat(tsvs)[new_col_order]
+        prev_annots = prev_annots[prev_annots['FieldID'].isin(fields_to_keep)]
+        prev_annots = prev_annots[prev_annots['GBE ID'].notna()]
+        prev_annots = prev_annots.merge(out_df, how='left', on=['FieldID'])
+        for col in new_col_order:
+            if col != 'FieldID':
+                prev_annots[col] = prev_annots.apply(
+                    lambda row: row[col+'_y'] if pd.isna(row[col+'_x']) else row[col+'_x'],
+                    axis=1,
+                )
+        prev_annots = prev_annots[new_col_order].drop_duplicates()
+        annotated = set(prev_annots['FieldID'])
+        out_df = out_df[~out_df['FieldID'].isin(annotated)]
+        out_df = pd.concat([out_df, prev_annots])
+        out_df[['FieldID', 'QT_total_num', 'BIN_total_num', 'QT_index', 'BIN_index', 'Participants', 'Instances', 'Array', 'Coding']] = out_df[['FieldID', 'QT_total_num', 'BIN_total_num', 'QT_index', 'BIN_index', 'Participants', 'Instances', 'Array', 'Coding']].astype(float)
+        out_df[['FieldID', 'QT_total_num', 'BIN_total_num', 'QT_index', 'BIN_index', 'Participants', 'Instances', 'Array', 'Coding']] = out_df[['FieldID', 'QT_total_num', 'BIN_total_num', 'QT_index', 'BIN_index', 'Participants', 'Instances', 'Array', 'Coding']].astype("Int64")
+        out_df = out_df.drop_duplicates()
+        print(len(out_df))
         out_df.to_csv(out_file, sep='\t', index=False)
         print("New .tsv made: " + out_file)
 
