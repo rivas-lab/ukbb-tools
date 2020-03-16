@@ -187,8 +187,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--tsv",
         dest="input",
-        default="../tables/ukb_annotations.tsv",
-        required=True,
+        default=["../tables/ukb_annotations.tsv"],
         nargs=1,
         help="input table from phenotyping session",
     )
