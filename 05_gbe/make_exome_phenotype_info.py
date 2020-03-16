@@ -4,12 +4,12 @@ import glob
 
 # all exome
 exome = {}
-exome['all'] = pd.read_table("/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_p_spb.psam", dtype=str)
+exome['all'] = pd.read_csv("/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_p_spb.psam", sep='\t', dtype=str)
 
 # get the rest of the populations
 for f in glob.glob("/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification/ukb24983_*.phe"):
     pop = os.path.basename(f).replace('.phe','').replace('ukb24983_','')
-    exome[pop] = exome['all'].merge(pd.read_table(f, header=None, usecols=[1], names=['IID'], dtype=str), on='IID')
+    exome[pop] = exome['all'].merge(pd.read_csv(f, sep='\t', header=None, usecols=[1], names=['IID'], dtype=str), on='IID')
 
 # do the thing
 with open("phenotype_info.tsv", "r") as f, open("exome_phenotype_info.tsv","w") as o:
@@ -20,7 +20,7 @@ with open("phenotype_info.tsv", "r") as f, open("exome_phenotype_info.tsv","w") 
             continue
         # ok go
         phe_info = line.rstrip().split('\t')
-        phe_data = pd.read_table(phe_info[-1], header=None, names=['#FID','IID','PHENO'], dtype='str')
+        phe_data = pd.read_csv(phe_info[-1], sep='\t', header=None, names=['#FID','IID','PHENO'], dtype='str')
         # if all values are 1,2,-9 then the trait is binary, otherwise QT
         if all([i in ['-9','1','2'] for i in phe_data['PHENO'].value_counts().index.tolist()]):
             query = 'PHENO == "2"'
