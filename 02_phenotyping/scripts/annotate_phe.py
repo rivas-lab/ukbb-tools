@@ -64,7 +64,7 @@ if __name__ == "__main__":
     #return
     #import glob
     import pandas as pd
-    phenotype_info = pd.read_table('../../05_gbe/phenotype_info.tsv', dtype=object, keep_default_na=False)
+    phenotype_info = pd.read_csv('../../05_gbe/phenotype_info.tsv', sep='\t', dtype=object, keep_default_na=False)
     all_phenos = list(phenotype_info['PATH'])
     all_names = list(phenotype_info['GBE_NAME'])
     all_fields = list(phenotype_info['FIELD'])

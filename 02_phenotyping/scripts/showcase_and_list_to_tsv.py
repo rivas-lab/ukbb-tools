@@ -4,7 +4,7 @@ import argparse, os
 import pandas as pd
 
 
-def join_and_add_cols(field_list, ref=os.path.abspath('../Data_Dictionary_Showcase.csv')):
+def join_and_add_cols(field_list, ref=os.path.abspath('../tables/Data_Dictionary_Showcase.csv')):
     # Note: Data_Dictionary_Showcase
     # http://biobank.ctsu.ox.ac.uk/~bbdatan/Data_Dictionary_Showcase.csv
     dds = pd.read_csv(ref)
