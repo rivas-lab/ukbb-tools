@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH --job-name=mrp_rv_array
-#SBATCH --output=mrp_logs/mrp_rv_array.%A_%a.out
+#SBATCH --job-name=mrp_rv_exome
+#SBATCH --output=mrp_logs/mrp_rv_exome.%A_%a.out
 #SBATCH --nodes=1
 #SBATCH --cores=8
 #SBATCH --mem=16000
-#SBATCH --time=01:00:00
+#SBATCH --time=02:00:00
 
 # define functions
 usage () {
@@ -39,10 +39,10 @@ output_folder=$2
 this_idx=$_SLURM_ARRAY_TASK_ID
 
 min_N_count=100
-GBE_ID=$(cat ../05_gbe/phenotype_info.tsv | awk -v min_N=${min_N_count} 'NR > 1 && $8 >= min_N' | egrep -v MED | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $1}' )
+GBE_ID=$(cat ../05_gbe/exome_phenotype_info.tsv | awk -v min_N=${min_N_count} 'NR > 1 && $8 >= min_N' | egrep -v MED | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $1}' )
 POP="white_british"
 echo $GBE_ID >&1
-FILEPATH=$(find /oak/stanford/groups/mrivas/ukbb24983/cal/gwas -name "*.$GBE_ID.*gz" | grep -v freeze | grep -v old | grep -v ldsc | grep $POP);
+FILEPATH=$(find /oak/stanford/groups/mrivas/ukbb24983/exome/gwas -name "*.$GBE_ID.*gz" | grep -v freeze | grep -v old | grep -v ldsc | grep $POP);
 
 echo -e "path\tstudy\tpheno\tR_phen\n$FILEPATH\t$POP\t$GBE_ID\tTRUE" > $output_folder/$GBE_ID.tmp.txt;
 

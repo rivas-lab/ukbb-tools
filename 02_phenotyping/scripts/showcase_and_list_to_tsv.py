@@ -4,12 +4,11 @@ import argparse, os
 import pandas as pd
 
 
-def join_and_add_cols(field_list, ref=os.path.abspath('../Data_Dictionary_Showcase.csv')):
+def join_and_add_cols(field_list, ref=os.path.abspath('../tables/Data_Dictionary_Showcase.csv')):
     # Note: Data_Dictionary_Showcase
     # http://biobank.ctsu.ox.ac.uk/~bbdatan/Data_Dictionary_Showcase.csv
     dds = pd.read_csv(ref)
     field_list = list(field_list)
-    print(".tsv maker got following field list: ")
     #Read in the fields
     if isinstance(field_list, list):
         fields = pd.DataFrame.from_dict({'FieldID': field_list})
@@ -22,7 +21,7 @@ def join_and_add_cols(field_list, ref=os.path.abspath('../Data_Dictionary_Showca
     add_colnames = ['Annotator', 'Annotation date', 'Name', 'GBE ID', 'Field',
         'QT_total_num', 'BIN_total_num', 'QT_index', 'BIN_index', 'coding_exclude', 'coding_QT',
         'coding_binary_case', 'coding_binary_control']
-    subsetted = pd.concat([subsetted,pd.DataFrame(columns=add_colnames)]).sort_values('FieldID')
+    subsetted = pd.concat([subsetted,pd.DataFrame(columns=add_colnames)], sort=True).sort_values('FieldID')
 
     #Reorder the columns
     new_col_order = ['Annotator', 'Annotation date', 'Name', 'GBE ID', 'Field', 'FieldID',
