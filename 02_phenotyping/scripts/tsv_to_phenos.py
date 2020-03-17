@@ -54,15 +54,15 @@ def get_phe_definitions(
                 if fields[name_col]:
                     print("No annotation data present for " + fields[name_col] + ".")
                 continue
-            field_metadata = ftbd[ftbd["Field_ID"] == fields[field_col]]
+            field_metadata = ftbd[ftbd["FieldID"] == fields[field_col]]
             # the if switch is in case empty cells get pruned from the TSV
             phe_info[fields[name_col]] = {
                 "case": fields[case_col] if case_col < len(fields) else "",
                 "control": fields[ctrl_col] if ctrl_col < len(fields) else "",
                 "qt_order": fields[qtfc_col] if qtfc_col < len(fields) else "",
                 "exclude": fields[excl_col] if excl_col < len(fields) else "",
-                "table_id": field_metadata["Table_ID"].values[0] if len(field_metadata) > 0 else "",
-                "basket_id": field_metadata["Basket_ID"].values[0] if len(field_metadata) > 0 else "",
+                "table_id": field_metadata["TableID"].values[0] if len(field_metadata) > 0 else "",
+                "basket_id": field_metadata["BasketID"].values[0] if len(field_metadata) > 0 else "",
                 "field_id": fields[field_col] if field_col < len(fields) else "",
                 "desc": fields[desc_col] if desc_col < len(fields) else "",
             }
@@ -199,7 +199,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     # File gives the mapping between table, field, basket, and release date
     ftbd = pd.read_csv(
-        "/oak/stanford/groups/mrivas/users/guhan/repos/ukbb-tools/05_gbe/field_table_basket_date.tsv",
+        "/oak/stanford/groups/mrivas/users/guhan/repos/ukbb-tools/02_phenotyping/tables/field_table_basket_date.tsv",
         sep="\t",
         dtype=object,
     )
@@ -207,7 +207,7 @@ if __name__ == "__main__":
     # Retain only the latest release per field
     ftbd = (
         ftbd.sort_values("Release_Date", ascending=False)
-        .groupby("Field_ID")
+        .groupby("FieldID")
         .first()
         .reset_index()
     )
