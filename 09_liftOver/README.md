@@ -24,7 +24,7 @@ Apply UCSC liftOver. If the input file contains OR or BETA column, the script wi
   Author: Yosuke Tanigawa (ytanigaw@stanford.edu)
 
 Usage: liftOver_wrapper.sh [options] in_file out_mapped out_unmapped
-  in_file       The input file. It needs to have the following columns: CHROM, POS, REF, and ID
+  in_file       The input file. Please see the notes blow about our assumptions on the input file format.
   out_mapped    The output file of the mapped elements.
   out_unmapped  The output file of the unmapped elements.
 
@@ -33,13 +33,19 @@ Options:
   --src_genome    The genome build for the input file
   --dst_genome    The genome build for the output file
 
+Notes:
+  - We assume the input file has a header line (first line) that starts with .
+  - The input file needs to have the following columns: CHROM, POS, REF, and ID.
+  - If effect size column (BETA or OR) is provided, we will automatically apply flipfix.
+  - You may include additional columns.
+
 Default configurations (please use the options above to modify them):
   to_bed_field_sep=!
   bed_chr_prefix=chr
   threads=4
   src_genome="hg19"
   dst_genome="hg38"
-```
+  ```
 
 ### Example usage (liftOver)
 
@@ -61,23 +67,28 @@ ${data_dir}/summary_stats_plink_hg19/${p}.unmapped.txt.gz
 ```{bash}
 $flipfix_sh
 flipfix.sh: 1 positional arguments are required
-flipfix.sh (version 1.0.0)
+flipfix.sh (version 1.1.1)
 Apply flipfix.
   Author: Yosuke Tanigawa (ytanigaw@stanford.edu)
 
 Usage: flipfix.sh [options] in_file
-  in_file       The input file. It needs to have the following columns: CHROM, POS, ID, REF, ALT, A1, and one of the following: OR or BETA.
+  in_file       The input file. Please see the notes blow about our assumptions on the input file format.
 
 Options:
   --assembly    The genome build for the input file
   --ref_fa      The reference genome sequence. It it's specified as AUTO, it will be automatically grab one from /scratch/groups/mrivas/public_data/genomes (the default behavior).
+
+Notes:
+  - We assume the input file has a header line (first line) that starts with .
+  - The input file needs to have the following columns: CHROM, POS, ID, REF, ALT, A1, and one of the following: OR or BETA.
+  - You may include additional columns.
 
 Default configurations (please use the options above to modify them):
   to_bed_field_sep=!
   bed_chr_prefix=chr
   ref_fa="AUTO"
   assembly="hg19"
-```
+  ```
 
 ### Example usage (flipfix)
 

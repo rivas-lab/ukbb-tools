@@ -3,7 +3,7 @@ set -beEuo pipefail
 
 SRCNAME=$(readlink -f $0)
 PROGNAME=$(basename $SRCNAME)
-VERSION="0.1.0"
+VERSION="0.1.1"
 NUM_POS_ARGS="3"
 
 # read common func
@@ -30,7 +30,7 @@ cat <<- EOF
 	  Author: Yosuke Tanigawa (ytanigaw@stanford.edu)
 	
 	Usage: $PROGNAME [options] in_file out_mapped out_unmapped
-	  in_file       The input file. It needs to have the following columns: CHROM, POS, REF, and ID
+	  in_file       The input file. Please see the notes blow about our assumptions on the input file format.
 	  out_mapped    The output file of the mapped elements.
 	  out_unmapped  The output file of the unmapped elements.
 	
@@ -38,6 +38,12 @@ cat <<- EOF
 	  --threads  (-t) Number of CPU cores
 	  --src_genome    The genome build for the input file
 	  --dst_genome    The genome build for the output file
+	
+	Notes:
+	  - We assume the input file has a header line (first line) that starts with `#`.
+	  - The input file needs to have the following columns: CHROM, POS, REF, and ID. 
+	  - If effect size column (BETA or OR) is provided, we will automatically apply flipfix. 
+	  - You may include additional columns.
 	
 	Default configurations (please use the options above to modify them):
 	  to_bed_field_sep=${TO_BED_FIELD_SEP}
