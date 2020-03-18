@@ -275,8 +275,11 @@ def return_BF(
     v_beta_inv = safe_inv(v_beta, "v_beta", block, agg_type)
     U_inv = safe_inv(U, "U", block, agg_type)
     if v_beta_inv is not np.nan and U_inv is not np.nan:
+        sum_inv = safe_inv(U_inv + v_beta_inv, "U_inv + v_beta_inv", block, agg_type)
+        if sum_inv is np.nan:
+            np.nan, [], [], False
         fat_middle = v_beta_inv - (
-            v_beta_inv.dot(np.linalg.inv(U_inv + v_beta_inv))
+            v_beta_inv.dot(sum_inv)
         ).dot(v_beta_inv)
         logBF = (
             -0.5 * np.linalg.slogdet(npm.eye(beta.shape[0]) + v_beta_inv * U)[1]
@@ -967,13 +970,14 @@ def set_sigmas(df):
     df = df.assign(sigma_m_1=1)
     df = df.assign(sigma_m_005=0.05)
     df = df[df.sigma_m_var.notnull()]
-    sigma_m_mpc_pli = sigma_m_list
+    sigma_m_mpc_pli = list(df["sigma_m_var"])
     row_count = 0
     for i, row in df.iterrows():
-        if (row['most_severe_consequence'] in ptv) and (row['pLI'] == True):
-            sigma_m_mpc_pli[row_count] = 2 * sigma_m_mpc_pli[row_count]
-        elif (row['most_severe_consequence'] in pav) and (row['MPC'] >= 1):
-            sigma_m_mpc_pli[row_count] = row['MPC'] * sigma_m_mpc_pli[row_count]
+        if sigma_m_mpc_pli[row_count] is not None:
+            if (row['most_severe_consequence'] in ptv) and (row['pLI'] == True):
+                sigma_m_mpc_pli[row_count] = 2 * sigma_m_mpc_pli[row_count]
+            elif (row['most_severe_consequence'] in pav) and (row['MPC'] >= 1):
+                sigma_m_mpc_pli[row_count] = row['MPC'] * sigma_m_mpc_pli[row_count]
         row_count += 1
     df['sigma_m_mpc_pli'] = sigma_m_mpc_pli
     return df
@@ -1411,7 +1415,7 @@ def read_in_summary_stat(subset_df, pop, pheno):
     Reads in one summary statistics file.
   
     Additionally: adds a variant identifier ("V"), renames columns, and filters on 
-        SE (<= 0.5).
+        SE (<= 0.2).
 
     Parameters: 
     subset_df: Subset of the map file where study == pop and phenotype == pheno.
@@ -1751,6 +1755,13 @@ def initialize_parser(valid_phenos):
         """,
     )
     parser.add_argument(
+        "--filter_ld_indep",
+        action='store_true',
+        dest="filter_ld_indep",
+        help="""whether or not only ld-independent variants should be kept (default: False;
+         i.e., use everything).""",
+    )
+    parser.add_argument(
         "--out_folder",
         type=str,
         nargs=1,
@@ -1800,6 +1811,8 @@ if __name__ == "__main__":
     from colorama import Fore, Back, Style
 
     df, map_file, S, K, pops, phenos, R_study_list = return_input_args(args)
+    if args.filter_ld_indep:
+        df = df[df['ld_indep'] == True]
     out_folder = args.out_folder[0] if args.out_folder else os.getcwd()
     out_filename = args.out_filename[0] if args.out_filename else []
     print_banner()

@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH --job-name=mrp_rv_exome
-#SBATCH --output=mrp_logs/mrp_rv_exome.%A_%a.out
+#SBATCH --job-name=mrp_rv_exome_mpc_pli
+#SBATCH --output=mrp_logs/mrp_rv_exome_mpc_pli.%A_%a.out
 #SBATCH --nodes=1
 #SBATCH --cores=8
 #SBATCH --mem=16000
@@ -8,7 +8,7 @@
 
 # define functions
 usage () {
-    echo "$0: MRP script to run rare-variant aggregation for white british exome data"
+    echo "$0: MRP script to run rare-variant aggregation for white british exome data w/ MPC and pLI modifications"
     echo "usage: sbatch -p <partition(s)> --array=1-<number of array jobs> $0 start_idx (inclusive) output_folder"
     echo "e.g. sbatch -p normal,owners --array=1-1000 $0 1 /path/to/output_folder"
     echo '  You may check the status of the job (which jobs are finished) using the array-job module:'
@@ -48,6 +48,6 @@ echo -e "path\tstudy\tpheno\tR_phen\n$FILEPATH\t$POP\t$GBE_ID\tTRUE" > $output_f
 
 cat $output_folder/$GBE_ID.tmp.txt
 
-/share/software/user/open/python/2.7.13/bin/python mrp_production.py --file $output_folder/$GBE_ID.tmp.txt --R_var independent similar --variants ptv pav --filter_ld_indep --metadata_path /oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-consequence_wb_maf_gene_ld_indep_mpc_pli.tsv --out_folder $output_folder
+/share/software/user/open/python/2.7.13/bin/python mrp_production.py --file $output_folder/$GBE_ID.tmp.txt --R_var independent similar --variants ptv pav --sigma_m_types sigma_m_mpc_pli --filter_ld_indep --metadata_path /oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-consequence_wb_maf_gene_ld_indep_mpc_pli.tsv --out_folder $output_folder
 
 rm $output_folder/$GBE_ID.tmp.txt
