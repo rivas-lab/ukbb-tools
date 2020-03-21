@@ -54,6 +54,13 @@ $ comm -13 <( sort w24983_20181016.csv ) <( sort w2498_20170726.csv ) | wc -l
 
 Please see [sample_qc_v3.2.ipynb](sample_qc_v3.2.ipynb) for more details.
 
+We also have additional population definition based on the self-reported ethnicity data. Please see [sample_qc_v3.2.self_reported_pop_def.ipynb](sample_qc_v3.2.self_reported_pop_def.ipynb) for more details.
+
+- Chinese (`N = 1419`)
+- Indian (`N = 5117`)
+- Pakistani (`N = 1583`)
+- Bangladeshi (`N = 209`)
+
 #### summary
 
 We used a combination of PCA (on array genotype data) and self-reported ancestry to define the following five population groups
