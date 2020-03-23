@@ -450,7 +450,7 @@ def calculate_all_params(
     return U, beta, v_beta, mu, converged
 
 
-def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, out_folder, out_filename):
+def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, se_thresh, out_folder, out_filename):
 
     """ 
     Outputs a file containing aggregation unit and Bayes Factors. 
@@ -461,6 +461,7 @@ def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, out_folder, out_file
     pops: Unique set of populations (studies) to use for analysis.
     phenos: Unique set of phenotypes to use for analysis.
     maf_thresh: Maximum MAF of variants in this run.
+    se_thresh: Upper threshold for SE for this run.
     out_folder: Output folder in which results are stored.
     out_filename: Optional prefix for file output.
 
@@ -481,8 +482,10 @@ def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, out_folder, out_file
             + "_".join(phenos)
             + "_"
             + agg_type
-            + "_"
+            + "_maf_"
             + str(maf_thresh)
+            + "_se_"
+            + str(se_thresh)
             + ".tsv",
         )
     else:
@@ -493,8 +496,10 @@ def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, out_folder, out_file
             + out_filename
             + "_"
             + agg_type
-            + "_"
+            + "_maf_"
             + str(maf_thresh)
+            + "_se_"
+            + str(se_thresh)
             + ".tsv",
         )
     out_df = out_df.sort_values(
@@ -658,6 +663,7 @@ def run_mrp(
         if i % 1000 == 0:
             print("Done " + str(i) + " " + agg_type + "s out of " + str(len(m_dict)))
         M = value
+        print(key)
         U, beta, v_beta, mu, converged = calculate_all_params(
             df,
             pops,
@@ -700,6 +706,7 @@ def print_params(
     agg_type,
     sigma_m_type,
     maf_thresh,
+    se_thresh,
     prior_odds_list,
     p_value_methods,
 ):
@@ -731,6 +738,7 @@ def print_params(
     print(Fore.YELLOW + "Aggregation by: " + Style.RESET_ALL + agg_type)
     print(Fore.YELLOW + "Variant weighting factor: " + Style.RESET_ALL + sigma_m_type)
     print(Fore.YELLOW + "MAF threshold: " + Style.RESET_ALL + str(maf_thresh))
+    print(Fore.YELLOW + "SE threshold: " + Style.RESET_ALL + str(se_thresh))
     if prior_odds_list:
         print(
             Fore.YELLOW
@@ -774,6 +782,7 @@ def filter_category(df, variant_filter):
 
 def loop_through_parameters(
     df,
+    se_thresh,
     maf_threshes,
     agg,
     variant_filters,
@@ -798,6 +807,7 @@ def loop_through_parameters(
 
     Parameters: 
     df: Merged dataframe containing all summary statistics.
+    se_thresh: Upper threshold for SE for thiss run.
     maf_threshes: List of maximum MAFs of variants in your runs.
     agg: Unique list of aggregation units ("gene"/"variant") to use for analysis.
     variant_filters: Unique list of variant filters ("ptv"/"pav"/"pcv") to use 
@@ -835,8 +845,10 @@ def loop_through_parameters(
     for maf_thresh in maf_threshes:
         print(
             Fore.YELLOW
-            + "Running MRP across parameters for maf_thresh "
+            + "Running MRP across parameters for MAF threshold "
             + str(maf_thresh)
+            + " and SE threshold "
+            + str(se_thresh)
             + "..."
             + Style.RESET_ALL
         )
@@ -863,6 +875,7 @@ def loop_through_parameters(
                                 agg_type,
                                 sigma_m_type,
                                 maf_thresh,
+                                se_thresh,
                                 prior_odds_list,
                                 p_value_methods,
                             )
@@ -884,7 +897,7 @@ def loop_through_parameters(
                                 p_value_methods,
                             )
                             bf_dfs.append(bf_df)
-            output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, out_folder, out_filename)
+            output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, se_thresh, out_folder, out_filename)
 
 
 def set_sigmas(df):
@@ -1323,6 +1336,27 @@ def return_err_and_R_phen(df, pops, phenos, S, K, map_file):
     return err_corr, R_phen
 
 
+def se_filter(df, se_thresh, pops, phenos):
+    
+    """ 
+    Returns the dataframe filtered for the desired SE threshold.
+ 
+    Parameters: 
+    df: Input dataframe (from summary statistics).
+    se_thresh: Upper threshsold for SE for this run.
+    pops: List of studies from which the current summary statistic dataframe comes from.
+    pheno: List of phenotypes from which the current summary statistic dataframe comes from.
+  
+    Returns: 
+    se_df: Dataframe filtered for SE.
+  
+    """
+    
+    se_cols = ["SE_" + pop + "_" + pheno for pop in pops for pheno in phenos]
+    df['min_SE'] = df[se_cols].apply(np.nanmin, axis=1)
+    return df[df['min_SE'] <= se_thresh]
+
+
 def rename_columns(df, pop, pheno):
 
     """ 
@@ -1333,7 +1367,7 @@ def rename_columns(df, pop, pheno):
   
     Parameters: 
     df: Input dataframe (from summary statistics).
-    pop: The study from which the current summary statistic dataframef comes from.
+    pop: The study from which the current summary statistic dataframe comes from.
     pheno: The phenotype from which the current summary statistic dataframe comes from.
   
     Returns: 
@@ -1414,8 +1448,7 @@ def read_in_summary_stat(subset_df, pop, pheno):
     """
     Reads in one summary statistics file.
   
-    Additionally: adds a variant identifier ("V"), renames columns, and filters on 
-        SE (<= 0.2).
+    Additionally: adds a variant identifier ("V"), renames columns, filters out MHC.
 
     Parameters: 
     subset_df: Subset of the map file where study == pop and phenotype == pheno.
@@ -1457,7 +1490,6 @@ def read_in_summary_stat(subset_df, pop, pheno):
     # Filter for SE as you read it in
     df = rename_columns(df, pop, pheno)
     df = df[df["SE" + "_" + pop + "_" + pheno].notnull()]
-    df = df[df["SE" + "_" + pop + "_" + pheno].astype(float) <= 0.2]
     # Filter out HLA region
     df = df[~((df["#CHROM"] == 6) & (df["POS"].between(25477797, 36448354)))]
     return df
@@ -1576,7 +1608,8 @@ def return_input_args(args):
         raise IOError("File specified in --file does not exist.")
     df, pops, phenos, S, K = read_in_summary_stats(map_file, args.metadata_path, args.exclude)
     for arg in vars(args):
-        setattr(args, arg, sorted(list(set(getattr(args, arg)))))
+        if arg != "filter_ld_indep":
+            setattr(args, arg, sorted(list(set(getattr(args, arg)))))
     R_study = [
         np.diag(np.ones(S)) if x == "independent" else np.ones((S, S))
         for x in args.R_study_models
@@ -1597,9 +1630,28 @@ def range_limited_float_type(arg):
     try:
         f = float(arg)
     except ValueError:
-        raise argparse.ArgumentTypeError("must be a valid floating point number.")
+        raise argparse.ArgumentTypeError("must be valid floating point numbers.")
     if f <= 0 or f >= 1:
         raise argparse.ArgumentTypeError("must be > 0 and < 1.")
+    return f
+
+
+def positive_float_type(arg):
+
+    """ 
+    Type function for argparse - a float that is positive.
+    
+    Parameters:
+    arg: Putative float.
+
+    """
+
+    try:
+        f = float(arg)
+    except ValueError:
+        raise argparse.ArgumentTypeError("must be valid floating point numbers.")
+    if f < 0:
+        raise argparse.ArgumentTypeError("must be >= 0.")
     return f
 
 
@@ -1717,6 +1769,15 @@ def initialize_parser(valid_phenos):
          (default: 0.01).""",
     )
     parser.add_argument(
+        "--se_thresh",
+        type=positive_float_type,
+        nargs="+",
+        default=[0.2],
+        dest="se_threshes",
+        help="""which SE threshold(s) to use. must be valid floats between 0 and 1 
+         (default: 0.2).""",
+    )
+    parser.add_argument(
         "--prior_odds",
         type=range_limited_float_type,
         nargs="+",
@@ -1810,12 +1871,6 @@ if __name__ == "__main__":
     import subprocess
     from colorama import Fore, Back, Style
 
-    df, map_file, S, K, pops, phenos, R_study_list = return_input_args(args)
-    if args.filter_ld_indep:
-        df = df[df['ld_indep'] == True]
-    out_folder = args.out_folder[0] if args.out_folder else os.getcwd()
-    out_filename = args.out_filename[0] if args.out_filename else []
-    print_banner()
     if args.p_value_methods:
         print("")
         print(
@@ -1841,26 +1896,36 @@ if __name__ == "__main__":
         from rpy2.rinterface import RRuntimeWarning
 
         warnings.filterwarnings("ignore", category=RRuntimeWarning)
-    err_corr, R_phen = return_err_and_R_phen(
-        df, pops, phenos, len(pops), len(phenos), map_file
-    )
-    loop_through_parameters(
-        df,
-        args.maf_threshes,
-        args.agg,
-        args.variant_filters,
-        S,
-        R_study_list,
-        args.R_study_models,
-        pops,
-        K,
-        R_phen,
-        phenos,
-        args.R_var_models,
-        args.sigma_m_types,
-        err_corr,
-        args.prior_odds_list,
-        args.p_value_methods,
-        out_folder,
-        out_filename,
-    )
+    
+    df, map_file, S, K, pops, phenos, R_study_list = return_input_args(args)
+    if args.filter_ld_indep:
+        df = df[df['ld_indep'] == True]
+    for se_thresh in args.se_threshes:
+        se_df = se_filter(df, se_thresh, pops, phenos)
+        out_folder = args.out_folder[0] if args.out_folder else os.getcwd()
+        out_filename = args.out_filename[0] if args.out_filename else []
+        print_banner()
+        err_corr, R_phen = return_err_and_R_phen(
+            se_df, pops, phenos, len(pops), len(phenos), map_file
+        )
+        loop_through_parameters(
+            se_df,
+            se_thresh,
+            args.maf_threshes,
+            args.agg,
+            args.variant_filters,
+            S,
+            R_study_list,
+            args.R_study_models,
+            pops,
+            K,
+            R_phen,
+            phenos,
+            args.R_var_models,
+            args.sigma_m_types,
+            err_corr,
+            args.prior_odds_list,
+            args.p_value_methods,
+            out_folder,
+            out_filename,
+        )
