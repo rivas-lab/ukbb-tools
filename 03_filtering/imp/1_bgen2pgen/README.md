@@ -3,6 +3,13 @@
 Those scripts are originally written and executed in 
 `/oak/stanford/groups/mrivas/ukbb24983/imp/pgen/`
 
+## TR;DL How to regenerate pgen files in SCRATCH?
+
+```
+sbatch --array=1-24 bgen2pgen.sbatch.sh
+```
+
+
 ## Step 1. conversion of BGEN to pgen
 
 `bgen2pgen.sbatch.sh`

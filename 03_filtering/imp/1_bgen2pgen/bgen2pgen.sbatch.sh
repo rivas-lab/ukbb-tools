@@ -1,10 +1,10 @@
 #!/bin/bash
 #SBATCH --job-name=bgen2plink
-#SBATCH --output=run_logs/run_bgen_to_plink.%A_%a.out
-#SBATCH  --error=run_logs/run_bgen_to_plink.%A_%a.err
+#SBATCH --output=logs/run_bgen_to_plink.%A_%a.out
+#SBATCH  --error=logs/run_bgen_to_plink.%A_%a.err
 #SBATCH --nodes=1
-#SBATCH --cores=8
-#SBATCH --mem=100000
+#SBATCH --cores=4
+#SBATCH --mem=60000
 #SBATCH --time=1-00:00:00
 #SBATCH -p mrivas,normal
 
@@ -15,9 +15,17 @@ _SLURM_JOBID=${SLURM_JOBID:=0} # use 0 for default value (for debugging purpose)
 _SLURM_ARRAY_TASK_ID=${SLURM_ARRAY_TASK_ID:=1}
 echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-start] hostname = $(hostname) SLURM_JOBID = ${_SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${_SLURM_ARRAY_TASK_ID}" >&2
 
-src="/oak/stanford/groups/mrivas/ukbb24983/imp/pgen/bgen2pgen.sh"
+src="bgen2pgen.sh"
 
-bash ${src} ${_SLURM_ARRAY_TASK_ID} 8 100000
+if [ ${_SLURM_ARRAY_TASK_ID} -eq 23 ] ; then
+    chr="X"
+elif [ ${_SLURM_ARRAY_TASK_ID} -eq 24 ] ; then
+    chr="XY"
+else
+    chr="${_SLURM_ARRAY_TASK_ID}"
+fi
+
+bash ${src} ${chr} 4 40000
 
 # job finish footer (for use with array-job module)
 echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-end] hostname = $(hostname) SLURM_JOBID = ${_SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${_SLURM_ARRAY_TASK_ID}" >&2
