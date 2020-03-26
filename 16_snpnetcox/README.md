@@ -15,7 +15,7 @@ $ zstd -z file
 ```
 
 ## Reshape data for OPCS4 operative procedures
-[Information on UKBB OPCS4 operative procedures](http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=41272).
+[Documentation of UKBB OPCS4 operative procedures](http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=41272).
 
 The OPCS4 operative procedures are data-field 41272. Array indices run from 0-116.
 There are matching data-fields with date of first operative procedure - data-field 41282 (0-116).
