@@ -23,10 +23,10 @@ show_master_file_body () {
 }
 
 show_master_file_footer () {
-    local outfile=$1
+    local out_file=$1
 cat <<- EOF
 	
-	OUTFILE ${outfile} .tbl
+	OUTFILE ${out_file} .tbl
 	MINWEIGHT 10000
 	
 	ANALYZE HETEROGENEITY
@@ -37,7 +37,7 @@ EOF
 
 show_master_file () {
     local file_list=$1
-    local outfile=$2
+    local out_file=$2
 
     show_master_file_header
 
