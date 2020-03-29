@@ -3,7 +3,7 @@ set -beEuo pipefail
 
 chr=$1
 if [ $# -gt 1 ] ; then cpu=$2 ; else cpu=4 ; fi
-if [ $# -gt 2 ] ; then mem=$3 ; else mem=40000 ; fi
+if [ $# -gt 2 ] ; then mem=$3 ; else mem=30000 ; fi
 
 bgen2pgen_conv () {
     local c=$1
@@ -27,13 +27,16 @@ bgen2pgen_conv () {
     local oak_f="${oak_dir}/${base}"
     local scr_f="${scratch_dir}/${base}"
     local bgen=${bgen_dir}/${base}.bgen
+    local ref_fa="/scratch/groups/mrivas/public_data/genomes/hg19/hg19.fa"
     
     if [ ! -f ${oak_f}.pgen.log ] ; then
         plink2 ${plink_common_opts} --out ${scr_f} \
         --bgen "${bgen}" ref-first \
         --sample "${sample}" \
         --make-pgen vzs \
-        --oxford-single-chr ${c}
+        --oxford-single-chr ${c} \
+        --ref-from-fa force \
+        --fa ${ref_fa}
         mv ${scr_f}.log ${scr_f}.pgen.log
         for ext in pvar.zst psam pgen.log ; do
            cp ${scr_f}.${ext} ${oak_f}.${ext}

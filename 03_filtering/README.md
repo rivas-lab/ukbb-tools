@@ -20,11 +20,19 @@ The variant QC procedure for the genotyped array dataset is well described in th
 
 The second paper has the variant QC flowchart as Supplementary Figure 1.
 
+### phased array dataset
+
+Please check [`hap`](hap) directory for more information. As of 3/27/2020, we are asking some issues in BGEN files to UK Biobank.
+
 ### imputation dataset
 
 We have [`imp`](imp) directory to document the QC and filtering procedure for the imputation dataset. Specifically, [`imp/2_var_QC`](imp/2_var_QC) has the variant QC procedure.
 
 ## Sample-level QC
+
+### version history
+
+- `population_stratification_w24983_20200313`: this one corresponds to `sample_qc_v3.2`. The difference between v3.1 and v3.2 are the participant Withdrawal information. We also improved the clarity of the documentation.
 
 ### Participant Withdrawal
 
@@ -61,9 +69,9 @@ We also have additional population definition based on the self-reported ethnici
 - Pakistani (`N = 1583`)
 - Bangladeshi (`N = 209`)
 
-#### summary
+#### summary of the definition of the 5 population groups
 
-We used a combination of PCA (on array genotype data) and self-reported ancestry to define the following five population groups
+We used a combination of PCA (on array genotype data) and self-reported ancestry to define the following five population groups:
 
 - White British (`ukb24983_white_british.phe`, N = 337,138)
 - Non-British White (`ukb24983_non_british_white.phe`, N = 24,905)
@@ -124,15 +132,16 @@ We defined the following thresholds to define ethnic groups
   - We subsequently applied thresholds on local PCs (the ones re-computed for the initially assigned population group)
   - `-0.01 <= PC1 <= 0.02 && -0.02 <= PC2 <= 0`
 
-See more details in notebook (v3.1)
-
-#### Population-specific PCA for further refinement
-
-We applied PCA for 4 populations (all, but White British) and characterized population-specific PCs.
+See more details in notebook for v3.1 ([`sample_qc_v3.1.ipynb`](sample_qc_v3.1.ipynb)).
 
 #### Additional clean-up using population specific PCs
 
-Using the population-specific PCs, we refined the definitions for South Asian and East Asian.
+We applied PCA for 4 populations (all, but White British) and characterized population-specific PCs ([`sample_qc_v3.PCA.sh`](sample_qc_v3.PCA.sh)). We performed the manual inspections and removed outliers (written as population refinement in the notebook, [`sample_qc_v3.2.ipynb`](sample_qc_v3.2.ipynb)) based on the population-specific PC1 and PC2.
+
+- South Asian: `-0.02 <= PC1 <= 0.03`, `-0.05 <= PC2 <= 0.02` (n = 7962 -> 7885)
+- East Asian: `-0.01 <= PC1 <= 0.02`, `-0.02 <= PC2 <= 0` (n = 1772 -> 1154)
+
+Note that African and Non-British White populations are not affected.
 
 ##### Non-British White
 
@@ -152,9 +161,17 @@ Using the population-specific PCs, we refined the definitions for South Asian an
 
 #### Re-computing the population-specific PCs
 
-We recompute the population-specific PCs for the refined populations.
+We compute the population-specific PCs (one more time) using the two refined populations (East and South Asians).
 
 ![Local PCs](figs/sample_qc_v3.2.local.PC1.vs.PC2.png)
+
+Our population specific PCs are:
+
+- `White British`: exactly the same as the global PCs provided by UK Biobank.
+- `Non-British white`: the local PCs computed for NBW ([`sample_qc_v3.PCA.sh`](sample_qc_v3.PCA.sh)).
+- `African`: the local PCs computed for African ([`sample_qc_v3.PCA.sh`](sample_qc_v3.PCA.sh)).
+- `East Asian`: the local PCs computed for East Asian ([`sample_qc_v3.PCA.sh`](sample_qc_v3.PCA.sh)). Note that we recomputed the local PCs after the population refinement (outlier removal).
+- `South Asian`: the local PCs computed for South Asian ([`sample_qc_v3.PCA.sh`](sample_qc_v3.PCA.sh)). Note that we recomputed the local PCs after the population refinement (outlier removal).
 
 #### GWAS covariate file
 
@@ -171,3 +188,16 @@ In the GWAS covariate file, we included the followings:
 - Array: 1 indicates UKBB array; 0 indicates UKBL array.
 - PC1-PC40: the population-specific PCs for 4 populations (Non-British White, African, South Asian, and East Asian) and the global PCs for White British
 - Global_PC1-Global_PC40: the Global PCs provided by UK Biobank
+
+#### Lists of individuals and variants on Axiom and BiLEVE Arrays
+
+```{bash}
+999  awk '($144==1){print $1,$2}' /oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification_w24983_20200313/ukb24983_master_sqc.20200313.phe > /oak/stanford/groups/mrivas/ukbb24983/sqc/axiom_individuals.txt
+
+1000  awk '($144==0){print $1,$2}' /oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification_w24983_20200313/ukb24983_master_sqc.20200313.phe > /oak/stanford/groups/mrivas/ukbb24983/sqc/bileve_individuals.txt
+
+ [magu@sh02-ln02 login /oak/stanford/groups/mrivas/private_data/ukbb/variant_filtering]$ zcat variant_filter_table.tsv.gz | awk '($21 ~ /T/){print $5}' > /oak/stanford/groups/mrivas/ukbb24983/sqc/axiom_specific_variants.txt
+
+[magu@sh02-ln02 login /oak/stanford/groups/mrivas/private_data/ukbb/variant_filtering]$ zcat variant_filter_table.tsv.gz | awk '($22 ~ /T/){print $5}' > /oak/stanford/groups/mrivas/ukbb24983/sqc/bileve_specific_variants.txt
+
+ ```

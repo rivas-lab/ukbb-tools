@@ -23,10 +23,10 @@ show_master_file_body () {
 }
 
 show_master_file_footer () {
-    local outfile=$1
+    local out_file=$1
 cat <<- EOF
 	
-	OUTFILE ${outfile} .tbl
+	OUTFILE ${out_file} .tbl
 	MINWEIGHT 10000
 	
 	ANALYZE HETEROGENEITY
@@ -37,7 +37,7 @@ EOF
 
 show_master_file () {
     local file_list=$1
-    local outfile=$2
+    local out_file=$2
 
     show_master_file_header
 
@@ -74,11 +74,11 @@ add_BETA_from_OR () {
 
     local col_OR=$( get_col_idx $in_file "OR")
 
-    echo "$(show_header $in_file) BETA" | tr " " "\t"
+    echo "$(show_header $in_file) BETA" | sed -e "s/LOG(OR)_SE/SE/g" | tr " " "\t"
 
     cat_or_zcat ${in_file} \
     | egrep -v '^#' \
-    | awk -v OFS='\t' -v cOR=${col_OR} '{print $0, log($cOR)}'
+    | awk -v OFS='\t' -v cOR=${col_OR} '(NR==1 || $cOR != "NA"){print $0, log($cOR)}'
 }
 
 extract_loci () {

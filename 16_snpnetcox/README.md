@@ -6,7 +6,7 @@ The location of the master snpnet-cox phenotype file for White British individua
 `/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/master_phe/cox/master.cox.20200205.phe.zst`
 
 The location of the master snpnet-cox phenotype file for all individuals:
-`/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/master_phe/cox/master.cox.20200221.allinds.phe.zst`
+`/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/master_phe/cox/master.cox.20200326.allinds.phe.zst`
 
 ## Compress files using zstd
 ```
@@ -15,7 +15,7 @@ $ zstd -z file
 ```
 
 ## Reshape data for OPCS4 operative procedures
-[Information on UKBB OPCS4 operative procedures](http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=41272).
+[UKBB OPCS4 operative procedure data fields](http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=41272).
 
 The OPCS4 operative procedures are data-field 41272. Array indices run from 0-116.
 There are matching data-fields with date of first operative procedure - data-field 41282 (0-116).
@@ -37,7 +37,7 @@ Script
 - inc - status on prevalent case = 0 and incident case = 1 (at UKBB baseline assessment)
 
 ## First Occurrence: Make individual phenotype files for snpnet-cox
-[Documentation of UKBB first occurrence data-fields](http://biobank.ndph.ox.ac.uk/showcase/showcase/docs/first_occurrences_outcomes.pdf).
+[Documentation of UKBB first occurrence data fields](http://biobank.ndph.ox.ac.uk/showcase/showcase/docs/first_occurrences_outcomes.pdf).
 [UKBB first occurrence showcase data](http://biobank.ctsu.ox.ac.uk/crystal/search.cgi?wot=0&srch=first+occurrence&sta0=on&sta1=on&sta2=on&sta3=on&str0=on&str3=on&fit0=on&fit10=on&fit20=on&fit30=on&fvt11=on&fvt21=on&fvt22=on&fvt31=on&fvt41=on&fvt51=on&fvt61=on&fvt101=on).
 
 The First Occurrence data-fields are composed of data from primary care, in-patient hospital, x and self-reported data. This information is all mapped to ICD-10 3-character structure with an event date. 
