@@ -1,12 +1,12 @@
 #!/bin/bash
-#SBATCH --job-name=RL_ARRAY
-#SBATCH --output=rerun_logs/run_array.%A_%a.out
-#SBATCH  --error=rerun_logs/run_array.%A_%a.err
+#SBATCH --job-name=GWAS_ARRAY
+#SBATCH --output=rerun_logs/run_array_combined.%A_%a.out
+#SBATCH  --error=rerun_logs/run_array_combined.%A_%a.err
 #SBATCH --nodes=1
 #SBATCH --cores=8
 #SBATCH --mem=51200
 #SBATCH --time=2-00:00:00
-#SBATCH -p normal,owners
+#SBATCH -p normal,owners,mrivas
 
 set -beEuo pipefail
 
@@ -23,6 +23,7 @@ usage () {
 software_versions () {
     which plink2
     which bgzip
+    which python
 }
 
 get_field_from_pop () {
@@ -65,12 +66,13 @@ field=$(get_field_from_pop $pop)
 # load sofware, dump which versions are used
 export MODULEPATH="/home/groups/mrivas/.modules:${MODULEPATH}"
 ml load htslib
+ml load python/3.6.1
 
 if grep -q "CPU_GEN:HSW\|CPU_GEN:BDW\|CPU_GEN:SKX" <(a=$(hostname); sinfo -N -n ${a::-4} --format "%50f"); then
    # AVX2 is suitable for use on this node if CPU is recent enough
-   ml load plink2/20190826
+   ml load plink2/20200314
 else
-   ml load plink2/20190826-non-AVX2
+   ml load plink2/20200314-non-AVX2
 fi
 
 software_versions >&2
@@ -90,25 +92,23 @@ phe_path=$(find_phe_path ${phenotype_info_file} ${min_N_count} ${field} ${start_
 gbeId=$(basename ${phe_path} .phe)
 
 # run array gwas with default GBE parameters
-gwasOutDir=$(echo $(dirname $(dirname $phe_path)) | awk '{gsub("phenotypedata","cal/gwas"); print}')/${pop}
-echo $gwasOutDir
-if [ ! -d ${gwasOutDir}/logs ] ; then mkdir -p ${gwasOutDir}/logs ; fi
+gwas_out_dir=$(echo $(dirname $(dirname $phe_path)) | awk '{gsub("phenotypedata","cal/gwas"); print}')/${pop}
+symlink_dir="/oak/stanford/groups/mrivas/ukbb24983/cal/gwas/current/${pop}"
+
+if [ ! -d ${gwas_out_dir}/logs ] ; then mkdir -p ${gwas_out_dir}/logs ; fi
 if [ ! -d $log_dir ] ; then mkdir -p $log_dir ; fi
 
-python gwas.py --run-array --run-now --memory $mem --cores $cores --pheno $phe_path --out $gwasOutDir --population $pop --log-dir $log_dir
+/share/software/user/open/python/3.6.1/bin/python3 gwas.py --run-array-combined --run-now --memory $mem --cores $cores --pheno $phe_path --out $gwas_out_dir --population $pop --log-dir $log_dir
 
-# move log file and bgzip output
-for type in genotyped; do
-    file_prefix=${gwasOutDir}/ukb24983_v2_hg19.${gbeId}.${type}
-    for ending in "logistic.hybrid" "linear"; do
-        if [ -f ${file_prefix}.glm.${ending} ]; then
-            bgzip --compress-level 9 -f ${file_prefix}.glm.${ending}
-        fi
-    done
-    if [ -f ${file_prefix}.log ]; then
-        mv -f ${file_prefix}.log ${gwasOutDir}/logs/
+# introduce symlinks
+file_prefix=ukb24983_v2_hg19.${gbeId}.array-combined
+for ending in "logistic.hybrid" "linear"; do
+    if [ -f ${gwas_out_dir}/${file_prefix}.glm.${ending}.gz ]; then
+        ln -sf ${gwas_out_dir}/${file_prefix}.glm.${ending}.gz ${symlink_dir}/${file_prefix}.glm.${ending}.gz
     fi
 done
+
+ln -sf ${gwas_out_dir}/logs/${file_prefix}.log ${symlink_dir}/logs/${file_prefix}.log
 
 # job finish footer (for use with array-job module)
 echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-end] hostname = $(hostname) SLURM_JOBID = ${_SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${_SLURM_ARRAY_TASK_ID} ; pop=${pop}" >&2

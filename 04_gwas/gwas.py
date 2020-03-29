@@ -48,16 +48,14 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cor
     qcDir         = '/oak/stanford/groups/mrivas/ukbb24983/sqc/'
     keepFile=updateKeepFile(outDir, qcDir, keepFile=keepFile, pop=pop, sexDiv=sexDiv, keepSexFile=keepSexFile)
     unrelatedFile = os.path.join(qcDir,'ukb24983_v2.not_used_in_pca.phe') if not related else ''
-    is_cnv_burden = os.path.basename(bpFile[1]) == 'burden'
+    is_cnv_burden = (os.path.basename(bpFile[1]) == 'burden') or (os.path.basename(bpFile[1]) == 'ukb24983_cal_hla_cnv') or (os.path.basename(bpFile[1]) == 'ukb24983_hg19_cal_hla_cnv_imp')
     if os.path.dirname(pheFile).split('/')[-1] == "binary": 
         is_biomarker_binary = True
     elif len(os.path.basename(pheFile).split('_')) < 2:
         is_biomarker_binary = False
     else:
         is_biomarker_binary = os.path.basename(pheFile).split('_')[1]  == 'binary'
-    if is_cnv_burden:
-        covarFile = '/oak/stanford/groups/mrivas/ukbb24983/cnv/pgen/ukb24983_cnv_burden.covar'
-    elif is_biomarker_binary:
+    if is_biomarker_binary:
         covarFile = '/oak/stanford/groups/mrivas/projects/biomarkers/covariate_corrected/output/covariates/logistic.covariates.phe'
     else:
         covarFile = os.path.join(qcDir, 'ukb24983_GWAS_covar.phe')    
@@ -77,8 +75,8 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cor
     if unrelatedFile and len(rmadd) > 0:
         os.system('cat ' + unrelatedFile + ' ' + rmadd + ' > tmp')
     cmd_plink = " ".join([
-        "plink" if plink1 else "plink2", 
-        f'--threads {cores}' if (cores is not None) else "",
+        "plink" if plink1 else "plink2",
+        f"--threads {cores}" if (cores is not None) else "",
         f"--memory {memory}" if (memory is not None) else "",
         genotypeStr,
         "--chr 1-22" + (",X,XY" if includeX else ""),
@@ -93,20 +91,20 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cor
         "--covar", covarFile, 
         "--covar-name age ", "sex " if not sexDiv else "", 
         "Array " if arrayCovar else "", 
-        "PC1-PC4", 
-        "N_CNV LEN_CNV" if is_cnv_burden else "PC5-PC10 FastingTime" if is_biomarker_binary else "",
+        "PC1-PC10", 
+        "N_CNV LEN_CNV" if is_cnv_burden else "FastingTime" if is_biomarker_binary else "",
         "--covar-variance-standardize",
         "--vif 100000000" if pop in ['non_british_white', 'african', 'e_asian', 's_asian'] else "",
         "--out", outFile,
         plink_opts
     ])
-    gwas_sh=os.path.join(os.path.dirname(__file__), '04_gwas_misc.sh')
-    # gwas_sh="/oak/stanford/groups/mrivas/users/mrivas/repos/ukbb-tools-git/04_gwas/04_gwas_misc.sh"
+    # gwas_sh=os.path.join(os.path.dirname(__file__), '04_gwas_misc.sh')
+    gwas_sh="/oak/stanford/groups/mrivas/users/guhan/repos/ukbb-tools/04_gwas/04_gwas_misc.sh"
 #    print(os.path.dirname(__file__))
     cmds = [
-        f'source {gwas_sh}',
+        f"source {gwas_sh}",
         cmd_plink,
-        f'post_processing {outFile}'
+        f"post_processing {outFile}"
     ]
     return("\n\n".join(cmds))
 
@@ -134,7 +132,7 @@ def make_plink_commands_arrayCovar(bpFile, outFile, make_plink_command_common_ar
         # join the plink calls, add some bash at the bottom to combine the output  
         return("\n\n".join([
             cmd2, cmd1,
-            f'combine_two_sumstats {outFile1} {outFile2} {outFile} {cores}'
+            f"combine_two_sumstats {outFile1} {outFile2} {outFile} {cores}"
         ]))
 
 def make_batch_file(batchFile, plinkCmd, cores, memory, time, partitions):

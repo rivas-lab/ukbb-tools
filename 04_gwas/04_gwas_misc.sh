@@ -16,42 +16,45 @@ cat_or_zcat () {
 
 find_file () {
     local filePrefix=$1
-    
     find $(dirname $filePrefix) -name "$(basename $filePrefix)*glm*"
 }
 
 find_suffix () {
     local filePrefix=$1
-    
     find_file $filePrefix | sed -e "s%${filePrefix}.%%"
 }
 
 mv_glm_file_and_bgzip () {
+    echo "Moving glm file and bgzipping..."
     local filePrefix=$1
-    local src=$(find_file $filePrefix)
-    local dst=$filePrefix.$(find_suffix $filePrefix | cut -d'.' -f2-)
+    local src=$(find_file $filePrefix | egrep -v 'gz$')
+    local dst=$filePrefix.$(find_suffix $filePrefix | egrep -v 'gz$' | cut -d'.' -f2-)
+    echo "Source: ${src}"
+    echo "Destination: ${dst}"
     mv $src $dst
     apply_bgzip $dst
 }
 
 apply_bgzip () {
     local file=$1
-    if [ "${file%.gz}.gz" != "${file}" ] ; then bgzip -l 9 ${file} ; fi
+    if [ "${file%.gz}.gz" != "${file}" ] ; then bgzip -l9 -f ${file} ; fi
 }
 
 get_log_filename () {
     local filePrefix=$1
     
-    echo "$(dirname ${filePrefix})/log/$(basename ${filePrefix}).log"
+    echo "$(dirname ${filePrefix})/logs/$(basename ${filePrefix}).log"
 }
 
 post_processing () {
     local filePrefix=$1
-    
     local logFile=$(get_log_filename ${filePrefix})
     if [ ! -d $(dirname ${logFile}) ] ; then mkdir -p $(dirname ${logFile}) ; fi
+    echo "Moving the log file..."
+    echo "Source: ${filePrefix}.log"
+    echo "Destination: ${logFile}"
     mv ${filePrefix}.log ${logFile}
-    mv_glm_file_and_bgzip $filePrefix    
+    mv_glm_file_and_bgzip $filePrefix 
 }
 
 combine_two_sumstats () {
@@ -59,20 +62,26 @@ combine_two_sumstats () {
     local inFile1Prefix=$1
     local inFile2Prefix=$2
     local outFilePrefix=$3
+    echo "inFile1Prefix = $inFile1Prefix"
+    echo "infile2Prefix = $inFile2Prefix"
+    echo "outFilePrefix = $outFilePrefix"
     
     if [ $# -gt 3 ] ; then threads=$4 ; else threads=1 ; fi
     
-    local file1=$(find_file $inFile1Prefix)
-    local file2=$(find_file $inFile2Prefix)    
-    local ending=$(find_suffix $inFile1Prefix)
+    local file1=$(find_file $inFile1Prefix | egrep 'gz$')
+    local file2=$(find_file $inFile2Prefix | egrep 'gz$')
+    local ending=$(find_suffix $inFile1Prefix | egrep 'gz$')
 
+    echo "file1 = $file1"
+    echo "file2 = $file2"
+    echo "ending = $ending"
     cat $(get_log_filename ${inFile1Prefix}) $(get_log_filename ${inFile2Prefix}) > $(get_log_filename ${outFilePrefix})
     rm $(get_log_filename ${inFile1Prefix}) $(get_log_filename ${inFile2Prefix})
 
     { 
     zcat $file1 | egrep '^#' #header
     zcat $file1 $file2 | egrep -v '^#' | sort -k1,1V -k2,2n -u --parallel=${threads}
-    } | bgzip -l 9 > ${outFilePrefix}.${ending%.gz}.gz
+    } | bgzip -l9 -f > ${outFilePrefix}.${ending%.gz}.gz
     rm $file1 $file2
 }
 

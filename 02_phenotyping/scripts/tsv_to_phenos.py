@@ -110,10 +110,13 @@ def define_phenos(
         )
         info_dir = os.path.join(os.path.dirname(os.path.dirname(phe)), "info")
         info_file = os.path.join(info_dir, "{}.info".format(phe_name))
-        # if os.path.exists(phe) and os.path.exists(info_file):
-        #     print("Phenotype for " + phe_name + " already exists at " + phe + ".")
-        # else:
-        if True:
+        if os.path.exists(phe):
+            print("Phenotype for " + phe_name + " already exists at " + phe + ".")
+        elif (phe_name == "INI5266") or (phe_name == "INI5267") or (phe_name == "INI5258") or (phe_name == "INI5259"):
+            print("Bad phenotype " + phe_name + ", skipping...")
+        else:
+            print("Making phenotype for " + phe_name + "...")
+        # if True:
             tab_f = "ukb{}.tab".format(phe_values["table_id"])
             # this will throw an indexing error if a bad table is supplied
             tsv = os.path.join(
@@ -153,7 +156,7 @@ def define_phenos(
                 phe_values["table_id"],
                 phe_values["basket_id"],
                 "24983",
-                os.path.basename(in_tsv),
+                os.path.basename(os.path.realpath(in_tsv)),
             )
             if os.path.exists(
                 os.path.join(home_dir, "current", "phe/{}.phe".format(phe_name))

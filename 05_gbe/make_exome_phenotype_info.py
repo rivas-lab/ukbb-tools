@@ -3,15 +3,17 @@ import pandas as pd
 import glob
 
 # all exome
+print("Reading in exome psam file...")
 exome = {}
 exome['all'] = pd.read_csv("/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_p_spb.psam", sep='\t', dtype=str)
 
 # get the rest of the populations
-for f in glob.glob("/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification/ukb24983_*.phe"):
-    pop = os.path.basename(f).replace('.phe','').replace('ukb24983_','')
-    exome[pop] = exome['all'].merge(pd.read_csv(f, sep='\t', header=None, usecols=[1], names=['IID'], dtype=str), on='IID')
+print('Reading in population files...')
+for pop in ['african', 'e_asian', 'non_british_white', 's_asian', 'white_british']:
+    exome[pop] = exome['all'].merge(pd.read_csv("/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification/ukb24983_" + pop + ".phe", sep='\t', header=None, usecols=[1], names=['IID'], dtype=str), on='IID')
 
 # do the thing
+print("Progressing through phenotypes...")
 with open("phenotype_info.tsv", "r") as f, open("exome_phenotype_info.tsv","w") as o:
     for n,line in enumerate(f):
         # write header when we encounter the header

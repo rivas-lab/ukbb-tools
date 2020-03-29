@@ -2,6 +2,9 @@
 echo "Updating phenotype_info.tsv..."
 bash update_phe_info.sh
 echo "Updated phenotype_info.tsv."
+echo "Updating exome_phenotype_info.tsv..."
+python make_exome_phenotype_info.py
+echpo "Updated exome_phenotype_info.tsv..."
 echo "Updating icdinfo.txt..."
 bash update_gbe_icdinfo.sh
 echo "Updated icdinfo.txt."

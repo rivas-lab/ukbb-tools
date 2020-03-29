@@ -663,7 +663,6 @@ def run_mrp(
         if i % 1000 == 0:
             print("Done " + str(i) + " " + agg_type + "s out of " + str(len(m_dict)))
         M = value
-        print(key)
         U, beta, v_beta, mu, converged = calculate_all_params(
             df,
             pops,
