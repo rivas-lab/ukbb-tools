@@ -61,7 +61,7 @@ fwrite(str_replace_all(out_f, '.zst$', ''), sep='\t', na = "NA", quote=F)
 
 system(paste(
     'zstd', '--rm', '-19',
-    str_replace_all(out_f, '.zst$', '')
+    str_replace_all(out_f, '.zst$', ''),
     sep=' '
 ), intern=F, wait=T)
 
