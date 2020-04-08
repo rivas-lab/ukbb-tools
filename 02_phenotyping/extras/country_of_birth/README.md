@@ -28,10 +28,18 @@ Note that the id string is a contatenation of the field ID and the data-coding s
 
 ## data location
 
-- Extracted file: /oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/country_of_birth/misc/ukb2005693_ukb37855.fields1647_20115.tsv.zst`
+- Extracted file
+  - `/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/country_of_birth/misc/ukb2005693_ukb37855.fields1647_20115.tsv.zst`
 - Data-Coding mapping files
-  - coding89.tsv
-  - coding100420.tsv
+  - `coding89.tsv`
+  - `coding100420.tsv`
+- Counts of individuals per country/region
+  - `/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/country_of_birth/misc/ukb2005693_ukb37855.country_of_birth.coding.tsv`
+
+## Note
+
+- For genetic analysis, separation within UK may introduce excessive collinearity.
+- There is "United Kingdom" in [Data-Field 20115: Country of Birth (non-UK origin)](http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=20115) ([Data-coding 89](http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=89)).
 
 ## scripts and notebook
 
