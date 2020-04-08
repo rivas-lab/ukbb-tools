@@ -29,11 +29,11 @@ field=$(get_field_from_pop $pop)
 awk -F'\t' -v field=${field} 'BEGIN{OFS="\t"}(NR > 1 && length($1) && length($2) && length($field)){print $1,$field,$2,$field,$field,"Y"}' phenotype_info.tsv ;
 
 # then find additional info
-find ${ICD_DIR} -name "info.tsv" | xargs -i awk 'BEGIN{OFS="\t"}(length($1) && length($2) && length($3)){print $1,$2,$3,$2,$2,"Y"}' {} ; 
+#find ${ICD_DIR} -name "info.tsv" | xargs -i awk 'BEGIN{OFS="\t"}(length($1) && length($2) && length($3)){print $1,$2,$3,$2,$2,"Y"}' {} ; 
 ) | tr " " "_" | sort -k1,1 -k2,2nr | awk '!_[$1]++' > ${OUT_DIR}/icdinfo.${pop}.txt
 
 if [ "${pop}" == "white_british" ] ; then
     cd ${OUT_DIR}
-    ln -s icdinfo.${pop}.txt icdinfo.txt
+    ln -sf icdinfo.${pop}.txt icdinfo.txt
 fi
 
