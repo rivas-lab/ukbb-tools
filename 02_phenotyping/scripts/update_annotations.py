@@ -10,11 +10,12 @@ from showcase_and_list_to_tsv import join_and_add_cols
 
 _README_ = """
 
-A script that generates a new master annotation tsv given a new table.
+A script that generates a new master annotation tsv.
 
 Actions:
-1. Creates an empty tsv based on the fields contained in the new table.
-2. Updates the tsv with all other annotations or empty fields generated thus far.
+1. Gets a tsv mapping fields to tables, baskets, and release dates.
+2. Gets most recent version of each field.
+3. Gets annotations or empty fields generated thus far.
 
 Authors: Matthew Aguirre and Guhan Venkataraman (SUNETs: magu and guhan)
 Updated: 2020/03/16
