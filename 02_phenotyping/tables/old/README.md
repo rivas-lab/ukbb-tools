@@ -20,5 +20,3 @@ This folder contains old phenotyping `.tsvs`; also see below for Google Drive li
 [2017-12-11](https://docs.google.com/spreadsheets/d/1_DaICh1p8gexdB-dkNK5dM1LvJpTl63ZDNA99mNNWEU)
 [2018-11-09](https://docs.google.com/spreadsheets/d/10ek7GjhM-QFDwJnyKtCk34ehD3vK9n509KgAYEnbnKc)
 [2019-03-27](https://docs.google.com/spreadsheets/d/1v_W3kMZBiI316S0n_1UUbjOuZYir-1sUlp4UaKBSqv8/edit#gid=1467225744)
-
-phenotypes](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping#a) or run [GWAS for GBE](https://github.com/rivas-lab/ukbb-tools/tree/master/04_gwas)
