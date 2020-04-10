@@ -45,7 +45,7 @@ When the command finishes running, you will see that a couple of files have been
 
 *NOTE*: Depending on the size and complexity of the dataset and the machine you are running on (we personally recommend 32GB RAM, 4 CPUs (`sdev -p mrivas -t 7-0:00:00 -m 32g -n4`)), you could be looking at a couple of hours' runtime for [`01_preprocessing_auto.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/01_preprocessing/01_preprocessing_auto.sh). Run the script in `screen` or `tmux` if possible or submit to `sbatch` so that it can run in the background.
 
-## Generating a `.tab.columns.summary.tsv.gz` file
+### Generating a `.tab.columns.summary.tsv.gz` file
 
 To provide a column-wise summary of any data table file (including master phenotype files), you can run `compute_col-wise_md5sum.sh` using the following set of commands:
 
@@ -54,11 +54,11 @@ bash compute_col-wise_md5sum.sh ukbXXXXX.tab > ukbXXXXX.tab.columns.summary.tsv
 gzip -9 ukbXXXXX.tab.columns.summary.tsv
 ```
 
-In case the table file is large, there are options to compute the statistics for selected columns (`-c` option) or for a selected range of column indices (`-s` and `-e` options to indicate the start and the end of the range (both inclusive)). Please look at the [job directory]([compute_col-wise_md5sum_job](https://github.com/rivas-lab/ukbb-tools/tree/master/01_preprocessing/compute_col-wise_md5sum_job)) to see an example.
+In case the table file is large, there are options to compute the statistics for selected columns (`-c` option) or for a selected range of column indices (`-s` and `-e` options to indicate the start and the end of the range (both inclusive)).
 
-This script historically has been run on the `master.phe` file. The most recent version of the results of this script are saved to a symlink, `/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/master_phe/tab.columns.summary.tsv.gz`.
+Please look at the [job directory](https://github.com/rivas-lab/ukbb-tools/tree/master/01_preprocessing/compute_col-wise_md5sum_job) to see an example of how this was run across all `.tab` files. The most recent version of the results of this set of scripts are saved to a symlink, `/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/master_phe/tab.columns.summary.tsv.gz`.
 
-## (Optional) Mapping IDs across different application IDs
+### (Optional) Mapping IDs across different application IDs
 
 ```
 # map IDs
@@ -85,6 +85,6 @@ $ cat ukb27645.tab | awk -v FS='\t' '{print NF}' | uniq -c
  502537 2265
 ```
 
-## Defining phenotypes
+### Defining phenotypes
 
-With the `.tab.columns` file in tow, you're ready to start [defining phenotypes](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping).
+With the `.tab` file in tow, you're ready to start [defining phenotypes](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping).
