@@ -34,4 +34,4 @@ Example Usage:
 
 ```{bash}
 bash ukbb-tools.module.updater.sh 20200225
-``
+```
