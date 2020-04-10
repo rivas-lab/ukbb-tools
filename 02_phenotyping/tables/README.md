@@ -1,46 +1,17 @@
-This is a holding tank for tables we've made at previous computing sessions. Links to the Google Spreadsheets for each of the above tables are below. 
+# Phenotyping tables
 
-## current table
+This is a holding tank for tables relevant to phenotyping.
 
-- [ukb_20191110.tsv](http://bit.ly/ukb_20191110)
-  - We performed the merge with the existing annotation tables.
-  - For the new UKB fields, we asked Manny to annotate the priority (Priority = 1).
-- ukb_20191110_priority_1.tsv (subset of ukb_20191110)
-  - To generate `phe` files for the existing ones and the annotated new fields, we exported the subset (see below):
-- [ukb_20191206.tsv](http://bit.ly/ukb_20191206)
-  - This is a folk of the `20191110` table.
-  - We will annotate the phenotypes for those marked as priority = 2.
+## Contents
 
+1. [`annotations`](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping/tables/annotations): Contains all versions of [`ukb_annotations.tsv`](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping/tables/ukb_annotations.tsv).
+2. [`Data_Dictionary_Showcases`](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping/tables/Data_Dictionary_Showcases): Contains all versions of [`Data_Dictionary_Showcase.csv`](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping/tables/Data_Dictionary_Showcase.csv).
+3. [`old`](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping/tables/old): Old annotation tables that don't have standardized column names or orders.
+4. [`Data_Dictionary_Showcase.csv`](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping/tables/Data_Dictionary_Showcase.csv): Symlink to the most recent table in [`Data_Dictionary_Showcases`](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping/tables/Data_Dictionary_Showcases); the UK Biobank's annotation file.
+5. [`field_table_basket_date.tsv`](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping/tables/field_table_basket_date.tsv`): A map of fields to tables, baskets, and release dates. Note that a field might have multiple baskets/tables.
+6. [`ukb_annotations.tsv`](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping/tables/ukb_annotations.tsv): Symlink to the most recent table in [`annotations`](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping/tables/annotations); our master annotation file.
+7. [`ukbb24983_tables.tsv`](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping/tables/ukbb24983_tables.tsv): A list of `.tab` files, their release dates, and their respective baskets.
 
-```
-cat ukb_20191110.tsv | awk 'NR==1 || $5 != ""' > ukb_20191110_priority_1.tsv
-```
+## Pipelines and Workflows
 
-## older tables
-
-[2017-07-27](https://docs.google.com/spreadsheets/d/1cvRNHh9f2o89m_33VsnOABCgekBaaUz_Ron9YHEpC60/edit?usp=sharing)
-
-[2017-08-18](https://docs.google.com/spreadsheets/d/1bw2UZrh4k7hQBgkyKUina99ycyDzRxYcALJGc-BZjjs/edit#gid=103327750)
-
-[2017-08-27](https://docs.google.com/spreadsheets/d/1fpwdvqME9rxGTBAyQ5VZvgO3M2RCqgxiXBdRzZmbckk)
-
-[2017-10-15](https://docs.google.com/spreadsheets/d/1pAoQxDlrT8FO15iIC7TKz3OEjlz8-XE26nMFKNFo7yc)
-
-[2017-11-10](https://docs.google.com/spreadsheets/d/1FIEf4cqT73-myRfbzUugzXC-MPj1t-NEQVeY_ioPYAU)
-
-[2017-11-13](https://docs.google.com/spreadsheets/d/1mxdF070Lag1e4hhYXRk_5IpFxqUfSk0IIIpfFlzSVZg/edit?usp=sharing)
-
-[2017-12-11](https://docs.google.com/spreadsheets/d/1_DaICh1p8gexdB-dkNK5dM1LvJpTl63ZDNA99mNNWEU)
-
-[2018-11-09](https://docs.google.com/spreadsheets/d/10ek7GjhM-QFDwJnyKtCk34ehD3vK9n509KgAYEnbnKc)
-
-[2019-03-27](https://docs.google.com/spreadsheets/d/1v_W3kMZBiI316S0n_1UUbjOuZYir-1sUlp4UaKBSqv8/edit#gid=1467225744)
-
-Want info on how to define [phenotypes](https://github.com/rivas-lab/ukbb-tools/tree/master/phenotyping#after-the-session---compiling-phenotype-files) or run [GWAS for GBE](https://github.com/rivas-lab/ukbb-tools/tree/master/gbe) with these tables? The parameters you'll need to use are documented [here](https://docs.google.com/spreadsheets/d/1d4w4A8takvPxpHoUFXoNjj3a3QZLc-oHQiMaA5eElRg/). 
-
-Want more info on the phenotypes, or on what we have access to in the UK Biobank? You can answer most of those questions with our annotated copy of the [Data Showcase](https://docs.google.com/spreadsheets/d/103waV0b6J8RC9Z9hq0A2ooIjh9BGJQYITuBAVjQouyo).
-
-To see the release dates of each table, you can check here: https://github.com/rivas-lab/ukbb24983wiki/blob/master/AMS/README.md
-
-
-
+See [parent folder](https://github.com/rivas-lab/ukbb-tools/blob/master/02_phenotyping) for the [complete pipeline](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping#generating-and-updating-phenotypes-and-summary-statistics) involving most of these tables.

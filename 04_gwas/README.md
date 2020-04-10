@@ -1,8 +1,53 @@
-## Genome-wide associations with UK Biobank data
+# Genome-wide association studies with UK Biobank data
 
-The script in this directory, `gwas.py`, is designed to be a convenient wrapper for running genome-wide associations with PLINK, using the lab's resources from the UK Biobank. 
+The "main" script in this directory, `gwas.py`, is designed to be a convenient wrapper for running genome-wide associations with PLINK using the lab's resources from the UK Biobank. This directory contains a plethora of options and double-wrapper scripts around `gwas.py`.
 
-### Analysis options:
+## Contents
+
+1. `04_gwas_misc.sh`: A file containing common functions used across the GWAS scripts. Loaded by running `source 04_gwas_misc.sh`.
+2. `flipfix_and_liftOver.py`: Fixes "flips" in coordinates and (optionally) lifts them over to hg38. *Known issue: Multiallelic sites are not supported.*
+- Inputs: 
+- Outputs: 
+- Example usage:
+3. `gwas.py`: The bread and butter of this directory. This script uses a Python command-line interface to create the recommended PLINK script and submits it to the cluster.
+- Inputs: 
+- Outputs: 
+- Example usage:
+4. `gwas_freeze.sh`: 
+- Inputs:
+- Outputs:
+- Example usage:
+5. `plink_updater.sh`: 
+- Inputs:
+- Outputs:
+- Example usage: 
+6. `run_array_hla_cnv.sh`: The default workhorse for running GWAS across phenotypes; as indicated by the name, it runs GWAS across the array, HLA, and CNV data.
+- Inputs:
+- Outputs:
+- Example usage:
+7. `run_exome.sh`: 
+- Inputs:
+- Outputs:
+- Example usage:
+8. `show_gwas.sh`: 
+- Inputs:
+- Outputs:
+- Example usage:
+9. `test-flipfix_and_liftOver.sh`: 
+- Inputs:
+- Outputs:
+- Example usage:
+10. `check_gwas`: 
+11. `extras`: 
+12. `flipfix`: 
+13. `mvp`: 
+14. `ref_alt`: 
+15. `rerun_logs`: This directory contains the log files from the SLURM submissions of the `run_gwas.sh`-type files. None of the logs will show up on the GitHub due to a nifty `.gitignore`.
+
+## Pipelines and Workflows
+
+### GWAS options
+
 A full list of options can be obtained by running `python gwas.py -h`, and some examples are below:
 
 - Input phenotype file: `--pheno INI50.phe`
@@ -10,7 +55,6 @@ A full list of options can be obtained by running `python gwas.py -h`, and some 
 - Runtime options: `--run-array`, `--run-imputed`, `--run-now`
 - QC: `--population white-british --keep-related`
 - Job submission options: `--sb-mem 16000 --sb-time 1-00:00:00 --sb-parti normal,mrivas`
-
 
 ### Notes: 
 
@@ -77,4 +121,3 @@ cat check_array_gwas.50195103_e_asian.out | awk '(NR>1){print $3}'| parallel --e
 ##### 6) Trasnfer and load the files to GBE (when relevant)
 
 When relevant, please transfer the files to GBE server(s) and load them to the SciDB DB(s).
-
