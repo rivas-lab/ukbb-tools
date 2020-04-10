@@ -1,12 +1,8 @@
 #!/bin/python
 # coding=utf-8
 import os
-import numpy as np
 import pandas as pd
 import glob
-from make_phe import *
-from annotate_phe import make_phe_info
-from showcase_and_list_to_tsv import join_and_add_cols
 
 _README_ = """
 
@@ -22,10 +18,41 @@ Updated: 2020/03/16
 
 """
 
+def join_and_add_cols(field_list, ref=os.path.abspath('../tables/Data_Dictionary_Showcase.csv')):
+    # Note: Data_Dictionary_Showcase
+    # http://biobank.ctsu.ox.ac.uk/~bbdatan/Data_Dictionary_Showcase.csv
+    dds = pd.read_csv(ref)
+    field_list = list(field_list)
+    #Read in the fields
+    if isinstance(field_list, list):
+        fields = pd.DataFrame.from_dict({'FieldID': field_list})
+    else:
+        fields = pd.read_csv(field_list, header=None, names=['FieldID'])
+    #Subset the df with a merge
+    subsetted = fields.merge(dds, left_on='FieldID', right_on='FieldID')
+
+    #Add in the extra column names
+    add_colnames = ['Annotator', 'Annotation date', 'Name', 'GBE ID', 'Field',
+        'QT_total_num', 'BIN_total_num', 'QT_index', 'BIN_index', 'coding_exclude', 'coding_QT',
+        'coding_binary_case', 'coding_binary_control']
+    subsetted = pd.concat([subsetted,pd.DataFrame(columns=add_colnames)], sort=True).sort_values('FieldID')
+
+    #Reorder the columns
+    new_col_order = ['Annotator', 'Annotation date', 'Name', 'GBE ID', 'Field', 'FieldID',
+        'QT_total_num', 'BIN_total_num', 'QT_index', 'BIN_index', 'coding_exclude', 'coding_QT',
+        'coding_binary_case', 'coding_binary_control', 'Participants', 'Stability', 'ValueType',
+        'Units', 'Strata', 'Sexed', 'Instances', 'Array', 'Coding', 'Link']
+    subsetted = subsetted[new_col_order]
+
+    #ensure types of columns are int
+    subsetted = subsetted.astype({"FieldID": int, "Participants": int, "Instances": int, "Array": int})
+
+    return(subsetted)
+
 def create_tsv(new_col_order):
     ftbd = pd.read_csv('../tables/field_table_basket_date.tsv', sep='\t')
     all_fields = set(ftbd['FieldID'])
-    # make table for computing session with showcase_and_list_to_tsv
+    # make table for phenotyping session
     out_file = (
         "../tables/annotations/ukb_" + str(pd.datetime.today().date()).replace("-", "") + ".tsv"
     )
@@ -34,7 +61,7 @@ def create_tsv(new_col_order):
     )
     # Gather all previous annotations
     tsvs = glob.glob(
-        "/oak/stanford/groups/mrivas/users/guhan/repos/ukbb-tools/02_phenotyping/tables/annotations/*.tsv"
+        "../tables/annotations/*.tsv"
     )
     tsvs = [
         pd.read_csv(tsv, sep="\t", dtype={"FieldID": int})
@@ -88,7 +115,6 @@ def create_tsv(new_col_order):
 
 
 if __name__ == "__main__":
-    import argparse
     print("Updating ../tables/ukb_annotations.tsv...")
     new_col_order = [
         "Annotator",
