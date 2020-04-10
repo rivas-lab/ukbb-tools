@@ -16,9 +16,9 @@ The contents of this folder are meant to turn encoded files from the UK Biobank 
 - Outputs: `.tab.columns.summary.tsv.gz`
 - Example usage: `bash compute_col-wise_md5sum.sh ukbXXXXX.tab > ukbXXXXX.tab.columns.summary.tsv`
 - See ["Pipelines and Workflows: Generating a `.tab.columns.summary.tsv.gz` file"](https://github.com/rivas-lab/ukbb-tools/blob/master/01_preprocessing#generating-a-tabcolumnssummarytsvgz-file) for more details
-3. [compute_col-wise_md5sum_ary_job.sh](https://github.com/rivas-lab/ukbb-tools/blob/master/01_preprocessing/compute_col-wise_md5sum_ary_job_task.sh): Job wrapper for [`compute_col-wise_md5sum.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/01_preprocessing/compute_col-wise_md5sum.sh).
+3. [`compute_col-wise_md5sum_ary_job.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/01_preprocessing/compute_col-wise_md5sum_ary_job_task.sh): Job wrapper for [`compute_col-wise_md5sum.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/01_preprocessing/compute_col-wise_md5sum.sh).
 - Inputs: `in_file`, `task_id`, `batch_size` 
-4. [compute_col-wise_md5sum_job](https://github.com/rivas-lab/ukbb-tools/tree/master/01_preprocessing/compute_col-wise_md5sum_job): SLURM job wrapper scripts for [`compute_col-wise_md5sum.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/01_preprocessing/compute_col-wise_md5sum.sh).
+4. [`compute_col-wise_md5sum_job`](https://github.com/rivas-lab/ukbb-tools/tree/master/01_preprocessing/compute_col-wise_md5sum_job): SLURM job wrapper scripts for [`compute_col-wise_md5sum.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/01_preprocessing/compute_col-wise_md5sum.sh).
 
 ## Pipelines and Workflows
 
@@ -39,9 +39,9 @@ In order to unpack the data coming in for a given table, you will need to do thr
 This is a wrapper script that loads the `ukbb-showcase-utils` module and (most importantly) runs `ukbunpack` and `ukbconv`, among other scripts.
 
 When the command finishes running, you will see that a couple of files have been generated in the directory:
-- `ukbXXXX.tab`: The tab file that is indexed by individual ID (IID) for rows and field/instance/array index. For example, `f.92.0.0` represents the first instance of field 92, and `f.92.1.0` represents the second; `f.92.0.1` represents the second "data sub-field" within field 92 (which in this case is "Operation year/age first occurred", so the second operation for which this field was smeasured). This file will be used in downstream analyses.
-- `ukbXXXX.tab.columns`: File that contains all fields, instances, and array indices (as described above) in the table as separate columns.
-- `ukbXXXX.tab.columns.summary.tsv.gz`: File that is generated as a result of a call to [`compute_col-wise_md5sum.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/01_preprocessing/compute_col-wise_md5sum.sh). This file contains indices, names, an `md5sum`, number of non-NA values, number of unique values, inferred data type, and 
+- `ukbXXXX.tab`: A file that is indexed by individual ID (IID), for rows, and field/instance/array index, for columns. For example, you might see a column named `f.92.0.0`. This represents the first instance of field 92, and `f.92.1.0` represents the second. There can also be a column called `f.92.0.1`, for example, which would represent the second "data sub-field" within field 92 (field 92 is called "Operation year/age first occurred", so the second "data sub-field" would refer to the second operation for which operation year was measured). The `.tab` file will be used in downstream analyses.
+- `ukbXXXX.tab.columns`: A file that contains all fields, instances, and array indices (as described above) in the table as separate columns.
+- `ukbXXXX.tab.columns.summary.tsv.gz`: A file that is generated as a result of a call to [`compute_col-wise_md5sum.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/01_preprocessing/compute_col-wise_md5sum.sh). This file contains indices, names, an `md5sum`, number of non-NA values, number of unique values, inferred data type, and 
 
 *NOTE*: Depending on the size and complexity of the dataset and the machine you are running on (weß personally recommend 32GB RAM, 4 CPUs (`sdev -p mrivas -t 7-0:00:00 -m 32g -n4`)), you could be looking at a couple of hours' runtime. Run the script in `screen` or `tmux` if possible, or submit to `sbatch`, so that it can run in the background.
 
