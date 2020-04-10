@@ -21,6 +21,13 @@ Options:
   --flipcheck_sh     The location of flip check script
   --nCores     (-t)  Number of CPU cores
 
+Note:
+  We assume the input file has the following columns:
+    - OR, CHROM, POS, ID, A1, REF, BETA, P, SE, OBS_CT
+  The output files will be
+    - <outfile_prefix>.metal.tsv.gz : METAL output file
+    - <outfile_prefix>.metal.info.txt : log file
+
 Default configurations:
   flipcheck_sh=/oak/stanford/groups/mrivas/users/ytanigaw/repos/rivas-lab/ukbb-tools/09_liftOver/flipcheck.sh
   nCores=4
