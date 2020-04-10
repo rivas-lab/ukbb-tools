@@ -48,10 +48,10 @@ At the Biobank phenotyping session, the concept is to divide and conquer. You'll
 2) Assuming that the row now refers to a single trait and not multiple, is this a binary trait (BIN) or a quantitative (INI/QT) trait? 
 - Depending on whether or not the value is binary or quantitative, assign `BIN_total_num` or `QT_total_num` to be 1 and the other to be 0. This is important for automatically generating GBE IDs, discussed below.
 - In the case of a binary trait, your decisions are pretty simple. Find out what value corresponds to cases and what value corresponds to controls via the [Biobank search box](http://biobank.ctsu.ox.ac.uk/crystal/search.cgi).
-  - Specifically, search for the field ID of interest and click on it. You should see some tabs, with "Data" being highlighted by default. Right under that, there should be some text saying "X items of data are available, covering Y participants, encoded using Data-Coding Z.") Click on the number "Z" to find out how the data is encoded. Put the value indicating "case" under `coding_binary_case` and the value indicating "control" under `coding_binary_control` in the Google Sheet.
-  - According to the convention that we have, anything that is not case or control **must be encoded as missing**. Put all such values in `coding_exclude`, delimited by semicolons.
-- In the case of it being a quantitative trait, we need to look at how it is encoded. Some quantitative traits are encoded just as is, like [age started smoking in current smokers](http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=3436), which is encoded in the Biobank as years. If this is the case, leave all fields except name and field ID blank, but also include the special encodings into the Google sheet (for the link above, -1 means "Do not know" and -3 means "Prefer not to answer". These should be put into the `coding_exclude` category, semicolon-delimited, same as the BIN traits.
-  - Some quantitative traits, however, are measured using multiple choice questions. Imagine that you have a question like the following:
+  - Specifically, search for the field ID of interest and click on it. You should see some tabs, with "Data" being highlighted by default. Right under that, there should be some text saying "X items of data are available, covering Y participants, encoded using Data-Coding Z.") Click on the number "Z" to find out how the data is encoded. Put the value indicating "case" under the `coding_binary_case` column and the value indicating "control" under the `coding_binary_control` column for the row of interest in the Google Sheet.
+  - According to the convention that we have, anything that is not case or control **must be encoded as missing**. Put all such values in `coding_exclude`, delimited by semicolons (e.g., `-1;-3`).
+- In the case of it being a quantitative trait, we need to look at how it is encoded. Some quantitative traits are encoded just as is, like [age started smoking in current smokers](http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=3436), which is encoded in the Biobank as years. If this is the case, leave all fields except name and field ID blank, but also include the special encodings into the Google sheet (for the link above, -1 means "Do not know" and -3 means "Prefer not to answer". These should be put under the `coding_exclude` column for the row of interest in the Google Sheet, semicolon-delimited, same as the BIN traits (i.e., `-1,-3`).
+  - Some quantitative traits, however, are measured using multiple choice questions. Imagine that you have a UK Biobank Field that answers a question like the following:
     
     Which of the following quantities typifies the quantity of sleep you get?
     | Quantity  | UK Biobank Code |
@@ -63,15 +63,15 @@ At the Biobank phenotyping session, the concept is to divide and conquer. You'll
     | 8-10 hours  | 5  |
     | 10+ hours  | 600  |
 
-    For this kind of quantitative trait, the person doing this trait should delimit the UK Biobank Codes ordinally and type this string into the `coding_QT` column (i.e., in this case, type `1;2;3;4;5;600`).
+    For this kind of quantitative trait, the person doing this trait should delimit the UK Biobank Codes ordinally with semicolons and put this string into the `coding_QT` column for the row of interest in the Google Sheet (i.e., in this case, type `1;2;3;4;5;600`).
 
-Finally, you'll want an automated way of generating GBE IDs and field names for the phenotypes you annotate. After you have filled out the annotation table as above, the below macro can be helpful for doing just that. Paste this into the GBE ID column (column D) for the annotation at row X, replacing X with the row number, in order to automatically generate a GBE ID at row X:
+Finally, you'll want an automated way of generating GBE IDs and field names for the phenotypes you annotate. After you have filled out the annotation table as above, the below macro can be helpful for doing just that. Paste this into the GBE ID column (column D) for the annotation at row nummber "X", replacing X with the row number, in order to automatically generate a GBE ID at row number "X":
 
 ```{excel}
 =IF(SUM(GX,HX)>1, IF(ISBLANK(IX), CONCATENATE("BIN_FC",(JX*10000000)+FX), CONCATENATE("QT_FC",(IX*10000000)+FX)), IF(GX=1,CONCATENATE("INI",FX),CONCATENATE("BIN",FX)))
 ```
 
-Likewise, you can automatically generate GBE-friendly field names at row X in column C:
+Likewise, you can automatically generate GBE-friendly field names at row number "X" in column C:
 
 ```{excel}
 =SUBSTITUTE(EX, " ", "_")
@@ -81,4 +81,4 @@ As in all Excel spreadsheets, you can strategically "drag down" this formula to 
   
 #### After the session - Compiling phenotype files
   
-You are ready to now compile `.phe` files. This can be done in two ways. Export the updated Google Sheet as a `.tsv`, rename it as `ukb_YYYYMMDD.tsv`, and place it within [`tables/annotations`](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping/tables/annotations) (making sure to avoid namespace conflicts if applicable - it doesn't *have* to be the correct date, for example). Then, symlink [`tables/ukb_annotations.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/02_phenotyping/tables/ukb_annotations.tsv) to this file (i.e., run `ln -sf tables/annotations/ukb_YYYYMMDD.tsv tables/ukb_annotations.tsv`). Then, continue with steps 8-10 as described [above](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping#generating-and-updating-phenotypes-and-summary-statistics).
+You are ready to now compile `.phe` files. This can be done in two ways. Export the updated Google Sheet (post-phenotyping session) as a `.tsv`, rename it as `ukb_YYYYMMDD.tsv`, and place it within [`tables/annotations`](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping/tables/annotations) (making sure to avoid namespace conflicts if applicable - it doesn't *have* to be the correct date, for example). Then, symlink [`tables/ukb_annotations.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/02_phenotyping/tables/ukb_annotations.tsv) to this file (i.e., run `ln -sf tables/annotations/ukb_YYYYMMDD.tsv tables/ukb_annotations.tsv`). Then, continue with steps 8-10 as described [above](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping#generating-and-updating-phenotypes-and-summary-statistics).
