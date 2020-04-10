@@ -33,9 +33,5 @@ There is an updater script that pushes your current directory - use with appropr
 Example Usage:
 
 ```{bash}
-<<<<<<< HEAD
-$ bash ukbb-tools.module.updater.sh 20200225
-=======
 bash ukbb-tools.module.updater.sh 20200225
->>>>>>> b797c1df2e9b204ab4fc4e03bea24e23d77aca19
 ``
