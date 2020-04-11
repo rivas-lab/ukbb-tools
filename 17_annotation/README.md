@@ -1,6 +1,6 @@
 # Variant annotation
 
-This folder contains wrappers to the Variant Effect Predictor version ____ that is installed in `/oak/stanford/groups/mrivas/users/guhan/software/ensembl-vep/`.
+This folder contains wrappers to the Variant Effect Predictor version 87 that is installed in `/oak/stanford/groups/mrivas/users/guhan/software/ensembl-vep/`.
 
 ## Contents
 
@@ -45,6 +45,6 @@ This folder contains wrappers to the Variant Effect Predictor version ____ that 
 
 ## Location of relevant annotation files on `$OAK`
 
-`cal`: `/oak/stanford/groups/mrivas/private_data/ukbb/variant_filtering/variant_filter_table.tsv.gz`
-`exome`: `/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-[population]-variant_annots_gbe.tsv.gz`
-`imp`: `/oak/stanford/groups/mrivas/ukbb24983/imp/annotation/annot.tsv.gz`
+- `cal`: `/oak/stanford/groups/mrivas/private_data/ukbb/variant_filtering/variant_filter_table.tsv.gz`
+- `exome`: `/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-[population]-variant_annots_gbe.tsv.gz`
+- `imp`: `/oak/stanford/groups/mrivas/ukbb24983/imp/annotation/annot.tsv.gz`
