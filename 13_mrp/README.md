@@ -1,4 +1,4 @@
-# MRP Results
+# Multiple Rare-variants and Phenotypes
 
 ## Variant Sets
 `ptv = ['frameshift_variant', 'splice_acceptor_variant', 'splice_donor_variant', 'stop_gained', 'start_lost', 'stop_lost']`
