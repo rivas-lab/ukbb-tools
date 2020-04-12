@@ -35,14 +35,13 @@ This folder's scripts help define phenotypes within our pipeline.
 - Inputs: None. 
 - Outputs: [`phenotype_info.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/05_gbe/phenotype_info.tsv), [`exome_phenotype_info.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/05_gbe/exome_phenotype_info.tsv), and [`icdinfo.txt`](https://github.com/rivas-lab/ukbb-tools/blob/master/05_gbe/icdinfo.txt) reference files in [`05_gbe`](https://github.com/rivas-lab/ukbb-tools/tree/master/05_gbe), and a new `master.phe` and corresponding `.info` file at `/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/master_phe/`.
 - Example usage: `bash update_phe_icd_master.sh`. See the calls to smaller scripts in [`05_gbe`](https://github.com/rivas-lab/ukbb-tools/blob/master/05_gbe/).
-s
 9. [`update_ukbb24983_tables.R`](https://github.com/rivas-lab/ukbb-tools/blob/master/02_phenotyping/scripts/update_ukbb24983_tables.R): Converts [`../tables/UKBB24983_Tables.xlsx`](https://github.com/rivas-lab/ukbb-tools/blob/master/02_phenotyping/tables/UKBB24983_Tables.xlsx), downloaded from [this Google Sheet](http://bit.ly/UKB24983_tables) by `rclone` in [`update_ukbb24983_tables.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/02_phenotyping/scripts/update_ukbb24983_tables.sh), into a `.tsv` file.
 - Inputs: None.
 - Outputs: [`../tables/ukbb24983_tables.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/02_phenotyping/tables/ukbb24983_tables.tsv)
 - Example usage: `Rscript update_ukbb24983_tables.R`. *NOTE*: This is already called within [`update_ukbb24983_tables.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/02_phenotyping/scripts/update_ukbb24983_tables.sh); separate use is not recommended.
 10. [`update_ukbb24983_tables.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/02_phenotyping/scripts/update_ukbb24983_tables.sh): Updates table reference files containing a map of tables to baskets, paths, and release dates.
 - Inputs: None.
-- Outputs: New [`../tables/UKBB24983_Tables.xlsx`](https://github.com/rivas-lab/ukbb-tools/blob/master/02_phenotyping/tables/UKBB24983_Tables.xlsx) and converted [`../tables/ukbb24983_tables.tsv`]((https://github.com/rivas-lab/ukbb-tools/blob/master/02_phenotyping/tables/ukbb24983_tables.tsv) files.
+- Outputs: New [`../tables/UKBB24983_Tables.xlsx`](https://github.com/rivas-lab/ukbb-tools/blob/master/02_phenotyping/tables/UKBB24983_Tables.xlsx) and converted [`../tables/ukbb24983_tables.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/02_phenotyping/tables/ukbb24983_tables.tsv) files.
 - Example usage: `bash update_ukbb24983_tables.sh`
 
 ## Pipelines and Workflows
