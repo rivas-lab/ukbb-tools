@@ -1,10 +1,12 @@
 #/bin/bash
+cd ../../05_gbe
 echo "Updating phenotype_info.tsv..."
-bash ../../05_gbe/update_phe_info.sh
+bash update_phe_info.sh
 echo "Updated phenotype_info.tsv."
-echo "Updating icdinfo.txt..."
-bash ../../05_gbe/update_icdinfo.sh
-echo "Updated icdinfo.txt."
+echo "Updating icdinfo.txt files and shortnames files..."
+bash icdinfo_with_shortnames.sh
+echo "Updated icdinfo.txt files and shortnames files."
+cd ../02_phenotyping/scripts
 echo "Submitting job to generate exome_phenotype_info.tsv..."
 sbatch -p normal,mrivas,owners --mem=64000 -t 1-00:00:00 -J exm_phen_info --wrap="python ../../05_gbe/make_exome_phenotype_info.py"
 echo "Submitting job to generate master.phe..."
