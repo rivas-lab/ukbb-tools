@@ -1,6 +1,13 @@
 #!/bin/bash
 set -beEuo pipefail
 
+usage () {
+    echo "$0: Updates PLINK with the version specified as the first argument."
+    echo "usage: bash $0 MMMMYYDD"
+}
+
+if [ $# -lt 1 ] ; then usage >&2 ; exit 1 ; fi
+
 plink_version=$1
 
 get_plink_url () {
