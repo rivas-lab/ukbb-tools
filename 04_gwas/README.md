@@ -158,18 +158,18 @@ This part of the documentation is meant to take you through how to upload a "tar
 
 1. Run the [check script](https://github.com/rivas-lab/ukbb-tools/tree/master/04_gwas/check_gwas/check_gwas.sh) or one of its wrappers (for [array](https://github.com/rivas-lab/ukbb-tools/tree/master/04_gwas/check_gwas/check_array_gwas.sh) or [exome](https://github.com/rivas-lab/ukbb-tools/tree/master/04_gwas/check_gwas/check_exome_gwas.sh)) and deposit the results to the [`check_gwas/output/`](https://github.com/rivas-lab/ukbb-tools/tree/master/04_gwas/check_gwas/output) subdirectory.
 2. Inspect the results to make sure that there's nothing you don't expect (e.g., files with way too many NA lines, or `.phe` files that don't have summary statistics).
-3. Run the [freeze script](https://github.com/rivas-lab/ukbb-tools/tree/master/04_gwas/gwas_freeze.sh), whose usage is described above, to generate a per-population . This creates a "tarball" with proper ownership, and additionally generates a master PheWAS file for [`ukbb-query`](https://github.com/rivas-lab/ukbb-query).
+3. Run the [freeze script](https://github.com/rivas-lab/ukbb-tools/tree/master/04_gwas/gwas_freeze.sh), whose usage is described above, to generate a population-level "tarball" with proper ownership, and additionally generate a master PheWAS file for [`ukbb-query`](https://github.com/rivas-lab/ukbb-query).
 4. The freeze should be available at `/oak/stanford/groups/mrivas/ukbb24983/cal/gwas/freeze/YYYYMMDD/[pop]`.
 5. Create an appropriate subdirectory within the lab Google Drive, like so: `rivas-lab/ukbb24983/cal/gwas/freeze/YYYYMMDD/[pop]/`.
-5. Make sure the `rclone` module is configured as described [here](https://github.com/rivas-lab/wiki/wiki/Google-Drive-Storage). Then, transfer and deposit the results (both the `.tsv.gz` and its corresponding tabix index file, `.tsv.gz.tbi`) to Google Drive using the instructions.
-6. Then, create a directory on Google Drive to store all of the sumstats files. For an example naming convention, see `rivas-lab/ukbb24983/cal/gwas/freeze/20190913/e_asian/ukb24983_v2_hg19.e_asian.genotyped.glm.20190913`.
-7. Finally, upload all of the sumstats files to the directory using the same check file. An example is below:
+5. Make sure the `rclone` module is configured as described [here](https://github.com/rivas-lab/wiki/wiki/Google-Drive-Storage#21-upload-with-rclone). Then, transfer and deposit the results (both the `.tsv.gz` and its corresponding tabix index file, `.tsv.gz.tbi`) to Google Drive using the instructions there.
+6. Then, create a directory on Google Drive to store all of the sumstats files. An example naming convention would be `rivas-lab/ukbb24983/cal/gwas/freeze/20190913/e_asian/ukb24983_v2_hg19.e_asian.genotyped.glm.20190913`. Replace `20190913` with the current `YYYYMMDD`.
+7. Finally, upload all of the sumstats files to the directory using the same check file you generated before. An example is below:
 
 ```
 cat check_array_gwas.50195103_e_asian.out | awk '(NR>1){print $3}'| parallel --eta -j10 --header 1 rclone copy {} gdrive:rivas-lab/ukbb24983/cal/gwas/freeze/20190913/e_asian/ukb24983_v2_hg19.e_asian.genotyped.glm.20190913 :::: /dev/stdin
 ```
 
-**Deprecated:** Alternate `gdrive` module usage
+**DEPRECATED - Alternate `gdrive` module usage for upload:**
 
 ```
 cat check_array_gwas.50195103_e_asian.out | awk '(NR>1){print $3}'| parallel --eta -j10 --header 1 gdrive upload -p 1M2tIqCavPZoNA3K4nX3rRB_sC3YB4vND {} :::: /dev/stdin
