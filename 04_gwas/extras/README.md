@@ -2,7 +2,7 @@
 
 This directory serves as a catch-all for additional summary statistics which should be added to the analysis pipeline and for inclusion into the [Global Biobank Engine](biobankengine.stanford.edu). This specification is general enough to work with any input source, but this documentation will operate under the assumption that the summary stats are derived from UK Biobank resources.
 
-*Important*: This directory should _not_ be used for data where we have phenotype-level data from UK Biobank. If we have the raw phenotype files, you should follow the steps outlined in [`02_phenotyping/extras`](../../02_phenotyping/extras/README.md) instead.
+*Important*: This directory should _not_ be used for data where we have phenotype-level data from UK Biobank. If we have the raw phenotype files, you should follow the steps outlined in [`02_phenotyping/extras`](../../02_phenotyping/extras) instead.
 
 ## Specification
 
