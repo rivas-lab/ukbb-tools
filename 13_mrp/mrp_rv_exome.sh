@@ -11,9 +11,6 @@ usage () {
     echo "$0: MRP script to run rare-variant aggregation for white british exome data"
     echo "usage: sbatch -p <partition(s)> --array=1-<number of array jobs> $0 start_idx (inclusive) output_folder"
     echo "e.g. sbatch -p normal,owners --array=1-1000 $0 1 /path/to/output_folder"
-    echo '  You may check the status of the job (which jobs are finished) using the array-job module:'
-    echo '  $ ml load array-job'
-    echo '  $ array-job-find_ok.sh rerun_logs'
 }
 
 # get core and memory settings from the header -- passed to gwas script below
@@ -28,7 +25,6 @@ if [ $# -ne 2 ] ; then usage >&1 ; exit 1 ; fi
 export MODULEPATH="/home/groups/mrivas/.modules:${MODULEPATH}"
 ml load python/2.7.13
 
-# job start header (for use with array-job module)
 _SLURM_JOBID=${SLURM_JOBID:=0} # use 0 for default value (for debugging purpose)
 _SLURM_ARRAY_TASK_ID=${SLURM_ARRAY_TASK_ID:=1}
 echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-start] hostname = $(hostname) SLURM_JOBID = ${_SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${_SLURM_ARRAY_TASK_ID}" >&1

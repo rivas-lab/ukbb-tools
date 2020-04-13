@@ -26,7 +26,6 @@ if [ $# -ne 1 ] ; then usage >&1 ; exit 1 ; fi
 export MODULEPATH="/home/groups/mrivas/.modules:${MODULEPATH}"
 ml load python/2.7.13
 
-# job start header (for use with array-job module)
 _SLURM_JOBID=${SLURM_JOBID:=0} # use 0 for default value (for debugging purpose)
 _SLURM_ARRAY_TASK_ID=${SLURM_ARRAY_TASK_ID:=1}
 echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-start] hostname = $(hostname) SLURM_JOBID = ${_SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${_SLURM_ARRAY_TASK_ID}" >&1
