@@ -35,7 +35,7 @@ output_folder=$2
 this_idx=$_SLURM_ARRAY_TASK_ID
 
 min_N_count=100
-GBE_ID=$(cat ../05_gbe/phenotype_info.tsv | awk -v min_N=${min_N_count} 'NR > 1 && $7 >= min_N' | egrep -v MED | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $1}' )
+GBE_ID=$(cat ../05_gbe/phenotype_info.tsv | awk -v min_N=${min_N_count} 'NR > 1 && $8 >= min_N' | egrep -v MED | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $1}' )
 
 echo -e "path\tstudy\tpheno\tR_phen" > $output_folder/$GBE_ID.tmp.txt
 echo -e "$GBE_ID" >&1
