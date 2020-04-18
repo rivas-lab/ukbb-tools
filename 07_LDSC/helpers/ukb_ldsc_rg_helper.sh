@@ -35,6 +35,8 @@ ldsc_ldsc () {
 	--out $ldsc_out 
 }
 
+if [ ! -d "$(dirname ${out_file})" ] ; then mkdir -p $(dirname ${out_file}) ; fi
+
 out_basename=$(basename ${out} .log)
 
 # run LDSC scripts
