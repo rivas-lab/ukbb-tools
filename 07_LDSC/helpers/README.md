@@ -1,4 +1,4 @@
-# LDSC wrapper function
+# LDSC wrapper functions
 
 The input file needs to be in the LDSC format. For that, we have a conversion script called [`ukb_ldsc_munge_wrapper.sh`](ukb_ldsc_munge_wrapper.sh).
 
