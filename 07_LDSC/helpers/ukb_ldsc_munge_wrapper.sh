@@ -12,7 +12,7 @@ show_usage_and_exit () {
 	exit 1 
 }
 if [ $# -lt 2 ] ; then show_usage_and_exit ; fi
-out_file=$1 in_name=$2;
+out_file=$1; in_name=$2;
 if [ $# -gt 2 ] ; then
 	if [ $# -lt 4 ] ; then show_usage_and_exit ; fi
 	in_type=$3; in_sumstats=$4;
@@ -29,32 +29,55 @@ trap handler_exit EXIT
 
 # helpfer functions
 ldsc_munge ()  {
-	munge_sumstats=$1 ;
-	munge_out=$2 ;
+	munge_sumstats=$1
+	munge_out=$2
+	ldsc_path=$3
 
 	# wrapper for munge_sumstats.py
-	python $ldsc_path/munge_sumstats.py \
-	--sumstats $munge_sumstats \
+	python ${ldsc_path}/munge_sumstats.py \
+	--sumstats ${munge_sumstats} \
 	--N-col OBS_CT --a1 A1 --a2 A2 --snp ID \
 	--signed-sumstats BETA,0 \
-	--out $munge_out ;
-	
+	--out ${munge_out}
+}
+
+cat_or_zcat () {
+    local file=$1
+    if [ "${file%.gz}.gz" == "${file}" ] || [ "${file%.bgz}.bgz" == "${file}" ] ; then 
+        zcat ${file} 
+    elif [ "${file%.zst}.zst" == "${file}" ] ; then 
+        zstdcat ${file}
+    else
+        cat ${file}
+    fi
 }
 
 if [ ! -d "$(dirname ${out_file})" ] ; then mkdir -p $(dirname ${out_file}) ; fi
 
+# pre-processing of the summary statistics
+# 1) rename SE col for logistic regression
+# 2) 
+tmp_sumstats=${tmp_dir}/$(basename "${in_sumstats%.gz}.gz")
+cat_or_zcat ${in_sumstats} \
+| sed -e 's/LOG(OR)_SE/SE/g' \
+| awk '$4 != "N"' \
+| bgzip > ${tmp_sumstats}
+
+echo ${tmp_sumstats}
+
 if [ "${in_type}" == "" ] ; then
-	echo " python $_ldsc_input_script -o $tmp_dir -ld ${ld_scores} $in_name"
-	python $_ldsc_input_script -o $tmp_dir -ld ${ld_scores} $in_name ;
+	echo " python ${_ldsc_input_script} -o ${tmp_dir} -ld ${ld_scores} ${in_name}"
+	python ${_ldsc_input_script} -o ${tmp_dir} -ld ${ld_scores} ${in_name}
 else
-	echo "python $_ldsc_input_script -o $tmp_dir -ld ${ld_scores} $in_name --${in_type}_file ${in_sumstats}"
-	python $_ldsc_input_script -o $tmp_dir -ld ${ld_scores} $in_name --${in_type}_file ${in_sumstats} ;
+	echo "python ${_ldsc_input_script} -o ${tmp_dir} -ld ${ld_scores} $in_name --${in_type}_file ${tmp_sumstats}"
+	python ${_ldsc_input_script} -o ${tmp_dir} -ld ${ld_scores} $in_name --${in_type}_file ${tmp_sumstats}
 fi 
 
 # run LDSC scripts
-ldsc_munge $tmp_dir/${in_name}_ldsc.tsv $tmp_dir/${in_name}.munge
+ldsc_munge $tmp_dir/${in_name}_ldsc.tsv $tmp_dir/${in_name}.munge ${ldsc_path}
 
 # write the results
 cp $tmp_dir/${in_name}.munge.log ${out_file%.gz}.log
-cp $tmp_dir/${in_name}.munge.sumstats.gz "$(echo ${out_file} | sed -e "s/.gz$//g" | sed -e "s/.sumstats$//g" ).sumstats.gz"
+cp $tmp_dir/${in_name}.munge.sumstats.gz "${out_file%.sumstats.gz}.sumstats.gz"
 
+echo "Results are written to: ${out_file%.sumstats.gz}.sumstats.gz"

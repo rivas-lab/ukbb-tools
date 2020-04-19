@@ -35,7 +35,7 @@ ldsc_ldsc () {
 	--out $ldsc_out 
 }
 
-if [ ! -d "$(dirname ${out_file})" ] ; then mkdir -p $(dirname ${out_file}) ; fi
+if [ ! -d "$(dirname ${out})" ] ; then mkdir -p $(dirname ${out}) ; fi
 
 out_basename=$(basename ${out} .log)
 
@@ -45,3 +45,4 @@ ldsc_ldsc ${munged1} ${munged2} ${tmp_dir}/${out_basename}
 # write the results
 cp $tmp_dir/${out_basename}.log $(dirname ${out})/${out_basename}.log
 
+echo "Results are written to:  ${out}.log"
