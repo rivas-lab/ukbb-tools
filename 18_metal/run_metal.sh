@@ -4,7 +4,7 @@ set -beEuo pipefail
 SRCNAME=$(readlink -f $0)
 SRCDIR=$(dirname ${SRCNAME})
 PROGNAME=$(basename $SRCNAME)
-VERSION="0.1.0"
+VERSION="0.1.1"
 NUM_POS_ARGS="2"
 
 source "${SRCDIR}/18_metal_misc.sh"
@@ -131,5 +131,9 @@ ${tmp_out}.metal.check.tsv.gz ${tmp_out}.metal.fixed.tsv
 
 bgzip -l 9 -@ ${nCores} ${tmp_out}.metal.fixed.tsv
 
+if [ ! -d $(dirname ${out_file}) ] ; then mkdir -p $(dirname ${out_file}) ; fi
+
 cp ${tmp_out}.metal.fixed.tsv.gz ${out_file}.metal.tsv.gz
 cat ${tmp_out}1.tbl.info ${master_file} > ${out_file}.metal.info.txt
+echo "the results are written in: ${out_file%.gz}.metal.tsv.gz"
+
