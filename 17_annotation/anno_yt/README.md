@@ -1,5 +1,12 @@
 # variant annotation
 
+This is Yosuke's attempts to quickly generate variant annotation.
+We performed this analysis to get some annotation for non-autosomal variants.
+
+## file location
+
+`/oak/stanford/groups/mrivas/ukbb24983/array_combined/annotation/ukb24983_cal_hla_cnv.non-autosomes.vep.tsv`
+
 ## How to convert pvar to VCF file
 
 - [`pvar.to.vcf.sh`](pvar.to.vcf.sh): this script takes pvar[.zst|.gz] file and convert it to a VCF file.
