@@ -5,6 +5,21 @@ from scipy.stats.stats import pearsonr, spearmanr
 import sys
 
 def set_up_df(phen_path, metadata, pheno):
+    
+    """
+    Sets up dataframe for a phenotype for calculating Pearson
+        correlations.
+
+    Parameters:
+    phen_path: Path to summary statistics for the phenotype.
+    metadata: Path to metadata file containing LD independence information,
+        MAF, etc.
+    pheno: Phenotype name.
+
+    Returns:
+    df: Ready dataframe for Pearson correlation calculation.
+    
+    """
     if len(phen_path) != 0:
         df = pd.read_csv(
             phen_path,
@@ -42,6 +57,22 @@ def set_up_df(phen_path, metadata, pheno):
         return []
 
 def extend_lists_w_missing(p_corrs_nohla, p_ps_nohla):
+    
+    """
+    Extends correlation and p-value lists with nan and 1 respectively if
+        insufficient or bad data for pheno2.
+    
+    Parameters:
+    p_corrs_nohla: Empirical estimates of Pearson correlation across phenotypes
+        for the comparator pheno1.
+    p_ps_nohla: Corresponding p-values.
+
+    Returns:
+    p_corrs_nohla: Empirical estimates of Pearson correlation across phenotypes
+        for the comparator pheno1, + nan.
+    p_ps_nohla: Corresponding p-values, + 1.
+
+    """
     p_corrs_nohla.append(np.nan)
     p_ps_nohla.append(1)
     return p_corrs_nohla, p_ps_nohla
@@ -50,18 +81,22 @@ def extend_lists_w_missing(p_corrs_nohla, p_ps_nohla):
 def build_R_phen_row(pheno1, phen_info, row_num):
 
     """
-    Builds R_phen using phen_corr (calculated using the method directly above this).
+    Builds R_phen row for clustering (array data).
 
     Parameters:
-    S: Number of populations/studies.
-    K: Number of GBE phenotypes.
-    pops: Unique set of populations (studies) to use for analysis.
-    phenos: Unique set of GBE phenotypes to use for analysis.
-    df: Merged dataframe containing all relevant summary statistics.
-    map_file: Input file containing summary statistic paths + pop and pheno data.
+    pheno1: Comparator phenotype.
+    phen_info: phenotype_info.tsv file.
+    row_num: Row in R_phen.
 
     Returns:
-    R_phen: Empirical estimates of genetic correlation across phenotypes.
+    p_corrs_nohla: Empirical estimates of Pearson correlation across phenotypes
+        for the comparator pheno1.
+    p_ps_nohla: Corresponding p-values.
+    lens_nohla: Length of dataframe containing variants that meet the criteria:
+        - SE <= 0.5
+        - MAF >- 0.01
+        - P (pheno1 or pheno2) <= 1e-5
+        - LD independent
 
     """
     # Filter for SE as you read it in

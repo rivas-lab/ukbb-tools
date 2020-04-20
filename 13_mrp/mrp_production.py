@@ -1654,14 +1654,11 @@ def positive_float_type(arg):
     return f
 
 
-def initialize_parser(valid_phenos):
+def initialize_parser():
 
     """
     Parses inputs using argparse. 
     
-    Parameters: 
-    valid_phenos: List of valid phenotypes.
-
     """
 
     parser = argparse.ArgumentParser(
@@ -1850,11 +1847,9 @@ if __name__ == "__main__":
 
     """
 
-    with open("/oak/stanford/groups/mrivas/users/guhan/repos/ukbb-tools/05_gbe/phenotype_info.tsv", "r") as phe_file:
-        valid_phenos = [line.split()[0] for line in phe_file][1:]
     import os
 
-    parser = initialize_parser(valid_phenos)
+    parser = initialize_parser()
     args = parser.parse_args()
     print("")
     print("Valid command line arguments. Importing required packages...")
