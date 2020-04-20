@@ -4,7 +4,7 @@ set -beEuo pipefail
 SRCNAME=$(readlink -f $0)
 SRCDIR=$(dirname ${SRCNAME})
 PROGNAME=$(basename $SRCNAME)
-VERSION="0.1.0"
+VERSION="0.1.1"
 NUM_POS_ARGS="2"
 
 source "${SRCDIR}/18_metal_misc.sh"
@@ -37,6 +37,8 @@ cat <<- EOF
 	Options:
 	  --flipcheck_sh     The location of flip check script
 	  --nCores     (-t)  Number of CPU cores
+	  --assembly    The genome build for the input file (option for flipcheck)
+	  --ref_fa      The reference genome sequence. (option for flipcheck)
 	
 	Note:
 	  We assume the input file has the following columns:
@@ -44,6 +46,7 @@ cat <<- EOF
 	  The output files will be
 	    - <outfile_prefix>.metal.tsv.gz : METAL output file
 	    - <outfile_prefix>.metal.info.txt : log file
+      This script internally calls flipcheck.sh. Please check 09_liftOver for more info.
 	
 	Default configurations:
 	  flipcheck_sh=${flipcheck_sh}
@@ -66,6 +69,8 @@ handler_exit () { rm -rf $tmp_dir ; }
 ############################################################
 ## == Default parameters (start) == ##
 nCores=4
+ref_fa="AUTO"
+assembly="hg19"
 ## == Default parameters (end) == ##
 
 declare -a params=()
@@ -82,6 +87,12 @@ for OPT in "$@" ; do
             ;;
         '--flipcheck_sh' )
             flipcheck_sh=$2 ; shift 2 ;
+            ;;
+        '--ref_fa' )
+            ref_fa=$2 ; shift 2 ;
+            ;;
+        '--assembly' )
+            assembly=$2 ; shift 2 ;
             ;;
         '--'|'-' )
             shift 1 ; params+=( "$@" ) ; break
@@ -123,7 +134,7 @@ extract_loci_for_files ${input_file} ${nCores} | bgzip -l9 -@ ${nCores} > ${tmp_
 Rscript ${SRCDIR}/metal_post_processing_step1.R \
 ${tmp_out}.loci.gz ${tmp_out}1.tbl ${tmp_out}.metal.tsv
 
-bash ${flipcheck_sh} ${tmp_out}.metal.tsv \
+bash ${flipcheck_sh} --ref_fa ${ref_fa} --assembly ${assembly} ${tmp_out}.metal.tsv \
 | bgzip -l 9 -@ ${nCores} > ${tmp_out}.metal.check.tsv.gz
 
 Rscript ${SRCDIR}/metal_post_processing_step2.R \
@@ -131,5 +142,9 @@ ${tmp_out}.metal.check.tsv.gz ${tmp_out}.metal.fixed.tsv
 
 bgzip -l 9 -@ ${nCores} ${tmp_out}.metal.fixed.tsv
 
+if [ ! -d $(dirname ${out_file}) ] ; then mkdir -p $(dirname ${out_file}) ; fi
+
 cp ${tmp_out}.metal.fixed.tsv.gz ${out_file}.metal.tsv.gz
 cat ${tmp_out}1.tbl.info ${master_file} > ${out_file}.metal.info.txt
+echo "the results are written in: ${out_file%.gz}.metal.tsv.gz"
+

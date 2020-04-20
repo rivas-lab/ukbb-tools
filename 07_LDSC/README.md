@@ -1,6 +1,6 @@
 # 07 LD score regression (LDSC)
 
-We compute genetic parameters by [LD score regression (LDSC)](https://github.com/bulik/ldsc) with GWAS summary statistics as input. 
+We compute genetic parameters by [LD score regression (LDSC)](https://github.com/bulik/ldsc) with GWAS summary statistics as input.
 
 ## LDSC results files
 
@@ -21,5 +21,3 @@ The results of LDSC are written in the following directories:
 - `misc`: This sub-directory contains a list of variants that we use in LDSC.
 - `jobs`: This sub-directory contains example job files to run LDSC on Sherlock cluster. The set of scripts in this directory is a folk from other repo ([Yosuke's array job template](https://github.com/yk-tanigawa/array-job-template)).
 - `scripts`: This sub-directory contains scripts to run LDSC.
-
-

@@ -35,4 +35,13 @@ with open("phenotype_info.tsv", "r") as f, open("exome_phenotype_info.tsv","w") 
             pop_count[pop] = str(phe_data.query(query).merge(pop_data, on='IID').shape[0])
         # write to file 
         o.write("\t".join(phe_info[:6] + [pop_count[p] for p in ['all','white_british','african','e_asian','s_asian']] + phe_info[-3:]) + "\n")
-        
+
+epi = pd.read_table('exome_phenotype_info.tsv')
+short = pd.read_table('icdinfo.shortnames.tsv')
+
+merged = short.merge(epi, how='left', left_on='GBE_ID', right_on='#GBE_ID')
+
+merged = merged[['GBE_category', 'GBE_ID', 'N_GBE', 'GBE_NAME_x', 'GBE_short_name', 'GBE_short_name_len', 'Units_of_measurement']]
+merged.columns = ['GBE_category', 'GBE_ID', 'GBE_N_EXOME', 'GBE_NAME', 'GBE_short_name', 'GBE_short_name_len', 'Units_of_measurement']
+merged.to_csv('icdinfo.shortnames.exome.tsv', index=False, sep='\t')        
+

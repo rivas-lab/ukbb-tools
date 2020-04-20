@@ -3,7 +3,7 @@ set -beEuo pipefail
 
 SRCNAME=$(readlink -f $0)
 PROGNAME=$(basename $SRCNAME)
-VERSION="0.1.0"
+VERSION="0.1.1"
 NUM_POS_ARGS="2"
 
 source "$(dirname ${SRCNAME})/18_metal_misc.sh"
@@ -46,7 +46,7 @@ EOF
 tmp_dir_root="$LOCAL_SCRATCH"
 if [ ! -d ${tmp_dir_root} ] ; then mkdir -p $tmp_dir_root ; fi
 tmp_dir="$(mktemp -p ${tmp_dir_root} -d tmp-$(basename $0)-$(date +%Y%m%d-%H%M%S)-XXXXXXXXXX)"
-# echo "tmp_dir = $tmp_dir" >&2
+#echo "tmp_dir = $tmp_dir" >&2
 handler_exit () { rm -rf $tmp_dir ; }
 trap handler_exit EXIT
 
@@ -101,4 +101,8 @@ tmp_out=${tmp_dir}/$(basename ${output_file})
 
 add_BETA_from_OR ${input_file} | bgzip -l9 --threads ${nCores} > "${tmp_out%.gz}.gz"
 
+if [ ! -d $(dirname ${output_file}) ] ; then mkdir -p $(dirname ${output_file}) ; fi
+
 cp ${tmp_out%.gz}.gz ${output_file%.gz}.gz
+echo "the results are written in: ${output_file%.gz}.gz"
+
