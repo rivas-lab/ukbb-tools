@@ -1,6 +1,202 @@
 # Multiple Rare-variants and Phenotypes
 
-## Variant Sets
+This subdirectory has all the code necessary to generate the data and figures required for the Multiple Rare-variants and Phenotypes method. The method was first developed into a [bioRxiv manuscript](https://www.biorxiv.org/content/10.1101/257162v5) by DeBoever *et. al.*
+
+## Contents
+
+### Part 1: MRP on the white British population for array data
+1. [`mrp_production.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mrp_production.py):
+- Required inputs:
+  - `--file`: Path to tab-separated file containing list of summary statistic file paths, corresponding studies, phenotypes, and whether or not to use the file in `R_phen` (matrix of correlations across included phenotypes) generation. An example can be found in the [below section](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp#mrp-script-details-and-options).
+  - `--metadata_path`: path to tab-separated file containing variants, gene symbols, consequences, MAFs, and LD independence info. An example can be found in the [below section](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp#mrp-script-details-and-options).
+- Outputs: A `log10BF` and corresponding posterior odds for each gene or variant (depending on what is specified in the parameter `M` in  the script) for each parameter specification as described in the [below section](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp#mrp-script-details-and-options).
+- Usage/Parameters: See [below section](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp#mrp-script-details-and-options) for details.
+- Example usages: See [`mrp_rv_array.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mrp_rv_array.sh), [`mrp_rv_ma_array.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mrp_rv_ma_array.sh), [`mrp_multitrait_array.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mrp_multitrait_array.py), [`mrp_multitrait_ma_array.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mrp_multitrait_ma_array.py), [`mrp_rv_exome.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mrp_rv_exome.sh), and [`mrp_rv_exome_mpc_pli.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mrp_rv_exome_mpc_pli.sh) for examples of usages and applications.
+2. [`mrp_rv_array.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mrp_rv_array.sh): Runs rare-variant aggregation across white British summary statistics for array data.
+- Inputs: None, explicitly. The array parameters (number of jobs and start index) are instead specified. MRP is run for each phenotype with `N_GBE >= 100` with the following parameters:
+  - `--R_var independent similar`
+  - `--variants ptv pav`
+  - `--metadata_path /oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-consequence_wb_maf_gene_ld_indep_mpc_pli.tsv`
+- Outputs: MRP output files (`log10BF` and corresponding posterior odds per gene/variant across the parameters specified) in the output folder specified.
+- Usage: `sbatch -p <partition(s)> --array=1-<number of array jobs> mrp_rv_array.sh start_idx (inclusive) /path/to/output_folder`
+- Example usage: `sbatch -p normal,owners,mrivas --array=1-1000 mrp_rv_array.sh 1 /path/to/output_folder`
+
+### Part 2: MRP meta-analysis across populations for array data
+1. [`mrp_rv_ma_array.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mrp_rv_ma_array.sh): Runs rare-variant aggregation with meta-analysis across our five main populations (white British, non-British white, African, East Asian, and South Asian) for array data.
+- Inputs: Inputs: None, explicitly. The array parameters (number of jobs and start index) are instead specified. MRP is run for each phenotype with `N_GBE >= 100` with the following parameters:
+  - `--R_study independent similar`
+  - `--R_var independent similar`
+  - `--variants ptv pav`
+  - `--metadata_path /oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-consequence_wb_maf_gene_ld_indep_mpc_pli.tsv`
+- Outputs: MRP output files (`log10BF` and corresponding posterior odds per gene/variant across the parameters specified) in the output folder specified.
+- Usage: `sbatch -p <partition(s)> --array=1-<number of array jobs> mrp_rv_ma_array.sh start_idx (inclusive) /path/to/output_folder`
+- Example usage: `sbatch -p normal,owners,mrivas --array=1-1000 mrp_rv_ma_array.sh 1 /path/to/output_folder`
+2. [`pav.pkl`](): 
+3. [`ptv.pkl`](): 
+4. [`power_plots.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/power_plots.py):
+- Inputs: 
+- Outputs: 
+- Example usage: 
+
+### Part 3: MRP multi-trait analysis using hierarchically-clustered phenotype groups for array data
+1. [`cluster.R`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/cluster.R):
+- Inputs: None
+- Outputs: [`clusters.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/clusters.tsv) (a list of phenotypes, their cluster memberships, and their descriptions) and [`clusters_to_run.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/clusters_to_run.tsv) (a list of clusters that meet the criteria for analysis - i.e., cluster size between 3 and 50 - and their respective sizes).
+- Example usage: `Rscript cluster.R`
+2. [`clusters.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/clusters.tsv): A list of phenotypes, their cluster memberships, and their descriptions.
+3. [`clusters_subset.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/clusters_subset.tsv): A strict subset of [`clusters.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/clusters.tsv) that only includes phenotypes which are members of clusters in [`clusters_to_run.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/clusters_to_run.tsv).
+4. [`clusters_to_run.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/clusters_to_run.tsv): A list of clusters that meet the criteria for analysis - i.e., cluster size between 3 and 50 - and their respective sizes
+5. [`combine_R_phen_rows.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/combine_R_phen_rows.py):
+- Inputs: 
+- Outputs: 
+- Example usage: `python combine_R_phen_rows.py`
+6. [`make_R_phen_row.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/make_R_phen_row.py):
+- Inputs: 
+- Outputs: 
+- Example usage: `python make_R_phen_row.py $GBE_ID $cur_idx`. **NOTE**: this is NOT recommended. See wrapper, [`make_R_phen_row.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/make_R_phen_row.sh), below.
+7. [`make_R_phen_row.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/make_R_phen_row.sh):
+- Inputs: 
+- Outputs: 
+- Example usage: `sbatch --array=1-<number of rows to calculate> make_R_phen_row.sh start_idx (inclusive)`
+8. [`mrp_multitrait_array.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mrp_multitrait_array.py):
+- Inputs: 
+- Outputs: 
+- Example usage: 
+9. [`sumstat_paths.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/sumstat_paths.tsv):
+
+### Part 4: MRP multi-trait meta-analysis across populations for array data
+1. [`mrp_multitrait_ma_array.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mrp_multitrait_ma_array.py):
+- Inputs: 
+- Outputs: 
+- Example usage: 
+
+### Part 5: MRP exome analysis on white British data
+1. [`mrp_rv_exome.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mrp_rv_exome.sh): Runs rare-variant aggregation across white British summary statistics for exome data.
+- Inputs: None, explicitly. The array parameters (number of jobs and start index) are instead specified. MRP is run for each phenotype with `N_GBE >= 100` with the following parameters:
+  - `--R_var independent similar`
+  - `--variants ptv pav`
+  - `--filter_ld_indep`
+  - `--se_thresh 1`
+  - `--maf_thresh 0.01 0.0005`
+  - `--metadata_path /oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-consequence_wb_maf_gene_ld_indep_mpc_pli.tsv`
+- Outputs: 
+- Example usage: 
+
+### Part 6: MRP exome analysis with MPC/PLI incorporation
+1. [`mrp_rv_exome_mpc_pli.sh`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mrp_rv_exome_mpc_pli.sh):
+- Inputs: 
+- Outputs: 
+- Example usage: 
+
+## Pipelines and Workflows
+
+## MRP: Script details and options
+
+A full list of options can be obtained by running `python mrp_production.py -h`, and this output is replicated here for reference:
+
+```{bash}
+(base) user$ python mrp_production.py -h
+usage: mrp_production.py [-h] --file MAP_FILE --metadata_path METADATA_PATH
+                         [--R_study {independent,similar} [{independent,similar} ...]]
+                         [--R_var {independent,similar} [{independent,similar} ...]]
+                         [--M {variant,gene} [{variant,gene} ...]]
+                         [--sigma_m_types {sigma_m_mpc_pli,sigma_m_var,sigma_m_1,sigma_m_005} [{sigma_m_mpc_pli,sigma_m_var,sigma_m_1,sigma_m_005} ...]]
+                         [--variants {pcv,pav,ptv} [{pcv,pav,ptv} ...]]
+                         [--maf_thresh MAF_THRESHES [MAF_THRESHES ...]]
+                         [--se_thresh SE_THRESHES [SE_THRESHES ...]]
+                         [--prior_odds PRIOR_ODDS_LIST [PRIOR_ODDS_LIST ...]]
+                         [--p_value {farebrother,davies,imhof} [{farebrother,davies,imhof} ...]]
+                         [--exclude EXCLUDE] [--filter_ld_indep]
+                         [--out_folder OUT_FOLDER]
+                         [--out_filename OUT_FILENAME]
+
+MRP takes in several variables that affect how it runs.
+
+  -h, --help            show this help message and exit
+  --file MAP_FILE       path to tab-separated file containing list of: 
+                                 summary statistic file paths,
+                                 corresponding studies,
+                                 phenotypes, and
+                                 whether or not to use the file in R_phen generation.
+                               
+                                 format:
+                                 
+                                 path        study        pheno        R_phen
+                                 /path/to/file1   study1    pheno1     TRUE
+                                 /path/to/file2   study2    pheno1     FALSE
+                                 
+  --metadata_path METADATA_PATH
+                        path to tab-separated file containing:
+                                 variants,
+                                 gene symbols,
+                                 consequences,
+                                 MAFs,
+                                 and LD independence info.
+                               
+                                 format:
+                                 
+                                 V       gene_symbol     most_severe_consequence maf  ld_indep
+                                 1:69081:G:C     OR4F5   5_prime_UTR_variant     0.000189471     False
+
+optional arguments:
+                                
+  --R_study {independent,similar} [{independent,similar} ...]
+                        type of model across studies. 
+                                 options: independent, similar (default: similar). can run both.
+  --R_var {independent,similar} [{independent,similar} ...]
+                        type(s) of model across variants. 
+                                 options: independent, similar (default: independent). can run both.
+  --M {variant,gene} [{variant,gene} ...]
+                        unit(s) of aggregation. 
+                                 options: variant, gene (default: gene). can run both.
+  --sigma_m_types {sigma_m_mpc_pli,sigma_m_var,sigma_m_1,sigma_m_005} [{sigma_m_mpc_pli,sigma_m_var,sigma_m_1,sigma_m_005} ...]
+                        scaling factor(s) for variants.
+                                 options: var (i.e. 0.2 for ptvs, 0.05 for pavs/pcvs), 
+                                 1, 0.05 (default: var). can run multiple.
+  --variants {pcv,pav,ptv} [{pcv,pav,ptv} ...]
+                        variant set(s) to consider. 
+                                 options: proximal coding [pcv], 
+                                          protein-altering [pav], 
+                                          protein truncating [ptv] 
+                                          (default: ptv). can run multiple.
+  --maf_thresh MAF_THRESHES [MAF_THRESHES ...]
+                        which MAF threshold(s) to use. must be valid floats between 0 and 1 
+                                 (default: 0.01).
+  --se_thresh SE_THRESHES [SE_THRESHES ...]
+                        which SE threshold(s) to use. must be valid floats between 0 and 1 
+                                 (default: 0.2).
+  --prior_odds PRIOR_ODDS_LIST [PRIOR_ODDS_LIST ...]
+                        which prior odds (can be multiple) to use in calculating posterior 
+                                 probabilities. must be valid floats between 0 and 1 (default: 0.0005, expect 
+                                 1 in 2000 genes to be a discovery).
+  --p_value {farebrother,davies,imhof} [{farebrother,davies,imhof} ...]
+                        which method(s) to use to convert Bayes Factors to p-values. if command 
+                                 line argument is invoked but method is not specified, will throw an error 
+                                 (i.e., specify a method when it is invoked). if not invoked, p-values will not 
+                                 be calculated. options: farebrother, davies, imhof. NOTE: --p_value imports R 
+                                 objects and methods, which slows down MRP. farebrother is fastest and 
+                                 recommended if p-values are a must.
+  --exclude EXCLUDE     path to file containing list of variants to exclude from analysis.
+                        
+                                 format of file:
+                        
+                                 1:69081:G:C
+                                 1:70001:G:A
+                                
+  --filter_ld_indep     whether or not only ld-independent variants should be kept (default: False;
+                                 i.e., use everything).
+  --out_folder OUT_FOLDER
+                        folder to which output(s) will be written (default: current folder).
+                                 if folder does not exist, it will be created.
+  --out_filename OUT_FILENAME
+                        file prefix with which output(s) will be written (default: underscore-delimited
+                                 phenotypes).
+```
+
+## MRP: Variant groupings
+
+The following groups are how we assign priors (`sigma_m`) to variants. All others are filtered out:
+
 `ptv = ['frameshift_variant', 'splice_acceptor_variant', 'splice_donor_variant', 'stop_gained', 'start_lost', 'stop_lost']`
 `pav = ['protein_altering_variant', 'inframe_deletion', 'inframe_insertion', 'splice_region_variant', 'start_retained_variant', 'stop_retained_variant', 'missense_variant']`
 `proximal_coding = ['synonymous_variant', '5_prime_UTR_variant', '3_prime_UTR_variant', 'coding_sequence_variant', 'incomplete_terminal_codon_variant', 'TF_binding_site_variant']`
