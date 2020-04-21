@@ -13,11 +13,24 @@ suppressPackageStartupMessages(library(data.table))
 in_f  <- args[1]
 out_f <- args[2]
 
+HLA_allelotypes_with_P_as_ref <- c('DPA1_103', 'DRB3_9901', 'DRB4_9901', 'DRB5_9901')
+# For all CNV alleles and most HLA allelotypes, REF == 'N'
+# However, the 4 alleloeyptes specified here, REF == 'P'
+
 fread(cmd=paste('zcat', in_f)) %>% 
 mutate(
     FASTA_REF = toupper(FASTA_REF),
     BETA = as.numeric(BETA),
-    is_flip = ! (FASTA_REF == REF),
+    is_flip = if_else(
+        # special treatment for 4 HLA allelotypes
+        (ID %in% HLA_allelotypes_with_P_as_ref), REF != 'P',
+        if_else(
+            # special treatment for CNV and HLA alleles
+            REF != 'N' & ALT != 'N',
+            FASTA_REF != REF,
+            REF != 'N'
+        )
+    ),
     ALT = if_else(is_flip, REF, ALT),
     REF = if_else(is_flip, A1,  REF),
     A1  = if_else(is_flip, ALT, A1),
