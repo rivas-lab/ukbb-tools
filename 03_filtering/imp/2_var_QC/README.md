@@ -31,3 +31,5 @@ The steps up to variant position comparison is documented in notebook (`imp_v3_Q
   |
  5,182,706
 ```
+
+The list of 9,354,600 variants are in: `/oak/stanford/groups/mrivas/ukbb24983/imp/mfi/ukb_mfi_v3.info.maf.biallelic.noncal.tsv.zst`
