@@ -123,6 +123,7 @@ ml load metal
 tmp_out=${tmp_dir}/$(basename ${out_file})
 master_file="${tmp_dir}/metal.masterfile"
 
+# generate METAL master file
 show_master_file ${input_file} ${tmp_out} > ${master_file}
 
 cd ${tmp_dir}
@@ -131,20 +132,24 @@ cd -
 
 extract_loci_for_files ${input_file} ${nCores} | bgzip -l9 -@ ${nCores} > ${tmp_out}.loci.gz
 
+# metal_post_processing_step1.R --> join the metal output with loci file
 Rscript ${SRCDIR}/metal_post_processing_step1.R \
 ${tmp_out}.loci.gz ${tmp_out}1.tbl ${tmp_out}.metal.tsv
 
+# apply flipcheck script to fetch the REF allele from FASTA file
 bash ${flipcheck_sh} --ref_fa ${ref_fa} --assembly ${assembly} ${tmp_out}.metal.tsv \
 | bgzip -l 9 -@ ${nCores} > ${tmp_out}.metal.check.tsv.gz
 
+# apply flipfix
 Rscript ${SRCDIR}/metal_post_processing_step2.R \
 ${tmp_out}.metal.check.tsv.gz ${tmp_out}.metal.fixed.tsv
 
+# bgzip
 bgzip -l 9 -@ ${nCores} ${tmp_out}.metal.fixed.tsv
 
 if [ ! -d $(dirname ${out_file}) ] ; then mkdir -p $(dirname ${out_file}) ; fi
 
+# copy the results from tmp_dir to the actual output dir
 cp ${tmp_out}.metal.fixed.tsv.gz ${out_file}.metal.tsv.gz
 cat ${tmp_out}1.tbl.info ${master_file} > ${out_file}.metal.info.txt
 echo "the results are written in: ${out_file%.gz}.metal.tsv.gz"
-
