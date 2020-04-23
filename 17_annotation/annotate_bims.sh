@@ -60,7 +60,7 @@ perl /oak/stanford/groups/mrivas/users/guhan/software/ensembl-vep/vep.pl \
         --offline \
         --database \
         --allele_number \
-        --fasta /oak/stanford/groups/mrivas/public_data/vep_cache_20170410/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa \
+        --fasta /oak/stanford/groups/mrivas/public_data/vep_cache_20170410/Homo_sapiens.${assembly_in}.dna.primary_assembly.fa \
         --everything \
         --assembly $assembly_in \
         --plugin LoF,loftee_path:/oak/stanford/groups/mrivas/public_data/loftee,human_ancestor_fa:/oak/stanford/groups/mrivas/public_data/loftee_human_ancestor_20170411/human_ancestor.fa.gz,conservation_file:/oak/stanford/groups/mrivas/public_data/loftee/phylocsf_gerp.sql \
@@ -95,16 +95,10 @@ sed -i '1s/Existing_variation/ID/g' "${input%.*}"_cf_vep.tsv_tmp && mv "${input%
 sed -i '1s/SYMBOL/Gene_symbol/g' "${input%.*}"_cf_vep.tsv
 sed -i '1s/MAF/maf/g' "${input%.*}"_cf_vep.tsv
 
-# Join on gnomad AF
-
-
-# Add additional fields - figure out gnomad_af
-#awk -F'\t' 'BEGIN{OFS="\t"}{if (NR==1) {print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,"f_miss","f_miss_bileve","f_miss_wcsg","freq","hwe_p",$15,"ld_indep","wcsg_only","bileve_only","filter","missingness","hwe","mcpi","gnomad_af","mgi","mgi_notes","all_filters","Gene_symbol"} else {print $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,"NA","NA","NA",$15,"NA",$15,"NA","NA","NA","0","0","0","NA","NA","NA","NA","0",$14}}' "${input%.*}"_cf_vep.tsv > "${input%.*}"_variant_annots.tsv
-
 # Replace NA with quotes
-#sed -i 's/\<NA\>/""/g' "${input%.*}"_variant_annots.tsv
+sed 's/\<NA\>/""/g' "${input%.*}"_cf_vep.tsv > "${input%.*}"_variant_annots.tsv
 
 #echo "Compressing..."
-#gzip -f "${input%.*}"_variant_annots.tsv
+gzip -f "${input%.*}"_variant_annots.tsv
 
-#rm "${input%.*}"_cf_vep.tsv "${input%.*}"_vep*
+rm "${input%.*}"_vep* "${input%.*}"_cf_vep.tsv

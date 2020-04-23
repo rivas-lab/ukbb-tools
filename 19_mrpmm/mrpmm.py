@@ -1977,7 +1977,7 @@ def initialize_parser():
     """
 
     parser = argparse.ArgumentParser(
-        description="MRP takes in several variables that affect how it runs.",
+        description="MRPMM takes in several variables that affect how it runs.",
         formatter_class=argparse.RawTextHelpFormatter,
     )
     parser.add_argument(

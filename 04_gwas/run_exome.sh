@@ -89,7 +89,7 @@ gbeId=$(basename ${phe_path} .phe)
 
 # run exome gwas with default GBE parameters
 gwasOutDir=$(echo $(dirname $(dirname $phe_path)) | awk '{gsub("phenotypedata","exome/gwas"); print}')/${pop}
-symlink_dir="/oak/stanford/groups/mrivas/ukbb24983/cal/gwas/current/${pop}"
+#symlink_dir="/oak/stanford/groups/mrivas/ukbb24983/exome/gwas/current/${pop}"
 
 if [ ! -d ${gwas_out_dir}/logs ] ; then mkdir -p ${gwas_out_dir}/logs ; fi
 if [ ! -d $log_dir ] ; then mkdir -p $log_dir ; fi
@@ -97,14 +97,14 @@ if [ ! -d $log_dir ] ; then mkdir -p $log_dir ; fi
 /share/software/user/open/python/3.6.1/bin/python3 gwas.py --run-exome --run-now --memory $mem --cores $cores --pheno $phe_path --out $gwas_out_dir --population $pop --log-dir $log_dir
 
 # introduce symlinks
-file_prefix=ukb24983_v2_hg38.${gbeId}.exome-spb
-for ending in "logistic.hybrid" "linear"; do
-    if [ -f ${gwas_out_dir}/${file_prefix}.glm.${ending}.gz ]; then
-        ln -sf ${gwas_out_dir}/${file_prefix}.glm.${ending}.gz ${symlink_dir}/${file_prefix}.glm.${ending}.gz
-    fi
-done
+#file_prefix=ukb24983_v2_hg38.${gbeId}.exome-spb
+#for ending in "logistic.hybrid" "linear"; do
+#    if [ -f ${gwas_out_dir}/${file_prefix}.glm.${ending}.gz ]; then
+#        ln -sf ${gwas_out_dir}/${file_prefix}.glm.${ending}.gz ${symlink_dir}/${file_prefix}.glm.${ending}.gz
+#    fi
+#done
 
-ln -sf ${gwas_out_dir}/logs/${file_prefix}.log ${symlink_dir}/logs/${file_prefix}.log
+#ln -sf ${gwas_out_dir}/logs/${file_prefix}.log ${symlink_dir}/logs/${file_prefix}.log
 
 # job finish footer (for use with array-job module)
 echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-end] hostname = $(hostname) SLURM_JOBID = ${_SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${_SLURM_ARRAY_TASK_ID} ; pop=${pop}" >&2
