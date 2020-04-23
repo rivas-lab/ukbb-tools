@@ -20,3 +20,7 @@ Please see [here](https://github.com/rivas-lab/ukbb-tools/tree/master/14_LD_map)
 ### Copy of the data in GBE (based on Dec. 2019)
 
 - `/opt/biobankengine/GlobalBioBankEngineRepo/gbe_browser/static/ldmap`
+
+## Public release
+
+WB LD map was released to public: https://bit.ly/rivas-lab_covid19_UKB_LD_public_release
