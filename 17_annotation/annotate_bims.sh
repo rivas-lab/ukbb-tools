@@ -96,9 +96,9 @@ sed -i '1s/SYMBOL/Gene_symbol/g' "${input%.*}"_cf_vep.tsv
 sed -i '1s/MAF/maf/g' "${input%.*}"_cf_vep.tsv
 
 # Replace NA with quotes
-sed 's/\<NA\>/""/g' "${input%.*}"_cf_vep.tsv > "${input%.*}"_variant_annots.tsv
+sed "s/\<NA\>/\"\"/g" "${input%.*}"_cf_vep.tsv > "${input%.*}"_variant_annots.tsv
 
 #echo "Compressing..."
 gzip -f "${input%.*}"_variant_annots.tsv
 
-rm "${input%.*}"_vep* "${input%.*}"_cf_vep.tsv
+rm "${input%.*}"_vep* "${input%.*}"_cf_vep.tsv $vcf $vcf.tbi
