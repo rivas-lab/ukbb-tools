@@ -4,12 +4,19 @@ set -beEuo pipefail
 SRCNAME=$(readlink -f $0)
 SRCDIR=$(dirname ${SRCNAME})
 PROGNAME=$(basename $SRCNAME)
-VERSION="0.1.1"
+VERSION="0.1.2"
 NUM_POS_ARGS="2"
 
 source "${SRCDIR}/18_metal_misc.sh"
 
 flipcheck_sh="$(dirname ${SRCDIR})/09_liftOver/flipcheck.sh"
+
+############################################################
+# update log
+############################################################
+# version 0.1.2 (2020/4/20)
+#   Starting this version, the METAL post-processing script
+#   properly handles flipfix for HLA and CNV datasets in UKB
 
 ############################################################
 # functions
