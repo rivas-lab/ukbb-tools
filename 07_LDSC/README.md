@@ -14,6 +14,7 @@ The results of LDSC are written in the following directories:
 
 - [LD score regression (LDSC)](https://github.com/bulik/ldsc)
 - [Genetic parameter estimation project in the Rivas lab](https://github.com/rivas-lab/genetic-parameter-estimation). Some of the codes are follked from this repository. (commit ID: `c909bd998b5a73742433c1d2293a0928f82947ea`).
+- We now have [Docker image for LDSC](https://github.com/yk-tanigawa/docker-LDSC)!
 
 ## Contents of this directory
 
