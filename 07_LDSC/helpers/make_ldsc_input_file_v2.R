@@ -43,7 +43,6 @@ read_ldscore_files <- function(ldscore_d){
             select(CHR, BP),
             by=c('CHR', 'BP')
         )
-        
     }) %>%
     bind_rows()
 }
