@@ -102,7 +102,7 @@ if [ "${list_mode}" == "TRUE" ] ; then
     cat ${list} > ${tmp_list}
     show_LDSC $(cat ${tmp_list} | awk 'NR==1') | awk 'NR==1'
     cat ${tmp_list} | while read f ; do
-        show_LDSC ${f} | awk 'NR>1'
+        ! show_LDSC ${f} | awk 'NR>1'
     done
 else
     show_LDSC ${file}
