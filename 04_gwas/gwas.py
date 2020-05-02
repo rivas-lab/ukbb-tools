@@ -82,7 +82,7 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cor
         "--chr 1-22" + (",X,XY" if includeX else ""),
         f"--maf {maf}" if (maf is not None) else "",
         "--pheno", pheFile, "--pheno-quantile-normalize",
-        "--glm firth-fallback hide-covar omit-ref",
+        "--glm firth-fallback hide-covar omit-ref ", "no-x-sex" if includeX else "",
         f"--keep {keepFile}" if (keepFile is not None) else '', 
         f"--remove {unrelatedFile}" if unrelatedFile and len(rmadd) == 0 else "",
         f"--remove {rmadd}" if len(rmadd) > 0 and not unrelatedFile else "",
@@ -308,7 +308,7 @@ if __name__ == "__main__":
                             help='Which sex to keep, will be used in constructing the output filenames, for use with --sex-div.')
     parser.add_argument('--keep-sex-file', dest="keep_sex_file", required=False, default='',
                             help='Location of the file specifying the IIDs to include related to that sex, for use with --sex-div.')
-    parser.add_argument('--include-x', dest="include_x", required=False, default=False,
+    parser.add_argument('--include-x', dest="include_x", action='store_true', default=False,
                             help='Whether to include the X chromosome, defaults to False')
     parser.add_argument('--additional-plink-opts', dest="plink_opts", required=False, default=[], nargs='*',
                             help='Addtional options for plink')
