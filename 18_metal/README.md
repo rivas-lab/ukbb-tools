@@ -78,3 +78,7 @@ This script (`generate_master_file.sh`) generates a master file for the list of 
 ```{bash}
 bash generate_master_file.sh LpA.lst meta.LpA
 ```
+
+## Reference
+
+- For output columns from Metal, please check the [Metal documentaion](https://genome.sph.umich.edu/wiki/Meta_Analysis_of_SNPxEnvironment_Interaction)

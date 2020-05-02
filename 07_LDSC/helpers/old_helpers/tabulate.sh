@@ -12,4 +12,3 @@ done | sed -e "s%${sed_key}%%g" \
 | sed -e 's/ukb24983_v2.//g' \
 | sed -e 's/.sumstats.gz//g' \
 | sed -e 's/.genotyped//g'
-
