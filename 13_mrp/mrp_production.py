@@ -435,17 +435,31 @@ def calculate_all_params(
     sigma_m = subset_df[sigma_m_type].tolist()
     diag_sigma_m = np.diag(np.atleast_1d(np.array(sigma_m)))
     R_var = np.diag(np.ones(M)) if R_var_model == "independent" else np.ones((M, M))
+    R_var, _ = is_pos_def_and_full_rank(R_var)
+    #print("R_var")
+    #print(R_var)
+    R_study, _ = is_pos_def_and_full_rank(R_study)
+    #print("R_study")
+    #print(R_study)
+    R_phen, _ = is_pos_def_and_full_rank(R_phen)
+    #print("R_phen")
+    #print(R_phen)
     S_var = np.dot(np.dot(diag_sigma_m, R_var), diag_sigma_m)
+    #print("S_var")
+    #print(S_var)
     beta_list, se_list = generate_beta_se(subset_df, pops, phenos)
     beta = np.array(beta_list).reshape(-1, 1)
     se = np.array(se_list)
     omega = np.kron(err_corr, np.diag(np.ones(M)))
+    #print(omega)
     U = np.kron(np.kron(R_study, R_phen), S_var)
     U, omega, beta, se = adjust_for_missingness(U, omega, beta, se, beta_list)
     U, converged = is_pos_def_and_full_rank(U, 0.8)
+    #print(U)
     diag_se = np.diag(se)
     v_beta = np.dot(np.dot(diag_se, omega), diag_se)
     v_beta, _ = is_pos_def_and_full_rank(v_beta)
+    #print(v_beta)
     mu = np.zeros(beta.shape)
     return U, beta, v_beta, mu, converged
 
@@ -776,6 +790,8 @@ def filter_category(df, variant_filter):
         df = df[df.category == "ptv"]
     elif variant_filter == "pav":
         df = df[(df.category == "ptv") | (df.category == "pav")]
+    elif variant_filter == "pcv":
+        df = df[(df.category == "ptv") | (df.category == "pav") | (df.category == "pcv")]
     return df
 
 
@@ -809,7 +825,7 @@ def loop_through_parameters(
     se_thresh: Upper threshold for SE for thiss run.
     maf_threshes: List of maximum MAFs of variants in your runs.
     agg: Unique list of aggregation units ("gene"/"variant") to use for analysis.
-    variant_filters: Unique list of variant filters ("ptv"/"pav"/"pcv") to use 
+    variant_filters: Unique list of variant filters ("ptv"/"pav"/"pcv","all") to use 
         for analysis.
     S: Number of populations/studies.
     R_study_list: Unique list of R_study matrices to use for analysis.
@@ -904,10 +920,9 @@ def set_sigmas(df):
     """ 
     Assigns appropriate sigmas to appropriate variants by annotation.
   
-    Filters out variants not of interest;
-    Sets sigmas by functional annotation;
+    Sets sigmas by functional annotation (var);
     Additionally adds two extra columns for two other standard choices of a uniform 
-        sigma (1 and 0.05).
+        sigma (1 and 0.05) and those using MPC/pLI.
   
     Parameters: 
     df: Merged dataframe containing all variants across all studies and phenotypes.
@@ -950,7 +965,7 @@ def set_sigmas(df):
         "incomplete_terminal_codon_variant",
         "TF_binding_site_variant",
     ]
-    to_filter = [
+    intron = [
         "regulatory_region_variant",
         "intron_variant",
         "intergenic_variant",
@@ -961,19 +976,21 @@ def set_sigmas(df):
         "NA",
         "NMD_transcript_variant",
     ]
-    df = df[~df.most_severe_consequence.isin(to_filter)]
     sigma_m_ptv = 0.2
     sigma_m_pav = 0.05
     sigma_m_pcv = 0.03
+    sigma_m_intron = 0.02
     sigma_m = dict(
         [(variant, sigma_m_ptv) for variant in ptv]
         + [(variant, sigma_m_pav) for variant in pav]
         + [(variant, sigma_m_pcv) for variant in pcv]
+        + [(variant, sigma_m_intron) for variant in intron]
     )
     category_dict = dict(
         [(variant, "ptv") for variant in ptv]
         + [(variant, "pav") for variant in pav]
         + [(variant, "pcv") for variant in pcv]
+        + [(variant, "all") for variant in intron]
     )
     sigma_m_list = list(map(sigma_m.get, df.most_severe_consequence.tolist()))
     df["sigma_m_var"] = sigma_m_list
@@ -1216,7 +1233,7 @@ def calculate_err(a, b, pop1, pheno1, pop2, pheno2, err_corr, err_df):
         return 0
 
 
-def filter_for_err_corr(df):
+def filter_for_err_corr(df, map_file):
 
     """
     Filters the initial dataframe for the criteria used to build err_corr.
@@ -1236,10 +1253,16 @@ def filter_for_err_corr(df):
         + Style.RESET_ALL
     )
     print("")
+    pop_pheno_tuples = zip(list(map_file["study"]), list(map_file["pheno"]))
+    cols_to_keep = ["V", "maf", "ld_indep", "most_severe_consequence"]
+    for col_type in "BETA_", "P_":
+        cols_to_keep.extend(
+            [col_type + pop + "_" + pheno for pop, pheno in pop_pheno_tuples]
+        )
+    df = df[cols_to_keep]
     # Get only LD-independent, common variants
     df = df[(df.maf >= 0.01) & (df.ld_indep == True)]
     df = df.dropna(axis=1, how="all")
-    df = df.dropna()
     null_variants = [
         "regulatory_region_variant",
         "intron_variant",
@@ -1258,7 +1281,7 @@ def filter_for_err_corr(df):
     return df
 
 
-def build_err_corr(S, K, pops, phenos, df):
+def build_err_corr(S, K, pops, phenos, df, map_file):
 
     """
     Builds out a matrix of correlations between all phenotypes and studies using:
@@ -1282,7 +1305,7 @@ def build_err_corr(S, K, pops, phenos, df):
     """
     if K == 1 and S == 1:
         return np.ones((S * K, S * K))
-    err_df = filter_for_err_corr(df)
+    err_df = filter_for_err_corr(df, map_file)
     if len(err_df) == 0:
         print(Fore.RED + "WARNING: Correlation of errors is noisy.")
         print("Assuming independent effects." + Style.RESET_ALL)
@@ -1322,9 +1345,8 @@ def return_err_and_R_phen(df, pops, phenos, S, K, map_file):
     R_phen: Empirical estimates of genetic correlation across phenotypes.
   
     """
-
     # Sample common variants, stuff in filter + synonymous
-    err_corr = build_err_corr(S, K, pops, phenos, df)
+    err_corr = build_err_corr(S, K, pops, phenos, df, map_file)
     # Faster calculations, better accounts for uncertainty in estimates
     err_corr[abs(err_corr) < 0.01] = 0
     R_phen = build_R_phen(S, K, pops, phenos, df, map_file)
@@ -1630,8 +1652,8 @@ def range_limited_float_type(arg):
         f = float(arg)
     except ValueError:
         raise argparse.ArgumentTypeError("must be valid floating point numbers.")
-    if f <= 0 or f >= 1:
-        raise argparse.ArgumentTypeError("must be > 0 and < 1.")
+    if f <= 0 or f > 1:
+        raise argparse.ArgumentTypeError("must be > 0 and <= 1.")
     return f
 
 
@@ -1744,7 +1766,7 @@ def initialize_parser():
     )
     parser.add_argument(
         "--variants",
-        choices=["pcv", "pav", "ptv"],
+        choices=["pcv", "pav", "ptv", "all"],
         type=str,
         nargs="+",
         default=["ptv"],
@@ -1752,7 +1774,8 @@ def initialize_parser():
         help="""variant set(s) to consider. 
          options: proximal coding [pcv], 
                   protein-altering [pav], 
-                  protein truncating [ptv] 
+                  protein truncating [ptv],
+                  all variants [all]
                   (default: ptv). can run multiple.""",
     )
     parser.add_argument(
@@ -1902,6 +1925,12 @@ if __name__ == "__main__":
         err_corr, R_phen = return_err_and_R_phen(
             se_df, pops, phenos, len(pops), len(phenos), map_file
         )
+        print("Correlation of errors, SE threshold = " + str(se_thresh) + ":")
+        print(err_corr)
+        print("")
+        print("R_phen:")
+        print(R_phen)
+        print("")
         loop_through_parameters(
             se_df,
             se_thresh,
