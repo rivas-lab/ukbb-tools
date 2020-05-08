@@ -87,6 +87,11 @@ In total, we have 378,292 unrelated individuals
   - `ukb24983_<population>.exclude.phe`: the list of individuals that are not in the population.
   - `ukb24983_GWAS_covar.20200313.phe`: GWAS covariate file
   - `ukb24983_master_sqc.20200313.phe`: the all sample QC columns and potentially interesting covariates. The GWAS covariate file is a subset of this file.
+  
+Additionally, we will include more individuals by including individuals who are not part of our population groupings.
+
+- [`sample_qc_v3.2.1_pop_count.ipynb`](sample_qc_v3.2.1_pop_count.ipynb)
+- 28,551 (no assignment) + 618 (East Asian outlier) + 77 (South Asian outlier)
 
 ##### Self-reported ethnicity
 
