@@ -281,7 +281,7 @@ apply_threshold <- function(eigenvec_df, x_axis, y_axis, pop, x_lim, y_lim){
     ggplot(aes(x = plot_x, y = plot_y, color=as.factor(f21000_top_label))) +
     geom_point(alpha=.025) + 
     theme_bw() + theme(legend.position="bottom") +
-    guides(colour = guide_legend(override.aes = list(alpha = 1), nrow=2, byrow=TRUE)) +
+    guides(colour = guide_legend(override.aes = list(alpha = 1), ncol=1, byrow=TRUE)) +
     labs(
         x = x_axis, y = y_axis, 
         title='PCs within each population',
@@ -372,13 +372,13 @@ plot_local_pc <- function(evec_df, master_sqc_pop_ref_df, x_axis, y_axis){
     geom_point(alpha=.025) + 
     theme_bw() + 
     theme(legend.position="bottom") +
-    guides(colour = guide_legend(override.aes = list(alpha = 1), nrow=2, byrow=TRUE)) +
+    guides(colour = guide_legend(override.aes = list(alpha = 1), nrow=1, byrow=TRUE)) +
     labs(
         x = x_axis, y = y_axis, 
         title='PCs within each population',
         color='Self-reported ethnicity'
     ) +
-    facet_wrap( ~ population, ncol=2)     
+    facet_wrap( ~ population, ncol=3)     
 }
 
 replace_colnames <- function(df, pattern, replacement){
