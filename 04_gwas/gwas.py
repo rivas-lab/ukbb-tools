@@ -76,17 +76,17 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cor
         os.system('cat ' + unrelatedFile + ' ' + rmadd + ' > tmp')
     cmd_plink = " ".join([
         "plink" if plink1 else "plink2",
-        f"--threads {cores}" if (cores is not None) else "",
-        f"--memory {memory}" if (memory is not None) else "",
+        "--threads {0}".format(cores) if (cores is not None) else "",
+        "--memory {0}".format(memory) if (memory is not None) else "",
         genotypeStr,
         "--chr 1-22" + (",X,XY" if includeX else ""),
-        f"--maf {maf}" if (maf is not None) else "",
+        "--maf {0}".format(maf) if (maf is not None) else "",
         "--pheno", pheFile, "--pheno-quantile-normalize",
         "--glm firth-fallback hide-covar omit-ref ", "no-x-sex" if includeX else "",
-        f"--keep {keepFile}" if (keepFile is not None) else '', 
-        f"--remove {unrelatedFile}" if unrelatedFile and len(rmadd) == 0 else "",
-        f"--remove {rmadd}" if len(rmadd) > 0 and not unrelatedFile else "",
-        f"--remove tmp" if len(rmadd) > 0 and unrelatedFile else "",
+        "--keep {0}".format(keepFile) if (keepFile is not None) else '', 
+        "--remove {0}".format(unrelatedFile) if unrelatedFile and len(rmadd) == 0 else "",
+        "--remove {0}".format(rmadd) if len(rmadd) > 0 and not unrelatedFile else "",
+        "--remove tmp" if len(rmadd) > 0 and unrelatedFile else "",
         variantSubsetStr,
         "--covar", covarFile, 
         "--covar-name age ", "sex " if not sexDiv else "", 
@@ -102,9 +102,9 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cor
     gwas_sh="/oak/stanford/groups/mrivas/users/guhan/repos/ukbb-tools/04_gwas/04_gwas_misc.sh"
 #    print(os.path.dirname(__file__))
     cmds = [
-        f"source {gwas_sh}",
+        "source {0}".format(gwas_sh),
         cmd_plink,
-        f"post_processing {outFile}"
+        "post_processing {0}".format(outFile),
     ]
     return("\n\n".join(cmds))
 
@@ -132,7 +132,7 @@ def make_plink_commands_arrayCovar(bpFile, outFile, make_plink_command_common_ar
         # join the plink calls, add some bash at the bottom to combine the output  
         return("\n\n".join([
             cmd2, cmd1,
-            f"combine_two_sumstats {outFile1} {outFile2} {outFile} {cores}"
+            "combine_two_sumstats {0} {1} {2} {3}".format(outFile1, outFile2, outFile, cores)
         ]))
 
 def make_batch_file(batchFile, plinkCmd, cores, memory, time, partitions):
