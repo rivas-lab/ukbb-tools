@@ -27,11 +27,11 @@ find_suffix () {
 mv_glm_file_and_bgzip () {
     echo "Moving glm file and bgzipping..."
     local filePrefix=$1
-    local src=$(find_file $filePrefix | egrep -v 'gz$')
-    local dst=$filePrefix.$(find_suffix $filePrefix | egrep -v 'gz$' | cut -d'.' -f2-)
+    local src=$(find_file $filePrefix | egrep -v 'gz$' | grep PHENO)
+    local dst=$filePrefix.$(find_suffix $filePrefix | egrep -v 'gz$' | grep PHENO | cut -d'.' -f2-)
     echo "Source: ${src}"
     echo "Destination: ${dst}"
-    mv $src $dst
+    mv -f $src $dst
     apply_bgzip $dst
 }
 
@@ -53,7 +53,7 @@ post_processing () {
     echo "Moving the log file..."
     echo "Source: ${filePrefix}.log"
     echo "Destination: ${logFile}"
-    mv ${filePrefix}.log ${logFile}
+    mv -f ${filePrefix}.log ${logFile}
     mv_glm_file_and_bgzip $filePrefix 
 }
 

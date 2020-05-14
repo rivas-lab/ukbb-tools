@@ -187,7 +187,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', keepFile=None, relat
         'exome-fe':           ('bpfile',    os.path.join(pgen_root,'exome','pgen','fe','data','ukb_exm_fe')),
         'hla':                ('bpfile',    os.path.join(pgen_root,'hla','pgen','ukb_hla_v3'))
     }
-    pheName=os.path.basename(pheFile).split('.')[0]
+    pheName=os.path.basename(pheFile).split('.phe')[0]
     outFile=os.path.join(outDir, 'ukb24983_v2_{0}.{1}{2}.{3}'.format(
         'hg38' if 'exome' in kind else 'hg19', 
         pheName, 

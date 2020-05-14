@@ -14,10 +14,6 @@ set -beEuo pipefail
 usage () {
     echo "$0: GWAS re-run script for the array genotype data"
     echo "usage: sbatch --array=1-<number of array jobs> $0 start_idx (inclusive.)"
-    echo ''
-    echo '  You may check the status of the job (which jobs are finished) using the array-job module:'
-    echo '  $ ml load array-job'
-    echo '  $ array-job-find_ok.sh rerun_logs'
 }
 
 software_versions () {
