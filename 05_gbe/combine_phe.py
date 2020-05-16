@@ -13,6 +13,10 @@ Author: Matthew Aguirre (SUNET: magu)
 # what do?
 out_file = '/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/master_phe/master.{}.phe'.format(str(date.today()).replace('-',''))
 
+# what file?
+with open("/oak/stanford/groups/mrivas/ukbb24983/sqc/w24983_20200204.csv") as f:
+    redacted = f.read().splitlines()
+
 # get list of phenotypes
 phe_in = {}
 with open('../05_gbe/phenotype_info.tsv', 'r') as f, open(out_file+'.info.tsv', 'w') as o:
@@ -57,7 +61,7 @@ for phe,app,path in map(lambda (k,v): (k,v['APP_ID'],v['PATH']),phe_in.items()):
     # keep track of phenotype, then import
     phe_out.append(phe)
     # don't assume the individuals are the same across files
-    inds_not_seen = set(inds.keys()) 
+    inds_not_seen = set(inds.keys())
     # the above will be pruned as we walk though the file
     with open(path, 'r') as f:
         for line in f:
@@ -79,5 +83,5 @@ sep='\t'
 print("writing to file...")
 with open(out_file, 'w') as f:
     f.write(sep.join(['FID', 'IID'] + phe_out) + '\n')
-    for ind in sorted(inds.keys()):
+    for ind in sorted(list(set(inds.keys()) - set(redacted))):
         f.write(sep.join([ind, ind] + inds[ind]) + '\n')

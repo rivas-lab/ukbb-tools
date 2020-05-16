@@ -3,7 +3,7 @@ require(data.table)
 require(readxl)
 require(writexl)
 
-names_df <- as.data.frame(read_excel('GBE_names.xlsx'))
+names_df <- as.data.frame(read_excel('GBE_names.xlsx', sheet="GBE_names"))
 
 firstup <- function(x) {
   substr(x, 1, 1) <- toupper(substr(x, 1, 1))
@@ -67,24 +67,25 @@ df_clean <- df %>% mutate(
     GBE_short_name = str_replace_all(GBE_short_name, '\\s+$', ''),
     GBE_short_name = str_replace_all(GBE_short_name, '^\\s+', ''),   
     GBE_short_name = firstup(GBE_short_name) # capitalize the first letter
-) %>%
+) %>% select(GBE_ID, GBE_N, GBE_NAME, GBE_short_name)
+
+joined <- df_clean %>% full_join(names_df, by=c('GBE_ID','GBE_NAME')) %>%
+select(GBE_ID, GBE_N.x, GBE_N.y, GBE_NAME, GBE_short_name.x, GBE_short_name.y, Units_of_measurement) %>% 
 mutate(
+    GBE_short_name = ifelse(is.na(GBE_short_name.y), GBE_short_name.x, GBE_short_name.y),
+    GBE_N = ifelse(is.na(GBE_N.x), GBE_N.y, GBE_N.x),
     GBE_short_name_len = str_length(GBE_short_name),
     GBE_category = str_replace_all(GBE_ID, '[0-9]+', '')
-) %>%
-select(GBE_category, GBE_ID, GBE_N, GBE_NAME, GBE_short_name, GBE_short_name_len)
+) %>% 
+select(GBE_category, GBE_ID, GBE_N, GBE_NAME, GBE_short_name, GBE_short_name_len, Units_of_measurement)
 
-df_clean <- df_clean %>% left_join(
-    names_df, by='GBE_ID'
-) %>% select(GBE_category.x, GBE_ID, GBE_N.x, GBE_NAME.x, GBE_short_name.x, GBE_short_name.y, GBE_short_name_len.x, Units_of_measurement) %>% 
-mutate(GBE_short_name = ifelse(is.na(GBE_short_name.y), GBE_short_name.x, GBE_short_name.y)) %>%
-select(GBE_category = GBE_category.x, GBE_ID, GBE_N = GBE_N.x, GBE_NAME = GBE_NAME.x, GBE_short_name, GBE_short_name_len = GBE_short_name_len.x, Units_of_measurement)
+new_df_clean <- joined %>% filter(GBE_ID %in% df_clean$GBE_ID)
 
-df_clean %>% fwrite(
+new_df_clean %>% fwrite(
     'icdinfo.shortnames.tsv', sep='\t'
 )
 
-write_xlsx(df_clean, "GBE_names.xlsx")
+write_xlsx(joined, "GBE_names.xlsx")
 
 pops <- c(
 'white_british',
