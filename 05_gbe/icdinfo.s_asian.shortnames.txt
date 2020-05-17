@@ -2,6 +2,9 @@ BIN100020	2137	Typical_diet_yesterday	2137	2137	Y
 BIN100240	1117	Coffee_consumed	1117	1117	Y			
 BIN100260	737	Added_milk_to_instant_coffee_always_(Diet,_24hr_recall,_Online_follow-up)	737	737	Y			
 BIN100280	173	Added_milk_to_filtered_coffee_always_(Diet,_24hr_recall,_Online_follow-up)	173	173	Y			
+BIN10030500	990	Microalbumin_higher_than_40_mg/L	990	990	Y	Microalbumin > 40 mg/L	22	
+BIN10030800	1029	Oestradiol_higher_than_212_pmol/L	1029	1029	Y	Oestradiol > 212 pmol/L	23	
+BIN10030820	396	Rheumatoid_factor_higher_than_16_IU/mL	396	396	Y	Rheumatoid factor > 16 IU/mL	28	
 BIN100320	10	Added_milk_to_espresso_always_(Diet,_24hr_recall,_Online_follow-up)	10	10	Y			
 BIN100350	43	Added_milk_to_other_coffee_type_always_(Diet,_24hr_recall,_Online_follow-up)	43	43	Y			
 BIN100360	156	Decaffeinated_coffee_always_(Diet,_24hr_recall,_Online_follow-up)	156	156	Y			
@@ -184,6 +187,7 @@ BIN2463	512	Fractured/broken_bones_in_last_5_years	512	512	Y	Fractured/broken bo
 BIN2473	1097	Other_serious_medical_condition/disability_diagnosed_by_doctor	1097	1097	Y	Other serious medical condition/disability diagnosed by doctor	62	
 BIN2774	1275	Ever_had_stillbirth,_spontaneous_miscarriage_or_termination	1275	1275	Y	Ever had stillbirth, spontaneous miscarriage or termination	59	
 BIN2814	696	Ever_used_hormone-replacement_therapy_(HRT)	696	696	Y	Ever used hormone-replacement therapy (HRT)	43	
+BIN30030510	712	UACR_higher_than_30_mg/g	712	712	Y			
 BIN3081	2706	Foot_measured_for_bone_density	2706	2706	Y	Foot measured for bone density	30	
 BIN3393	218	Hearing_aid_user	218	218	Y	Hearing aid user	16	
 BIN3404	1567	Neck/shoulder_pain_for_3+_months	1567	1567	Y	Neck/shoulder pain for 3+ months	32	
@@ -1819,7 +1823,6 @@ HC442	131	chronic_obstructive_airways_disease/copd	131	131	Y	Chronic obstructive
 HC443	64	headaches_(not_migraine)	64	64	Y	Headaches (not migraine)	24	
 HC444	4	fracture_jaw	4	4	Y	Fracture jaw	12	
 HC445	16	oesophageal_varicies	16	16	Y	Oesophageal varicies	20	
-HC446	0	benign_insulinoma	0	0	Y			
 HC447	0	TTE_cholera	0	0	Y			
 HC448	29	TTE_typhoid_and_paratyphoid_fevers	29	29	Y			
 HC449	12	TTE_other_salmonella_infections	12	12	Y			
@@ -2447,8 +2450,37 @@ INI100250	832	Instant_coffee_intake_(Diet,_24hr_recall,_Online_follow-up)	832	83
 INI100270	218	Filtered_coffee_intake_(Diet,_24hr_recall,_Online_follow-up)	218	218	Y			
 INI100290	98	Cappuccino_intake_(Diet,_24hr_recall,_Online_follow-up)	98	98	Y			
 INI100300	117	Latte_intake_(Diet,_24hr_recall,_Online_follow-up)	117	117	Y			
+INI10030500	2560	Microalbumin_in_urine	2560	2560	Y	Microalbumin in urine covariate adjusted	40	
+INI10030510	7009	Creatinine_in_urine	7009	7009	Y	Creatinine (enzymatic) in urine covariate adjusted	50	
+INI10030520	6998	Potassium_in_urine	6998	6998	Y	Potassium in urine covariate adjusted	37	
+INI10030530	6993	Sodium_in_urine	6993	6993	Y	Sodium in urine covariate adjusted	34	
+INI10030600	6687	Albumin	6687	6687	Y	Albumin covariate adjusted	26	
+INI10030610	7337	Alkaline_phosphatase	7337	7337	Y	Alkaline phosphatase covariate adjusted	39	
+INI10030620	7325	Alanine_aminotransferase	7325	7325	Y	Alanine aminotransferase covariate adjusted	43	
 INI1003063	7184	FEV_FVC_ratio	7184	7184	Y	FEV FVC ratio	13	
+INI10030630	6682	Apolipoprotein_A	6682	6682	Y	Apolipoprotein A covariate adjusted	35	
 INI1003064	7184	PEF_predicted_ratio	7184	7184	Y	PEF pred. ratio	15	
+INI10030650	7313	Aspartate_aminotransferase	7313	7313	Y	Aspartate aminotransferase covariate adjusted	45	
+INI10030660	6088	Direct_bilirubin	6088	6088	Y	Direct bilirubin covariate adjusted	35	
+INI10030670	7336	Urea	7336	7336	Y	Urea covariate adjusted	23	
+INI10030680	6696	Calcium	6696	6696	Y	Calcium covariate adjusted	26	
+INI10030700	7339	Creatinine	7339	7339	Y	Creatinine covariate adjusted	29	
+INI10030710	7316	C-reactive_protein	7316	7316	Y	C-reactive protein covariate adjusted	37	
+INI10030720	7338	Cystatin_C	7338	7338	Y	Cystatin C covariate adjusted	29	
+INI10030730	7336	Gamma_glutamyltransferase	7336	7336	Y	Gamma glutamyltransferase covariate adjusted	44	
+INI10030740	6693	Glucose	6693	6693	Y	Glucose covariate adjusted	26	
+INI10030750	6895	HbA1c	6895	6895	Y	Glycated haemoglobin (HbA1c) covariate adjusted	47	
+INI10030760	6689	HDL_cholesterol	6689	6689	Y	HDL cholesterol covariate adjusted	34	
+INI10030770	7283	IGF-1	7283	7283	Y	IGF 1 covariate adjusted	24	
+INI10030790	6453	Lipoprotein_A	6453	6453	Y	Lipoprotein A covariate adjusted	32	
+INI10030810	6685	Phosphate	6685	6685	Y	Phosphate covariate adjusted	28	
+INI10030830	6638	SHBG	6638	6638	Y	SHBG covariate adjusted	23	
+INI10030840	7313	Total_bilirubin	7313	7313	Y	Total bilirubin covariate adjusted	34	
+INI10030850	6680	Testosterone	6680	6680	Y	Testosterone covariate adjusted	31	
+INI10030860	6687	Total_protein	6687	6687	Y	Total protein covariate adjusted	32	
+INI10030870	7330	Triglycerides	7330	7330	Y	Triglycerides covariate adjusted	32	
+INI10030880	7328	Urate	7328	7328	Y	Urate covariate adjusted	24	
+INI10030890	6425	Vitamin_D	6425	6425	Y	Vitamin D covariate adjusted	28	
 INI100310	38	Espresso_intake_(Diet,_24hr_recall,_Online_follow-up)	38	38	Y			
 INI100330	56	Other_coffee_type_(Diet,_24hr_recall,_Online_follow-up)	56	56	Y			
 INI100370	471	Intake_of_sugar_added_to_coffee_(Diet,_24hr_recall,_Online_follow-up)	471	471	Y			
@@ -2705,6 +2737,11 @@ INI20016	3964	Fluid_intelligence_score	3964	3964	Y	Fluid intelligence score	24
 INI20019	4249	Speech-reception-threshold_(SRT)_estimate_(left)	4249	4249	Y	Speech-reception-threshold (SRT) estimate (L)	45	
 INI20021	4272	Speech-reception-threshold_(SRT)_estimate_(right)	4272	4272	Y	Speech-reception-threshold (SRT) estimate (R)	45	
 INI20022	1933	Birth_weight	1933	1933	Y	Birth weight	12	
+INI20030640	7275	Apolipoprotein_B	7275	7275	Y	Apolipoprotein B covariate and statin adjusted	46	
+INI20030690	7336	Cholesterol	7336	7336	Y	Cholesterol covariate and statin adjusted	41	
+INI20030780	7319	LDL_cholesterol	7319	7319	Y	LDL direct covariate and statin adjusted	40	
+INI2005254	3672	Intra-ocular_pressure,_corneal-compensated_(median)	3672	3672	Y			
+INI2005255	3672	Intra-ocular_pressure,_Goldmann-correlated_(median)	3672	3672	Y			
 INI20121	121	Cascot_confidence_score	121	121	Y	Cascot confidence score	23	
 INI20127	4811	Neuroticism_score	4811	4811	Y	Neuroticism score	17	
 INI20150	1	Forced_expiratory_volume_in_1-second_(FEV1),_Best_measure	1	1	Y	FEV1, Best measure	18	
@@ -3670,6 +3707,9 @@ INI30000	7573	White_blood_cell_(leukocyte)_count	7573	7573	Y	White blood cell co
 INI30010	7573	Red_blood_cell_(erythrocyte)_count	7573	7573	Y	Red blood cell count	20	
 INI30020	7573	Haemoglobin_concentration	7573	7573	Y	Haemoglobin concentration	25	
 INI30030	7573	Haematocrit_percentage	7573	7573	Y	Haematocrit %	13	
+INI30030650	7309	AST_to_ALT_ratio	7309	7309	Y			
+INI30030700	7339	eGFR	7339	7339	Y	EGFR covariate adjusted	23	
+INI30030860	6687	Non-albumin_protein	6687	6687	Y			
 INI30040	7573	Mean_corpuscular_volume	7573	7573	Y	Mean corpuscular volume	23	
 INI30050	7573	Mean_corpuscular_haemoglobin	7573	7573	Y	Mean corpuscular haemoglobin	28	
 INI30060	7573	Mean_corpuscular_haemoglobin_concentration	7573	7573	Y	Mean corpuscular haemoglobin concentration	42	

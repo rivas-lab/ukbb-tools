@@ -3,6 +3,9 @@ BIN	BIN100020	133749	Typical_diet_yesterday	Typical diet yesterday	22
 BIN	BIN100240	113692	Coffee_consumed	Coffee consumed	15	
 BIN	BIN100260	69809	Added_milk_to_instant_coffee_always_(Diet,_24hr_recall,_Online_follow-up)	Added milk to instant coffee always (Diet, 24hr recall, Online follow-up)	73	
 BIN	BIN100280	30404	Added_milk_to_filtered_coffee_always_(Diet,_24hr_recall,_Online_follow-up)	Added milk to filtered coffee always (Diet, 24hr recall, Online follow-up)	74	
+BIN	BIN10030500	23590	Microalbumin_higher_than_40_mg/L	Microalbumin > 40 mg/L	22	
+BIN	BIN10030800	38696	Oestradiol_higher_than_212_pmol/L	Oestradiol > 212 pmol/L	23	
+BIN	BIN10030820	16700	Rheumatoid_factor_higher_than_16_IU/mL	Rheumatoid factor > 16 IU/mL	28	
 BIN	BIN100320	1503	Added_milk_to_espresso_always_(Diet,_24hr_recall,_Online_follow-up)	Added milk to espresso always (Diet, 24hr recall, Online follow-up)	67	
 BIN	BIN100350	1500	Added_milk_to_other_coffee_type_always_(Diet,_24hr_recall,_Online_follow-up)	Added milk to other coffee type always (Diet, 24hr recall, Online follow-up)	76	
 BIN	BIN100360	21195	Decaffeinated_coffee_always_(Diet,_24hr_recall,_Online_follow-up)	Decaffeinated coffee always (Diet, 24hr recall, Online follow-up)	65	
@@ -185,6 +188,7 @@ BIN	BIN2463	35446	Fractured/broken_bones_in_last_5_years	Fractured/broken bones 
 BIN	BIN2473	71851	Other_serious_medical_condition/disability_diagnosed_by_doctor	Other serious medical condition/disability diagnosed by doctor	62	
 BIN	BIN2774	56531	Ever_had_stillbirth,_spontaneous_miscarriage_or_termination	Ever had stillbirth, spontaneous miscarriage or termination	59	
 BIN	BIN2814	72592	Ever_used_hormone-replacement_therapy_(HRT)	Ever used hormone-replacement therapy (HRT)	43	
+BIN	BIN30030510	14248	UACR_higher_than_30_mg/g	UACR > 30 mg/g	14	
 BIN	BIN3081	220610	Foot_measured_for_bone_density	Foot measured for bone density	30	
 BIN	BIN3393	12821	Hearing_aid_user	Hearing aid user	16	
 BIN	BIN3404	55663	Neck/shoulder_pain_for_3+_months	Neck/shoulder pain for 3+ months	32	
@@ -1820,7 +1824,6 @@ HC	HC442	9534	chronic_obstructive_airways_disease/copd	Chronic obstructive airwa
 HC	HC443	3077	headaches_(not_migraine)	Headaches (not migraine)	24	
 HC	HC444	181	fracture_jaw	Fracture jaw	12	
 HC	HC445	562	oesophageal_varicies	Oesophageal varicies	20	
-HC	HC446	1	benign_insulinoma	Benign insulinoma	17	
 HC	HC447	18	TTE_cholera	TTE cholera	11	
 HC	HC448	74	TTE_typhoid_and_paratyphoid_fevers	TTE typhoid and paratyphoid fevers	34	
 HC	HC449	529	TTE_other_salmonella_infections	TTE other salmonella infections	31	
@@ -2448,8 +2451,37 @@ INI	INI100250	83585	Instant_coffee_intake_(Diet,_24hr_recall,_Online_follow-up)	
 INI	INI100270	43714	Filtered_coffee_intake_(Diet,_24hr_recall,_Online_follow-up)	Filtered coffee intake (Diet, 24hr recall, Online follow-up)	60	
 INI	INI100290	13376	Cappuccino_intake_(Diet,_24hr_recall,_Online_follow-up)	Cappuccino intake (Diet, 24hr recall, Online follow-up)	55	
 INI	INI100300	12773	Latte_intake_(Diet,_24hr_recall,_Online_follow-up)	Latte intake (Diet, 24hr recall, Online follow-up)	50	
+INI	INI10030500	95810	Microalbumin_in_urine	Microalbumin in urine	21	
+INI	INI10030510	310232	Creatinine_in_urine	Creatinine in urine	19	
+INI	INI10030520	309551	Potassium_in_urine	Potassium in urine	18	
+INI	INI10030530	309577	Sodium_in_urine	Sodium in urine	15	
+INI	INI10030600	291507	Albumin	Albumin	7	
+INI	INI10030610	318944	Alkaline_phosphatase	Alkaline phosphatase	20	
+INI	INI10030620	318809	Alanine_aminotransferase	Alanine aminotransferase	24	
 INI	INI1003063	308970	FEV_FVC_ratio	FEV FVC ratio	13	
+INI	INI10030630	290189	Apolipoprotein_A	Apolipoprotein A	16	
 INI	INI1003064	308970	PEF_predicted_ratio	PEF pred. ratio	15	
+INI	INI10030650	317754	Aspartate_aminotransferase	Aspartate aminotransferase	26	
+INI	INI10030660	271410	Direct_bilirubin	Direct bilirubin	16	
+INI	INI10030670	318715	Urea	Urea	4	
+INI	INI10030680	291834	Calcium	Calcium	7	
+INI	INI10030700	318791	Creatinine	Creatinine	10	
+INI	INI10030710	318262	C-reactive_protein	C-reactive protein	18	
+INI	INI10030720	318810	Cystatin_C	Cystatin C	10	
+INI	INI10030730	318770	Gamma_glutamyltransferase	Gamma glutamyltransferase	25	
+INI	INI10030740	291596	Glucose	Glucose	7	
+INI	INI10030750	304650	HbA1c	HbA1c	5	
+INI	INI10030760	291821	HDL_cholesterol	HDL cholesterol	15	
+INI	INI10030770	317105	IGF-1	IGF-1	5	
+INI	INI10030790	253563	Lipoprotein_A	Lipoprotein A	13	
+INI	INI10030810	291382	Phosphate	Phosphate	9	
+INI	INI10030830	289001	SHBG	SHBG	4	
+INI	INI10030840	317596	Total_bilirubin	Total bilirubin	15	
+INI	INI10030850	289109	Testosterone	Testosterone	12	
+INI	INI10030860	291507	Total_protein	Total protein	13	
+INI	INI10030870	318665	Triglycerides	Triglycerides	13	
+INI	INI10030880	318517	Urate	Urate	5	
+INI	INI10030890	304809	Vitamin_D	Vitamin D	9	
 INI	INI100310	5135	Espresso_intake_(Diet,_24hr_recall,_Online_follow-up)	Espresso intake (Diet, 24hr recall, Online follow-up)	53	
 INI	INI100330	2573	Other_coffee_type_(Diet,_24hr_recall,_Online_follow-up)	Other coffee type (Diet, 24hr recall, Online follow-up)	55	
 INI	INI100370	24436	Intake_of_sugar_added_to_coffee_(Diet,_24hr_recall,_Online_follow-up)	Intake of sugar added to coffee (Diet, 24hr recall, Online follow-up)	69	
@@ -2706,6 +2738,11 @@ INI	INI20016	136544	Fluid_intelligence_score	Fluid intelligence score	24
 INI	INI20019	129419	Speech-reception-threshold_(SRT)_estimate_(left)	Speech-reception-threshold (SRT) estimate (L)	45	
 INI	INI20021	129559	Speech-reception-threshold_(SRT)_estimate_(right)	Speech-reception-threshold (SRT) estimate (R)	45	
 INI	INI20022	195406	Birth_weight	Birth weight	12	
+INI	INI20030640	317403	Apolipoprotein_B	Apolipoprotein B	16	
+INI	INI20030690	318918	Cholesterol	Cholesterol	11	
+INI	INI20030780	318331	LDL_cholesterol	LDL cholesterol	15	
+INI	INI2005254	82251	Intra-ocular_pressure,_corneal-compensated_(median)	Intra-ocular pressure, corneal-compensated (median)	51	
+INI	INI2005255	82251	Intra-ocular_pressure,_Goldmann-correlated_(median)	Intra-ocular pressure, Goldmann-correlated (median)	51	
 INI	INI20121	9824	Cascot_confidence_score	Cascot confidence score	23	
 INI	INI20127	274069	Neuroticism_score	Neuroticism score	17	
 INI	INI20150	255447	Forced_expiratory_volume_in_1-second_(FEV1),_Best_measure	FEV1, Best measure	18	
@@ -3671,6 +3708,9 @@ INI	INI30000	327969	White_blood_cell_(leukocyte)_count	White blood cell count	22
 INI	INI30010	327972	Red_blood_cell_(erythrocyte)_count	Red blood cell count	20	
 INI	INI30020	327971	Haemoglobin_concentration	Haemoglobin concentration	25	
 INI	INI30030	327972	Haematocrit_percentage	Haematocrit %	13	
+INI	INI30030650	317678	AST_to_ALT_ratio	AST to ALT ratio	16	
+INI	INI30030700	318791	eGFR	EGFR	4	
+INI	INI30030860	291507	Non-albumin_protein	Non-albumin protein	19	
 INI	INI30040	327971	Mean_corpuscular_volume	Mean corpuscular volume	23	
 INI	INI30050	327968	Mean_corpuscular_haemoglobin	Mean corpuscular haemoglobin	28	
 INI	INI30060	327965	Mean_corpuscular_haemoglobin_concentration	Mean corpuscular haemoglobin concentration	42	
@@ -3978,6 +4018,39 @@ QT_FC	QT_FC1005663	21877	Length_of_longest_manic/irritable_episode	Length of lon
 QT_FC	QT_FC21050	20974	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86	
 QT_FC	QT_FC21057	79757	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72	
 INI	INI1001	34341	Duration_strenuous_sports	Duration strenuous sports	25	
+INI	INI10030500	95811	Microalbumin_in_urine_covariate_adjusted	Microalbumin in urine covariate adjusted	40	
+INI	INI10030510	310240	Creatinine_(enzymatic)_in_urine_covariate_adjusted	Creatinine (enzymatic) in urine covariate adjusted	50	
+INI	INI10030520	309559	Potassium_in_urine_covariate_adjusted	Potassium in urine covariate adjusted	37	
+INI	INI10030530	309585	Sodium_in_urine_covariate_adjusted	Sodium in urine covariate adjusted	34	
+INI	INI10030600	291968	Albumin_covariate_adjusted	Albumin covariate adjusted	26	
+INI	INI10030610	318983	Alkaline_phosphatase_covariate_adjusted	Alkaline phosphatase covariate adjusted	39	
+INI	INI10030620	318849	Alanine_aminotransferase_covariate_adjusted	Alanine aminotransferase covariate adjusted	43	
+INI	INI10030630	290234	Apolipoprotein_A_covariate_adjusted	Apolipoprotein A covariate adjusted	35	
+INI	INI10030650	317794	Aspartate_aminotransferase_covariate_adjusted	Aspartate aminotransferase covariate adjusted	45	
+INI	INI10030660	271425	Direct_bilirubin_covariate_adjusted	Direct bilirubin covariate adjusted	35	
+INI	INI10030670	318760	Urea_covariate_adjusted	Urea covariate adjusted	23	
+INI	INI10030680	291859	Calcium_covariate_adjusted	Calcium covariate adjusted	26	
+INI	INI10030700	318805	Creatinine_covariate_adjusted	Creatinine covariate adjusted	29	
+INI	INI10030710	318278	C_reactive_protein_covariate_adjusted	C-reactive protein covariate adjusted	37	
+INI	INI10030720	318828	Cystatin_C_covariate_adjusted	Cystatin C covariate adjusted	29	
+INI	INI10030730	318813	Gamma_glutamyltransferase_covariate_adjusted	Gamma glutamyltransferase covariate adjusted	44	
+INI	INI10030740	291657	Glucose_covariate_adjusted	Glucose covariate adjusted	26	
+INI	INI10030750	304712	Glycated_haemoglobin_(HbA1c)_covariate_adjusted	Glycated haemoglobin (HbA1c) covariate adjusted	47	
+INI	INI10030760	291843	HDL_cholesterol_covariate_adjusted	HDL cholesterol covariate adjusted	34	
+INI	INI10030770	317145	IGF_1_covariate_adjusted	IGF 1 covariate adjusted	24	
+INI	INI10030790	253599	Lipoprotein_A_covariate_adjusted	Lipoprotein A covariate adjusted	32	
+INI	INI10030810	291407	Phosphate_covariate_adjusted	Phosphate covariate adjusted	28	
+INI	INI10030830	289063	SHBG_covariate_adjusted	SHBG covariate adjusted	23	
+INI	INI10030840	317638	Total_bilirubin_covariate_adjusted	Total bilirubin covariate adjusted	34	
+INI	INI10030850	289141	Testosterone_covariate_adjusted	Testosterone covariate adjusted	31	
+INI	INI10030860	291643	Total_protein_covariate_adjusted	Total protein covariate adjusted	32	
+INI	INI10030870	318708	Triglycerides_covariate_adjusted	Triglycerides covariate adjusted	32	
+INI	INI10030880	318557	Urate_covariate_adjusted	Urate covariate adjusted	24	
+INI	INI10030890	304849	Vitamin_D_covariate_adjusted	Vitamin D covariate adjusted	28	
+INI	INI20030640	317428	Apolipoprotein_B_covariate_and_statin_adjusted	Apolipoprotein B covariate and statin adjusted	46	
+INI	INI20030690	318970	Cholesterol_covariate_and_statin_adjusted	Cholesterol covariate and statin adjusted	41	
+INI	INI20030780	318365	LDL_direct_covariate_and_statin_adjusted	LDL direct covariate and statin adjusted	40	
+INI	INI30030700	318805	eGFR_covariate_adjusted	EGFR covariate adjusted	23	
 INI	INI924	335301	Usual_walking_pace	Usual walking pace	18	
 INI	INI981	315393	Duration_walks	Duration walks	14	
 INI	INI991	34320	Frequency_strenuous_sports_last_4_weeks	Freq. strenuous sports last 4 weeks	35	

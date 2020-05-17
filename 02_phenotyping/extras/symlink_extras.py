@@ -21,11 +21,11 @@ def do_symlinks(src_dir):
             for folder, filetype in zip(
                 ["phe", "info", "logs"], ["phe", "info", "log"]
             ):
-                os.remove(
-                    os.path.join(
+                path = os.path.join(
                         dst_dir, "current", folder, phe_name + "." + filetype
                     )
-                )
+                if os.path.exists(path):
+                    os.remove(path)
         # Add symlinks if the paths exist
         for path, folder, filetype in zip(
             [phe, info_file, log], ["phe", "info", "logs"], ["phe", "info", "log"]
@@ -49,6 +49,8 @@ cbi_dir = "/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/clinical_b
 hc_dir = "/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/highconfidenceqc/current/"
 cancer_dir = "/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/cancer/current/"
 fh_dir = "/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/family_history/"
+bio_dir = "/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/adjusted_biomarkers/"
+iop_dir = "/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/iop/"
 
-for dirname in cbi_dir, hc_dir, cancer_dir, fh_dir:
+for dirname in cbi_dir, hc_dir, cancer_dir, fh_dir, bio_dir, iop_dir:
     do_symlinks(dirname)
