@@ -18,10 +18,7 @@ The "main" script in this directory, `gwas.py`, is designed to be a convenient w
 - Outputs: A new tarball in `/oak/stanford/groups/mrivas/ukbb24983/cal/gwas/freeze/[freeze_v]/[pop]`, and symlinks to this version within the folder.
 - Usage: `gwas_freeze.sh check_file prefix variant_type freeze_v [pop] [p_val_threshold] [out_dir_root]`
 - Verbose uage: `gwas_freeze.sh check_array_gwas.XXXXXXX.out ukb24983_v2_hg19 genotyped 20200412 e_asian 1e-5 /desired/path`
-4. [`plink_updater.sh`](https://github.com/rivas-lab/ukbb-tools/tree/master/04_gwas/plink_updater.sh): Installs a version of PLINK2 on Sherlock given the version date.
-- Inputs: `date`, a `YYYYMMDD`-formatted string dictating the date of the version that the script should pull down and install.
-- Outputs: A new `plink2` version installed as both non-AVX2 and AVX2 versions on Sherlock. *NOTE*: In order to retain consistency between jobs, the new version is **NOT** made the default version immediately as a result of this script.
-- Example usage: `bash plink_updater.sh 20200409`
+4. `plink_updater.sh`: we used to have a PLINK2 module updater as a part of this repository, but we decided to move the updater to [`sherlock-modules`](https://github.com/rivas-lab/sherlock-modules) repository.
 5. [`run_array_hla_cnv.sh`](https://github.com/rivas-lab/ukbb-tools/tree/master/04_gwas/run_array_hla_cnv.sh): The default workhorse for running GWAS across phenotypes; as indicated by the name, it runs GWAS across the array, HLA, and CNV data.
 - Inputs: None, explicitly. The array parameters (number of jobs and start index) are instead specified.
 - Outputs: GWAS summary statistics for the `array-combined` (array, HLA, and CNV) dataset in the correct basket/table organized folders in `/oak/stanford/groups/mrivas/ukbb24983/cal/gwas/`, and also symlinks in `/oak/stanford/groups/mrivas/ukbb24983/cal/gwas/current`.
