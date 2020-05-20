@@ -3,10 +3,10 @@
 #SBATCH --output=logs/merge.%A.out
 #SBATCH  --error=logs/merge.%A.err
 #SBATCH --nodes=1
-#SBATCH --cores=16
-#SBATCH --mem=3000000
-#SBATCH --time=0-20:00:00
-#SBATCH -p mrivas,normal
+#SBATCH --cores=4
+#SBATCH --mem=60000
+#SBATCH --time=7-0:00:00
+#SBATCH -p mrivas
 set -beEuo pipefail
 
 cores=$( cat $0 | egrep '^#SBATCH --cores='  | awk -v FS='=' '{print $NF}' )
@@ -24,9 +24,10 @@ source $(dirname $(readlink -f $0))/3-0_merge_misc.sh
 ##############
 
 merge_list_tsv=$1
-out="/oak/stanford/groups/mrivas/ukbb/24983/array_imp_combined/pgen/ukb24983_ukb24983_cal_hla_cnv_imp"
+out=$2
 
-plink_opts="--memory ${mem} --threads ${cores}"
+plink_mem=$( perl -e "print(int(${mem} * 0.8))" )
+plink_opts="--memory ${plink_mem} --threads ${cores}"
 tmp_merge_list=${tmp_dir}/merge.lst
 
 # prepare temp files for merge (assign short IDs)

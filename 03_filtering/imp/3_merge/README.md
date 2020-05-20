@@ -17,6 +17,8 @@ paste files.txt <(cat files.txt | sed -e "s/ukb24983_ukb24983/ukb24983_hg19/g") 
 
 ## `3-1_merge.sh`
 
+### version 1
+
 We merge the following datasets:
 
 - 5,182,706 variants on imputed dataset (v3)
@@ -61,8 +63,21 @@ Sincerely yours,Yosuke
 We submitted this job as
 
 ```
-sbatch 3-1_merge.sh merge.lst.tsv
+sbatch 3-1_merge.sh merge.lst.v1.imp.w.HWE.filter.tsv /oak/stanford/groups/mrivas/ukbb/24983/array_imp_combined/pgen/ukb24983_ukb24983_cal_hla_cnv_imp
 ```
+
+### version 2
+
+We revised the variant QC criteria and removed the HWE filter.
+
+```
+cat merge.lst.v1.imp.w.HWE.filter.tsv | sed -e "s/_QC/_QC_noHWE/g" > merge.lst.v2.imp.wo.HWE.filter.tsv
+```
+
+```
+sbatch 3-1_merge.sh merge.lst.v2.imp.wo.HWE.filter.tsv /oak/stanford/groups/mrivas/ukbb/24983/array_imp_combined/pgen_v2/ukb24983_ukb24983_cal_hla_cnv_imp
+```
+
 
 ## 3-2 `3-2_recover_names.ipynb`
 
