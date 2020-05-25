@@ -1,7 +1,9 @@
 args = commandArgs(trailingOnly=TRUE)
 
-require(tidyverse)
-require(data.table)
+suppressWarnings(suppressPackageStartupMessages({
+    library(tidyverse)
+    library(data.table)
+}))
 
 in_file  <- args[1] # pvar file
 prefix   <- args[2]
