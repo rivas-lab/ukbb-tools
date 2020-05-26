@@ -32,6 +32,7 @@ We have [`imp`](imp) directory to document the QC and filtering procedure for th
 
 ### version history
 
+- `population_stratification_w24983_20200522`: additional population-specific PCA analysis for White British and "others" cohorts. The "others" cohorts are defined as the set of unrelated individuals who are not captured in the population assignments (based on the Global PC threshold) and defined in [`sample_qc_v3.2.1_pop_count.ipynb`](sample_qc_v3.2.1_pop_count.ipynb). The updated results are also reflected in master phe file, `/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/master_phe/master.20200522.phe`. This notebook ([`sample_qc_v3.2.2_pop_covar_update.ipynb`](sample_qc_v3.2.2_pop_covar_update.ipynb)) reads the PCA computation and udpate the sqc file, the GWAS covariate file, and the master phe file.
 - `population_stratification_w24983_20200313`: this one corresponds to `sample_qc_v3.2`. The difference between v3.1 and v3.2 are the participant Withdrawal information. We also improved the clarity of the documentation.
 
 ### Participant Withdrawal
@@ -206,3 +207,10 @@ In the GWAS covariate file, we included the followings:
 [magu@sh02-ln02 login /oak/stanford/groups/mrivas/private_data/ukbb/variant_filtering]$ zcat variant_filter_table.tsv.gz | awk '($22 ~ /T/){print $5}' > /oak/stanford/groups/mrivas/ukbb24983/sqc/bileve_specific_variants.txt
 
  ```
+
+#### Additional PCA analysis for WB
+
+We've updated [`sample_qc_v3.PCA.sh`](sample_qc_v3.PCA.sh) and applied the local PCA analysis for the White British population.
+The results are saved in `/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification_w24983_20200522`.
+
+#### ToDo: additional PCA analysis for "others"
