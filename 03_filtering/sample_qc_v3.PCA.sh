@@ -2,13 +2,16 @@
 set -beEuo pipefail
 
 in_pfile="/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb24983_cal_cALL_v2_hg19"
-pop_str_d="/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification_w24983_20190809"
+pop_str_d="/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification_w24983_20200522"
 
-mem=300000
-cpu=20
+mem=60000
+cpu=8
+
+ml load zstd
+ml load plink2/20200511
 
 #pops=("e_asian" "s_asian" "african" "non_british_white")
-pops=("non_british_white")
+pops=("others" "white_british")
 out_d="${pop_str_d}/pca"
 if [ ! -d ${out_d} ] ; then mkdir -p ${out_d} ; fi
 
@@ -26,7 +29,8 @@ tmp_bed=${tmp_dir}/pca_in
 tmp_pca_d=${tmp_dir}/pca
 mkdir -p ${tmp_pca_d}
 
-plink_common_opts=" --memory ${mem} --threads ${cpu}"
+plink_mem=$( perl -e "print(int(${mem} * 0.8))" )
+plink_common_opts=" --memory ${plink_mem} --threads ${cpu}"
 
 # variant filter
 echo "6 25477797 36448354 MHC" | tr " " "\t" \
@@ -43,7 +47,8 @@ zstdgrep -v '#' ${tmp_pvar}.pvar.zst | cut -f3 \
 for pop in ${pops[@]} ; do
 keep_f="${pop_str_d}/ukb24983_${pop}.phe"
 plink2 ${plink_common_opts} --pfile ${in_pfile} --extract ${tmp_prune}.prune.in \
-    --pca 40 var-wts approx vzs vcols=chrom,pos,ref,alt1,alt,maj,nonmaj \
+    --pca 40 allele-wts approx vzs vcols=chrom,pos,ref,alt1,alt,ax \
+    --freq counts \
     --keep ${keep_f} --out ${out_d}/ukb24983_${pop}_pca --seed 20190805
 cat ${tmp_pvar}.log ${tmp_prune}.log ${out_d}/ukb24983_${pop}_pca.log  > ${out_d}/ukb24983_${pop}_pca.plink.log
 rm ${out_d}/ukb24983_${pop}_pca.log

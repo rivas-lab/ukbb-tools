@@ -258,10 +258,8 @@ show_population_counts <- function(df){
 read_eigenvec <- function(dir_name, pops){
     eigenvec <- list()
     for (pop in pops){
-        if(pop != 'white_british'){
-            eigenvec[[pop]] <- file.path(dir_name, paste0('ukb24983_', pop, '_pca.eigenvec')) %>%
-            fread(header=T, data.table=F) %>% rename(FID = '#FID') %>% mutate(population = pop)  
-        }
+        eigenvec[[pop]] <- file.path(dir_name, paste0('ukb24983_', pop, '_pca.eigenvec')) %>%
+        fread(header=T, data.table=F) %>% rename(FID = '#FID') %>% mutate(population = pop)  
     }
     eigenvec %>% bind_rows()
 }
