@@ -27,7 +27,7 @@ find_suffix () {
 mv_glm_file_and_bgzip () {
     echo "Moving glm file and bgzipping..."
     local filePrefix=$1
-    if [ "$filePrefix" == *"INI"* ] || [ "$filePrefix" == *"QT"* ]; then
+    if [[ "$filePrefix" == *"INI"* ]] || [[ "$filePrefix" == *"QT"* ]]; then
         local src=$(find_file $filePrefix | egrep -v 'gz$')
         local dst=$filePrefix.$(find_suffix $filePrefix | egrep -v 'gz$' | cut -d'.' -f2-)
     else 
