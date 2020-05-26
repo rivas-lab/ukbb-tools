@@ -43,7 +43,7 @@ def updateKeepFile(outDir, qcDir, keepFile=None, pop=None, sexDiv=False, keepSex
     return(keepFile)
 
 def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cores=None, memory=None, related=False, plink1=False, 
-                       variantSubsetStr='', arrayCovar=False, sexDiv=False, keepSex='', keepSexFile='', includeX=False, maf=None, rmadd='', plink_opts=''):
+                       variantSubsetStr='', arrayCovar=False, sexDiv=False, keepSex='', keepSexFile='', includeX=False, onlyX=False, maf=None, rmadd='', plink_opts=''):
     # paths to plink genotypes, input phenotypes, output directory are passed
     qcDir         = '/oak/stanford/groups/mrivas/ukbb24983/sqc/'
     keepFile=updateKeepFile(outDir, qcDir, keepFile=keepFile, pop=pop, sexDiv=sexDiv, keepSexFile=keepSexFile)
@@ -71,6 +71,13 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cor
     else:
         raise ValueError("Error: unsupported genotype file flag ({0})".format(bpFile[0]))
         
+    if not includeX and not onlyX:
+        chrstr = "--chr 1-22"
+    elif includeX and not onlyX:
+        chrstr = "--chr 1-22,X,XY,Y,MT"
+    else:
+        chrstr = "--chr X,XY,Y,MT"
+
     # paste together the command from constituent parts
     if unrelatedFile and len(rmadd) > 0:
         os.system('cat ' + unrelatedFile + ' ' + rmadd + ' > tmp')
@@ -79,7 +86,7 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cor
         "--threads {0}".format(cores) if (cores is not None) else "",
         "--memory {0}".format(memory) if (memory is not None) else "",
         genotypeStr,
-        "--chr 1-22" + (",X,XY" if includeX else ""),
+        chrstr,
         "--maf {0}".format(maf) if (maf is not None) else "",
         "--pheno", pheFile, "--pheno-quantile-normalize",
         "--glm firth-fallback hide-covar omit-ref ", "no-x-sex" if includeX else "",
@@ -156,7 +163,7 @@ def make_batch_file(batchFile, plinkCmd, cores, memory, time, partitions):
 
 def run_gwas(kind, pheFile, outDir='', pop='white_british', keepFile=None, related=False, plink1=False, 
              logDir=None, cores="4", memory="24000", rmAdd=None, time="1-00:00:00", partition=["normal","owners"], now=False,
-             sexDiv=False, keepSex='', keepSexFile='', includeX=False, plink_opts=''):
+             sexDiv=False, keepSex='', keepSexFile='', includeX=False, onlyX=False, plink_opts=''):
     # ensure usage
     rmadd = ""
     if not os.path.isfile(pheFile):
@@ -188,10 +195,11 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', keepFile=None, relat
         'hla':                ('bpfile',    os.path.join(pgen_root,'hla','pgen','ukb_hla_v3'))
     }
     pheName=os.path.basename(pheFile).split('.phe')[0]
-    outFile=os.path.join(outDir, 'ukb24983_v2_{0}.{1}{2}.{3}'.format(
+    outFile=os.path.join(outDir, 'ukb24983_v2_{0}.{1}{2}{3}.{4}'.format(
         'hg38' if 'exome' in kind else 'hg19', 
         pheName, 
         "_{0}".format(keepSex) if sexDiv else "", 
+        "_X" if onlyX else "",
         kind
     ))
     
@@ -208,6 +216,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', keepFile=None, relat
         'keepSex' : keepSex,
         'keepSexFile' : keepSexFile,
         'includeX' : includeX, 
+        'onlyX' : onlyX,
         'rmadd' : rmadd,
         'plink_opts': plink_opts
     }
@@ -309,7 +318,9 @@ if __name__ == "__main__":
     parser.add_argument('--keep-sex-file', dest="keep_sex_file", required=False, default='',
                             help='Location of the file specifying the IIDs to include related to that sex, for use with --sex-div.')
     parser.add_argument('--include-x', dest="include_x", action='store_true', default=False,
-                            help='Whether to include the X chromosome, defaults to False')
+                            help='Whether to include the X/XY/MT chromosomes, defaults to False')
+    parser.add_argument('--only-x', dest="only_x", action='store_true', default=False,
+                            help='Whether to ONLY include the X/XY/MT chromosomes, defaults to False')
     parser.add_argument('--additional-plink-opts', dest="plink_opts", required=False, default=[], nargs='*',
                             help='Addtional options for plink')
 
@@ -331,4 +342,4 @@ if __name__ == "__main__":
                  logDir=args.log, cores=args.cores, memory=args.mem,
                  time=args.sb_time, partition=args.sb_parti, now=args.local, 
                  sexDiv=args.sex_div, keepSex=args.keep_sex, keepSexFile=args.keep_sex_file,
-                 includeX=args.include_x, plink_opts=' '.join([f'--{x}' for x in args.plink_opts]))
+                 includeX=args.include_x, onlyX=args.only_x, plink_opts=' '.join([f'--{x}' for x in args.plink_opts]))
