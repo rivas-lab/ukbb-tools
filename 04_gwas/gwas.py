@@ -43,7 +43,7 @@ def updateKeepFile(outDir, qcDir, keepFile=None, pop=None, sexDiv=False, keepSex
     return(keepFile)
 
 def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cores=None, memory=None, related=False, plink1=False, 
-                       variantSubsetStr='', arrayCovar=False, sexDiv=False, keepSex='', keepSexFile='', includeX=False, onlyX=False, maf=None, rmadd='', plink_opts=''):
+                       variantSubsetStr='', arrayCovar=False, sexDiv=False, keepSex='', keepSexFile='', includeX=True, onlyX=False, maf=None, rmadd='', plink_opts=''):
     # paths to plink genotypes, input phenotypes, output directory are passed
     qcDir         = '/oak/stanford/groups/mrivas/ukbb24983/sqc/'
     keepFile=updateKeepFile(outDir, qcDir, keepFile=keepFile, pop=pop, sexDiv=sexDiv, keepSexFile=keepSexFile)
@@ -317,8 +317,8 @@ if __name__ == "__main__":
                             help='Which sex to keep, will be used in constructing the output filenames, for use with --sex-div.')
     parser.add_argument('--keep-sex-file', dest="keep_sex_file", required=False, default='',
                             help='Location of the file specifying the IIDs to include related to that sex, for use with --sex-div.')
-    parser.add_argument('--include-x', dest="include_x", action='store_true', default=False,
-                            help='Whether to include the X/XY/MT chromosomes, defaults to False')
+    parser.add_argument('--include-x', dest="include_x", action='store_true', default=True,
+                            help='Whether to include the X/XY/MT chromosomes, defaults to True')
     parser.add_argument('--only-x', dest="only_x", action='store_true', default=False,
                             help='Whether to ONLY include the X/XY/MT chromosomes, defaults to False')
     parser.add_argument('--additional-plink-opts', dest="plink_opts", required=False, default=[], nargs='*',
