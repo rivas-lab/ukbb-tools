@@ -29,8 +29,8 @@ set -beEuo pipefail
 #  bgzip and R
 #
 
-ml load snpnet_yt # this is Yosuke's R env
-ml load htslib
+#ml load snpnet_yt # this is Yosuke's R env
+#ml load htslib
 
 SRCNAME=$(readlink -f $0)
 SRCDIR=$(dirname ${SRCNAME})
@@ -39,12 +39,30 @@ PROGNAME=$(basename $SRCNAME)
 dataset="array-combined"
 
 # read args
+#if [ $# -lt 2 ] ; then 
+#    echo "usage: ${PROGNAME} chrAUTO.sumstats chrX.sumstats" >&1 
+#    exit 1
+#fi
+#chrAUTO_sym=$1
+#chrX_sym=$2
+
 if [ $# -lt 2 ] ; then 
-    echo "usage: ${PROGNAME} chrAUTO.sumstats chrX.sumstats" >&1 
+    echo "usage: ${PROGNAME} pop GBE_ID" >&1 
     exit 1
 fi
-chrAUTO_sym=$1
-chrX_sym=$2
+pop=$1
+GBE_ID=$2
+
+GBE_CAT=$(echo $GBE_ID | sed -e "s/[0-9]//g")
+if [ ${GBE_CAT} == "INI" ] || [ ${GBE_CAT} == "QT_FC" ] ; then
+    glm_suffix="linear"
+else
+    glm_suffix="logistic.hybrid"
+fi
+
+data_dir="/oak/stanford/groups/mrivas/ukbb24983/cal/gwas/current"
+chrAUTO_sym="${data_dir}/${pop}/ukb24983_v2_hg19.${GBE_ID}.${dataset}.glm.${glm_suffix}.gz"
+chrX_sym="${data_dir}/${pop}/ukb24983_v2_hg19.${GBE_ID}_X.${dataset}.glm.${glm_suffix}.gz"
 
 # check dir
 if [ "$(dirname $chrAUTO_sym)" != "$(dirname $chrX_sym)" ] ; then
@@ -135,3 +153,4 @@ bgzip -l9 -f ${chrAUTO%.gz}
 # remove the sym links to chrX file
 rm $chrX_log_sym
 rm $chrX_sym
+
