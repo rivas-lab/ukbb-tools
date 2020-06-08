@@ -136,8 +136,8 @@ in_f_X    <- args[2]
 out_f <- args[3]
 
 df <- bind_rows(
-    fread(in_f_auto, colClasses=c('#CHROM'='character', 'POS'='integer', 'ID'='character')),
-    fread(in_f_X,    colClasses=c('#CHROM'='character', 'POS'='integer', 'ID'='character'))
+    fread(in_f_auto, colClasses=c('#CHROM'='character', 'POS'='integer', 'ID'='character', 'P'='character')),
+    fread(in_f_X,    colClasses=c('#CHROM'='character', 'POS'='integer', 'ID'='character', 'P'='character'))
 ) %>%
 rename('CHROM'='#CHROM') %>%
 mutate(CHROM =  factor(CHROM, levels = c(1:22, 'X', 'XY', 'Y', 'MT'))) %>%
