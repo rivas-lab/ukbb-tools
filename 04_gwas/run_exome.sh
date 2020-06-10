@@ -66,9 +66,9 @@ ml load python/3.6.1
 
 if grep -q "CPU_GEN:HSW\|CPU_GEN:BDW\|CPU_GEN:SKX" <(a=$(hostname); sinfo -N -n ${a::-4} --format "%50f"); then
    # AVX2 is suitable for use on this node if CPU is recent enough
-   ml load plink2/20200409
+   ml load plink2/20200607
 else
-   ml load plink2/20200409-non-AVX2
+   ml load plink2/20200607-non-AVX2
 fi
 
 software_versions >&2
@@ -97,14 +97,14 @@ if [ ! -d $log_dir ] ; then mkdir -p $log_dir ; fi
 /share/software/user/open/python/3.6.1/bin/python3 gwas.py --run-exome --run-now --memory $mem --cores $cores --pheno $phe_path --out $gwas_out_dir --population $pop --log-dir $log_dir
 
 # introduce symlinks
-#file_prefix=ukb24983_v2_hg38.${gbeId}.exome-spb
-#for ending in "logistic.hybrid" "linear"; do
-#    if [ -f ${gwas_out_dir}/${file_prefix}.glm.${ending}.gz ]; then
-#        ln -sf ${gwas_out_dir}/${file_prefix}.glm.${ending}.gz ${symlink_dir}/${file_prefix}.glm.${ending}.gz
-#    fi
-#done
+file_prefix=ukb24983_v2_hg38.${gbeId}.exome-spb
+for ending in "logistic.hybrid" "linear"; do
+    if [ -f ${gwas_out_dir}/${file_prefix}.glm.${ending}.gz ]; then
+        ln -sf ${gwas_out_dir}/${file_prefix}.glm.${ending}.gz ${symlink_dir}/${file_prefix}.glm.${ending}.gz
+    fi
+done
 
-#ln -sf ${gwas_out_dir}/logs/${file_prefix}.log ${symlink_dir}/logs/${file_prefix}.log
+ln -sf ${gwas_out_dir}/logs/${file_prefix}.log ${symlink_dir}/logs/${file_prefix}.log
 
 # job finish footer (for use with array-job module)
 echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-end] hostname = $(hostname) SLURM_JOBID = ${_SLURM_JOBID}; SLURM_ARRAY_TASK_ID = ${_SLURM_ARRAY_TASK_ID} ; pop=${pop}" >&2

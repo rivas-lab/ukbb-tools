@@ -42,7 +42,7 @@ def updateKeepFile(outDir, qcDir, keepFile=None, pop=None, sexDiv=False, keepSex
         keepFile=filterPopFile(outDir, keepFile, keepSexFile)
     return(keepFile)
 
-def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cores=None, memory=None, related=False, plink1=False, 
+def make_plink_command(bpFile, pheFile, pheName, outFile, outDir, pop, keepFile=None, cores=None, memory=None, related=False, plink1=False, 
                        variantSubsetStr='', arrayCovar=False, sexDiv=False, keepSex='', keepSexFile='', includeX=True, onlyX=False, maf=None, rmadd='', plink_opts=''):
     # paths to plink genotypes, input phenotypes, output directory are passed
     qcDir         = '/oak/stanford/groups/mrivas/ukbb24983/sqc/'
@@ -89,7 +89,8 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cor
         chrstr,
         "--maf {0}".format(maf) if (maf is not None) else "",
         "--pheno", pheFile, "--pheno-quantile-normalize",
-        "--glm firth-fallback hide-covar omit-ref ", "no-x-sex" if includeX else "",
+        "--pheno-col-nums ",  pheName, 
+        "--glm skip firth-fallback hide-covar omit-ref ", "no-x-sex" if (includeX or onlyX) else "",
         "--keep {0}".format(keepFile) if (keepFile is not None) else '', 
         "--remove {0}".format(unrelatedFile) if unrelatedFile and len(rmadd) == 0 else "",
         "--remove {0}".format(rmadd) if len(rmadd) > 0 and not unrelatedFile else "",
@@ -98,13 +99,14 @@ def make_plink_command(bpFile, pheFile, outFile, outDir, pop, keepFile=None, cor
         "--covar", covarFile, 
         "--covar-name age ", "sex " if not sexDiv else "", 
         "Array " if arrayCovar else "", 
-        "PC1-PC10", 
+        "PC1-PC10" if not related else "Global_PC1-Global_PC18", 
         "N_CNV LEN_CNV" if is_cnv_burden else "FastingTime" if is_biomarker_binary else "",
         "--covar-variance-standardize",
         "--vif 100000000" if pop in ['non_british_white', 'african', 'e_asian', 's_asian'] else "",
         "--out", outFile,
         plink_opts
     ])
+    print(pheName)
     # gwas_sh=os.path.join(os.path.dirname(__file__), '04_gwas_misc.sh')
     gwas_sh="/oak/stanford/groups/mrivas/users/guhan/repos/ukbb-tools/04_gwas/04_gwas_misc.sh"
 #    print(os.path.dirname(__file__))
@@ -161,7 +163,7 @@ def make_batch_file(batchFile, plinkCmd, cores, memory, time, partitions):
     return(batchFile)
 
 
-def run_gwas(kind, pheFile, outDir='', pop='white_british', keepFile=None, related=False, plink1=False, 
+def run_gwas(kind, pheFile, pheName, outDir='', pop='white_british', keepFile=None, related=False, plink1=False, 
              logDir=None, cores="4", memory="24000", rmAdd=None, time="1-00:00:00", partition=["normal","owners"], now=False,
              sexDiv=False, keepSex='', keepSexFile='', includeX=False, onlyX=False, plink_opts=''):
     # ensure usage
@@ -186,7 +188,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', keepFile=None, relat
     genotype_file={
         'imputed':            ('pfile_vzs', os.path.join(pgen_root,'imp','pgen','ukb24983_imp_chr${SLURM_ARRAY_TASK_ID}_v3')),
         'genotyped':          ('bpfile',    os.path.join(pgen_root,'cal','pgen','ukb24983_cal_cALL_v2_hg19')),
-        'array-combined':     ('bpfile',    os.path.join(pgen_root,'array_combined','pgen','ukb24983_cal_hla_cnv')),
+        'array-combined':     ('bpfile',    os.path.join(pgen_root,'array-combined','pgen','ukb24983_cal_hla_cnv')),
         'array-imp-combined': ('pfile_vzs', os.path.join(pgen_root,'array_imp_combined','pgen','ukb24983_hg19_cal_hla_cnv_imp')),
         'cnv':                ('bpfile',    os.path.join(pgen_root,'cnv','pgen','cnv') + ' --mac 15'),
         'cnv-burden':         ('bpfile',    os.path.join(pgen_root,'cnv','pgen','burden')),
@@ -194,7 +196,8 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', keepFile=None, relat
         'exome-fe':           ('bpfile',    os.path.join(pgen_root,'exome','pgen','fe','data','ukb_exm_fe')),
         'hla':                ('bpfile',    os.path.join(pgen_root,'hla','pgen','ukb_hla_v3'))
     }
-    pheName=os.path.basename(pheFile).split('.phe')[0]
+    pheName= os.path.basename(pheFile).split('.phe')[0] if not pheName else pheName 
+    print(pheName)
     outFile=os.path.join(outDir, 'ukb24983_v2_{0}.{1}{2}{3}.{4}'.format(
         'hg38' if 'exome' in kind else 'hg19', 
         pheName, 
@@ -205,6 +208,7 @@ def run_gwas(kind, pheFile, outDir='', pop='white_british', keepFile=None, relat
     
     make_plink_command_common_args = {
         'pheFile' : pheFile,
+        'pheName' : pheName,
         'outDir'  : outDir,
         'pop'     : pop,
         'related' : related,
@@ -289,6 +293,8 @@ if __name__ == "__main__":
                             help='Run GWAS on the array_combined dataset')
     parser.add_argument('--pheno', dest="pheno", required=True,
                             help='Path to a phenotype file')
+    parser.add_argument('--pheno-name', dest="phenoname", required=False,
+                            help='Phenotype name')
     parser.add_argument('--out', dest="outDir", required=True, 
                             help='Path to desired output *directory*. Summary stats will be output according to phenotype name (derived from passed file) and Rivas Lab specification for GBE. Defaults to current working directory.')
     parser.add_argument('--population', dest="pop", required=False, default="white_british",
@@ -337,7 +343,7 @@ if __name__ == "__main__":
     if (args.sex_div and args.keep_sex == '') or (args.sex_div and args.keep_sex_file == ''):
         raise ValueError("Sex-div analysis is indicated but either the sex to keep or the file for that is missing. Please use --keep-sex and --keep-sex-file to specify both.")
     for flag,kind in filter(lambda x:x[0], zip(flags,kinds)):
-        run_gwas(kind=kind, pheFile=os.path.realpath(args.pheno), outDir=args.outDir,                 
+        run_gwas(kind=kind, pheFile=os.path.realpath(args.pheno), pheName = args.phenoname, outDir=args.outDir,                 
                  pop=args.pop, rmAdd = args.rmadd, keepFile=args.keep, related=args.relatives, plink1=args.plink1, 
                  logDir=args.log, cores=args.cores, memory=args.mem,
                  time=args.sb_time, partition=args.sb_parti, now=args.local, 

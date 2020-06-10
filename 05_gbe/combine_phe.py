@@ -20,7 +20,7 @@ with open("/oak/stanford/groups/mrivas/ukbb24983/sqc/w24983_20200204.csv") as f:
 # get list of phenotypes
 phe_in = {}
 with open('../05_gbe/phenotype_info.tsv', 'r') as f, open(out_file+'.info.tsv', 'w') as o:
-    header = "#GBE_ID GBE_NAME FIELD TABLE BASKET APP_ID N N_NBW N_GBE N_AFR N_EAS N_SAS SOURCE DATE PATH".replace(" ", "\t")
+    header = "#GBE_ID GBE_NAME FIELD TABLE BASKET APP_ID N N_GBE N_NBW N_AFR N_EAS N_SAS SOURCE DATE PATH".replace(" ", "\t")
     o.write(header + '\n')
     for i,line in enumerate(f):
         info = line.rstrip().split('\t')
