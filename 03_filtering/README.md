@@ -126,15 +126,15 @@ We defined the following thresholds to define ethnic groups
   - Based on self-reported ancestry (UKB field 21000), the individual is White, but is not White British.
 - African
   - `260 <= PC1        &&   50 <= PC2` (Global PCs provided by UK Biobank)
-  - Based on self-reported ancestry (UKB field 21000), the individual is White, but is not any of the followings: White, Asian, Mixed, and Other Ethnic Groups
+  - Based on self-reported ancestry (UKB field 21000), the individual is Black, but is not any of the followings: White, Asian, Mixed, and Other Ethnic Groups
 - South Asian
   - `40 <= PC1 <= 120 && -170 <= PC2 <= -80` (Global PCs provided by UK Biobank)
-  - Based on self-reported ancestry (UKB field 21000), the individual is White, but is not any of the followings: White, Black, Mixed, and Other Ethnic Groups
+  - Based on self-reported ancestry (UKB field 21000), the individual is Asian, but is not any of the followings: White, Black, Mixed, and Other Ethnic Groups
   - We subsequently applied thresholds on local PCs (the ones re-computed for the initially assigned population group)
   - `0.02 <= PC1 <= 0.03 && -0.05 <= PC2 <= 0.02`
 - East Asian
   - `130 <= PC1 <= 170 &&         PC2 <= -230` (Global PCs provided by UK Biobank)
-  - Based on self-reported ancestry (UKB field 21000), the individual is White, but is not any of the followings: White, Black, Mixed, and Other Ethnic Groups
+  - Based on self-reported ancestry (UKB field 21000), the individual is Asian, but is not any of the followings: White, Black, Mixed, and Other Ethnic Groups
   - We subsequently applied thresholds on local PCs (the ones re-computed for the initially assigned population group)
   - `-0.01 <= PC1 <= 0.02 && -0.02 <= PC2 <= 0`
 

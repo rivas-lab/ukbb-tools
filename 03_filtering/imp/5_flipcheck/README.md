@@ -3,6 +3,16 @@
 To ensure the REF allele in the resulting merged file matches with the REF in the FASTA file, 
 we applied the flip-check script.
 
+## flipcheck for v2
+
+[`flipcheck.v2.sh`](flipcheck.v2.sh) is the flipcheck script.
+
+[`flipcheck.v2.out`](flipcheck.v2.out) is the output (where we see a mismatch between the REF allele in pvar file and the REF from the fasta file)
+
+We did not check the ref/alt flip for HLA and CNVs.
+
+## flipcheck for v1
+
 ```
 ml load bedtools
 bash flipcheck.sh > flipcheck.out 2> flipcheck.err
