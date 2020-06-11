@@ -89,7 +89,7 @@ def make_plink_command(bpFile, pheFile, pheName, outFile, outDir, pop, keepFile=
         chrstr,
         "--maf {0}".format(maf) if (maf is not None) else "",
         "--pheno", pheFile, "--pheno-quantile-normalize",
-        "--pheno-col-nums ",  pheName, 
+        "--pheno-col-nums {0}".format(pheName) if pheName.isnumeric() else "", 
         "--glm skip firth-fallback hide-covar omit-ref ", "no-x-sex" if (includeX or onlyX) else "",
         "--keep {0}".format(keepFile) if (keepFile is not None) else '', 
         "--remove {0}".format(unrelatedFile) if unrelatedFile and len(rmadd) == 0 else "",

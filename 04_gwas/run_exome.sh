@@ -88,7 +88,7 @@ phe_path=$(find_phe_path ${phenotype_info_file} ${min_N_count} ${field} ${start_
 gbeId=$(basename ${phe_path} .phe)
 
 # run exome gwas with default GBE parameters
-gwasOutDir=$(echo $(dirname $(dirname $phe_path)) | awk '{gsub("phenotypedata","exome/gwas"); print}')/${pop}
+gwas_out_dir=$(echo $(dirname $(dirname $phe_path)) | awk '{gsub("phenotypedata","exome/gwas"); print}')/${pop}
 #symlink_dir="/oak/stanford/groups/mrivas/ukbb24983/exome/gwas/current/${pop}"
 
 if [ ! -d ${gwas_out_dir}/logs ] ; then mkdir -p ${gwas_out_dir}/logs ; fi
