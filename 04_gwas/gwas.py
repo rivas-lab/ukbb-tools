@@ -43,7 +43,7 @@ def updateKeepFile(outDir, qcDir, keepFile=None, pop=None, sexDiv=False, keepSex
     return(keepFile)
 
 def make_plink_command(bpFile, pheFile, pheName, outFile, outDir, pop, keepFile=None, cores=None, memory=None, related=False, plink1=False, 
-                       variantSubsetStr='', arrayCovar=False, sexDiv=False, keepSex='', keepSexFile='', includeX=True, onlyX=False, maf=None, rmadd='', plink_opts=''):
+                       variantSubsetStr='', arrayCovar=False, sexDiv=False, keepSex='', keepSexFile='', includeX=True, onlyX=False, localAnc=False, extract=None, maf=None, rmadd='', plink_opts=''):
     # paths to plink genotypes, input phenotypes, output directory are passed
     qcDir         = '/oak/stanford/groups/mrivas/ukbb24983/sqc/'
     keepFile=updateKeepFile(outDir, qcDir, keepFile=keepFile, pop=pop, sexDiv=sexDiv, keepSexFile=keepSexFile)
@@ -71,7 +71,7 @@ def make_plink_command(bpFile, pheFile, pheName, outFile, outDir, pop, keepFile=
     else:
         raise ValueError("Error: unsupported genotype file flag ({0})".format(bpFile[0]))
         
-    if not includeX and not onlyX:
+    if (not includeX and not onlyX) or localAnc:
         chrstr = "--chr 1-22"
     elif includeX and not onlyX:
         chrstr = "--chr 1-22,X,XY,Y,MT"
@@ -89,8 +89,9 @@ def make_plink_command(bpFile, pheFile, pheName, outFile, outDir, pop, keepFile=
         chrstr,
         "--maf {0}".format(maf) if (maf is not None) else "",
         "--pheno", pheFile, "--pheno-quantile-normalize",
-        "--pheno-col-nums {0}".format(pheName) if pheName.isnumeric() else "", 
-        "--glm skip firth-fallback hide-covar omit-ref ", "no-x-sex" if (includeX or onlyX) else "",
+        "--pheno-col-nums {0}".format(pheName) if pheName.replace('-','').replace(',','').isdigit() else "", 
+        "--glm skip firth-fallback hide-covar omit-ref ", "no-x-sex" if (includeX or onlyX) else "", 
+        "local-covar=/oak/stanford/groups/mrivas/users/guhan/repos/gsp/rfmix/output/ukb_hap_v2_rfmix.msp.tsv.zst local-haps local-cats0=8 local-pos-cols=2,1,2,7 local-psam=/oak/stanford/groups/mrivas/private_data/ukbb/24983/hap/pgen/ukb_hap_chr1_v2.fam" if localAnc else "",
         "--keep {0}".format(keepFile) if (keepFile is not None) else '', 
         "--remove {0}".format(unrelatedFile) if unrelatedFile and len(rmadd) == 0 else "",
         "--remove {0}".format(rmadd) if len(rmadd) > 0 and not unrelatedFile else "",
@@ -106,7 +107,6 @@ def make_plink_command(bpFile, pheFile, pheName, outFile, outDir, pop, keepFile=
         "--out", outFile,
         plink_opts
     ])
-    print(pheName)
     # gwas_sh=os.path.join(os.path.dirname(__file__), '04_gwas_misc.sh')
     gwas_sh="/oak/stanford/groups/mrivas/users/guhan/repos/ukbb-tools/04_gwas/04_gwas_misc.sh"
 #    print(os.path.dirname(__file__))
@@ -119,30 +119,42 @@ def make_plink_command(bpFile, pheFile, pheName, outFile, outDir, pop, keepFile=
 
 def make_plink_commands_arrayCovar(bpFile, outFile, make_plink_command_common_args, cores):
         # needs one plink call with genotyping array a covariate, and one without
-        one_array_variants_txt='/oak/stanford/groups/mrivas/private_data/ukbb/24983/sqc/one_array_variants.txt'
-        outFile1 = outFile+'.both_arrays'
-        cmd1 = make_plink_command(
-            bpFile  = bpFile,
-            outFile = outFile1,
-            arrayCovar = True,
-            variantSubsetStr = "--exclude {0}".format(one_array_variants_txt),
-            **make_plink_command_common_args
-        )
-        outFile2 = outFile+'.one_array'
-        cmd2 = make_plink_command(
-            bpFile  = bpFile,
-            outFile = outFile2,
-            arrayCovar = False,
-            variantSubsetStr = "--extract {0}".format(one_array_variants_txt),
-            **make_plink_command_common_args
-        )
         if(cores is None):
             cores=1
-        # join the plink calls, add some bash at the bottom to combine the output  
-        return("\n\n".join([
-            cmd2, cmd1,
-            "combine_two_sumstats {0} {1} {2} {3}".format(outFile1, outFile2, outFile, cores)
-        ]))
+        one_array_variants_txt='/oak/stanford/groups/mrivas/private_data/ukbb/24983/sqc/one_array_variants.txt'
+        if make_plink_command_common_args['extract'] is None:
+            outFile1 = outFile+'.both_arrays'
+            cmd1 = make_plink_command(
+                bpFile  = bpFile,
+                outFile = outFile1,
+                arrayCovar = True,
+                variantSubsetStr = "--exclude {0}".format(one_array_variants_txt),
+                **make_plink_command_common_args
+            )
+            outFile2 = outFile+'.one_array'
+            cmd2 = make_plink_command(
+                bpFile  = bpFile,
+                outFile = outFile2,
+                arrayCovar = False,
+                variantSubsetStr = "--extract {0}".format(one_array_variants_txt),
+                **make_plink_command_common_args
+            )
+            # join the plink calls, add some bash at the bottom to combine the output  
+            return("\n\n".join([
+                cmd2, cmd1,
+                "combine_two_sumstats {0} {1} {2} {3}".format(outFile1, outFile2, outFile, cores)
+            ]))
+        else:
+            cmd1 = make_plink_command(
+                bpFile  = bpFile,
+                outFile = outFile,
+                arrayCovar = True,
+                variantSubsetStr = "--extract {0}".format(make_plink_command_common_args['extract']),
+                **make_plink_command_common_args
+            )
+            return("\n\n".join([
+                cmd1,
+            ]))
 
 def make_batch_file(batchFile, plinkCmd, cores, memory, time, partitions):
     with open(batchFile, 'w') as f:
@@ -165,7 +177,7 @@ def make_batch_file(batchFile, plinkCmd, cores, memory, time, partitions):
 
 def run_gwas(kind, pheFile, pheName, outDir='', pop='white_british', keepFile=None, related=False, plink1=False, 
              logDir=None, cores="4", memory="24000", rmAdd=None, time="1-00:00:00", partition=["normal","owners"], now=False,
-             sexDiv=False, keepSex='', keepSexFile='', includeX=False, onlyX=False, plink_opts=''):
+             sexDiv=False, keepSex='', keepSexFile='', includeX=False, onlyX=False, localAnc=False, extract=None, plink_opts=''):
     # ensure usage
     rmadd = ""
     if not os.path.isfile(pheFile):
@@ -181,7 +193,7 @@ def run_gwas(kind, pheFile, pheName, outDir='', pop='white_british', keepFile=No
         raise ValueError("Error: keep sex file {0} does not exist!".format(keepSexFile))
     if sexDiv and kind != "genotyped":
         print("Warning: sex div GWAS has only been tested on array data! Please make sure to test this more or use --run-array.")
-    if pop not in ['all', 'white_british', 'non_british_white', 'african', 's_asian', 'e_asian']:
+    if pop not in ['all', 'white_british', 'non_british_white', 'african', 's_asian', 'e_asian', 'others']:
         raise ValueError("population must be one of (all, white_british, non_british_white, african, s_asian, e_asian)")
     # paths for running gwas
     pgen_root='/oak/stanford/groups/mrivas/private_data/ukbb/24983/'
@@ -192,7 +204,7 @@ def run_gwas(kind, pheFile, pheName, outDir='', pop='white_british', keepFile=No
         'array-imp-combined': ('pfile_vzs', os.path.join(pgen_root,'array_imp_combined','pgen','ukb24983_hg19_cal_hla_cnv_imp')),
         'cnv':                ('bpfile',    os.path.join(pgen_root,'cnv','pgen','cnv') + ' --mac 15'),
         'cnv-burden':         ('bpfile',    os.path.join(pgen_root,'cnv','pgen','burden')),
-        'exome-spb':          ('bpfile',    os.path.join(pgen_root,'exome','pgen','spb','data','ukb_exm_spb')),
+        'exome-spb':          ('pfile_vzs', os.path.join(pgen_root,'exome','pgen','ukb24983_exome')),
         'exome-fe':           ('bpfile',    os.path.join(pgen_root,'exome','pgen','fe','data','ukb_exm_fe')),
         'hla':                ('bpfile',    os.path.join(pgen_root,'hla','pgen','ukb_hla_v3'))
     }
@@ -221,6 +233,8 @@ def run_gwas(kind, pheFile, pheName, outDir='', pop='white_british', keepFile=No
         'keepSexFile' : keepSexFile,
         'includeX' : includeX, 
         'onlyX' : onlyX,
+        'localAnc': localAnc,
+        'extract': extract,
         'rmadd' : rmadd,
         'plink_opts': plink_opts
     }
@@ -327,6 +341,10 @@ if __name__ == "__main__":
                             help='Whether to include the X/XY/MT chromosomes, defaults to True')
     parser.add_argument('--only-x', dest="only_x", action='store_true', default=False,
                             help='Whether to ONLY include the X/XY/MT chromosomes, defaults to False')
+    parser.add_argument('--local', dest="local_anc", action='store_true', default=False,
+                            help='Whether to include RFMix output as local (per-SNP) covariates')
+    parser.add_argument('--extract', dest="extract", required=False, default=None,
+                            help='A file that specifies the list of SNP IDs to extract and include in the analysis')
     parser.add_argument('--additional-plink-opts', dest="plink_opts", required=False, default=[], nargs='*',
                             help='Addtional options for plink')
 
@@ -348,4 +366,4 @@ if __name__ == "__main__":
                  logDir=args.log, cores=args.cores, memory=args.mem,
                  time=args.sb_time, partition=args.sb_parti, now=args.local, 
                  sexDiv=args.sex_div, keepSex=args.keep_sex, keepSexFile=args.keep_sex_file,
-                 includeX=args.include_x, onlyX=args.only_x, plink_opts=' '.join([f'--{x}' for x in args.plink_opts]))
+                 includeX=args.include_x, onlyX=args.only_x, localAnc=args.local_anc, extract=args.extract, plink_opts=' '.join([f'--{x}' for x in args.plink_opts]))
