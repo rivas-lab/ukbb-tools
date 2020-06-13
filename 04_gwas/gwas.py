@@ -59,6 +59,9 @@ def make_plink_command(bpFile, pheFile, pheName, outFile, outDir, pop, keepFile=
         covarFile = '/oak/stanford/groups/mrivas/projects/biomarkers/covariate_corrected/output/covariates/logistic.covariates.phe'
     else:
         covarFile = os.path.join(qcDir, 'ukb24983_GWAS_covar.phe')    
+    
+    if (variantSubsetStr == '') and (extract is not None):
+        variantSubsetStr = "--extract " + extract
 
     if (plink1 or (bpFile[0] == 'bfile')):
         genotypeStr='--bfile {}'.format(bpFile[1])
