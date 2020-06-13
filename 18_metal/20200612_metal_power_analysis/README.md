@@ -2,6 +2,20 @@
 
 Using standing height (INI50) as an example, we perform preliminary analysis for meta-analysis.
 
+## Results summary
+
+|            | WB | NBW | Afr | SA | EA | rel | others | relative power* | n_Metal |
+|------------|----|-----|-----|----|----|-----|--------|-----------------|---------|
+| WB         | x  |     |     |    |    |     |        | 1               | 337138  |
+| 4pops      | x  | x   | x   | x  |    |     |        | 1.037           | 376425  |
+| 5pops      | x  | x   | x   | x  | x  |     |        | 1.036           | 377579  |
+| 5pops-noEA | x  | x   | x   | x  |    | x   |        | 1.119           | 421057  |
+| 6pops      | x  | x   | x   | x  | x  | x   |        | 1.119           | 422211  |
+| 6pops-noEA | x  | x   | x   | x  |    | x   | x      | 1.161           | 449608  |
+| 7pops      | x  | x   | x   | x  | x  | x   | x      | 1.161           | 450762  |
+
+- the relative power is computed by fitting a linear model `log10(Metal_P) ~ 0 + log10(WB_P)` on the LD-independent variants on the array.
+
 ## input files
 
 - [`INI50.lst`](INI50.lst): list of sumstats used in the analysis
