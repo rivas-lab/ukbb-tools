@@ -4,8 +4,8 @@ set -beEuo pipefail
 SRCNAME=$(readlink -f $0)
 SRCDIR=$(dirname ${SRCNAME})
 PROGNAME=$(basename $SRCNAME)
-VERSION="0.1.2"
-NUM_POS_ARGS="2"
+VERSION="0.2.0"
+NUM_POS_ARGS="1"
 
 source "${SRCDIR}/18_metal_misc.sh"
 
@@ -14,6 +14,9 @@ flipcheck_sh="$(dirname ${SRCDIR})/09_liftOver/flipcheck.sh"
 ############################################################
 # update log
 ############################################################
+# version 0.2.0 (2020/6/12)
+#   Automatic filtering of the NA-lines
+#
 # version 0.1.2 (2020/4/20)
 #   Starting this version, the METAL post-processing script
 #   properly handles flipfix for HLA and CNV datasets in UKB
@@ -37,13 +40,14 @@ cat <<- EOF
 	$PROGNAME (version $VERSION)
 	Run run_metal for the specified set of summary statistics and apply flipfix.
 	
-	Usage: $PROGNAME [options] in_file_list outfile_prefix
-	  in_file_list      A file that has a list of input files for METAL
-	  metal_out_prefix  The prefix of output files from METAL
+	Usage: $PROGNAME [options] in_file_1 [in_file_2..n]
+	  in_file_1..n     Input files for METAL
 	
 	Options:
+      --out (-o) [REQUIRED] The prefix of output files
 	  --flipcheck_sh     The location of flip check script
 	  --nCores     (-t)  Number of CPU cores
+	  --in_file          List of input files for METAL
 	  --assembly    The genome build for the input file (option for flipcheck)
 	  --ref_fa      The reference genome sequence. (option for flipcheck)
 	
@@ -67,7 +71,7 @@ EOF
 tmp_dir_root="$LOCAL_SCRATCH"
 if [ ! -d ${tmp_dir_root} ] ; then mkdir -p $tmp_dir_root ; fi
 tmp_dir="$(mktemp -p ${tmp_dir_root} -d tmp-$(basename $0)-$(date +%Y%m%d-%H%M%S)-XXXXXXXXXX)"
-# echo "tmp_dir = $tmp_dir" >&2
+echo "tmp_dir = $tmp_dir" >&2
 handler_exit () { rm -rf $tmp_dir ; }
 trap handler_exit EXIT
 
@@ -78,6 +82,8 @@ trap handler_exit EXIT
 nCores=4
 ref_fa="AUTO"
 assembly="hg19"
+in_file="AUTO"
+out="__REQUIRED__"
 ## == Default parameters (end) == ##
 
 declare -a params=()
@@ -91,6 +97,12 @@ for OPT in "$@" ; do
             ;;
         '-t' | '--nCores' )
             nCores=$2 ; shift 2 ;
+            ;;
+        '-f' | '--in_file' )
+            in_file=$2 ; shift 2 ;
+            ;;
+        '-o' | '--out' )
+            out=$2 ; shift 2 ;
             ;;
         '--flipcheck_sh' )
             flipcheck_sh=$2 ; shift 2 ;
@@ -115,48 +127,86 @@ for OPT in "$@" ; do
     esac
 done
 
-if [ ${#params[@]} -lt ${NUM_POS_ARGS} ]; then
+if [ "${in_file}" == "AUTO" ] && [ ${#params[@]} -lt ${NUM_POS_ARGS} ]; then
     echo "${PROGNAME}: ${NUM_POS_ARGS} positional arguments are required" >&2
     usage >&2 ; exit 1 ; 
 fi
 
-input_file="${params[0]}"
-out_file="${params[1]}"
+if [ "${out}" == "__REQUIRED__" ] ; then
+    echo "Output file (--out option) is required" >&2
+    usage >&2 ; exit 1
+fi
 
 ############################################################
 
 ml load metal
 
-tmp_out=${tmp_dir}/$(basename ${out_file})
+tmp_infile_dir=${tmp_dir}/inputs
+tmp_infile_original=${tmp_dir}/metal.original.input.lst
+tmp_infile_list=${tmp_dir}/metal.input.lst
+tmp_out=${tmp_dir}/$(basename ${out})
 master_file="${tmp_dir}/metal.masterfile"
 
-# generate METAL master file
-show_master_file ${input_file} ${tmp_out} > ${master_file}
+if [ ! -d ${tmp_infile_dir} ] ; then mkdir -p ${tmp_infile_dir} ; fi
 
+# copy the list of input files
+if [ ${in_file} == "AUTO" ] ; then
+    for f in ${params[@]} ; do
+        if [ "${f}" != "" ] ; then
+            echo $f >> ${tmp_infile_original}
+        fi
+    done
+else
+    cp ${in_file} ${tmp_infile_original}
+fi
+
+cat ${tmp_infile_original} | awk '{print NR, $1}' | while read nr f ; do
+    if [ "${f}" != "" ] ; then
+        echo "pre-processing $f"
+        tmp_f=${tmp_infile_dir}/metal_input.${nr}.gz
+        metal_pre_processing ${f} | bgzip -@ ${nCores} > ${tmp_f}
+        echo ${tmp_f} >> ${tmp_infile_list}
+    fi
+done
+
+echo "Generating master file for Metal ..."
+
+# generate METAL master file
+show_master_file ${tmp_infile_list} ${tmp_out} > ${master_file}
+
+echo "Applying Metal ..."
 cd ${tmp_dir}
 metal ${master_file}
 cd -
 
-extract_loci_for_files ${input_file} ${nCores} | bgzip -l9 -@ ${nCores} > ${tmp_out}.loci.gz
+echo "Metal is done. Applying post-processing scripts ..."
+
+echo "Extracting list of loci (CHROM, POS, and ID) into a loci file ..."
+extract_loci_for_files ${tmp_infile_list} ${nCores} | bgzip -l9 -@ ${nCores} > ${tmp_out}.loci.gz
+
+echo "Joining the metal output with loci file ..."
 
 # metal_post_processing_step1.R --> join the metal output with loci file
 Rscript ${SRCDIR}/metal_post_processing_step1.R \
 ${tmp_out}.loci.gz ${tmp_out}1.tbl ${tmp_out}.metal.tsv
 
+echo "Applying flipcheck script to fetch the REF allele from FASTA file ..."
+
 # apply flipcheck script to fetch the REF allele from FASTA file
-bash ${flipcheck_sh} --ref_fa ${ref_fa} --assembly ${assembly} ${tmp_out}.metal.tsv \
-| bgzip -l 9 -@ ${nCores} > ${tmp_out}.metal.check.tsv.gz
+bash ${flipcheck_sh} --ref_fa ${ref_fa} --assembly ${assembly} ${tmp_out}.metal.tsv | bgzip -l 9 -@ ${nCores} > ${tmp_out}.metal.check.tsv.gz
 
-# apply flipfix
-Rscript ${SRCDIR}/metal_post_processing_step2.R \
-${tmp_out}.metal.check.tsv.gz ${tmp_out}.metal.fixed.tsv
+echo "Applying flipfix using a custom script ..."
+Rscript ${SRCDIR}/metal_post_processing_step2.R ${tmp_out}.metal.check.tsv.gz ${tmp_out}.metal.fixed.tsv
 
+echo "Copying the results ..."
 # bgzip
 bgzip -l 9 -@ ${nCores} ${tmp_out}.metal.fixed.tsv
 
-if [ ! -d $(dirname ${out_file}) ] ; then mkdir -p $(dirname ${out_file}) ; fi
-
 # copy the results from tmp_dir to the actual output dir
-cp ${tmp_out}.metal.fixed.tsv.gz ${out_file}.metal.tsv.gz
-cat ${tmp_out}1.tbl.info ${master_file} > ${out_file}.metal.info.txt
-echo "the results are written in: ${out_file%.gz}.metal.tsv.gz"
+if [ ! -d $(dirname ${out}) ] ; then mkdir -p $(dirname ${out}) ; fi
+cp ${tmp_out}.metal.fixed.tsv.gz ${out%.gz}.metal.tsv.gz
+cat <(echo "# == original input files ==") ${tmp_infile_original} <(echo "# == METAL info file ==") ${tmp_out}1.tbl.info <(echo "# == METAL master file ==") ${master_file} <(echo "# == output file ==") <(echo "${out%.gz}.metal.tsv.gz") <(echo "${out%.gz}.metal.info.txt") > ${out%.gz}.metal.info.txt
+
+echo "the results are written in: ${out%.gz}.metal.tsv.gz"
+echo "the log file is written to: ${out%.gz}.metal.info.txt"
+
