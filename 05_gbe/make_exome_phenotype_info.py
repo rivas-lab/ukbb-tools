@@ -34,7 +34,7 @@ with open("phenotype_info.tsv", "r") as f, open("exome_phenotype_info.tsv","w") 
             # count up individuals
             pop_count[pop] = str(phe_data.query(query).merge(pop_data, on='IID').shape[0])
         # write to file 
-        o.write("\t".join(phe_info[:6] + [pop_count[p] for p in ['all','white_british','african','e_asian','s_asian']] + phe_info[-3:]) + "\n")
+        o.write("\t".join(phe_info[:6] + [pop_count[p] for p in ['all','white_british','non_british_white','african','e_asian','s_asian']] + phe_info[-3:]) + "\n")
 
 epi = pd.read_table('exome_phenotype_info.tsv')
 short = pd.read_table('icdinfo.shortnames.tsv')
