@@ -54,7 +54,7 @@ symlink_dir=/oak/stanford/groups/mrivas/private_data/ukbb/24983/array-combined/g
 if [ ! -d ${symlink_dir} ] ; then mkdir -p ${symlink_dir} ; fi
 
 cat ${info_file} | awk '{print $1, $NF}' | while read GBE_ID phe_file ; do
-    sumstats_f="${sumstats_dir}/ukb24983_v2_hg19.array-combined.${GBE_ID}.$(get_plink_suffix $GBE_ID).gz"
+    sumstats_f="${sumstats_dir}/ukb24983_v2_hg19.${GBE_ID}.array-combined.$(get_plink_suffix $GBE_ID).gz"
     if [ -f "${sumstats_f}" ] ; then
         data_d=$(phe_to_gwas_location ${phe_file} ${geno_data} ${pop})
         if [ ! -d ${data_d} ] ; then mkdir -p ${data_d} ; fi

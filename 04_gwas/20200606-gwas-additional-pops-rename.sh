@@ -61,7 +61,7 @@ echo ${pheno_name} | tr "," '\n' | while read idx ; do
     GBE_ID=$(head -n1 ${pheno} | tr "\t" "\n" | awk -v idx=${idx} 'NR==idx')    
     out1=${out}/ukb24983_v2_hg19.${pheno_name}.array-combined.one_array.${GBE_ID}.${plink_suffix}
     out2=${out}/ukb24983_v2_hg19.${pheno_name}.array-combined.both_arrays.${GBE_ID}.${plink_suffix}
-    out_gz=${out}/ukb24983_v2_hg19.array-combined.${GBE_ID}.${plink_suffix}.gz
+    out_gz=${out}/ukb24983_v2_hg19.${GBE_ID}.array-combined.${plink_suffix}.gz
 
     if [ -f ${out1} ] && [ -f ${out2} ] ; then
         {

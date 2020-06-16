@@ -94,7 +94,6 @@ metal_pre_processing () {
     check_OR_flag=$(show_header $in_file | tr "\t" "\n" | cat /dev/stdin <(echo OR) | grep OR | wc -l)
 
     if [ ${check_OR_flag} -gt 1 ] ; then
-        echo "applying add_BETA_from_OR to ${in_file}"
         add_BETA_from_OR ${in_file}
     else
         cat_or_zcat ${in_file}

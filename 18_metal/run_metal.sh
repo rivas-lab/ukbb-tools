@@ -140,6 +140,12 @@ fi
 ############################################################
 
 ml load metal
+ml load R/3.6 gcc/6
+
+# check if we have R env with packages
+Rscript /dev/stdin << EOF
+suppressWarnings(suppressPackageStartupMessages({ library(tidyverse); library(data.table) }))
+EOF
 
 tmp_infile_dir=${tmp_dir}/inputs
 tmp_infile_original=${tmp_dir}/metal.original.input.lst
@@ -209,4 +215,3 @@ cat <(echo "# == original input files ==") ${tmp_infile_original} <(echo "# == M
 
 echo "the results are written in: ${out%.gz}.metal.tsv.gz"
 echo "the log file is written to: ${out%.gz}.metal.info.txt"
-
