@@ -25,3 +25,9 @@ Each one of the above directories has its own `.py` script in its directory that
 Once phenotype and info files for your project are generated, and it is determined that these should then be routinely analyzed in the larger [pipeline](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping#generating-and-updating-phenotypes-and-summary-statistics), the [`symlink_extras.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/02_phenotyping/extras/symlink_extras.py) should be edited to include the source directory of your phenotypes (e.g. after line 51 in [`symlink_extras.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/02_phenotyping/extras/symlink_extras.py), add `your_dir = "/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/XXXX/"`, and edit line 53 to include `your_dir` as well), and step 9 of the [pipeline](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping#generating-and-updating-phenotypes-and-summary-statistics) should be run so that the relevant reference files are updated and GWAS can be run on your new phenotypes.
 
 Please also look at the [`ukbb-phenotyping`](https://github.com/rivas-lab/ukbb-phenotyping) repository for the original sources of HC, death registry, and ICD/MED-related activities.
+
+## SQL
+
+Starting 2020, UKB also released some of the phenotypic data via SQL portal. This includes the covid-19 test results as well as the linked death registry information.
+
+For instructions on to how to access this data see: http://biobank.ndph.ox.ac.uk/showcase/showcase/docs/DeathLinkage.pdf
