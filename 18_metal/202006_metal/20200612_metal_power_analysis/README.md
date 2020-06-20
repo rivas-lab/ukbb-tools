@@ -22,13 +22,13 @@ Using standing height (INI50) as an example, we perform preliminary analysis for
 
 Population labels are:
 
-- WB: white British
-- NBW: non-British white
-- Afr: African
-- SA: South Asian
-- EA: East Asian
-- rel: semi-related individuals
-- others: the "others" population group
+- WB: white British (337,138)
+- NBW: non-British white (24,905)
+- Afr: African (7,885)
+- SA: South Asian (6,497)
+- EA: East Asian (1,154)
+- rel: semi-related individuals (44,632)
+- others: the "others" population group (28,551)
 
 ## scripts
 
