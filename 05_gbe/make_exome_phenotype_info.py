@@ -9,7 +9,7 @@ exome['all'] = pd.read_csv("/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb
 
 # get the rest of the populations
 print('Reading in population files...')
-for pop in ['african', 'e_asian', 'non_british_white', 's_asian', 'white_british']:
+for pop in ['african', 'e_asian', 'non_british_white', 's_asian', 'white_british', 'semi_related', 'others']:
     exome[pop] = exome['all'].merge(pd.read_csv("/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification/ukb24983_" + pop + ".phe", sep='\t', header=None, usecols=[1], names=['IID'], dtype=str), on='IID')
 
 # do the thing
@@ -34,7 +34,7 @@ with open("phenotype_info.tsv", "r") as f, open("exome_phenotype_info.tsv","w") 
             # count up individuals
             pop_count[pop] = str(phe_data.query(query).merge(pop_data, on='IID').shape[0])
         # write to file 
-        o.write("\t".join(phe_info[:6] + [pop_count[p] for p in ['all','white_british','non_british_white','african','e_asian','s_asian']] + phe_info[-3:]) + "\n")
+        o.write("\t".join(phe_info[:6] + [pop_count[p] for p in ['all','white_british','non_british_white','african','e_asian','s_asian','semi_related','others']] + phe_info[-3:]) + "\n")
 
 epi = pd.read_table('exome_phenotype_info.tsv')
 short = pd.read_table('icdinfo.shortnames.tsv')

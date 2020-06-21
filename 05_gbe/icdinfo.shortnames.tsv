@@ -1,7 +1,7 @@
 GBE_category	GBE_ID	GBE_N	GBE_NAME	GBE_short_name	GBE_short_name_len	Units_of_measurement
-BIN	BIN100020	133749	Typical_diet_yesterday	Typical diet yesterday	22	
-BIN	BIN100240	113692	Coffee_consumed	Coffee consumed	15	
-BIN	BIN100260	69809	Added_milk_to_instant_coffee_always_(Diet,_24hr_recall,_Online_follow-up)	Added milk to instant coffee always (Diet, 24hr recall, Online follow-up)	73	
+BIN	BIN100020	133748	Typical_diet_yesterday	Typical diet yesterday	22	
+BIN	BIN100240	113691	Coffee_consumed	Coffee consumed	15	
+BIN	BIN100260	69808	Added_milk_to_instant_coffee_always_(Diet,_24hr_recall,_Online_follow-up)	Added milk to instant coffee always (Diet, 24hr recall, Online follow-up)	73	
 BIN	BIN100280	30404	Added_milk_to_filtered_coffee_always_(Diet,_24hr_recall,_Online_follow-up)	Added milk to filtered coffee always (Diet, 24hr recall, Online follow-up)	74	
 BIN	BIN10030500	23590	Microalbumin_higher_than_40_mg/L	Microalbumin > 40 mg/L	22	
 BIN	BIN10030800	38696	Oestradiol_higher_than_212_pmol/L	Oestradiol > 212 pmol/L	23	
@@ -13,53 +13,53 @@ BIN	BIN100390	122409	Tea_consumed	Tea consumed	12
 BIN	BIN100460	100086	Added_milk_to_standard_tea_always_(Diet,_24hr_recall,_Online_follow-up)	Added milk to standard tea always (Diet, 24hr recall, Online follow-up)	71	
 BIN	BIN100470	9476	Decaffeinated_tea_always_(Diet,_24hr_recall,_Online_follow-up)	Decaffeinated tea always (Diet, 24hr recall, Online follow-up)	62	
 BIN	BIN100480	3728	Added_milk_to_rooibos_tea_always_(Diet,_24hr_recall,_Online_follow-up)	Added milk to rooibos tea always (Diet, 24hr recall, Online follow-up)	70	
-BIN	BIN100510	31298	Other_non-alcoholic_drinks	Other non-alcoholic drinks	26	
-BIN	BIN100580	93628	Alcohol_consumed	Alcohol consumed	16	
+BIN	BIN100510	31297	Other_non-alcoholic_drinks	Other non-alcoholic drinks	26	
+BIN	BIN100580	93627	Alcohol_consumed	Alcohol consumed	16	
 BIN	BIN100760	110270	Breakfast_cereal_consumed	Breakfast cereal consumed	25	
 BIN	BIN100880	57830	Dried_fruit_added_to_cereal_always_(Diet,_24hr_recall,_Online_follow-up)	Dried fruit added to cereal always (Diet, 24hr recall, Online follow-up)	72	
 BIN	BIN100890	96686	Milk_added_to_cereal_always_(Diet,_24hr_recall,_Online_follow-up)	Milk added to cereal always (Diet, 24hr recall, Online follow-up)	65	
 BIN	BIN100940	135663	Bread_consumed	Bread consumed	14	
 BIN	BIN101300	113634	Butter/margarine_on_bread/crackers	Butter/margarine on bread/crackers	34	
 BIN	BIN1020483	2433	Ever_attempted_suicide_missing_is_control	Ever attempted suicide missing is control	41	
-BIN	BIN102080	83781	Yogurt/ice-cream_consumers	Yogurt/ice-cream consumers	26	
-BIN	BIN102130	76823	Dessert_consumers	Dessert consumers	17	
-BIN	BIN102250	104027	Sweet_snack_consumers	Sweet snack consumers	21	
-BIN	BIN102400	75246	Savoury_snack_consumers	Savoury snack consumers	23	
+BIN	BIN102080	83780	Yogurt/ice-cream_consumers	Yogurt/ice-cream consumers	26	
+BIN	BIN102130	76822	Dessert_consumers	Dessert consumers	17	
+BIN	BIN102250	104026	Sweet_snack_consumers	Sweet snack consumers	21	
+BIN	BIN102400	75245	Savoury_snack_consumers	Savoury snack consumers	23	
 BIN	BIN102520	40777	Soup_consumers	Soup consumers	14	
 BIN	BIN102700	63995	Starchy_food_consumers	Starchy food consumers	22	
 BIN	BIN102800	90021	Cheese_consumers	Cheese consumers	16	
 BIN	BIN102930	53831	Egg_consumers	Egg consumers	13	
-BIN	BIN103000	120753	Meat_consumers	Meat consumers	14	
+BIN	BIN103000	120752	Meat_consumers	Meat consumers	14	
 BIN	BIN103120	58475	Fat_removed_from_meat_always_(Diet,_24hr_recall,_Online_follow-up)	Fat removed from meat always (Diet, 24hr recall, Online follow-up)	66	
 BIN	BIN103130	53414	Skin_removed_from_poultry_always_(Diet,_24hr_recall,_Online_follow-up)	Skin removed from poultry always (Diet, 24hr recall, Online follow-up)	70	
 BIN	BIN103140	67961	Fish_consumer	Fish consumer	13	
-BIN	BIN103990	134483	Vegetable_consumers	Vegetable consumers	19	
+BIN	BIN103990	134482	Vegetable_consumers	Vegetable consumers	19	
 BIN	BIN104040	12036	Butter/margarine_added_to_potatoes	Butter/margarine added to potatoes	34	
-BIN	BIN104400	129412	Fruit_consumers	Fruit consumers	15	
-BIN	BIN104670	71951	Vitamin_supplement_user	Vitamin supplement user	23	
+BIN	BIN104400	129411	Fruit_consumers	Fruit consumers	15	
+BIN	BIN104670	71950	Vitamin_supplement_user	Vitamin supplement user	23	
 BIN	BIN1210	121976	Snoring	Snoring	7	
 BIN	BIN12139	472	Believed_safe_to_perform_brain_MRI_scan	Believed safe to perform brain MRI scan	39	
 BIN	BIN12188	26331	Brain_MRI_measurement_completed	Brain MRI measurement completed	31	
 BIN	BIN1518	333807	Drinks_hot_drinks_or_not	Drinks hot drinks or not	24	
 BIN	BIN1618	124055	Alcohol_usually_taken_with_meals	Alcohol usually taken with meals	32	
-BIN	BIN1677	182993	Breastfed_as_a_baby	Breastfed as a baby	19	
-BIN	BIN19	194372	Heel_ultrasound_method	Heel ultrasound method	22	
-BIN	BIN1920	152281	Mood_swings	Mood swings	11	
-BIN	BIN1930	145186	Miserableness	Miserableness	13	
-BIN	BIN1940	93499	Irritability	Irritability	12	
-BIN	BIN1950	185579	Sensitivity_/_hurt_feelings	Sensitivity / hurt feelings	27	
-BIN	BIN1960	137983	Fed-up_feelings	Fed-up feelings	15	
-BIN	BIN1970	80130	Nervous_feelings	Nervous feelings	16	
-BIN	BIN1980	189905	Worrier_/_anxious_feelings	Worrier / anxious feelings	26	
-BIN	BIN1990	57924	Tense_/_'highly_strung'	Tense / 'highly strung'	23	
-BIN	BIN2000	159129	Worry_too_long_after_embarrassment	Worry too long after embarrassment	34	
-BIN	BIN2010	71815	Suffer_from_'nerves'	Suffer from 'nerves'	20	
+BIN	BIN1677	182991	Breastfed_as_a_baby	Breastfed as a baby	19	
+BIN	BIN19	194370	Heel_ultrasound_method	Heel ultrasound method	22	
+BIN	BIN1920	152279	Mood_swings	Mood swings	11	
+BIN	BIN1930	145183	Miserableness	Miserableness	13	
+BIN	BIN1940	93498	Irritability	Irritability	12	
+BIN	BIN1950	185575	Sensitivity_/_hurt_feelings	Sensitivity / hurt feelings	27	
+BIN	BIN1960	137980	Fed-up_feelings	Fed-up feelings	15	
+BIN	BIN1970	80129	Nervous_feelings	Nervous feelings	16	
+BIN	BIN1980	189902	Worrier_/_anxious_feelings	Worrier / anxious feelings	26	
+BIN	BIN1990	57923	Tense_/_'highly_strung'	Tense / 'highly strung'	23	
+BIN	BIN2000	159127	Worry_too_long_after_embarrassment	Worry too long after embarrassment	34	
+BIN	BIN2010	71814	Suffer_from_'nerves'	Suffer from 'nerves'	20	
 BIN	BIN20123	6685	Single_episode_of_probable_major_depression	Single episode of probable major depression	43	
 BIN	BIN20124	10304	Probable_recurrent_major_depression_(moderate)	Probable recurrent major depression (moderate)	46	
 BIN	BIN20125	6081	Probable_recurrent_major_depression_(severe)	Probable recurrent major depression (severe)	44	
-BIN	BIN2020	61278	Loneliness,_isolation	Loneliness, isolation	21	
-BIN	BIN2030	96693	Guilty_feelings	Guilty feelings	15	
-BIN	BIN2040	85684	Risk_taking	Risk taking	11	
+BIN	BIN2020	61276	Loneliness,_isolation	Loneliness, isolation	21	
+BIN	BIN2030	96691	Guilty_feelings	Guilty feelings	15	
+BIN	BIN2040	85683	Risk_taking	Risk taking	11	
 BIN	BIN20401	6375	Ever_addicted_to_any_substance_or_behaviour	Ever addicted to any substance or behaviour	43	
 BIN	BIN20404	658	Ever_physically_dependent_on_alcohol	Ever physically dependent on alcohol	36	
 BIN	BIN20406	2510	Ever_addicted_to_alcohol	Ever addicted to alcohol	24	
@@ -113,7 +113,7 @@ BIN	BIN20538	28952	Worried_most_days_during_period_of_worst_anxiety	Worried most
 BIN	BIN20540	24467	Multiple_worries_during_worst_period_of_anxiety	Multiple worries during worst period of anxiety	47	
 BIN	BIN20541	31143	Difficulty_stopping_worrying_during_worst_period_of_anxiety	Difficulty stopping worrying during worst period of anxiety	59	
 BIN	BIN20542	19236	Stronger_worrying_(than_other_people)_during_period_of_worst_anxiety	Stronger worrying (than other people) during period of worst anxiety	68	
-BIN	BIN2090	117686	Seen_doctor_(GP)_for_nerves,_anxiety,_tension_or_depression	Seen doctor (GP) for nerves, anxiety, tension or depression	59	
+BIN	BIN2090	117684	Seen_doctor_(GP)_for_nerves,_anxiety,_tension_or_depression	Seen doctor (GP) for nerves, anxiety, tension or depression	59	
 BIN	BIN2100	39144	Seen_a_psychiatrist_for_nerves,_anxiety,_tension_or_depression	Seen a psychiatrist for nerves, anxiety, tension or depression	62	
 BIN	BIN21024	14944	Ever_diagnosed_with_IBS	Ever diagnosed with IBS	23	
 BIN	BIN21026	721	Discomfort/pain_occurring_only_during_menstrual_bleed	Discomfort/pain occurring only during menstrual bleed	53	
@@ -134,7 +134,7 @@ BIN	BIN21074	7518	Diarrhoea_when_IBS_symptoms_first_began	Diarrhoea when IBS sym
 BIN	BIN21075	817	Bloody_diarrhoea_when_IBS_symptoms_first_began	Bloody diarrhoea when IBS symptoms first began	46	
 BIN	BIN21076	989	Vomiting_when_IBS_symptoms_first_began	Vomiting when IBS symptoms first began	38	
 BIN	BIN2188	112250	Long-standing_illness,_disability_or_infirmity	Long-standing illness, disability or infirmity	46	
-BIN	BIN2207	303964	Wears_glasses_or_contact_lenses	Wears glasses or contact lenses	31	
+BIN	BIN2207	303959	Wears_glasses_or_contact_lenses	Wears glasses or contact lenses	31	
 BIN	BIN22126	19545	Doctor_diagnosed_hayfever_or_allergic_rhinitis	Doctor diagnosed hayfever or allergic rhinitis	46	
 BIN	BIN22127	10935	Doctor_diagnosed_asthma	Doctor diagnosed asthma	23	
 BIN	BIN22128	261	Doctor_diagnosed_emphysema	Doctor diagnosed emphysema	26	
@@ -180,7 +180,7 @@ BIN	BIN23073	1084	H._pylori_Definition_I_seropositivity_for_Helicobacter_pylori	
 BIN	BIN23074	1900	H._pylori_Definition_II_seropositivity_for_Helicobacter_pylori	H. pylori Definition II seropositivity for Helicobacter pylori	62	
 BIN	BIN23075	308	HPV_16_Definition_II_seropositivity_for_Human_Papillomavirus_type-16	HPV 16 Definition II seropositivity for Human Papillomavirus type-16	68	
 BIN	BIN2316	71822	Wheeze_or_whistling_in_the_chest_in_last_year	Wheeze or whistling in the chest in last year	45	
-BIN	BIN2335	54512	Chest_pain_or_discomfort	Chest pain or discomfort	24	
+BIN	BIN2335	54511	Chest_pain_or_discomfort	Chest pain or discomfort	24	
 BIN	BIN2415	101153	Had_major_operations	Had major operations	20	
 BIN	BIN2443	17253	Diabetes_diagnosed_by_doctor	Diabetes diagnosed by doctor	28	
 BIN	BIN2453	29069	Cancer_diagnosed_by_doctor	Cancer diagnosed by doctor	26	
@@ -189,32 +189,32 @@ BIN	BIN2473	71851	Other_serious_medical_condition/disability_diagnosed_by_doctor
 BIN	BIN2774	56531	Ever_had_stillbirth,_spontaneous_miscarriage_or_termination	Ever had stillbirth, spontaneous miscarriage or termination	59	
 BIN	BIN2814	72592	Ever_used_hormone-replacement_therapy_(HRT)	Ever used hormone-replacement therapy (HRT)	43	
 BIN	BIN30030510	14248	UACR_higher_than_30_mg/g	UACR > 30 mg/g	14	
-BIN	BIN3081	220610	Foot_measured_for_bone_density	Foot measured for bone density	30	
+BIN	BIN3081	220607	Foot_measured_for_bone_density	Foot measured for bone density	30	
 BIN	BIN3393	12821	Hearing_aid_user	Hearing aid user	16	
 BIN	BIN3404	55663	Neck/shoulder_pain_for_3+_months	Neck/shoulder pain for 3+ months	32	
 BIN	BIN3414	31946	Hip_pain_for_3+_months	Hip pain for 3+ months	22	
 BIN	BIN3571	61276	Back_pain_for_3+_months	Back pain for 3+ months	23	
 BIN	BIN3591	14083	Ever_had_hysterectomy_(womb_removed)	Ever had hysterectomy (womb removed)	36	
 BIN	BIN3606	9257	Chest_pain_or_discomfort_walking_normally	Chest pain or discomfort walking normally	41	
-BIN	BIN3616	16193	Chest_pain_due_to_walking_ceases_when_standing_still	Chest pain due to walking ceases when standing still	52	
+BIN	BIN3616	16192	Chest_pain_due_to_walking_ceases_when_standing_still	Chest pain due to walking ceases when standing still	52	
 BIN	BIN3741	16256	Stomach/abdominal_pain_for_3+_months	Stomach/abdominal pain for 3+ months	36	
-BIN	BIN3751	11899	Chest_pain_or_discomfort_when_walking_uphill_or_hurrying	Chest pain or discomfort when walking uphill or hurrying	56	
+BIN	BIN3751	11898	Chest_pain_or_discomfort_when_walking_uphill_or_hurrying	Chest pain or discomfort when walking uphill or hurrying	56	
 BIN	BIN3773	60257	Knee_pain_for_3+_months	Knee pain for 3+ months	23	
 BIN	BIN3799	31032	Headaches_for_3+_months	Headaches for 3+ months	23	
 BIN	BIN4041	659	Gestational_diabetes_only	Gestational diabetes only	25	
 BIN	BIN4067	3034	Facial_pains_for_3+_months	Facial pains for 3+ months	26	
-BIN	BIN4092	129201	Heel_ultrasound_method_(left)	Heel ultrasound method (L)	26	
+BIN	BIN4092	129199	Heel_ultrasound_method_(left)	Heel ultrasound method (L)	26	
 BIN	BIN4093	329	Fractured_heel_(left)	Fractured heel (L)	18	
-BIN	BIN4095	129301	Heel_ultrasound_method_(right)	Heel ultrasound method (R)	26	
+BIN	BIN4095	129299	Heel_ultrasound_method_(right)	Heel ultrasound method (R)	26	
 BIN	BIN4096	402	Fractured_heel_(right)	Fractured heel (R)	18	
 BIN	BIN41215	2098	Detention_categories	Detention categories	20	
 BIN	BIN4232	135691	Hearing_test_triplet_correct_(left)	Hearing test triplet correct (L)	32	
 BIN	BIN4243	135676	Hearing_test_triplet_correct_(right)	Hearing test triplet correct (R)	32	
-BIN	BIN4598	73606	Ever_depressed_for_a_whole_week	Ever depressed for a whole week	31	
+BIN	BIN4598	73605	Ever_depressed_for_a_whole_week	Ever depressed for a whole week	31	
 BIN	BIN4631	48981	Ever_unenthusiastic/disinterested_for_a_whole_week	Ever unenthusiastic/disinterested for a whole week	50	
 BIN	BIN4642	7111	Ever_manic/hyper_for_2_days	Ever manic/hyper for 2 days	27	
 BIN	BIN4653	23386	Ever_highly_irritable/argumentative_for_2_days	Ever highly irritable/argumentative for 2 days	46	
-BIN	BIN4728	31232	Leg_pain_on_walking	Leg pain on walking	19	
+BIN	BIN4728	31230	Leg_pain_on_walking	Leg pain on walking	19	
 BIN	BIN4792	113	Cochlear_implant	Cochlear implant	16	
 BIN	BIN5181	7161	Ever_had_eye_surgery	Ever had eye surgery	20	
 BIN	BIN5324	1989	Ever_had_cataract_surgery	Ever had cataract surgery	25	
@@ -222,20 +222,20 @@ BIN	BIN5325	1830	Ever_had_refractive_laser_eye_surgery	Ever had refractive laser
 BIN	BIN5326	118	Ever_had_surgery_for_glaucoma_or_high_eye_pressure	Ever had surgery for glaucoma or high eye pressure	50	
 BIN	BIN5327	262	Ever_had_laser_treatment_for_glaucoma_or_high_eye_pressure	Ever had laser treatment for glaucoma or high eye pressure	58	
 BIN	BIN5328	150	Ever_had_corneal_graft_surgery	Ever had corneal graft surgery	30	
-BIN	BIN5452	18804	Leg_pain_when_standing_still_or_sitting	Leg pain when standing still or sitting	39	
-BIN	BIN5463	9743	Leg_pain_in_calf/calves	Leg pain in calf/calves	23	
-BIN	BIN5474	20338	Leg_pain_when_walking_uphill_or_hurrying	Leg pain when walking uphill or hurrying	40	
-BIN	BIN5485	17186	Leg_pain_when_walking_normally	Leg pain when walking normally	30	
-BIN	BIN5496	6143	Leg_pain_when_walking_ever_disappears_while_walking	Leg pain when walking ever disappears while walking	51	
+BIN	BIN5452	18802	Leg_pain_when_standing_still_or_sitting	Leg pain when standing still or sitting	39	
+BIN	BIN5463	9742	Leg_pain_in_calf/calves	Leg pain in calf/calves	23	
+BIN	BIN5474	20336	Leg_pain_when_walking_uphill_or_hurrying	Leg pain when walking uphill or hurrying	40	
+BIN	BIN5485	17184	Leg_pain_when_walking_normally	Leg pain when walking normally	30	
+BIN	BIN5496	6141	Leg_pain_when_walking_ever_disappears_while_walking	Leg pain when walking ever disappears while walking	51	
 BIN	BIN5529	1060	Surgery_on_leg_arteries_(other_than_for_varicose_veins)	Surgery on leg arteries (other than for varicose veins)	55	
 BIN	BIN5674	6450	Severity_of_manic/irritable_episodes	Severity of manic/irritable episodes	36	
-BIN	BIN6014	2619	Doctor_restricts_physical_activity_due_to_heart_condition	Doctor restricts physical activity due to heart condition	57	
-BIN	BIN6015	2271	Chest_pain_felt_during_physical_activity	Chest pain felt during physical activity	40	
+BIN	BIN6014	2618	Doctor_restricts_physical_activity_due_to_heart_condition	Doctor restricts physical activity due to heart condition	57	
+BIN	BIN6015	2270	Chest_pain_felt_during_physical_activity	Chest pain felt during physical activity	40	
 BIN	BIN6016	1877	Chest_pain_felt_outside_physical_activity	Chest pain felt outside physical activity	41	
-BIN	BIN6017	59623	Able_to_walk_or_cycle_unaided_for_10_minutes	Able to walk or cycle unaided for 10 minutes	44	
-BIN_FC	BIN_FC10000120	195131	Birth_weight_known_as_lb	Birth weight known as lb	24	
+BIN	BIN6017	59622	Able_to_walk_or_cycle_unaided_for_10_minutes	Able to walk or cycle unaided for 10 minutes	44	
+BIN_FC	BIN_FC10000120	195128	Birth_weight_known_as_lb	Birth weight known as lb	24	
 BIN_FC	BIN_FC10001140	4284	Did_not_use_mobile_phone_2_years_ago	Did not use mobile phone 2 years ago	36	
-BIN_FC	BIN_FC10001150	105088	Usual_side_of_head_for_mobile_phone_use_(left)	Usual side of head for mobile phone use (L)	43	
+BIN_FC	BIN_FC10001150	105086	Usual_side_of_head_for_mobile_phone_use_(left)	Usual side of head for mobile phone use (L)	43	
 BIN_FC	BIN_FC10001249	84535	Past_tobacco_smoking_(Smoked_on_most_or_all_days)	Past tobacco smoking (Smoked on most or all days)	49	
 BIN_FC	BIN_FC10001259	31648	Smoking/smokers_in_household	Smoking/smokers in household	28	
 BIN_FC	BIN_FC10001418	22310	Milk_type:_Full_cream	Milk type: Full cream	21	
@@ -245,39 +245,39 @@ BIN_FC	BIN_FC10001468	50465	Cereal_type:_Bran_cereal_(e.g._All_Bran,_Branflakes)
 BIN_FC	BIN_FC10001508	55630	Coffee_type:_Decaffeinated_coffee_(any_type)	Coffee type: Decaffeinated coffee (any type)	44	
 BIN_FC	BIN_FC10001538	37726	Major_dietary_changes_in_the_last_5_years_becuase_of_illness	Major dietary changes in the last 5 years becuase of illness	60	
 BIN_FC	BIN_FC10001628	54624	Alcohol_intake_versus_10_years_previously_(More_nowadays)	Alcohol intake versus 10 years previously (More nowadays)	57	
-BIN_FC	BIN_FC10001677	182993	Breastfed_as_a_baby	Breastfed as a baby	19	
-BIN_FC	BIN_FC10001707	304704	Handedness_(chirality/laterality)_(Right-handed)	Handedness (chirality/laterality) (Right-handed)	48	
+BIN_FC	BIN_FC10001677	182991	Breastfed_as_a_baby	Breastfed as a baby	19	
+BIN_FC	BIN_FC10001707	304700	Handedness_(chirality/laterality)_(Right-handed)	Handedness (chirality/laterality) (Right-handed)	48	
 BIN_FC	BIN_FC10001727	67914	Ease_of_skin_tanning_(Get_very_tanned)	Ease of skin tanning (Get very tanned)	38	
 BIN_FC	BIN_FC10001757	231029	Facial_ageing_(Younger_than_you_are)	Facial ageing (Younger than you are)	36	
 BIN_FC	BIN_FC10001767	4620	Adopted_as_a_child	Adopted as a child	18	
-BIN_FC	BIN_FC10001777	7389	Part_of_a_multiple_birth	Part of a multiple birth	24	
-BIN_FC	BIN_FC10001787	89372	Maternal_smoking_around_birth	Maternal smoking around birth	29	
+BIN_FC	BIN_FC10001777	7388	Part_of_a_multiple_birth	Part of a multiple birth	24	
+BIN_FC	BIN_FC10001787	89371	Maternal_smoking_around_birth	Maternal smoking around birth	29	
 BIN_FC	BIN_FC10001797	76107	Father_still_alive	Father still alive	18	
 BIN_FC	BIN_FC10001835	130983	Mother_still_alive	Mother still alive	18	
-BIN_FC	BIN_FC10001920	152281	Mood_swings	Mood swings	11	
-BIN_FC	BIN_FC10001930	145186	Miserableness	Miserableness	13	
-BIN_FC	BIN_FC10001940	93499	Irritability	Irritability	12	
-BIN_FC	BIN_FC10001950	185579	Sensitivity_/_hurt_feelings	Sensitivity / hurt feelings	27	
-BIN_FC	BIN_FC10001960	137983	Fed-up_feelings	Fed-up feelings	15	
-BIN_FC	BIN_FC10001970	80130	Nervous_feelings	Nervous feelings	16	
-BIN_FC	BIN_FC10001980	189905	Worrier_/_anxious_feelings	Worrier / anxious feelings	26	
-BIN_FC	BIN_FC10001990	57924	Tense_/_'highly_strung'	Tense / 'highly strung'	23	
-BIN_FC	BIN_FC10002000	159129	Worry_too_long_after_embarrassment	Worry too long after embarrassment	34	
-BIN_FC	BIN_FC10002010	71815	Suffer_from_'nerves'	Suffer from 'nerves'	20	
-BIN_FC	BIN_FC10002020	61278	Loneliness,_isolation	Loneliness, isolation	21	
-BIN_FC	BIN_FC10002030	96693	Guilty_feelings	Guilty feelings	15	
-BIN_FC	BIN_FC10002040	85684	Risk_taking	Risk taking	11	
+BIN_FC	BIN_FC10001920	152279	Mood_swings	Mood swings	11	
+BIN_FC	BIN_FC10001930	145183	Miserableness	Miserableness	13	
+BIN_FC	BIN_FC10001940	93498	Irritability	Irritability	12	
+BIN_FC	BIN_FC10001950	185575	Sensitivity_/_hurt_feelings	Sensitivity / hurt feelings	27	
+BIN_FC	BIN_FC10001960	137980	Fed-up_feelings	Fed-up feelings	15	
+BIN_FC	BIN_FC10001970	80129	Nervous_feelings	Nervous feelings	16	
+BIN_FC	BIN_FC10001980	189902	Worrier_/_anxious_feelings	Worrier / anxious feelings	26	
+BIN_FC	BIN_FC10001990	57923	Tense_/_'highly_strung'	Tense / 'highly strung'	23	
+BIN_FC	BIN_FC10002000	159127	Worry_too_long_after_embarrassment	Worry too long after embarrassment	34	
+BIN_FC	BIN_FC10002010	71814	Suffer_from_'nerves'	Suffer from 'nerves'	20	
+BIN_FC	BIN_FC10002020	61276	Loneliness,_isolation	Loneliness, isolation	21	
+BIN_FC	BIN_FC10002030	96691	Guilty_feelings	Guilty feelings	15	
+BIN_FC	BIN_FC10002040	85683	Risk_taking	Risk taking	11	
 BIN_FC	BIN_FC100020544	330	Bulimia_nervosa_diagnosed_by__a_professional	Bulimia nervosa diagnosed by  a professional	44	
-BIN_FC	BIN_FC10002090	117686	Seen_doctor_(GP)_for_nerves,_anxiety,_tension_or_depression	Seen doctor (GP) for nerves, anxiety, tension or depression	59	
+BIN_FC	BIN_FC10002090	117684	Seen_doctor_(GP)_for_nerves,_anxiety,_tension_or_depression	Seen doctor (GP) for nerves, anxiety, tension or depression	59	
 BIN_FC	BIN_FC10002100	39144	Seen_a_psychiatrist_for_nerves,_anxiety,_tension_or_depression	Seen a psychiatrist for nerves, anxiety, tension or depression	62	
 BIN_FC	BIN_FC10002159	10262	Ever_had_same-sex_intercourse	Ever had same-sex intercourse	29	
 BIN_FC	BIN_FC10002188	112250	Long-standing_illness,_disability_or_infirmity	Long-standing illness, disability or infirmity	46	
-BIN_FC	BIN_FC10002207	303964	Wears_glasses_or_contact_lenses	Wears glasses or contact lenses	31	
-BIN_FC	BIN_FC10002227	53162	Other_eye_problems	Other eye problems	18	
+BIN_FC	BIN_FC10002207	303959	Wears_glasses_or_contact_lenses	Wears glasses or contact lenses	31	
+BIN_FC	BIN_FC10002227	53161	Other_eye_problems	Other eye problems	18	
 BIN_FC	BIN_FC10002257	131603	Hearing_difficulty/problems_with_background_noise	Hearing problems with background noise	38	
 BIN_FC	BIN_FC10002267	29021	Use_of_sun/uv_protection_(Never/rarely)	Use of sun/uv protection (Never/rarely)	39	
 BIN_FC	BIN_FC10002316	71822	Wheeze_or_whistling_in_the_chest_in_last_year	Wheeze or whistling in the chest in last year	45	
-BIN_FC	BIN_FC10002335	54512	Chest_pain_or_discomfort	Chest pain or discomfort	24	
+BIN_FC	BIN_FC10002335	54511	Chest_pain_or_discomfort	Chest pain or discomfort	24	
 BIN_FC	BIN_FC10002345	124431	Ever_had_bowel_cancer_screening	Ever had bowel cancer screening	31	
 BIN_FC	BIN_FC10002365	50725	Ever_had_prostate_specific_antigen_(PSA)_test	Ever had prostate specific antigen (PSA) test	45	
 BIN_FC	BIN_FC10002415	101153	Had_major_operations	Had major operations	20	
@@ -294,7 +294,7 @@ BIN_FC	BIN_FC10002774	56531	Ever_had_stillbirth,_spontaneous_miscarriage_or_term
 BIN_FC	BIN_FC10002784	149560	Ever_taken_oral_contraceptive_pill	Ever taken oral contraceptive pill	34	
 BIN_FC	BIN_FC10002814	72592	Ever_used_hormone-replacement_therapy_(HRT)	Ever used hormone-replacement therapy (HRT)	43	
 BIN_FC	BIN_FC10002834	15202	Bilateral_oophorectomy_(both_ovaries_removed)	Bilateral oophorectomy (both ovaries removed)	45	
-BIN_FC	BIN_FC10002844	121899	Had_other_major_operations	Had other major operations	26	
+BIN_FC	BIN_FC10002844	121898	Had_other_major_operations	Had other major operations	26	
 BIN_FC	BIN_FC10002877	75113	Type_of_tobacco_previously_smoked_(manufactured_cigarettes)	Type of tobacco previously smoked (manufactured cigarettes)	59	
 BIN_FC	BIN_FC10002907	36497	Ever_stopped_smoking_for_6+_months	Ever stopped smoking for 6+ months	34	
 BIN_FC	BIN_FC10002956	4476	General_pain_for_3+_months	General pain for 3+ months	26	
@@ -308,7 +308,7 @@ BIN_FC	BIN_FC10003446	17671	Type_of_tobacco_currently_smoked_(manufactured_cigar
 BIN_FC	BIN_FC10003486	21275	Ever_tried_to_stop_smoking	Ever tried to stop smoking	26	
 BIN_FC	BIN_FC10003571	61276	Back_pain_for_3+_months	Back pain for 3+ months	23	
 BIN_FC	BIN_FC10003591	14083	Ever_had_hysterectomy_(womb_removed)	Ever had hysterectomy (womb removed)	36	
-BIN_FC	BIN_FC10003616	16193	Chest_pain_due_to_walking_ceases_when_standing_still	Chest pain due to walking ceases when standing still	52	
+BIN_FC	BIN_FC10003616	16192	Chest_pain_due_to_walking_ceases_when_standing_still	Chest pain due to walking ceases when standing still	52	
 BIN_FC	BIN_FC10003720	7335	Menstruating_today	Menstruating today	18	
 BIN_FC	BIN_FC10003731	12317	Former_alcohol_drinker	Former alcohol drinker	22	
 BIN_FC	BIN_FC10003741	16256	Stomach/abdominal_pain_for_3+_months	Stomach/abdominal pain for 3+ months	36	
@@ -319,28 +319,28 @@ BIN_FC	BIN_FC10003942	975	Adopted_mother_still_alive	Adopted mother still alive	
 BIN_FC	BIN_FC10004041	659	Gestational_diabetes_only	Gestational diabetes only	25	
 BIN_FC	BIN_FC10004067	3034	Facial_pains_for_3+_months	Facial pains for 3+ months	26	
 BIN_FC	BIN_FC10004501	37833	Non-accidental_death_in_close_genetic_family	Non-accidental death in close genetic family	44	
-BIN_FC	BIN_FC10004598	73606	Ever_depressed_for_a_whole_week	Ever depressed for a whole week	31	
+BIN_FC	BIN_FC10004598	73605	Ever_depressed_for_a_whole_week	Ever depressed for a whole week	31	
 BIN_FC	BIN_FC10004631	48981	Ever_unenthusiastic/disinterested_for_a_whole_week	Ever unenthusiastic/disinterested for a whole week	50	
 BIN_FC	BIN_FC10004642	7111	Ever_manic/hyper_for_2_days	Ever manic/hyper for 2 days	27	
 BIN_FC	BIN_FC10004653	23386	Ever_highly_irritable/argumentative_for_2_days	Ever highly irritable/argumentative for 2 days	46	
-BIN_FC	BIN_FC10004717	14101	Shortness_of_breath_walking_on_level_ground	Shortness of breath walking on level ground	43	
-BIN_FC	BIN_FC10004728	31232	Leg_pain_on_walking	Leg pain on walking	19	
+BIN_FC	BIN_FC10004717	14100	Shortness_of_breath_walking_on_level_ground	Shortness of breath walking on level ground	43	
+BIN_FC	BIN_FC10004728	31230	Leg_pain_on_walking	Leg pain on walking	19	
 BIN_FC	BIN_FC10004792	113	Cochlear_implant	Cochlear implant	16	
 BIN_FC	BIN_FC10004825	16853	Noisy_workplace_(Yes,_for_more_than_5_years)	Noisy workplace (Yes, for more than 5 years)	44	
 BIN_FC	BIN_FC10004836	6252	Loud_music_exposure_frequency_(Yes,_for_more_than_5_years)	Loud music exposure frequency (Yes, for more than 5 years)	58	
 BIN_FC	BIN_FC10005408	1696	Which_eye(s)_affected_by_amblyopia_(lazy_eye)_(Right_eye)	Which eye(s) affected by amblyopia (lazy eye) (Right eye)	57	
 BIN_FC	BIN_FC10005419	410	Which_eye(s)_affected_by_injury_or_trauma_resulting_in_loss_of_vision_(Right_eye)	Which eye(s) affected by injury or trauma resulting in loss of vision (Right eye)	81	
 BIN_FC	BIN_FC10005441	6980	Which_eye(s)_are_affected_by_cataract_(Right_eye)	Which eye(s) are affected by cataract (Right eye)	49	
-BIN_FC	BIN_FC10005452	18804	Leg_pain_when_standing_still_or_sitting	Leg pain when standing still or sitting	39	
-BIN_FC	BIN_FC10005463	9743	Leg_pain_in_calf/calves	Leg pain in calf/calves	23	
-BIN_FC	BIN_FC10005474	20338	Leg_pain_when_walking_uphill_or_hurrying	Leg pain when walking uphill or hurrying	40	
-BIN_FC	BIN_FC10005485	17186	Leg_pain_when_walking_normally	Leg pain when walking normally	30	
-BIN_FC	BIN_FC10005496	6143	Leg_pain_when_walking_ever_disappears_while_walking	Leg pain when walking ever disappears while walking	51	
-BIN_FC	BIN_FC10005507	4530	Leg_pain_on_walking_:_action_taken_(Stop)	Leg pain on walking : action taken (Stop)	41	
-BIN_FC	BIN_FC10005518	10400	Leg_pain_on_walking_:_effect_of_standing_still_(Pain_usually_continues_for_more_than_10_minutes)	Leg pain on walking : effect of standing still (Pain usually continues for more than 10 minutes)	96	
+BIN_FC	BIN_FC10005452	18802	Leg_pain_when_standing_still_or_sitting	Leg pain when standing still or sitting	39	
+BIN_FC	BIN_FC10005463	9742	Leg_pain_in_calf/calves	Leg pain in calf/calves	23	
+BIN_FC	BIN_FC10005474	20336	Leg_pain_when_walking_uphill_or_hurrying	Leg pain when walking uphill or hurrying	40	
+BIN_FC	BIN_FC10005485	17184	Leg_pain_when_walking_normally	Leg pain when walking normally	30	
+BIN_FC	BIN_FC10005496	6141	Leg_pain_when_walking_ever_disappears_while_walking	Leg pain when walking ever disappears while walking	51	
+BIN_FC	BIN_FC10005507	4529	Leg_pain_on_walking_:_action_taken_(Stop)	Leg pain on walking : action taken (Stop)	41	
+BIN_FC	BIN_FC10005518	10399	Leg_pain_on_walking_:_effect_of_standing_still_(Pain_usually_continues_for_more_than_10_minutes)	Leg pain on walking : effect of standing still (Pain usually continues for more than 10 minutes)	96	
 BIN_FC	BIN_FC10005529	1060	Surgery_on_leg_arteries_(other_than_for_varicose_veins)	Surgery on leg arteries (other than for varicose veins)	55	
 BIN_FC	BIN_FC10005540	156	Surgery/amputation_of_toe_or_leg_(Yes,_toes)	Surgery/amputation of toe or leg (Yes, toes)	44	
-BIN_FC	BIN_FC10005610	41161	Which_eye(s)_affected_by_presbyopia_(Right_eye)	Which eye(s) affected by presbyopia (Right eye)	47	
+BIN_FC	BIN_FC10005610	41160	Which_eye(s)_affected_by_presbyopia_(Right_eye)	Which eye(s) affected by presbyopia (Right eye)	47	
 BIN_FC	BIN_FC10005832	20194	Which_eye(s)_affected_by_hypermetropia_(long_sight)_(Right_eye)	Which eye(s) affected by hypermetropia (long sight) (Right eye)	63	
 BIN_FC	BIN_FC10005843	37485	Which_eye(s)_affected_by_myopia_(short_sight)_(Right_eye)	Which eye(s) affected by myopia (short sight) (Right eye)	57	
 BIN_FC	BIN_FC10005855	11347	Which_eye(s)_affected_by_astigmatism_(Right_eye)	Which eye(s) affected by astigmatism (Right eye)	48	
@@ -359,12 +359,12 @@ BIN_FC	BIN_FC10006154	6956	Ranitidine_use_self-reported	Ranitidine use self-repo
 BIN_FC	BIN_FC10006155	18008	Vitamin_D_vs_multivitamin	Vitamin D vs multivitamin	25	
 BIN_FC	BIN_FC10006156	9350	Manic/hyper_symptoms_(I_was_more_active_than_usual)	Manic/hyper symptoms (I was more active than usual)	51	
 BIN_FC	BIN_FC10006157	10316	Why_stopped_smoking_Illness	Why stopped smoking Illness	27	
-BIN_FC	BIN_FC10006160	239097	Leisure/social_activities_(attend_any_of_the_followings_in_once_a_week_or_more_often:_sports_club,_gym,_pub,_social_club,_religious_group,_adult_edication_class,_or_other_group_activity)	Leisure/social activities (attend any of the followings in once a week or more often: sports club, gym, pub, social club, religious group, adult edication class, or other group activity)	186	
-BIN_FC	BIN_FC10006164	317286	Types_of_physical_activity_in_last_4_weeks_(any_of_walking,_other_exercises,_strenuous_sports,_light/heavy_DIY)	Types of physical activity in last 4 weeks (any of walking, other exercises, strenuous sports, light/heavy DIY)	111	
+BIN_FC	BIN_FC10006160	239094	Leisure/social_activities_(attend_any_of_the_followings_in_once_a_week_or_more_often:_sports_club,_gym,_pub,_social_club,_religious_group,_adult_edication_class,_or_other_group_activity)	Leisure/social activities (attend any of the followings in once a week or more often: sports club, gym, pub, social club, religious group, adult edication class, or other group activity)	186	
+BIN_FC	BIN_FC10006164	317281	Types_of_physical_activity_in_last_4_weeks_(any_of_walking,_other_exercises,_strenuous_sports,_light/heavy_DIY)	Types of physical activity in last 4 weeks (any of walking, other exercises, strenuous sports, light/heavy DIY)	111	
 BIN_FC	BIN_FC10006179	14411	Zinc_supplements	Zinc supplements	16	
 BIN_FC	BIN_FC10006205	1008	Which_eye(s)_affected_by_strabismus_(squint)_(Right_eye)	Which eye(s) affected by strabismus (squint) (Right eye)	56	
 BIN_FC	BIN_FC10010016	27	Regular_use_of_hands-free_device/speakerphone_with_mobile_phone_(pilot)	Regular use of hands-free device/speakerphone with mobile phone (pilot)	71	
-BIN_FC	BIN_FC100100920	140365	Any_milk_(Diet,_24hr_recall,_Online_follow-up)	Any milk (Diet, 24hr recall, Online follow-up)	46	
+BIN_FC	BIN_FC100100920	140364	Any_milk_(Diet,_24hr_recall,_Online_follow-up)	Any milk (Diet, 24hr recall, Online follow-up)	46	
 BIN_FC	BIN_FC10010105	292	Internet_user_(pilot)	Internet user (pilot)	21	
 BIN_FC	BIN_FC10010114	247	Willing_to_be_contacted_by_email_(pilot)	Willing to be contacted by email (pilot)	40	
 BIN_FC	BIN_FC10010793	70	Hearing_difficulty/problems_(pilot)	Hearing problems (pilot)	24	
@@ -451,7 +451,7 @@ BIN_FC	BIN_FC1006155	6655	Vitamin_A_vs_no_supplement	Vitamin A vs no supplement	
 BIN_FC	BIN_FC1006177	39290	Medication_for_cholesterol_(male_only)	Medication for cholesterol (male only)	38	
 BIN_FC	BIN_FC1006179	110270	Fish_oil_(including_cod_liver_oil)	Fish oil (including cod liver oil)	34	
 BIN_FC	BIN_FC10100920	98035	Semiskimmed_milk_(Diet,_24hr_recall,_Online_follow-up)	Semiskimmed milk (Diet, 24hr recall, Online follow-up)	54	
-BIN_FC	BIN_FC10110005	89527	Invitation_to_physical_activity_study,_acceptance	Invitation to physical activity study, acceptance	49	
+BIN_FC	BIN_FC10110005	89525	Invitation_to_physical_activity_study,_acceptance	Invitation to physical activity study, acceptance	49	
 BIN_FC	BIN_FC110020544	453	Psychological_over-eating_or_binge-eating_diagnosed_by__a_professional	Psychological over-eating or binge-eating diagnosed by  a professional	70	
 BIN_FC	BIN_FC11006152	9210	Blood_clot_or_DVT_diagnosed_by_doctor	Blood clot or DVT diagnosed by doctor	37	
 BIN_FC	BIN_FC11006154	23357	Omeprazole_use_self-reported	Omeprazole use self-reported	28	
@@ -476,7 +476,7 @@ BIN_FC	BIN_FC18006155	7484	Folic_acid_or_folate_(Vitamin_B9)	Folic acid or folat
 BIN_FC	BIN_FC19006155	75684	Multivitamins_+/-_minerals	Multivitamins +/- minerals	26	
 BIN_FC	BIN_FC20000120	302	Birth_weight_known_as_kg	Birth weight known as kg	24	
 BIN_FC	BIN_FC20001140	104560	Mobile_phone_use_is_now_more_frequent_than_2_years_ago	Mobile phone use is now more frequent than 2 years ago	54	
-BIN_FC	BIN_FC20001150	168449	Usual_side_of_head_for_mobile_phone_use_(right)	Usual side of head for mobile phone use (R)	43	
+BIN_FC	BIN_FC20001150	168448	Usual_side_of_head_for_mobile_phone_use_(right)	Usual side of head for mobile phone use (R)	43	
 BIN_FC	BIN_FC20001249	45704	Past_tobacco_smoking_(Smoked_occasionally)	Past tobacco smoking (Smoked occasionally)	42	
 BIN_FC	BIN_FC20001418	223972	Milk_type:_Semi-skimmed	Milk type: Semi-skimmed	23	
 BIN_FC	BIN_FC20001428	130730	Spread_type:_Butter/spreadable_butter	Spread type: Butter/spreadable butter	37	
@@ -485,7 +485,7 @@ BIN_FC	BIN_FC20001468	53551	Cereal_type:_Biscuit_cereal_(e.g._Weetabix)	Cereal t
 BIN_FC	BIN_FC20001508	153527	Coffee_type:_Instant_coffee	Coffee type: Instant coffee	27	
 BIN_FC	BIN_FC20001538	101636	Major_dietary_changes_in_the_last_5_years_not_because_of_illness	Major dietary changes in the last 5 years not because of illness	64	
 BIN_FC	BIN_FC20001628	126845	Alcohol_intake_versus_10_years_previously_(About_the_same)	Alcohol intake versus 10 years previously (About the same)	58	
-BIN_FC	BIN_FC20001707	38076	Handedness_(chirality/laterality)_(Left-handed)	Handedness (chirality/laterality) (Left-handed)	47	
+BIN_FC	BIN_FC20001707	38075	Handedness_(chirality/laterality)_(Left-handed)	Handedness (chirality/laterality) (Left-handed)	47	
 BIN_FC	BIN_FC20001727	137491	Ease_of_skin_tanning_(Get_moderately_tanned)	Ease of skin tanning (Get moderately tanned)	44	
 BIN_FC	BIN_FC20001757	6314	Facial_ageing_(Older_than_you_are)	Facial ageing (Older than you are)	34	
 BIN_FC	BIN_FC20002267	118630	Use_of_sun/uv_protection_(Sometimes)	Use of sun/uv protection (Sometimes)	36	
@@ -499,10 +499,10 @@ BIN_FC	BIN_FC20004836	6812	Loud_music_exposure_frequency_(Yes,_for_around_1-5_ye
 BIN_FC	BIN_FC20005408	2431	Which_eye(s)_affected_by_amblyopia_(lazy_eye)_(Left_eye)	Which eye(s) affected by amblyopia (lazy eye) (Left eye)	56	
 BIN_FC	BIN_FC20005419	435	Which_eye(s)_affected_by_injury_or_trauma_resulting_in_loss_of_vision_(Left_eye)	Which eye(s) affected by injury or trauma resulting in loss of vision (Left eye)	80	
 BIN_FC	BIN_FC20005441	6779	Which_eye(s)_are_affected_by_cataract_(Left_eye)	Which eye(s) are affected by cataract (Left eye)	48	
-BIN_FC	BIN_FC20005507	15969	Leg_pain_on_walking_:_action_taken_(Slow_down)	Leg pain on walking : action taken (Slow down)	46	
-BIN_FC	BIN_FC20005518	17102	Leg_pain_on_walking_:_effect_of_standing_still_(Pain_usually_disappears_in_less_than_10_minutes)	Leg pain on walking : effect of standing still (Pain usually disappears in less than 10 minutes)	96	
+BIN_FC	BIN_FC20005507	15968	Leg_pain_on_walking_:_action_taken_(Slow_down)	Leg pain on walking : action taken (Slow down)	46	
+BIN_FC	BIN_FC20005518	17101	Leg_pain_on_walking_:_effect_of_standing_still_(Pain_usually_disappears_in_less_than_10_minutes)	Leg pain on walking : effect of standing still (Pain usually disappears in less than 10 minutes)	96	
 BIN_FC	BIN_FC20005540	88	Surgery/amputation_of_toe_or_leg_(Yes,_leg_below_the_knee)	Surgery/amputation of toe or leg (Yes, leg below the knee)	58	
-BIN_FC	BIN_FC20005610	41108	Which_eye(s)_affected_by_presbyopia_(Left_eye)	Which eye(s) affected by presbyopia (Left eye)	46	
+BIN_FC	BIN_FC20005610	41107	Which_eye(s)_affected_by_presbyopia_(Left_eye)	Which eye(s) affected by presbyopia (Left eye)	46	
 BIN_FC	BIN_FC20005832	20041	Which_eye(s)_affected_by_hypermetropia_(long_sight)_(Left_eye)	Which eye(s) affected by hypermetropia (long sight) (Left eye)	62	
 BIN_FC	BIN_FC20005843	37359	Which_eye(s)_affected_by_myopia_(short_sight)_(Left_eye)	Which eye(s) affected by myopia (short sight) (Left eye)	56	
 BIN_FC	BIN_FC20005855	11542	Which_eye(s)_affected_by_astigmatism_(Left_eye)	Which eye(s) affected by astigmatism (Left eye)	47	
@@ -516,8 +516,8 @@ BIN_FC	BIN_FC20006119	1938	Which_eye(s)_affected_by_glaucoma_(Left_eye)	Which ey
 BIN_FC	BIN_FC20006151	2353	Fractured_bone_site(s)_(Leg)	Fractured bone site(s) (Leg)	28	
 BIN_FC	BIN_FC20006156	8251	Manic/hyper_symptoms_(I_was_more_talkative_than_usual)	Manic/hyper symptoms (I was more talkative than usual)	54	
 BIN_FC	BIN_FC20006157	6230	Why_stopped_smoking_doctor_advice	Why stopped smoking doctor advice	33	
-BIN_FC	BIN_FC20006160	106494	Leisure/social_activities_(attend_sports_club_or_gym_in_once_a_week_or_more_often)	Leisure/social activities (attend sports club or gym in once a week or more often)	82	
-BIN_FC	BIN_FC20006164	247243	Types_of_physical_activity_in_last_4_weeks_(walking_for_pleasure)	Types of physical activity in last 4 weeks (walking for pleasure)	65	
+BIN_FC	BIN_FC20006160	106492	Leisure/social_activities_(attend_sports_club_or_gym_in_once_a_week_or_more_often)	Leisure/social activities (attend sports club or gym in once a week or more often)	82	
+BIN_FC	BIN_FC20006164	247238	Types_of_physical_activity_in_last_4_weeks_(walking_for_pleasure)	Types of physical activity in last 4 weeks (walking for pleasure)	65	
 BIN_FC	BIN_FC20006205	1400	Which_eye(s)_affected_by_strabismus_(squint)_(Left_eye)	Which eye(s) affected by strabismus (squint) (Left eye)	55	
 BIN_FC	BIN_FC20012187	252	Brain_MRI_measuring_method	Brain MRI measuring method	26	
 BIN_FC	BIN_FC20012323	1901	12-lead_ECG_measuring_method	12-lead ECG measuring method	28	
@@ -571,9 +571,9 @@ BIN_FC	BIN_FC2006154	52237	Ibuprofen_(e.g._Nurofen)	Ibuprofen (e.g. Nurofen)	24
 BIN_FC	BIN_FC2006155	15160	Vitamin_B_vs_no_supplement	Vitamin B vs no supplement	26	
 BIN_FC	BIN_FC2006177	41252	Medication_for_blood_pressure_(male_only)	Medication for BP (male only)	29	
 BIN_FC	BIN_FC2006179	68054	Glucosamine	Glucosamine	11	
-BIN_FC	BIN_FC20100920	34720	Skimmed_milk_(Diet,_24hr_recall,_Online_follow-up)	Skimmed milk (Diet, 24hr recall, Online follow-up)	50	
+BIN_FC	BIN_FC20100920	34719	Skimmed_milk_(Diet,_24hr_recall,_Online_follow-up)	Skimmed milk (Diet, 24hr recall, Online follow-up)	50	
 BIN_FC	BIN_FC30001140	39400	Mobile_phone_use_is_now_less_frequent_than_2_years_ago	Mobile phone use is now less frequent than 2 years ago	54	
-BIN_FC	BIN_FC30001150	20228	Usual_side_of_head_for_mobile_phone_use_(equally_left_or_right)	Usual side of head for mobile phone use (equally left or right)	63	
+BIN_FC	BIN_FC30001150	20227	Usual_side_of_head_for_mobile_phone_use_(equally_left_or_right)	Usual side of head for mobile phone use (equally left or right)	63	
 BIN_FC	BIN_FC30001249	52665	Past_tobacco_smoking_(Just_tried_once_or_twice)	Past tobacco smoking (Just tried once or twice)	47	
 BIN_FC	BIN_FC30001418	72047	Milk_type:_Skimmed	Milk type: Skimmed	18	
 BIN_FC	BIN_FC30001428	1744	Spread_type:_Flora_Pro-Active/Benecol	Spread type: Flora Pro-Active/Benecol	37	
@@ -596,7 +596,7 @@ BIN_FC	BIN_FC30006151	668	Fractured_bone_site(s)_(Hip)	Fractured bone site(s) (H
 BIN_FC	BIN_FC30006156	6242	Manic/hyper_symptoms_(I_needed_less_sleep_than_usual)	Manic/hyper symptoms (I needed less sleep than usual)	53	
 BIN_FC	BIN_FC30006157	53715	Why_stopped_smoking_precautionary	Why stopped smoking precautionary	33	
 BIN_FC	BIN_FC30006160	95663	Leisure/social_activities_(attend_pub_or_social_club_in_once_a_week_or_more_often)	Leisure/social activities (attend pub or social club in once a week or more often)	82	
-BIN_FC	BIN_FC30006164	168786	Types_of_physical_activity_in_last_4_weeks_(other_exercises)	Types of physical activity in last 4 weeks (other exercises)	60	
+BIN_FC	BIN_FC30006164	168781	Types_of_physical_activity_in_last_4_weeks_(other_exercises)	Types of physical activity in last 4 weeks (other exercises)	60	
 BIN_FC	BIN_FC30012187	1030	Brain_MRI_measuring_method	Brain MRI measuring method	26	
 BIN_FC	BIN_FC30012323	1993	12-lead_ECG_measuring_method	12-lead ECG measuring method	28	
 BIN_FC	BIN_FC3001747	140221	Hair_colour_(natural,_before_greying)_light_brown	Hair colour (natural, before greying) light brown	49	
@@ -645,7 +645,7 @@ BIN_FC	BIN_FC3006153	1428	Medication_for_diabetes_(female_only)	Medication for d
 BIN_FC	BIN_FC3006155	30536	Vitamin_C_vs_no_supplement	Vitamin C vs no supplement	26	
 BIN_FC	BIN_FC3006177	2210	Medication_for_diabetes_(male_only)	Medication for diabetes (male only)	35	
 BIN_FC	BIN_FC30100920	9504	Whole_milk_(Diet,_24hr_recall,_Online_follow-up)	Whole milk (Diet, 24hr recall, Online follow-up)	48	
-BIN_FC	BIN_FC40001140	158654	No_change_in_mobile_phone_use_from_2_years_ago	No change in mobile phone use from 2 years ago	46	
+BIN_FC	BIN_FC40001140	158650	No_change_in_mobile_phone_use_from_2_years_ago	No change in mobile phone use from 2 years ago	46	
 BIN_FC	BIN_FC40001249	179582	Past_tobacco_smoking_(Smoked_at_least_once)	Past tobacco smoking (Smoked at least once)	43	
 BIN_FC	BIN_FC40001418	12809	Milk_type:_Soya	Milk type: Soya	15	
 BIN_FC	BIN_FC40001428	182532	Spread_type:_Other_type_of_spread/margarine	Spread type: Other type of spread/margarine	43	
@@ -659,8 +659,8 @@ BIN_FC	BIN_FC40003486	11860	Ever_tried_to_stop_smoking_failed_vs_succeeded	Ever 
 BIN_FC	BIN_FC40006151	867	Fractured_bone_site(s)_(Spine)	Fractured bone site(s) (Spine)	30	
 BIN_FC	BIN_FC40006156	5767	Manic/hyper_symptoms_(I_was_more_creative_or_had_more_ideas_than_usual)	Manic/hyper symptoms (I was more creative or had more ideas than usual)	71	
 BIN_FC	BIN_FC40006157	21521	Why_stopped_smoking_financial	Why stopped smoking financial	29	
-BIN_FC	BIN_FC40006160	48368	Leisure/social_activities_(attend_religious_group_in_once_a_week_or_more_often)	Leisure/social activities (attend religious group in once a week or more often)	79	
-BIN_FC	BIN_FC40006164	36919	Types_of_physical_activity_in_last_4_weeks_(strenuous_sports)	Types of physical activity in last 4 weeks (strenuous sports)	61	
+BIN_FC	BIN_FC40006160	48367	Leisure/social_activities_(attend_religious_group_in_once_a_week_or_more_often)	Leisure/social activities (attend religious group in once a week or more often)	79	
+BIN_FC	BIN_FC40006164	36917	Types_of_physical_activity_in_last_4_weeks_(strenuous_sports)	Types of physical activity in last 4 weeks (strenuous sports)	61	
 BIN_FC	BIN_FC4001747	126631	Hair_colour_(natural,_before_greying)_dark_brown	Hair colour (natural, before greying) dark brown	48	
 BIN_FC	BIN_FC40020126	5776	Bipolar_and_major_depression_status_probable_depression_(severe)	Bipolar and major depression status probable depression (severe)	64	
 BIN_FC	BIN_FC40020462	492	Quite_distressed_from_psychotics	Quite distressed from psychotics	32	
@@ -697,8 +697,8 @@ BIN_FC	BIN_FC50002267	1840	Use_of_sun/uv_protection_(Do_not_go_out_in_sunshine)	
 BIN_FC	BIN_FC50002654	19087	Non-butter_spread_type:_Other_low_or_reduced_fat_spread	Non-butter spread type: Other low or reduced fat spread	55	
 BIN_FC	BIN_FC50006151	7445	Fractured_bone_site(s)_(Wrist)	Fractured bone site(s) (Wrist)	30	
 BIN_FC	BIN_FC50006157	17645	Why_stopped_smoking_other	Why stopped smoking other	25	
-BIN_FC	BIN_FC50006160	26070	Leisure/social_activities_(attend_adult_edication_class_in_once_a_week_or_more_often)	Leisure/social activities (attend adult edication class in once a week or more often)	85	
-BIN_FC	BIN_FC50006164	183052	Types_of_physical_activity_in_last_4_weeks_(light_DIY)	Types of physical activity in last 4 weeks (light DIY)	54	
+BIN_FC	BIN_FC50006160	26069	Leisure/social_activities_(attend_adult_edication_class_in_once_a_week_or_more_often)	Leisure/social activities (attend adult edication class in once a week or more often)	85	
+BIN_FC	BIN_FC50006164	183049	Types_of_physical_activity_in_last_4_weeks_(light_DIY)	Types of physical activity in last 4 weeks (light DIY)	54	
 BIN_FC	BIN_FC5001747	14386	Hair_colour_(natural,_before_greying)_black	Hair colour (natural, before greying) black	43	
 BIN_FC	BIN_FC50020126	10162	Bipolar_and_major_depression_status_probable_depression_(moderate)	Bipolar and major depression status probable depression (moderate)	66	
 BIN_FC	BIN_FC50020462	633	Very_distressed_from_psychotics	Very distressed from psychotics	31	
@@ -714,7 +714,7 @@ BIN_FC	BIN_FC50020524	357	Very_often_Sexual_interference_by_partner_or_ex-partne
 BIN_FC	BIN_FC50020525	93703	Very_often_Able_to_pay_rent/mortgage_as_an_adult	Very often Able to pay rent/mortgage as an adult	48	
 BIN_FC	BIN_FC50020544	1494	Phobia_diagnosed_by__a_professional	Phobia diagnosed by  a professional	35	
 BIN_FC	BIN_FC50020548	2867	Manifestations_of_mania_or_irritability_More_creative_thoughts_vs_any	Manifestations of mania or irritability More creative thoughts vs any	69	
-BIN_FC	BIN_FC5002395	43110	Male_pattern_baldness_severity_3	Male pattern baldness severity 3	32	
+BIN_FC	BIN_FC5002395	43108	Male_pattern_baldness_severity_3	Male pattern baldness severity 3	32	
 BIN_FC	BIN_FC5006148	3233	Eye_problems/disorders_Macular_degeneration	Eye problems/disorders Macular degeneration	43	
 BIN_FC	BIN_FC5006149	14587	Toothache	Toothache	9	
 BIN_FC	BIN_FC5006152	80037	Hayfever_rhinitis_or_eczema_diagnosed_by_doctor	Hayfever rhinitis or eczema diagnosed by doctor	47	
@@ -725,13 +725,13 @@ BIN_FC	BIN_FC50100920	2672	Soya_milk_without_calcium_(Diet,_24hr_recall,_Online_
 BIN_FC	BIN_FC60001418	11152	Milk_type:_Never/rarely_have_milk	Milk type: Never/rarely have milk	33	
 BIN_FC	BIN_FC60002654	6902	Non-butter_spread_type:_Other_type_of_spread/margarine	Non-butter spread type: Other type of spread/margarine	54	
 BIN_FC	BIN_FC60006151	3774	Fractured_bone_site(s)_(Arm)	Fractured bone site(s) (Arm)	28	
-BIN_FC	BIN_FC60006160	82715	Leisure/social_activities_(attend_other_group_activity_in_once_a_week_or_more_often)	Leisure/social activities (attend other group activity in once a week or more often)	84	
-BIN_FC	BIN_FC60006164	154417	Types_of_physical_activity_in_last_4_weeks_(heavy_DIY)	Types of physical activity in last 4 weeks (heavy DIY)	54	
+BIN_FC	BIN_FC60006160	82714	Leisure/social_activities_(attend_other_group_activity_in_once_a_week_or_more_often)	Leisure/social activities (attend other group activity in once a week or more often)	84	
+BIN_FC	BIN_FC60006164	154416	Types_of_physical_activity_in_last_4_weeks_(heavy_DIY)	Types of physical activity in last 4 weeks (heavy DIY)	54	
 BIN_FC	BIN_FC6001747	4328	Hair_colour_(natural,_before_greying)_other	Hair colour (natural, before greying) other	43	
 BIN_FC	BIN_FC60020126	5450	Bipolar_and_major_depression_status_single_probable_major_depressive_episode	Bipolar and major depression status single probable major depressive episode	76	
 BIN_FC	BIN_FC60020544	6071	Panic_attacks_diagnosed_by__a_professional	Panic attacks diagnosed by  a professional	42	
 BIN_FC	BIN_FC60020548	8521	Manifestations_of_mania_or_irritability_Easily_distracted_vs_any	Manifestations of mania or irritability Easily distracted vs any	64	
-BIN_FC	BIN_FC6002395	29620	Male_pattern_baldness_severity_4	Male pattern baldness severity 4	32	
+BIN_FC	BIN_FC6002395	29619	Male_pattern_baldness_severity_4	Male pattern baldness severity 4	32	
 BIN_FC	BIN_FC6006149	58663	Dentures	Dentures	8	
 BIN_FC	BIN_FC6006152	7286	Blood_clot_in_the_leg_(DVT)	Blood clot in the leg (DVT)	27	
 BIN_FC	BIN_FC6006153	24643	Cholesterol_lowering_medication	Cholesterol lowering medication	31	
@@ -836,16 +836,16 @@ cancer	cancer1085	2468	bone_metastases_/_bony_secondaries	Bone metastases / bony
 cancer	cancer1086	119	appendix_cancer	Appendix cancer	15	
 cancer	cancer1087	58	fallopian_tube_cancer	Fallopian tube cancer	21	
 cancer	cancer1088	18	malignant_insulinoma	Malignant insulinoma	20	
-FH	FH1001	123816	Lung_cancer	Lung cancer (FH)	16	
-FH	FH1002	62389	Breast_cancer	Breast cancer (FH)	18	
-FH	FH1019	74235	Bowel_cancer	Bowel cancer (FH)	17	
-FH	FH1044	34355	Prostate_cancer	Prostate cancer (FH)	20	
-FH	FH1065	199040	High_blood_pressure	High BP (FH)	12	
-FH	FH1113	78572	Chronic_bronchitis/emphysema	Chronic bronchitis/emphysema (FH)	33	
-FH	FH1220	79162	Diabetes	Diabetes (FH)	13	
+FH	FH1001	123810	Lung_cancer	Lung cancer (FH)	16	
+FH	FH1002	62386	Breast_cancer	Breast cancer (FH)	18	
+FH	FH1019	74231	Bowel_cancer	Bowel cancer (FH)	17	
+FH	FH1044	34354	Prostate_cancer	Prostate cancer (FH)	20	
+FH	FH1065	199033	High_blood_pressure	High BP (FH)	12	
+FH	FH1113	78569	Chronic_bronchitis/emphysema	Chronic bronchitis/emphysema (FH)	33	
+FH	FH1220	79158	Diabetes	Diabetes (FH)	13	
 FH	FH1262	21754	Parkinson's_disease	Parkinson's disease (FH)	24	
 FH	FH1263	51786	Alzheimer's_disease/dementia	Alzheimer's/dementia (FH)	25	
-FH	FH1286	54567	Severe_depression	Severe depression (FH)	22	
+FH	FH1286	54566	Severe_depression	Severe depression (FH)	22	
 HC	HC0	1406	scoliosis	Scoliosis	9	
 HC	HC1	4509	bowel_/_intestinal_obstruction	Bowel / intestinal obstruction	30	
 HC	HC10	260	dysmenorrhoea_/_dysmenorrhea	Dysmenorrhoea / dysmenorrhea	28	
@@ -2436,10 +2436,10 @@ HC	HC996	1205	TTE_other_non-infective_disorders_of_lymphatic_vessels_and_lymph_n
 HC	HC997	7145	TTE_hypotension	TTE hypotension	15	
 HC	HC998	213	TTE_postprocedural_disorders_of_circulatory_system,_not_elsewhere_classified	TTE postprocedural disorders of circulatory system, not elsewhere classified	76	
 HC	HC999	278	TTE_other_disorders_of_circulatory_system_in_diseases_classified_elsewhere	TTE other disorders of circulatory system in diseases classified elsewhere	74	
-INI	INI100010	145981	Portion_size	Portion size	12	
-INI	INI1001	36551	Duration_of_strenuous_sports	Duration of strenuous sports	28	
-INI	INI100150	128779	Drinking_water_intake_(Diet,_24hr_recall,_Online_follow-up)	Drinking water intake (Diet, 24hr recall, Online follow-up)	59	
-INI	INI100160	30391	Low_calorie_drink_intake_(Diet,_24hr_recall,_Online_follow-up)	Low calorie drink intake (Diet, 24hr recall, Online follow-up)	62	
+INI	INI100010	145980	Portion_size	Portion size	12	
+INI	INI1001	36549	Duration_of_strenuous_sports	Duration of strenuous sports	28	
+INI	INI100150	128778	Drinking_water_intake_(Diet,_24hr_recall,_Online_follow-up)	Drinking water intake (Diet, 24hr recall, Online follow-up)	59	
+INI	INI100160	30390	Low_calorie_drink_intake_(Diet,_24hr_recall,_Online_follow-up)	Low calorie drink intake (Diet, 24hr recall, Online follow-up)	62	
 INI	INI100170	23354	Fizzy_drink_intake_(Diet,_24hr_recall,_Online_follow-up)	Fizzy drink intake (Diet, 24hr recall, Online follow-up)	56	
 INI	INI100180	30856	Squash_intake_(Diet,_24hr_recall,_Online_follow-up)	Squash intake (Diet, 24hr recall, Online follow-up)	51	
 INI	INI100190	53794	Orange_juice_intake_(Diet,_24hr_recall,_Online_follow-up)	Orange juice intake (Diet, 24hr recall, Online follow-up)	57	
@@ -2447,7 +2447,7 @@ INI	INI100200	6547	Grapefruit_juice_intake_(Diet,_24hr_recall,_Online_follow-up)
 INI	INI100210	30618	Pure_fruit/vegetable_juice_intake_(Diet,_24hr_recall,_Online_follow-up)	Pure fruit/vegetable juice intake (Diet, 24hr recall, Online follow-up)	71	
 INI	INI100220	6368	Fruit_smoothie_intake_(Diet,_24hr_recall,_Online_follow-up)	Fruit smoothie intake (Diet, 24hr recall, Online follow-up)	59	
 INI	INI100230	10278	Dairy_smoothie_intake_(Diet,_24hr_recall,_Online_follow-up)	Dairy smoothie intake (Diet, 24hr recall, Online follow-up)	59	
-INI	INI100250	83585	Instant_coffee_intake_(Diet,_24hr_recall,_Online_follow-up)	Instant coffee intake (Diet, 24hr recall, Online follow-up)	59	
+INI	INI100250	83584	Instant_coffee_intake_(Diet,_24hr_recall,_Online_follow-up)	Instant coffee intake (Diet, 24hr recall, Online follow-up)	59	
 INI	INI100270	43714	Filtered_coffee_intake_(Diet,_24hr_recall,_Online_follow-up)	Filtered coffee intake (Diet, 24hr recall, Online follow-up)	60	
 INI	INI100290	13376	Cappuccino_intake_(Diet,_24hr_recall,_Online_follow-up)	Cappuccino intake (Diet, 24hr recall, Online follow-up)	55	
 INI	INI100300	12773	Latte_intake_(Diet,_24hr_recall,_Online_follow-up)	Latte intake (Diet, 24hr recall, Online follow-up)	50	
@@ -2493,7 +2493,7 @@ INI	INI100430	19773	Herbal_tea_intake_(Diet,_24hr_recall,_Online_follow-up)	Herb
 INI	INI100440	8239	Other_tea_intake_(Diet,_24hr_recall,_Online_follow-up)	Other tea intake (Diet, 24hr recall, Online follow-up)	54	
 INI	INI100490	16519	Intake_of_sugar_added_to_tea_(Diet,_24hr_recall,_Online_follow-up)	Intake of sugar added to tea (Diet, 24hr recall, Online follow-up)	66	
 INI	INI100500	9493	Intake_of_artificial_sweetener_added_to_tea_(Diet,_24hr_recall,_Online_follow-up)	Intake of artificial sweetener added to tea (Diet, 24hr recall, Online follow-up)	81	
-INI	INI100520	10358	Milk_intake_(Diet,_24hr_recall,_Online_follow-up)	Milk intake (Diet, 24hr recall, Online follow-up)	49	
+INI	INI100520	10357	Milk_intake_(Diet,_24hr_recall,_Online_follow-up)	Milk intake (Diet, 24hr recall, Online follow-up)	49	
 INI	INI100530	5322	Flavoured_milk_intake_(Diet,_24hr_recall,_Online_follow-up)	Flavoured milk intake (Diet, 24hr recall, Online follow-up)	59	
 INI	INI100540	3656	Low_calorie_hot_chocolate_intake_(Diet,_24hr_recall,_Online_follow-up)	Low calorie hot chocolate intake (Diet, 24hr recall, Online follow-up)	70	
 INI	INI100550	11561	Hot_chocolate_intake_(Diet,_24hr_recall,_Online_follow-up)	Hot chocolate intake (Diet, 24hr recall, Online follow-up)	58	
@@ -2503,7 +2503,7 @@ INI	INI100630	8145	Rose_wine_intake_(Diet,_24hr_recall,_Online_follow-up)	Rose w
 INI	INI100670	34998	White_wine_intake_(Diet,_24hr_recall,_Online_follow-up)	White wine intake (Diet, 24hr recall, Online follow-up)	55	
 INI	INI100710	37247	Beer/cider_intake_(Diet,_24hr_recall,_Online_follow-up)	Beer/cider intake (Diet, 24hr recall, Online follow-up)	55	
 INI	INI100720	5539	Fortified_wine_intake_(Diet,_24hr_recall,_Online_follow-up)	Fortified wine intake (Diet, 24hr recall, Online follow-up)	59	
-INI	INI100730	18753	Spirits_intake_(Diet,_24hr_recall,_Online_follow-up)	Spirits intake (Diet, 24hr recall, Online follow-up)	52	
+INI	INI100730	18752	Spirits_intake_(Diet,_24hr_recall,_Online_follow-up)	Spirits intake (Diet, 24hr recall, Online follow-up)	52	
 INI	INI100740	4265	Other_alcohol_intake_(Diet,_24hr_recall,_Online_follow-up)	Other alcohol intake (Diet, 24hr recall, Online follow-up)	58	
 INI	INI100770	35256	Porridge_intake_(Diet,_24hr_recall,_Online_follow-up)	Porridge intake (Diet, 24hr recall, Online follow-up)	53	
 INI	INI100800	33141	Muesli_intake_(Diet,_24hr_recall,_Online_follow-up)	Muesli intake (Diet, 24hr recall, Online follow-up)	51	
@@ -2518,7 +2518,7 @@ INI	INI100910	5460	Intake_of_artificial_sweetener_added_to_cereal_(Diet,_24hr_re
 INI	INI100950	112681	Sliced_bread_intake_(Diet,_24hr_recall,_Online_follow-up)	Sliced bread intake (Diet, 24hr recall, Online follow-up)	57	
 INI	INI101020	25752	Baguette_intake_(Diet,_24hr_recall,_Online_follow-up)	Baguette intake (Diet, 24hr recall, Online follow-up)	53	
 INI	INI101090	10080	Bap_intake_(Diet,_24hr_recall,_Online_follow-up)	Bap intake (Diet, 24hr recall, Online follow-up)	48	
-INI	INI1011	177312	Frequency_of_light_DIY_in_last_4_weeks	Freq. of light DIY in last 4 weeks	34	
+INI	INI1011	177309	Frequency_of_light_DIY_in_last_4_weeks	Freq. of light DIY in last 4 weeks	34	
 INI	INI101160	39649	Bread_roll_intake_(Diet,_24hr_recall,_Online_follow-up)	Bread roll intake (Diet, 24hr recall, Online follow-up)	55	
 INI	INI101230	5770	Naan_bread_intake_(Diet,_24hr_recall,_Online_follow-up)	Naan bread intake (Diet, 24hr recall, Online follow-up)	55	
 INI	INI101240	5986	Garlic_bread_intake_(Diet,_24hr_recall,_Online_follow-up)	Garlic bread intake (Diet, 24hr recall, Online follow-up)	57	
@@ -2544,8 +2544,8 @@ INI	INI102040	3763	Indian_snacks_intake_(Diet,_24hr_recall,_Online_follow-up)	In
 INI	INI102050	6192	Croissant_intake_(Diet,_24hr_recall,_Online_follow-up)	Croissant intake (Diet, 24hr recall, Online follow-up)	54	
 INI	INI102060	5990	Danish_pastry_intake_(Diet,_24hr_recall,_Online_follow-up)	Danish pastry intake (Diet, 24hr recall, Online follow-up)	58	
 INI	INI102070	14033	Scone_intake_(Diet,_24hr_recall,_Online_follow-up)	Scone intake (Diet, 24hr recall, Online follow-up)	50	
-INI	INI102090	68418	Yogurt_intake_(Diet,_24hr_recall,_Online_follow-up)	Yogurt intake (Diet, 24hr recall, Online follow-up)	51	
-INI	INI1021	176494	Duration_of_light_DIY	Duration of light DIY	21	
+INI	INI102090	68417	Yogurt_intake_(Diet,_24hr_recall,_Online_follow-up)	Yogurt intake (Diet, 24hr recall, Online follow-up)	51	
+INI	INI1021	176491	Duration_of_light_DIY	Duration of light DIY	21	
 INI	INI102120	30057	Ice-cream_intake_(Diet,_24hr_recall,_Online_follow-up)	Ice-cream intake (Diet, 24hr recall, Online follow-up)	54	
 INI	INI102140	12051	Milk-based_pudding_intake_(Diet,_24hr_recall,_Online_follow-up)	Milk-based pudding intake (Diet, 24hr recall, Online follow-up)	63	
 INI	INI102150	7002	Other_milk-based_pudding_intake_(Diet,_24hr_recall,_Online_follow-up)	Other milk-based pudding intake (Diet, 24hr recall, Online follow-up)	69	
@@ -2555,7 +2555,7 @@ INI	INI102190	36489	Cake_intake_(Diet,_24hr_recall,_Online_follow-up)	Cake intak
 INI	INI102200	2504	Doughnut_intake_(Diet,_24hr_recall,_Online_follow-up)	Doughnut intake (Diet, 24hr recall, Online follow-up)	53	
 INI	INI102210	6994	Sponge_pudding_intake_(Diet,_24hr_recall,_Online_follow-up)	Sponge pudding intake (Diet, 24hr recall, Online follow-up)	59	
 INI	INI102220	7163	Cheesecake_intake_(Diet,_24hr_recall,_Online_follow-up)	Cheesecake intake (Diet, 24hr recall, Online follow-up)	55	
-INI	INI102230	25644	Other_dessert_intake_(Diet,_24hr_recall,_Online_follow-up)	Other dessert intake (Diet, 24hr recall, Online follow-up)	58	
+INI	INI102230	25643	Other_dessert_intake_(Diet,_24hr_recall,_Online_follow-up)	Other dessert intake (Diet, 24hr recall, Online follow-up)	58	
 INI	INI102260	19805	Chocolate_bar_intake_(Diet,_24hr_recall,_Online_follow-up)	Chocolate bar intake (Diet, 24hr recall, Online follow-up)	58	
 INI	INI102270	1583	White_chocolate_intake_(Diet,_24hr_recall,_Online_follow-up)	White chocolate intake (Diet, 24hr recall, Online follow-up)	60	
 INI	INI102280	17761	Milk_chocolate_intake_(Diet,_24hr_recall,_Online_follow-up)	Milk chocolate intake (Diet, 24hr recall, Online follow-up)	59	
@@ -2565,16 +2565,16 @@ INI	INI102310	16102	Chocolate_sweet_intake_(Diet,_24hr_recall,_Online_follow-up)
 INI	INI102320	2200	Diet_sweets_intake_(Diet,_24hr_recall,_Online_follow-up)	Diet sweets intake (Diet, 24hr recall, Online follow-up)	56	
 INI	INI102330	17969	Sweets_intake_(Diet,_24hr_recall,_Online_follow-up)	Sweets intake (Diet, 24hr recall, Online follow-up)	51	
 INI	INI102340	21804	Chocolate-covered_biscuits_intake_(Diet,_24hr_recall,_Online_follow-up)	Chocolate-covered biscuits intake (Diet, 24hr recall, Online follow-up)	71	
-INI	INI102350	26875	Chocolate_biscuits_intake_(Diet,_24hr_recall,_Online_follow-up)	Chocolate biscuits intake (Diet, 24hr recall, Online follow-up)	63	
+INI	INI102350	26874	Chocolate_biscuits_intake_(Diet,_24hr_recall,_Online_follow-up)	Chocolate biscuits intake (Diet, 24hr recall, Online follow-up)	63	
 INI	INI102360	45310	Sweet_biscuits_intake_(Diet,_24hr_recall,_Online_follow-up)	Sweet biscuits intake (Diet, 24hr recall, Online follow-up)	59	
 INI	INI102370	15505	Cereal_bar_intake_(Diet,_24hr_recall,_Online_follow-up)	Cereal bar intake (Diet, 24hr recall, Online follow-up)	55	
 INI	INI102380	6786	Other_sweets_intake_(Diet,_24hr_recall,_Online_follow-up)	Other sweets intake (Diet, 24hr recall, Online follow-up)	57	
-INI	INI102410	9744	Salted_peanuts_intake_(Diet,_24hr_recall,_Online_follow-up)	Salted peanuts intake (Diet, 24hr recall, Online follow-up)	59	
+INI	INI102410	9743	Salted_peanuts_intake_(Diet,_24hr_recall,_Online_follow-up)	Salted peanuts intake (Diet, 24hr recall, Online follow-up)	59	
 INI	INI102420	2379	Unsalted_peanuts_intake_(Diet,_24hr_recall,_Online_follow-up)	Unsalted peanuts intake (Diet, 24hr recall, Online follow-up)	61	
 INI	INI102430	6701	Salted_nuts_intake_(Diet,_24hr_recall,_Online_follow-up)	Salted nuts intake (Diet, 24hr recall, Online follow-up)	56	
 INI	INI102440	18244	Unsalted_nuts_intake_(Diet,_24hr_recall,_Online_follow-up)	Unsalted nuts intake (Diet, 24hr recall, Online follow-up)	58	
 INI	INI102450	7934	Seeds_intake_(Diet,_24hr_recall,_Online_follow-up)	Seeds intake (Diet, 24hr recall, Online follow-up)	50	
-INI	INI102460	44572	Crisp_intake_(Diet,_24hr_recall,_Online_follow-up)	Crisp intake (Diet, 24hr recall, Online follow-up)	50	
+INI	INI102460	44571	Crisp_intake_(Diet,_24hr_recall,_Online_follow-up)	Crisp intake (Diet, 24hr recall, Online follow-up)	50	
 INI	INI102470	2585	Savoury_biscuits_intake_(Diet,_24hr_recall,_Online_follow-up)	Savoury biscuits intake (Diet, 24hr recall, Online follow-up)	61	
 INI	INI102480	4287	Cheesy_biscuits_intake_(Diet,_24hr_recall,_Online_follow-up)	Cheesy biscuits intake (Diet, 24hr recall, Online follow-up)	60	
 INI	INI102490	9969	Olives_intake_(Diet,_24hr_recall,_Online_follow-up)	Olives intake (Diet, 24hr recall, Online follow-up)	51	
@@ -2611,11 +2611,11 @@ INI	INI103020	49433	Beef_intake_(Diet,_24hr_recall,_Online_follow-up)	Beef intak
 INI	INI103030	20317	Pork_intake_(Diet,_24hr_recall,_Online_follow-up)	Pork intake (Diet, 24hr recall, Online follow-up)	49	
 INI	INI103040	15590	Lamb_intake_(Diet,_24hr_recall,_Online_follow-up)	Lamb intake (Diet, 24hr recall, Online follow-up)	49	
 INI	INI103050	9169	Crumbed_or_deep-fried_poultry_intake_(Diet,_24hr_recall,_Online_follow-up)	Crumbed or deep-fried poultry intake (Diet, 24hr recall, Online follow-up)	74	
-INI	INI103060	57914	Poultry_intake_(Diet,_24hr_recall,_Online_follow-up)	Poultry intake (Diet, 24hr recall, Online follow-up)	52	
+INI	INI103060	57913	Poultry_intake_(Diet,_24hr_recall,_Online_follow-up)	Poultry intake (Diet, 24hr recall, Online follow-up)	52	
 INI	INI103070	27019	Bacon_intake_(Diet,_24hr_recall,_Online_follow-up)	Bacon intake (Diet, 24hr recall, Online follow-up)	50	
 INI	INI103080	41050	Ham_intake_(Diet,_24hr_recall,_Online_follow-up)	Ham intake (Diet, 24hr recall, Online follow-up)	48	
 INI	INI103090	6450	Liver_intake_(Diet,_24hr_recall,_Online_follow-up)	Liver intake (Diet, 24hr recall, Online follow-up)	50	
-INI	INI1031	335008	Frequency_of_friend/family_visits	Freq. of friend/family visits	29	
+INI	INI1031	335003	Frequency_of_friend/family_visits	Freq. of friend/family visits	29	
 INI	INI103100	6087	Other_meat_intake_(Diet,_24hr_recall,_Online_follow-up)	Other meat intake (Diet, 24hr recall, Online follow-up)	55	
 INI	INI103150	14487	Tinned_tuna_intake_(Diet,_24hr_recall,_Online_follow-up)	Tinned tuna intake (Diet, 24hr recall, Online follow-up)	56	
 INI	INI103160	30705	Oily_fish_intake_(Diet,_24hr_recall,_Online_follow-up)	Oily fish intake (Diet, 24hr recall, Online follow-up)	54	
@@ -2633,29 +2633,29 @@ INI	INI103290	2309	Other_vegetarian_alternative_intake_(Diet,_24hr_recall,_Onlin
 INI	INI104000	21142	Baked_bean_intake_(Diet,_24hr_recall,_Online_follow-up)	Baked bean intake (Diet, 24hr recall, Online follow-up)	55	
 INI	INI104010	23366	Pulses_intake_(Diet,_24hr_recall,_Online_follow-up)	Pulses intake (Diet, 24hr recall, Online follow-up)	51	
 INI	INI104020	47853	Fried_potatoes_intake_(Diet,_24hr_recall,_Online_follow-up)	Fried potatoes intake (Diet, 24hr recall, Online follow-up)	59	
-INI	INI104030	63774	Boiled/baked_potatoes_intake_(Diet,_24hr_recall,_Online_follow-up)	Boiled/baked potatoes intake (Diet, 24hr recall, Online follow-up)	66	
+INI	INI104030	63773	Boiled/baked_potatoes_intake_(Diet,_24hr_recall,_Online_follow-up)	Boiled/baked potatoes intake (Diet, 24hr recall, Online follow-up)	66	
 INI	INI104050	29733	Mashed_potato_intake_(Diet,_24hr_recall,_Online_follow-up)	Mashed potato intake (Diet, 24hr recall, Online follow-up)	58	
 INI	INI104060	22917	Mixed_vegetable_intake_(Diet,_24hr_recall,_Online_follow-up)	Mixed vegetable intake (Diet, 24hr recall, Online follow-up)	60	
 INI	INI104070	32757	Vegetable_pieces_intake_(Diet,_24hr_recall,_Online_follow-up)	Vegetable pieces intake (Diet, 24hr recall, Online follow-up)	61	
 INI	INI104080	16445	Coleslaw_intake_(Diet,_24hr_recall,_Online_follow-up)	Coleslaw intake (Diet, 24hr recall, Online follow-up)	53	
-INI	INI104090	54537	Side_salad_intake_(Diet,_24hr_recall,_Online_follow-up)	Side salad intake (Diet, 24hr recall, Online follow-up)	55	
+INI	INI104090	54536	Side_salad_intake_(Diet,_24hr_recall,_Online_follow-up)	Side salad intake (Diet, 24hr recall, Online follow-up)	55	
 INI	INI104100	8616	Avocado_intake_(Diet,_24hr_recall,_Online_follow-up)	Avocado intake (Diet, 24hr recall, Online follow-up)	52	
 INI	INI104110	6797	Broad_bean_intake_(Diet,_24hr_recall,_Online_follow-up)	Broad bean intake (Diet, 24hr recall, Online follow-up)	55	
 INI	INI104120	27894	Green_bean_intake_(Diet,_24hr_recall,_Online_follow-up)	Green bean intake (Diet, 24hr recall, Online follow-up)	55	
-INI	INI104130	18295	Beetroot_intake_(Diet,_24hr_recall,_Online_follow-up)	Beetroot intake (Diet, 24hr recall, Online follow-up)	53	
+INI	INI104130	18294	Beetroot_intake_(Diet,_24hr_recall,_Online_follow-up)	Beetroot intake (Diet, 24hr recall, Online follow-up)	53	
 INI	INI104140	39917	Broccoli_intake_(Diet,_24hr_recall,_Online_follow-up)	Broccoli intake (Diet, 24hr recall, Online follow-up)	53	
 INI	INI104150	5893	Butternut_squash_intake_(Diet,_24hr_recall,_Online_follow-up)	Butternut squash intake (Diet, 24hr recall, Online follow-up)	61	
 INI	INI104160	23766	Cabbage/kale_intake_(Diet,_24hr_recall,_Online_follow-up)	Cabbage/kale intake (Diet, 24hr recall, Online follow-up)	57	
 INI	INI104170	65684	Carrot_intake_(Diet,_24hr_recall,_Online_follow-up)	Carrot intake (Diet, 24hr recall, Online follow-up)	51	
 INI	INI104180	22597	Cauliflower_intake_(Diet,_24hr_recall,_Online_follow-up)	Cauliflower intake (Diet, 24hr recall, Online follow-up)	56	
-INI	INI104190	19973	Celery_intake_(Diet,_24hr_recall,_Online_follow-up)	Celery intake (Diet, 24hr recall, Online follow-up)	51	
+INI	INI104190	19972	Celery_intake_(Diet,_24hr_recall,_Online_follow-up)	Celery intake (Diet, 24hr recall, Online follow-up)	51	
 INI	INI104200	15586	Courgette_intake_(Diet,_24hr_recall,_Online_follow-up)	Courgette intake (Diet, 24hr recall, Online follow-up)	54	
-INI	INI104210	34514	Cucumber_intake_(Diet,_24hr_recall,_Online_follow-up)	Cucumber intake (Diet, 24hr recall, Online follow-up)	53	
-INI	INI104220	25908	Garlic_intake_(Diet,_24hr_recall,_Online_follow-up)	Garlic intake (Diet, 24hr recall, Online follow-up)	51	
+INI	INI104210	34513	Cucumber_intake_(Diet,_24hr_recall,_Online_follow-up)	Cucumber intake (Diet, 24hr recall, Online follow-up)	53	
+INI	INI104220	25907	Garlic_intake_(Diet,_24hr_recall,_Online_follow-up)	Garlic intake (Diet, 24hr recall, Online follow-up)	51	
 INI	INI104230	13652	Leek_intake_(Diet,_24hr_recall,_Online_follow-up)	Leek intake (Diet, 24hr recall, Online follow-up)	49	
-INI	INI104240	49667	Lettuce_intake_(Diet,_24hr_recall,_Online_follow-up)	Lettuce intake (Diet, 24hr recall, Online follow-up)	52	
+INI	INI104240	49666	Lettuce_intake_(Diet,_24hr_recall,_Online_follow-up)	Lettuce intake (Diet, 24hr recall, Online follow-up)	52	
 INI	INI104250	36470	Mushroom_intake_(Diet,_24hr_recall,_Online_follow-up)	Mushroom intake (Diet, 24hr recall, Online follow-up)	53	
-INI	INI104260	58170	Onion_intake_(Diet,_24hr_recall,_Online_follow-up)	Onion intake (Diet, 24hr recall, Online follow-up)	50	
+INI	INI104260	58169	Onion_intake_(Diet,_24hr_recall,_Online_follow-up)	Onion intake (Diet, 24hr recall, Online follow-up)	50	
 INI	INI104270	11496	Parsnip_intake_(Diet,_24hr_recall,_Online_follow-up)	Parsnip intake (Diet, 24hr recall, Online follow-up)	52	
 INI	INI104280	36894	Pea_intake_(Diet,_24hr_recall,_Online_follow-up)	Pea intake (Diet, 24hr recall, Online follow-up)	48	
 INI	INI104290	40163	Sweet_pepper_intake_(Diet,_24hr_recall,_Online_follow-up)	Sweet pepper intake (Diet, 24hr recall, Online follow-up)	57	
@@ -2663,18 +2663,18 @@ INI	INI104300	13109	Spinach_intake_(Diet,_24hr_recall,_Online_follow-up)	Spinach
 INI	INI104310	8374	Sprouts_intake_(Diet,_24hr_recall,_Online_follow-up)	Sprouts intake (Diet, 24hr recall, Online follow-up)	52	
 INI	INI104320	13219	Sweetcorn_intake_(Diet,_24hr_recall,_Online_follow-up)	Sweetcorn intake (Diet, 24hr recall, Online follow-up)	54	
 INI	INI104330	5789	Sweet_potato_intake_(Diet,_24hr_recall,_Online_follow-up)	Sweet potato intake (Diet, 24hr recall, Online follow-up)	57	
-INI	INI104340	70424	Fresh_tomato_intake_(Diet,_24hr_recall,_Online_follow-up)	Fresh tomato intake (Diet, 24hr recall, Online follow-up)	57	
+INI	INI104340	70423	Fresh_tomato_intake_(Diet,_24hr_recall,_Online_follow-up)	Fresh tomato intake (Diet, 24hr recall, Online follow-up)	57	
 INI	INI104350	26354	Tinned_tomato_intake_(Diet,_24hr_recall,_Online_follow-up)	Tinned tomato intake (Diet, 24hr recall, Online follow-up)	58	
 INI	INI104360	8081	Turnip/swede_intake_(Diet,_24hr_recall,_Online_follow-up)	Turnip/swede intake (Diet, 24hr recall, Online follow-up)	57	
 INI	INI104370	10358	Watercress_intake_(Diet,_24hr_recall,_Online_follow-up)	Watercress intake (Diet, 24hr recall, Online follow-up)	55	
 INI	INI104380	15026	Other_vegetables_intake_(Diet,_24hr_recall,_Online_follow-up)	Other vegetables intake (Diet, 24hr recall, Online follow-up)	61	
 INI	INI104410	17597	Stewed_fruit_intake_(Diet,_24hr_recall,_Online_follow-up)	Stewed fruit intake (Diet, 24hr recall, Online follow-up)	57	
-INI	INI104420	9259	Prune_intake_(Diet,_24hr_recall,_Online_follow-up)	Prune intake (Diet, 24hr recall, Online follow-up)	50	
-INI	INI104430	25064	Dried_fruit_intake_(Diet,_24hr_recall,_Online_follow-up)	Dried fruit intake (Diet, 24hr recall, Online follow-up)	56	
+INI	INI104420	9258	Prune_intake_(Diet,_24hr_recall,_Online_follow-up)	Prune intake (Diet, 24hr recall, Online follow-up)	50	
+INI	INI104430	25063	Dried_fruit_intake_(Diet,_24hr_recall,_Online_follow-up)	Dried fruit intake (Diet, 24hr recall, Online follow-up)	56	
 INI	INI104440	13776	Mixed_fruit_intake_(Diet,_24hr_recall,_Online_follow-up)	Mixed fruit intake (Diet, 24hr recall, Online follow-up)	56	
 INI	INI104450	68135	Apple_intake_(Diet,_24hr_recall,_Online_follow-up)	Apple intake (Diet, 24hr recall, Online follow-up)	50	
-INI	INI104460	82122	Banana_intake_(Diet,_24hr_recall,_Online_follow-up)	Banana intake (Diet, 24hr recall, Online follow-up)	51	
-INI	INI104470	41424	Berry_intake_(Diet,_24hr_recall,_Online_follow-up)	Berry intake (Diet, 24hr recall, Online follow-up)	50	
+INI	INI104460	82121	Banana_intake_(Diet,_24hr_recall,_Online_follow-up)	Banana intake (Diet, 24hr recall, Online follow-up)	51	
+INI	INI104470	41423	Berry_intake_(Diet,_24hr_recall,_Online_follow-up)	Berry intake (Diet, 24hr recall, Online follow-up)	50	
 INI	INI104480	7709	Cherry_intake_(Diet,_24hr_recall,_Online_follow-up)	Cherry intake (Diet, 24hr recall, Online follow-up)	51	
 INI	INI104490	7416	Grapefruit_intake_(Diet,_24hr_recall,_Online_follow-up)	Grapefruit intake (Diet, 24hr recall, Online follow-up)	55	
 INI	INI104500	39933	Grape_intake_(Diet,_24hr_recall,_Online_follow-up)	Grape intake (Diet, 24hr recall, Online follow-up)	50	
@@ -2682,24 +2682,24 @@ INI	INI104510	5754	Mango_intake_(Diet,_24hr_recall,_Online_follow-up)	Mango inta
 INI	INI104520	11772	Melon_intake_(Diet,_24hr_recall,_Online_follow-up)	Melon intake (Diet, 24hr recall, Online follow-up)	50	
 INI	INI104530	26175	Orange_intake_(Diet,_24hr_recall,_Online_follow-up)	Orange intake (Diet, 24hr recall, Online follow-up)	51	
 INI	INI104540	34274	Satsuma_intake_(Diet,_24hr_recall,_Online_follow-up)	Satsuma intake (Diet, 24hr recall, Online follow-up)	52	
-INI	INI104550	16208	Peach/nectarine_intake_(Diet,_24hr_recall,_Online_follow-up)	Peach/nectarine intake (Diet, 24hr recall, Online follow-up)	60	
+INI	INI104550	16207	Peach/nectarine_intake_(Diet,_24hr_recall,_Online_follow-up)	Peach/nectarine intake (Diet, 24hr recall, Online follow-up)	60	
 INI	INI104560	26166	Pear_intake_(Diet,_24hr_recall,_Online_follow-up)	Pear intake (Diet, 24hr recall, Online follow-up)	49	
 INI	INI104570	11599	Pineapple_intake_(Diet,_24hr_recall,_Online_follow-up)	Pineapple intake (Diet, 24hr recall, Online follow-up)	54	
 INI	INI104580	13778	Plum_intake_(Diet,_24hr_recall,_Online_follow-up)	Plum intake (Diet, 24hr recall, Online follow-up)	49	
 INI	INI104590	12196	Other_fruit_intake_(Diet,_24hr_recall,_Online_follow-up)	Other fruit intake (Diet, 24hr recall, Online follow-up)	56	
-INI	INI104900	145981	Time_spent_doing_vigorous_physical_activity	Time spent doing vigorous physical activity	43	
-INI	INI104910	145981	Time_spent_doing_moderate_physical_activity	Time spent doing moderate physical activity	43	
-INI	INI104920	136046	Time_spent_doing_light_physical_activity	Time spent doing light physical activity	40	
+INI	INI104900	145980	Time_spent_doing_vigorous_physical_activity	Time spent doing vigorous physical activity	43	
+INI	INI104910	145980	Time_spent_doing_moderate_physical_activity	Time spent doing moderate physical activity	43	
+INI	INI104920	136045	Time_spent_doing_light_physical_activity	Time spent doing light physical activity	40	
 INI	INI1050	309239	Time_spend_outdoors_in_summer	Time spend outdoors in summer	29	
 INI	INI1060	272935	Time_spent_outdoors_in_winter	Outdoor time, winter	20	
 INI	INI10612	318	Number_of_words_beginning_with_'S'_(pilot)	# of words beginning with 'S' (pilot)	37	
 INI	INI10694	291	Forced_vital_capacity_(FVC)_(pilot)	FVC (pilot)	11	
 INI	INI10695	291	Forced_expiratory_volume_in_1-second_(FEV1)_(pilot)	FEV1 (pilot)	12	
 INI	INI10696	291	Peak_expiratory_flow_(PEF)_(pilot)	PEF (pilot)	11	
-INI	INI1100	307037	Drive_faster_than_motorway_speed_limit	Drive faster than motorway speed limit	38	
-INI	INI1110	333337	Length_of_mobile_phone_use	Length of mobile phone use	26	
-INI	INI1120	284563	Weekly_usage_of_mobile_phone_in_last_3_months	Weekly usage of mobile phone in last 3 months	45	
-INI	INI1130	285954	Hands-free_device/speakerphone_use_with_mobile_phone_in_last_3_month	Hands-free device/speakerphone use with mobile phone in last 3 month	68	
+INI	INI1100	307032	Drive_faster_than_motorway_speed_limit	Drive faster than motorway speed limit	38	
+INI	INI1110	333332	Length_of_mobile_phone_use	Length of mobile phone use	26	
+INI	INI1120	284559	Weekly_usage_of_mobile_phone_in_last_3_months	Weekly usage of mobile phone in last 3 months	45	
+INI	INI1130	285950	Hands-free_device/speakerphone_use_with_mobile_phone_in_last_3_month	Hands-free device/speakerphone use with mobile phone in last 3 month	68	
 INI	INI1160	335431	Sleep_duration	Sleep duration	14	
 INI	INI12144	33430	Height	Height	6	
 INI	INI12336	26310	Ventricular_rate	Ventricular rate	16	
@@ -2737,14 +2737,14 @@ INI	INI20015	336453	Sitting_height	Sitting height	14
 INI	INI20016	136544	Fluid_intelligence_score	Fluid intelligence score	24	
 INI	INI20019	129419	Speech-reception-threshold_(SRT)_estimate_(left)	Speech-reception-threshold (SRT) estimate (L)	45	
 INI	INI20021	129559	Speech-reception-threshold_(SRT)_estimate_(right)	Speech-reception-threshold (SRT) estimate (R)	45	
-INI	INI20022	195406	Birth_weight	Birth weight	12	
+INI	INI20022	195403	Birth_weight	Birth weight	12	
 INI	INI20030640	317403	Apolipoprotein_B	Apolipoprotein B	16	
 INI	INI20030690	318918	Cholesterol	Cholesterol	11	
 INI	INI20030780	318331	LDL_cholesterol	LDL cholesterol	15	
 INI	INI2005254	82251	Intra-ocular_pressure,_corneal-compensated_(median)	Intra-ocular pressure, corneal-compensated (median)	51	
 INI	INI2005255	82251	Intra-ocular_pressure,_Goldmann-correlated_(median)	Intra-ocular pressure, Goldmann-correlated (median)	51	
-INI	INI20121	9824	Cascot_confidence_score	Cascot confidence score	23	
-INI	INI20127	274069	Neuroticism_score	Neuroticism score	17	
+INI	INI20121	9823	Cascot_confidence_score	Cascot confidence score	23	
+INI	INI20127	274066	Neuroticism_score	Neuroticism score	17	
 INI	INI20150	255447	Forced_expiratory_volume_in_1-second_(FEV1),_Best_measure	FEV1, Best measure	18	
 INI	INI20151	255447	Forced_vital_capacity_(FVC),_Best_measure	FVC, Best measure	17	
 INI	INI20153	110404	Forced_expiratory_volume_in_1-second_(FEV1),_predicted	FEV1, pred.	11	
@@ -2805,7 +2805,7 @@ INI	INI20519	110123	Recent_feelings_of_tiredness_or_low_energy	Recent feelings o
 INI	INI20520	109875	Recent_worrying_too_much_about_different_things	Recent worrying too much about different things	47	
 INI	INI21001	336099	Body_mass_index_(BMI)	BMI	3	
 INI	INI21002	336211	Weight	Weight	6	
-INI	INI21021	134045	Pulse_wave_Arterial_Stiffness_index	Pulse wave Arterial Stiffness index	35	
+INI	INI21021	134043	Pulse_wave_Arterial_Stiffness_index	Pulse wave Arterial Stiffness index	35	
 INI	INI21025	122272	Frequency_of_discomfort/pain_in_abdomen_in_last_3_months	Freq. of discomfort/pain in abdomen in last 3 months	52	
 INI	INI21028	65310	Frequency_of_discomfort/pain_getting_better_or_stopping_after_a_bowel_movement	Freq. of discomfort/pain getting better or stopping after a bowel movement	74	
 INI	INI21029	62008	More_frequent_bowel_movements_when_abdominal_discomfort/pain_started	More frequent bowel movements when abdominal discomfort/pain started	68	
@@ -2854,7 +2854,7 @@ INI	INI22158	7	Age_silicosis_diagnosed_by_doctor	Age silicosis diagnosed by doct
 INI	INI22159	61	Age_asbestosis_diagnosed_by_doctor	Age asbestosis diagnosed by doctor	34	
 INI	INI22160	103	Age_lung_cancer_(not_mesothelioma)_diagnosed_by_doctor	Age lung cancer (not mesothelioma) diagnosed by doctor	54	
 INI	INI22161	8	Age_mesothelioma_of_the_lung_diagnosed_by_doctor	Age mesothelioma of the lung diagnosed by doctor	48	
-INI	INI2217	294461	Age_started_wearing_glasses_or_contact_lenses	Age started wearing glasses or contact lenses	45	
+INI	INI2217	294456	Age_started_wearing_glasses_or_contact_lenses	Age started wearing glasses or contact lenses	45	
 INI	INI22330	16695	PQ_interval	PQ interval	11	
 INI	INI22331	17575	QT_interval	QT interval	11	
 INI	INI22332	17575	QTC_interval	QTC interval	12	
@@ -2864,7 +2864,7 @@ INI	INI22335	16700	P_axis	P axis	6
 INI	INI22336	17471	R_axis	R axis	6	
 INI	INI22337	17531	T_axis	T axis	6	
 INI	INI22338	17575	QRS_num	QRS num	7	
-INI	INI2237	336992	Frequency_of_playing_computer_games	Freq. of playing computer games	31	
+INI	INI2237	336987	Frequency_of_playing_computer_games	Freq. of playing computer games	31	
 INI	INI22400	799	Liver_iron_(Fe)	Liver iron (Fe)	15	
 INI	INI22401	792	Liver_inflammation_factor_(LIF)	Liver inflammation factor (LIF)	31	
 INI	INI22402	3289	Liver_fat_percentage	Liver fat %	11	
@@ -2943,38 +2943,38 @@ INI	INI23041	6643	OMP_antigen_for_Helicobacter_pylori	OMP antigen for Helicobact
 INI	INI23042	6643	GroEL_antigen_for_Helicobacter_pylori	GroEL antigen for Helicobacter pylori	37	
 INI	INI23043	6643	Catalase_antigen_for_Helicobacter_pylori	Catalase antigen for Helicobacter pylori	40	
 INI	INI23044	6643	UreA_antigen_for_Helicobacter_pylori	UreA antigen for Helicobacter pylori	36	
-INI	INI23098	331459	Weight	Weight	6	
-INI	INI23099	331264	Body_fat_percentage	Body fat %	10	
-INI	INI23100	330916	Whole_body_fat_mass	Whole body fat mass	19	
-INI	INI23101	331432	Whole_body_fat-free_mass	Whole body fat-free mass	24	
-INI	INI23102	331456	Whole_body_water_mass	Whole body water mass	21	
-INI	INI23104	331454	Body_mass_index_(BMI)	BMI	3	
-INI	INI23105	331456	Basal_metabolic_rate	Basal metabolic rate	20	
-INI	INI23106	331705	Impedance_of_whole_body	Impedance of whole body	23	
-INI	INI23107	331720	Impedance_of_leg_(right)	Impedance of leg (R)	20	
-INI	INI23108	331717	Impedance_of_leg_(left)	Impedance of leg (L)	20	
-INI	INI23109	331702	Impedance_of_arm_(right)	Impedance of arm (R)	20	
-INI	INI23110	331713	Impedance_of_arm_(left)	Impedance of arm (L)	20	
-INI	INI23111	331437	Leg_fat_percentage_(right)	Leg fat % (R)	13	
-INI	INI23112	331434	Leg_fat_mass_(right)	Leg fat mass (R)	16	
-INI	INI23113	331426	Leg_fat-free_mass_(right)	Leg fat-free mass (R)	21	
-INI	INI23114	331426	Leg_predicted_mass_(right)	Leg pred. mass (R)	18	
-INI	INI23115	331419	Leg_fat_percentage_(left)	Leg fat % (L)	13	
-INI	INI23116	331416	Leg_fat_mass_(left)	Leg fat mass (L)	16	
-INI	INI23117	331400	Leg_fat-free_mass_(left)	Leg fat-free mass (L)	21	
-INI	INI23118	331395	Leg_predicted_mass_(left)	Leg pred. mass (L)	18	
-INI	INI23119	331391	Arm_fat_percentage_(right)	Arm fat % (R)	13	
-INI	INI23120	331368	Arm_fat_mass_(right)	Arm fat mass (R)	16	
-INI	INI23121	331364	Arm_fat-free_mass_(right)	Arm fat-free mass (R)	21	
-INI	INI23122	331359	Arm_predicted_mass_(right)	Arm pred. mass (R)	18	
-INI	INI23123	331341	Arm_fat_percentage_(left)	Arm fat % (L)	13	
-INI	INI23124	331308	Arm_fat_mass_(left)	Arm fat mass (L)	16	
-INI	INI23125	331304	Arm_fat-free_mass_(left)	Arm fat-free mass (L)	21	
-INI	INI23126	331291	Arm_predicted_mass_(left)	Arm pred. mass (L)	18	
-INI	INI23127	331260	Trunk_fat_percentage	Trunk fat %	11	
-INI	INI23128	331241	Trunk_fat_mass	Trunk fat mass	14	
-INI	INI23129	331180	Trunk_fat-free_mass	Trunk fat-free mass	19	
-INI	INI23130	331149	Trunk_predicted_mass	Trunk pred. mass	16	
+INI	INI23098	331454	Weight	Weight	6	
+INI	INI23099	331259	Body_fat_percentage	Body fat %	10	
+INI	INI23100	330911	Whole_body_fat_mass	Whole body fat mass	19	
+INI	INI23101	331427	Whole_body_fat-free_mass	Whole body fat-free mass	24	
+INI	INI23102	331451	Whole_body_water_mass	Whole body water mass	21	
+INI	INI23104	331449	Body_mass_index_(BMI)	BMI	3	
+INI	INI23105	331443	Basal_metabolic_rate	Basal metabolic rate	20	
+INI	INI23106	331700	Impedance_of_whole_body	Impedance of whole body	23	
+INI	INI23107	331715	Impedance_of_leg_(right)	Impedance of leg (R)	20	
+INI	INI23108	331712	Impedance_of_leg_(left)	Impedance of leg (L)	20	
+INI	INI23109	331697	Impedance_of_arm_(right)	Impedance of arm (R)	20	
+INI	INI23110	331708	Impedance_of_arm_(left)	Impedance of arm (L)	20	
+INI	INI23111	331432	Leg_fat_percentage_(right)	Leg fat % (R)	13	
+INI	INI23112	331429	Leg_fat_mass_(right)	Leg fat mass (R)	16	
+INI	INI23113	331421	Leg_fat-free_mass_(right)	Leg fat-free mass (R)	21	
+INI	INI23114	331421	Leg_predicted_mass_(right)	Leg pred. mass (R)	18	
+INI	INI23115	331414	Leg_fat_percentage_(left)	Leg fat % (L)	13	
+INI	INI23116	331411	Leg_fat_mass_(left)	Leg fat mass (L)	16	
+INI	INI23117	331395	Leg_fat-free_mass_(left)	Leg fat-free mass (L)	21	
+INI	INI23118	331390	Leg_predicted_mass_(left)	Leg pred. mass (L)	18	
+INI	INI23119	331386	Arm_fat_percentage_(right)	Arm fat % (R)	13	
+INI	INI23120	331363	Arm_fat_mass_(right)	Arm fat mass (R)	16	
+INI	INI23121	331359	Arm_fat-free_mass_(right)	Arm fat-free mass (R)	21	
+INI	INI23122	331354	Arm_predicted_mass_(right)	Arm pred. mass (R)	18	
+INI	INI23123	331336	Arm_fat_percentage_(left)	Arm fat % (L)	13	
+INI	INI23124	331303	Arm_fat_mass_(left)	Arm fat mass (L)	16	
+INI	INI23125	331299	Arm_fat-free_mass_(left)	Arm fat-free mass (L)	21	
+INI	INI23126	331286	Arm_predicted_mass_(left)	Arm pred. mass (L)	18	
+INI	INI23127	331255	Trunk_fat_percentage	Trunk fat %	11	
+INI	INI23128	331236	Trunk_fat_mass	Trunk fat mass	14	
+INI	INI23129	331175	Trunk_fat-free_mass	Trunk fat-free mass	19	
+INI	INI23130	331144	Trunk_predicted_mass	Trunk pred. mass	16	
 INI	INI23200	3678	L1-L4_area	L1-L4 area	10	
 INI	INI23201	3678	L1-L4_average_height	L1-L4 ave. height	17	
 INI	INI23202	3678	L1-L4_average_width	L1-L4 ave. width	16	
@@ -3060,28 +3060,28 @@ INI	INI23315	3100	Leg_bone_area_(left)	Leg bone area (L)	17
 INI	INI23316	3100	Leg_bone_area_(right)	Leg bone area (R)	17	
 INI	INI23317	3694	Arms_combined_bone_area	Arms combined bone area	23	
 INI	INI23318	3694	Legs_combined_bone_area	Legs combined bone area	23	
-INI	INI24003	332592	Nitrogen_dioxide_air_pollution;_2010	NO2 air poll. 2010	18	
-INI	INI24004	332592	Nitrogen_oxides_air_pollution;_2010	Nitrogen oxides air poll. 2010	30	
-INI	INI24005	308939	Particulate_matter_air_pollution_(pm10);_2010	Air poll. (pm10) 2010	21	
-INI	INI24006	308939	Particulate_matter_air_pollution_(pm2.5);_2010	Air poll. (pm2.5) 2010	22	
-INI	INI24007	308939	Particulate_matter_air_pollution_(pm2.5)_absorbance;_2010	Air poll. (pm2.5) absorbance 2010	33	
-INI	INI24008	308939	Particulate_matter_air_pollution_2.5-10um;_2010	Air poll. 2.5-10um 2010	23	
-INI	INI24009	332592	Traffic_intensity_on_the_nearest_road	Traffic intensity on the nearest road	37	
-INI	INI24010	332592	Inverse_distance_to_the_nearest_road	Inverse dist. to the nearest road	33	
-INI	INI24011	332592	Traffic_intensity_on_the_nearest_major_road	Traffic intensity on the nearest major road	43	
-INI	INI24012	332592	Inverse_distance_to_the_nearest_major_road	Inverse dist. to the nearest major road	39	
-INI	INI24013	332592	Total_traffic_load_on_major_roads	Total traffic load on major roads	33	
-INI	INI24015	332592	Sum_of_road_length_of_major_roads_within_100m	Sum of road length of major roads within 100m	45	
-INI	INI24016	332592	Nitrogen_dioxide_air_pollution;_2005	NO2 air poll. 2005	18	
-INI	INI24017	332592	Nitrogen_dioxide_air_pollution;_2006	NO2 air poll. 2006	18	
-INI	INI24018	332592	Nitrogen_dioxide_air_pollution;_2007	NO2 air poll. 2007	18	
-INI	INI24019	331800	Particulate_matter_air_pollution_(pm10);_2007	Air poll. (pm10) 2007	21	
-INI	INI24020	332592	Average_daytime_sound_level_of_noise_pollution	Ave. daytime noise lvl.	23	
-INI	INI24021	332592	Average_evening_sound_level_of_noise_pollution	Ave. evening noise lvl.	23	
-INI	INI24022	332592	Average_night-time_sound_level_of_noise_pollution	Ave. nighttime noise lvl.	25	
-INI	INI24023	332592	Average_16-hour_sound_level_of_noise_pollution	Ave. 16-hour noise lvl.	23	
-INI	INI24024	332592	Average_24-hour_sound_level_of_noise_pollution	Ave. 24-hour noise lvl.	23	
-INI	INI2405	155077	Number_of_children_fathered	# of children fathered	22	
+INI	INI24003	332579	Nitrogen_dioxide_air_pollution;_2010	NO2 air poll. 2010	18	
+INI	INI24004	332579	Nitrogen_oxides_air_pollution;_2010	Nitrogen oxides air poll. 2010	30	
+INI	INI24005	308927	Particulate_matter_air_pollution_(pm10);_2010	Air poll. (pm10) 2010	21	
+INI	INI24006	308927	Particulate_matter_air_pollution_(pm2.5);_2010	Air poll. (pm2.5) 2010	22	
+INI	INI24007	308927	Particulate_matter_air_pollution_(pm2.5)_absorbance;_2010	Air poll. (pm2.5) absorbance 2010	33	
+INI	INI24008	308927	Particulate_matter_air_pollution_2.5-10um;_2010	Air poll. 2.5-10um 2010	23	
+INI	INI24009	332579	Traffic_intensity_on_the_nearest_road	Traffic intensity on the nearest road	37	
+INI	INI24010	332579	Inverse_distance_to_the_nearest_road	Inverse dist. to the nearest road	33	
+INI	INI24011	332579	Traffic_intensity_on_the_nearest_major_road	Traffic intensity on the nearest major road	43	
+INI	INI24012	332579	Inverse_distance_to_the_nearest_major_road	Inverse dist. to the nearest major road	39	
+INI	INI24013	332579	Total_traffic_load_on_major_roads	Total traffic load on major roads	33	
+INI	INI24015	332579	Sum_of_road_length_of_major_roads_within_100m	Sum of road length of major roads within 100m	45	
+INI	INI24016	332579	Nitrogen_dioxide_air_pollution;_2005	NO2 air poll. 2005	18	
+INI	INI24017	332579	Nitrogen_dioxide_air_pollution;_2006	NO2 air poll. 2006	18	
+INI	INI24018	332579	Nitrogen_dioxide_air_pollution;_2007	NO2 air poll. 2007	18	
+INI	INI24019	331787	Particulate_matter_air_pollution_(pm10);_2007	Air poll. (pm10) 2007	21	
+INI	INI24020	332579	Average_daytime_sound_level_of_noise_pollution	Ave. daytime noise lvl.	23	
+INI	INI24021	332579	Average_evening_sound_level_of_noise_pollution	Ave. evening noise lvl.	23	
+INI	INI24022	332579	Average_night-time_sound_level_of_noise_pollution	Ave. nighttime noise lvl.	25	
+INI	INI24023	332579	Average_16-hour_sound_level_of_noise_pollution	Ave. 16-hour noise lvl.	23	
+INI	INI24024	332579	Average_24-hour_sound_level_of_noise_pollution	Ave. 24-hour noise lvl.	23	
+INI	INI2405	155074	Number_of_children_fathered	# of children fathered	22	
 INI	INI25000	27769	Volumetric_scaling_from_T1_head_image_to_standard_space	Volumetric scaling from T1 head image to standard space	55	
 INI	INI25001	27769	Volume_of_peripheral_cortical_grey_matter_(normalised_for_head_size)	Vol. of peripheral cortical grey matter (normalised for head size)	66	
 INI	INI25002	27769	Volume_of_peripheral_cortical_grey_matter	Vol. of peripheral cortical grey matter	39	
@@ -3665,16 +3665,16 @@ INI	INI25917	27764	Volume_of_grey_matter_in_IX_Cerebellum_(right)	Vol. of grey m
 INI	INI25918	27764	Volume_of_grey_matter_in_X_Cerebellum_(left)	Vol. of grey matter in X Cerebellum (L)	39	
 INI	INI25919	27764	Volume_of_grey_matter_in_Vermis_X_Cerebellum	Vol. of grey matter in Vermis X Cerebellum	42	
 INI	INI25920	27764	Volume_of_grey_matter_in_X_Cerebellum_(right)	Vol. of grey matter in X Cerebellum (R)	39	
-INI	INI2624	143717	Frequency_of_heavy_DIY_in_last_4_weeks	Freq. of heavy DIY in last 4 weeks	34	
-INI	INI2634	143905	Duration_of_heavy_DIY	Duration of heavy DIY	21	
-INI	INI26410	288873	Index_of_Multiple_Deprivation_(England)	Index of Multiple Deprivation (England)	39	
-INI	INI26411	288873	Income_score_(England)	Income score (England)	22	
-INI	INI26412	288873	Employment_score_(England)	Employment score (England)	26	
-INI	INI26413	288873	Health_score_(England)	Health score (England)	22	
-INI	INI26414	288873	Education_score_(England)	Education score (England)	25	
-INI	INI26415	288873	Housing_score_(England)	Housing score (England)	23	
-INI	INI26416	288873	Crime_score_(England)	Crime score (England)	21	
-INI	INI26417	288873	Living_environment_score_(England)	Living environment score (England)	34	
+INI	INI2624	143716	Frequency_of_heavy_DIY_in_last_4_weeks	Freq. of heavy DIY in last 4 weeks	34	
+INI	INI2634	143904	Duration_of_heavy_DIY	Duration of heavy DIY	21	
+INI	INI26410	288861	Index_of_Multiple_Deprivation_(England)	Index of Multiple Deprivation (England)	39	
+INI	INI26411	288861	Income_score_(England)	Income score (England)	22	
+INI	INI26412	288861	Employment_score_(England)	Employment score (England)	26	
+INI	INI26413	288861	Health_score_(England)	Health score (England)	22	
+INI	INI26414	288861	Education_score_(England)	Education score (England)	25	
+INI	INI26415	288861	Housing_score_(England)	Housing score (England)	23	
+INI	INI26416	288861	Crime_score_(England)	Crime score (England)	21	
+INI	INI26417	288861	Living_environment_score_(England)	Living environment score (England)	34	
 INI	INI26418	15103	Income_score_(Wales)	Income score (Wales)	20	
 INI	INI26419	15103	Employment_score_(Wales)	Employment score (Wales)	24	
 INI	INI26420	15103	Health_score_(Wales)	Health score (Wales)	20	
@@ -3684,14 +3684,14 @@ INI	INI26423	15103	Housing_score_(Wales)	Housing score (Wales)	21
 INI	INI26424	15103	Physical_environment_score_(Wales)	Physical environment score (Wales)	34	
 INI	INI26425	15103	Community_safety_score_(Wales)	Community safety score (Wales)	30	
 INI	INI26426	15103	Index_of_Multiple_Deprivation_(Wales)	Index of Multiple Deprivation (Wales)	37	
-INI	INI26427	24989	Index_of_Multiple_Deprivation_(Scotland)	Index of Multiple Deprivation (Scotland)	40	
-INI	INI26428	24989	Income_score_(Scotland)	Income score (Scotland)	23	
-INI	INI26429	24989	Employment_score_(Scotland)	Employment score (Scotland)	27	
-INI	INI26430	24989	Health_score_(Scotland)	Health score (Scotland)	23	
-INI	INI26431	24989	Education_score_(Scotland)	Education score (Scotland)	26	
-INI	INI26432	24989	Housing_score_(Scotland)	Housing score (Scotland)	24	
-INI	INI26433	24989	Access_to_services_score_(Scotland)	Access to services score (Scotland)	35	
-INI	INI26434	23272	Crime_score_(Scotland)	Crime score (Scotland)	22	
+INI	INI26427	24988	Index_of_Multiple_Deprivation_(Scotland)	Index of Multiple Deprivation (Scotland)	40	
+INI	INI26428	24988	Income_score_(Scotland)	Income score (Scotland)	23	
+INI	INI26429	24988	Employment_score_(Scotland)	Employment score (Scotland)	27	
+INI	INI26430	24988	Health_score_(Scotland)	Health score (Scotland)	23	
+INI	INI26431	24988	Education_score_(Scotland)	Education score (Scotland)	26	
+INI	INI26432	24988	Housing_score_(Scotland)	Housing score (Scotland)	24	
+INI	INI26433	24988	Access_to_services_score_(Scotland)	Access to services score (Scotland)	35	
+INI	INI26434	23271	Crime_score_(Scotland)	Crime score (Scotland)	22	
 INI	INI2714	176224	Age_when_periods_started_(menarche)	Age when periods started (menarche)	35	
 INI	INI2734	180927	Number_of_live_births	# of live births	16	
 INI	INI2744	145650	Birth_weight_of_first_child	Birth weight of first child	27	
@@ -3742,50 +3742,50 @@ INI	INI30500	104097	Microalbumin_in_urine	Microalbumin in urine	21
 INI	INI30510	327919	Creatinine_(enzymatic)_in_urine	Creatinine (enzymatic) in urine	31	
 INI	INI30520	327238	Potassium_in_urine	Potassium in urine	18	
 INI	INI30530	327240	Sodium_in_urine	Sodium in urine	15	
-INI	INI30600	296010	Albumin	Albumin	7	
-INI	INI30610	322349	Alkaline_phosphatase	Alkaline phosphatase	20	
+INI	INI30600	296005	Albumin	Albumin	7	
+INI	INI30610	322344	Alkaline_phosphatase	Alkaline phosphatase	20	
 INI	INI3062	309931	Forced_vital_capacity_(FVC)	FVC	3	
-INI	INI30620	322210	Alanine_aminotransferase	Alanine aminotransferase	24	
+INI	INI30620	322205	Alanine_aminotransferase	Alanine aminotransferase	24	
 INI	INI3063	309931	Forced_expiratory_volume_in_1-second_(FEV1)	FEV1	4	
-INI	INI30630	294280	Apolipoprotein_A	Apolipoprotein A	16	
+INI	INI30630	294275	Apolipoprotein_A	Apolipoprotein A	16	
 INI	INI3064	309931	Peak_expiratory_flow_(PEF)	PEF	3	
-INI	INI30640	320803	Apolipoprotein_B	Apolipoprotein B	16	
-INI	INI30650	321185	Aspartate_aminotransferase	Aspartate aminotransferase	26	
-INI	INI30660	275218	Direct_bilirubin	Direct bilirubin	16	
-INI	INI30670	322130	Urea	Urea	4	
-INI	INI30680	295899	Calcium	Calcium	7	
-INI	INI30690	322337	Cholesterol	Cholesterol	11	
-INI	INI30700	322177	Creatinine	Creatinine	10	
-INI	INI30710	321660	C-reactive_protein	C-reactive protein	18	
-INI	INI30720	322315	Cystatin_C	Cystatin C	10	
-INI	INI30730	322179	Gamma_glutamyltransferase	Gamma glutamyltransferase	25	
-INI	INI30740	295711	Glucose	Glucose	7	
-INI	INI30750	322327	Glycated_haemoglobin_(HbA1c)	Glycated haemoglobin (HbA1c)	28	
-INI	INI30760	295888	HDL_cholesterol	HDL cholesterol	15	
-INI	INI3077	336458	Seating_box_height_used_for_the_sitting_height_measurement_(UKB_ID:_51,_GBE_ID:_INI51)	Seating box height used for the sitting height measurement (UKB ID: 51, GBE ID: INI51)	86	
-INI	INI30770	320673	IGF-1	IGF-1	5	
-INI	INI30780	321762	LDL_direct	LDL direct	10	
-INI	INI30790	257051	Lipoprotein_A	Lipoprotein A	13	
+INI	INI30640	320798	Apolipoprotein_B	Apolipoprotein B	16	
+INI	INI30650	321180	Aspartate_aminotransferase	Aspartate aminotransferase	26	
+INI	INI30660	275214	Direct_bilirubin	Direct bilirubin	16	
+INI	INI30670	322125	Urea	Urea	4	
+INI	INI30680	295894	Calcium	Calcium	7	
+INI	INI30690	322332	Cholesterol	Cholesterol	11	
+INI	INI30700	322172	Creatinine	Creatinine	10	
+INI	INI30710	321655	C-reactive_protein	C-reactive protein	18	
+INI	INI30720	322310	Cystatin_C	Cystatin C	10	
+INI	INI30730	322174	Gamma_glutamyltransferase	Gamma glutamyltransferase	25	
+INI	INI30740	295706	Glucose	Glucose	7	
+INI	INI30750	322322	Glycated_haemoglobin_(HbA1c)	Glycated haemoglobin (HbA1c)	28	
+INI	INI30760	295883	HDL_cholesterol	HDL cholesterol	15	
+INI	INI3077	336453	Seating_box_height_used_for_the_sitting_height_measurement_(UKB_ID:_51,_GBE_ID:_INI51)	Seating box height used for the sitting height measurement (UKB ID: 51, GBE ID: INI51)	86	
+INI	INI30770	320668	IGF-1	IGF-1	5	
+INI	INI30780	321757	LDL_direct	LDL direct	10	
+INI	INI30790	257047	Lipoprotein_A	Lipoprotein A	13	
 INI	INI30800	51174	Oestradiol	Oestradiol	10	
-INI	INI30810	295456	Phosphate	Phosphate	9	
+INI	INI30810	295451	Phosphate	Phosphate	9	
 INI	INI30820	29161	Rheumatoid_factor	Rheumatoid factor	17	
-INI	INI3083	29049	Heel_quantitative_ultrasound_index_(QUI),_manual_entry	Heel quantitative ultrasound index (QUI), manual entry	54	
-INI	INI30830	293223	SHBG	SHBG	4	
-INI	INI3084	29049	Heel_bone_mineral_density_(BMD),_manual_entry	Heel bone mineral density (BMD), manual entry	45	
-INI	INI30840	321038	Total_bilirubin	Total bilirubin	15	
-INI	INI3085	29049	Heel_Broadband_ultrasound_attenuation_(BUA),_manual_entry	Heel Broadband ultrasound attenuation (BUA), manual entry	57	
-INI	INI30850	292776	Testosterone	Testosterone	12	
-INI	INI3086	29049	Speed_of_sound_through_heel,_manual_entry	Speed of sound through heel, manual entry	41	
-INI	INI30860	295689	Total_protein	Total protein	13	
-INI	INI30870	322075	Triglycerides	Triglycerides	13	
-INI	INI30880	321928	Urate	Urate	5	
-INI	INI30890	308441	Vitamin_D	Vitamin D	9	
-INI	INI30897	320669	Estimated_sample_dilution_factor	Estimated sample dilution factor	32	
-INI	INI3143	194363	Ankle_spacing_width	Ankle spacing width	19	
-INI	INI3144	194350	Heel_Broadband_ultrasound_attenuation,_direct_entry	Heel Broadband ultrasound attenuation, direct entry	51	
-INI	INI3146	194363	Speed_of_sound_through_heel	Speed of sound through heel	27	
-INI	INI3147	194363	Heel_quantitative_ultrasound_index_(QUI),_direct_entry	Heel quantitative ultrasound index (QUI), direct entry	54	
-INI	INI3148	194273	Heel_bone_mineral_density_(BMD)	Heel bone mineral density (BMD)	31	
+INI	INI3083	29048	Heel_quantitative_ultrasound_index_(QUI),_manual_entry	Heel quantitative ultrasound index (QUI), manual entry	54	
+INI	INI30830	293218	SHBG	SHBG	4	
+INI	INI3084	29048	Heel_bone_mineral_density_(BMD),_manual_entry	Heel bone mineral density (BMD), manual entry	45	
+INI	INI30840	321033	Total_bilirubin	Total bilirubin	15	
+INI	INI3085	29048	Heel_Broadband_ultrasound_attenuation_(BUA),_manual_entry	Heel Broadband ultrasound attenuation (BUA), manual entry	57	
+INI	INI30850	292771	Testosterone	Testosterone	12	
+INI	INI3086	29048	Speed_of_sound_through_heel,_manual_entry	Speed of sound through heel, manual entry	41	
+INI	INI30860	295684	Total_protein	Total protein	13	
+INI	INI30870	322070	Triglycerides	Triglycerides	13	
+INI	INI30880	321923	Urate	Urate	5	
+INI	INI30890	308436	Vitamin_D	Vitamin D	9	
+INI	INI30897	320664	Estimated_sample_dilution_factor	Estimated sample dilution factor	32	
+INI	INI3143	194361	Ankle_spacing_width	Ankle spacing width	19	
+INI	INI3144	194348	Heel_Broadband_ultrasound_attenuation,_direct_entry	Heel Broadband ultrasound attenuation, direct entry	51	
+INI	INI3146	194361	Speed_of_sound_through_heel	Speed of sound through heel	27	
+INI	INI3147	194361	Heel_quantitative_ultrasound_index_(QUI),_direct_entry	Heel quantitative ultrasound index (QUI), direct entry	54	
+INI	INI3148	194271	Heel_bone_mineral_density_(BMD)	Heel bone mineral density (BMD)	31	
 INI	INI3160	5774	Weight,_manual_entry	Weight, manual entry	20	
 INI	INI3436	25194	Age_started_smoking_in_current_smokers	Age started smoking in current smokers	38	
 INI	INI3456	23356	Number_of_cigarettes_currently_smoked_daily_(current_cigarette_smokers)	# of cigarettes currently smoked daily (current cigarette smokers)	66	
@@ -3794,8 +3794,8 @@ INI	INI3536	65358	Age_started_hormone-replacement_therapy_(HRT)	Age started horm
 INI	INI3546	55061	Age_last_used_hormone-replacement_therapy_(HRT)	Age last used hormone-replacement therapy (HRT)	47	
 INI	INI3581	109678	Age_at_menopause_(last_menstrual_period)	Age at menopause	16	
 INI	INI3627	10515	Age_angina_diagnosed	Age angina diagnosed	20	
-INI	INI3637	167142	Frequency_of_other_exercises_in_last_4_weeks	Freq. of other exercises in last 4 weeks	40	
-INI	INI3647	167278	Duration_of_other_exercises	Duration of other exercises	27	
+INI	INI3637	167137	Frequency_of_other_exercises_in_last_4_weeks	Freq. of other exercises in last 4 weeks	40	
+INI	INI3647	167273	Duration_of_other_exercises	Duration of other exercises	27	
 INI	INI3659	5580	Year_immigrated_to_UK_(United_Kingdom)	Year immigrated to UK (United Kingdom)	38	
 INI	INI3669	8749	Lifetime_number_of_same-sex_sexual_partners	Lifetime # of same-sex sexual partners	38	
 INI	INI3680	12645	Age_when_last_ate_meat	Age when last ate meat	22	
@@ -3819,18 +3819,18 @@ INI	INI4022	2860	Age_pulmonary_embolism_(blood_clot_in_lung)_diagnosed	Age PE (b
 INI	INI4056	5391	Age_stroke_diagnosed	Age stroke diagnosed	20	
 INI	INI4079	319526	Diastolic_blood_pressure,_automated_reading	Diastolic BP (AR)	17	
 INI	INI4080	319524	Systolic_blood_pressure,_automated_reading	Systolic BP (AR)	16	
-INI	INI4100	129197	Ankle_spacing_width_(left)	Ankle spacing width (L)	23	
-INI	INI4101	129192	Heel_broadband_ultrasound_attenuation_(left)	Heel broadband ultrasound attenuation (L)	41	
-INI	INI4103	129197	Speed_of_sound_through_heel_(left)	Speed of sound through heel (L)	31	
-INI	INI4104	129197	Heel_quantitative_ultrasound_index_(QUI),_direct_entry_(left)	Heel quantitative ultrasound index (QUI), direct entry (L)	58	
-INI	INI4105	129119	Heel_bone_mineral_density_(BMD)_(left)	Heel bone mineral density (BMD) (L)	35	
-INI	INI4106	129197	Heel_bone_mineral_density_(BMD)_T-score,_automated_(left)	Heel bone mineral density (BMD) T-score, automated (L)	54	
-INI	INI4119	129296	Ankle_spacing_width_(right)	Ankle spacing width (R)	23	
-INI	INI4120	129290	Heel_broadband_ultrasound_attenuation_(right)	Heel broadband ultrasound attenuation (R)	41	
-INI	INI4122	129296	Speed_of_sound_through_heel_(right)	Speed of sound through heel (R)	31	
-INI	INI4123	129296	Heel_quantitative_ultrasound_index_(QUI),_direct_entry_(right)	Heel quantitative ultrasound index (QUI), direct entry (R)	58	
-INI	INI4124	129226	Heel_bone_mineral_density_(BMD)_(right)	Heel bone mineral density (BMD) (R)	35	
-INI	INI4125	129296	Heel_bone_mineral_density_(BMD)_T-score,_automated_(right)	Heel bone mineral density (BMD) T-score, automated (R)	54	
+INI	INI4100	129195	Ankle_spacing_width_(left)	Ankle spacing width (L)	23	
+INI	INI4101	129190	Heel_broadband_ultrasound_attenuation_(left)	Heel broadband ultrasound attenuation (L)	41	
+INI	INI4103	129195	Speed_of_sound_through_heel_(left)	Speed of sound through heel (L)	31	
+INI	INI4104	129195	Heel_quantitative_ultrasound_index_(QUI),_direct_entry_(left)	Heel quantitative ultrasound index (QUI), direct entry (L)	58	
+INI	INI4105	129117	Heel_bone_mineral_density_(BMD)_(left)	Heel bone mineral density (BMD) (L)	35	
+INI	INI4106	129195	Heel_bone_mineral_density_(BMD)_T-score,_automated_(left)	Heel bone mineral density (BMD) T-score, automated (L)	54	
+INI	INI4119	129294	Ankle_spacing_width_(right)	Ankle spacing width (R)	23	
+INI	INI4120	129288	Heel_broadband_ultrasound_attenuation_(right)	Heel broadband ultrasound attenuation (R)	41	
+INI	INI4122	129294	Speed_of_sound_through_heel_(right)	Speed of sound through heel (R)	31	
+INI	INI4123	129294	Heel_quantitative_ultrasound_index_(QUI),_direct_entry_(right)	Heel quantitative ultrasound index (QUI), direct entry (R)	58	
+INI	INI4124	129224	Heel_bone_mineral_density_(BMD)_(right)	Heel bone mineral density (BMD) (R)	35	
+INI	INI4125	129294	Heel_bone_mineral_density_(BMD)_T-score,_automated_(right)	Heel bone mineral density (BMD) T-score, automated (R)	54	
 INI	INI4138	4222	Heel_bone_mineral_density_(BMD)_T-score,_manual_entry_(left)	Heel bone mineral density (BMD) T-score, manual entry (L)	57	
 INI	INI4139	4222	Heel_quantitative_ultrasound_index_(QUI),_manual_entry_(left)	Heel quantitative ultrasound index (QUI), manual entry (L)	58	
 INI	INI4140	4222	Heel_bone_mineral_density_(BMD),_manual_entry_(left)	Heel bone mineral density (BMD), manual entry (L)	49	
@@ -3841,11 +3841,11 @@ INI	INI4144	4290	Heel_quantitative_ultrasound_index_(QUI),_manual_entry_(right)	
 INI	INI4145	4290	Heel_bone_mineral_density_(BMD),_manual_entry_(right)	Heel bone mineral density (BMD), manual entry (R)	49	
 INI	INI4146	4290	Heel_broadband_ultrasound_attenuation_(BUA),_manual_entry_(right)	Heel broadband ultrasound attenuation (BUA), manual entry (R)	61	
 INI	INI4147	4290	Speed_of_sound_through_heel,_manual_entry_(right)	Speed of sound through heel, manual entry (R)	45	
-INI	INI4194	134555	Pulse_rate	Pulse rate	10	
-INI	INI4195	134555	Pulse_wave_reflection_index	Pulse wave reflection index	27	
-INI	INI4196	134490	Pulse_wave_peak_to_peak_time	Pulse wave peak to peak time	28	
-INI	INI4198	134555	Position_of_the_pulse_wave_peak	Position of the pulse wave peak	31	
-INI	INI4199	134555	Position_of_pulse_wave_notch	Position of pulse wave notch	28	
+INI	INI4194	134553	Pulse_rate	Pulse rate	10	
+INI	INI4195	134553	Pulse_wave_reflection_index	Pulse wave reflection index	27	
+INI	INI4196	134488	Pulse_wave_peak_to_peak_time	Pulse wave peak to peak time	28	
+INI	INI4198	134553	Position_of_the_pulse_wave_peak	Position of the pulse wave peak	31	
+INI	INI4199	134553	Position_of_pulse_wave_notch	Position of pulse wave notch	28	
 INI	INI4230	136907	Signal-to-noise-ratio_(SNR)_of_triplet_(left)	Signal-to-noise-ratio (SNR) of triplet (L)	42	
 INI	INI4233	127557	Mean_signal-to-noise_ratio_(SNR),_(left)	Mean signal-to-noise ratio (SNR), (L)	37	
 INI	INI4241	136880	Signal-to-noise-ratio_(SNR)_of_triplet_(right)	Signal-to-noise-ratio (SNR) of triplet (R)	42	
@@ -3859,80 +3859,80 @@ INI	INI4429	31955	Average_monthly_beer_plus_cider_intake	Ave. monthly beer plus 
 INI	INI4440	31848	Average_monthly_spirits_intake	Ave. monthly spirits intake	27	
 INI	INI4451	31987	Average_monthly_fortified_wine_intake	Ave. monthly fortified wine intake	34	
 INI	INI4462	32022	Average_monthly_intake_of_other_alcoholic_drinks	Ave. monthly intake of other alcoholic drinks	45	
-INI	INI46	335859	Hand_grip_strength_(left)	Hand grip strength (L)	22	
-INI	INI4609	59692	Longest_period_of_depression	Longest period of depression	28	
+INI	INI46	335854	Hand_grip_strength_(left)	Hand grip strength (L)	22	
+INI	INI4609	59691	Longest_period_of_depression	Longest period of depression	28	
 INI	INI4620	54530	Number_of_depression_episodes	# of depression episodes	24	
 INI	INI4689	2559	Age_glaucoma_diagnosed	Age glaucoma diagnosed	22	
-INI	INI47	335888	Hand_grip_strength_(right)	Hand grip strength (R)	22	
+INI	INI47	335883	Hand_grip_strength_(right)	Hand grip strength (R)	22	
 INI	INI4700	8963	Age_cataract_diagnosed	Age cataract diagnosed	22	
 INI	INI48	336599	Waist_circumference	Waist circumference	19	
 INI	INI4814	42961	Tinnitus_severity/nuisance	Tinnitus severity/nuisance	26	
 INI	INI49	336560	Hip_circumference	Hip circumference	17	
 INI	INI50	336442	Standing_height	Standing height	15	
 INI	INI5057	120500	Number_of_older_siblings	# of older siblings	19	
-INI	INI5078	84818	logMAR_in_round_(left)	LogMAR in round (L)	19	
-INI	INI5079	84848	logMAR_in_round_(right)	LogMAR in round (R)	19	
-INI	INI5084	82741	Spherical_power_(right)	Spherical power (R)	19	
-INI	INI5085	82473	Spherical_power_(left)	Spherical power (L)	19	
-INI	INI5086	82480	Cylindrical_power_(left)	Cylindrical power (L)	21	
-INI	INI5087	82748	Cylindrical_power_(right)	Cylindrical power (R)	21	
-INI	INI5088	82748	Astigmatism_angle_(right)	Astigmatism angle (R)	21	
-INI	INI5089	82480	Astigmatism_angle_(left)	Astigmatism angle (L)	21	
-INI	INI5096	79805	3mm_weak_meridian_(left)	3mm weak meridian (L)	21	
-INI	INI5097	69114	6mm_weak_meridian_(left)	6mm weak meridian (L)	21	
-INI	INI5098	70052	6mm_weak_meridian_(right)	6mm weak meridian (R)	21	
-INI	INI5099	79825	3mm_weak_meridian_(right)	3mm weak meridian (R)	21	
-INI	INI5100	79825	3mm_weak_meridian_angle_(right)	3mm weak meridian angle (R)	27	
-INI	INI5101	70052	6mm_weak_meridian_angle_(right)	6mm weak meridian angle (R)	27	
-INI	INI5102	69114	6mm_weak_meridian_angle_(left)	6mm weak meridian angle (L)	27	
-INI	INI5103	79805	3mm_weak_meridian_angle_(left)	3mm weak meridian angle (L)	27	
-INI	INI5104	79805	3mm_strong_meridian_angle_(left)	3mm strong meridian angle (L)	29	
-INI	INI5105	69118	6mm_strong_meridian_angle_(left)	6mm strong meridian angle (L)	29	
-INI	INI5106	70052	6mm_strong_meridian_angle_(right)	6mm strong meridian angle (R)	29	
-INI	INI5107	79825	3mm_strong_meridian_angle_(right)	3mm strong meridian angle (R)	29	
-INI	INI5108	78311	3mm_asymmetry_angle_(right)	3mm asymmetry angle (R)	23	
-INI	INI5109	43600	6mm_asymmetry_angle_(right)	6mm asymmetry angle (R)	23	
-INI	INI5110	42738	6mm_asymmetry_angle_(left)	6mm asymmetry angle (L)	23	
-INI	INI5111	78047	3mm_asymmetry_angle_(left)	3mm asymmetry angle (L)	23	
-INI	INI5112	79792	3mm_cylindrical_power_angle_(left)	3mm cylindrical power angle (L)	31	
-INI	INI5113	69088	6mm_cylindrical_power_angle_(left)	6mm cylindrical power angle (L)	31	
-INI	INI5114	70035	6mm_cylindrical_power_angle_(right)	6mm cylindrical power angle (R)	31	
-INI	INI5115	79817	3mm_cylindrical_power_angle_(right)	3mm cylindrical power angle (R)	31	
-INI	INI5116	79825	3mm_cylindrical_power_(right)	3mm cylindrical power (R)	25	
-INI	INI5117	70052	6mm_cylindrical_power_(right)	6mm cylindrical power (R)	25	
-INI	INI5118	69114	6mm_cylindrical_power_(left)	6mm cylindrical power (L)	25	
-INI	INI5119	79805	3mm_cylindrical_power_(left)	3mm cylindrical power (L)	25	
-INI	INI5132	79825	3mm_strong_meridian_(right)	3mm strong meridian (R)	23	
-INI	INI5133	70052	6mm_strong_meridian_(right)	6mm strong meridian (R)	23	
-INI	INI5134	69114	6mm_strong_meridian_(left)	6mm strong meridian (L)	23	
-INI	INI5135	79805	3mm_strong_meridian_(left)	3mm strong meridian (L)	23	
-INI	INI5156	78047	3mm_asymmetry_index_(left)	3mm asymmetry index (L)	23	
-INI	INI5157	42738	6mm_asymmetry_index_(left)	6mm asymmetry index (L)	23	
-INI	INI5158	43600	6mm_asymmetry_index_(right)	6mm asymmetry index (R)	23	
-INI	INI5159	78311	3mm_asymmetry_index_(right)	3mm asymmetry index (R)	23	
-INI	INI5160	78334	3mm_regularity_index_(right)	3mm regularity index (R)	24	
-INI	INI5161	43662	6mm_regularity_index_(right)	6mm regularity index (R)	24	
-INI	INI5162	42752	6mm_regularity_index_(left)	6mm regularity index (L)	24	
-INI	INI5163	78059	3mm_regularity_index_(left)	3mm regularity index (L)	24	
-INI	INI5199	84852	logMAR,_initial_(right)	LogMAR, initial (R)	19	
+INI	INI5078	84816	logMAR_in_round_(left)	LogMAR in round (L)	19	
+INI	INI5079	84846	logMAR_in_round_(right)	LogMAR in round (R)	19	
+INI	INI5084	82739	Spherical_power_(right)	Spherical power (R)	19	
+INI	INI5085	82471	Spherical_power_(left)	Spherical power (L)	19	
+INI	INI5086	82478	Cylindrical_power_(left)	Cylindrical power (L)	21	
+INI	INI5087	82746	Cylindrical_power_(right)	Cylindrical power (R)	21	
+INI	INI5088	82746	Astigmatism_angle_(right)	Astigmatism angle (R)	21	
+INI	INI5089	82478	Astigmatism_angle_(left)	Astigmatism angle (L)	21	
+INI	INI5096	79803	3mm_weak_meridian_(left)	3mm weak meridian (L)	21	
+INI	INI5097	69112	6mm_weak_meridian_(left)	6mm weak meridian (L)	21	
+INI	INI5098	70050	6mm_weak_meridian_(right)	6mm weak meridian (R)	21	
+INI	INI5099	79823	3mm_weak_meridian_(right)	3mm weak meridian (R)	21	
+INI	INI5100	79823	3mm_weak_meridian_angle_(right)	3mm weak meridian angle (R)	27	
+INI	INI5101	70050	6mm_weak_meridian_angle_(right)	6mm weak meridian angle (R)	27	
+INI	INI5102	69112	6mm_weak_meridian_angle_(left)	6mm weak meridian angle (L)	27	
+INI	INI5103	79803	3mm_weak_meridian_angle_(left)	3mm weak meridian angle (L)	27	
+INI	INI5104	79803	3mm_strong_meridian_angle_(left)	3mm strong meridian angle (L)	29	
+INI	INI5105	69112	6mm_strong_meridian_angle_(left)	6mm strong meridian angle (L)	29	
+INI	INI5106	70050	6mm_strong_meridian_angle_(right)	6mm strong meridian angle (R)	29	
+INI	INI5107	79823	3mm_strong_meridian_angle_(right)	3mm strong meridian angle (R)	29	
+INI	INI5108	78309	3mm_asymmetry_angle_(right)	3mm asymmetry angle (R)	23	
+INI	INI5109	43599	6mm_asymmetry_angle_(right)	6mm asymmetry angle (R)	23	
+INI	INI5110	42737	6mm_asymmetry_angle_(left)	6mm asymmetry angle (L)	23	
+INI	INI5111	78045	3mm_asymmetry_angle_(left)	3mm asymmetry angle (L)	23	
+INI	INI5112	79790	3mm_cylindrical_power_angle_(left)	3mm cylindrical power angle (L)	31	
+INI	INI5113	69086	6mm_cylindrical_power_angle_(left)	6mm cylindrical power angle (L)	31	
+INI	INI5114	70033	6mm_cylindrical_power_angle_(right)	6mm cylindrical power angle (R)	31	
+INI	INI5115	79815	3mm_cylindrical_power_angle_(right)	3mm cylindrical power angle (R)	31	
+INI	INI5116	79823	3mm_cylindrical_power_(right)	3mm cylindrical power (R)	25	
+INI	INI5117	70050	6mm_cylindrical_power_(right)	6mm cylindrical power (R)	25	
+INI	INI5118	69112	6mm_cylindrical_power_(left)	6mm cylindrical power (L)	25	
+INI	INI5119	79803	3mm_cylindrical_power_(left)	3mm cylindrical power (L)	25	
+INI	INI5132	79823	3mm_strong_meridian_(right)	3mm strong meridian (R)	23	
+INI	INI5133	70050	6mm_strong_meridian_(right)	6mm strong meridian (R)	23	
+INI	INI5134	69112	6mm_strong_meridian_(left)	6mm strong meridian (L)	23	
+INI	INI5135	79803	3mm_strong_meridian_(left)	3mm strong meridian (L)	23	
+INI	INI5156	78045	3mm_asymmetry_index_(left)	3mm asymmetry index (L)	23	
+INI	INI5157	42737	6mm_asymmetry_index_(left)	6mm asymmetry index (L)	23	
+INI	INI5158	43599	6mm_asymmetry_index_(right)	6mm asymmetry index (R)	23	
+INI	INI5159	78309	3mm_asymmetry_index_(right)	3mm asymmetry index (R)	23	
+INI	INI5160	78332	3mm_regularity_index_(right)	3mm regularity index (R)	24	
+INI	INI5161	43661	6mm_regularity_index_(right)	6mm regularity index (R)	24	
+INI	INI5162	42751	6mm_regularity_index_(left)	6mm regularity index (L)	24	
+INI	INI5163	78057	3mm_regularity_index_(left)	3mm regularity index (L)	24	
+INI	INI5199	84850	logMAR,_initial_(right)	LogMAR, initial (R)	19	
 INI	INI5201	84260	logMAR,_final_(right)	LogMAR, final (R)	17	
-INI	INI5206	84819	logMAR,_initial_(left)	LogMAR, initial (L)	19	
+INI	INI5206	84817	logMAR,_initial_(left)	LogMAR, initial (L)	19	
 INI	INI5208	84236	logMAR,_final_(left)	LogMAR, final (L)	17	
-INI	INI5215	82748	Vertex_distance_(right)	Vertex dist. (R)	16	
-INI	INI5237	79825	3mm_index_of_best_keratometry_results_(right)	3mm index of best keratometry results (R)	41	
-INI	INI5251	70052	6mm_index_of_best_keratometry_results_(right)	6mm index of best keratometry results (R)	41	
-INI	INI5254	81523	Intra-ocular_pressure,_corneal-compensated_(right)	Intra-ocular pressure, corneal-compensated (R)	46	
-INI	INI5255	81523	Intra-ocular_pressure,_Goldmann-correlated_(right)	Intra-ocular pressure, Goldmann-correlated (R)	46	
-INI	INI5256	81523	Corneal_hysteresis_(right)	Corneal hysteresis (R)	22	
-INI	INI5257	81523	Corneal_resistance_factor_(right)	Corneal resistance factor (R)	29	
-INI	INI5262	81401	Intra-ocular_pressure,_corneal-compensated_(left)	Intra-ocular pressure, corneal-compensated (L)	46	
-INI	INI5263	81401	Intra-ocular_pressure,_Goldmann-correlated_(left)	Intra-ocular pressure, Goldmann-correlated (L)	46	
-INI	INI5264	81401	Corneal_hysteresis_(left)	Corneal hysteresis (L)	22	
-INI	INI5265	81401	Corneal_resistance_factor_(left)	Corneal resistance factor (L)	29	
-INI	INI5274	82480	Vertex_distance_(left)	Vertex dist. (L)	16	
-INI	INI5276	82480	Index_of_best_refractometry_result_(left)	Index of best refractometry result (L)	38	
-INI	INI5292	79805	3mm_index_of_best_keratometry_results_(left)	3mm index of best keratometry results (L)	41	
-INI	INI5306	69114	6mm_index_of_best_keratometry_results_(left)	6mm index of best keratometry results (L)	41	
+INI	INI5215	82746	Vertex_distance_(right)	Vertex dist. (R)	16	
+INI	INI5237	79823	3mm_index_of_best_keratometry_results_(right)	3mm index of best keratometry results (R)	41	
+INI	INI5251	70050	6mm_index_of_best_keratometry_results_(right)	6mm index of best keratometry results (R)	41	
+INI	INI5254	81521	Intra-ocular_pressure,_corneal-compensated_(right)	Intra-ocular pressure, corneal-compensated (R)	46	
+INI	INI5255	81521	Intra-ocular_pressure,_Goldmann-correlated_(right)	Intra-ocular pressure, Goldmann-correlated (R)	46	
+INI	INI5256	81521	Corneal_hysteresis_(right)	Corneal hysteresis (R)	22	
+INI	INI5257	81521	Corneal_resistance_factor_(right)	Corneal resistance factor (R)	29	
+INI	INI5262	81399	Intra-ocular_pressure,_corneal-compensated_(left)	Intra-ocular pressure, corneal-compensated (L)	46	
+INI	INI5263	81399	Intra-ocular_pressure,_Goldmann-correlated_(left)	Intra-ocular pressure, Goldmann-correlated (L)	46	
+INI	INI5264	81399	Corneal_hysteresis_(left)	Corneal hysteresis (L)	22	
+INI	INI5265	81399	Corneal_resistance_factor_(left)	Corneal resistance factor (L)	29	
+INI	INI5274	82478	Vertex_distance_(left)	Vertex dist. (L)	16	
+INI	INI5276	82478	Index_of_best_refractometry_result_(left)	Index of best refractometry result (L)	38	
+INI	INI5292	79803	3mm_index_of_best_keratometry_results_(left)	3mm index of best keratometry results (L)	41	
+INI	INI5306	69112	6mm_index_of_best_keratometry_results_(left)	6mm index of best keratometry results (L)	41	
 INI	INI5364	101068	Average_weekly_intake_of_other_alcoholic_drinks	Ave. weekly intake of other alcoholic drinks	44	
 INI	INI5375	37726	Longest_period_of_unenthusiasm_/_disinterest	Longest period of unenthusiasm / disinterest	44	
 INI	INI5386	35294	Number_of_unenthusiastic/disinterested_episodes	# of unenthusiastic/disinterested episodes	42	
@@ -3947,24 +3947,24 @@ INI	INI6219	16	Impedance_of_leg,_manual_entry_(right)	Impedance of leg, manual e
 INI	INI6220	16	Impedance_of_leg,_manual_entry_(left)	Impedance of leg, manual entry (L)	34	
 INI	INI6221	16	Impedance_of_arm,_manual_entry_(right)	Impedance of arm, manual entry (R)	34	
 INI	INI6222	16	Impedance_of_arm,_manual_entry_(left)	Impedance of arm, manual entry (L)	34	
-INI	INI767	188855	Length_of_working_week_for_main_job	Length of working week for main job	35	
-INI	INI77	29049	Heel_bone_ultrasound_T-score,_manual_entry	Heel bone ultrasound T-score, manual entry	42	
-INI	INI78	194363	Heel_bone_mineral_density_(BMD)_T-score,_automated	Heel bone mineral density (BMD) T-score, automated	50	
+INI	INI767	188846	Length_of_working_week_for_main_job	Length of working week for main job	35	
+INI	INI77	29048	Heel_bone_ultrasound_T-score,_manual_entry	Heel bone ultrasound T-score, manual entry	42	
+INI	INI78	194361	Heel_bone_mineral_density_(BMD)_T-score,_automated	Heel bone mineral density (BMD) T-score, automated	50	
 INI	INI84	31475	Cancer_year/age_first_occurred	Cancer year/age first occurred	30	
 INI	INI87	257292	Non-cancer_illness_year/age_first_occurred	Non-cancer illness year/age first occurred	42	
-INI	INI874	291637	Duration_of_walks	Duration of walks	17	
-INI	INI884	322082	Number_of_days/week_of_moderate_physical_activity_10+_minutes	# of days/week of moderate physical activity 10+ minutes	56	
-INI	INI894	256733	Duration_of_moderate_activity	Duration of moderate activity	29	
-INI	INI904	322158	Number_of_days/week_of_vigorous_physical_activity_10+_minutes	# of days/week of vigorous physical activity 10+ minutes	56	
-INI	INI914	190335	Duration_of_vigorous_activity	Duration of vigorous activity	29	
-INI	INI924	335350	Usual_walking_pace_(Touchscreen)	Usual walking pace (Touchscreen)	32	
+INI	INI874	291633	Duration_of_walks	Duration of walks	17	
+INI	INI884	322077	Number_of_days/week_of_moderate_physical_activity_10+_minutes	# of days/week of moderate physical activity 10+ minutes	56	
+INI	INI894	256729	Duration_of_moderate_activity	Duration of moderate activity	29	
+INI	INI904	322154	Number_of_days/week_of_vigorous_physical_activity_10+_minutes	# of days/week of vigorous physical activity 10+ minutes	56	
+INI	INI914	190331	Duration_of_vigorous_activity	Duration of vigorous activity	29	
+INI	INI924	335345	Usual_walking_pace_(Touchscreen)	Usual walking pace (Touchscreen)	32	
 INI	INI93	32557	Systolic_blood_pressure,_manual_reading	Systolic BP, manual reading	27	
 INI	INI94	32557	Diastolic_blood_pressure,_manual_reading	Diastolic BP, manual reading	28	
-INI	INI943	334529	Frequency_of_stair_climbing_in_last_4_weeks	Freq. of stair climbing in last 4 weeks	39	
+INI	INI943	334524	Frequency_of_stair_climbing_in_last_4_weeks	Freq. of stair climbing in last 4 weeks	39	
 INI	INI95	32557	Pulse_rate_(during_blood-pressure_measurement)	Pulse rate (during blood-pressure measurement)	46	
-INI	INI971	246266	Frequency_of_walking_for_pleasure_in_last_4_weeks	Freq. of walking for pleasure in last 4 weeks	45	
-INI	INI981	246167	Duration_walking_for_pleasure	Duration walking for pleasure	29	
-INI	INI991	36525	Frequency_of_strenuous_sports_in_last_4_weeks	Freq. of strenuous sports in last 4 weeks	41	
+INI	INI971	246261	Frequency_of_walking_for_pleasure_in_last_4_weeks	Freq. of walking for pleasure in last 4 weeks	45	
+INI	INI981	246162	Duration_walking_for_pleasure	Duration walking for pleasure	29	
+INI	INI991	36523	Frequency_of_strenuous_sports_in_last_4_weeks	Freq. of strenuous sports in last 4 weeks	41	
 QT_FC	QT_FC10001239	336977	Current_tobacco_smoking	Current tobacco smoking	23	
 QT_FC	QT_FC10001478	337104	Salt_added_to_food	Salt added to food	18	
 QT_FC	QT_FC10003466	23419	Time_from_waking_to_first_cigarette	Time from waking to first cigarette	35	
@@ -3985,34 +3985,34 @@ QT_FC	QT_FC1001379	335428	Lamb/mutton_intake	Lamb/mutton intake	18
 QT_FC	QT_FC1001389	335512	Pork_intake	Pork intake	11	
 QT_FC	QT_FC1001408	329749	Cheese_intake	Cheese intake	13	
 QT_FC	QT_FC1001558	336913	Alcohol_intake_frequency.	Alcohol intake frequency.	25	
-QT_FC	QT_FC1001687	331844	Comparative_body_size_at_age_10	Comparative body size at age 10	31	
-QT_FC	QT_FC1001697	332154	Comparative_height_size_at_age_10	Comparative height size at age 10	33	
+QT_FC	QT_FC1001687	331840	Comparative_body_size_at_age_10	Comparative body size at age 10	31	
+QT_FC	QT_FC1001697	332149	Comparative_height_size_at_age_10	Comparative height size at age 10	33	
 QT_FC	QT_FC1001717	333202	Skin_colour	Skin colour	11	
 QT_FC	QT_FC10020018	139140	Prospective_memory_result	Prospective memory result	25	
 QT_FC	QT_FC10020458	109769	General_happiness	General happiness	17	
 QT_FC	QT_FC10020459	110044	General_happiness_with_own_health	General happiness with own health	33	
-QT_FC	QT_FC1002050	324192	Frequency_of_depressed_mood_in_last_2_weeks	Freq. of depressed mood in last 2 weeks	39	
+QT_FC	QT_FC1002050	324187	Frequency_of_depressed_mood_in_last_2_weeks	Freq. of depressed mood in last 2 weeks	39	
 QT_FC	QT_FC10020536	49391	Weight_gain_during_worst_episode_of_depression	Weight gain during worst episode of depression	46	
-QT_FC	QT_FC1002060	327366	Frequency_of_unenthusiasm_/_disinterest_in_last_2_weeks	Freq. of unenthusiasm / disinterest in last 2 weeks	51	
-QT_FC	QT_FC1002070	325889	Frequency_of_tenseness_/_restlessness_in_last_2_weeks	Freq. of tenseness / restlessness in last 2 weeks	49	
-QT_FC	QT_FC1002080	328062	Frequency_of_tiredness_/_lethargy_in_last_2_weeks	Freq. of tiredness / lethargy in last 2 weeks	45	
+QT_FC	QT_FC1002060	327362	Frequency_of_unenthusiasm_/_disinterest_in_last_2_weeks	Freq. of unenthusiasm / disinterest in last 2 weeks	51	
+QT_FC	QT_FC1002070	325885	Frequency_of_tenseness_/_restlessness_in_last_2_weeks	Freq. of tenseness / restlessness in last 2 weeks	49	
+QT_FC	QT_FC1002080	328057	Frequency_of_tiredness_/_lethargy_in_last_2_weeks	Freq. of tiredness / lethargy in last 2 weeks	45	
 QT_FC	QT_FC10021050	20974	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86	
 QT_FC	QT_FC10021057	79757	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72	
-QT_FC	QT_FC1002110	328235	Able_to_confide	Able to confide	15	
+QT_FC	QT_FC1002110	328230	Able_to_confide	Able to confide	15	
 QT_FC	QT_FC1002178	336026	Overall_health_rating	Overall health rating	21	
 QT_FC	QT_FC1002296	336589	Falls_in_the_last_year	Falls in the last year	22	
 QT_FC	QT_FC1002306	332169	Weight_change_compared_with_1_year_ago	Weight change compared with 1 year ago	38	
-QT_FC	QT_FC1002375	151415	Relative_age_of_first_facial_hair	Relative age of first facial hair	33	
-QT_FC	QT_FC1002385	145114	Relative_age_voice_broke	Relative age voice broke	24	
-QT_FC	QT_FC1002395	155191	Male_pattern_baldness_severity_quantitative	Male pattern baldness severity quantitative	43	
+QT_FC	QT_FC1002375	151412	Relative_age_of_first_facial_hair	Relative age of first facial hair	33	
+QT_FC	QT_FC1002385	145111	Relative_age_voice_broke	Relative age voice broke	24	
+QT_FC	QT_FC1002395	155188	Male_pattern_baldness_severity_quantitative	Male pattern baldness severity quantitative	43	
 QT_FC	QT_FC1002936	82719	Likelihood_of_resuming_smoking	Likelihood of resuming smoking	30	
 QT_FC	QT_FC1003476	23486	Difficulty_not_smoking_for_1_day	Difficulty not smoking for 1 day	32	
-QT_FC	QT_FC1004526	132700	Happiness	Happiness	9	
-QT_FC	QT_FC1004537	88998	Work/job_satisfaction	Work/job satisfaction	21	
-QT_FC	QT_FC1004548	132721	Health_satisfaction	Health satisfaction	19	
-QT_FC	QT_FC1004559	131939	Family_relationship_satisfaction	Family relationship satisfaction	32	
-QT_FC	QT_FC1004570	131765	Friendships_satisfaction	Friendships satisfaction	24	
-QT_FC	QT_FC1004581	132567	Financial_situation_satisfaction	Financial situation satisfaction	32	
+QT_FC	QT_FC1004526	132693	Happiness	Happiness	9	
+QT_FC	QT_FC1004537	88991	Work/job_satisfaction	Work/job satisfaction	21	
+QT_FC	QT_FC1004548	132714	Health_satisfaction	Health satisfaction	19	
+QT_FC	QT_FC1004559	131932	Family_relationship_satisfaction	Family relationship satisfaction	32	
+QT_FC	QT_FC1004570	131758	Friendships_satisfaction	Friendships satisfaction	24	
+QT_FC	QT_FC1004581	132561	Financial_situation_satisfaction	Financial situation satisfaction	32	
 QT_FC	QT_FC1004803	138102	Tinnitus_severity	Tinnitus severity	17	
 QT_FC	QT_FC1005663	21877	Length_of_longest_manic/irritable_episode	Length of longest manic/irritable episode	41	
 QT_FC	QT_FC21050	20974	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86	

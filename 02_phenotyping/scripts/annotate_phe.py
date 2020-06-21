@@ -7,9 +7,9 @@ def make_phe_info(in_phe, out_path, name, field, table, basket, app_id, source, 
     pop_dir = '/oak/stanford/groups/mrivas/private_data/ukbb/' + app_id + '/sqc/population_stratification/'
     get_iids = lambda f: set([line.split()[0] for line in open(f, 'r')])
     pops = {pop:get_iids(pop_dir + 'ukb'+ app_id + '_' + pop + '.phe')  
-                for pop in ('white_british','non_british_white','african','e_asian','s_asian')}
+                for pop in ('white_british','non_british_white','african','e_asian','s_asian','semi_related','others')}
     # this is what gets written to file, one item per line below 
-    header = "#GBE_ID GBE_NAME FIELD TABLE BASKET APP_ID N N_GBE N_NBW N_AFR N_EAS N_SAS SOURCE DATE PATH".replace(" ", "\t")
+    header = "#GBE_ID GBE_NAME FIELD TABLE BASKET APP_ID N N_GBE N_NBW N_AFR N_EAS N_SAS N_SMR N_OTH SOURCE DATE PATH".replace(" ", "\t")
     # in_phe and name are lists of equal sizes -- everything else is constant strings
     if one_file:
         o = open(out_path, 'w')
@@ -41,7 +41,7 @@ def make_phe_info(in_phe, out_path, name, field, table, basket, app_id, source, 
                               str(sum(map(count,phe.values())))] +
                              [str(sum(map(lambda x:count(x[1]),
                                           filter(lambda x:x[0] in pops[pop], phe.items()))))
-                              for pop in ('white_british','non_british_white','african','e_asian','s_asian')] +                   
+                              for pop in ('white_british','non_british_white','african','e_asian','s_asian','semi_related','others')] +                   
                              [source,
                               str(date.today()),
                               os.path.abspath(phe_path)]) + '\n'

@@ -110,9 +110,9 @@ def define_phenos(
         )
         info_dir = os.path.join(os.path.dirname(os.path.dirname(phe)), "info")
         info_file = os.path.join(info_dir, "{}.info".format(phe_name))
-        if os.path.exists(phe):
-            print("Phenotype for " + phe_name + " already exists at " + phe + ".")
-        elif (phe_name == "INI5266") or (phe_name == "INI5267") or (phe_name == "INI5258") or (phe_name == "INI5259"):
+        # if os.path.exists(phe):
+        #    print("Phenotype for " + phe_name + " already exists at " + phe + ".")
+        if (phe_name == "INI5266") or (phe_name == "INI5267") or (phe_name == "INI5258") or (phe_name == "INI5259"):
             print("Bad phenotype " + phe_name + ", skipping...")
         else:
             print("Making phenotype for " + phe_name + "...")
@@ -127,26 +127,26 @@ def define_phenos(
                 tab_f,
             )
             # assume binary if we have a case definition, else assume qt
-            if phe_values["case"]:
-                # this and create_qt_phe_file below are implemented in make_phe.py
-                create_bin_phe_file(
-                    in_tsv=tsv,
-                    out_phe=phe,
-                    out_log=log,
-                    field_id=phe_values["field_id"],
-                    case=phe_values["case"].replace(",", ";").split(";"),
-                    control=phe_values["control"].replace(",", ";").split(";"),
-                    missing_is_control=all_ctrl if phe_values["control"] else True,
-                )
-            else:
-                create_qt_phe_file(
-                    in_tsv=tsv,
-                    out_phe=phe,
-                    out_log=log,
-                    field_id=phe_values["field_id"],
-                    order=phe_values["qt_order"].replace(",", ";").split(";"),
-                    exclude=phe_values["exclude"].replace(",", ";").split(";"),
-                )
+            #if phe_values["case"]:
+            #    # this and create_qt_phe_file below are implemented in make_phe.py
+            #    create_bin_phe_file(
+            #        in_tsv=tsv,
+            #        out_phe=phe,
+            #        out_log=log,
+            #        field_id=phe_values["field_id"],
+            #        case=phe_values["case"].replace(",", ";").split(";"),
+            #        control=phe_values["control"].replace(",", ";").split(";"),
+            #        missing_is_control=all_ctrl if phe_values["control"] else True,
+            #    )
+            #else:
+            #    create_qt_phe_file(
+            #        in_tsv=tsv,
+            #        out_phe=phe,
+            #        out_log=log,
+            #        field_id=phe_values["field_id"],
+            #        order=phe_values["qt_order"].replace(",", ";").split(";"),
+            #        exclude=phe_values["exclude"].replace(",", ";").split(";"),
+            #    )
             # annotate the phenotype
             make_phe_info(
                 [phe],
@@ -158,26 +158,26 @@ def define_phenos(
                 "24983",
                 os.path.basename(os.path.realpath(in_tsv)),
             )
-            if os.path.exists(
-                os.path.join(home_dir, "current", "phe/{}.phe".format(phe_name))
-            ):
-                for folder, filetype in zip(
-                    ["phe", "info", "logs"], ["phe", "info", "log"]
-                ):
-                    os.remove(
-                        os.path.join(
-                            home_dir, "current", folder, phe_name + "." + filetype
-                        )
-                    )
-            for path, folder, filetype in zip(
-                [phe, info_file, log], ["phe", "info", "logs"], ["phe", "info", "log"]
-            ):
-                os.symlink(
-                    path,
-                    os.path.join(
-                        home_dir, "current", folder, phe_name + "." + filetype
-                    ),
-                )
+            #if os.path.exists(
+            #    os.path.join(home_dir, "current", "phe/{}.phe".format(phe_name))
+            #):
+            #    for folder, filetype in zip(
+            #        ["phe", "info", "logs"], ["phe", "info", "log"]
+            #    ):
+            #        os.remove(
+            #            os.path.join(
+            #                home_dir, "current", folder, phe_name + "." + filetype
+            #            )
+            #        )
+            #for path, folder, filetype in zip(
+            #    [phe, info_file, log], ["phe", "info", "logs"], ["phe", "info", "log"]
+            #):
+            #    os.symlink(
+            #        path,
+            #        os.path.join(
+            #            home_dir, "current", folder, phe_name + "." + filetype
+            #        ),
+            #    )
     return
 
 
