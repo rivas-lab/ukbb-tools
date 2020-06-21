@@ -141,7 +141,8 @@ def make_plink_commands_arrayCovar(bpFile, outFile, make_plink_command_common_ar
             cores=1
         # join the plink calls, add some bash at the bottom to combine the output  
         return("\n\n".join([
-            cmd2, cmd1,
+            # cmd2, cmd1,
+            cmd1, # 2020/6/16 -- rerunning the jobs only for the both_arrays files
             "#combine_two_sumstats {0} {1} {2} {3}".format(outFile1, outFile2, outFile, cores)
         ]))
 
