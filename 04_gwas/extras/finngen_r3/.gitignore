@@ -1,3 +1,3 @@
 logs
-4_FinnGenR3_liftOver.input.lst
-
+*.input.lst
+logs_*

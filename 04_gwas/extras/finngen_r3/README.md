@@ -1,18 +1,40 @@
 # FinnGen R3 public release
 
+- Total sample size: ​135,638
+- Total number of variants analyzed: 16,962,023 variants
+- Number of disease endpoints (phenotypes) available: ​1,801 endpoints
+- Public data release: June 16 2020
 - https://www.finngen.fi/en/access_results
 
 ## files
 
-finngen_r3_variants.hg19.unmapped.gz
-finngen_r3_variants.master.tsv.gz
-finngen_r3_variants.master.tsv.gz.tbi
+- Data directory: `/scratch/groups/mrivas/public_data/summary_stats/finngen_r3`
+- Summary statistics data files:
+  - `summary_stats`: the original sumstats from FinnGen R3 (on hg38)
+  - `summary_stats_hg19`: the sumstats on hg19
+  - `summary_stats_hg19_plink`: the sumstats on hg19 in plink format.
+- List of variants
+  - `finngen_r3_variants.tsv.gz`: list of variants (hg38)
+  - `finngen_r3_variants.hg19.unmapped.gz`: list of variants that are not mapped to hg19 using our liftOver scirpt
+  - `finngen_r3_variants.hg19.fasta.tsv.gz`: list of vairnats on hg19 with the REF character from the FASTA file
+  - `finngen_r3_variants.master.tsv.gz`: "master bim" file.
 
 ## scripts
 
 - [`1_download.sh`](1_download.sh): download the sumstats
 - [`2_liftOver.sh`](2_liftOver.sh): apply liftOver
+- [`3_liftOver_mapping_file.R`](3_liftOver_mapping_file.R)
+- [`4_FinnGenR3_liftOver.sh`](4_FinnGenR3_liftOver.sh): apply liftOver for all sumstats
+  - [`4_FinnGenR3_liftOver.R`](4_FinnGenR3_liftOver.R)
+  - [`4_FinnGenR3_liftOver.input.lst`](4_FinnGenR3_liftOver.input.lst)
+  - [`4_FinnGenR3_liftOver.sbatch.sh`](4_FinnGenR3_liftOver.sbatch.sh)
+- [`5_conv_to_plink.sh`](5_conv_to_plink.sh): prepare the plink-formatted file
+  - [`5_conv_to_plink.input.lst`](5_conv_to_plink.input.lst)
 
+```{bash}
+sbatch -p mrivas,owners,normal --nodes=1 --mem=8000 --cores=2 --time=1:00:00 --job-
+name=conv2plink --output=logs/conv2plink.%A_%a.out --error=logs/conv2plink.%A_%a.err --array=1-901 parallel-sbatch.sh 5_conv_to_plink.sh 5_conv_to_plink.input.lst 2
+```
 
 ## instruction
 
