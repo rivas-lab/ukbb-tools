@@ -15,11 +15,11 @@ metal_f <- args[2]
 out_f   <- args[3]
 
 # read loci file
-loci <- fread(cmd=paste('zcat', loci_f)) %>%
+loci <- fread(cmd=paste('zcat', loci_f), colClasses='character') %>%
 rename('CHROM' = '#CHROM')
 
 # read metal output
-metal <- fread(metal_f)
+metal <- fread(metal_f, colClasses='character')
 
 # join them together and change col names
 df <- loci %>% 

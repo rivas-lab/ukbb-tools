@@ -4,7 +4,7 @@ set -beEuo pipefail
 SRCNAME=$(readlink -f $0)
 SRCDIR=$(dirname ${SRCNAME})
 PROGNAME=$(basename $SRCNAME)
-VERSION="0.2.0"
+VERSION="0.2.1"
 NUM_POS_ARGS="1"
 
 source "${SRCDIR}/18_metal_misc.sh"
@@ -14,6 +14,9 @@ flipcheck_sh="$(dirname ${SRCDIR})/09_liftOver/flipcheck.sh"
 ############################################################
 # update log
 ############################################################
+# version 0.2.1 (2020/6/24)
+#   Robust parsing of the Metal output files in post-processing scripts
+#
 # version 0.2.0 (2020/6/12)
 #   Automatic filtering of the NA-lines
 #
