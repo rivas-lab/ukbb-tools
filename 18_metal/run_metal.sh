@@ -4,7 +4,7 @@ set -beEuo pipefail
 SRCNAME=$(readlink -f $0)
 SRCDIR=$(dirname ${SRCNAME})
 PROGNAME=$(basename $SRCNAME)
-VERSION="0.2.1"
+VERSION="0.2.2"
 NUM_POS_ARGS="1"
 
 source "${SRCDIR}/18_metal_misc.sh"
@@ -14,6 +14,9 @@ flipcheck_sh="$(dirname ${SRCDIR})/09_liftOver/flipcheck.sh"
 ############################################################
 # update log
 ############################################################
+# version 0.2.1 (2020/6/25)
+#   Add OBS_CT column in the Metal output file
+#
 # version 0.2.1 (2020/6/24)
 #   Robust parsing of the Metal output files in post-processing scripts
 #
@@ -76,7 +79,7 @@ if [ ! -d ${tmp_dir_root} ] ; then mkdir -p $tmp_dir_root ; fi
 tmp_dir="$(mktemp -p ${tmp_dir_root} -d tmp-$(basename $0)-$(date +%Y%m%d-%H%M%S)-XXXXXXXXXX)"
 echo "tmp_dir = $tmp_dir" >&2
 handler_exit () { rm -rf $tmp_dir ; }
-trap handler_exit EXIT
+# trap handler_exit EXIT
 
 ############################################################
 # parser start
@@ -190,19 +193,15 @@ cd -
 
 echo "Metal is done. Applying post-processing scripts ..."
 
-echo "Extracting list of loci (CHROM, POS, and ID) into a loci file ..."
-extract_loci_for_files ${tmp_infile_list} ${nCores} | bgzip -l9 -@ ${nCores} > ${tmp_out}.loci.gz
+echo "Joining the metal output with CHROM, POS, and OBS_CT ..."
 
-echo "Joining the metal output with loci file ..."
-
-# metal_post_processing_step1.R --> join the metal output with loci file
-Rscript ${SRCDIR}/metal_post_processing_step1.R \
-${tmp_out}.loci.gz ${tmp_out}1.tbl ${tmp_out}.metal.tsv
+# metal_post_processing_step1.R --> join the metal output with CHROM, POS, and OBS_CT columns
+Rscript ${SRCDIR}/metal_post_processing_step1.R ${tmp_infile_list} ${tmp_out}1.tbl ${tmp_out}.metal.tsv
 
 echo "Applying flipcheck script to fetch the REF allele from FASTA file ..."
 
 # apply flipcheck script to fetch the REF allele from FASTA file
-bash ${flipcheck_sh} --ref_fa ${ref_fa} --assembly ${assembly} ${tmp_out}.metal.tsv | bgzip -l 9 -@ ${nCores} > ${tmp_out}.metal.check.tsv.gz
+bash ${flipcheck_sh} --ref_fa ${ref_fa} --assembly ${assembly} ${tmp_out}.metal.tsv | bgzip -@ ${nCores} > ${tmp_out}.metal.check.tsv.gz
 
 echo "Applying flipfix using a custom script ..."
 Rscript ${SRCDIR}/metal_post_processing_step2.R ${tmp_out}.metal.check.tsv.gz ${tmp_out}.metal.fixed.tsv
