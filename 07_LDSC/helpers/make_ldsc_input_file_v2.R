@@ -7,14 +7,17 @@ suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(data.table))
 
 ####################################################################
-# source(file.path(dirname(script.name), 'misc.R'))
+# functions
 ####################################################################
 read_and_filter_plink_sumstats <- function(in_f){
     df1 <- fread(in_f, colClasses=c('#CHROM'='character', 'ID'='character', 'P'='character')) %>%
     rename('CHROM'='#CHROM')%>%
     mutate(A2 = if_else(A1 == ALT, REF, ALT)) %>%
-    filter(TEST=='ADD', REF != 'N', ALT != 'N')%>%
+    filter(REF != 'N', ALT != 'N') %>%
     drop_na('P')
+    if('TEST' %in% colnames(df1)){
+        df1 <- df1 %>% filter(TEST=='ADD')
+    }
 
     rename_dict <- list()
     rename_dict[['LOG(OR)_SE']] <- 'SE'
@@ -48,6 +51,7 @@ read_ldscore_files <- function(ldscore_d){
 }
 
 ####################################################################
+
 out_f      <- args[1]
 in_f       <- args[2]
 ldscore_d  <- args[3]
@@ -65,5 +69,4 @@ inner_join(
     by=c('CHROM'='CHR', 'POS'='BP')
 )%>%
 rename('ID'='SNP') %>%
-# mutate(P = if_else(P < .Machine$double.xmin, as.character(.Machine$double.xmin), P)) %>%
 fwrite(out_f, sep='\t', na = "NA", quote=F)

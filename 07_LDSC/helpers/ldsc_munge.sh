@@ -4,7 +4,7 @@ set -beEuo pipefail
 SRCNAME=$(readlink -f $0)
 SRCDIR=$(dirname ${SRCNAME})
 PROGNAME=$(basename $SRCNAME)
-VERSION="2.0.1"
+VERSION="2.0.2"
 NUM_POS_ARGS="2"
 
 # source "${SRCDIR}/ldsc_misc.sh"
@@ -12,6 +12,10 @@ NUM_POS_ARGS="2"
 ############################################################
 # update log
 ############################################################
+# version 2.0.2 (2020/6/26)
+#   With a minor update in the custom pre-processing script, we support the output file from
+#   our Metal wrapper script
+#
 # version 2.0.1 (2020/6/25)
 #   We now truncate the p-value at 1e-300
 #   https://github.com/bulik/ldsc/issues/144
@@ -122,11 +126,15 @@ output_file=$(readlink -f "${params[1]}")
 
 tmp_intermediate_file=${tmp_dir}/$(basename $input_file).input.tsv
 
+echo "Applying a custom pre-processing R script ..."
+
 Rscript ${SRCDIR}/make_ldsc_input_file_v2.R /dev/stdout ${input_file} ${ldscore} \
 | sed -e 's/[0-9].[0-9][0-9]*[eE]-[1-9][0-9][0-9][0-9]/1.0e-300/' \
 | sed -e 's/[0-9].[0-9][0-9]*[eE]-[3-9][0-9][0-9]/1.0e-300/' > ${tmp_intermediate_file}
 # truncate the small p-value at 1e-300
 # https://github.com/bulik/ldsc/issues/144
+
+echo "Running LDSC munge_sumstats.py ..."
 
 if [ "${merge}" == "TRUE" ] ; then
     munge_sumstats.py \
