@@ -4,10 +4,17 @@ set -beEuo pipefail
 SRCNAME=$(readlink -f $0)
 SRCDIR=$(dirname ${SRCNAME})
 PROGNAME=$(basename $SRCNAME)
-VERSION="2.0.0"
+VERSION="2.0.1"
 NUM_POS_ARGS="2"
 
 # source "${SRCDIR}/ldsc_misc.sh"
+
+############################################################
+# update log
+############################################################
+# version 2.0.1 (2020/6/25)
+#   We now truncate the p-value at 1e-300
+#   https://github.com/bulik/ldsc/issues/144
 
 ml load ldsc
 ldscore=${TWINSUK_oak}
@@ -59,7 +66,7 @@ if [ ! -d ${tmp_dir_root} ] ; then mkdir -p $tmp_dir_root ; fi
 tmp_dir="$(mktemp -p ${tmp_dir_root} -d tmp-$(basename $0)-$(date +%Y%m%d-%H%M%S)-XXXXXXXXXX)"
 # echo "tmp_dir = $tmp_dir" >&2
 handler_exit () { rm -rf $tmp_dir ; }
-trap handler_exit EXIT
+#trap handler_exit EXIT
 
 ############################################################
 # parser start
@@ -115,7 +122,11 @@ output_file=$(readlink -f "${params[1]}")
 
 tmp_intermediate_file=${tmp_dir}/$(basename $input_file).input.tsv
 
-Rscript ${SRCDIR}/make_ldsc_input_file_v2.R ${tmp_intermediate_file} ${input_file} ${ldscore}
+Rscript ${SRCDIR}/make_ldsc_input_file_v2.R /dev/stdout ${input_file} ${ldscore} \
+| sed -e 's/[0-9].[0-9][0-9]*[eE]-[1-9][0-9][0-9][0-9]/1.0e-300/' \
+| sed -e 's/[0-9].[0-9][0-9]*[eE]-[3-9][0-9][0-9]/1.0e-300/' > ${tmp_intermediate_file}
+# truncate the small p-value at 1e-300
+# https://github.com/bulik/ldsc/issues/144
 
 if [ "${merge}" == "TRUE" ] ; then
     munge_sumstats.py \
