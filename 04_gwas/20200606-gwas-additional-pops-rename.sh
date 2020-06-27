@@ -1,11 +1,14 @@
 #!/bin/bash
 set -beEuo pipefail
 
-mem=16000
-cores=4
+mem=6000
+cores=2
 
 pop=$1 # related | others
-batch_idx=$2
+batch_idx=${SLURM_ARRAY_TASK_ID:=1}
+if [ $# -gt 1 ] ; then
+    batch_idx=$2
+fi
 if [ $# -gt 2 ] ; then
     regression_type=$3 # linear
 else
@@ -13,6 +16,8 @@ else
 fi
 batch_size_bin=4
 batch_size_qt=10
+
+echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-start] hostname=$(hostname); SLURM_JOBID=${SLURM_JOBID:=0}; SLURM_ARRAY_TASK_ID=${SLURM_ARRAY_TASK_ID:=1}" >&2
 
 is_scg=$(echo scg $(hostname) | tr " " "\n" | grep scg | wc -l)
 avx2_flag=$( cat /proc/cpuinfo  | grep flags | uniq  | awk -v FS=':' '{print $2}' | tr " " "\n" | cat /dev/stdin <(echo avx2) | grep -i avx2 | wc -l)
@@ -66,12 +71,14 @@ echo ${pheno_name} | tr "," '\n' | while read idx ; do
     if [ -f ${out1} ] && [ -f ${out2} ] ; then
         {
             ! head -n1 ${out1}
-            cat ${out1} ${out2} | grep -v '#' | sort --parallel 6 -k1,1V -k2,2n -k3,3
-        } | bgzip -l9 -@6 > ${out_gz}
+            cat ${out1} ${out2} | grep -v '#' | sort --parallel ${cores} -k1,1V -k2,2n -k3,3
+        } | bgzip -l9 -@${cores} > ${out_gz}
         if [ -f ${out_gz} ] ; then rm ${out1} ${out2} ; fi
         echo ${out_gz}
     fi
 done
+
+echo "[$0 $(date +%Y%m%d-%H%M%S)] [array-end] hostname=$(hostname); SLURM_JOBID=${SLURM_JOBID}; SLURM_ARRAY_TASK_ID=${SLURM_ARRAY_TASK_ID}" >&2
 
 exit 0
 # instructions
@@ -108,4 +115,11 @@ for idx in $(seq 50 156) ; do echo "[running] others linear $idx" ; bash 2020060
 2600-3100
 # those files are failed sumstats --> delted
 
+# 2020/6/26
+# gwas-mv
+ 2075  Jun 26 15:48:05> bash 20200606-gwas-additional-pops-rename.sh related 201
+ 2076  Jun 26 15:49:14> bash 20200606-gwas-additional-pops-rename.sh others 201
 
+sbatch -p mrivas --qos=high_p --nodes=1 --mem=6000 --cores=2 --time=1:00:00 --job-name=gwas-mv --output=logs/gwas-mv.%A_%a.out --error=logs/gwas-mv.%A_%a.err --array=202-475 20200606-gwas-additional-pops-rename.sh related
+
+sbatch -p mrivas --qos=high_p --nodes=1 --mem=6000 --cores=2 --time=1:00:00 --job-name=gwas-mv --output=logs/gwas-mv.%A_%a.out --error=logs/gwas-mv.%A_%a.err --array=202-475 20200606-gwas-additional-pops-rename.sh others

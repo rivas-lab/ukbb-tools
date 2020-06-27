@@ -30,3 +30,10 @@ if [ ! -f ${out_f}.tbi ] ; then
 
     echo ${out_f}
 fi
+
+exit 0
+###########################
+# usage
+
+sbatch -p mrivas,owners,normal --nodes=1 --mem=8000 --cores=2 --time=1:00:00 --job-
+name=conv2plink --output=logs/conv2plink.%A_%a.out --error=logs/conv2plink.%A_%a.err --array=1-901 parallel-sbatch.sh 5_conv_to_plink.sh 5_conv_to_plink.input.lst 2

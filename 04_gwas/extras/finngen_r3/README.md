@@ -13,6 +13,7 @@
   - `summary_stats`: the original sumstats from FinnGen R3 (on hg38)
   - `summary_stats_hg19`: the sumstats on hg19
   - `summary_stats_hg19_plink`: the sumstats on hg19 in plink format.
+  - `summary_stats_hg19_ldsc_munge`: the summary statistics on hg19 in LDSC munge format.
 - List of variants
   - `finngen_r3_variants.tsv.gz`: list of variants (hg38)
   - `finngen_r3_variants.hg19.unmapped.gz`: list of variants that are not mapped to hg19 using our liftOver scirpt
@@ -28,13 +29,9 @@
   - [`4_FinnGenR3_liftOver.R`](4_FinnGenR3_liftOver.R)
   - [`4_FinnGenR3_liftOver.input.lst`](4_FinnGenR3_liftOver.input.lst)
   - [`4_FinnGenR3_liftOver.sbatch.sh`](4_FinnGenR3_liftOver.sbatch.sh)
-- [`5_conv_to_plink.sh`](5_conv_to_plink.sh): prepare the plink-formatted file
+- [`5_conv_to_plink.sh`](5_conv_to_plink.sh): prepare the PLINK-formatted file
   - [`5_conv_to_plink.input.lst`](5_conv_to_plink.input.lst)
-
-```{bash}
-sbatch -p mrivas,owners,normal --nodes=1 --mem=8000 --cores=2 --time=1:00:00 --job-
-name=conv2plink --output=logs/conv2plink.%A_%a.out --error=logs/conv2plink.%A_%a.err --array=1-901 parallel-sbatch.sh 5_conv_to_plink.sh 5_conv_to_plink.input.lst 2
-```
+- [`6_ldsc_munge.sh`](6_ldsc_munge.sh): convert the sumstats from PLINK to LDSC format
 
 ## instruction
 
