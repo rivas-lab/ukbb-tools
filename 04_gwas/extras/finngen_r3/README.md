@@ -24,6 +24,7 @@
 
 - [`1_download.sh`](1_download.sh): download the sumstats
 - [`2_liftOver.sh`](2_liftOver.sh): apply liftOver
+  - We extracted the list of variants from `M13_MUSCULOSKELETAL`, which is the phenotype with the largest case counts
 - [`3_liftOver_mapping_file.R`](3_liftOver_mapping_file.R)
 - [`4_FinnGenR3_liftOver.sh`](4_FinnGenR3_liftOver.sh): apply liftOver for all sumstats
   - [`4_FinnGenR3_liftOver.R`](4_FinnGenR3_liftOver.R)
