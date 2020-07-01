@@ -99,3 +99,11 @@ metal_pre_processing () {
         cat_or_zcat ${in_file}
     fi | awk -v OFS='\t' -v cP=${col_P} '$cP != "NA"'
 }
+
+show_metal_input_files () {
+    local metal_info=$1
+    nr_s=$(cat_or_zcat ${metal_info} | egrep -n '^# == original input files ==' | awk -v FS=':' '{print $1}')
+    nr_e=$(cat_or_zcat ${metal_info} | egrep -n '^# == METAL info file ==' | awk -v FS=':' '{print $1}')
+
+    cat_or_zcat ${metal_info} | awk -v nr_s=${nr_s}  -v nr_e=${nr_e} 'nr_s < NR && NR < nr_e'
+}

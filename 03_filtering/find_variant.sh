@@ -4,19 +4,15 @@ set -beEuo pipefail
 SRCNAME=$(readlink -f $0)
 SRCDIR=$(dirname ${SRCNAME})
 PROGNAME=$(basename $SRCNAME)
-VERSION="2.0.0"
-NUM_POS_ARGS="3"
+VERSION="0.0.1"
+NUM_POS_ARGS="1"
 
-# source "${SRCDIR}/ldsc_misc.sh"
-
-ml load ldsc
-ldscore=${TWINSUK_oak}
 ############################################################
 # functions
 ############################################################
 
 show_default_helper () {
-    cat ${SRCNAME} | grep -n Default | tail -n+3 | awk -v FS=':' '{print $1}' | tr "\n" "\t" 
+    cat ${SRCNAME} | grep -n Default | tail -n+3 | awk -v FS=':' '{print $1}' | tr "\n" "\t"
 }
 
 show_default () {
@@ -25,22 +21,29 @@ show_default () {
         | head  -n$(show_default_helper | awk -v FS='\t' '{print $2-$1-1}')
 }
 
+cat_or_zcat () {
+    local file=$1
+    if [ "${file%.gz}.gz" == "${file}" ] || [ "${file%.bgz}.bgz" == "${file}" ] ; then
+        zcat ${file}
+    elif [ "${file%.zst}.zst" == "${file}" ] ; then
+        zstdcat ${file}
+    else
+        cat ${file}
+    fi
+}
+
 usage () {
 cat <<- EOF
 	$PROGNAME (version $VERSION)
-	Run ldsc
-	
-	Usage: $PROGNAME [options] input_f_1 input_f_2 output_file
-	  input_f_1       The 1st input file
-	  input_f_2       The 2nd input file
-	  output_file     The output file [.log]
-	
+	Find variant in UKB dataset
+
+	Usage: $PROGNAME [options] CHROM POS
+
 	Options:
-	  --scratch        Use ldscore in /scratch space
-	  --ldscore
-	
-	Default configurations (please use the options above to modify them):
-	  ldscore=${ldscore}
+      --ID              variant ID (not supported yet)
+	  --assembly (-a)   assembly (hg19 or hg38)
+
+	Default configurations:
 EOF
     show_default | awk -v spacer="  " '{print spacer $0}'
 }
@@ -59,22 +62,24 @@ trap handler_exit EXIT
 # parser start
 ############################################################
 ## == Default parameters (start) == ##
+ID=__AUTO__
+assembly=hg19
 ## == Default parameters (end) == ##
 
 declare -a params=()
 for OPT in "$@" ; do
-    case "$OPT" in 
+    case "$OPT" in
         '-h' | '--help' )
-            usage >&2 ; exit 0 ; 
+            usage >&2 ; exit 0 ;
             ;;
         '-v' | '--version' )
             echo $VERSION ; exit 0 ;
             ;;
-        '--scratch' )
-            ldscore=${TWINSUK_scratch} ; shift 1 ;
+        '--ID' )
+            ID=$2 ; shift 2 ;
             ;;
-        '--ldscore' )
-            ldscore=$2 ; shift 2 ;
+        '-a' | '--assembly' )
+            assembly=$2 ; shift 2 ;
             ;;
         '--'|'-' )
             shift 1 ; params+=( "$@" ) ; break
@@ -92,15 +97,37 @@ done
 
 if [ ${#params[@]} -lt ${NUM_POS_ARGS} ]; then
     echo "${PROGNAME}: ${NUM_POS_ARGS} positional arguments are required" >&2
-    usage >&2 ; exit 1 ; 
+    usage >&2 ; exit 1 ;
 fi
 
-in1=$(readlink -f "${params[0]}")
-in2=$(readlink -f "${params[1]}")
-out=$(readlink -f "${params[2]}")
+chrom="${params[0]}"
+pos="${params[1]}"
 
 ############################################################
 
-ldsc.py --rg ${in1},${in2} --ref-ld-chr ${ldscore} --w-ld-chr ${ldscore} --out ${out%.log}
+############################################################
 
-echo "Results are written to:  ${out%.log}.log"
+hg38_files=(
+/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/ukb24983_exome.pvar.zst
+)
+
+hg19_files=(
+/oak/stanford/groups/mrivas/ukbb24983/array-combined/pgen/ukb24983_cal_hla_cnv.pvar.zst
+/oak/stanford/groups/mrivas/ukbb24983/array_imp_combined/pgen/ukb24983_cal_hla_cnv_imp.pvar.zst
+)
+
+hg19_imp="/oak/stanford/groups/mrivas/ukbb24983/imp/pgen/ukb24983_imp_chrCHROM_v3.pvar.zst"
+
+if [ ${assembly} == "hg38" ] ; then
+    for pvar_f in ${hg38_files[@]} ; do
+        echo $pvar_f
+        cat_or_zcat $pvar_f | awk -v CHROM=$chrom -v POS=$pos 'NR==1 || ($1 == CHROM && $2 == POS)'
+    done
+fi
+
+if [ ${assembly} == "hg19" ] ; then
+    for pvar_f in ${hg19_files[@]} ; do
+        echo $pvar_f
+        cat_or_zcat $pvar_f | awk -v CHROM=$chrom -v POS=$pos 'NR==1 || ($1 == CHROM && $2 == POS)'
+    done
+fi
