@@ -34,6 +34,16 @@ get_plink_suffix () {
     fi
 }
 
+get_covar_PCs () {
+    local pop=$1
+
+        if [ "${pop}" == "others" ] || [ "${pop}" == "related" ] ; then
+        echo Global_PC1-Global_PC18
+    else
+        echo PC1-PC10
+    fi
+}
+
 if [ ! -d ${out_dir}/${pop} ] ; then mkdir -p ${out_dir}/${pop} ; fi
 glm_suffix=$(get_plink_suffix ${GBE_ID})
 
@@ -41,7 +51,7 @@ plink2 \
   --pfile /oak/stanford/groups/mrivas/private_data/ukbb/24983/array-combined/pgen/ukb24983_cal_hla_cnv vzs \
   --chr 1-22,X,XY,Y,MT \
   --covar /oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_GWAS_covar.phe \
-  --covar-name age sex Array PC1-PC10 N_CNV LEN_CNV \
+  --covar-name age sex Array $(get_covar_PCs ${pop}) N_CNV LEN_CNV \
   --covar-variance-standardize \
   --extract ${extract_both_arrays} \
   --glm skip firth-fallback hide-covar omit-ref no-x-sex \
@@ -57,7 +67,7 @@ plink2 \
   --pfile /oak/stanford/groups/mrivas/private_data/ukbb/24983/array-combined/pgen/ukb24983_cal_hla_cnv vzs \
   --chr 1-22,X,XY,Y,MT \
   --covar /oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_GWAS_covar.phe \
-  --covar-name age sex PC1-PC10 N_CNV LEN_CNV \
+  --covar-name age sex $(get_covar_PCs ${pop}) N_CNV LEN_CNV \
   --covar-variance-standardize \
   --extract ${extract_one_array} \
   --glm skip firth-fallback hide-covar omit-ref no-x-sex \

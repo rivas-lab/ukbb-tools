@@ -82,3 +82,18 @@ End time: Fri Jul  3 14:32:15 2020
 dir402=/scratch/groups/mrivas/users/ytanigaw/20200703_gwas_merge_bkup/variants_402
 find ${dir402} -type f -name "*.glm.*" | sort > 20200703-gwas-402.4.check.lst
 ```
+
+## Step 5. create a mapping table between the 402 sumstats and 1,080,567 sumstats
+
+## Step 6. merge them
+
+### test
+
+
+
+### job
+
+```{bash}
+[ytanigaw@sh02-16n04 ~/repos/rivas-lab/ukbb-tools/04_gwas/extras/202006-GWAS-finish/gwas402]$ sbatch -p mrivas,normal --nodes=1 --mem=4000 --cores=1 --time=4:00:00 --job-name=g402 --output=logs/g402.%A_%a.out --error=logs/g402.%A_%a.err --array=1-950 /oak/stanford/groups/mrivas/users/ytanigaw/repos/yk-tanigawa/resbatch/parallel-sbatch.sh 6_merge.sh 6_merge.job.lst 15
+Submitted batch job 3556936
+```

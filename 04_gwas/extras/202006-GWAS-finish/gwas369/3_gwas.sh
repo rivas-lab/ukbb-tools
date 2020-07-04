@@ -26,7 +26,7 @@ plink2 \
   --pfile /oak/stanford/groups/mrivas/private_data/ukbb/24983/array-combined/pgen/ukb24983_cal_hla_cnv vzs \
   --chr 1-22,X,XY,Y,MT \
   --covar /oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_GWAS_covar.phe \
-  --covar-name age sex Array PC1-PC10 N_CNV LEN_CNV \
+  --covar-name age sex Array Global_PC1-Global_PC18 N_CNV LEN_CNV \
   --covar-variance-standardize \
   --extract ${extract} \
   --glm skip firth-fallback hide-covar omit-ref no-x-sex \
