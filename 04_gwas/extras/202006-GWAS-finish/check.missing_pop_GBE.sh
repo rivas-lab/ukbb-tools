@@ -40,7 +40,7 @@ get_plink_suffix () {
 show_GBE_IDs () {
     info_file=$1
     N_thr=$2
-    cat $info_file | egrep -v '^#' | awk -v FS='\t' -v thr=$N_thr '($7 >= thr && length($1)>0){print $1}'    
+    cat $info_file | egrep -v '^#' | awk -v FS='\t' -v thr=$N_thr '($7 >= thr && length($1)>0){print $1}'
 }
 
 get_sumstats_link () {
@@ -88,7 +88,7 @@ missing_pop_GBE_f <- args[4]
 info_df <- fread(info_f) %>% rename('GBE_ID'='#GBE_ID')
 
 pop_name_map <- data.frame(
-    pop=c('N_GBE', 'N_NBW', 'N_AFR', 'N_EAS', 'N_SAS', 'N_SMR', 'N_OTH'),    
+    pop=c('N_GBE', 'N_NBW', 'N_AFR', 'N_EAS', 'N_SAS', 'N_SMR', 'N_OTH'),
     population=c('white_british', 'non_british_white', 'african', 's_asian', 'e_asian', 'related', 'others'),
     stringsAsFactors=F
 )
@@ -100,11 +100,11 @@ left_join(
     info_df %>%
     select(GBE_ID, N_GBE, N_NBW, N_AFR, N_EAS, N_SAS, N_SMR, N_OTH) %>%
     gather(pop, N_pop, -GBE_ID) %>%
-    left_join(pop_name_map, by='pop') %>% 
+    left_join(pop_name_map, by='pop') %>%
     select(GBE_ID, population, N_pop),
     by=c('GBE_ID', 'population')
 ) %>% filter(N_pop >= min_N) %>%
-left_join(info_df %>% select(GBE_ID, GBE_NAME), by=c('GBE_ID')) %>% 
+left_join(info_df %>% select(GBE_ID, GBE_NAME), by=c('GBE_ID')) %>%
 rename('#population' = 'population') %>%
 fwrite(missing_pop_GBE_f, sep='\t', na = "NA", quote=F)
 EOF
