@@ -24,6 +24,4 @@ exit 0
 ####################
 # instructions 2020/7/4
 for pop in 'non_british_white' 'african' 's_asian' 'e_asian' 'related' 'others' ; do bash 5_deposit_new_sumstats.sh $pop ; done
-
-# todo -- once WB GWAS is finished.
 bash 5_deposit_new_sumstats.sh white_british

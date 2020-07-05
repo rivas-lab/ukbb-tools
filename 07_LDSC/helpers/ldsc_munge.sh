@@ -28,7 +28,7 @@ merge_alleles=${LDSC_hm3_list}
 ############################################################
 
 show_default_helper () {
-    cat ${SRCNAME} | grep -n Default | tail -n+3 | awk -v FS=':' '{print $1}' | tr "\n" "\t" 
+    cat ${SRCNAME} | grep -n Default | tail -n+3 | awk -v FS=':' '{print $1}' | tr "\n" "\t"
 }
 
 show_default () {
@@ -41,20 +41,20 @@ usage () {
 cat <<- EOF
 	$PROGNAME (version $VERSION)
 	Run ldsc
-	
+
 	Usage: $PROGNAME [options] input_file output_file
 	  input_file      The input file
 	  output_file     The output file [.sumstats.gz,.log]
-	
+
 	Options:
 	  --scratch       Use ldscore in /scratch space
 	  --ldscore       Specify the LD score file
 	  --merge_alleles Specify the merge allele file (see --merge)
 	  --merge         Merge with Hap-map v3 SNP list (you can change the SNP list with --merge_alleles option)
-	
+
 	Note:
 	  Please don't use --merge for the summary statistics for the array data (you will lose a lot of variants).
-	
+
 	Default configurations (please use the options above to modify them):
 	  ldscore=${ldscore}
 	  merge_alleles=${merge_alleles}
@@ -70,7 +70,7 @@ if [ ! -d ${tmp_dir_root} ] ; then mkdir -p $tmp_dir_root ; fi
 tmp_dir="$(mktemp -p ${tmp_dir_root} -d tmp-$(basename $0)-$(date +%Y%m%d-%H%M%S)-XXXXXXXXXX)"
 # echo "tmp_dir = $tmp_dir" >&2
 handler_exit () { rm -rf $tmp_dir ; }
-#trap handler_exit EXIT
+trap handler_exit EXIT
 
 ############################################################
 # parser start
@@ -81,9 +81,9 @@ merge="FALSE"
 
 declare -a params=()
 for OPT in "$@" ; do
-    case "$OPT" in 
+    case "$OPT" in
         '-h' | '--help' )
-            usage >&2 ; exit 0 ; 
+            usage >&2 ; exit 0 ;
             ;;
         '-v' | '--version' )
             echo $VERSION ; exit 0 ;
@@ -116,7 +116,7 @@ done
 
 if [ ${#params[@]} -lt ${NUM_POS_ARGS} ]; then
     echo "${PROGNAME}: ${NUM_POS_ARGS} positional arguments are required" >&2
-    usage >&2 ; exit 1 ; 
+    usage >&2 ; exit 1 ;
 fi
 
 input_file=$(readlink -f "${params[0]}")

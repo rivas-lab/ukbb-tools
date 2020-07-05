@@ -43,7 +43,7 @@ metal_script=$(dirname ${SRCDIR})/run_metal.sh
 geno_data="array-combined"
 pops=(white_british non_british_white african s_asian e_asian related others)
 data_dir=/oak/stanford/groups/mrivas/private_data/ukbb/24983/${geno_data}
-metal_dir=${data_dir}/metal/20200616
+metal_dir=${data_dir}/metal/20200704
 in_file_list=${tmp_dir}/metal.input.lst
 
 #####################

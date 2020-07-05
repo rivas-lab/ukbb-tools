@@ -56,9 +56,9 @@ Submitted batch job 3575964
 Submitted batch job 3575965
 Submitted batch job 3575966
 
-# TODO -- once WB GWAS is finished.
-
 ```
 cd /oak/stanford/groups/mrivas/users/ytanigaw/repos/rivas-lab/ukbb-tools/04_gwas/extras/202006-GWAS-finish/coding339
 bash 5_deposit_new_sumstats.sh white_british
 ```
+
+As of 7/4 7:30 pm, the new sumstats were copied to the `gwas/current` directory.
