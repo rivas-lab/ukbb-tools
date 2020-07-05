@@ -2,27 +2,20 @@
 
 ## apply LDSC munge
 
-```
-cat ~/repos/rivas-lab/ukbb-tools/04_gwas/extras/202006-GWAS-finish/gwas-current-gz-wc.20200704-155715.annotated.tsv | awk 'NR==1 || $NF == 1080969' > 1_LDSC_munge.$(date +%Y%m%d-%H%M%S).tsv
-```
+```{bash}
+bash 1_generate_input_list.sh | tee 1_LDSC_munge.$(date +%Y%m%d-%H%M%S).job.lst | tee /dev/stderr | wc -l
 
-`1_LDSC_munge.20200704-171713.tsv`
-20940 files
-
-21 files each, 998 tasks
-
-```
-cat 1_LDSC_munge.20200704-171713.tsv | egrep -v '#' | cut -f3  > 1_LDSC_munge.20200704-171713.job.lst
-
-sbatch -p mrivas,normal,owners --nodes=1 --mem=8000 --cores=1 --time=6:00:00 --job-name=munge --output=logs/munge.%A_%a.out --error=logs/munge.%A_%a.err --array=1-998 /oak/stanford/groups/mrivas/users/ytanigaw/repos/yk-tanigawa/resbatch/parallel-sbatch.sh 1_LDSC_munge.sh 1_LDSC_munge.20200704-171713.job.lst 21
-Submitted batch job 3581032
+sbatch -p mrivas,normal,owners --nodes=1 --mem=8000 --cores=1 --time=6:00:00 --job-name=munge --output=logs/munge.%A_%a.out --error=logs/munge.%A_%a.err --array=1-995 /oak/stanford/groups/mrivas/users/ytanigaw/repos/yk-tanigawa/resbatch/parallel-sbatch.sh 1_LDSC_munge.sh 1_LDSC_munge.20200705-135957.job.lst 6
 ```
 
-Check the completion of the scripts:
+- 5727 files, 955 * 6
+
+### Check the completion of the scripts
 
 ```
-find logs/ -name "*.err" | while read f ; do cat $f | grep array-end | awk -v FS='=' '{print $NF}'; done | sort | comm -3 <(seq 998 | sort) /dev/stdin | tr '\n' ','
-1,12,129,130,131,133,134,135,136,137,138,139,14,140,141,142,143,144,145,146,147,148,149,15,150,151,152,153,154,155,156,157,158,159,16,160,161,162,17,18,19,2,20,21,22,221,226,227,229,23,230,234,24,244,247,25,254,258,259,26,261,262,263,264,265,266,267,268,269,27,270,271,272,273,274,276,277,278,279,28,281,283,284,285,286,287,288,289,29,290,291,292,293,294,295,296,297,298,3,30,300,31,32,33,34,35,36,37,374,38,380,381,39,392,393,395,396,4,40,400,407,408,409,41,410,411,412,413,414,415,416,417,418,419,42,420,421,422,423,424,425,426,427,429,43,430,431,432,434,435,436,437,438,44,440,441,442,443,445,446,447,448,449,45,450,451,452,453,454,455,457,46,47,48,49,5,50,51,52,53,531,538,54,549,55,551,558,56,57,570,58,585,586,588,59,594,6,60,603,612,617,691,692,694,695,696,697,698,699,7,703,704,705,706,707,708,710,711,712,713,714,715,716,717,718,719,720,721,722,723,724,725,726,727,728,729,730,731,732,733,734,735,736,737,738,739,740,741,742,743,744,745,746,747,748,749,750,751,752,753,754,755,8,834,852,862,864,869,871,872,873,876,878,881,882,883,884,885,897,9,900,901,902,903,904,905,906,908,909,910,912,913,914,919,922,925,926,986,987,
+find /oak/stanford/groups/mrivas/ukbb24983/array-combined/ldsc -type f -name "*.gz" | wc
 ```
 
-There are some instances of errors.
+```
+find logs/ -name "*.err" | while read f ; do cat $f | grep array-end | awk -v FS='=' '{print $NF}'; done | sort | comm -3 <(seq 955 | sort) /dev/stdin | sort -n | tr '\n' ','
+```
