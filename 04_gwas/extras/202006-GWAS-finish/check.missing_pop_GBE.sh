@@ -67,7 +67,7 @@ echo "[$(date +%Y%m%d-%H%M%S)] Checking the symlinks in ${gwas_current_dir} ..."
 {
     echo "#population GBE_ID"
     for pop in ${pops[@]} ; do
-        echo $pop
+        echo $pop >&2
         show_GBE_IDs ${info_file} ${min_N} | while read GBE_ID ; do
             sumstats_link=$(get_sumstats_link ${gwas_current_dir} ${pop} ${GBE_ID})
             if [ ! -h ${sumstats_link} ] ; then echo $pop $GBE_ID ; fi

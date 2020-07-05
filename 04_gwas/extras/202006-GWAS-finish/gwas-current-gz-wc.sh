@@ -13,7 +13,7 @@ if [ ! -f ${out} ] ; then
 fi
 exit 0
 ####################################
-
+# instructions version 2020/6/27
 cd /oak/stanford/groups/mrivas/ukbb24983/array-combined/gwas/current
 find  $(pwd) -name "*.gz" -type l | sort > /oak/stanford/groups/mrivas/users/ytanigaw/repos/rivas-lab/ukbb-tools/04_gwas/extras/202006-GWAS-finish/gwas-current-gz-list.$(date +%Y%m%d-%H%M%S).txt
 
@@ -28,3 +28,12 @@ cat gwas-current-gz-wc.finished.20200629-100602.lst  | sort | comm -3 <(seq 1 96
 
 sbatch -p mrivas,normal --nodes=1 --mem=4000 --cores=1 --time=30:00 --job-name=wc --output=logs/wc.%A_%a.out --error=logs/wc.%A_%a.err --array=14,15,16,17,18,19,20,21,88,89,90,91,92,93,94,95 /oak/stanford/groups/mrivas/users/ytanigaw/repos/yk-tanigawa/resbatch/parallel-sbatch.sh gwas-current-gz-wc.sh gwas-current-gz-list.20200627-190224.txt 23
 
+# instructions version 2020/7/4
+
+find /oak/stanford/groups/mrivas/ukbb24983/array-combined/gwas/current -name "*.gz" -type l | sort > /oak/stanford/groups/mrivas/users/ytanigaw/repos/rivas-lab/ukbb-tools/04_gwas/extras/202006-GWAS-finish/gwas-current-gz-list.$(date +%Y%m%d-%H%M%S).txt
+
+this generated a list of 22139 files in `gwas-current-gz-list.20200704-150033.txt`
+
+--> 23 each in 963 tasks
+
+sbatch -p mrivas,normal --nodes=1 --mem=4000 --cores=1 --time=30:00 --job-name=wc --output=logs/wc.%A_%a.out --error=logs/wc.%A_%a.err --array=1-963 /oak/stanford/groups/mrivas/users/ytanigaw/repos/yk-tanigawa/resbatch/parallel-sbatch.sh gwas-current-gz-wc.sh gwas-current-gz-list.20200704-150033.txt 23

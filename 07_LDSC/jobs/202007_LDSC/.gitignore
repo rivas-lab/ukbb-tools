@@ -1,0 +1,4 @@
+logs
+*.job.lst
+1_LDSC_munge.*.tsv
+
