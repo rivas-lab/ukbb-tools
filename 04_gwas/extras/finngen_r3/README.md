@@ -34,6 +34,29 @@
   - [`5_conv_to_plink.input.lst`](5_conv_to_plink.input.lst)
 - [`6_ldsc_munge.sh`](6_ldsc_munge.sh): convert the sumstats from PLINK to LDSC format
 
+## LDSC h2
+
+- [Google Spreadsheet](https://docs.google.com/spreadsheets/d/1ul4hr00KKZy0JRUW2ZW5-LORWEyeBCt7B3pAiNKRj5g/edit?usp=sharing)
+
+## LDSC rg
+
+```{bash}
+bash 7_ldsc_rg.generate_input.sh > 7_ldsc_rg.input.$(date +%Y%m%d-%H%M%S).tsv
+
+seq 2 5000 > job.1.5000.lst
+
+sbatch -p mrivas,normal,owners --nodes=1 --mem=8000 --cores=1 --time=3:00:00 --job-name=FGrg --output=logs/FGrg.%A_%a.out --error=logs/FGrg.%A_%a.err --array=1-1000 /oak/stanford/groups/mrivas/users/ytanigaw/repos/yk-tanigawa/resbatch/parallel-sbatch.sh 7_ldsc_rg.sh job.1.5000.lst 5
+Submitted batch job 3634866
+```
+
+523 * 1482 = 775086
+
+1-100000
+
+```
+sbatch -p mrivas,normal,owners --nodes=1 --mem=8000 --cores=1 --time=12:00:00 --job-name=FGrg --output=logs/FGrg.%A_%a.out --error=logs/FGrg.%A_%a.err --array=1-1000 /oak/stanford/groups/mrivas/users/ytanigaw/repos/yk-tanigawa/resbatch/parallel-sbatch.sh 7_ldsc_rg.sh job.1.100000.lst 100
+```
+
 ## instruction
 
 ```
@@ -44,7 +67,7 @@ Subject: Registration for FinnGen GWAS Summary Statistics download
 
 Dear researcher,
 
-Thanks for your interest in FinnGen data. 
+Thanks for your interest in FinnGen data.
 Below you can find the information on how to download the data.
 
 Released FinnGen GWAS summary statistics can be downloaded from Google cloud storage free of charge.
@@ -52,7 +75,7 @@ ______________________________________________________________   
 
 INSTRUCTIONS FOR WEB BROWSER-BASED ACCESS:
 1) Open web browser (Google Chrome is recommended)
-2) Navigate: 
+2) Navigate:
 https://console.cloud.google.com/storage/browser/finngen-public-data-r3/summary_stats/
 https://console.cloud.google.com/storage/browser/finngen-public-data-r3/finemapping/
 or
@@ -60,7 +83,7 @@ https://console.cloud.google.com/storage/browser/finngen-public-data-r2/summary_
 
 3) Login with your google account
 4) Select the files to be downloaded
-5) Use ... at the right-hand side to start downloading  
+5) Use ... at the right-hand side to start downloading 
 
 ______________________________________________________________
 
@@ -98,7 +121,7 @@ More information about the data QC, PheWAS methodology can be obtained at: https
 
 
 
-Explore the results at: http://r3.finngen.fi/ or http://r2.finngen.fi/ 
+Explore the results at: http://r3.finngen.fi/ or http://r2.finngen.fi/
 
 ______________________________________________________________
 Please consider visiting the study website(https://www.finngen.fi/en) and follow FinnGen on twitter: @FinnGen_FI(https://twitter.com/finngen_fi?lang=en)

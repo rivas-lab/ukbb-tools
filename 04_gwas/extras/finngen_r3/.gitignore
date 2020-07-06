@@ -1,3 +1,5 @@
 logs
 *.input.lst
 logs_*
+7_ldsc_rg.input.*.tsv
+7_ldsc_rg.2020*.tsv

@@ -7,7 +7,7 @@ if [ $# -gt 0 ] ; then
     in_f=$1
 fi
 
-cat $in_f | awk -v FS='\t' -v OFS='\t' '(NR > 1 || $NF == 1080969){ print $1, $2, $3 }' | while read GBE_ID pop sumstats_symlink ; do
+cat $in_f | awk -v FS='\t' -v OFS='\t' '(NR > 1 && $NF == 1080969){ print $1, $2, $3 }' | grep -v '_X.array-combined' | while read GBE_ID pop sumstats_symlink ; do
 
     LDSC_f=/oak/stanford/groups/mrivas/ukbb24983/array-combined/ldsc/${pop}/ukb24983_v2_hg19.${GBE_ID}.array-combined.sumstats.gz
 
