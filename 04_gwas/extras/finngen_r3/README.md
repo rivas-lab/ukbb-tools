@@ -54,6 +54,7 @@ Submitted batch job 3634866
 1-100000
 
 ```
+seq 1 100000 > job.1.100000.lst
 sbatch -p mrivas,normal,owners --nodes=1 --mem=8000 --cores=1 --time=12:00:00 --job-name=FGrg --output=logs/FGrg.%A_%a.out --error=logs/FGrg.%A_%a.err --array=1-1000 /oak/stanford/groups/mrivas/users/ytanigaw/repos/yk-tanigawa/resbatch/parallel-sbatch.sh 7_ldsc_rg.sh job.1.100000.lst 100
 ```
 
