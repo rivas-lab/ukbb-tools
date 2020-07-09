@@ -2,7 +2,24 @@
 
 We compute genetic parameters by [LD score regression (LDSC)](https://github.com/bulik/ldsc) with GWAS summary statistics as input.
 
-## LDSC results files
+## LDSC helper scripts
+
+We have LDSC helper scripts. Please see [`helpers`](helpers) for more info.
+
+## LDSC results files (version 2020)
+
+We convert the GWAS summary statistics from the latest GWAS freeze. We keep track of that activity in [the issue ticket #26](https://github.com/rivas-lab/ukbb-tools/issues/26) for the 2020 refresh.
+
+### Summary statistics in LDSC munge format
+
+The converted summary statistics is stored in this directory:
+
+`/oak/stanford/groups/mrivas/ukbb24983/array-combined/ldsc`
+
+Each population group has a sub-directory.
+
+
+## LDSC results files (old ~ 2018 version?)
 
 The results of LDSC are written in the following directories:
 
