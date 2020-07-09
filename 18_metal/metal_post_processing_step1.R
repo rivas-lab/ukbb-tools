@@ -7,27 +7,29 @@ suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(data.table))
 
 ####################################################################
-# source(file.path(dirname(script.name), 'misc.R'))
+in_files  <- args[1]
+metal_f   <- args[2]
+out_f     <- args[3]
 ####################################################################
 
-loci_f  <- args[1]
-metal_f <- args[2]
-out_f   <- args[3]
-
-# read loci file
-loci <- fread(cmd=paste('zcat', loci_f)) %>%
-rename('CHROM' = '#CHROM')
-
 # read metal output
-metal <- fread(metal_f)
+metal <- fread(metal_f, colClasses='character')
 
-# join them together and change col names
-df <- loci %>% 
-mutate(order = 1:n()) %>%
-inner_join(
-    metal %>% rename('ID' = 'MarkerName'),
-    by='ID'
-) %>%
+in_files %>% fread(head=F) %>% pull() %>%
+lapply(function(f){
+    f %>%
+    fread(
+        select=c('#CHROM', 'POS', 'ID', 'OBS_CT'),
+        colClasses=c('#CHROM'='character', 'POS'='numeric', 'ID'='character', 'OBS_CT'='numeric')
+    ) %>%
+    rename('CHROM'='#CHROM')    
+}) %>%
+bind_rows() %>%
+group_by(CHROM, POS, ID) %>%
+summarise(OBS_CT=sum(OBS_CT)) %>%
+ungroup() %>%
+as.data.frame() %>%
+inner_join(metal %>% rename('ID' = 'MarkerName'), by='ID') %>%
 mutate(
     Allele1 = toupper(Allele1),
     Allele2 = toupper(Allele2)
@@ -42,9 +44,7 @@ rename(
     # (we need to apply flipfix)
 ) %>%
 mutate(ALT = A1) %>%
-arrange(order) %>%
-select(c('CHROM', 'POS', 'ID', 'REF', 'ALT', 'A1', colnames(metal)[4:ncol(metal)])) %>%
-rename('#CHROM' = 'CHROM', 'BETA' = 'Effect', 'SE' = 'StdErr', 'P' = 'P-value')
-
-# write the results to file
-df %>% fwrite(out_f, sep='\t')
+arrange(CHROM, as.numeric(POS)) %>%
+select(c('CHROM', 'POS', 'ID', 'REF', 'ALT', 'A1', 'OBS_CT', colnames(metal)[4:ncol(metal)])) %>%
+rename('#CHROM' = 'CHROM', 'BETA' = 'Effect', 'SE' = 'StdErr', 'P' = 'P-value') %>%
+fwrite(out_f, sep='\t')

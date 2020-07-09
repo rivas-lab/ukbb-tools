@@ -100,27 +100,10 @@ metal_pre_processing () {
     fi | awk -v OFS='\t' -v cP=${col_P} '$cP != "NA"'
 }
 
-extract_loci () {
-    # For a given input file, we extract the list of loci (CHROM, POS, and ID)
-    local in_file=$1
-    
-    local col_CHROM=$( get_col_idx $in_file "CHROM")
-    local col_POS=$(   get_col_idx $in_file "POS")
-    local col_ID=$(    get_col_idx $in_file "ID")
-   
-    cat_or_zcat ${in_file} \
-    | awk -v OFS='\t' -v cCHROM=${col_CHROM} -v cPOS=${col_POS} -v cID=${col_ID} \
-    '(NR>1){print $cCHROM, $cPOS, $cID}'
-}
+show_metal_input_files () {
+    local metal_info=$1
+    nr_s=$(cat_or_zcat ${metal_info} | egrep -n '^# == original input files ==' | awk -v FS=':' '{print $1}')
+    nr_e=$(cat_or_zcat ${metal_info} | egrep -n '^# == METAL info file ==' | awk -v FS=':' '{print $1}')
 
-extract_loci_for_files () {
-    # For a given set of files, we extract the loci (CHROM, POS, and ID)
-    local in_files=$1 # a file containing the list of file
-    if [ $# -gt 1 ] ; then nCores=$2 ; else nCores=1 ; fi
-    
-    echo "#CHROM POS ID" | tr " " "\t"
-    
-    cat_or_zcat ${in_files} | while read f ; do 
-        extract_loci $f
-    done | sort --parallel ${nCores} -k1,1V -k2,2n -k3,3 -u
+    cat_or_zcat ${metal_info} | awk -v nr_s=${nr_s}  -v nr_e=${nr_e} 'nr_s < NR && NR < nr_e'
 }

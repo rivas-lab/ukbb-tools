@@ -7,14 +7,16 @@ Using standing height (INI50) as an example, we perform preliminary analysis for
 |            | WB | NBW | Afr | SA | EA | rel | others | relative power* | n_Metal |
 |------------|----|-----|-----|----|----|-----|--------|-----------------|---------|
 | WB         | x  |     |     |    |    |     |        | 1               | 337138  |
-| 4pops      | x  | x   | x   | x  |    |     |        | 1.037           | 376425  |
-| 5pops      | x  | x   | x   | x  | x  |     |        | 1.036           | 377579  |
-| 5pops-noEA | x  | x   | x   | x  |    | x   |        | 1.119           | 421057  |
-| 6pops      | x  | x   | x   | x  | x  | x   |        | 1.119           | 422211  |
-| 6pops-noEA | x  | x   | x   | x  |    | x   | x      | 1.161           | 449608  |
-| 7pops      | x  | x   | x   | x  | x  | x   | x      | 1.161           | 450762  |
+| 4pops      | x  | x   | x   | x  |    |     |        | 1.063           | 376425  |
+| 5pops      | x  | x   | x   | x  | x  |     |        | 1.063           | 377579  |
+| 5pops-noEA | x  | x   | x   | x  |    | x   |        | 1.177           | 421057  |
+| 6pops      | x  | x   | x   | x  | x  | x   |        | 1.178           | 422211  |
+| 6pops-noEA | x  | x   | x   | x  |    | x   | x      | 1.237           | 449608  |
+| 7pops      | x  | x   | x   | x  | x  | x   | x      | 1.237           | 450762  |
 
-- the relative power is computed by fitting a linear model `log10(Metal_P) ~ 0 + log10(WB_P)` on the LD-independent variants on the array.
+- the relative power is computed by fitting a linear model `log10(Metal_P) ~ 0 + log10(WB_P)` on the significant (P < 5e-8 in WB or the meta-analyzed sumstats) LD-independent variants on the array. Please see [`2_compare_pval.ipynb`](2_compare_pval.ipynb) for the analysis notebook.
+
+![p-value comparison](2_compare_pval.png)
 
 ## input files
 
@@ -52,9 +54,15 @@ We applied Metal for different set of sumstats
 
 We plotted the p-value (WB) vs p-value (Metal)
 
-## qq-plot
+## Q-Q plot
 
-We generated QQ-plot for WB sumstats
+We generated Q-Q plot.
+
+![Q-Q plot for WB](3_qq_WB.png)
+
+![Q-Q plot for non-WB pops](3_qq.png)
+
+![Q-Q plot for the meta-analyzed summary statistics from 7 pops](3_qq_Metal_7pops.png)
 
 ## Lambda GC from LDSC
 

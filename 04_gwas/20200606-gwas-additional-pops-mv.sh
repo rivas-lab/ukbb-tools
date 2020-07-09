@@ -78,4 +78,6 @@ bash 20200606-gwas-additional-pops-mv.sh related
 # 2020/6/16 11:50 --> YT applied this script. We need to run it again once we have the results from the second half of the GWAS
 #  So the ToDo items are:
 #  - wait and let it finish the
+for pop in others related ; do bash 20200606-gwas-additional-pops-mv.sh $pop ; done | tee 20200606-gwas-additional-pops-mv.20200626.log
 
+for pop in others related ; do bash 20200606-gwas-additional-pops-mv.sh $pop ; done | tee 20200606-gwas-additional-pops-mv.20200627.log

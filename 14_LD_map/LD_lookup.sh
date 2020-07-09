@@ -112,7 +112,7 @@ pos="${params[1]}"
 ############################################################
 
 if [ "${ld}" == "AUTO" ] ; then
-    ld="${ukb_dir}/${dataset}/ldmap/ukb24983_ukb24983_cal_hla_imp.${pop}.ld_map.tsv.gz"
+    ld="${ukb_dir}/${dataset}/ldmap/ukb24983_cal_hla_imp.${pop}.ld_map.tsv.gz"
 fi
 
 tabix -h ${ld} ${chrom}:${pos} \

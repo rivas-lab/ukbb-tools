@@ -102,7 +102,8 @@ def make_plink_command(bpFile, pheFile, pheName, outFile, outDir, pop, keepFile=
         "PC1-PC10" if not related else "Global_PC1-Global_PC18", 
         "N_CNV LEN_CNV" if is_cnv_burden else "FastingTime" if is_biomarker_binary else "",
         "--covar-variance-standardize",
-        "--vif 100000000" if pop in ['non_british_white', 'african', 'e_asian', 's_asian'] else "",
+        "--vif 100000000",
+#         "--vif 100000000" if pop in ['non_british_white', 'african', 'e_asian', 's_asian'] else "",
         "--out", outFile,
         plink_opts
     ])
@@ -141,8 +142,8 @@ def make_plink_commands_arrayCovar(bpFile, outFile, make_plink_command_common_ar
             cores=1
         # join the plink calls, add some bash at the bottom to combine the output  
         return("\n\n".join([
-            # cmd2, cmd1,
-            cmd1, # 2020/6/16 -- rerunning the jobs only for the both_arrays files
+            cmd2, cmd1,
+            # cmd1, # 2020/6/16 -- rerunning the jobs only for the both_arrays files
             "#combine_two_sumstats {0} {1} {2} {3}".format(outFile1, outFile2, outFile, cores)
         ]))
 

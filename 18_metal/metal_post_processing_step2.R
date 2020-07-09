@@ -17,7 +17,8 @@ HLA_allelotypes_with_P_as_ref <- c('DPA1_103', 'DRB3_9901', 'DRB4_9901', 'DRB5_9
 # For all CNV alleles and most HLA allelotypes, REF == 'N'
 # However, the 4 alleloeyptes specified here, REF == 'P'
 
-fread(cmd=paste('zcat', in_f)) %>% 
+fread(cmd=paste('zcat', in_f), colClasses='character') %>% 
+rename('CHROM'='#CHROM') %>%
 mutate(
     FASTA_REF = toupper(FASTA_REF),
     BETA = as.numeric(BETA),
@@ -42,4 +43,5 @@ mutate(
     )
 ) %>%
 select(-FASTA_REF, -is_flip) %>%
+rename('#CHROM'='CHROM') %>%
 fwrite(out_f, sep='\t')

@@ -4,7 +4,7 @@ set -beEuo pipefail
 SRCNAME=$(readlink -f $0)
 SRCDIR=$(dirname ${SRCNAME})
 PROGNAME=$(basename $SRCNAME)
-VERSION="0.2.0"
+VERSION="0.2.2"
 NUM_POS_ARGS="1"
 
 source "${SRCDIR}/18_metal_misc.sh"
@@ -14,6 +14,12 @@ flipcheck_sh="$(dirname ${SRCDIR})/09_liftOver/flipcheck.sh"
 ############################################################
 # update log
 ############################################################
+# version 0.2.1 (2020/6/25)
+#   Add OBS_CT column in the Metal output file
+#
+# version 0.2.1 (2020/6/24)
+#   Robust parsing of the Metal output files in post-processing scripts
+#
 # version 0.2.0 (2020/6/12)
 #   Automatic filtering of the NA-lines
 #
@@ -26,7 +32,7 @@ flipcheck_sh="$(dirname ${SRCDIR})/09_liftOver/flipcheck.sh"
 ############################################################
 
 show_default_helper () {
-    cat ${SRCNAME} | grep -n Default | tail -n+3 | awk -v FS=':' '{print $1}' | tr "\n" "\t" 
+    cat ${SRCNAME} | grep -n Default | tail -n+3 | awk -v FS=':' '{print $1}' | tr "\n" "\t"
 }
 
 show_default () {
@@ -39,10 +45,10 @@ usage () {
 cat <<- EOF
 	$PROGNAME (version $VERSION)
 	Run run_metal for the specified set of summary statistics and apply flipfix.
-	
+
 	Usage: $PROGNAME [options] in_file_1 [in_file_2..n]
 	  in_file_1..n     Input files for METAL
-	
+
 	Options:
       --out (-o) [REQUIRED] The prefix of output files
 	  --flipcheck_sh     The location of flip check script
@@ -50,7 +56,7 @@ cat <<- EOF
 	  --in_file          List of input files for METAL
 	  --assembly    The genome build for the input file (option for flipcheck)
 	  --ref_fa      The reference genome sequence. (option for flipcheck)
-	
+
 	Note:
 	  We assume the input file has the following columns:
 	    - OR, CHROM, POS, ID, A1, REF, BETA, P, SE, OBS_CT
@@ -58,7 +64,7 @@ cat <<- EOF
 	    - <outfile_prefix>.metal.tsv.gz : METAL output file
 	    - <outfile_prefix>.metal.info.txt : log file
       This script internally calls flipcheck.sh. Please check 09_liftOver for more info.
-	
+
 	Default configurations:
 	  flipcheck_sh=${flipcheck_sh}
 EOF
@@ -88,9 +94,9 @@ out="__REQUIRED__"
 
 declare -a params=()
 for OPT in "$@" ; do
-    case "$OPT" in 
+    case "$OPT" in
         '-h' | '--help' )
-            usage >&2 ; exit 0 ; 
+            usage >&2 ; exit 0 ;
             ;;
         '-v' | '--version' )
             echo $VERSION ; exit 0 ;
@@ -127,9 +133,9 @@ for OPT in "$@" ; do
     esac
 done
 
-if [ "${in_file}" == "AUTO" ] && [ ${#params[@]} -lt ${NUM_POS_ARGS} ]; then
+if [ "${in_file}" == "AUTO" ] && [ "${#params[@]}" -lt "${NUM_POS_ARGS}" ]; then
     echo "${PROGNAME}: ${NUM_POS_ARGS} positional arguments are required" >&2
-    usage >&2 ; exit 1 ; 
+    usage >&2 ; exit 1 ;
 fi
 
 if [ "${out}" == "__REQUIRED__" ] ; then
@@ -187,19 +193,15 @@ cd -
 
 echo "Metal is done. Applying post-processing scripts ..."
 
-echo "Extracting list of loci (CHROM, POS, and ID) into a loci file ..."
-extract_loci_for_files ${tmp_infile_list} ${nCores} | bgzip -l9 -@ ${nCores} > ${tmp_out}.loci.gz
+echo "Joining the metal output with CHROM, POS, and OBS_CT ..."
 
-echo "Joining the metal output with loci file ..."
-
-# metal_post_processing_step1.R --> join the metal output with loci file
-Rscript ${SRCDIR}/metal_post_processing_step1.R \
-${tmp_out}.loci.gz ${tmp_out}1.tbl ${tmp_out}.metal.tsv
+# metal_post_processing_step1.R --> join the metal output with CHROM, POS, and OBS_CT columns
+Rscript ${SRCDIR}/metal_post_processing_step1.R ${tmp_infile_list} ${tmp_out}1.tbl ${tmp_out}.metal.tsv
 
 echo "Applying flipcheck script to fetch the REF allele from FASTA file ..."
 
 # apply flipcheck script to fetch the REF allele from FASTA file
-bash ${flipcheck_sh} --ref_fa ${ref_fa} --assembly ${assembly} ${tmp_out}.metal.tsv | bgzip -l 9 -@ ${nCores} > ${tmp_out}.metal.check.tsv.gz
+bash ${flipcheck_sh} --ref_fa ${ref_fa} --assembly ${assembly} ${tmp_out}.metal.tsv | bgzip -@ ${nCores} > ${tmp_out}.metal.check.tsv.gz
 
 echo "Applying flipfix using a custom script ..."
 Rscript ${SRCDIR}/metal_post_processing_step2.R ${tmp_out}.metal.check.tsv.gz ${tmp_out}.metal.fixed.tsv

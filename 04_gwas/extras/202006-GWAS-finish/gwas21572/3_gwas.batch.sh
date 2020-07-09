@@ -1,0 +1,1 @@
+../gwas691/3_gwas.batch.sh

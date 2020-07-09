@@ -60,7 +60,7 @@ else
     glm_suffix="logistic.hybrid"
 fi
 
-data_dir="/oak/stanford/groups/mrivas/ukbb24983/cal/gwas/current"
+data_dir="/oak/stanford/groups/mrivas/ukbb24983/array-combined/gwas/current"
 chrAUTO_sym="${data_dir}/${pop}/ukb24983_v2_hg19.${GBE_ID}.${dataset}.glm.${glm_suffix}.gz"
 chrX_sym="${data_dir}/${pop}/ukb24983_v2_hg19.${GBE_ID}_X.${dataset}.glm.${glm_suffix}.gz"
 
@@ -153,4 +153,3 @@ bgzip -l9 -f ${chrAUTO%.gz}
 # remove the sym links to chrX file
 #rm $chrX_log_sym
 rm $chrX_sym
-

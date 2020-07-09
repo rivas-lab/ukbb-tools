@@ -30,15 +30,12 @@ else
 fi
 
 pheno="/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/master_phe/master.20200522.phe"
-pheno_covar_col_end=94
 
 if   [ "${pop}" == "related" ] ; then
     out="/oak/stanford/groups/mrivas/projects/related/"
-    # out="/oak/stanford/groups/mrivas/projects/dev-related/"
     keep="/oak/stanford/groups/mrivas/ukbb24983/sqc/relatedness_20200514/semi_related.fam"
 elif [ "${pop}" == "others" ] ; then
     out="/oak/stanford/groups/mrivas/projects/gwas_others/"
-    # out="/oak/stanford/groups/mrivas/projects/dev-gwas_others/"
     keep="/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification_w24983_20200522/ukb24983_others.phe"
 else
     echo "unsupported population ${pop}" >&2 ; exit 1
