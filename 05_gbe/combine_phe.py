@@ -82,6 +82,6 @@ for phe,app,path in map(lambda (k,v): (k,v['APP_ID'],v['PATH']),phe_in.items()):
 sep='\t'
 print("writing to file...")
 with open(out_file, 'w') as f:
-    f.write(sep.join(['FID', 'IID'] + phe_out) + '\n')
+    f.write(sep.join(['#FID', 'IID'] + phe_out) + '\n')
     for ind in sorted(list(set(inds.keys()) - set(redacted))):
         f.write(sep.join([ind, ind] + inds[ind]) + '\n')
