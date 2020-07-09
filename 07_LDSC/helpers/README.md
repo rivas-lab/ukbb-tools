@@ -1,6 +1,8 @@
 # LDSC helper scripts
 
-In 2020/4, we rewrote wrapper scripts for LDSC. Previous scripts can be found in [`old_helpers`](old_helpers)` directory.
+In 2020/4, we rewrote wrapper scripts for LDSC. Previous scripts can be found in [`old_helpers`](old_helpers) directory.
+
+If you're interested in using our helper script, please first read [LDSC documentation](https://github.com/bulik/ldsc/wiki/Heritability-and-Genetic-Correlation) so that you have some understanding on what scripts needs to be called.
 
 We now use Docker/Singularity image of LDSC (rather than assuming everybody has their LDSC environment). The following three scirpts are basically wrappers for Dockerlized LDSC.
 
