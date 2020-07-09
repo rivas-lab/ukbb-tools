@@ -2857,17 +2857,17 @@ INI21044	306	Average_number_of_times_bowels_opened_per_day	306	306	Y	Ave. # of t
 INI21045	16	Number_of_weeks_absent_from_work_due_to_IBS,_in_the_last_year	16	16	Y	# of weeks absent from work due to IBS, in the last year	56	
 INI21047	16	Number_of_weeks_(in_the_last_year)_at_work_suffering_because_of_IBS	16	16	Y	# of weeks (in the last year) at work suffering because of IBS	62	
 INI21048	308	Degree_bothered_by_back_pain_in_the_past_3_months	308	308	Y	Degree bothered by back pain in the past 3 months	49	
-INI21049	257	Degree_bothered_by_pain_in_arms/legs/joints_in_the_past_3_months	257	257	Y	Degree bothered by pain in arms/legs/joints in the past 3 months	64	
-INI21051	298	Degree_bothered_by_headaches_in_the_last_3_months	298	298	Y	Degree bothered by headaches in the last 3 months	49	
-INI21052	298	Degree_bothered_by_chest_pain_in_the_last_3_months	298	298	Y	Degree bothered by chest pain in the last 3 months	50	
-INI21053	295	Degree_bothered_by_dizziness_in_the_last_3_months	295	295	Y	Degree bothered by dizziness in the last 3 months	49	
-INI21054	304	Degree_bothered_by_fainting_spells_in_the_last_3_months	304	304	Y	Degree bothered by fainting spells in the last 3 months	55	
-INI21055	295	Degree_bothered_by_feeling_heart_pound/race_in_the_last_3_months	295	295	Y	Degree bothered by feeling heart pound/race in the last 3 months	64	
-INI21056	297	Degree_bothered_by_shortness_of_breath_in_the_last_3_months	297	297	Y	Degree bothered by shortness of breath in the last 3 months	59	
-INI21058	279	Degree_bothered_by_urinary_frequency/bladder_irritability_in_the_last_3_months	279	279	Y	Degree bothered by urinary frequency/bladder irritability in the last 3 months	78	
-INI21059	301	Degree_bothered_by_nausea_in_the_last_3_months	301	301	Y	Degree bothered by nausea in the last 3 months	46	
-INI21060	273	Degree_bothered_by_feeling_tired_all_the_time_in_the_last_3_months	273	273	Y	Degree bothered by feeling tired all the time in the last 3 months	66	
-INI21061	277	Degree_bothered_by_trouble_sleeping_in_the_last_3_months	277	277	Y	Degree bothered by trouble sleeping in the last 3 months	56	
+INI21049	308	Degree_bothered_by_pain_in_arms/legs/joints_in_the_past_3_months	308	308	Y	Degree bothered by pain in arms/legs/joints in the past 3 months	64	
+INI21051	308	Degree_bothered_by_headaches_in_the_last_3_months	308	308	Y	Degree bothered by headaches in the last 3 months	49	
+INI21052	308	Degree_bothered_by_chest_pain_in_the_last_3_months	308	308	Y	Degree bothered by chest pain in the last 3 months	50	
+INI21053	308	Degree_bothered_by_dizziness_in_the_last_3_months	308	308	Y	Degree bothered by dizziness in the last 3 months	49	
+INI21054	308	Degree_bothered_by_fainting_spells_in_the_last_3_months	308	308	Y	Degree bothered by fainting spells in the last 3 months	55	
+INI21055	308	Degree_bothered_by_feeling_heart_pound/race_in_the_last_3_months	308	308	Y	Degree bothered by feeling heart pound/race in the last 3 months	64	
+INI21056	308	Degree_bothered_by_shortness_of_breath_in_the_last_3_months	308	308	Y	Degree bothered by shortness of breath in the last 3 months	59	
+INI21058	308	Degree_bothered_by_urinary_frequency/bladder_irritability_in_the_last_3_months	308	308	Y	Degree bothered by urinary frequency/bladder irritability in the last 3 months	78	
+INI21059	308	Degree_bothered_by_nausea_in_the_last_3_months	308	308	Y	Degree bothered by nausea in the last 3 months	46	
+INI21060	308	Degree_bothered_by_feeling_tired_all_the_time_in_the_last_3_months	308	308	Y	Degree bothered by feeling tired all the time in the last 3 months	66	
+INI21061	308	Degree_bothered_by_trouble_sleeping_in_the_last_3_months	308	308	Y	Degree bothered by trouble sleeping in the last 3 months	56	
 INI2139	742	Age_first_had_sexual_intercourse	742	742	Y	Age first had sexual intercourse	32	
 INI2149	711	Lifetime_number_of_sexual_partners	711	711	Y	Lifetime # of sexual partners	29	
 INI22146	89	Age_hayfever_or_allergic_rhinitis_diagnosed_by_doctor	89	89	Y	Age hayfever or allergic rhinitis diagnosed by doctor	53	

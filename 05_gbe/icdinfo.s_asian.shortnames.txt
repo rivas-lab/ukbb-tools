@@ -2857,17 +2857,17 @@ INI21044	1195	Average_number_of_times_bowels_opened_per_day	1195	1195	Y	Ave. # o
 INI21045	64	Number_of_weeks_absent_from_work_due_to_IBS,_in_the_last_year	64	64	Y	# of weeks absent from work due to IBS, in the last year	56	
 INI21047	68	Number_of_weeks_(in_the_last_year)_at_work_suffering_because_of_IBS	68	68	Y	# of weeks (in the last year) at work suffering because of IBS	62	
 INI21048	1211	Degree_bothered_by_back_pain_in_the_past_3_months	1211	1211	Y	Degree bothered by back pain in the past 3 months	49	
-INI21049	925	Degree_bothered_by_pain_in_arms/legs/joints_in_the_past_3_months	925	925	Y	Degree bothered by pain in arms/legs/joints in the past 3 months	64	
-INI21051	1146	Degree_bothered_by_headaches_in_the_last_3_months	1146	1146	Y	Degree bothered by headaches in the last 3 months	49	
-INI21052	1172	Degree_bothered_by_chest_pain_in_the_last_3_months	1172	1172	Y	Degree bothered by chest pain in the last 3 months	50	
-INI21053	1169	Degree_bothered_by_dizziness_in_the_last_3_months	1169	1169	Y	Degree bothered by dizziness in the last 3 months	49	
-INI21054	1193	Degree_bothered_by_fainting_spells_in_the_last_3_months	1193	1193	Y	Degree bothered by fainting spells in the last 3 months	55	
-INI21055	1147	Degree_bothered_by_feeling_heart_pound/race_in_the_last_3_months	1147	1147	Y	Degree bothered by feeling heart pound/race in the last 3 months	64	
-INI21056	1119	Degree_bothered_by_shortness_of_breath_in_the_last_3_months	1119	1119	Y	Degree bothered by shortness of breath in the last 3 months	59	
-INI21058	1057	Degree_bothered_by_urinary_frequency/bladder_irritability_in_the_last_3_months	1057	1057	Y	Degree bothered by urinary frequency/bladder irritability in the last 3 months	78	
-INI21059	1186	Degree_bothered_by_nausea_in_the_last_3_months	1186	1186	Y	Degree bothered by nausea in the last 3 months	46	
-INI21060	955	Degree_bothered_by_feeling_tired_all_the_time_in_the_last_3_months	955	955	Y	Degree bothered by feeling tired all the time in the last 3 months	66	
-INI21061	1017	Degree_bothered_by_trouble_sleeping_in_the_last_3_months	1017	1017	Y	Degree bothered by trouble sleeping in the last 3 months	56	
+INI21049	1211	Degree_bothered_by_pain_in_arms/legs/joints_in_the_past_3_months	1211	1211	Y	Degree bothered by pain in arms/legs/joints in the past 3 months	64	
+INI21051	1211	Degree_bothered_by_headaches_in_the_last_3_months	1211	1211	Y	Degree bothered by headaches in the last 3 months	49	
+INI21052	1209	Degree_bothered_by_chest_pain_in_the_last_3_months	1209	1209	Y	Degree bothered by chest pain in the last 3 months	50	
+INI21053	1211	Degree_bothered_by_dizziness_in_the_last_3_months	1211	1211	Y	Degree bothered by dizziness in the last 3 months	49	
+INI21054	1209	Degree_bothered_by_fainting_spells_in_the_last_3_months	1209	1209	Y	Degree bothered by fainting spells in the last 3 months	55	
+INI21055	1208	Degree_bothered_by_feeling_heart_pound/race_in_the_last_3_months	1208	1208	Y	Degree bothered by feeling heart pound/race in the last 3 months	64	
+INI21056	1211	Degree_bothered_by_shortness_of_breath_in_the_last_3_months	1211	1211	Y	Degree bothered by shortness of breath in the last 3 months	59	
+INI21058	1211	Degree_bothered_by_urinary_frequency/bladder_irritability_in_the_last_3_months	1211	1211	Y	Degree bothered by urinary frequency/bladder irritability in the last 3 months	78	
+INI21059	1207	Degree_bothered_by_nausea_in_the_last_3_months	1207	1207	Y	Degree bothered by nausea in the last 3 months	46	
+INI21060	1211	Degree_bothered_by_feeling_tired_all_the_time_in_the_last_3_months	1211	1211	Y	Degree bothered by feeling tired all the time in the last 3 months	66	
+INI21061	1209	Degree_bothered_by_trouble_sleeping_in_the_last_3_months	1209	1209	Y	Degree bothered by trouble sleeping in the last 3 months	56	
 INI2139	4876	Age_first_had_sexual_intercourse	4876	4876	Y	Age first had sexual intercourse	32	
 INI2149	4715	Lifetime_number_of_sexual_partners	4715	4715	Y	Lifetime # of sexual partners	29	
 INI22146	193	Age_hayfever_or_allergic_rhinitis_diagnosed_by_doctor	193	193	Y	Age hayfever or allergic rhinitis diagnosed by doctor	53	

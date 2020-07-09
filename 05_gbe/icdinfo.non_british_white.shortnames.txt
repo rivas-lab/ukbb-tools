@@ -2857,17 +2857,17 @@ INI21044	9083	Average_number_of_times_bowels_opened_per_day	9083	9083	Y	Ave. # o
 INI21045	510	Number_of_weeks_absent_from_work_due_to_IBS,_in_the_last_year	510	510	Y	# of weeks absent from work due to IBS, in the last year	56	
 INI21047	525	Number_of_weeks_(in_the_last_year)_at_work_suffering_because_of_IBS	525	525	Y	# of weeks (in the last year) at work suffering because of IBS	62	
 INI21048	9142	Degree_bothered_by_back_pain_in_the_past_3_months	9142	9142	Y	Degree bothered by back pain in the past 3 months	49	
-INI21049	7210	Degree_bothered_by_pain_in_arms/legs/joints_in_the_past_3_months	7210	7210	Y	Degree bothered by pain in arms/legs/joints in the past 3 months	64	
-INI21051	8697	Degree_bothered_by_headaches_in_the_last_3_months	8697	8697	Y	Degree bothered by headaches in the last 3 months	49	
-INI21052	9005	Degree_bothered_by_chest_pain_in_the_last_3_months	9005	9005	Y	Degree bothered by chest pain in the last 3 months	50	
-INI21053	8896	Degree_bothered_by_dizziness_in_the_last_3_months	8896	8896	Y	Degree bothered by dizziness in the last 3 months	49	
-INI21054	9105	Degree_bothered_by_fainting_spells_in_the_last_3_months	9105	9105	Y	Degree bothered by fainting spells in the last 3 months	55	
-INI21055	8786	Degree_bothered_by_feeling_heart_pound/race_in_the_last_3_months	8786	8786	Y	Degree bothered by feeling heart pound/race in the last 3 months	64	
-INI21056	8726	Degree_bothered_by_shortness_of_breath_in_the_last_3_months	8726	8726	Y	Degree bothered by shortness of breath in the last 3 months	59	
-INI21058	8038	Degree_bothered_by_urinary_frequency/bladder_irritability_in_the_last_3_months	8038	8038	Y	Degree bothered by urinary frequency/bladder irritability in the last 3 months	78	
-INI21059	9017	Degree_bothered_by_nausea_in_the_last_3_months	9017	9017	Y	Degree bothered by nausea in the last 3 months	46	
-INI21060	7519	Degree_bothered_by_feeling_tired_all_the_time_in_the_last_3_months	7519	7519	Y	Degree bothered by feeling tired all the time in the last 3 months	66	
-INI21061	7413	Degree_bothered_by_trouble_sleeping_in_the_last_3_months	7413	7413	Y	Degree bothered by trouble sleeping in the last 3 months	56	
+INI21049	9141	Degree_bothered_by_pain_in_arms/legs/joints_in_the_past_3_months	9141	9141	Y	Degree bothered by pain in arms/legs/joints in the past 3 months	64	
+INI21051	9142	Degree_bothered_by_headaches_in_the_last_3_months	9142	9142	Y	Degree bothered by headaches in the last 3 months	49	
+INI21052	9141	Degree_bothered_by_chest_pain_in_the_last_3_months	9141	9141	Y	Degree bothered by chest pain in the last 3 months	50	
+INI21053	9141	Degree_bothered_by_dizziness_in_the_last_3_months	9141	9141	Y	Degree bothered by dizziness in the last 3 months	49	
+INI21054	9138	Degree_bothered_by_fainting_spells_in_the_last_3_months	9138	9138	Y	Degree bothered by fainting spells in the last 3 months	55	
+INI21055	9140	Degree_bothered_by_feeling_heart_pound/race_in_the_last_3_months	9140	9140	Y	Degree bothered by feeling heart pound/race in the last 3 months	64	
+INI21056	9142	Degree_bothered_by_shortness_of_breath_in_the_last_3_months	9142	9142	Y	Degree bothered by shortness of breath in the last 3 months	59	
+INI21058	9135	Degree_bothered_by_urinary_frequency/bladder_irritability_in_the_last_3_months	9135	9135	Y	Degree bothered by urinary frequency/bladder irritability in the last 3 months	78	
+INI21059	9138	Degree_bothered_by_nausea_in_the_last_3_months	9138	9138	Y	Degree bothered by nausea in the last 3 months	46	
+INI21060	9142	Degree_bothered_by_feeling_tired_all_the_time_in_the_last_3_months	9142	9142	Y	Degree bothered by feeling tired all the time in the last 3 months	66	
+INI21061	9141	Degree_bothered_by_trouble_sleeping_in_the_last_3_months	9141	9141	Y	Degree bothered by trouble sleeping in the last 3 months	56	
 INI2139	21597	Age_first_had_sexual_intercourse	21597	21597	Y	Age first had sexual intercourse	32	
 INI2149	19694	Lifetime_number_of_sexual_partners	19694	19694	Y	Lifetime # of sexual partners	29	
 INI22146	1421	Age_hayfever_or_allergic_rhinitis_diagnosed_by_doctor	1421	1421	Y	Age hayfever or allergic rhinitis diagnosed by doctor	53	
