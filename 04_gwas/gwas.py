@@ -48,7 +48,7 @@ def make_plink_command(bpFile, pheFile, pheName, outFile, outDir, pop, keepFile=
     qcDir         = '/oak/stanford/groups/mrivas/ukbb24983/sqc/'
     keepFile=updateKeepFile(outDir, qcDir, keepFile=keepFile, pop=pop, sexDiv=sexDiv, keepSexFile=keepSexFile)
     unrelatedFile = os.path.join(qcDir,'ukb24983_v2.not_used_in_pca.phe') if not related else ''
-    is_cnv_burden = (os.path.basename(bpFile[1]) == 'burden') or (os.path.basename(bpFile[1]) == 'ukb24983_cal_hla_cnv') or (os.path.basename(bpFile[1]) == 'ukb24983_hg19_cal_hla_cnv_imp')
+    is_cnv_burden = (os.path.basename(bpFile[1]) == 'burden') or (os.path.basename(bpFile[1]) == 'ukb24983_cal_hla_cnv') or (os.path.basename(bpFile[1]) == 'ukb24983_cal_hla_cnv_imp')
     if os.path.dirname(pheFile).split('/')[-1] == "binary": 
         is_biomarker_binary = True
     elif len(os.path.basename(pheFile).split('_')) < 2:
@@ -74,10 +74,12 @@ def make_plink_command(bpFile, pheFile, pheName, outFile, outDir, pop, keepFile=
     else:
         raise ValueError("Error: unsupported genotype file flag ({0})".format(bpFile[0]))
         
-    if (not includeX and not onlyX) or localAnc:
+    if (not includeX and not onlyX and len(plink_opts) == 0):
         chrstr = "--chr 1-22"
     elif includeX and not onlyX:
         chrstr = "--chr 1-22,X,XY,Y,MT"
+        if len(plink_opts) != 0:
+                chrstr = ''
     else:
         chrstr = "--chr X,XY,Y,MT"
 
@@ -116,7 +118,7 @@ def make_plink_command(bpFile, pheFile, pheName, outFile, outDir, pop, keepFile=
     cmds = [
         "source {0}".format(gwas_sh),
         cmd_plink,
-        "post_processing {0}".format(outFile),
+        "post_processing {0}".format(outFile) if not pheName.replace('-','').replace(',','').isdigit() else "",
     ]
     return("\n\n".join(cmds))
 
@@ -145,7 +147,7 @@ def make_plink_commands_arrayCovar(bpFile, outFile, make_plink_command_common_ar
             # join the plink calls, add some bash at the bottom to combine the output  
             return("\n\n".join([
                 cmd2, cmd1,
-                "combine_two_sumstats {0} {1} {2} {3}".format(outFile1, outFile2, outFile, cores)
+                "combine_two_sumstats {0} {1} {2} {3}".format(outFile1, outFile2, outFile, cores) if not make_plink_command_common_args['pheName'].replace('-','').replace(',','').isdigit() else ""
             ]))
         else:
             cmd1 = make_plink_command(
@@ -204,7 +206,7 @@ def run_gwas(kind, pheFile, pheName, outDir='', pop='white_british', keepFile=No
         'imputed':            ('pfile_vzs', os.path.join(pgen_root,'imp','pgen','ukb24983_imp_chr${SLURM_ARRAY_TASK_ID}_v3')),
         'genotyped':          ('bpfile',    os.path.join(pgen_root,'cal','pgen','ukb24983_cal_cALL_v2_hg19')),
         'array-combined':     ('bpfile',    os.path.join(pgen_root,'array-combined','pgen','ukb24983_cal_hla_cnv')),
-        'array-imp-combined': ('pfile_vzs', os.path.join(pgen_root,'array_imp_combined','pgen','ukb24983_hg19_cal_hla_cnv_imp')),
+        'array-imp-combined': ('pfile_vzs', os.path.join(pgen_root,'array_imp_combined','pgen','ukb24983_cal_hla_cnv_imp')),
         'cnv':                ('bpfile',    os.path.join(pgen_root,'cnv','pgen','cnv') + ' --mac 15'),
         'cnv-burden':         ('bpfile',    os.path.join(pgen_root,'cnv','pgen','burden')),
         'exome-spb':          ('pfile_vzs', os.path.join(pgen_root,'exome','pgen','ukb24983_exome')),
@@ -359,8 +361,8 @@ if __name__ == "__main__":
     kinds = ['imputed','genotyped','exome-spb','exome-fe','cnv','cnv-burden', 'hla', 'array-imp-combined', 'array-combined']
     if not any(flags):
         raise ValueError("Error: no analysis specified, did you mean to add --run-array?")
-    if args.local and args.imp:
-        raise ValueError("--run-imputed cannot be present in conjunction with --run-now!")
+#    if args.local and args.imp:
+#        raise ValueError("--run-imputed cannot be present in conjunction with --run-now!")
     if (args.sex_div and args.keep_sex == '') or (args.sex_div and args.keep_sex_file == ''):
         raise ValueError("Sex-div analysis is indicated but either the sex to keep or the file for that is missing. Please use --keep-sex and --keep-sex-file to specify both.")
     for flag,kind in filter(lambda x:x[0], zip(flags,kinds)):
