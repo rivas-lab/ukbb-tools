@@ -37,12 +37,12 @@ in_f2 <- args[2]
 out_f <- args[3]
 
 df <- bind_rows(
-    fread(in_f1, colClasses=c('#CHROM'='character', 'POS'='integer', 'ID'='character', 'P'='character')),
-    fread(in_f2, colClasses=c('#CHROM'='character', 'POS'='integer', 'ID'='character', 'P'='character'))
+    fread(in_f1, colClasses='character'),
+    fread(in_f2, colClasses='character')
 ) %>%
 rename('CHROM'='#CHROM') %>%
 mutate(CHROM =  factor(CHROM, levels = c(1:22, 'X', 'XY', 'Y', 'MT'))) %>%
-arrange(CHROM, POS, ID) %>%
+arrange(CHROM, as.integer(POS), ID) %>%
 mutate(CHROM =  as.character(CHROM)) %>%
 rename('#CHROM' = 'CHROM') %>%
 fwrite(out_f, sep='\t', na = "NA", quote=F)
