@@ -4,12 +4,12 @@ set -beEuo pipefail
 ml load plink2/20200314
 
 memory=30000
-cpus=6
+cpus=8
 
 batch_idx=${SLURM_ARRAY_TASK_ID:=204}
 if [ $# -gt 0 ] ; then batch_idx=$1 ; fi
 
-jobs="1_gwas.jobs.tsv"
+jobs="1_gwas.jobs.20200709-081630.tsv"
 
 GBE_ID=$( cat ${jobs} | egrep -v '^#' | awk -v nr=${batch_idx} '(NR==nr){print $1}' )
 pop=$(    cat ${jobs} | egrep -v '^#' | awk -v nr=${batch_idx} '(NR==nr){print $2}' )

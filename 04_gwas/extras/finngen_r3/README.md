@@ -33,30 +33,24 @@
 - [`5_conv_to_plink.sh`](5_conv_to_plink.sh): prepare the PLINK-formatted file
   - [`5_conv_to_plink.input.lst`](5_conv_to_plink.input.lst)
 - [`6_ldsc_munge.sh`](6_ldsc_munge.sh): convert the sumstats from PLINK to LDSC format
+- [`7_ldsc_rg.sh`](7_ldsc_rg.sh): apply LDSC rg analysis.
+  - [`7_ldsc_rg.generate_input.sh`](7_ldsc_rg.generate_input.sh): this script generates the list of UKB and FinnGen traits for rg analysis.
+    - [`7_ldsc_rg.20200706-144408.finngen.tsv`](7_ldsc_rg.20200706-144408.finngen.tsv)
+    - [`7_ldsc_rg.20200706-144408.ukb.tsv`](7_ldsc_rg.20200706-144408.ukb.tsv)
+- [`8_ldsc_h2.sh`](8_ldsc_h2.sh): apply LDSC h2 analysis.
+- [`9_ldsc_h2.tabulate.sh`](9_ldsc_h2.tabulate.sh): tabulate the observed heritability estimates into one table file.
+  - [`9_ldsc_h2.tsv`](9_ldsc_h2.tsv), the results file, a symlink to: `/oak/stanford/groups/mrivas/public_data/finngen_r3/ldsc_h2.tsv`. We have a copy on [Google Spreadsheet](https://docs.google.com/spreadsheets/d/1ul4hr00KKZy0JRUW2ZW5-LORWEyeBCt7B3pAiNKRj5g/edit?usp=sharing).
+- [`10_ldsc_rg_view.sh`](10_ldsc_rg_view.sh): a script to tabulate the results of rg analysis.
 
 ## LDSC h2
+
+We initially started the LDSC genetic correlation analysis (rg) but it turned out that there are too many comparison to make. To reduce the number of results filled with NAs, we applied LDSC's heritability (h2) analysis first and focused on the traits that has positive observed heritability estimate.
 
 - [Google Spreadsheet](https://docs.google.com/spreadsheets/d/1ul4hr00KKZy0JRUW2ZW5-LORWEyeBCt7B3pAiNKRj5g/edit?usp=sharing)
 
 ## LDSC rg
 
-```{bash}
-bash 7_ldsc_rg.generate_input.sh > 7_ldsc_rg.input.$(date +%Y%m%d-%H%M%S).tsv
-
-seq 2 5000 > job.1.5000.lst
-
-sbatch -p mrivas,normal,owners --nodes=1 --mem=8000 --cores=1 --time=3:00:00 --job-name=FGrg --output=logs/FGrg.%A_%a.out --error=logs/FGrg.%A_%a.err --array=1-1000 /oak/stanford/groups/mrivas/users/ytanigaw/repos/yk-tanigawa/resbatch/parallel-sbatch.sh 7_ldsc_rg.sh job.1.5000.lst 5
-Submitted batch job 3634866
-```
-
-523 * 1482 = 775086
-
-1-100000
-
-```
-seq 1 100000 > job.1.100000.lst
-sbatch -p mrivas,normal,owners --nodes=1 --mem=8000 --cores=1 --time=12:00:00 --job-name=FGrg --output=logs/FGrg.%A_%a.out --error=logs/FGrg.%A_%a.err --array=1-1000 /oak/stanford/groups/mrivas/users/ytanigaw/repos/yk-tanigawa/resbatch/parallel-sbatch.sh 7_ldsc_rg.sh job.1.100000.lst 100
-```
+See: https://github.com/rivas-lab/ukbb-tools/issues/27
 
 ## instruction
 

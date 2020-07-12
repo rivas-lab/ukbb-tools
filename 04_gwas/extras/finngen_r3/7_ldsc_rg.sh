@@ -12,8 +12,8 @@ jobs_finngen="${jobs_prefix}.finngen.tsv"
 
 n_ukb=$( cat ${jobs_ukb} | egrep -v '^#' | wc -l )
 
-ukb_idx=$(perl -e "print(int((${batch_idx}-1)/${n_ukb})+1)")
-finngen_idx=$(perl -e "print(${batch_idx}-((${ukb_idx}-1) * ${n_ukb}))")
+finngen_idx=$(perl -e "print(int((${batch_idx}-1)/${n_ukb})+1)")
+ukb_idx=$(perl -e "print(${batch_idx}-((${finngen_idx}-1) * ${n_ukb}))")
 
 FinnGen=$(   cat ${jobs_finngen} | egrep -v '^#' | awk -v nr=${finngen_idx} '(NR==nr){print $1}' )
 GBE_ID=$(    cat ${jobs_ukb}     | egrep -v '^#' | awk -v nr=${ukb_idx}     '(NR==nr){print $1}' )
