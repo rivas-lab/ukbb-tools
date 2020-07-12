@@ -40,7 +40,11 @@
 - [`8_ldsc_h2.sh`](8_ldsc_h2.sh): apply LDSC h2 analysis.
 - [`9_ldsc_h2.tabulate.sh`](9_ldsc_h2.tabulate.sh): tabulate the observed heritability estimates into one table file.
   - [`9_ldsc_h2.tsv`](9_ldsc_h2.tsv), the results file, a symlink to: `/oak/stanford/groups/mrivas/public_data/finngen_r3/ldsc_h2.tsv`. We have a copy on [Google Spreadsheet](https://docs.google.com/spreadsheets/d/1ul4hr00KKZy0JRUW2ZW5-LORWEyeBCt7B3pAiNKRj5g/edit?usp=sharing).
-- [`10_ldsc_rg_view.sh`](10_ldsc_rg_view.sh): a script to tabulate the results of rg analysis.
+- [`10_ldsc_rg_view.sh`](10_ldsc_rg_view.sh): a script to tabulate the results of rg analysis. This is the original version of the script, but it turned out to be too late to run for 700k files.
+  - To this end, we wrote a parallelized version to combined the LDSC rg log files.
+    - [`10_ldsc_rg_view_batch_step1.sh`](10_ldsc_rg_view_batch_step1.sh)
+    - [`10_ldsc_rg_view_batch_step2.sh`](10_ldsc_rg_view_batch_step2.sh)
+    - [`10_ldsc_rg_view_batch_step3.sh`](10_ldsc_rg_view_batch_step3.sh)
 
 ## LDSC h2
 
@@ -50,7 +54,19 @@ We initially started the LDSC genetic correlation analysis (rg) but it turned ou
 
 ## LDSC rg
 
-See: https://github.com/rivas-lab/ukbb-tools/issues/27
+We computed the LDSC rg between FinnGen sumstats (estimated heriability > 0) and UKB WB sumstats (HC phenotypes with estimated heriability > 0).
+
+We investigated the distribution of p-value. Because there are ~580 UKB traits, we put p-value threshold of `1e-4` and focused on those significant associations.
+
+We also checked the distribution of `rg`.
+
+[![LDSC rg](11_LDSC_rg_dist.png)](11_LDSC_rg_dist.png)
+
+After imposing `p < 1e-4` filter, there are 3,597 rg estimates across 282 FinnGen phenotypes and 158 UKB HC phenotypes. We sorted the table by FinnGen phenocode and p-value of rg and uploaded to a Google Spreadsheet.
+
+- [Google Spreadsheet](https://docs.google.com/spreadsheets/d/1ul4hr00KKZy0JRUW2ZW5-LORWEyeBCt7B3pAiNKRj5g/edit?usp=sharing)
+
+Please also see: https://github.com/rivas-lab/ukbb-tools/issues/27
 
 ## instruction
 
