@@ -27,8 +27,9 @@ out_f="${finngen_d}/ldsc/UKB_WB_rg/${FinnGen}.${GBE_ID}"
 
 if [ ! -d $(dirname ${out_f}) ] ; then mkdir -p $(dirname ${out_f}) ; fi
 
-if [ ! -f ${out_f}.log ] ; then
+if [ ! -s ${out_f}.log ] ; then
     bash ${src} --scratch ${FinnGen_f} ${WB_f} ${out_f}
 else
     echo ${out_f}.log
 fi
+
