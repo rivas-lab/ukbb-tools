@@ -14,12 +14,11 @@ Submitted batch job 15922450
 scontrol update job 15922450 partition=nih_s10,batch
 ```
 
-##
+## Move the results
 
-{
-    echo "#GBE_ID population" | tr ' ' '\t'
-    cat 1_gwas.jobs.tsv | awk 'NR>1' | while read GBE_ID pop ; do
-    f=data/${pop}/ukb24983_v2_hg19.${GBE_ID}.array-combined.log
-    if [ -s $f ] ; then echo ${GBE_ID} ${pop} | tr ' ' '\t' ; fi
-    done
-} > 1_gwas.jobs.finished.$(date +%Y%m%d-%H%M%S).tsv
+
+cat 2_gwas.jobs.status.20200713-104853.tsv |  awk -v FS='\t' -v OFS='\t' -v T="TRUE" 'NR==1 || ($5 == T && $6 == T){print $8}' | while read f ; do if [ -f $f ] ; then echo $(zcat $f | wc -l) $f ; fi ; done
+
+```
+find data -name "*.gz" | while read f ; do echo $(zcat $f | wc -l) $f ; done
+```

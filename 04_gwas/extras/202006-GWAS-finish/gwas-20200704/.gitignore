@@ -1,3 +1,6 @@
 data
 logs
+old_files_in_gwas_current*
 
+old_files_in_gwas_current-symlinks
+data_bkup
