@@ -5,11 +5,12 @@
 ```{bash}
 bash 1_generate_input_list.sh | tee 1_LDSC_munge.$(date +%Y%m%d-%H%M%S).job.lst | tee /dev/stderr | wc -l
 
-sbatch -p mrivas,normal,owners --nodes=1 --mem=8000 --cores=1 --time=6:00:00 --job-name=munge --output=logs/munge.%A_%a.out --error=logs/munge.%A_%a.err --array=1-995 /oak/stanford/groups/mrivas/users/ytanigaw/repos/yk-tanigawa/resbatch/parallel-sbatch.sh 1_LDSC_munge.sh 1_LDSC_munge.20200705-135957.job.lst 6
+ml load resbatch
+
+sbatch -p mrivas,normal,owners --time=3:00:00 --mem=8000 --nodes=1 --cores=1 --job-name=munge --output=logs/munge.%A_%a.out --error=logs/munge.%A_%a.err --array=1-905 $parallel_sbatch_sh 1_LDSC_munge.sh 1_LDSC_munge.20200717-210250.job.lst 3
 ```
 
-- 5727 files, 955 * 6
-
+- https://github.com/rivas-lab/ukbb-tools/issues/26
 ### Check the completion of the scripts
 
 ```
