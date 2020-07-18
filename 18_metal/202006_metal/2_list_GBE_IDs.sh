@@ -14,7 +14,7 @@ NUM_POS_ARGS="1"
 info_file=$(dirname $(dirname ${SRCDIR}))/05_gbe/phenotype_info.tsv
 ukb_data_dir=/oak/stanford/groups/mrivas/private_data/ukbb/24983
 geno_data=array-combined
-metal_freeze_v=20200704
+metal_freeze_v=20200717
 N_thr=100
 
 ############################################################

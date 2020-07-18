@@ -74,7 +74,7 @@ trap handler_exit EXIT
 ukb_data_dir=/oak/stanford/groups/mrivas/private_data/ukbb/24983
 geno_data=array-combined
 pops_str=white_british,non_british_white,african,s_asian,e_asian,related,others
-metal_freeze_v=20200704
+metal_freeze_v=20200717
 ## == Default parameters (end) == ##
 
 declare -a params=()
