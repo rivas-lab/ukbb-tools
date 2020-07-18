@@ -11,6 +11,7 @@ sbatch -p mrivas,normal,owners --time=3:00:00 --mem=8000 --nodes=1 --cores=1 --j
 ```
 
 - https://github.com/rivas-lab/ukbb-tools/issues/26
+
 ### Check the completion of the scripts
 
 ```
@@ -18,7 +19,7 @@ find /oak/stanford/groups/mrivas/ukbb24983/array-combined/ldsc -type f -name "*.
 ```
 
 ```
-find logs/ -name "*.err" | while read f ; do cat $f | grep array-end | awk -v FS='=' '{print $NF}'; done | sort | comm -3 <(seq 955 | sort) /dev/stdin | sort -n | tr '\n' ','
+find logs/ -name "*.err" | while read f ; do cat $f | grep array-end | awk -v FS='=' '{print $NF}'; done | sort | comm -3 <(seq 905 | sort) /dev/stdin | sort -n | tr '\n' ','
 ```
 
 ## apply LDSC h2

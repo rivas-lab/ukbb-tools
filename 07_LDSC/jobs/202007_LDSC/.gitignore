@@ -1,4 +1,5 @@
 logs
 *.job.lst
+*.job.part*.lst
 1_LDSC_munge.*.tsv
 1_remove-incomplete-*.bkup.tar.gz
