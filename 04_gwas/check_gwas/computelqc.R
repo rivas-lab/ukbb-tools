@@ -5,6 +5,11 @@ suppressPackageStartupMessages(library(stringr))
 
 ####################################################################
 x <- args[1]
+if(length(args)>1){
+	pop <- args[2]
+}else{
+	pop <- basename(dirname(x))
+}
 out_d <- '/scratch/groups/mrivas/ukbb24983/array-combined/gwas-qc'
 # annot_f <- '/oak/stanford/groups/mrivas/private_data/ukbb/variant_filtering/variant_filter_table.6302020.tsv.gz'
 annot_f <- '/scratch/groups/mrivas/ukbb24983/array-combined/gwas-qc/variant_filter_table.6302020.mafonly.tsv.gz'
@@ -31,8 +36,11 @@ lgc_main <- function(ss, pop, fsum, annot, out_f){
 }
 ####################################################################
 
-pop   <- basename(dirname(x))
-fsum  <- str_split(str_split(basename(x), 'ukb24983_v2_hg19.', simplify = TRUE)[1,2],'.array', simplify = TRUE)[1,1]
+if(pop == 'metal'){
+	fsum <- str_replace(basename(x), '.metal.tsv.gz', '')
+}else{
+	fsum  <- str_split(str_split(basename(x), 'ukb24983_v2_hg19.', simplify = TRUE)[1,2],'.array', simplify = TRUE)[1,1]
+}
 out_f <- file.path(out_d, pop, sprintf('%s.%s.qc.txt', pop, fsum))
 
 message(sprintf('%s %s %s', pop, fsum, out_f))
