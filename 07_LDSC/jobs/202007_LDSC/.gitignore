@@ -3,3 +3,4 @@ logs
 *.job.part*.lst
 1_LDSC_munge.*.tsv
 1_remove-incomplete-*.bkup.tar.gz
+2_ldsc_h2.*.tsv

@@ -15,7 +15,7 @@ out_finngen="${out_prefix}.finngen.tsv"
 {
     echo "#GBE_ID WB_f"
 
-    cat ${ukb_idx} | awk -v ukb_WB_min_N=${ukb_WB_min_N} -v FS='\t' '(NR>1 && $8 >= ukb_WB_min_N){print $1}' | egrep '^HC' | sort | comm -12 /dev/stdin <(cat ${ukb_h2} | egrep '^HC' |  awk '($2 > 0){print $1}' | sort) | sort | comm -12 /dev/stdin <(find ${ukb_WB_d} -type f -name "*.sumstats.gz" | awk -v FS='/' '{print $NF}' | awk -v FS='.' '{print $2}' | sort) | while read GBE_ID ; do
+    cat ${ukb_idx} | awk -v ukb_WB_min_N=${ukb_WB_min_N} -v FS='\t' '(NR>1 && $8 >= ukb_WB_min_N){print $1}' | egrep '^HC|^cancer|^BIN_FC' | sort | comm -12 /dev/stdin <(cat ${ukb_h2} | egrep '^HC|^cancer|^BIN_FC' | awk '($2 > 0){print $1}' | sort) | sort | comm -12 /dev/stdin <(find ${ukb_WB_d} -type f -name "*.sumstats.gz" | awk -v FS='/' '{print $NF}' | awk -v FS='.' '{print $2}' | sort) | while read GBE_ID ; do
         UKB_f="${ukb_WB_d}/ukb24983_v2_hg19.${GBE_ID}.array-combined.sumstats.gz"
         echo "${GBE_ID} ${UKB_f}"
     done

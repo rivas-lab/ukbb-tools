@@ -2,7 +2,7 @@
 set -beEuo pipefail
 
 batch_idx=${SLURM_ARRAY_TASK_ID:=1}
-jobs_prefix="7_ldsc_rg.20200706-144408"
+jobs_prefix="7_ldsc_rg.20200718-152556.diff"
 
 if [ $# -gt 0 ] ; then batch_idx=$1 ; fi
 if [ $# -gt 1 ] ; then jobs_prefix=$2 ; fi

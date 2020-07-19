@@ -34,3 +34,9 @@ cat ../../../04_gwas/extras/202006-GWAS-finish/gwas-current-gz-wc.20200704-15571
 sbatch -p mrivas,normal,owners --nodes=1 --mem=8000 --cores=1 --time=1:00:00 --job-name=UKBh2 --output=logs/UKBh2.%A_%a.out --error=logs/UKBh2.%A_%a.err --array=1-897 /oak/stanford/groups/mrivas/users/ytanigaw/repos/yk-tanigawa/resbatch/parallel-sbatch.sh 2_ldsc_h2.sh 2_ldsc_h2.white_british.20200705-212236.job.lst 4
 Submitted batch job 3656875
 ```
+
+## tabulate the results
+
+```{bash}
+for pop in 'white_british' 'non_british_white' 'african' 's_asian' 'e_asian' 'related' 'others' ; do echo $pop ; bash 2_ldsc_h2.tabulate.sh ${pop} ; done
+```
