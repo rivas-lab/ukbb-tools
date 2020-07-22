@@ -56,13 +56,13 @@ We initially started the LDSC genetic correlation analysis (rg) but it turned ou
 
 We computed the LDSC rg between FinnGen sumstats (estimated heriability > 0) and UKB WB sumstats (HC phenotypes with estimated heriability > 0).
 
-We investigated the distribution of p-value. Because there are ~580 UKB traits, we put p-value threshold of `1e-4` and focused on those significant associations.
+We investigated the distribution of p-value. Because there are ~990 UKB traits, we put p-value threshold of `5e-5` and focused on those significant associations.
 
 We also checked the distribution of `rg`.
 
 [![LDSC rg](11_LDSC_rg_dist.png)](11_LDSC_rg_dist.png)
 
-After imposing `p < 1e-4` filter, there are 3,597 rg estimates across 282 FinnGen phenotypes and 158 UKB HC phenotypes. We sorted the table by FinnGen phenocode and p-value of rg and uploaded to a Google Spreadsheet.
+After imposing `p < 5e-5` filter, there are 6,511 rg estimates across 289 FinnGen phenotypes and 292 UKB HC phenotypes. We sorted the table by FinnGen phenocode and p-value of rg and uploaded to a Google Spreadsheet.
 
 - [Google Spreadsheet](https://docs.google.com/spreadsheets/d/1ul4hr00KKZy0JRUW2ZW5-LORWEyeBCt7B3pAiNKRj5g/edit?usp=sharing)
 

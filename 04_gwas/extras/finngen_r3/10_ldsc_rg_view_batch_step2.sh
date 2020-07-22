@@ -7,7 +7,7 @@ if [ $# -gt 0 ] ; then batch_idx=$1 ; fi
 if [ $# -gt 1 ] ; then n_batchs=$2 ; fi
 
 log_dir="/scratch/groups/mrivas/public_data/summary_stats/finngen_r3/ldsc/UKB_WB_rg"
-out_dir="/scratch/groups/mrivas/public_data/summary_stats/finngen_r3/ldsc/UKB_WB_rg.20200711-171504"
+out_dir="/scratch/groups/mrivas/public_data/summary_stats/finngen_r3/ldsc/UKB_WB_rg.20200722-093650"
 
 ml load ukbb-tools
 

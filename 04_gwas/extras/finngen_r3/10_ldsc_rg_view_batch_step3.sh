@@ -1,7 +1,7 @@
 #!/bin/bash
 set -beEuo pipefail
 
-out_dir="/scratch/groups/mrivas/public_data/summary_stats/finngen_r3/ldsc/UKB_WB_rg.20200711-171504"
+out_dir="/scratch/groups/mrivas/public_data/summary_stats/finngen_r3/ldsc/UKB_WB_rg.20200722-093650"
 n_batchs=1000
 if [ $# -gt 0 ] ; then n_batchs=$1 ; fi
 
@@ -13,3 +13,5 @@ out_f="${out_dir}/LDSC.rg.tsv"
 } > ${out_f}
 
 echo ${out_f}
+bgzip -l9 -@6 ${out_f}
+
