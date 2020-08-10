@@ -95,7 +95,7 @@ def make_plink_command(bpFile, pheFile, pheName, outFile, outDir, pop, keepFile=
         "--maf {0}".format(maf) if (maf is not None) else "",
         "--pheno", pheFile, "--pheno-quantile-normalize",
         "--pheno-col-nums {0}".format(pheName) if pheName.replace('-','').replace(',','').isdigit() else "", 
-        "--glm skip firth-fallback hide-covar omit-ref ", "no-x-sex" if (includeX or onlyX) else "", 
+        "--glm skip firth-fallback firth-residualize cc-residualize hide-covar omit-ref ", "no-x-sex" if (includeX or onlyX) else "", 
         "local-covar=/oak/stanford/groups/mrivas/users/guhan/repos/gsp/rfmix/output/ukb_hap_v2_rfmix.msp.tsv.zst local-haps local-cats0=8 local-pos-cols=2,1,2,7 local-psam=/oak/stanford/groups/mrivas/private_data/ukbb/24983/hap/pgen/ukb_hap_chr1_v2.fam" if localAnc else "",
         "--keep {0}".format(keepFile) if (keepFile is not None) else '', 
         "--remove {0}".format(unrelatedFile) if unrelatedFile and len(rmadd) == 0 else "",
