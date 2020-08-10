@@ -84,3 +84,7 @@ As in all Excel spreadsheets, you can strategically "drag down" this formula to 
 #### After the session - Compiling phenotype files
   
 You are ready to now compile `.phe` files. This can be done in two ways. Export the updated Google Sheet (post-phenotyping session) as a `.tsv`, rename it as `ukb_YYYYMMDD.tsv`, and place it within [`tables/annotations`](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping/tables/annotations) (making sure to avoid namespace conflicts if applicable - it doesn't *have* to be the correct date, for example). Then, symlink [`tables/ukb_annotations.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/02_phenotyping/tables/ukb_annotations.tsv) to this file (i.e., run `ln -sf tables/annotations/ukb_YYYYMMDD.tsv tables/ukb_annotations.tsv`). Then, continue with steps 8-10 as described [above](https://github.com/rivas-lab/ukbb-tools/tree/master/02_phenotyping#generating-and-updating-phenotypes-and-summary-statistics).
+
+## Reference
+
+- Data dictionary showcase: http://biobank.ctsu.ox.ac.uk/~bbdatan/Data_Dictionary_Showcase.csv
