@@ -1,7 +1,8 @@
-# checking GWAS output files
+# GWAS QC
 
-## `wc -l` analysis
+We apply several GWAS QC scripts when making a freeze.
 
-## lambda QC
+We have the following directories corresponding to different versions of GWAS freeze:
 
-https://github.com/rivas-lab/ukbb-tools/issues/32
+- [`201909`](201909)
+- [`202007`](202007)
