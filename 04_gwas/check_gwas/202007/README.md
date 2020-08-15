@@ -11,6 +11,11 @@ The table file has the following set of columns.
 - Phenotype and population names:
   - `GBE_ID`: the GBE phenotype code
   - `population`: the analyzed population. `metal` represents the UKB-wide meta-analysis
+- Phenotype information
+  - `GBE_category`: the phenotype category shown in GBE
+  - `N`: the number of cases (binary traits) or the number of non-NA individuals (quantitative traits) used in the GWAS analysis
+  - `GBE_NAME`: the full phenotype name
+  - `GBE_short_name`: the short phenotype name
 - The number of lines and the number of genome-wide significant (p < 5e-8) hits
   - `n_lines`
   - `n_non_NA_lines`
@@ -36,6 +41,10 @@ The table file has the following set of columns.
 ## Methods
 
 Issue ticket corresponding to this project: https://github.com/rivas-lab/ukbb-tools/issues/32
+
+### Phenotype information
+
+We took the phenotype category information from [`05_gbe`](/05_gbe/extras/20200812_GBE_category).
 
 ### Line counts and the number of hits
 
