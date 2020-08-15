@@ -1,0 +1,51 @@
+<li class="media">
+    <a name="targetname"></a>
+    <div class="media-body">
+       <h4 class="media-heading">What's on this page?</h4>
+       <ul>
+          <li><a href="#group">How are the phenotypes grouped?</a></li>
+       </ul>
+    </div>
+</li>
+
+<li class="media">
+    <a name="phenotypes"></a>
+    <div class="media-body">
+       <h4 class="media-heading">How are the phenotypes defined?</h4>
+       <h5 class="media-heading">Other quantitative and binary phenotypes</h5>
+        <p>
+            We defined quantitative and binary phenotypes using data fields in UK Biobank. Typically, we used one data field to derive a phenotype in Global Biobank Engine. Sometimes, we defined multiple phenotypes in Global Biobank Engine from a single data field in UK Biobank. This is the case, for example, when the source UK Biobank field contains an answer for categorical traits.
+        </p>
+            
+        <p>
+            For example, <a href="https://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=50" target="_blank">field 50 in UK Biobank represents standing height</a>. As you can see in <a href="https://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=50" target="_blank">the field description page</a>, each individual may have up to 4 times of multiple measurements. Using the information in this field, we defined our phenotype <a href="https://gbe.stanford.edu/RIVAS_HG19/coding/INI50" target="_blank"><q>Standing height</q> (GBE phenotype code: INI50)</a> by taking the median of non-NA values as described in the following publication:
+            
+            <ul>
+                <li>
+                    Y. Tanigawa*, J. Li*, J. M. Justesen, H. Horn, M. Aguirre, C. DeBoever, C. Chang, B. Narasimhan, K. Lage, T. Hastie, C. Y. Park, G. Bejerano, E. Ingelsson, M. A. Rivas, Components of genetic associations across 2,138 phenotypes in the UK Biobank highlight adipocyte biology. Nat Commun. 10, 1-14 (2019). <a href="https://doi.org/10.1038/s41467-019-11953-9" target="_blank">doi:10.1038/s41467-019-11953-9</a>
+                </li>
+            </ul>
+            
+            We processed other quantitative phenotypes in the same way (took the non-NA median).
+        </p>
+            
+        <p>
+            For non-quantitative fields in UK Biobank, we performed manual curation to define case and control. Sometimes, we split categorical results in a single field in UK Biobank into a series of binary traits. For cancer, family history, and disease outcome phenotypes, please see the description above for how we defined the case and controls. For other phenotypes, we will update the description of those phenotypes in the future.
+        </p>
+    </div>
+ </li>
+ <br/>
+
+<li class="media">
+    <a name="group"></a>
+    <div class="media-body">
+       <h4 class="media-heading">How are the phenotypes grouped?</h4>
+       <p>
+            We provide the phenotype groupings in Global Biobank Engine. Those phenotype groupings are listed in the PheWAS plot in the variant page, for example. The disease outcomes, cancers, family history information, and biomarker phenotypes, are grouped as one category for each. For other phenotypes, we used a modified version of "Primary Category of Origin" information in <a href="http://biobank.ctsu.ox.ac.uk/crystal/browse.cgi" target="_blank">field browser in UK Biobank</a>. Specifically, we removed several bottom-level specific groupings so that we have a moderate number of groups.
+       </p>
+       <p>
+            For standing height, for example, <a href="https://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=50" target="_blank">the source UK Biobank Field</a> has the following "Primary Category of Origin" information: <q>UK Biobank Assessment Centre > Physical measures > Anthropometry > Body size measures</q>. Using this information, we classified our <a href="https://gbe.stanford.edu/RIVAS_HG19/coding/INI50" target="_blank"><q>Standing height</q> (GBE phenotype code: INI50) phenotype</a> in the <q>Anthropometry</q> group.
+        </p>
+    </div>
+ </li>
+ <br/>
