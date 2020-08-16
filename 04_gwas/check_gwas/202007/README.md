@@ -8,6 +8,9 @@ We created GWAS QC table.
 
 The results are in `/oak/stanford/groups/mrivas/ukbb24983/array-combined/gwas/current/gwas.qc.tsv` and we have [a copy in Google spreadsheet](https://docs.google.com/spreadsheets/d/12cQ9NQcj5jRWY4VZtxMU9E01drUc_grUuNbV_UGiD8o/edit?usp=sharing).
 
+(2020/8/16) We also computed the GWAS QC statistics using a subset of associations using `SE < .2` filter.
+The scripts in this directory with `-SE02` in its name are the ones used for such analysis.
+
 ### column descriptor for the GWAS QC table:
 
 The table file has the following set of columns.
@@ -120,3 +123,5 @@ Those statistics were computed with plink2. Please check the plink2 documentatio
 - For generating the filtered GWAS-PheWAS look-up tables, we used [`freeze_2a_filter.sh`](freeze_2a_filter.sh) and [`freeze_2b_combine.sh`](freeze_2b_combine.sh).
   - [`freeze_2a_filter.sh`](freeze_2a_filter.sh): this script apply p-value filter, convert OR to BETA (by taking log(OR)), select the relevant columns, and write the filtered sumstats into a file.
   - [`freeze_2b_combine.sh`](freeze_2b_combine.sh): this file combines the filtered sumstats, sort by genomic coordinates, write to a file, apply bgzip, and generate `tabix` index.
+- Finally, we uploaded the GWAS freeze files to [Google Drive folder](https://drive.google.com/drive/folders/1JIO9d447iEcDFmWZmVHvFZuGIOX1Xg2R)
+  - [`freeze_3_rclone.sh`](freeze_3_rclone.sh): this script uses `rclone` and upload the GWAS freeze to Google Drive.
