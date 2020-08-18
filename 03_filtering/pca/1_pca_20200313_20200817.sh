@@ -3,7 +3,7 @@ set -beEuo pipefail
 
 sqc_d="/oak/stanford/groups/mrivas/ukbb24983/sqc"
 sqc_v="20200313"
-pca_v="20200817_v1"
+pca_v="20200817_v2"
 
 # v1 --indep-pairwise 50 5 .5
 # v2 --indep-pairwise 50 5 .2

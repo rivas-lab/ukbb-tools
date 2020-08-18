@@ -23,26 +23,6 @@ show_default () {
         | head  -n$(show_default_helper | awk -v FS='\t' '{print $2-$1-1}')
 }
 
-# var_list_to_bed () {
-#     local pvar=$1
-#     local one_array=$2
-#
-#     ml load R/3.6 gcc
-#
-#     Rscript /dev/stdin ${pvar} ${one_array} << EOF
-#     suppressWarnings(suppressPackageStartupMessages({ library(tidyverse); library(data.table) }))
-#     args <- commandArgs(trailingOnly=TRUE)
-#     pvar <-args[1]
-#     one_array <- args[2]    
-#     fread(cmd=paste('zstdcat', pvar), colClasses=c('#CHROM'='character')) %>%
-#     rename ('CHROM' = '#CHROM') %>%
-#     filter(ID %in% (fread(one_array, head=F) %>% pull())) %>%
-#     mutate(POSe = POS + length(REF)) %>%
-#     select(CHROM, POS, POSe, ID) %>%
-#     fwrite('/dev/stdout', sep='\t', col.names=F)    
-# EOF
-# }
-
 usage () {
 cat <<- EOF
 	$PROGNAME (version $VERSION)
@@ -125,7 +105,7 @@ out_prefix="${params[0]}"
 
 ############################################################
 
-ml load zstd plink2/20200727 
+ml load zstd plink2/20200727 R/3.6 gcc
 
 if [ ! -f $(dirname ${out_prefix}) ] ; then mkdir -p $(dirname ${out_prefix}) ; fi
 
@@ -157,7 +137,7 @@ if [ ! -s ${out_prefix}.prune.log ] &&
       | cat /dev/stdin ${one_array} \
       ) \
     $([ "${keep}" != "" ] && echo "--keep ${keep}" || echo "" ) \
-    --indep-pairwise 50 5 .5 \
+    --indep-pairwise 50 5 .2 \
     --out ${out_prefix}
 
     mv ${out_prefix}.log ${out_prefix}.prune.log
@@ -178,6 +158,31 @@ if [ ! -s ${out_prefix}.eigenvec.log ] &&
     --out ${out_prefix}
 
     mv ${out_prefix}.log ${out_prefix}.eigenvec.log
+fi
+
+# plot the first 2 PCs
+
+if [ ! -s ${out_prefix}.eigenvec.PC1.PC2.png ] ; then
+
+    Rscript /dev/stdin ${out_prefix}.eigenvec ${out_prefix}.eigenvec.PC1.PC2.png << EOF
+        suppressWarnings(suppressPackageStartupMessages({ library(tidyverse); library(data.table) }))
+        args <- commandArgs(trailingOnly=TRUE)
+
+        evec_f <- args[1]
+        evec_p <- args[2]
+
+        evec <- fread(evec_f, colClasses=c('#FID'='character', 'IID'='character')) %>%
+        rename('FID'='#FID')
+
+        p <- evec %>%
+        ggplot(aes(x=PC1, y=PC2)) +
+        stat_density_2d(aes(fill = ..level..), geom = "polygon") +
+        labs(title = file.path(basename(dirname(evec_f)), basename(evec_f))) +
+        theme_bw()
+
+        ggsave(evec_p, p)
+EOF
+
 fi
 
 exit 0
