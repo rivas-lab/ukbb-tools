@@ -31,3 +31,7 @@ Please also look at the [`ukbb-phenotyping`](https://github.com/rivas-lab/ukbb-p
 Starting 2020, UKB also released some of the phenotypic data via SQL portal. This includes the covid-19 test results as well as the linked death registry information.
 
 For instructions on to how to access this data see: http://biobank.ndph.ox.ac.uk/showcase/showcase/docs/DeathLinkage.pdf
+
+## Disease endpoint data source breakdown
+
+- We have scripts that generates `UpSetR` plots in [`highconfidenceqc_upset`](highconfidenceqc_upset).
