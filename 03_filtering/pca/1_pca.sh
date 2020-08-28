@@ -61,6 +61,7 @@ memory=30000
 keep=""
 pfile=/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb24983_cal_cALL_v2_hg19
 one_array=/oak/stanford/groups/mrivas/ukbb24983/sqc/one_array_variants.txt
+snp_qc=/oak/stanford/groups/mrivas/ukbb24983/snp/snp_download/ukb_snp_qc.txt
 ## == Default parameters (end) == ##
 
 declare -a params=()
@@ -112,36 +113,36 @@ if [ ! -f $(dirname ${out_prefix}) ] ; then mkdir -p $(dirname ${out_prefix}) ; 
 plink_mem=$( perl -e "use List::Util qw[min max]; print( max( int(${memory} * 0.8), ${memory} - 10000 ))" )
 plink_common_opts=" --memory ${plink_mem} --threads ${nCores}"
 
-if [ ! -s ${out_prefix}.prune.log ] && 
-   [ ! -s ${out_prefix}.prune.in ] && 
-   [ ! -s ${out_prefix}.prune.out ] ; then
-#  We apply LD pruning for the variant that passed the following criteria:
-#    - autosomal (--chr) biallelic (--max-alleles) QC-passed (--var-filter)
-#      common (MAF 5%, --maf, --max-maf) SNPs (--snps-only)
-#    - missing rate is at most 10% (--geno)
-#    - not significant in HWE test (--hwe)
-#    - not in the MHC region (6:25477797-36448354, --exclude)
-#      https://www.ncbi.nlm.nih.gov/grc/human/data?asm=GRCh37.p13
-#      https://www.ncbi.nlm.nih.gov/grc/human/regions/MHC?asm=GRCh37.p13
-#    - not in the one array variant set (--exclude)
-#  If the keep file is not empty, we focus on the individuals specified in the file (--keep)
+# if [ ! -s ${out_prefix}.prune.log ] && 
+#    [ ! -s ${out_prefix}.prune.in ] && 
+#    [ ! -s ${out_prefix}.prune.out ] ; then
+# #  We apply LD pruning for the variant that passed the following criteria:
+# #    - autosomal (--chr) biallelic (--max-alleles) QC-passed (--var-filter)
+# #      common (MAF 5%, --maf, --max-maf) SNPs (--snps-only)
+# #    - missing rate is at most 10% (--geno)
+# #    - not significant in HWE test (--hwe)
+# #    - not in the MHC region (6:25477797-36448354, --exclude)
+# #      https://www.ncbi.nlm.nih.gov/grc/human/data?asm=GRCh37.p13
+# #      https://www.ncbi.nlm.nih.gov/grc/human/regions/MHC?asm=GRCh37.p13
+# #    - not in the one array variant set (--exclude)
+# #  If the keep file is not empty, we focus on the individuals specified in the file (--keep)
         
-    plink2 ${plink_common_opts} \
-    --pfile ${pfile} $([ -f "${pfile}.pvar.zst" ] && echo "vzs" || echo "") \
-    --chr 1-22 --max-alleles 2 --var-filter --snps-only just-acgt \
-    --maf 0.05 --max-maf 0.95 \
-    --geno 0.1 --hwe 1e-10 midp \
-    --rm-dup exclude-all \
-    --exclude <( zstdcat ${pfile}.pvar.zst \
-      | awk '($1 == 6 && 25477797 <= $2 && $2 < 36448354){print $3}' \
-      | cat /dev/stdin ${one_array} \
-      ) \
-    $([ "${keep}" != "" ] && echo "--keep ${keep}" || echo "" ) \
-    --indep-pairwise 50 5 .2 \
-    --out ${out_prefix}
+#     plink2 ${plink_common_opts} \
+#     --pfile ${pfile} $([ -f "${pfile}.pvar.zst" ] && echo "vzs" || echo "") \
+#     --chr 1-22 --max-alleles 2 --var-filter --snps-only just-acgt \
+#     --maf 0.05 --max-maf 0.95 \
+#     --geno 0.1 --hwe 1e-10 midp \
+#     --rm-dup exclude-all \
+#     --exclude <( zstdcat ${pfile}.pvar.zst \
+#       | awk '($1 == 6 && 25477797 <= $2 && $2 < 36448354){print $3}' \
+#       | cat /dev/stdin ${one_array} \
+#       ) \
+#     $([ "${keep}" != "" ] && echo "--keep ${keep}" || echo "" ) \
+#     --indep-pairwise 50 5 .2 \
+#     --out ${out_prefix}
 
-    mv ${out_prefix}.log ${out_prefix}.prune.log
-fi
+#     mv ${out_prefix}.log ${out_prefix}.prune.log
+# fi
 
 # Apply PCA
 if [ ! -s ${out_prefix}.eigenvec.log ] && 
@@ -149,9 +150,11 @@ if [ ! -s ${out_prefix}.eigenvec.log ] &&
    [ ! -s ${out_prefix}.eigenvec ] && 
    [ ! -s ${out_prefix}.eigenvec.allele.zst ] ; then
 
+#     --extract ${out_prefix}.prune.in \
+
     plink2 ${plink_common_opts} \
     --pfile ${pfile} $([ -f "${pfile}.pvar.zst" ] && echo "vzs" || echo "") \
-    --extract ${out_prefix}.prune.in \
+    --extract <(cat ${snp_qc} | awk '($118 == 1){print $1}' ) \
     $([ "${keep}" == "" ] && echo "" || echo "--keep ${keep}") \
     --pca 40 allele-wts approx vzs vcols=chrom,pos,ref,alt1,alt,ax \
     --seed 24983 \
