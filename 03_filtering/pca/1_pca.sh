@@ -4,10 +4,8 @@ set -beEuo pipefail
 SRCNAME=$(readlink -f $0)
 SRCDIR=$(dirname ${SRCNAME})
 PROGNAME=$(basename $SRCNAME)
-VERSION="0.2.0"
+VERSION="0.3.0"
 NUM_POS_ARGS="1"
-
-# source "${SRCDIR}/pca_misc.sh"
 
 ############################################################
 # functions
@@ -26,7 +24,7 @@ show_default () {
 usage () {
 cat <<- EOF
 	$PROGNAME (version $VERSION)
-	Run pca
+	Run PCA with plink2 or smartpca in Eigensoft (--EIG option)
 	
 	Usage: $PROGNAME [options] out_prefix
 	  out_prefix   The prefix of the output files
@@ -42,15 +40,25 @@ EOF
     show_default | awk -v spacer="  " '{print spacer $0}'
 }
 
+approx_str () {
+    keep=$1
+    n_samples=$(cat $keep | egrep -v '^#' | wc -l)
+    if [ "${n_samples}" -gt 5000 ] ; then
+        echo "approx"
+    else
+        echo ""
+    fi
+}
+
 ############################################################
 # tmp dir
 ############################################################
-# tmp_dir_root="$LOCAL_SCRATCH"
-# if [ ! -d ${tmp_dir_root} ] ; then mkdir -p $tmp_dir_root ; fi
-# tmp_dir="$(mktemp -p ${tmp_dir_root} -d tmp-$(basename $0)-$(date +%Y%m%d-%H%M%S)-XXXXXXXXXX)"
-# # echo "tmp_dir = $tmp_dir" >&2
-# handler_exit () { rm -rf $tmp_dir ; }
-# trap handler_exit EXIT
+tmp_dir_root="$LOCAL_SCRATCH"
+if [ ! -d ${tmp_dir_root} ] ; then mkdir -p $tmp_dir_root ; fi
+tmp_dir="$(mktemp -p ${tmp_dir_root} -d tmp-$(basename $0)-$(date +%Y%m%d-%H%M%S)-XXXXXXXXXX)"
+# echo "tmp_dir = $tmp_dir" >&2
+handler_exit () { rm -rf $tmp_dir ; }
+trap handler_exit EXIT
 
 ############################################################
 # parser start
@@ -59,6 +67,8 @@ EOF
 nCores=4
 memory=30000
 keep=""
+EIG="FALSE"
+nPCs=40
 pfile=/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb24983_cal_cALL_v2_hg19
 snp_qc=/oak/stanford/groups/mrivas/ukbb24983/snp/snp_download/ukb_snp_qc.txt
 ## == Default parameters (end) == ##
@@ -80,6 +90,12 @@ for OPT in "$@" ; do
             ;;
         '--keep' )
             keep=$2 ; shift 2 ;
+            ;;
+        '--nPCs' )
+            nPCs=$2 ; shift 2 ;
+            ;;
+        '--EIG' )
+            EIG="TRUE" ; shift 1 ;
             ;;
         '--'|'-' )
             shift 1 ; params+=( "$@" ) ; break
@@ -107,26 +123,85 @@ out_prefix="${params[0]}"
 
 ml load zstd plink2/20200727 R/3.6 gcc
 
+if [ ${EIG} == "TRUE" ] ; then
+    ml load EIG
+fi
+
 if [ ! -f $(dirname ${out_prefix}) ] ; then mkdir -p $(dirname ${out_prefix}) ; fi
 
 plink_mem=$( perl -e "use List::Util qw[min max]; print( max( int(${memory} * 0.8), ${memory} - 10000 ))" )
 plink_common_opts=" --memory ${plink_mem} --threads ${nCores}"
 
 # Apply PCA
-if [ ! -s ${out_prefix}.eigenvec.log ] && 
-   [ ! -s ${out_prefix}.eigenval ] && 
-   [ ! -s ${out_prefix}.eigenvec ] && 
-   [ ! -s ${out_prefix}.eigenvec.allele.zst ] ; then
 
-    plink2 ${plink_common_opts} \
-    --pfile ${pfile} $([ -f "${pfile}.pvar.zst" ] && echo "vzs" || echo "") \
-    --extract <(cat ${snp_qc} | awk '($118 == 1){print $1}' ) \
-    $([ "${keep}" == "" ] && echo "" || echo "--keep ${keep}") \
-    --pca 40 allele-wts approx vzs vcols=chrom,pos,ref,alt1,alt,ax \
-    --seed 24983 \
-    --out ${out_prefix}
+if [ ${EIG} == "TRUE" ] ; then
 
-    mv ${out_prefix}.log ${out_prefix}.eigenvec.log
+    if [ ! -s ${out_prefix}.eigensoft.log ] && 
+       [ ! -s ${out_prefix}.eigenval ] && 
+       [ ! -s ${out_prefix}.eigenvec ] ; then
+
+        bfile=${tmp_dir}/$(basename ${pfile})
+
+        # generate PLINK1.9 BED file
+
+        plink2 ${plink_common_opts} \
+        --pfile ${pfile} $([ -f "${pfile}.pvar.zst" ] && echo "vzs" || echo "") \
+        --extract <(cat ${snp_qc} | awk '($118 == 1){print $1}' ) \
+        $([ "${keep}" == "" ] && echo "" || echo "--keep ${keep}") \
+        --make-bed \
+        --out ${bfile}
+
+        cp ${bfile}.log ${out_prefix}.bed.log    
+
+        # prepare snp and ind file
+        # ref: https://github.com/DReichLab/EIG/tree/master/CONVERTF
+
+        cat ${bfile}.bim | awk '{print $2, $1, "0.0", $4, $6, $5}' > ${bfile}.snp
+        cat ${bfile}.fam | awk -v FID_IID_sep=':' -v label=$([ "${keep}" == "" ] && echo "sample" || basename "${keep}") '{print $1 FID_IID_sep $2, "U", label }' > ${bfile}.ind
+
+        # run PCA
+        # ref: https://github.com/DReichLab/EIG/tree/master/EIGENSTRAT
+
+        ! smartpca.perl \
+        -i ${bfile}.bed \
+        -a ${bfile}.snp \
+        -b ${bfile}.ind \
+        -m 5 \
+        -k ${nPCs} \
+        -o ${out_prefix}.pca \
+        -e ${out_prefix}.evals \
+        -l ${out_prefix}.eigensoft.log \
+        -p ${out_prefix}.plot
+
+        # post-processing
+        { 
+            echo "#FID IID $(seq ${nPCs} | awk -v prefix=PC '{print prefix $1}' | tr '\n' ' ' | rev | cut -c2- | rev ) label" |  tr ' ' '\t'
+
+            cat ${out_prefix}.pca.evec | sed -e 's/^\s\+//g' | egrep -v '^#' | sed -e 's/\s\+/\t/g' | tr ':' '\t'
+        } > ${out_prefix}.eigenvec
+
+        cat ${out_prefix}.pca | awk '1 < NR' | awk -v nPCs=${nPCs} 'NR <= nPCs' > ${out_prefix}.eigenval
+
+    fi
+
+else
+
+    if [ ! -s ${out_prefix}.eigenvec.log ] && 
+       [ ! -s ${out_prefix}.eigenval ] && 
+       [ ! -s ${out_prefix}.eigenvec ] && 
+       [ ! -s ${out_prefix}.eigenvec.allele.zst ] ; then
+
+        plink2 ${plink_common_opts} \
+        --pfile ${pfile} $([ -f "${pfile}.pvar.zst" ] && echo "vzs" || echo "") \
+        --extract <(cat ${snp_qc} | awk '($118 == 1){print $1}' ) \
+        $([ "${keep}" == "" ] && echo "" || echo "--keep ${keep}") \
+        --pca ${nPCs} allele-wts $([ "${keep}" == "" ] && echo "" || $(approx_str ${keep}) ) vzs vcols=chrom,pos,ref,alt1,alt,ax \
+        --seed 24983 \
+        --out ${out_prefix}
+
+        mv ${out_prefix}.log ${out_prefix}.eigenvec.log
+    fi
+
 fi
 
 # plot the first 2 PCs
