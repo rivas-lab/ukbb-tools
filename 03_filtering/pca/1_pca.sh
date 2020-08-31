@@ -118,8 +118,6 @@ if [ ! -s ${out_prefix}.eigenvec.log ] &&
    [ ! -s ${out_prefix}.eigenvec ] && 
    [ ! -s ${out_prefix}.eigenvec.allele.zst ] ; then
 
-#     --extract ${out_prefix}.prune.in \
-
     plink2 ${plink_common_opts} \
     --pfile ${pfile} $([ -f "${pfile}.pvar.zst" ] && echo "vzs" || echo "") \
     --extract <(cat ${snp_qc} | awk '($118 == 1){print $1}' ) \
@@ -145,13 +143,20 @@ if [ ! -s ${out_prefix}.eigenvec.PC1.PC2.png ] ; then
         evec <- fread(evec_f, colClasses=c('#FID'='character', 'IID'='character')) %>%
         rename('FID'='#FID')
 
-        p <- evec %>%
+        p1 <- evec %>%
         ggplot(aes(x=PC1, y=PC2)) +
         stat_density_2d(aes(fill = ..level..), geom = "polygon") +
         labs(title = file.path(basename(dirname(evec_f)), basename(evec_f))) +
         theme_bw()
 
-        ggsave(evec_p, p)
+
+        p2 <- evec %>%
+        ggplot(aes(x=PC1, y=PC2)) +
+        geom_point(alpha=.05) +
+        labs(title = file.path(basename(dirname(evec_f)), basename(evec_f))) +
+        theme_bw()
+        
+        ggsave(evec_p, gridExtra::arrangeGrob(p1, p2, ncol=2), width=12, height=6)        
 EOF
 
 fi
