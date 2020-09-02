@@ -53,6 +53,8 @@ Issue ticket corresponding to this project: https://github.com/rivas-lab/ukbb-to
 
 We took the phenotype category information from [`05_gbe`](/05_gbe/extras/20200812_GBE_category).
 
+The master phe file version used in this GWAS freeze was`master.20200408.phe`.
+
 #### Line counts and the number of hits
 
 - [`line.count.sh`](line.count.sh): this script counts the number of lines and the number of hits. Specifically, this script takes the GWAS summary statistics (in `/gwas/current/<population>` directory) and generate a small table consists of the following columns:
