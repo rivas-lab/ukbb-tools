@@ -1,7 +1,7 @@
 #!/bin/bash
 set -beEuo pipefail
 
-# ml load R/3.6 gcc
+# ml load R/3.6 gcc inkscape
 
 GBE_ID=$1
 
@@ -27,11 +27,11 @@ handler_exit () { rm -rf $tmp_dir ; }
 trap handler_exit EXIT
 ############################################################
 
-if [ "${pop}" == "" ] || 
-   [ "${pop}" == "NONE" ] || 
-   [ "${pop}" == "None" ] || 
+if [ "${pop}" == "" ] ||
+   [ "${pop}" == "NONE" ] ||
+   [ "${pop}" == "None" ] ||
    [ "${pop}" == "none" ] ; then
-  
+
     keep_f='none'
     out_pdf="${data_d}/upset_plot/all/${GBE_ID}.pdf"
 else
@@ -47,11 +47,13 @@ if [ -s "${out_pdf}" ] && [ -s "${out_pdf%.pdf}.png" ] ; then
     exit 0
 fi
 
-# extract the relevant 
+# extract the relevant
 in_tbl=${tmp_dir}/in_tbl.tsv
 tabix -h ${HC_idx_long_f} ${GBE_ID} > ${in_tbl}
 
-Rscript /dev/stdin ${in_tbl} ${keep_f} ${out_pdf} << EOF
+# calling Rscript in Yosuke's singularity image.
+# you should be able to run it with your own R environment by simply droppiing run-simg.sh
+run-simg.sh Rscript /dev/stdin ${in_tbl} ${keep_f} ${out_pdf} << EOF
 suppressWarnings(suppressPackageStartupMessages({ library(tidyverse); library(data.table) }))
 library(UpSetR)
 
@@ -61,9 +63,39 @@ in_tbl  <- args[1]
 keep_f  <- args[2]
 out_pdf <- args[3]
 
+####################
+# function
+####################
+
+upsetplot_wrapper <- function(upset_labels, HC_idx_long, text_scaling_factor=1){
+    upset(
+        fromList(as.list(setNames(
+            upset_labels %>% lapply(function(l){
+            # extract the list of individuals
+                HC_idx_long %>%
+                filter(upset_label == l) %>%
+                pull(IID) %>% unique()
+            }),
+            upset_labels
+        ))),
+        order.by = "freq", show.numbers = "yes",
+        nsets = 20, nintersects = 40,
+        text.scale = text_scaling_factor * c(1.5, 1.2, 1.5, 1.2, 1, .6),
+#         number.angles = 300,
+#         point.size = 2, line.size = .5,
+#         mb.ratio = c(0.6, 0.4),
+        mainbar.y.label = "Number of case individuals",
+        sets.x.label = "# cases per data source"
+    )
+}
+
+####################
+# main
+####################
+
 HC_idx_long <- fread(in_tbl) %>%
 rename('GBE_ID'='#GBE_ID') %>%
-select(-time, -array) %>% 
+select(-time, -array) %>%
 mutate(
     upset_label = if_else(coding == 6, 'Self-reported', paste('ICD-10', val))
 )
@@ -86,57 +118,15 @@ count(upset_label) %>%
 arrange(-n) %>%
 pull(upset_label) -> upset_labels
 
-
-pdf(file=out_pdf, onefile=FALSE, height = 6, width=8)
-upset(
-    fromList(as.list(setNames(
-        upset_labels %>%
-        lapply(function(l){
-        # extract the list of individuals
-            HC_idx_long %>%
-            filter(upset_label == l) %>%
-            pull(IID) %>%
-            unique()
-        }),
-        upset_labels
-    ))), 
-    order.by = "freq",
-    mainbar.y.label = "Number of case individuals", 
-    sets.x.label = "# cases per data source", 
-    nsets = 20, nintersects = NA,
-#     number.angles = 300, 
-#     point.size = 2, line.size = .5, 
-#     text.scale = c(1.5, 1.2, 1.5, 1.2, 1, .8),
-#     mb.ratio = c(0.6, 0.4),
-    show.numbers = "yes"
-)
+cairo_pdf(out_pdf, height = 6, width = 8, family = "Helvetica")
+upsetplot_wrapper(upset_labels, HC_idx_long)
 dev.off()
 
-png(file=str_replace(out_pdf, '.pdf$', '.png'), width=800, height=600, units="px", family = "Helvetica")
-upset(
-    fromList(as.list(setNames(
-        upset_labels %>%
-        lapply(function(l){
-        # extract the list of individuals
-            HC_idx_long %>%
-            filter(upset_label == l) %>%
-            pull(IID) %>%
-            unique()
-        }),
-        upset_labels
-    ))), 
-    order.by = "freq",
-    mainbar.y.label = "Number of case individuals", 
-    sets.x.label = "# cases per data source", 
-    nsets = 20, nintersects = NA,
-#     number.angles = 300, 
-#     point.size = 2, line.size = .5, 
-#     text.scale = c(1.5, 1.2, 1.5, 1.2, 1, .8),
-#     mb.ratio = c(0.6, 0.4),
-    show.numbers = "yes"
-)
-dev.off()
 EOF
+
+# convert pdf to png
+inkscape --export-filename=${out_pdf%.pdf}.png ${out_pdf}
 
 echo ${out_pdf}
 echo ${out_pdf%.pdf}.png
+

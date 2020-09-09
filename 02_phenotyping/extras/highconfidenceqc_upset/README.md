@@ -10,6 +10,12 @@ To visualize the source of our disease endpoint phenotypes, we generated UpSetR 
 - data directory: `/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/highconfidenceqc_upset/`
 - Extracted info file: `ukb37855_ukb40831_icd.tsv.zst`
 - The one joined with GBE_IDs: `ukb37855_ukb40831_icd.annot.tsv.gz`
+- The UpSetR plot image files `upset_plot/`
+- The tar ball archive of the png files `upset_plot.20200909-005909.tar.gz`
+
+## Update log
+
+- 2020/9/8: Bug fix. For the ICD-10 codes, we should have been scanning the code itself and all of its subconcepts.
 
 ## Methods
 

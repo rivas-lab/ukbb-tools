@@ -20,20 +20,18 @@ out_f <- '/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/extras/highconfide
 # - 40001: Underlying (primary) cause of death: ICD10
 # - 40002: Contributory (secondary) causes of death: ICD10
 # - 41201: External causes - ICD10
-# - 40001: Underlying (primary) cause of death: ICD10
-# - 40002: Contributory (secondary) causes of death: ICD10
 #
 # ukb37855
 # - 41270: Diagnoses - ICD10
 
 tab_and_cols <- setNames(
     list(
-        c(20002, 41202, 41204, 40001, 40002, 41201, 40001, 40002),
+        c(20002, 41202, 41204, 40001, 40002, 41201),
         c(41270)
     ),
     c(
         '/scratch/groups/mrivas/ukbb24983/phenotypedata/2007183/40831/download/ukb40831.tab',
-        '/scratch/groups/mrivas/ukbb24983/phenotypedata/2005693/37855/download/ukb37855.tab'        
+        '/scratch/groups/mrivas/ukbb24983/phenotypedata/2005693/37855/download/ukb37855.tab'
 #         '/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2007183/40831/download/ukb40831.tab',
 #         '/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/2005693/37855/download/ukb37855.tab'
     )
@@ -43,14 +41,14 @@ tab_and_cols <- setNames(
 
 read_tab_as_long <- function(tab_file, field_IDs){
     tabc <- fread(
-        file=sprintf('%s.columns', tab_file), 
+        file=sprintf('%s.columns', tab_file),
         skip=1, header=F
     )
     colnames(tabc)<-c('colname', 'f', 'field', 'time', 'array')
-    
-    select_cols <- tabc %>% 
+
+    select_cols <- tabc %>%
     filter(field %in% field_IDs) %>%
-    select(colname) %>% 
+    select(colname) %>%
     pull()
 
     fread(
@@ -73,6 +71,6 @@ lapply(function(tab_file){
 }) %>%
 bind_rows()
 
-long_df %>% 
+long_df %>%
 rename('#IID' = 'IID') %>%
 fwrite(out_f, sep='\t', na = "NA", quote=F)
