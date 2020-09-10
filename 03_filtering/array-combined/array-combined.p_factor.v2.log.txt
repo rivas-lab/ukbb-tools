@@ -1,0 +1,19 @@
+[1] "p.factor (v1)"
+# A tibble: 3 x 2
+  value      n
+  <dbl>  <int>
+1  0.5   27816
+2  0.75  87430
+3  1    965722
+[1] "p.factor (v1) HLA allelotype"
+# A tibble: 1 x 2
+  value     n
+  <dbl> <int>
+1     1   362
+[1] "p.factor (v2)"
+# A tibble: 3 x 2
+  value      n
+  <dbl>  <int>
+1  0.5   27816
+2  0.75  87792
+3  1    965360
