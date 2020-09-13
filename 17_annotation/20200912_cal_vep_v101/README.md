@@ -27,3 +27,7 @@ We chcked the definition of each consequence (by looking at the Sequence Ontolog
 6. `others`: The others
 
 Please see [Google Spreadsheet](https://docs.google.com/spreadsheets/d/11o0Pu7ksyHOS-bhU_ViI8hBfIHWfNDKWH1o3ipHlQ-c/edit?usp=sharing) for more details.
+
+## Reference
+
+- https://m.ensembl.org/info/genome/variation/prediction/predicted_data.html
