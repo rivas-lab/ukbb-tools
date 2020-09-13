@@ -1,0 +1,30 @@
+#Consequence	Csq	Csq_priority	n	note	SO
+intron_variant	intron	4	1646954		http://www.sequenceontology.org/browser/current_release/term/SO:0001627
+downstream_gene_variant	others	6	456023		http://www.sequenceontology.org/browser/current_release/term/SO:0001632
+non_coding_transcript_variant	others	6	416197		http://www.sequenceontology.org/browser/current_release/term/SO:0001619
+upstream_gene_variant	others	6	376652		http://www.sequenceontology.org/browser/current_release/term/SO:0001631
+missense_variant	pav	2	266290		http://www.sequenceontology.org/browser/current_release/term/SO:0001583
+intergenic_variant	others	6	242373		http://www.sequenceontology.org/browser/current_release/term/SO:0001628
+NMD_transcript_variant	others	6	185073		http://www.sequenceontology.org/browser/current_release/term/SO:0001621
+regulatory_region_variant	others	6	171937		http://www.sequenceontology.org/browser/current_release/term/SO:0001566
+non_coding_transcript_exon_variant	others	6	116161		http://www.sequenceontology.org/browser/current_release/term/SO:0001792
+3_prime_UTR_variant	utr	5	55795		http://www.sequenceontology.org/browser/current_release/term/SO:0001624
+synonymous_variant	pcv	3	48269		http://www.sequenceontology.org/browser/current_release/term/SO:0001819
+frameshift_variant	ptv	1	47193		http://www.sequenceontology.org/browser/current_release/term/SO:0001589
+splice_region_variant	pav	2	45968		http://www.sequenceontology.org/browser/current_release/term/SO:0001630
+TF_binding_site_variant	others	6	40215	This is not PCV	http://www.sequenceontology.org/browser/current_release/term/SO:0001782
+stop_gained	ptv	1	29142		http://www.sequenceontology.org/browser/current_release/term/SO:0001587
+5_prime_UTR_variant	utr	5	15676		http://www.sequenceontology.org/browser/current_release/term/SO:0001623
+splice_donor_variant	ptv	1	10717		http://www.sequenceontology.org/browser/current_release/term/SO:0001575
+splice_acceptor_variant	ptv	1	8580		http://www.sequenceontology.org/browser/current_release/term/SO:0001574
+inframe_deletion	pav	2	1721		http://www.sequenceontology.org/browser/current_release/term/SO:0001822
+start_lost	ptv	1	772		http://www.sequenceontology.org/browser/current_release/term/SO:0002012
+inframe_insertion	pav	2	729		http://www.sequenceontology.org/browser/current_release/term/SO:0001821
+stop_lost	ptv	1	429		http://www.sequenceontology.org/browser/current_release/term/SO:0001578
+coding_sequence_variant	pcv	3	373		http://www.sequenceontology.org/browser/current_release/term/SO:0001580
+incomplete_terminal_codon_variant	pcv	3	93		http://www.sequenceontology.org/browser/current_release/term/SO:0001626
+stop_retained_variant	pcv	3	72	This is not PAVs	http://www.sequenceontology.org/browser/current_release/term/SO:0001567
+protein_altering_variant	pav	2	23		http://www.sequenceontology.org/browser/current_release/term/SO:0001818
+start_retained_variant	pcv	3	14	This is not PAVs	http://www.sequenceontology.org/browser/current_release/term/SO:0002019
+mature_miRNA_variant	others	6	13		http://www.sequenceontology.org/browser/current_release/term/SO:0001620
+TFBS_ablation	others	6	12		http://www.sequenceontology.org/browser/current_release/term/SO:0001895
