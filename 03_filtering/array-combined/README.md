@@ -7,6 +7,22 @@
 
 We have penalty factor files for snpnet.
 
+- version 4
+  - `/oak/stanford/groups/mrivas/ukbb24983/array-combined/snpnet/penalty.v4.rds`
+  - New VEP run.
+  - We found that having too many variants with `w=.9` were not helpful.
+
+| Data source | Csq    | n      | Csq_priority | w    |
+|-------------|--------|--------|--------------|------|
+| Array       | ptv    | 28321  | 1            | 0.5  |
+| Array       | pav    | 89161  | 2            | 0.75 |
+| HLA         |        | 362    |              | 0.75 |
+| Array       | pcv    | 11282  | 3            | 1    |
+| Array       | intron | 358439 | 4            | 1    |
+| Array       | utr    | 7928   | 5            | 1    |
+| Array       | others | 310295 | 6            | 1    |
+| CNVs        |        | 275180 |              | 1    |
+
 - version 3
   - `/oak/stanford/groups/mrivas/ukbb24983/array-combined/snpnet/penalty.v3.rds`
   - New VEP run.
@@ -25,6 +41,7 @@ We have penalty factor files for snpnet.
 - version 2
   - `/oak/stanford/groups/mrivas/ukbb24983/array-combined/snpnet/penalty.v2.rds`
   - HLA allelotypes now has .75
+
 - version 1
   - `/oak/stanford/groups/mrivas/ukbb24983/array-combined/snpnet/penalty.rds`
   - PTVs : 0.5, PAVs : 0.75, others : 1.0
