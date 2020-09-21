@@ -42,20 +42,22 @@ echo -e "$GBE_ID" >&1
 
 line_phenotype="$(awk -F'\t' -v GBE=${GBE_ID} '{if ($1 == GBE) {print}}' ../05_gbe/phenotype_info.tsv)"
 
-echo -e "white_british\nafrican\ne_asian\ns_asian\nnon_british_white" > $GBE_ID.POP
+echo -e "white_british\nafrican\ne_asian\ns_asian\nnon_british_white\nrelated\nothers" > $GBE_ID.POP
 
 N_GBE="$(echo $line_phenotype | cut -d' ' -f8)"
 N_NBW="$(echo $line_phenotype | cut -d' ' -f9)"
 N_AFR="$(echo $line_phenotype | cut -d' ' -f10)"
 N_EAS="$(echo $line_phenotype | cut -d' ' -f11)"
 N_SAS="$(echo $line_phenotype | cut -d' ' -f12)"
+N_REL="$(echo $line_phenotype | cut -d' ' -f13)"
+N_OTH="$(echo $line_phenotype | cut -d' ' -f14)"
 
-echo -e "$N_GBE\n$N_AFR\n$N_EAS\n$N_SAS\n$N_NBW" > $GBE_ID.POP_NUM
+echo -e "$N_GBE\n$N_AFR\n$N_EAS\n$N_SAS\n$N_NBW\n$N_REL\n$N_OTH" > $GBE_ID.POP_NUM
 
 paste $GBE_ID.POP $GBE_ID.POP_NUM | while read POP NUM; do
-    lines=$(find /oak/stanford/groups/mrivas/ukbb24983/cal/gwas -name "*.$GBE_ID.*gz" | grep -v freeze | grep -v old | grep -v ldsc | grep $POP | wc -l)
+    lines=$(find /oak/stanford/groups/mrivas/ukbb24983/array-combined/gwas/current -name "*.$GBE_ID.*gz" | grep -v freeze | grep -v old | grep -v ldsc | grep $POP | wc -l)
     if [ $lines -eq 1 ] && [ $NUM -ge $min_N_count ]; then
-        PATH_TO_FILE=$(find /oak/stanford/groups/mrivas/ukbb24983/cal/gwas -name "*.$GBE_ID.*gz" | grep -v freeze | grep -v old | grep -v ldsc | grep $POP)
+        PATH_TO_FILE=$(find /oak/stanford/groups/mrivas/ukbb24983/array-combined/gwas/current -name "*.$GBE_ID.*gz" | grep -v freeze | grep -v old | grep -v ldsc | grep $POP)
         echo -e "$PATH_TO_FILE\t$POP\t$GBE_ID\tTRUE" >> $output_folder/$GBE_ID.tmp.txt
     fi
 done

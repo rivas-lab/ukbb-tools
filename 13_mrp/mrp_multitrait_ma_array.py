@@ -24,7 +24,7 @@ for i, row in clusters.iterrows():
         pop_nums = subset_phen[subset_phen.columns[pop_cols]].values.tolist()[0]
         for pop, pop_num in zip(pops, pop_nums):
             if pop_num >= n_thresh:
-                stream = os.popen('find /oak/stanford/groups/mrivas/ukbb24983/cal/gwas -name "*.' + pheno + '.*gz" | grep -v freeze | grep -v old | grep -v ldsc | grep ' + pop)
+                stream = os.popen('find /oak/stanford/groups/mrivas/ukbb24983/array-combined/gwas -name "*.' + pheno + '.*gz" | grep -v freeze | grep -v old | grep -v ldsc | grep ' + pop)
                 path = stream.read().strip()
                 if path != "":
                     paths.append(path)
