@@ -1,39 +1,39 @@
-INI10030620	Alanine_aminotransferase
-INI10030600	Albumin
-INI10030610	Alkaline_phosphatase
-INI10030630	Apolipoprotein_A
-INI20030640	Apolipoprotein_B
-INI10030650	Aspartate_aminotransferase
-INI30030650	AST_to_ALT_ratio
-INI10030710	C-reactive_protein
-INI10030680	Calcium
-INI20030690	Cholesterol
-INI10030700	Creatinine
-INI10030510	Creatinine_in_urine
-INI10030720	Cystatin_C
-INI10030660	Direct_bilirubin
-INI30030700	eGFR
-INI10030730	Gamma_glutamyltransferase
-INI10030740	Glucose
-INI10030750	HbA1c
-INI10030760	HDL_cholesterol
-INI10030770	IGF-1
-INI20030780	LDL_cholesterol
-INI10030790	Lipoprotein_A
-INI10030500	Microalbumin_in_urine
-INI30030860	Non-albumin_protein
-INI10030810	Phosphate
-INI10030520	Potassium_in_urine
-INI10030830	SHBG
-INI10030530	Sodium_in_urine
-INI10030850	Testosterone
-INI10030840	Total_bilirubin
-INI10030860	Total_protein
-INI10030870	Triglycerides
-INI10030880	Urate
-INI10030670	Urea
-INI10030890	Vitamin_D
-BIN10030500	Microalbumin_higher_than_40_mg/L
-BIN30030510	UACR_higher_than_30_mg/g
-BIN10030800	Oestradiol_higher_than_212_pmol/L
-BIN10030820	Rheumatoid_factor_higher_than_16_IU/mL
+INI10030620	Alanine_aminotransferase	30620
+INI10030600	Albumin	30600
+INI10030610	Alkaline_phosphatase	30610
+INI10030630	Apolipoprotein_A	30630
+INI20030640	Apolipoprotein_B	30640
+INI10030650	Aspartate_aminotransferase	30650
+INI30030650	AST_to_ALT_ratio	NA
+INI10030710	C-reactive_protein	30710
+INI10030680	Calcium	30680
+INI20030690	Cholesterol	30690
+INI10030700	Creatinine	30700
+INI10030510	Creatinine_in_urine	30510
+INI10030720	Cystatin_C	30720
+INI10030660	Direct_bilirubin	30660
+INI30030700	eGFR	NA
+INI10030730	Gamma_glutamyltransferase	30730
+INI10030740	Glucose	30740
+INI10030750	HbA1c	30750
+INI10030760	HDL_cholesterol	30760
+INI10030770	IGF-1	30770
+INI20030780	LDL_cholesterol	30780
+INI10030790	Lipoprotein_A	30790
+INI10030500	Microalbumin_in_urine	30500
+INI30030860	Non-albumin_protein	NA
+INI10030810	Phosphate	30810
+INI10030520	Potassium_in_urine	30510
+INI10030830	SHBG	30830
+INI10030530	Sodium_in_urine	30530
+INI10030850	Testosterone	30850
+INI10030840	Total_bilirubin	30840
+INI10030860	Total_protein	30860
+INI10030870	Triglycerides	30870
+INI10030880	Urate	30880
+INI10030670	Urea	30670
+INI10030890	Vitamin_D	30890
+BIN10030500	Microalbumin_higher_than_40_mg/L	NA
+BIN30030510	UACR_higher_than_30_mg/g	NA
+BIN10030800	Oestradiol_higher_than_212_pmol/L	NA
+BIN10030820	Rheumatoid_factor_higher_than_16_IU/mL	NA

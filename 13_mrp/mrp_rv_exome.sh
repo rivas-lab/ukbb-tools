@@ -38,7 +38,7 @@ min_N_count=100
 GBE_ID=$(cat ../05_gbe/exome_phenotype_info.tsv | awk -v min_N=${min_N_count} 'NR > 1 && $8 >= min_N' | egrep -v MED | grep INI10030700 | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $1}' )
 POP="white_british"
 echo $GBE_ID >&1
-FILEPATH=$(find /oak/stanford/groups/mrivas/ukbb24983/exome/gwas -name "*.$GBE_ID.*gz" | grep -v freeze | grep -v old | grep -v ldsc | grep $POP);
+FILEPATH=$(find /oak/stanford/groups/mrivas/ukbb24983/exome/gwas/current -name "*.$GBE_ID.*gz" | grep -v freeze | grep -v old | grep -v ldsc | grep $POP);
 
 echo -e "path\tstudy\tpheno\tR_phen\n$FILEPATH\t$POP\t$GBE_ID\tTRUE" > $output_folder/$GBE_ID.tmp.txt;
 

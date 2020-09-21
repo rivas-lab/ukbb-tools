@@ -21,7 +21,7 @@ for i, row in clusters.iterrows():
         subset_df = phen_info[phen_info['#GBE_ID'] == pheno]
         num = subset_df['N_GBE'].values.tolist()[0]
         if num >= n_thresh:
-            stream = os.popen('find /oak/stanford/groups/mrivas/ukbb24983/cal/gwas -name "*.' + pheno + '.*gz" | grep -v freeze | grep -v old | grep -v ldsc | grep white_british')
+            stream = os.popen('find /oak/stanford/groups/mrivas/ukbb24983/array-combined/gwas/current -name "*.' + pheno + '.*gz" | grep -v freeze | grep -v old | grep -v ldsc | grep white_british')
             path = stream.read().strip()
             if path != "":
                 paths.append(path)
