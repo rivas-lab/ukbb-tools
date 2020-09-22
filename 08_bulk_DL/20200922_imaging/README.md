@@ -15,8 +15,9 @@ Thoese data fields are included in `ukb41413` (releae date: 2020/4/1). We used t
   - ukb2005693.41413.20203
   - ukb2005693.41413.20260
 
+Please ignore (but pleast don't delete) `*.bulk` and `*.lis` files - they are the index files used in the bulk download script.
+
 ## scripts
 
 - [`1_ukbconv.sh`](1_ukbconv.sh): this script generates the list of individuals with the specified bulk field
 - [`2_bulk_dl.sh`](2_bulk_dl.sh): this SLURM job script download the bulk data
-
