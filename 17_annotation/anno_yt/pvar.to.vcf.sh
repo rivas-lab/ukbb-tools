@@ -45,6 +45,8 @@ cat_or_zcat () {
 # main
 ############################################################
 
+ml load zstd
+
 vcf_header
 cat_or_zcat ${pvar_file} \
 | grep -v '#' \
