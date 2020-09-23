@@ -11,7 +11,13 @@ suppressPackageStartupMessages(library(data.table))
 ####################################################################
 read_and_filter_plink_sumstats <- function(in_f){
     df1 <- fread(in_f, colClasses=c('#CHROM'='character', 'ID'='character', 'P'='character')) %>%
-    rename('CHROM'='#CHROM')%>%
+    rename('CHROM'='#CHROM')
+
+    if(! 'A1' %in% colnames(df1)){
+        df1 <- df1 %>% mutate(A1 = ALT)
+    }
+
+    df1 %>%
     mutate(A2 = if_else(A1 == ALT, REF, ALT)) %>%
     filter(REF != 'N', ALT != 'N') %>%
     drop_na('P')
