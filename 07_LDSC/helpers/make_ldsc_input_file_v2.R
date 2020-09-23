@@ -20,7 +20,8 @@ read_and_filter_plink_sumstats <- function(in_f){
     df1 %>%
     mutate(A2 = if_else(A1 == ALT, REF, ALT)) %>%
     filter(REF != 'N', ALT != 'N') %>%
-    drop_na('P')
+    drop_na('P') -> df1
+    
     if('TEST' %in% colnames(df1)){
         df1 <- df1 %>% filter(TEST=='ADD')
     }
