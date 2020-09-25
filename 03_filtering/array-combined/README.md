@@ -4,13 +4,15 @@
 
 
 ## penalty factor for snpnet
-### Yosuke Tanigawa
 
 We have penalty factor files for snpnet.
 
+The version 1 is pepared by Manny, version 2-5 are prepared by Yosuke.
+
 ### version 5
+
   - `/oak/stanford/groups/mrivas/ukbb24983/array-combined/snpnet/penalty.v5.rds`
-  - New VEP run (2020 Aug).
+  - New VEP run (version 101, 2020 Aug). We curated its consequence field and grouped into categories, such as PTVs and PAVs. Please read [this page](/17_annotation/20200912_cal_vep_v101).
   - We considered ClinVar information.
     - [`clinvar_extract.sh`](clinvar_extract.sh): extract the pathogenicity info from ClinVar vcf file
     - [`array-combined.p_factor.v5.R`](array-combined.p_factor.v5.R): clean-up ClinVar pathogenicity string and generate penalty factor file.
@@ -40,7 +42,7 @@ We have penalty factor files for snpnet.
 
 ### version 4
   - `/oak/stanford/groups/mrivas/ukbb24983/array-combined/snpnet/penalty.v4.rds`
-  - New VEP run (2020 Aug).
+  - New VEP run (version 101, 2020 Aug). We curated its consequence field and grouped into categories, such as PTVs and PAVs. Please read [this page](/17_annotation/20200912_cal_vep_v101).
   - We found that having too many variants with `w=.9` were not helpful.
 
 | Data source | Csq    | n      | Csq_priority | w    |
@@ -56,7 +58,7 @@ We have penalty factor files for snpnet.
 
 ### version 3
   - `/oak/stanford/groups/mrivas/ukbb24983/array-combined/snpnet/penalty.v3.rds`
-  - New VEP run (2020 Aug).
+  - New VEP run (version 101, 2020 Aug). We curated its consequence field and grouped into categories, such as PTVs and PAVs. Please read [this page](/17_annotation/20200912_cal_vep_v101).
 
 | Data source | Csq    | n      | Csq_priority | w    |
 |-------------|--------|--------|--------------|------|
