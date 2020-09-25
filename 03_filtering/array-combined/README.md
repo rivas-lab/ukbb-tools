@@ -4,12 +4,43 @@
 
 
 ## penalty factor for snpnet
+### Yosuke Tanigawa
 
 We have penalty factor files for snpnet.
 
-- version 4
+### version 5
+  - `/oak/stanford/groups/mrivas/ukbb24983/array-combined/snpnet/penalty.v5.rds`
+  - New VEP run (2020 Aug).
+  - We considered ClinVar information.
+    - [`clinvar_extract.sh`](clinvar_extract.sh): extract the pathogenicity info from ClinVar vcf file
+    - [`array-combined.p_factor.v5.R`](array-combined.p_factor.v5.R): clean-up ClinVar pathogenicity string and generate penalty factor file.
+  - p.factor assignment rule
+    - PTVs or ClinVar pathogenic --> 0.5
+    - PAVs or ClinVar Likely pathogenic --> 0.75
+    - Others --> 1.0
+ 
+| p.factor | consequence | ClinVar           | n      |
+|----------|-------------|-------------------|--------|
+| 0.5      | ptv         |                   | 23494  |
+| 0.5      | ptv         | Pathogenic        | 4421   |
+| 0.5      | pav         | Pathogenic        | 3282   |
+| 0.5      | ptv         | Likely_pathogenic | 406    |
+| 0.5      | intron      | Pathogenic        | 51     |
+| 0.5      | pcv         | Pathogenic        | 12     |
+| 0.5      | others      | Pathogenic        | 7      |
+| 0.75     | pav         |                   | 84937  |
+| 0.75     | pav         | Likely_pathogenic | 942    |
+| 0.75     | pcv         | Likely_pathogenic | 11     |
+| 0.75     | intron      | Likely_pathogenic | 10     |
+| 0.75     | others      | Likely_pathogenic | 1      |
+| 1        | intron      |                   | 358378 |
+| 1        | others      |                   | 310287 |
+| 1        | pcv         |                   | 11259  |
+| 1        | utr         |                   | 7928   |
+
+### version 4
   - `/oak/stanford/groups/mrivas/ukbb24983/array-combined/snpnet/penalty.v4.rds`
-  - New VEP run.
+  - New VEP run (2020 Aug).
   - We found that having too many variants with `w=.9` were not helpful.
 
 | Data source | Csq    | n      | Csq_priority | w    |
@@ -23,9 +54,9 @@ We have penalty factor files for snpnet.
 | Array       | others | 310295 | 6            | 1    |
 | CNVs        |        | 275180 |              | 1    |
 
-- version 3
+### version 3
   - `/oak/stanford/groups/mrivas/ukbb24983/array-combined/snpnet/penalty.v3.rds`
-  - New VEP run.
+  - New VEP run (2020 Aug).
 
 | Data source | Csq    | n      | Csq_priority | w    |
 |-------------|--------|--------|--------------|------|
@@ -38,11 +69,13 @@ We have penalty factor files for snpnet.
 | Array       | others | 310295 | 6            | 1    |
 | CNVs        |        | 275180 |              | 1    |
 
-- version 2
+### version 2
+
   - `/oak/stanford/groups/mrivas/ukbb24983/array-combined/snpnet/penalty.v2.rds`
   - HLA allelotypes now has .75
 
-- version 1
+### version 1
+
   - `/oak/stanford/groups/mrivas/ukbb24983/array-combined/snpnet/penalty.rds`
   - PTVs : 0.5, PAVs : 0.75, others : 1.0
   - It turned out that HLA allelotypes have 1.0
