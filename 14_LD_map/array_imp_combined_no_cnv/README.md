@@ -1,12 +1,17 @@
 # LD map for the `cal + hla + imp` dataset
 
-## change log
+## Version history
 
+- 2019 Sept: we used the updated variant filtering criteria for the imputed variants (we don't use HWE filter anymore).
+  - Starting this version, we use the "array_imp_combined" dataset instead of using "array_imp_no_cnv" dataset simply because the creation of the new PLINK file is not required. We can simply specify the set of variants we'd like to use (i.e. array + HLA + imputed) and pass it to plink with `--extract`.
 - 2020 March: rerunning the analysis with `--ld-window 100000000`
+- 2019 Dec.: the initial attempt. It turend out that there was a bug in the pipe (we forgot to specify `--ld-window` arg) and the resulting LD map is incomplete.
 
 ## File location
 
-`/scratch/groups/mrivas/ukbb24983/array_imp_combined_no_cnv/ldmap/`
+- `/scratch/groups/mrivas/ukbb24983/array_imp_combined_no_cnv/ldmap/`
+  - `ldmap_20200304`: the March version
+  - `ldmap_20200928`
 
 Please see [here](https://github.com/rivas-lab/ukbb-tools/tree/master/14_LD_map) for types of the output files.
 
@@ -24,3 +29,4 @@ Please see [here](https://github.com/rivas-lab/ukbb-tools/tree/master/14_LD_map)
 ## Public release
 
 WB LD map was released to public: https://bit.ly/rivas-lab_covid19_UKB_LD_public_release
+

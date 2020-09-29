@@ -8,7 +8,7 @@ compute_ld_map_wrapper () {
     local memory=$4
     if [ $# -gt 4 ] ; then local keep_file=$5  ; else local keep_file="" ; fi
     if [ $# -gt 5 ] ; then local plink_opts=$6 ; else local plink_opts="" ; fi
-    local plink_opts_full="$(echo ${plink_opts} | tr "_" " ") --memory ${memory} --threads ${cores}"
+    local plink_opts_full="$(echo ${plink_opts} | tr ":" " ") --memory ${memory} --threads ${cores}"
 
     if [ ! -d $(dirname ${out_prefix}) ] ; then mkdir -p $(dirname ${out_prefix}) ; fi
     
