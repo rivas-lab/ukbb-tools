@@ -9,7 +9,7 @@
 | [20254](http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=20254) | Liver images - IDEAL protocol - DICOM   |              |               |
 | [20260](http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=20260) | Pancreas Images - gradient echo - DICOM | 37751        | 35415         |
 
-Thoese data fields are included in `ukb41413` (releae date: 2020/4/1). We used the table file from this release to identify the list of individuals for bulk download.
+Thoese data fields are included in `ukb41413` (Basket 2005693, releae date: 2020/4/1). We used the table file from this release to identify the list of individuals for bulk download.
 
 ## Data location
 
