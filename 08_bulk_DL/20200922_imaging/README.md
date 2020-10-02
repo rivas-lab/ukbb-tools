@@ -10,6 +10,7 @@
 | [20260](http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=20260) | Pancreas Images - gradient echo - DICOM | 37751        | 35415         |
 
 * Note: we were not able to download one file. Please see the issue ticket [#38](https://github.com/rivas-lab/ukbb-tools/issues/38).
+* The total file size of this imaging dataset is ~750 GB.
 
 Thoese data fields are included in `ukb41413` (Basket 2005693, releae date: 2020/4/1). We used the table file from this release to identify the list of individuals for bulk download.
 
