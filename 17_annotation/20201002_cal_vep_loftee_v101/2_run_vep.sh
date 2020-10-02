@@ -7,25 +7,20 @@ PROGNAME=$(basename $SRCNAME)
 
 ml load python/2.7
 
-pvar=/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb24983_cal_cALL_v2_hg19.pvar
-vep_out=$(dirname $(dirname ${pvar}))/annotation_20201002/dev/$(basename ${pvar%.zst} .pvar).vep101-loftee
-vep_in_vcf=${vep_out}.input.vcf
+idx=$1
+idx_pad=$(perl -e "print(sprintf('%03d', ${idx}))")
+
 assembly=GRCh37
+vep_in_vcf=/scratch/groups/mrivas/ukbb24983/cal/annotation_20201002/input/split.ukb24983_cal_cALL_v2_hg19.pvar.body.${idx_pad}.vcf
+vep_out=$(dirname $(dirname ${vep_in_vcf}))/output_vep/$(basename ${vep_in_vcf%} .vcf).vep101-loftee
 
 if [ ! -s ${vep_out}.tsv ] ; then
 
-    # convert pvar to vcf
-    if [ ! -d $(dirname ${vep_in_vcf}) ] ; then mkdir -p $(dirname ${vep_in_vcf}) ; fi
-
-    ! bash $(dirname ${SRCDIR})/helpers/pvar.to.vcf.sh ${pvar} | head -n1007 \
-        | sed -e 's/chrMT/chrM/g' | sed -e 's/chrXY/chrX/g' > ${vep_in_vcf}
-
     # run VEP w/ loftee
-    bash $(dirname ${SRCDIR})/helpers/vep_loftee_wrapper.sh ${assembly} ${vep_in_vcf} ${vep_out}
+    bash /oak/stanford/groups/mrivas/users/${USER}/repos/rivas-lab/ukbb-tools/17_annotation/helpers/vep_loftee_wrapper.sh ${assembly} ${vep_in_vcf} ${vep_out}
 
     # clean-up
     mv ${vep_out} ${vep_out}.vcf
-    rm ${vep_in_vcf}
 
     # tabulize the VEP/loftee VCF
     python /oak/stanford/groups/mrivas/software/loftee/src/tableize_vcf.py \

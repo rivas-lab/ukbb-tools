@@ -1,0 +1,78 @@
+# The column descriptor in the VEP output file
+
+Here, we copied the column descriptor from one of the VEP output file.
+
+- Allele : The variant allele used to calculate the consequence
+- Gene : Stable ID of affected gene
+- Feature : Stable ID of feature
+- Feature_type : Type of feature - Transcript, RegulatoryFeature or MotifFeature
+- Consequence : Consequence type
+- cDNA_position : Relative position of base pair in cDNA sequence
+- CDS_position : Relative position of base pair in coding sequence
+- Protein_position : Relative position of amino acid in protein
+- Amino_acids : Reference and variant amino acids
+- Codons : Reference and variant codon sequence
+- Existing_variation : Identifier(s) of co-located known variants
+- Extra column keys:
+- ALLELE_NUM : Allele number from input; 0 is reference, 1 is first alternate etc
+- IMPACT : Subjective impact classification of consequence type
+- DISTANCE : Shortest distance from variant to transcript
+- STRAND : Strand of the feature (1/-1)
+- FLAGS : Transcript quality flags
+- VARIANT_CLASS : SO variant class
+- SYMBOL : Gene symbol (e.g. HGNC)
+- SYMBOL_SOURCE : Source of gene symbol
+- HGNC_ID : Stable identifer of HGNC gene symbol
+- BIOTYPE : Biotype of transcript or regulatory feature
+- CANONICAL : Indicates if transcript is canonical for this gene
+- MANE : MANE (Matched Annotation by NCBI and EMBL-EBI) Transcript
+- TSL : Transcript support level
+- APPRIS : Annotates alternatively spliced transcripts as primary or alternate based on a range of computational methods
+- CCDS : Indicates if transcript is a CCDS transcript
+- ENSP : Protein identifer
+- SWISSPROT : UniProtKB/Swiss-Prot accession
+- TREMBL : UniProtKB/TrEMBL accession
+- UNIPARC : UniParc accession
+- GENE_PHENO : Indicates if gene is associated with a phenotype, disease or trait
+- SIFT : SIFT prediction and/or score
+- PolyPhen : PolyPhen prediction and/or score
+- EXON : Exon number(s) / total
+- INTRON : Intron number(s) / total
+- DOMAINS : The source and identifer of any overlapping protein domains
+- miRNA : SO terms of overlapped miRNA secondary structure feature(s)
+- HGVSc : HGVS coding sequence name
+- HGVSp : HGVS protein sequence name
+- HGVS_OFFSET : Indicates by how many bases the HGVS notations for this variant have been shifted
+- AF : Frequency of existing variant in 1000 Genomes combined population
+- AFR_AF : Frequency of existing variant in 1000 Genomes combined African population
+- AMR_AF : Frequency of existing variant in 1000 Genomes combined American population
+- EAS_AF : Frequency of existing variant in 1000 Genomes combined East Asian population
+- EUR_AF : Frequency of existing variant in 1000 Genomes combined European population
+- SAS_AF : Frequency of existing variant in 1000 Genomes combined South Asian population
+- AA_AF : Frequency of existing variant in NHLBI-ESP African American population
+- EA_AF : Frequency of existing variant in NHLBI-ESP European American population
+- gnomAD_AF : Frequency of existing variant in gnomAD exomes combined population
+- gnomAD_AFR_AF : Frequency of existing variant in gnomAD exomes African/American population
+- gnomAD_AMR_AF : Frequency of existing variant in gnomAD exomes American population
+- gnomAD_ASJ_AF : Frequency of existing variant in gnomAD exomes Ashkenazi Jewish population
+- gnomAD_EAS_AF : Frequency of existing variant in gnomAD exomes East Asian population
+- gnomAD_FIN_AF : Frequency of existing variant in gnomAD exomes Finnish population
+- gnomAD_NFE_AF : Frequency of existing variant in gnomAD exomes Non-Finnish European population
+- gnomAD_OTH_AF : Frequency of existing variant in gnomAD exomes other combined populations
+- gnomAD_SAS_AF : Frequency of existing variant in gnomAD exomes South Asian population
+- MAX_AF : Maximum observed allele frequency in 1000 Genomes, ESP and ExAC/gnomAD
+- MAX_AF_POPS : Populations in which maximum allele frequency was observed
+- CLIN_SIG : ClinVar clinical significance of the dbSNP variant
+- SOMATIC : Somatic status of existing variant
+- PHENO : Indicates if existing variant(s) is associated with a phenotype, disease or trait; multiple values correspond to multiple variants
+- PUBMED : Pubmed ID(s) of publications that cite existing variant
+- VAR_SYNONYMS : List of known variation synonyms and their sources
+- MOTIF_NAME : The stable identifier of a transcription factor binding profile (TFBP) aligned at this position
+- MOTIF_POS : The relative position of the variation in the aligned TFBP
+- HIGH_INF_POS : A flag indicating if the variant falls in a high information position of the TFBP
+- MOTIF_SCORE_CHANGE : The difference in motif score of the reference and variant sequences for the TFBP
+- TRANSCRIPTION_FACTORS : List of transcription factors which bind to the transcription factor binding profile
+- LoF : Loss-of-function annotation (HC = High Confidence; LC = Low Confidence)
+- LoF_filter : Reason for LoF not being HC
+- LoF_flags : Possible warning flags for LoF
+- LoF_info : Info used for LoF annotation
