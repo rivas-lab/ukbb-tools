@@ -46,5 +46,6 @@ This folder contains wrappers to the Variant Effect Predictor version 87 that is
 ## Location of relevant annotation files on `$OAK`
 
 - `cal`: `/oak/stanford/groups/mrivas/private_data/ukbb/variant_filtering/variant_filter_table.tsv.gz`
+  - [New version (2020/10/2)](20201002_cal_vep_loftee_v101), `/oak/stanford/groups/mrivas/ukbb24983/cal/annotation_20201002/ukb24983_cal_cALL_v2_hg19.vep101-loftee.Csq.tsv.gz`
 - `exome`: `/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-[population]-variant_annots_gbe.tsv.gz`
 - `imp`: `/oak/stanford/groups/mrivas/ukbb24983/imp/annotation/annot.tsv.gz`
