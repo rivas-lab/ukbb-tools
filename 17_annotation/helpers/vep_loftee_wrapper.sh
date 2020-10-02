@@ -119,7 +119,7 @@ LoF_d="${loftee_data}/${assembly}"
 if   [ "${assembly}" == "GRCh37" ] ; then
     LoF_data_paths="human_ancestor_fa:${LoF_d}/human_ancestor.fa.gz,conservation_file:${LoF_d}/phylocsf_gerp.sql,gerp_file:${LoF_d}/GERP_scores.final.sorted.txt.gz"
 elif [ "${assembly}" == "GRCh38" ] ; then
-    # this needs to be updated when we test with GRCh38
+    # this needs to be updated when we test this script with some input files on GRCh38
     LoF_data_paths="human_ancestor_fa:${LoF_d}/human_ancestor.fa.gz,conservation_file:${LoF_d}/phylocsf_gerp.sql,gerp_file:${LoF_d}/gerp_conservation_scores.homo_sapiens.GRCh38.bw"
 else
     "error: unsupported assembly (${assembly})" >&2 ; exit 1
