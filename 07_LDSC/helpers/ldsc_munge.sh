@@ -127,6 +127,7 @@ output_file=$(readlink -f "${params[1]}")
 tmp_intermediate_file=${tmp_dir}/$(basename $input_file).input.tsv
 
 echo "Applying a custom pre-processing R script ..."
+# echo "${SRCDIR}/make_ldsc_input_file_v2.R /dev/stdout ${input_file} ${ldscore}"
 
 Rscript ${SRCDIR}/make_ldsc_input_file_v2.R /dev/stdout ${input_file} ${ldscore} \
 | sed -e 's/[0-9].[0-9][0-9]*[eE]-[1-9][0-9][0-9][0-9]/1.0e-300/' \

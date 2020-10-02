@@ -26,11 +26,13 @@ read_and_filter_plink_sumstats <- function(in_f){
         df1 <- df1 %>% filter(TEST=='ADD')
     }
 
-    rename_dict <- list()
-    rename_dict[['LOG(OR)_SE']] <- 'SE'
-    df_new_colnames <- df1 %>% colnames() %>%
-    lapply(function(x){ifelse(x %in% names(rename_dict), rename_dict[[x]], x)})
-    colnames(df1) <- df_new_colnames
+    if('LOG(OR)_SE' %in% colnames(df1)){
+        rename_dict <- list()
+        rename_dict[['LOG(OR)_SE']] <- 'SE'
+        df_new_colnames <- df1 %>% colnames() %>%
+        lapply(function(x){ifelse(x %in% names(rename_dict), rename_dict[[x]], x)})
+        colnames(df1) <- df_new_colnames
+    }
 
     if(!'BETA' %in% colnames(df1)){
         df2 <- df1 %>% drop_na(OR)
@@ -65,9 +67,9 @@ ldscore_d  <- args[3]
 
 ####################################################################
 
-ldscore_df <- read_ldscore_files(ldscore_d)
-
 df <- read_and_filter_plink_sumstats(in_f)
+
+ldscore_df <- read_ldscore_files(ldscore_d)
 
 merged_df <- df %>%
 select(-ID)%>%
