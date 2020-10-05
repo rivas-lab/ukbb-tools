@@ -1,5 +1,7 @@
 # LD map for the `cal + hla + imp` dataset
 
+Yosuke Tanigawa
+
 ## Version history
 
 - 2019 Sept: we used the updated variant filtering criteria for the imputed variants (we don't use HWE filter anymore).
@@ -9,24 +11,20 @@
 
 ## File location
 
-- `/scratch/groups/mrivas/ukbb24983/array_imp_combined_no_cnv/ldmap/`
-  - `ldmap_20200304`: the March version
+We have three directories corresponding to the three versions.
+
+- `$OAK` space `/oak/stanford/groups/mrivas/ukbb24983/array_imp_combined_no_cnv/ldmap/`
   - `ldmap_20200928`
+  - `ldmap_20200304`
+  - `ldmap_20191216`
+- [Google Drive](https://drive.google.com/drive/folders/1Jq62lwncX37zaAArLA1n8D1-PxHnkhpn)
 
 Please see [here](https://github.com/rivas-lab/ukbb-tools/tree/master/14_LD_map) for types of the output files.
 
-### Back-up in Google Drive
-
-- Google Drive
-  - version 2020/03/04: `https://drive.google.com/drive/folders/1oUss3vmO1FNxIP_zRzoSTeT7gSXnr5rY`
-    - This version fixed a bug in the previous version.
-  - version 2019/12/16: `https://drive.google.com/drive/folders/1mwKZtGfrOadASYVui6FQcy8k-Kk7f5k5`
-
-### Copy of the data in GBE (based on Dec. 2019)
+## Copy of the data in GBE (based on Dec. 2019)
 
 - `/opt/biobankengine/GlobalBioBankEngineRepo/gbe_browser/static/ldmap`
 
 ## Public release
 
-WB LD map was released to public: https://bit.ly/rivas-lab_covid19_UKB_LD_public_release
-
+WB LD map (version March 2020) was released to public: https://bit.ly/rivas-lab_covid19_UKB_LD_public_release
