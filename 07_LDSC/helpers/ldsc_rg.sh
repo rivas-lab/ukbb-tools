@@ -101,6 +101,16 @@ out=$(readlink -f "${params[2]}")
 
 ############################################################
 
-ldsc.py --rg ${in1},${in2} --ref-ld-chr ${ldscore} --w-ld-chr ${ldscore} --out ${out%.log}
+tmp_out=${tmp_dir}/$(basename ${out%.log})
+out_d=$(dirname ${out})
+
+if [ ! -d ${out_d} ] ; then mkdir -p ${out_d} ; fi
+
+ldsc.py --rg ${in1},${in2} --ref-ld-chr ${ldscore} --w-ld-chr ${ldscore} --out ${tmp_out}
+
+# copy the results to the final output location.
+# replace the temp output file path in the log file
+cat ${tmp_out}.log | sed -e "s%${tmp_dir}%${out_d}%g" > ${out%.log}.log
 
 echo "Results are written to:  ${out%.log}.log"
+
