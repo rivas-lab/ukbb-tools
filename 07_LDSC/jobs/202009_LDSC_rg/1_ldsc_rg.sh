@@ -6,7 +6,7 @@ GBE_ID_2=$2
 if [ $# -gt 2 ] ; then pop=$3 ; else pop="metal" ; fi
 if [ $# -gt 3 ] ; then geno_dataset=$4 ; else geno_dataset="array-combined" ; fi
 
-ldsc_dir="/oak/stanford/groups/mrivas/ukbb24983/${geno_dataset}/ldsc"
+ldsc_dir="/scratch/groups/mrivas/ukbb24983/${geno_dataset}/ldsc"
 UKB_f1="${ldsc_dir}/${pop}/ukb24983_v2_hg19.${GBE_ID_1}.${geno_dataset}.sumstats.gz"
 UKB_f2="${ldsc_dir}/${pop}/ukb24983_v2_hg19.${GBE_ID_2}.${geno_dataset}.sumstats.gz"
 out_f="${ldsc_dir}/rg/${pop}.${GBE_ID_1}.${GBE_ID_2}"
