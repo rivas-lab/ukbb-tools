@@ -10,7 +10,7 @@ exome['all'] = pd.read_csv("/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb
 # get the rest of the populations
 print('Reading in population files...')
 for pop in ['african', 'e_asian', 'non_british_white', 's_asian', 'white_british', 'semi_related', 'others']:
-    exome[pop] = exome['all'].merge(pd.read_csv("/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification/ukb24983_" + pop + ".phe", sep='\t', header=None, usecols=[1], names=['IID'], dtype=str), on='IID')
+    exome[pop] = exome['all'].merge(pd.read_csv("/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification/ukb24983_" + pop + ".phe", sep='\s+', header=None, usecols=[1], names=['IID'], dtype=str), on='IID')
 
 # do the thing
 print("Progressing through phenotypes...")
@@ -22,7 +22,7 @@ with open("phenotype_info.tsv", "r") as f, open("exome_phenotype_info.tsv","w") 
             continue
         # ok go
         phe_info = line.rstrip().split('\t')
-        phe_data = pd.read_csv(phe_info[-1], sep='\t', header=None, names=['#FID','IID','PHENO'], dtype='str')
+        phe_data = pd.read_csv(phe_info[-1], sep='\s+', header=None, names=['#FID','IID','PHENO'], dtype='str')
         # if all values are 1,2,-9 then the trait is binary, otherwise QT
         if all([i in ['-9','1','2'] for i in phe_data['PHENO'].value_counts().index.tolist()]):
             query = 'PHENO == "2"'
@@ -44,4 +44,3 @@ merged = short.merge(epi, how='left', left_on='GBE_ID', right_on='#GBE_ID')
 merged = merged[['GBE_category', 'GBE_ID', 'N_GBE', 'GBE_NAME_x', 'GBE_short_name', 'GBE_short_name_len', 'Units_of_measurement']]
 merged.columns = ['GBE_category', 'GBE_ID', 'GBE_N_EXOME', 'GBE_NAME', 'GBE_short_name', 'GBE_short_name_len', 'Units_of_measurement']
 merged.to_csv('icdinfo.shortnames.exome.tsv', index=False, sep='\t')        
-
