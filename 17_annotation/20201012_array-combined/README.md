@@ -1,3 +1,18 @@
+## Variant QC
+
+Here is the summary of variant QC (across both autosomal and non-autosomal variants in the combined array dataset).
+
+![variant QC summary](variant_QC.png)
+
+We have the following QC filters: 
+
+- `missingness`: missingness (1%, computed separately for UKBL/UKBB array if the variant is directly genotyped and present in only one array)
+- `hwe`: HWE p-value (1e-7, we used the chrX model above)
+- `mcpi`: manual cluster plot inspection (copied from variant QC file back in 2017)
+- `gnomad_af`: maf comparison with gnomAD  (copied from variant QC file back in 2017)
+- `mgi`: manual genome browser inspection???  (copied from variant QC file back in 2017)
+
+
 ## Allele frequency across UKB populations in the array-combined dataset
 
 `/oak/stanford/groups/mrivas/ukbb24983/array-combined/afreq_20201012/ukb24983_cal_hla_cnv.afreq_20201012.pvar.zst`
