@@ -7,20 +7,34 @@ PROGNAME=$(basename $SRCNAME)
 
 ml load python/2.7 R/3.6 gcc
 
+############################################################
+# tmp dir
+############################################################
+tmp_dir_root="$LOCAL_SCRATCH"
+if [ ! -d ${tmp_dir_root} ] ; then mkdir -p $tmp_dir_root ; fi
+tmp_dir="$(mktemp -p ${tmp_dir_root} -d tmp-$(basename $0)-$(date +%Y%m%d-%H%M%S)-XXXXXXXXXX)"
+# echo "tmp_dir = $tmp_dir" >&2
+handler_exit () { rm -rf $tmp_dir ; }
+trap handler_exit EXIT
+############################################################
+
 idx=$1
-idx_pad=$(perl -e "print(sprintf('%03d', ${idx}))")
+idx_pad=$(perl -e "print(sprintf('%04d', ${idx}))")
 
 assembly=GRCh37
 
-split_pvar=/scratch/groups/mrivas/ukbb24983/cnv/annotation_20201003/input/split.cnv.pvar.body.${idx_pad}.pvar
+split_pvar=/scratch/groups/mrivas/ukbb24983/cnv/annotation_20201003/input_20201006/split.cnv.20201006.unfinished.pvar.body.${idx_pad}.pvar
 split_seq_pvar=${split_pvar%.pvar}.seq.pvar
 vep_in_vcf=${split_pvar%.pvar}.vcf
-vep_out=$(dirname $(dirname ${vep_in_vcf}))/output_vep/$(basename ${vep_in_vcf%} .vcf).vep101-loftee
+vep_out=$(dirname $(dirname ${vep_in_vcf}))/output_vep_20201006/$(basename ${vep_in_vcf%} .vcf).vep101-loftee
 
 # reference data
 public_d="/oak/stanford/groups/mrivas/public_data"
 vep_data="${public_d}/vep/20200912"
 loftee_data=$(dirname ${vep_data})/20201002_loftee_data
+
+
+if [ ! -d $(dirname ${vep_out}) ] ; then mkdir -p $(dirname ${vep_out}) ; fi
 
 
 if [ ! -s ${vep_out}.tsv ] ; then
@@ -33,7 +47,10 @@ if [ ! -s ${vep_out}.tsv ] ; then
 
     # run VEP w/ loftee
     bash /oak/stanford/groups/mrivas/users/${USER}/repos/rivas-lab/ukbb-tools/17_annotation/helpers/vep_loftee_wrapper.sh \
-    --vep_data ${vep_data} --loftee_data ${loftee_data} ${assembly} ${vep_in_vcf} ${vep_out}
+    --vep_data ${vep_data} --loftee_data ${loftee_data} ${assembly} ${vep_in_vcf} ${tmp_dir}/$(basename ${vep_out})
+    
+    # copy the results from tmp dir to dst
+    find ${tmp_dir} -type f -name "$(basename ${vep_out})*" | while read f ; do mv $f $(dirname ${vep_out})/ ; done
 
     # clean-up
     mv ${vep_out} ${vep_out}.vcf
@@ -50,8 +67,8 @@ if [ ! -s ${vep_out}.tsv ] ; then
     mv ${vep_out}.tmp.tsv.log ${vep_out}.tsv.log
 
     # Allele strings are too long in CNV dataset. Let's clean them up.    
-    Rscript simplify_cnv_tsv.R ${vep_out}.tmp.tsv ${vep_out}.tsv
-    
+    Rscript simplify_cnv_tsv.R ${vep_out}.tmp.tsv ${vep_out}.tsv 
+
     rm ${vep_out}.tmp.tsv
     bgzip ${vep_out}.vcf
 fi

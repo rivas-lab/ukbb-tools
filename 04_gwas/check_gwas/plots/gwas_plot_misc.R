@@ -53,7 +53,7 @@ compute_gwas_plot_df <- function(gwas_df){
     summarise(chr_len = max(POS), .groups = 'drop') %>%
     left_join(get_chrom_order(), by='CHROM') %>%
     arrange(CHROM_order) %>%
-    mutate(tot= cumsum(chr_len) - chr_len) %>% 
+    mutate(tot= cumsum(as.numeric(chr_len)) - chr_len) %>% 
     left_join(gwas_df, by="CHROM") %>%
     mutate(POScum = POS + tot) %>%
     select(-chr_len, -tot, -CHROM_order)
@@ -83,3 +83,38 @@ plot_manhattan <- function(don, pval_thr=5e-8){
         y = latex2exp::TeX('$-\\log_{10\\,}P$')
     )    
 }
+
+get_Csq_color <- function(){
+    data.frame(
+        Csq = c('ptv', 'pav', 'pcv', 'utr', 'intron', 'others'),
+        Csq_str = c('Protein-truncating variant', 'Protein-altering variant', 'Protein-coding variant', 'UTR-region variant', 'Intronic variant', 'Others'),
+        Csq_color = c('#D55E00', '#E69F00', '#56B4E9', '#009E73', '#F0E442', "#A0A0A0"),
+        stringsAsFactors=F
+    )
+}
+
+plot_lake <- function(don){
+    Csq_color <- get_Csq_color()
+    don %>% compute_x_axis_df() -> axisdf 
+    don %>%
+    left_join(Csq_color, by='Csq') %>% select(-Csq) %>% rename('Csq'='Csq_str') %>%
+    ggplot( aes(x=POScum, y=BETA, label=repel_label) ) +
+    geom_point( aes(color=as.factor(Csq)), alpha=0.8, size=1.3) +
+    geom_hline(yintercept=0, color="#A0A0A0") + 
+    ggrepel::geom_text_repel(size=3) +
+    scale_x_continuous(label = axisdf$CHROM_plot, breaks= axisdf$center) +
+    theme_bw() + theme( 
+      panel.border = element_blank(),
+      panel.grid.major.x = element_blank(),
+      panel.grid.minor.x = element_blank()
+    ) + labs(
+        color = 'Consequence',
+        x = 'Genomic position (chromosome)',
+        y = 'BETA'
+    ) +
+    scale_color_manual(
+        breaks = Csq_color %>% pull(Csq_str), 
+        values = Csq_color %>% pull(Csq_color)
+    )
+}
+
