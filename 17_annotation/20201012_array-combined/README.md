@@ -1,3 +1,7 @@
+# variant annotation and variant QC for the array-combined dataset
+
+Yosuke Tanigawa (work in progress)
+
 ## Allele frequency across UKB populations in the array-combined dataset
 
 `/oak/stanford/groups/mrivas/ukbb24983/array-combined/afreq_20201012/ukb24983_cal_hla_cnv.afreq_20201012.pvar.zst`
@@ -25,6 +29,27 @@ This (zstd-compressed) table file has 73 columns.
     - `f_miss`: missing rate
     - `f_miss_UKBL`: missing rate in UKBL array
     - `f_miss_UKBB`: missing rate in UKBB array
+
+## HWE
+
+## Variant QC
+
+![Variant QC summary](variant_QC.png)
+
+## LD pruning
+
+We apply LD pruning with `plink2 --indep-pairwise 1000kb 1 0.5`.
+Note, we were originally using `plink2 --indep-pairwise 50 5 0.5`, but we swapped to distance-based LD window specification so that we are consistent with what we do in the LD map comptuation.
+
+To prioritize the variants with severe predicted consequence, we applied LD pruning for each consequence group using the following procedure.
+
+0. We focus on the QC-passed genotyped variants for this LD pruning analysis. In other words, we don't use CNVs and HLA allelotypes for the LD pruning analysis.
+1. We apply LD pruning for the protein-truncating variants (PTVs). We check the pre-computed LD map with the same `r2` threshold and remove the variants that are in linkage with the selected variants.
+2. We apply LD pruning for the ptotein-altering variants (PAVs) that are not in LD with previously selected variants (PTVs). Using the union of the selected PTVs and PAVs, we check the LD map and remove the variants that are in linkage.
+3. Similarly, we apply LD pruning for the protein-coding variants (PCVs) that are no in LD with the previously selected PTVs or PAVs. Using the union of the selected PTVs, PAVs, and PCVs, we check the LD map and remove the variants in linkage.
+4. Repeat the procedure for UTR-region variants, intronic variants, and the remaining variants.
+
+
 
 ### Note
 
