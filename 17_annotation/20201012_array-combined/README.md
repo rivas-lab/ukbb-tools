@@ -1,6 +1,6 @@
 # variant annotation and variant QC for the array-combined dataset
 
-Yosuke Tanigawa (work in progress)
+### Yosuke Tanigawa (work in progress)
 
 ## Allele frequency across UKB populations in the array-combined dataset
 
@@ -30,11 +30,39 @@ This (zstd-compressed) table file has 73 columns.
     - `f_miss_UKBL`: missing rate in UKBL array
     - `f_miss_UKBB`: missing rate in UKBB array
 
+### Note
+
+- we used the latest master sqc file to get the number of individuals genotyped on each array.
+  - master sqc file `/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification_w24983_20200828/ukb24983_master_sqc.20200828.phe`
+  - {`UKBB`: 438427, `UKBL`: 49950}
+
+
 ## HWE
+
+For HWE test in chrX, plink implements this relatively new procedure.
+
+- J. Graffelman, B. S. Weir, Testing for Hardy–Weinberg equilibrium at biallelic genetic markers on the X chromosome. Heredity. 116, 558–568 (2016). https://doi.org/10.1038/hdy.2016.20
+
+This method does NOT ignore the males when applying HWE test for chr X.
+
+And here is the HWE p-value distribution (the red bar indicates our P-value cutoff of 1e-7):
+
+![HWE midp plot](hwe_midp_plot.png)
 
 ## Variant QC
 
-![Variant QC summary](variant_QC.png)
+Here is the summary of variant QC (across both autosomal and non-autosomal variants in the combined array dataset).
+
+![variant QC summary](variant_QC.png)
+
+We have the following QC filters: 
+
+- `missingness`: missingness (1%, computed separately for UKBL/UKBB array if the variant is directly genotyped and present in only one array)
+- `hwe`: HWE p-value (1e-7, we used the chrX model above)
+- `mcpi`: manual cluster plot inspection (copied from variant QC file back in 2017)
+- `gnomad_af`: maf comparison with gnomAD  (copied from variant QC file back in 2017)
+- `mgi`: manual genome browser inspection???  (copied from variant QC file back in 2017)
+
 
 ## LD pruning
 
@@ -51,8 +79,3 @@ To prioritize the variants with severe predicted consequence, we applied LD prun
 
 
 
-### Note
-
-- we used the latest master sqc file to get the number of individuals genotyped on each array.
-  - master sqc file `/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification_w24983_20200828/ukb24983_master_sqc.20200828.phe`
-  - {`UKBB`: 438427, `UKBL`: 49950}

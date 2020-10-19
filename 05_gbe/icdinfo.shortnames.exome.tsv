@@ -767,75 +767,75 @@ BIN_FC	BIN_FC9006154	8322	Paracetamol_use_self-reported	Paracetamol use self-rep
 BIN_FC	BIN_FC9006155	3253	Vitamin_C_vs_multivitamin	Vitamin C vs multivitamin	25	
 BIN_FC	BIN_FC9006179	2874	Calcium_supplements	Calcium supplements	19	
 BIN_FC	BIN_FC90100920	81	Cholesterol-lowering_milk_(Diet,_24hr_recall,_Online_follow-up)	Cholesterol-lowering milk (Diet, 24hr recall, Online follow-up)	63	
-cancer	cancer1001	0	lung_cancer	Lung cancer	11	
-cancer	cancer1002	0	breast_cancer	Breast cancer	13	
-cancer	cancer1003	0	skin_cancer	Skin cancer	11	
-cancer	cancer1004	0	cancer_of_lip/mouth/pharynx/oral_cavity	Cancer of lip/mouth/pharynx/oral cavity	39	
-cancer	cancer1005	0	salivary_gland_cancer	Salivary gland cancer	21	
-cancer	cancer1006	0	larynx/throat_cancer	Larynx/throat cancer	20	
-cancer	cancer1007	0	nasal_cavity_cancer	Nasal cavity cancer	19	
-cancer	cancer1008	0	ear_cancer	Ear cancer	10	
-cancer	cancer1009	0	sinus_cancer	Sinus cancer	12	
-cancer	cancer1010	0	lip_cancer	Lip cancer	10	
-cancer	cancer1011	0	tongue_cancer	Tongue cancer	13	
-cancer	cancer1012	0	gum_cancer	Gum cancer	10	
-cancer	cancer1015	0	parotid_gland_cancer	Parotid gland cancer	20	
-cancer	cancer1017	0	oesophageal_cancer	Oesophageal cancer	18	
-cancer	cancer1018	0	stomach_cancer	Stomach cancer	14	
-cancer	cancer1019	0	small_intestine/small_bowel_cancer	Small intestine/small bowel cancer	34	
-cancer	cancer1020	0	large_bowel_cancer/colorectal_cancer	Large bowel cancer/colorectal cancer	36	
-cancer	cancer1022	0	colon_cancer/sigmoid_cancer	Colon cancer/sigmoid cancer	27	
-cancer	cancer1023	0	rectal_cancer	Rectal cancer	13	
-cancer	cancer1024	0	liver/hepatocellular_cancer	Liver/hepatocellular cancer	27	
-cancer	cancer1025	0	gallbladder/bile_duct_cancer	Gallbladder/bile duct cancer	28	
-cancer	cancer1026	0	pancreas_cancer	Pancreas cancer	15	
-cancer	cancer1029	0	peripheral_nerve/autonomic_nerve_cancer	Peripheral nerve/autonomic nerve cancer	39	
-cancer	cancer1030	0	eye_and/or_adnexal_cancer	Eye and/or adnexal cancer	25	
-cancer	cancer1031	0	meningeal_cancer_/_malignant_meningioma	Meningeal cancer / malignant meningioma	39	
-cancer	cancer1032	0	brain_cancer_/_primary_malignant_brain_tumour	Brain cancer / primary malignant brain tumour	45	
-cancer	cancer1033	0	spinal_cord_or_cranial_nerve_cancer	Spinal cord or cranial nerve cancer	35	
-cancer	cancer1034	0	kidney/renal_cell_cancer	Kidney/renal cell cancer	24	
-cancer	cancer1035	0	bladder_cancer	Bladder cancer	14	
-cancer	cancer1036	0	other_cancer_of_urinary_tract	Other cancer of urinary tract	29	
-cancer	cancer1037	0	female_genital_tract_cancer	Female genital tract cancer	27	
-cancer	cancer1038	0	male_genital_tract_cancer	Male genital tract cancer	25	
-cancer	cancer1039	0	ovarian_cancer	Ovarian cancer	14	
-cancer	cancer1040	0	uterine/endometrial_cancer	Uterine/endometrial cancer	26	
-cancer	cancer1041	0	cervical_cancer	Cervical cancer	15	
-cancer	cancer1042	0	vaginal_cancer	Vaginal cancer	14	
-cancer	cancer1043	0	vulval_cancer	Vulval cancer	13	
-cancer	cancer1044	0	prostate_cancer	Prostate cancer	15	
-cancer	cancer1045	0	testicular_cancer	Testicular cancer	17	
-cancer	cancer1046	0	penis_cancer	Penis cancer	12	
-cancer	cancer1047	0	lymphoma	Lymphoma	8	
-cancer	cancer1048	0	leukaemia	Leukaemia	9	
-cancer	cancer1050	0	multiple_myeloma	Multiple myeloma	16	
-cancer	cancer1051	0	myelofibrosis_or_myelodysplasia	Myelofibrosis or myelodysplasia	31	
-cancer	cancer1052	0	hodgkins_lymphoma_/_hodgkins_disease	Hodgkins lymphoma / hodgkins disease	36	
-cancer	cancer1053	0	non-hodgkins_lymphoma	Non-hodgkins lymphoma	21	
-cancer	cancer1055	0	chronic_lymphocytic	Chronic lymphocytic	19	
-cancer	cancer1056	0	chronic_myeloid	Chronic myeloid	15	
-cancer	cancer1059	0	malignant_melanoma	Malignant melanoma	18	
-cancer	cancer1060	0	non-melanoma_skin_cancer	Non-melanoma skin cancer	24	
-cancer	cancer1063	0	primary_bone_cancer	Primary bone cancer	19	
-cancer	cancer1064	0	mesothelioma	Mesothelioma	12	
-cancer	cancer1065	0	thyroid_cancer	Thyroid cancer	14	
-cancer	cancer1066	0	parathyroid_cancer	Parathyroid cancer	18	
-cancer	cancer1067	0	adrenal_cancer	Adrenal cancer	14	
-cancer	cancer1068	0	sarcoma/fibrosarcoma	Sarcoma/fibrosarcoma	20	
-cancer	cancer1074	0	acute_myeloid_leukaemia	Acute myeloid leukaemia	23	
-cancer	cancer1075	0	retinoblastoma	Retinoblastoma	14	
-cancer	cancer1076	0	kaposis_sarcoma	Kaposis sarcoma	15	
-cancer	cancer1077	0	mouth_cancer	Mouth cancer	12	
-cancer	cancer1079	0	oropharynx_/_oropharyngeal_cancer	Oropharynx / oropharyngeal cancer	33	
-cancer	cancer1080	0	trachea_cancer	Trachea cancer	14	
-cancer	cancer1081	0	thymus_cancer_/_malignant_thymoma	Thymus cancer / malignant thymoma	33	
-cancer	cancer1082	0	heart_/_mediastinum_cancer	Heart / mediastinum cancer	26	
-cancer	cancer1084	0	respiratory_/_intrathoracic_cancer	Respiratory / intrathoracic cancer	34	
-cancer	cancer1085	0	bone_metastases_/_bony_secondaries	Bone metastases / bony secondaries	34	
-cancer	cancer1086	0	appendix_cancer	Appendix cancer	15	
-cancer	cancer1087	0	fallopian_tube_cancer	Fallopian tube cancer	21	
-cancer	cancer1088	0	malignant_insulinoma	Malignant insulinoma	20	
+cancer	cancer1001	179	lung_cancer	Lung cancer	11	
+cancer	cancer1002	1265	breast_cancer	Breast cancer	13	
+cancer	cancer1003	2410	skin_cancer	Skin cancer	11	
+cancer	cancer1004	78	cancer_of_lip/mouth/pharynx/oral_cavity	Cancer of lip/mouth/pharynx/oral cavity	39	
+cancer	cancer1005	15	salivary_gland_cancer	Salivary gland cancer	21	
+cancer	cancer1006	34	larynx/throat_cancer	Larynx/throat cancer	20	
+cancer	cancer1007	7	nasal_cavity_cancer	Nasal cavity cancer	19	
+cancer	cancer1008	1	ear_cancer	Ear cancer	10	
+cancer	cancer1009	4	sinus_cancer	Sinus cancer	12	
+cancer	cancer1010	9	lip_cancer	Lip cancer	10	
+cancer	cancer1011	40	tongue_cancer	Tongue cancer	13	
+cancer	cancer1012	3	gum_cancer	Gum cancer	10	
+cancer	cancer1015	12	parotid_gland_cancer	Parotid gland cancer	20	
+cancer	cancer1017	86	oesophageal_cancer	Oesophageal cancer	18	
+cancer	cancer1018	71	stomach_cancer	Stomach cancer	14	
+cancer	cancer1019	29	small_intestine/small_bowel_cancer	Small intestine/small bowel cancer	34	
+cancer	cancer1020	454	large_bowel_cancer/colorectal_cancer	Large bowel cancer/colorectal cancer	36	
+cancer	cancer1022	336	colon_cancer/sigmoid_cancer	Colon cancer/sigmoid cancer	27	
+cancer	cancer1023	216	rectal_cancer	Rectal cancer	13	
+cancer	cancer1024	53	liver/hepatocellular_cancer	Liver/hepatocellular cancer	27	
+cancer	cancer1025	20	gallbladder/bile_duct_cancer	Gallbladder/bile duct cancer	28	
+cancer	cancer1026	71	pancreas_cancer	Pancreas cancer	15	
+cancer	cancer1029	5	peripheral_nerve/autonomic_nerve_cancer	Peripheral nerve/autonomic nerve cancer	39	
+cancer	cancer1030	32	eye_and/or_adnexal_cancer	Eye and/or adnexal cancer	25	
+cancer	cancer1031	3	meningeal_cancer_/_malignant_meningioma	Meningeal cancer / malignant meningioma	39	
+cancer	cancer1032	55	brain_cancer_/_primary_malignant_brain_tumour	Brain cancer / primary malignant brain tumour	45	
+cancer	cancer1033	6	spinal_cord_or_cranial_nerve_cancer	Spinal cord or cranial nerve cancer	35	
+cancer	cancer1034	137	kidney/renal_cell_cancer	Kidney/renal cell cancer	24	
+cancer	cancer1035	215	bladder_cancer	Bladder cancer	14	
+cancer	cancer1036	11	other_cancer_of_urinary_tract	Other cancer of urinary tract	29	
+cancer	cancer1037	729	female_genital_tract_cancer	Female genital tract cancer	27	
+cancer	cancer1038	488	male_genital_tract_cancer	Male genital tract cancer	25	
+cancer	cancer1039	128	ovarian_cancer	Ovarian cancer	14	
+cancer	cancer1040	177	uterine/endometrial_cancer	Uterine/endometrial cancer	26	
+cancer	cancer1041	502	cervical_cancer	Cervical cancer	15	
+cancer	cancer1042	2	vaginal_cancer	Vaginal cancer	14	
+cancer	cancer1043	14	vulval_cancer	Vulval cancer	13	
+cancer	cancer1044	816	prostate_cancer	Prostate cancer	15	
+cancer	cancer1045	69	testicular_cancer	Testicular cancer	17	
+cancer	cancer1046	7	penis_cancer	Penis cancer	12	
+cancer	cancer1047	201	lymphoma	Lymphoma	8	
+cancer	cancer1048	109	leukaemia	Leukaemia	9	
+cancer	cancer1050	62	multiple_myeloma	Multiple myeloma	16	
+cancer	cancer1051	5	myelofibrosis_or_myelodysplasia	Myelofibrosis or myelodysplasia	31	
+cancer	cancer1052	44	hodgkins_lymphoma_/_hodgkins_disease	Hodgkins lymphoma / hodgkins disease	36	
+cancer	cancer1053	164	non-hodgkins_lymphoma	Non-hodgkins lymphoma	21	
+cancer	cancer1055	91	chronic_lymphocytic	Chronic lymphocytic	19	
+cancer	cancer1056	50	chronic_myeloid	Chronic myeloid	15	
+cancer	cancer1059	486	malignant_melanoma	Malignant melanoma	18	
+cancer	cancer1060	2123	non-melanoma_skin_cancer	Non-melanoma skin cancer	24	
+cancer	cancer1063	23	primary_bone_cancer	Primary bone cancer	19	
+cancer	cancer1064	15	mesothelioma	Mesothelioma	12	
+cancer	cancer1065	44	thyroid_cancer	Thyroid cancer	14	
+cancer	cancer1066	3	parathyroid_cancer	Parathyroid cancer	18	
+cancer	cancer1067	6	adrenal_cancer	Adrenal cancer	14	
+cancer	cancer1068	30	sarcoma/fibrosarcoma	Sarcoma/fibrosarcoma	20	
+cancer	cancer1074	31	acute_myeloid_leukaemia	Acute myeloid leukaemia	23	
+cancer	cancer1075	4	retinoblastoma	Retinoblastoma	14	
+cancer	cancer1076	2	kaposis_sarcoma	Kaposis sarcoma	15	
+cancer	cancer1077	22	mouth_cancer	Mouth cancer	12	
+cancer	cancer1079	6	oropharynx_/_oropharyngeal_cancer	Oropharynx / oropharyngeal cancer	33	
+cancer	cancer1080	2	trachea_cancer	Trachea cancer	14	
+cancer	cancer1081	1	thymus_cancer_/_malignant_thymoma	Thymus cancer / malignant thymoma	33	
+cancer	cancer1082	5	heart_/_mediastinum_cancer	Heart / mediastinum cancer	26	
+cancer	cancer1084	218	respiratory_/_intrathoracic_cancer	Respiratory / intrathoracic cancer	34	
+cancer	cancer1085	215	bone_metastases_/_bony_secondaries	Bone metastases / bony secondaries	34	
+cancer	cancer1086	7	appendix_cancer	Appendix cancer	15	
+cancer	cancer1087	6	fallopian_tube_cancer	Fallopian tube cancer	21	
+cancer	cancer1088	3	malignant_insulinoma	Malignant insulinoma	20	
 FH	FH1001	12864	Lung_cancer	Lung cancer (FH)	16	
 FH	FH1002	6822	Breast_cancer	Breast cancer (FH)	18	
 FH	FH1019	8108	Bowel_cancer	Bowel cancer (FH)	17	
@@ -846,10 +846,10 @@ FH	FH1220	8461	Diabetes	Diabetes (FH)	13
 FH	FH1262	2284	Parkinson's_disease	Parkinson's disease (FH)	24	
 FH	FH1263	7218	Alzheimer's_disease/dementia	Alzheimer's/dementia (FH)	25	
 FH	FH1286	6411	Severe_depression	Severe depression (FH)	22	
-HC	HC0	0	scoliosis	Scoliosis	9	
-HC	HC1	0	bowel_/_intestinal_obstruction	Bowel / intestinal obstruction	30	
-HC	HC10	0	dysmenorrhoea_/_dysmenorrhea	Dysmenorrhoea / dysmenorrhea	28	
-HC	HC100	0	gastroenteritis/dysentry	Gastroenteritis/dysentry	24	
+HC	HC0	170	scoliosis	Scoliosis	9	
+HC	HC1	436	bowel_/_intestinal_obstruction	Bowel / intestinal obstruction	30	
+HC	HC10	90	dysmenorrhoea_/_dysmenorrhea	Dysmenorrhoea / dysmenorrhea	28	
+HC	HC100	35	gastroenteritis/dysentry	Gastroenteritis/dysentry	24	
 HC	HC1000	20	TTE_other_and_unspecified_disorders_of_circulatory_system	TTE other and unspecified disorders of circulatory system	57	
 HC	HC1001	427	TTE_acute_nasopharyngitis_[common_cold]	TTE acute nasopharyngitis [common cold]	39	
 HC	HC1002	1858	TTE_acute_sinusitis	TTE acute sinusitis	19	
@@ -860,7 +860,7 @@ HC	HC1006	8	TTE_acute_obstructive_laryngitis_[croup]_and_epiglottitis	TTE acute 
 HC	HC1007	4805	TTE_acute_upper_respiratory_infections_of_multiple_and_unspecified_sites	TTE acute upper respiratory infections of multiple and unspecified sites	72	
 HC	HC1008	0	TTE_influenza_due_to_certain_identified_influenza_virus	TTE influenza due to certain identified influenza virus	55	
 HC	HC1009	52	TTE_influenza_due_to_identified_influenza_virus	TTE influenza due to identified influenza virus	47	
-HC	HC101	0	eye_trauma	Eye trauma	10	
+HC	HC101	63	eye_trauma	Eye trauma	10	
 HC	HC1010	860	TTE_influenza,_virus_not_identified	TTE influenza, virus not identified	35	
 HC	HC1011	11	TTE_viral_pneumonia,_not_elsewhere_classified	TTE viral pneumonia, not elsewhere classified	45	
 HC	HC1012	67	TTE_pneumonia_due_to_streptococcus_pneumoniae	TTE pneumonia due to streptococcus pneumoniae	45	
@@ -871,7 +871,7 @@ HC	HC1016	24	TTE_pneumonia_in_diseases_classified_elsewhere	TTE pneumonia in dis
 HC	HC1017	1712	TTE_pneumonia,_organism_unspecified	TTE pneumonia, organism unspecified	35	
 HC	HC1018	294	TTE_acute_bronchitis	TTE acute bronchitis	20	
 HC	HC1019	13	TTE_acute_bronchiolitis	TTE acute bronchiolitis	23	
-HC	HC102	0	vertigo	Vertigo	7	
+HC	HC102	170	vertigo	Vertigo	7	
 HC	HC1020	5004	TTE_unspecified_acute_lower_respiratory_infection	TTE unspecified acute lower respiratory infection	49	
 HC	HC1021	4035	TTE_vasomotor_and_allergic_rhinitis	TTE vasomotor and allergic rhinitis	35	
 HC	HC1022	469	TTE_chronic_rhinitis,_nasopharyngitis_and_pharyngitis	TTE chronic rhinitis, nasopharyngitis and pharyngitis	53	
@@ -882,7 +882,7 @@ HC	HC1026	117	TTE_chronic_diseases_of_tonsils_and_adenoids	TTE chronic diseases 
 HC	HC1027	67	TTE_peritonsillar_abscess	TTE peritonsillar abscess	25	
 HC	HC1028	46	TTE_chronic_laryngitis_and_laryngotracheitis	TTE chronic laryngitis and laryngotracheitis	44	
 HC	HC1029	224	TTE_diseases_of_vocal_cords_and_larynx,_not_elsewhere_classified	TTE diseases of vocal cords and larynx, not elsewhere classified	64	
-HC	HC103	0	thyroid_goitre	Thyroid goitre	14	
+HC	HC103	97	thyroid_goitre	Thyroid goitre	14	
 HC	HC1030	125	TTE_other_diseases_of_upper_respiratory_tract	TTE other diseases of upper respiratory tract	45	
 HC	HC1031	911	TTE_bronchitis,_not_specified_as_acute_or_chronic	TTE bronchitis, not specified as acute or chronic	49	
 HC	HC1032	13	TTE_simple_and_mucopurulent_chronic_bronchitis	TTE simple and mucopurulent chronic bronchitis	46	
@@ -893,7 +893,7 @@ HC	HC1036	5528	TTE_asthma	TTE asthma	10
 HC	HC1037	160	TTE_status_asthmaticus	TTE status asthmaticus	22	
 HC	HC1038	347	TTE_bronchiectasis	TTE bronchiectasis	18	
 HC	HC1039	3	TTE_coalworker's_pneumoconiosis	TTE coalworker's pneumoconiosis	31	
-HC	HC104	0	osteomyelitis	Osteomyelitis	13	
+HC	HC104	111	osteomyelitis	Osteomyelitis	13	
 HC	HC1040	28	TTE_pneumoconiosis_due_to_asbestos_and_other_mineral_fibres	TTE pneumoconiosis due to asbestos and other mineral fibres	59	
 HC	HC1041	1	TTE_pneumoconiosis_due_to_dust_containing_silica	TTE pneumoconiosis due to dust containing silica	48	
 HC	HC1042	0	TTE_pneumoconiosis_due_to_other_inorganic_dusts	TTE pneumoconiosis due to other inorganic dusts	47	
@@ -904,7 +904,7 @@ HC	HC1046	5	TTE_respiratory_conditions_due_to_inhalation_of_chemicals,_gases,_fu
 HC	HC1047	73	TTE_pneumonitis_due_to_solids_and_liquids	TTE pneumonitis due to solids and liquids	41	
 HC	HC1048	5	TTE_respiratory_conditions_due_to_other_external_agents	TTE respiratory conditions due to other external agents	55	
 HC	HC1049	19	TTE_adult_respiratory_distress_syndrome	TTE adult respiratory distress syndrome	39	
-HC	HC105	0	shingles	Shingles	8	
+HC	HC105	167	shingles	Shingles	8	
 HC	HC1050	48	TTE_pulmonary_oedema	TTE pulmonary oedema	20	
 HC	HC1051	14	TTE_pulmonary_eosinophilia,_not_elsewhere_classified	TTE pulmonary eosinophilia, not elsewhere classified	52	
 HC	HC1052	119	TTE_other_interstitial_pulmonary_diseases	TTE other interstitial pulmonary diseases	41	
@@ -915,7 +915,7 @@ HC	HC1056	9	TTE_pleural_effusion_in_conditions_classified_elsewhere	TTE pleural 
 HC	HC1057	82	TTE_pleural_plaque	TTE pleural plaque	18	
 HC	HC1058	160	TTE_pneumothorax	TTE pneumothorax	16	
 HC	HC1059	27	TTE_other_pleural_conditions	TTE other pleural conditions	28	
-HC	HC106	0	emphysema/chronic_bronchitis	Emphysema/chronic bronchitis	28	
+HC	HC106	700	emphysema/chronic_bronchitis	Emphysema/chronic bronchitis	28	
 HC	HC1060	39	TTE_postprocedural_respiratory_disorders,_not_elsewhere_classified	TTE postprocedural respiratory disorders, not elsewhere classified	66	
 HC	HC1061	250	TTE_respiratory_failure,_not_elsewhere_classified	TTE respiratory failure, not elsewhere classified	49	
 HC	HC1062	1379	TTE_other_respiratory_disorders	TTE other respiratory disorders	31	
@@ -926,7 +926,7 @@ HC	HC1066	418	TTE_dental_caries	TTE dental caries	17
 HC	HC1067	12	TTE_other_diseases_of_hard_tissues_of_teeth	TTE other diseases of hard tissues of teeth	43	
 HC	HC1068	627	TTE_diseases_of_pulp_and_periapical_tissues	TTE diseases of pulp and periapical tissues	43	
 HC	HC1069	116	TTE_gingivitis_and_periodontal_diseases	TTE gingivitis and periodontal diseases	39	
-HC	HC107	0	miscarriage	Miscarriage	11	
+HC	HC107	342	miscarriage	Miscarriage	11	
 HC	HC1070	49	TTE_other_disorders_of_gingiva_and_edentulous_alveolar_ridge	TTE other disorders of gingiva and edentulous alveolar ridge	60	
 HC	HC1071	150	TTE_dentofacial_anomalies_[including_malocclusion]	TTE dentofacial anomalies [including malocclusion]	50	
 HC	HC1072	308	TTE_other_disorders_of_teeth_and_supporting_structures	TTE other disorders of teeth and supporting structures	54	
@@ -937,7 +937,7 @@ HC	HC1076	236	TTE_stomatitis_and_related_lesions	TTE stomatitis and related lesi
 HC	HC1077	590	TTE_other_diseases_of_lip_and_oral_mucosa	TTE other diseases of lip and oral mucosa	41	
 HC	HC1078	284	TTE_diseases_of_tongue	TTE diseases of tongue	22	
 HC	HC1079	962	TTE_oesophagitis	TTE oesophagitis	16	
-HC	HC108	0	giardia_/_giardiasis	Giardia / giardiasis	20	
+HC	HC108	3	giardia_/_giardiasis	Giardia / giardiasis	20	
 HC	HC1080	4875	TTE_gastro-oesophageal_reflux_disease	TTE gastro-oesophageal reflux disease	37	
 HC	HC1081	1300	TTE_other_diseases_of_oesophagus	TTE other diseases of oesophagus	32	
 HC	HC1082	7	TTE_disorders_of_oesophagus_in_diseases_classified_elsewhere	TTE disorders of oesophagus in diseases classified elsewhere	60	
@@ -948,7 +948,7 @@ HC	HC1086	6	TTE_gastrojejunal_ulcer	TTE gastrojejunal ulcer	23
 HC	HC1087	3533	TTE_gastritis_and_duodenitis	TTE gastritis and duodenitis	28	
 HC	HC1088	1463	TTE_dyspepsia	TTE dyspepsia	13	
 HC	HC1089	948	TTE_other_diseases_of_stomach_and_duodenum	TTE other diseases of stomach and duodenum	42	
-HC	HC109	0	gestational_hypertension/pre-eclampsia	Gestational hypertension/pre-eclampsia	38	
+HC	HC109	161	gestational_hypertension/pre-eclampsia	Gestational hypertension/pre-eclampsia	38	
 HC	HC1090	312	TTE_acute_appendicitis	TTE acute appendicitis	22	
 HC	HC1091	15	TTE_other_appendicitis	TTE other appendicitis	22	
 HC	HC1092	1115	TTE_unspecified_appendicitis	TTE unspecified appendicitis	28	
@@ -959,8 +959,8 @@ HC	HC1096	581	TTE_umbilical_hernia	TTE umbilical hernia	20
 HC	HC1097	460	TTE_ventral_hernia	TTE ventral hernia	18	
 HC	HC1098	3115	TTE_diaphragmatic_hernia	TTE diaphragmatic hernia	24	
 HC	HC1099	12	TTE_other_abdominal_hernia	TTE other abdominal hernia	26	
-HC	HC11	0	septicaemia_/_sepsis	Septicaemia / sepsis	20	
-HC	HC110	0	stroke	Stroke	6	
+HC	HC11	76	septicaemia_/_sepsis	Septicaemia / sepsis	20	
+HC	HC110	613	stroke	Stroke	6	
 HC	HC1100	246	TTE_unspecified_abdominal_hernia	TTE unspecified abdominal hernia	32	
 HC	HC1101	195	TTE_crohn's_disease_[regional_enteritis]	TTE crohn's disease [regional enteritis]	40	
 HC	HC1102	376	TTE_ulcerative_colitis	TTE ulcerative colitis	22	
@@ -971,7 +971,7 @@ HC	HC1106	3329	TTE_diverticular_disease_of_intestine	TTE diverticular disease of
 HC	HC1107	2713	TTE_irritable_bowel_syndrome	TTE irritable bowel syndrome	28	
 HC	HC1108	1661	TTE_other_functional_intestinal_disorders	TTE other functional intestinal disorders	41	
 HC	HC1109	431	TTE_fissure_and_fistula_of_anal_and_rectal_regions	TTE fissure and fistula of anal and rectal regions	50	
-HC	HC111	0	meningioma_/_benign_meningeal_tumour	Meningioma / benign meningeal tumour	36	
+HC	HC111	24	meningioma_/_benign_meningeal_tumour	Meningioma / benign meningeal tumour	36	
 HC	HC1110	206	TTE_abscess_of_anal_and_rectal_regions	TTE abscess of anal and rectal regions	38	
 HC	HC1111	2825	TTE_other_diseases_of_anus_and_rectum	TTE other diseases of anus and rectum	37	
 HC	HC1112	1800	TTE_other_diseases_of_intestine	TTE other diseases of intestine	31	
@@ -982,7 +982,7 @@ HC	HC1116	0	TTE_disorders_of_peritoneum_in_infectious_diseases_classified_elsewh
 HC	HC1117	103	TTE_alcoholic_liver_disease	TTE alcoholic liver disease	27	
 HC	HC1118	15	TTE_toxic_liver_disease	TTE toxic liver disease	23	
 HC	HC1119	46	TTE_hepatic_failure,_not_elsewhere_classified	TTE hepatic failure, not elsewhere classified	45	
-HC	HC112	0	pyelonephritis	Pyelonephritis	14	
+HC	HC112	24	pyelonephritis	Pyelonephritis	14	
 HC	HC1120	20	TTE_chronic_hepatitis,_not_elsewhere_classified	TTE chronic hepatitis, not elsewhere classified	47	
 HC	HC1121	102	TTE_fibrosis_and_cirrhosis_of_liver	TTE fibrosis and cirrhosis of liver	35	
 HC	HC1122	144	TTE_other_inflammatory_liver_diseases	TTE other inflammatory liver diseases	37	
@@ -993,7 +993,7 @@ HC	HC1126	356	TTE_cholecystitis	TTE cholecystitis	17
 HC	HC1127	226	TTE_other_diseases_of_gallbladder	TTE other diseases of gallbladder	33	
 HC	HC1128	215	TTE_other_diseases_of_biliary_tract	TTE other diseases of biliary tract	35	
 HC	HC1129	230	TTE_acute_pancreatitis	TTE acute pancreatitis	22	
-HC	HC113	0	irregular_heart_beat	Irregular heart beat	20	
+HC	HC113	258	irregular_heart_beat	Irregular heart beat	20	
 HC	HC1130	116	TTE_other_diseases_of_pancreas	TTE other diseases of pancreas	30	
 HC	HC1131	0	TTE_disorders_of_gallbladder,_biliary_tract_and_pancreas_in_diseases_classified_elsewhere	TTE disorders of gallbladder, biliary tract and pancreas in diseases classified elsewhere	89	
 HC	HC1132	344	TTE_intestinal_malabsorption	TTE intestinal malabsorption	28	
@@ -1004,7 +1004,7 @@ HC	HC1136	0	TTE_staphylococcal_scalded_skin_syndrome	TTE staphylococcal scalded 
 HC	HC1137	87	TTE_impetigo	TTE impetigo	12	
 HC	HC1138	883	TTE_cutaneous_abscess,_furuncle_and_carbuncle	TTE cutaneous abscess, furuncle and carbuncle	45	
 HC	HC1139	2230	TTE_cellulitis	TTE cellulitis	14	
-HC	HC114	0	pericardial_effusion	Pericardial effusion	20	
+HC	HC114	79	pericardial_effusion	Pericardial effusion	20	
 HC	HC1140	60	TTE_acute_lymphadenitis	TTE acute lymphadenitis	23	
 HC	HC1141	129	TTE_pilonidal_cyst	TTE pilonidal cyst	18	
 HC	HC1142	1130	TTE_other_local_infections_of_skin_and_subcutaneous_tissue	TTE other local infections of skin and subcutaneous tissue	58	
@@ -1015,7 +1015,7 @@ HC	HC1146	6	TTE_other_bullous_disorders	TTE other bullous disorders	27
 HC	HC1147	0	TTE_bullous_disorders_in_diseases_classified_elsewhere	TTE bullous disorders in diseases classified elsewhere	54	
 HC	HC1148	988	TTE_atopic_dermatitis	TTE atopic dermatitis	21	
 HC	HC1149	880	TTE_seborrhoeic_dermatitis	TTE seborrhoeic dermatitis	26	
-HC	HC115	0	contact_dermatitis	Contact dermatitis	18	
+HC	HC115	51	contact_dermatitis	Contact dermatitis	18	
 HC	HC1150	5	TTE_diaper_[napkin]_dermatitis	TTE diaper [napkin] dermatitis	30	
 HC	HC1151	61	TTE_allergic_contact_dermatitis	TTE allergic contact dermatitis	31	
 HC	HC1152	42	TTE_irritant_contact_dermatitis	TTE irritant contact dermatitis	31	
@@ -1026,7 +1026,7 @@ HC	HC1156	100	TTE_lichen_simplex_chronicus_and_prurigo	TTE lichen simplex chroni
 HC	HC1157	928	TTE_pruritus	TTE pruritus	12	
 HC	HC1158	4218	TTE_other_dermatitis	TTE other dermatitis	20	
 HC	HC1159	1176	TTE_psoriasis	TTE psoriasis	13	
-HC	HC116	0	tinnitus_/_tiniitis	Tinnitus / tiniitis	19	
+HC	HC116	523	tinnitus_/_tiniitis	Tinnitus / tiniitis	19	
 HC	HC1160	7	TTE_parapsoriasis	TTE parapsoriasis	17	
 HC	HC1161	176	TTE_pityriasis_rosea	TTE pityriasis rosea	20	
 HC	HC1162	215	TTE_lichen_planus	TTE lichen planus	17	
@@ -1037,7 +1037,7 @@ HC	HC1166	14	TTE_erythema_nodosum	TTE erythema nodosum	20
 HC	HC1167	76	TTE_other_erythematous_conditions	TTE other erythematous conditions	33	
 HC	HC1168	0	TTE_erythema_in_diseases_classified_elsewhere	TTE erythema in diseases classified elsewhere	45	
 HC	HC1169	34	TTE_sunburn	TTE sunburn	11	
-HC	HC117	0	abdominal_hernia	Abdominal hernia	16	
+HC	HC117	151	abdominal_hernia	Abdominal hernia	16	
 HC	HC1170	37	TTE_other_acute_skin_changes_due_to_ultraviolet_radiation	TTE other acute skin changes due to ultraviolet radiation	57	
 HC	HC1171	1444	TTE_skin_changes_due_to_chronic_exposure_to_nonionising_radiation	TTE skin changes due to chronic exposure to nonionising radiation	65	
 HC	HC1172	1	TTE_radiodermatitis	TTE radiodermatitis	19	
@@ -1048,7 +1048,7 @@ HC	HC1176	64	TTE_alopecia_areata	TTE alopecia areata	19
 HC	HC1177	17	TTE_androgenic_alopecia	TTE androgenic alopecia	23	
 HC	HC1178	244	TTE_other_nonscarring_hair_loss	TTE other nonscarring hair loss	31	
 HC	HC1179	14	TTE_cicatricial_alopecia_[scarring_hair_loss]	TTE cicatricial alopecia [scarring hair loss]	45	
-HC	HC118	0	constipation	Constipation	12	
+HC	HC118	1237	constipation	Constipation	12	
 HC	HC1180	4	TTE_hair_colour_and_hair_shaft_abnormalities	TTE hair colour and hair shaft abnormalities	44	
 HC	HC1181	37	TTE_hypertrichosis	TTE hypertrichosis	18	
 HC	HC1182	520	TTE_acne	TTE acne	8	
@@ -1059,7 +1059,7 @@ HC	HC1186	96	TTE_eccrine_sweat_disorders	TTE eccrine sweat disorders	27
 HC	HC1187	3	TTE_apocrine_sweat_disorders	TTE apocrine sweat disorders	28	
 HC	HC1188	118	TTE_vitiligo	TTE vitiligo	12	
 HC	HC1189	355	TTE_other_disorders_of_pigmentation	TTE other disorders of pigmentation	35	
-HC	HC119	0	disc_degeneration	Disc degeneration	17	
+HC	HC119	476	disc_degeneration	Disc degeneration	17	
 HC	HC1190	2929	TTE_seborrhoeic_keratosis	TTE seborrhoeic keratosis	25	
 HC	HC1191	11	TTE_acanthosis_nigricans	TTE acanthosis nigricans	24	
 HC	HC1192	294	TTE_corns_and_callosities	TTE corns and callosities	25	
@@ -1070,8 +1070,8 @@ HC	HC1196	6	TTE_pyoderma_gangrenosum	TTE pyoderma gangrenosum	24
 HC	HC1197	148	TTE_decubitus_ulcer	TTE decubitus ulcer	19	
 HC	HC1198	393	TTE_atrophic_disorders_of_skin	TTE atrophic disorders of skin	30	
 HC	HC1199	266	TTE_hypertrophic_disorders_of_skin	TTE hypertrophic disorders of skin	34	
-HC	HC12	0	testicular_problems_(not_cancer)	Testicular problems (not cancer)	32	
-HC	HC120	0	typhoid_fever	Typhoid fever	13	
+HC	HC12	88	testicular_problems_(not_cancer)	Testicular problems (not cancer)	32	
+HC	HC120	10	typhoid_fever	Typhoid fever	13	
 HC	HC1200	137	TTE_granulomatous_disorders_of_skin_and_subcutaneous_tissue	TTE granulomatous disorders of skin and subcutaneous tissue	59	
 HC	HC1201	29	TTE_lupus_erythematosus	TTE lupus erythematosus	23	
 HC	HC1202	43	TTE_other_localised_connective_tissue_disorders	TTE other localised connective tissue disorders	47	
@@ -1082,7 +1082,7 @@ HC	HC1206	0	TTE_other_disorders_of_skin_and_subcutaneous_tissue_in_diseases_clas
 HC	HC1207	39	TTE_pyogenic_arthritis	TTE pyogenic arthritis	22	
 HC	HC1208	3	TTE_direct_infections_of_joint_in_infectious_and_parasitic_diseases_classified_elsewhere	TTE direct infections of joint in infectious and parasitic diseases classified elsewhere	88	
 HC	HC1209	18	TTE_reactive_arthropathies	TTE reactive arthropathies	26	
-HC	HC121	0	peritonitis	Peritonitis	11	
+HC	HC121	280	peritonitis	Peritonitis	11	
 HC	HC1210	0	TTE_postinfective_and_reactive_arthropathies_in_diseases_classified_elsewhere	TTE postinfective and reactive arthropathies in diseases classified elsewhere	77	
 HC	HC1211	56	TTE_seropositive_rheumatoid_arthritis	TTE seropositive rheumatoid arthritis	37	
 HC	HC1212	657	TTE_other_rheumatoid_arthritis	TTE other rheumatoid arthritis	30	
@@ -1093,7 +1093,7 @@ HC	HC1216	78	TTE_other_crystal_arthropathies	TTE other crystal arthropathies	31
 HC	HC1217	51	TTE_other_specific_arthropathies	TTE other specific arthropathies	32	
 HC	HC1218	2703	TTE_other_arthritis	TTE other arthritis	19	
 HC	HC1219	10	TTE_arthropathies_in_other_diseases_classified_elsewhere	TTE arthropathies in other diseases classified elsewhere	56	
-HC	HC122	0	disorder_or_pituitary_gland	Disorder or pituitary gland	27	
+HC	HC122	43	disorder_or_pituitary_gland	Disorder or pituitary gland	27	
 HC	HC1220	691	TTE_polyarthrosis	TTE polyarthrosis	17	
 HC	HC1221	1226	TTE_coxarthrosis_[arthrosis_of_hip]	TTE coxarthrosis [arthrosis of hip]	35	
 HC	HC1222	2618	TTE_gonarthrosis_[arthrosis_of_knee]	TTE gonarthrosis [arthrosis of knee]	36	
@@ -1104,7 +1104,7 @@ HC	HC1226	271	TTE_other_acquired_deformities_of_limbs	TTE other acquired deformi
 HC	HC1227	278	TTE_disorders_of_patella	TTE disorders of patella	24	
 HC	HC1228	1690	TTE_internal_derangement_of_knee	TTE internal derangement of knee	32	
 HC	HC1229	312	TTE_other_specific_joint_derangements	TTE other specific joint derangements	37	
-HC	HC123	0	muscle/soft_tissue_problem	Muscle/soft tissue problem	26	
+HC	HC123	257	muscle/soft_tissue_problem	Muscle/soft tissue problem	26	
 HC	HC1230	7198	TTE_other_joint_disorders,_not_elsewhere_classified	TTE other joint disorders, not elsewhere classified	51	
 HC	HC1231	18	TTE_polyarteritis_nodosa_and_related_conditions	TTE polyarteritis nodosa and related conditions	47	
 HC	HC1232	88	TTE_other_necrotising_vasculopathies	TTE other necrotising vasculopathies	36	
@@ -1115,7 +1115,7 @@ HC	HC1236	303	TTE_other_systemic_involvement_of_connective_tissue	TTE other syst
 HC	HC1237	5	TTE_systemic_disorders_of_connective_tissue_in_diseases_classified_elsewhere	TTE systemic disorders of connective tissue in diseases classified elsewhere	76	
 HC	HC1238	39	TTE_kyphosis_and_lordosis	TTE kyphosis and lordosis	25	
 HC	HC1239	228	TTE_scoliosis	TTE scoliosis	13	
-HC	HC124	0	undescended_testicle	Undescended testicle	20	
+HC	HC124	42	undescended_testicle	Undescended testicle	20	
 HC	HC1240	15	TTE_spinal_osteochondrosis	TTE spinal osteochondrosis	26	
 HC	HC1241	356	TTE_other_deforming_dorsopathies	TTE other deforming dorsopathies	32	
 HC	HC1242	108	TTE_ankylosing_spondylitis	TTE ankylosing spondylitis	26	
@@ -1126,7 +1126,7 @@ HC	HC1246	15	TTE_spondylopathies_in_diseases_classified_elsewhere	TTE spondylopa
 HC	HC1247	310	TTE_cervical_disk_disorders	TTE cervical disk disorders	27	
 HC	HC1248	1881	TTE_other_intervertebral_disk_disorders	TTE other intervertebral disk disorders	39	
 HC	HC1249	517	TTE_other_dorsopathies,_not_elsewhere_classified	TTE other dorsopathies, not elsewhere classified	48	
-HC	HC125	0	anaemia	Anaemia	7	
+HC	HC125	2010	anaemia	Anaemia	7	
 HC	HC1250	5177	TTE_dorsalgia	TTE dorsalgia	13	
 HC	HC1251	31	TTE_myositis	TTE myositis	12	
 HC	HC1252	6	TTE_calcification_and_ossification_of_muscle	TTE calcification and ossification of muscle	44	
@@ -1137,7 +1137,7 @@ HC	HC1256	105	TTE_spontaneous_rupture_of_synovium_and_tendon	TTE spontaneous rup
 HC	HC1257	1038	TTE_other_disorders_of_synovium_and_tendon	TTE other disorders of synovium and tendon	42	
 HC	HC1258	0	TTE_disorders_of_synovium_and_tendon_in_diseases_classified_elsewhere	TTE disorders of synovium and tendon in diseases classified elsewhere	69	
 HC	HC1259	1454	TTE_soft_tissue_disorders_related_to_use,_overuse_and_pressure	TTE soft tissue disorders related to use, overuse and pressure	62	
-HC	HC126	0	polycystic_kidney	Polycystic kidney	17	
+HC	HC126	31	polycystic_kidney	Polycystic kidney	17	
 HC	HC1260	220	TTE_other_bursopathies	TTE other bursopathies	22	
 HC	HC1261	2163	TTE_fibroblastic_disorders	TTE fibroblastic disorders	26	
 HC	HC1262	1	TTE_soft_tissue_disorders_in_diseases_classified_elsewhere	TTE soft tissue disorders in diseases classified elsewhere	58	
@@ -1148,7 +1148,7 @@ HC	HC1266	6535	TTE_other_soft_tissue_disorders,_not_elsewhere_classified	TTE oth
 HC	HC1267	97	TTE_osteoporosis_with_pathological_fracture	TTE osteoporosis with pathological fracture	43	
 HC	HC1268	1138	TTE_osteoporosis_without_pathological_fracture	TTE osteoporosis without pathological fracture	46	
 HC	HC1269	6	TTE_osteoporosis_in_diseases_classified_elsewhere	TTE osteoporosis in diseases classified elsewhere	49	
-HC	HC127	0	hydatiform_mole	Hydatiform mole	15	
+HC	HC127	31	hydatiform_mole	Hydatiform mole	15	
 HC	HC1270	4	TTE_adult_osteomalacia	TTE adult osteomalacia	22	
 HC	HC1271	171	TTE_disorders_of_continuity_of_bone	TTE disorders of continuity of bone	35	
 HC	HC1272	1099	TTE_other_disorders_of_bone_density_and_structure	TTE other disorders of bone density and structure	49	
@@ -1159,7 +1159,7 @@ HC	HC1276	502	TTE_other_disorders_of_bone	TTE other disorders of bone	27
 HC	HC1277	29	TTE_osteopathies_in_diseases_classified_elsewhere	TTE osteopathies in diseases classified elsewhere	49	
 HC	HC1278	11	TTE_juvenile_osteochondrosis_of_hip_and_pelvis	TTE juvenile osteochondrosis of hip and pelvis	46	
 HC	HC1279	51	TTE_other_juvenile_osteochondrosis	TTE other juvenile osteochondrosis	34	
-HC	HC128	0	peripheral_nerve_disorder	Peripheral nerve disorder	25	
+HC	HC128	21	peripheral_nerve_disorder	Peripheral nerve disorder	25	
 HC	HC1280	67	TTE_other_osteochondropathies	TTE other osteochondropathies	29	
 HC	HC1281	175	TTE_other_disorders_of_cartilage	TTE other disorders of cartilage	32	
 HC	HC1282	108	TTE_other_acquired_deformities_of_musculoskeletal_system_and_connective_tissue	TTE other acquired deformities of musculoskeletal system and connective tissue	78	
@@ -1170,7 +1170,7 @@ HC	HC1286	0	TTE_rapidly_progressive_nephritic_syndrome	TTE rapidly progressive n
 HC	HC1287	80	TTE_recurrent_and_persistent_haematuria	TTE recurrent and persistent haematuria	39	
 HC	HC1288	66	TTE_chronic_nephritic_syndrome	TTE chronic nephritic syndrome	30	
 HC	HC1289	18	TTE_nephrotic_syndrome	TTE nephrotic syndrome	22	
-HC	HC129	0	muscle_or_soft_tissue_injuries	Muscle or soft tissue injuries	30	
+HC	HC129	423	muscle_or_soft_tissue_injuries	Muscle or soft tissue injuries	30	
 HC	HC1290	69	TTE_unspecified_nephritic_syndrome	TTE unspecified nephritic syndrome	34	
 HC	HC1291	0	TTE_isolated_proteinuria_with_specified_morphological_lesion	TTE isolated proteinuria with specified morphological lesion	60	
 HC	HC1292	0	TTE_hereditary_nephropathy,_not_elsewhere_classified	TTE hereditary nephropathy, not elsewhere classified	52	
@@ -1181,8 +1181,8 @@ HC	HC1296	144	TTE_tubulo-interstitial_nephritis,_not_specified_as_acute_or_chron
 HC	HC1297	293	TTE_obstructive_and_reflux_uropathy	TTE obstructive and reflux uropathy	35	
 HC	HC1298	2	TTE_drug-_and_heavy-metal-induced_tubulo-interstitial_and_tubular_conditions	TTE drug- and heavy-metal-induced tubulo-interstitial and tubular conditions	76	
 HC	HC1299	12	TTE_other_renal_tubulo-interstitial_diseases	TTE other renal tubulo-interstitial diseases	44	
-HC	HC13	0	lichen_sclerosis	Lichen sclerosis	16	
-HC	HC130	0	housemaid's_knee_(prepatellar_bursitis)	Housemaid's knee (prepatellar bursitis)	39	
+HC	HC13	53	lichen_sclerosis	Lichen sclerosis	16	
+HC	HC130	50	housemaid's_knee_(prepatellar_bursitis)	Housemaid's knee (prepatellar bursitis)	39	
 HC	HC1300	2	TTE_renal_tubulo-interstitial_disorders_in_diseases_classified_elsewhere	TTE renal tubulo-interstitial disorders in diseases classified elsewhere	72	
 HC	HC1301	500	TTE_acute_renal_failure	TTE acute renal failure	23	
 HC	HC1302	1414	TTE_chronic_renal_failure	TTE chronic renal failure	25	
@@ -1193,7 +1193,7 @@ HC	HC1306	0	TTE_calculus_of_urinary_tract_in_diseases_classified_elsewhere	TTE c
 HC	HC1307	508	TTE_unspecified_renal_colic	TTE unspecified renal colic	27	
 HC	HC1308	15	TTE_disorders_resulting_from_impaired_renal_tubular_function	TTE disorders resulting from impaired renal tubular function	60	
 HC	HC1309	15	TTE_unspecified_contracted_kidney	TTE unspecified contracted kidney	33	
-HC	HC131	0	svt_/_supraventricular_tachycardia	Svt / supraventricular tachycardia	34	
+HC	HC131	323	svt_/_supraventricular_tachycardia	Svt / supraventricular tachycardia	34	
 HC	HC1310	10	TTE_small_kidney_of_unknown_cause	TTE small kidney of unknown cause	33	
 HC	HC1311	441	TTE_other_disorders_of_kidney_and_ureter,_not_elsewhere_classified	TTE other disorders of kidney and ureter, not elsewhere classified	66	
 HC	HC1312	1	TTE_other_disorders_of_kidney_and_ureter_in_diseases_classified_elsewhere	TTE other disorders of kidney and ureter in diseases classified elsewhere	73	
@@ -1204,7 +1204,7 @@ HC	HC1316	1	TTE_bladder_disorders_in_diseases_classified_elsewhere	TTE bladder d
 HC	HC1317	97	TTE_urethritis_and_urethral_syndrome	TTE urethritis and urethral syndrome	36	
 HC	HC1318	290	TTE_urethral_stricture	TTE urethral stricture	22	
 HC	HC1319	108	TTE_other_disorders_of_urethra	TTE other disorders of urethra	30	
-HC	HC132	0	angina	Angina	6	
+HC	HC132	2028	angina	Angina	6	
 HC	HC1320	0	TTE_urethral_disorders_in_diseases_classified_elsewhere	TTE urethral disorders in diseases classified elsewhere	55	
 HC	HC1321	3307	TTE_other_disorders_of_urinary_system	TTE other disorders of urinary system	37	
 HC	HC1322	2084	TTE_hyperplasia_of_prostate	TTE hyperplasia of prostate	27	
@@ -1215,7 +1215,7 @@ HC	HC1326	31	TTE_torsion_of_testis	TTE torsion of testis	21
 HC	HC1327	156	TTE_orchitis_and_epididymitis	TTE orchitis and epididymitis	29	
 HC	HC1328	50	TTE_male_infertility	TTE male infertility	20	
 HC	HC1329	233	TTE_redundant_prepuce,_phimosis_and_paraphimosis	TTE redundant prepuce, phimosis and paraphimosis	48	
-HC	HC133	0	anal_fissure	Anal fissure	12	
+HC	HC133	345	anal_fissure	Anal fissure	12	
 HC	HC1330	505	TTE_other_disorders_of_penis	TTE other disorders of penis	28	
 HC	HC1331	40	TTE_inflammatory_disorders_of_male_genital_organs,_not_elsewhere_classified	TTE inflammatory disorders of male genital organs, not elsewhere classified	75	
 HC	HC1332	992	TTE_other_disorders_of_male_genital_organs	TTE other disorders of male genital organs	42	
@@ -1226,7 +1226,7 @@ HC	HC1336	189	TTE_hypertrophy_of_breast	TTE hypertrophy of breast	25
 HC	HC1337	1556	TTE_unspecified_lump_in_breast	TTE unspecified lump in breast	30	
 HC	HC1338	1126	TTE_other_disorders_of_breast	TTE other disorders of breast	29	
 HC	HC1339	63	TTE_salpingitis_and_oophoritis	TTE salpingitis and oophoritis	30	
-HC	HC134	0	bone_disorder	Bone disorder	13	
+HC	HC134	129	bone_disorder	Bone disorder	13	
 HC	HC1340	33	TTE_inflammatory_disease_of_uterus,_except_cervix	TTE inflammatory disease of uterus, except cervix	49	
 HC	HC1341	141	TTE_inflammatory_disease_of_cervix_uteri	TTE inflammatory disease of cervix uteri	40	
 HC	HC1342	321	TTE_other_female_pelvic_inflammatory_diseases	TTE other female pelvic inflammatory diseases	45	
@@ -1237,7 +1237,7 @@ HC	HC1346	31	TTE_vulvovaginal_ulceration_and_inflammation_in_diseases_classified
 HC	HC1347	776	TTE_endometriosis	TTE endometriosis	17	
 HC	HC1348	1197	TTE_female_genital_prolapse	TTE female genital prolapse	27	
 HC	HC1349	13	TTE_fistulae_involving_female_genital_tract	TTE fistulae involving female genital tract	43	
-HC	HC135	0	anxiety/panic_attacks	Anxiety/panic attacks	21	
+HC	HC135	806	anxiety/panic_attacks	Anxiety/panic attacks	21	
 HC	HC1350	987	TTE_noninflammatory_disorders_of_ovary,_fallopian_tube_and_broad_ligament	TTE noninflammatory disorders of ovary, fallopian tube and broad ligament	73	
 HC	HC1351	1335	TTE_polyp_of_female_genital_tract	TTE polyp of female genital tract	33	
 HC	HC1352	617	TTE_other_noninflammatory_disorders_of_uterus,_except_cervix	TTE other noninflammatory disorders of uterus, except cervix	60	
@@ -1248,7 +1248,7 @@ HC	HC1356	1272	TTE_other_noninflammatory_disorders_of_vagina	TTE other noninflam
 HC	HC1357	607	TTE_other_noninflammatory_disorders_of_vulva_and_perineum	TTE other noninflammatory disorders of vulva and perineum	57	
 HC	HC1358	171	TTE_absent,_scanty_and_rare_menstruation	TTE absent, scanty and rare menstruation	40	
 HC	HC1359	2511	TTE_excessive,_frequent_and_irregular_menstruation	TTE excessive, frequent and irregular menstruation	50	
-HC	HC136	0	connective_tissue_disorder	Connective tissue disorder	26	
+HC	HC136	303	connective_tissue_disorder	Connective tissue disorder	26	
 HC	HC1360	932	TTE_other_abnormal_uterine_and_vaginal_bleeding	TTE other abnormal uterine and vaginal bleeding	47	
 HC	HC1361	1041	TTE_pain_and_other_conditions_associated_with_female_genital_organs_and_menstrual_cycle	TTE pain and other conditions associated with female genital organs and menstrual cycle	87	
 HC	HC1362	3126	TTE_menopausal_and_other_perimenopausal_disorders	TTE menopausal and other perimenopausal disorders	49	
@@ -1259,7 +1259,7 @@ HC	HC1366	105	TTE_postprocedural_disorders_of_genito-urinary_system,_not_elsewhe
 HC	HC1367	128	TTE_ectopic_pregnancy	TTE ectopic pregnancy	21	
 HC	HC1368	36	TTE_hydatidiform_mole	TTE hydatidiform mole	21	
 HC	HC1369	158	TTE_other_abnormal_products_of_conception	TTE other abnormal products of conception	41	
-HC	HC137	0	anal_problem	Anal problem	12	
+HC	HC137	23	anal_problem	Anal problem	12	
 HC	HC1370	382	TTE_spontaneous_abortion	TTE spontaneous abortion	24	
 HC	HC1371	450	TTE_medical_abortion	TTE medical abortion	20	
 HC	HC1372	1	TTE_other_abortion	TTE other abortion	18	
@@ -1270,7 +1270,7 @@ HC	HC1376	4	TTE_pre-existing_hypertension_complicating_pregnancy,_childbirth_and
 HC	HC1377	4	TTE_pre-existing_hypertensive_disorder_with_superimposed_proteinuria	TTE pre-existing hypertensive disorder with superimposed proteinuria	68	
 HC	HC1378	27	TTE_gestational_[pregnancy-induced]_oedema_and_proteinuria_without_hypertension	TTE gestational [pregnancy-induced] oedema and proteinuria without hypertension	79	
 HC	HC1379	55	TTE_gestational_[pregnancy-induced]_hypertension_without_significant_proteinuria	TTE gestational [pregnancy-induced] hypertension without significant proteinuria	80	
-HC	HC138	0	polyartertis_nodosa	Polyartertis nodosa	19	
+HC	HC138	5	polyartertis_nodosa	Polyartertis nodosa	19	
 HC	HC1380	41	TTE_gestational_[pregnancy-induced]_hypertension_with_significant_proteinuria	TTE gestational [pregnancy-induced] hypertension with significant proteinuria	77	
 HC	HC1381	3	TTE_eclampsia	TTE eclampsia	13	
 HC	HC1382	60	TTE_unspecified_maternal_hypertension	TTE unspecified maternal hypertension	37	
@@ -1281,7 +1281,7 @@ HC	HC1386	23	TTE_infections_of_genito-urinary_tract_in_pregnancy	TTE infections 
 HC	HC1387	70	TTE_diabetes_mellitus_in_pregnancy	TTE diabetes mellitus in pregnancy	34	
 HC	HC1388	0	TTE_malnutrition_in_pregnancy	TTE malnutrition in pregnancy	29	
 HC	HC1389	199	TTE_maternal_care_for_other_conditions_predominantly_related_to_pregnancy	TTE maternal care for other conditions predominantly related to pregnancy	73	
-HC	HC139	0	breast_cysts	Breast cysts	12	
+HC	HC139	195	breast_cysts	Breast cysts	12	
 HC	HC1390	4	TTE_abnormal_findings_on_antenatal_screening_of_mother	TTE abnormal findings on antenatal screening of mother	54	
 HC	HC1391	0	TTE_complications_of_anaesthesia_during_pregnancy	TTE complications of anaesthesia during pregnancy	49	
 HC	HC1392	81	TTE_multiple_gestation	TTE multiple gestation	22	
@@ -1292,8 +1292,8 @@ HC	HC1396	187	TTE_maternal_care_for_known_or_suspected_abnormality_of_pelvic_org
 HC	HC1397	27	TTE_maternal_care_for_known_or_suspected_foetal_abnormality_and_damage	TTE maternal care for known or suspected foetal abnormality and damage	70	
 HC	HC1398	225	TTE_maternal_care_for_other_known_or_suspected_foetal_problems	TTE maternal care for other known or suspected foetal problems	62	
 HC	HC1399	24	TTE_polyhydramnios	TTE polyhydramnios	18	
-HC	HC14	0	fracture_vertebra_/_crush_fracture_/_vertebral_collapse	Fracture vertebra / crush fracture / vertebral collapse	55	
-HC	HC140	0	urinary_frequency_/_incontinence	Urinary frequency / incontinence	32	
+HC	HC14	106	fracture_vertebra_/_crush_fracture_/_vertebral_collapse	Fracture vertebra / crush fracture / vertebral collapse	55	
+HC	HC140	587	urinary_frequency_/_incontinence	Urinary frequency / incontinence	32	
 HC	HC1400	28	TTE_other_disorders_of_amniotic_fluid_and_membranes	TTE other disorders of amniotic fluid and membranes	51	
 HC	HC1401	106	TTE_premature_rupture_of_membranes	TTE premature rupture of membranes	34	
 HC	HC1402	22	TTE_placental_disorders	TTE placental disorders	23	
@@ -1304,7 +1304,7 @@ HC	HC1406	100	TTE_false_labour	TTE false labour	16
 HC	HC1407	136	TTE_prolonged_pregnancy	TTE prolonged pregnancy	23	
 HC	HC1408	82	TTE_preterm_delivery	TTE preterm delivery	20	
 HC	HC1409	20	TTE_failed_induction_of_labour	TTE failed induction of labour	30	
-HC	HC141	0	antiphospholipid_syndrome	Antiphospholipid syndrome	25	
+HC	HC141	9	antiphospholipid_syndrome	Antiphospholipid syndrome	25	
 HC	HC1410	31	TTE_abnormalities_of_forces_of_labour	TTE abnormalities of forces of labour	37	
 HC	HC1411	191	TTE_long_labour	TTE long labour	15	
 HC	HC1412	44	TTE_obstructed_labour_due_to_malposition_and_malpresentation_of_foetus	TTE obstructed labour due to malposition and malpresentation of foetus	70	
@@ -1315,7 +1315,7 @@ HC	HC1416	338	TTE_labour_and_delivery_complicated_by_foetal_stress_[distress]	TT
 HC	HC1417	74	TTE_labour_and_delivery_complicated_by_umbilical_cord_complications	TTE labour and delivery complicated by umbilical cord complications	67	
 HC	HC1418	561	TTE_perineal_laceration_during_delivery	TTE perineal laceration during delivery	39	
 HC	HC1419	17	TTE_other_obstetric_trauma	TTE other obstetric trauma	26	
-HC	HC142	0	synovitis	Synovitis	9	
+HC	HC142	549	synovitis	Synovitis	9	
 HC	HC1420	154	TTE_postpartum_haemorrhage	TTE postpartum haemorrhage	26	
 HC	HC1421	22	TTE_retained_placenta_and_membranes,_without_haemorrhage	TTE retained placenta and membranes, without haemorrhage	56	
 HC	HC1422	0	TTE_complications_of_anaesthesia_during_labour_and_delivery	TTE complications of anaesthesia during labour and delivery	59	
@@ -1326,7 +1326,7 @@ HC	HC1426	194	TTE_single_delivery_by_caesarean_section	TTE single delivery by ca
 HC	HC1427	0	TTE_other_assisted_single_delivery	TTE other assisted single delivery	34	
 HC	HC1428	4	TTE_multiple_delivery	TTE multiple delivery	21	
 HC	HC1429	7	TTE_puerperal_sepsis	TTE puerperal sepsis	20	
-HC	HC143	0	retinal_problem	Retinal problem	15	
+HC	HC143	62	retinal_problem	Retinal problem	15	
 HC	HC1430	21	TTE_other_puerperal_infections	TTE other puerperal infections	30	
 HC	HC1431	7	TTE_venous_complications_in_the_puerperium	TTE venous complications in the puerperium	42	
 HC	HC1432	0	TTE_obstetric_embolism	TTE obstetric embolism	22	
@@ -1337,7 +1337,7 @@ HC	HC1436	16	TTE_other_disorders_of_breast_and_lactation_associated_with_childbi
 HC	HC1437	0	TTE_sequelae_of_complication_of_pregnancy,_childbirth_and_the_puerperium	TTE sequelae of complication of pregnancy, childbirth and the puerperium	72	
 HC	HC1438	0	TTE_death_from_any_obstetric_cause_occurring_more_than_42_days_but_les	TTE death from any obstetric cause occurring more than 42 days but les	70	
 HC	HC1439	5	TTE_maternal_infectious_and_parasitic_diseases_classifiable_elsewhere_but_complicating_pregnancy,_childbirth_an	TTE maternal infectious and parasitic diseases classifiable elsewhere but complicating pregnancy, childbirth an	111	
-HC	HC144	0	chickenpox	Chickenpox	10	
+HC	HC144	865	chickenpox	Chickenpox	10	
 HC	HC1440	216	TTE_other_maternal_diseases_classifiable_elsewhere_but_complicating_pregnancy,_childbirth_and_the_puerperium	TTE other maternal diseases classifiable elsewhere but complicating pregnancy, childbirth and the puerperium	108	
 HC	HC1441	0	TTE_foetus_and_newborn_affected_by_maternal_conditions_that_may_be_unrelated_t	TTE foetus and newborn affected by maternal conditions that may be unrelated t	78	
 HC	HC1442	0	TTE_foetus_and_newborn_affected_by_complications_of_placenta,_cord_and_membranes	TTE foetus and newborn affected by complications of placenta, cord and membranes	80	
@@ -1348,7 +1348,7 @@ HC	HC1446	2	TTE_disorders_related_to_short_gestation_and_low_birth_weight,_not_e
 HC	HC1447	1	TTE_disorders_related_to_long_gestation_and_high_birth_weight	TTE disorders related to long gestation and high birth weight	61	
 HC	HC1448	0	TTE_intracranial_laceration_and_haemorrhage_due_to_birth_injury	TTE intracranial laceration and haemorrhage due to birth injury	63	
 HC	HC1449	0	TTE_other_birth_injuries_to_central_nervous_system	TTE other birth injuries to central nervous system	50	
-HC	HC145	0	thyroid_radioablation_therapy	Thyroid radioablation therapy	29	
+HC	HC145	5	thyroid_radioablation_therapy	Thyroid radioablation therapy	29	
 HC	HC1450	0	TTE_birth_injury_to_scalp	TTE birth injury to scalp	25	
 HC	HC1451	0	TTE_birth_injury_to_skeleton	TTE birth injury to skeleton	28	
 HC	HC1452	4	TTE_birth_injury_to_peripheral_nervous_system	TTE birth injury to peripheral nervous system	45	
@@ -1359,7 +1359,7 @@ HC	HC1456	1	TTE_respiratory_distress_of_newborn	TTE respiratory distress of newb
 HC	HC1457	1	TTE_congenital_pneumonia	TTE congenital pneumonia	24	
 HC	HC1458	0	TTE_neonatal_aspiration_syndromes	TTE neonatal aspiration syndromes	33	
 HC	HC1459	0	TTE_interstitial_emphysema_and_related_conditions_originating_in_the_perinatal_period	TTE interstitial emphysema and related conditions originating in the perinatal period	85	
-HC	HC146	0	pleural_effusion	Pleural effusion	16	
+HC	HC146	532	pleural_effusion	Pleural effusion	16	
 HC	HC1460	0	TTE_pulmonary_haemorrhage_originating_in_the_perinatal_period	TTE pulmonary haemorrhage originating in the perinatal period	61	
 HC	HC1461	0	TTE_chronic_respiratory_disease_originating_in_the_perinatal_period	TTE chronic respiratory disease originating in the perinatal period	67	
 HC	HC1462	2	TTE_other_respiratory_conditions_originating_in_the_perinatal_period	TTE other respiratory conditions originating in the perinatal period	68	
@@ -1370,7 +1370,7 @@ HC	HC1466	2	TTE_other_congenital_infectious_and_parasitic_diseases	TTE other con
 HC	HC1467	3	TTE_omphalitis_of_newborn_with_or_without_mild_haemorrhage	TTE omphalitis of newborn with or without mild haemorrhage	58	
 HC	HC1468	1	TTE_other_infections_specific_to_the_perinatal_period	TTE other infections specific to the perinatal period	53	
 HC	HC1469	0	TTE_foetal_blood_loss	TTE foetal blood loss	21	
-HC	HC147	0	diphtheria	Diphtheria	10	
+HC	HC147	20	diphtheria	Diphtheria	10	
 HC	HC1470	1	TTE_umbilical_haemorrhage_of_newborn	TTE umbilical haemorrhage of newborn	36	
 HC	HC1471	0	TTE_intracranial_nontraumatic_haemorrhage_of_foetus_and_newborn	TTE intracranial nontraumatic haemorrhage of foetus and newborn	63	
 HC	HC1472	0	TTE_haemorrhagic_disease_of_foetus_and_newborn	TTE haemorrhagic disease of foetus and newborn	46	
@@ -1381,7 +1381,7 @@ HC	HC1476	6	TTE_neonatal_jaundice_from_other_and_unspecified_causes	TTE neonatal
 HC	HC1477	0	TTE_other_perinatal_haematological_disorders	TTE other perinatal haematological disorders	44	
 HC	HC1478	0	TTE_transitory_disorders_of_carbohydrate_metabolism_specific_to_foetus_and_newborn	TTE transitory disorders of carbohydrate metabolism specific to foetus and newborn	82	
 HC	HC1479	1	TTE_transitory_neonatal_disorders_of_calcium_and_magnesium_metabolism	TTE transitory neonatal disorders of calcium and magnesium metabolism	69	
-HC	HC148	0	wolff_parkinson_white_/_wpw_syndrome	Wolff parkinson white / wpw syndrome	36	
+HC	HC148	20	wolff_parkinson_white_/_wpw_syndrome	Wolff parkinson white / wpw syndrome	36	
 HC	HC1480	0	TTE_other_perinatal_digestive_system_disorders	TTE other perinatal digestive system disorders	46	
 HC	HC1481	2	TTE_other_conditions_of_integument_specific_to_foetus_and_newborn	TTE other conditions of integument specific to foetus and newborn	65	
 HC	HC1482	0	TTE_other_disturbances_of_cerebral_status_of_newborn	TTE other disturbances of cerebral status of newborn	52	
@@ -1392,7 +1392,7 @@ HC	HC1486	12	TTE_other_conditions_originating_in_the_perinatal_period	TTE other 
 HC	HC1487	0	TTE_anencephaly_and_similar_malformations	TTE anencephaly and similar malformations	41	
 HC	HC1488	0	TTE_encephalocele	TTE encephalocele	17	
 HC	HC1489	0	TTE_microcephaly	TTE microcephaly	16	
-HC	HC149	0	rheumatic_fever	Rheumatic fever	15	
+HC	HC149	92	rheumatic_fever	Rheumatic fever	15	
 HC	HC1490	0	TTE_congenital_hydrocephalus	TTE congenital hydrocephalus	28	
 HC	HC1491	3	TTE_other_congenital_malformations_of_brain	TTE other congenital malformations of brain	43	
 HC	HC1492	21	TTE_spina_bifida	TTE spina bifida	16	
@@ -1403,8 +1403,8 @@ HC	HC1496	1	TTE_anophthalmos,_microphthalmos_and_macrophthalmos	TTE anophthalmos
 HC	HC1497	16	TTE_congenital_lens_malformations	TTE congenital lens malformations	33	
 HC	HC1498	1	TTE_congenital_malformations_of_anterior_segment_of_eye	TTE congenital malformations of anterior segment of eye	55	
 HC	HC1499	18	TTE_congenital_malformations_of_posterior_segment_of_eye	TTE congenital malformations of posterior segment of eye	56	
-HC	HC15	0	sciatica	Sciatica	8	
-HC	HC150	0	rosacea	Rosacea	7	
+HC	HC15	679	sciatica	Sciatica	8	
+HC	HC150	221	rosacea	Rosacea	7	
 HC	HC1500	4	TTE_other_congenital_malformations_of_eye	TTE other congenital malformations of eye	41	
 HC	HC1501	5	TTE_congenital_malformations_of_ear_causing_impairment_of_hearing	TTE congenital malformations of ear causing impairment of hearing	65	
 HC	HC1502	13	TTE_other_congenital_malformations_of_ear	TTE other congenital malformations of ear	41	
@@ -1415,7 +1415,7 @@ HC	HC1506	1	TTE_congenital_malformations_of_pulmonary_and_tricuspid_valves	TTE c
 HC	HC1507	31	TTE_congenital_malformations_of_aortic_and_mitral_valves	TTE congenital malformations of aortic and mitral valves	56	
 HC	HC1508	13	TTE_other_congenital_malformations_of_heart	TTE other congenital malformations of heart	43	
 HC	HC1509	18	TTE_congenital_malformations_of_great_arteries	TTE congenital malformations of great arteries	46	
-HC	HC151	0	multiple_sclerosis	Multiple sclerosis	18	
+HC	HC151	147	multiple_sclerosis	Multiple sclerosis	18	
 HC	HC1510	2	TTE_congenital_malformations_of_great_veins	TTE congenital malformations of great veins	43	
 HC	HC1511	12	TTE_other_congenital_malformations_of_peripheral_vascular_system	TTE other congenital malformations of peripheral vascular system	64	
 HC	HC1512	20	TTE_other_congenital_malformations_of_circulatory_system	TTE other congenital malformations of circulatory system	56	
@@ -1426,7 +1426,7 @@ HC	HC1516	7	TTE_congenital_malformations_of_lung	TTE congenital malformations of
 HC	HC1517	0	TTE_other_congenital_malformations_of_respiratory_system	TTE other congenital malformations of respiratory system	56	
 HC	HC1518	3	TTE_cleft_palate	TTE cleft palate	16	
 HC	HC1519	0	TTE_cleft_lip	TTE cleft lip	13	
-HC	HC152	0	deliberate_self-harm/suicide_attempt	Deliberate self-harm/suicide attempt	36	
+HC	HC152	21	deliberate_self-harm/suicide_attempt	Deliberate self-harm/suicide attempt	36	
 HC	HC1520	2	TTE_cleft_palate_with_cleft_lip	TTE cleft palate with cleft lip	31	
 HC	HC1521	35	TTE_other_congenital_malformations_of_tongue,_mouth_and_pharynx	TTE other congenital malformations of tongue, mouth and pharynx	63	
 HC	HC1522	15	TTE_congenital_malformations_of_oesophagus	TTE congenital malformations of oesophagus	42	
@@ -1437,7 +1437,7 @@ HC	HC1526	32	TTE_other_congenital_malformations_of_intestine	TTE other congenita
 HC	HC1527	20	TTE_congenital_malformations_of_gallbladder,_bile_ducts_and_liver	TTE congenital malformations of gallbladder, bile ducts and liver	65	
 HC	HC1528	3	TTE_other_congenital_malformations_of_digestive_system	TTE other congenital malformations of digestive system	54	
 HC	HC1529	27	TTE_congenital_malformations_of_ovaries,_fallopian_tubes_and_broad_ligaments	TTE congenital malformations of ovaries, fallopian tubes and broad ligaments	76	
-HC	HC153	0	joint_pain	Joint pain	10	
+HC	HC153	1148	joint_pain	Joint pain	10	
 HC	HC1530	24	TTE_congenital_malformations_of_uterus_and_cervix	TTE congenital malformations of uterus and cervix	49	
 HC	HC1531	10	TTE_other_congenital_malformations_of_female_genitalia	TTE other congenital malformations of female genitalia	54	
 HC	HC1532	61	TTE_undescended_testicle	TTE undescended testicle	24	
@@ -1448,7 +1448,7 @@ HC	HC1536	18	TTE_renal_agenesis_and_other_reduction_defects_of_kidney	TTE renal 
 HC	HC1537	68	TTE_cystic_kidney_disease	TTE cystic kidney disease	25	
 HC	HC1538	12	TTE_congenital_obstructive_defects_of_renal_pelvis_and_congenital_malformations_of_ureter	TTE congenital obstructive defects of renal pelvis and congenital malformations of ureter	89	
 HC	HC1539	33	TTE_other_congenital_malformations_of_kidney	TTE other congenital malformations of kidney	44	
-HC	HC154	0	pelvic_inflammatory_disease/_pid	Pelvic inflammatory disease/ pid	32	
+HC	HC154	43	pelvic_inflammatory_disease/_pid	Pelvic inflammatory disease/ pid	32	
 HC	HC1540	6	TTE_other_congenital_malformations_of_urinary_system	TTE other congenital malformations of urinary system	52	
 HC	HC1541	19	TTE_congenital_deformities_of_hip	TTE congenital deformities of hip	33	
 HC	HC1542	85	TTE_congenital_deformities_of_feet	TTE congenital deformities of feet	34	
@@ -1459,7 +1459,7 @@ HC	HC1546	2	TTE_syndactyly	TTE syndactyly	14
 HC	HC1547	1	TTE_reduction_defects_of_upper_limb	TTE reduction defects of upper limb	35	
 HC	HC1548	3	TTE_reduction_defects_of_lower_limb	TTE reduction defects of lower limb	35	
 HC	HC1549	0	TTE_reduction_defects_of_unspecified_limb	TTE reduction defects of unspecified limb	41	
-HC	HC155	0	joint_disorder	Joint disorder	14	
+HC	HC155	131	joint_disorder	Joint disorder	14	
 HC	HC1550	18	TTE_other_congenital_malformations_of_limb(s)	TTE other congenital malformations of limb(s)	45	
 HC	HC1551	3	TTE_other_congenital_malformations_of_skull_and_face_bones	TTE other congenital malformations of skull and face bones	58	
 HC	HC1552	57	TTE_congenital_malformations_of_spine_and_bony_thorax	TTE congenital malformations of spine and bony thorax	53	
@@ -1470,7 +1470,7 @@ HC	HC1556	9	TTE_congenital_ichthyosis	TTE congenital ichthyosis	25
 HC	HC1557	0	TTE_epidermolysis_bullosa	TTE epidermolysis bullosa	25	
 HC	HC1558	106	TTE_other_congenital_malformations_of_skin	TTE other congenital malformations of skin	42	
 HC	HC1559	14	TTE_congenital_malformations_of_breast	TTE congenital malformations of breast	38	
-HC	HC156	0	nasal_polyps	Nasal polyps	12	
+HC	HC156	616	nasal_polyps	Nasal polyps	12	
 HC	HC1560	7	TTE_other_congenital_malformations_of_integument	TTE other congenital malformations of integument	48	
 HC	HC1561	17	TTE_phakomatoses,_not_elsewhere_classified	TTE phakomatoses, not elsewhere classified	42	
 HC	HC1562	0	TTE_congenital_malformation_syndromes_due_to_known_exogenous_causes,_not_elsewhere_classified	TTE congenital malformation syndromes due to known exogenous causes, not elsewhere classified	93	
@@ -1481,7 +1481,7 @@ HC	HC1566	1	TTE_edwards'_syndrome_and_patau's_syndrome	TTE edwards' syndrome and
 HC	HC1567	0	TTE_other_trisomies_and_partial_trisomies_of_the_autosomes,_not_elsewhere_classified	TTE other trisomies and partial trisomies of the autosomes, not elsewhere classified	84	
 HC	HC1568	1	TTE_monosomies_and_deletions_from_the_autosomes,_not_elsewhere_classified	TTE monosomies and deletions from the autosomes, not elsewhere classified	73	
 HC	HC1569	0	TTE_balanced_rearrangements_and_structural_markers,_not_elsewhere_classified	TTE balanced rearrangements and structural markers, not elsewhere classified	76	
-HC	HC157	0	jaundice_(unknown_cause)	Jaundice (unknown cause)	24	
+HC	HC157	93	jaundice_(unknown_cause)	Jaundice (unknown cause)	24	
 HC	HC1570	2	TTE_turner's_syndrome	TTE turner's syndrome	21	
 HC	HC1571	2	TTE_other_sex_chromosome_abnormalities,_female_phenotype,_not_elsewhere_classified	TTE other sex chromosome abnormalities, female phenotype, not elsewhere classified	82	
 HC	HC1572	1	TTE_other_sex_chromosome_abnormalities,_male_phenotype,_not_elsewhere_classified	TTE other sex chromosome abnormalities, male phenotype, not elsewhere classified	80	
@@ -1492,7 +1492,7 @@ HC	HC1576	415	AD_NSTEMI	AD NSTEMI	9
 HC	HC1577	782	AD_stroke	AD stroke	9	
 HC	HC1578	348	AD_ischaemic_stroke	AD ischaemic stroke	19	
 HC	HC1579	86	AD_intracerebral_haemorrhage	AD intracerebral haemorrhage	28	
-HC	HC158	0	spine_arthritis/spondylitis	Spine arthritis/spondylitis	27	
+HC	HC158	332	spine_arthritis/spondylitis	Spine arthritis/spondylitis	27	
 HC	HC1580	70	AD_subarachnoid_haemorrhage	AD subarachnoid haemorrhage	27	
 HC	HC1581	5350	AD_asthma	AD asthma	9	
 HC	HC1582	1349	AD_chronic_obstructive_pulmonary_disease	AD chronic obstructive pulmonary disease	40	
@@ -1507,327 +1507,327 @@ HC	HC159	0	opioid_dependency	Opioid dependency	17
 HC	HC1590	98	AD_parkinson's_disease	AD parkinson's disease	22	
 HC	HC1591	2	AD_progressive_supranuclear_palsy	AD progressive supranuclear palsy	33	
 HC	HC1592	6	AD_multiple_system_atrophy	AD multiple system atrophy	26	
-HC	HC16	0	rectal_or_colon_adenoma/polyps	Rectal or colon adenoma/polyps	30	
-HC	HC160	0	fibrocystic_disease	Fibrocystic disease	19	
-HC	HC161	0	prostatitis	Prostatitis	11	
-HC	HC162	0	brain_abscess/intracranial_abscess	Brain abscess/intracranial abscess	34	
-HC	HC163	0	scleroderma/systemic_sclerosis	Scleroderma/systemic sclerosis	30	
-HC	HC164	0	gastro-oesophageal_reflux_(gord)_/_gastric_reflux	Gastro-oesophageal reflux (gord) / gastric reflux	49	
-HC	HC165	0	type_2_diabetes	Type 2 diabetes	15	
-HC	HC166	0	deep_venous_thrombosis_(dvt)	DVT	3	
-HC	HC167	0	raynaud's_phenomenon/disease	Raynaud's phenomenon/disease	28	
-HC	HC168	0	cervical_polyps	Cervical polyps	15	
-HC	HC169	0	pernicious_anaemia	Pernicious anaemia	18	
-HC	HC17	0	diabetic_eye_disease	Diabetic eye disease	20	
-HC	HC170	0	sarcoidosis	Sarcoidosis	11	
-HC	HC171	0	alcoholic_liver_disease_/_alcoholic_cirrhosis	Alcoholic liver disease / alcoholic cirrhosis	45	
-HC	HC172	0	gynaecological_disorder_(not_cancer)	Gynaecological disorder (not cancer)	36	
-HC	HC173	0	fracture_shaft_of_femur	Fracture shaft of femur	23	
-HC	HC174	0	haemochromatosis	Haemochromatosis	16	
-HC	HC175	0	ischaemic_stroke	Ischaemic stroke	16	
-HC	HC176	0	prolapsed_disc/slipped_disc	Prolapsed disc/slipped disc	27	
-HC	HC177	0	dupuytren's_contracture	Dupuytren's contracture	23	
-HC	HC178	0	stress	Stress	6	
-HC	HC179	0	iron_deficiency_anaemia	Iron deficiency anaemia	23	
-HC	HC18	0	pemphigoid/pemphigus	Pemphigoid/pemphigus	20	
-HC	HC180	0	thyroid_problem_(not_cancer)	Thyroid problem (not cancer)	28	
-HC	HC181	0	eye_infection	Eye infection	13	
-HC	HC182	0	osteopenia	Osteopenia	10	
-HC	HC183	0	spinal_abscess	Spinal abscess	14	
-HC	HC184	0	aortic_aneurysm_rupture	Aortic aneurysm rupture	23	
-HC	HC185	0	cellulitis	Cellulitis	10	
-HC	HC186	0	paget's_disease	Paget's disease	15	
-HC	HC187	0	chronic_laryngitis	Chronic laryngitis	18	
-HC	HC188	0	cholelithiasis/gall_stones	Gallstones	10	
-HC	HC189	0	hyperaldosteronism/conn's_syndrome	Hyperaldosteronism/conn's syndrome	34	
-HC	HC19	0	phaeochromocytoma	Phaeochromocytoma	17	
-HC	HC190	0	scrotal_problem_(not_cancer)	Scrotal problem (not cancer)	28	
-HC	HC191	0	peripheral_nerve_injury	Peripheral nerve injury	23	
-HC	HC192	0	bowel_/_intestinal_perforation	Bowel / intestinal perforation	30	
-HC	HC193	0	heart_arrhythmia	Heart arrhythmia	16	
-HC	HC194	0	liver/biliary/pancreas_problem	Liver/biliary/pancreas problem	30	
-HC	HC195	0	ureteric_obstruction/hydronephrosis	Ureteric obstruction/hydronephrosis	35	
-HC	HC196	0	labyrinthitis	Labyrinthitis	13	
-HC	HC197	0	clotting_disorder/excessive_bleeding	Clotting disorder/excessive bleeding	36	
-HC	HC198	0	hyperparathyroidism	Hyperparathyroidism	19	
-HC	HC199	0	cervical_problem	Cervical problem	16	
-HC	HC2	0	myocarditis	Myocarditis	11	
-HC	HC20	0	cervical_erosion	Cervical erosion	16	
-HC	HC200	0	fracture_tibia	Fracture tibia	14	
-HC	HC201	0	ulcerative_colitis	Ulcerative colitis	18	
-HC	HC202	0	trapped_nerve/compressed_nerve	Trapped nerve/compressed nerve	30	
-HC	HC203	0	pulmonary_embolism_+/-_dvt	PE +/- DVT	10	
-HC	HC204	0	bursitis	Bursitis	8	
-HC	HC205	0	endometriosis	Endometriosis	13	
-HC	HC206	0	parkinsons_disease	Parkinsons disease	18	
-HC	HC207	0	soft_tissue_inflammation	Soft tissue inflammation	24	
-HC	HC208	0	parathyroid_gland_problem_(not_cancer)	Parathyroid gland problem (not cancer)	38	
-HC	HC209	0	gastric/stomach_ulcers	Gastric/stomach ulcers	22	
-HC	HC21	0	mitral_valve_disease	Mitral valve disease	20	
-HC	HC210	0	non-infective_hepatitis	Non-infective hepatitis	23	
-HC	HC211	0	dermatomyositis	Dermatomyositis	15	
-HC	HC212	0	oesophageal_disorder	Oesophageal disorder	20	
-HC	HC213	0	pericardial_problem	Pericardial problem	19	
-HC	HC214	0	empyema	Empyema	7	
-HC	HC215	0	hypertension	Hypertension	12	
-HC	HC216	0	pneumothorax	Pneumothorax	12	
-HC	HC217	0	neck_problem/injury	Neck problem/injury	19	
-HC	HC218	0	motor_neurone_disease	Motor neurone disease	21	
-HC	HC219	0	hypothyroidism/myxoedema	Hypothyroidism/myxoedema	24	
-HC	HC22	0	osteoporosis	Osteoporosis	12	
-HC	HC220	0	interstitial_lung_disease	Interstitial lung disease	25	
-HC	HC221	0	diabetes	Diabetes	8	
-HC	HC222	0	arterial_embolism	Arterial embolism	17	
-HC	HC223	0	fracture_pelvis	Fracture pelvis	15	
-HC	HC224	0	rubella_/_german_measles	Rubella / german measles	24	
-HC	HC225	0	cholecystitis	Cholecystitis	13	
-HC	HC226	0	herpes_simplex	Herpes simplex	14	
-HC	HC227	0	erectile_dysfunction_/_impotence	Erectile dysfunction / impotence	32	
-HC	HC228	0	infection_of_nervous_system	Infection of nervous system	27	
-HC	HC229	0	chronic_skin_ulcers	Chronic skin ulcers	19	
-HC	HC23	0	fibrosing_alveolitis/unspecified_alveolitis	Fibrosing alveolitis/unspecified alveolitis	43	
-HC	HC230	0	disc_problem	Disc problem	12	
-HC	HC231	0	heart_valve_problem/heart_murmur	Heart valve problem/heart murmur	32	
-HC	HC232	0	abnormal_smear_(cervix)	Abnormal smear (cervix)	23	
-HC	HC233	0	mania/bipolar_disorder/manic_depression	Mania/bipolar disorder/manic depression	39	
-HC	HC234	0	allergy_or_anaphylactic_reaction_to_food	Allergy or anaphylactic reaction to food	40	
-HC	HC235	0	other_demyelinating_disease	Other demyelinating disease	27	
-HC	HC236	0	ovarian_problem	Ovarian problem	15	
-HC	HC237	0	back_problem	Back problem	12	
-HC	HC238	0	acromegaly	Acromegaly	10	
-HC	HC239	0	subdural_haemorrhage/haematoma	Subdural haemorrhage/haematoma	30	
-HC	HC24	0	mrsa_/_methicillin_resistant_staphylococcus_aureus	Mrsa / methicillin resistant staphylococcus aureus	50	
-HC	HC240	0	fracture_finger	Fracture finger	15	
-HC	HC241	0	cranial_nerve_problem/palsy	Cranial nerve problem/palsy	27	
-HC	HC242	0	pericarditis	Pericarditis	12	
-HC	HC243	0	inguinal_hernia	Inguinal hernia	15	
-HC	HC244	0	carcinoid_syndrome/tumour	Carcinoid syndrome/tumour	25	
-HC	HC245	0	bile_duct_disease	Bile duct disease	17	
-HC	HC246	0	schizophrenia	Schizophrenia	13	
-HC	HC247	0	breast_disease_(not_cancer)	Breast disease (not cancer)	27	
-HC	HC248	0	allergy_to_house_dust_mite	Allergy to house dust mite	26	
-HC	HC249	0	hepatitis_c	Hepatitis c	11	
-HC	HC25	0	cataract	Cataract	8	
-HC	HC250	0	acute_infective_polyneuritis/guillain-barre_syndrome	Acute infective polyneuritis/guillain-barre syndrome	52	
-HC	HC251	0	liver_failure/cirrhosis	Liver failure/cirrhosis	23	
-HC	HC252	0	leg_claudication/_intermittent_claudication	Leg claudication/ intermittent claudication	43	
-HC	HC253	0	meniere's_disease	Meniere's disease	17	
-HC	HC254	0	uterine_polyps	Uterine polyps	14	
-HC	HC255	0	subarachnoid_haemorrhage	Subarachnoid haemorrhage	24	
-HC	HC256	0	fracture_toe	Fracture toe	12	
-HC	HC257	0	femoral_hernia	Femoral hernia	14	
-HC	HC258	0	haemophilia	Haemophilia	11	
-HC	HC259	0	aortic_stenosis	Aortic stenosis	15	
-HC	HC26	0	iritis	Iritis	6	
-HC	HC260	0	fracture_fibula	Fracture fibula	15	
-HC	HC261	0	eczema/dermatitis	Eczema/dermatitis	17	
-HC	HC262	0	diverticular_disease/diverticulitis	Diverticular disease/diverticulitis	35	
-HC	HC263	0	nasal/sinus_disorder	Nasal/sinus disorder	20	
-HC	HC264	0	hepatitis_a	Hepatitis a	11	
-HC	HC265	0	bowel_/_intestinal_infarction	Bowel / intestinal infarction	29	
-HC	HC266	0	other_venous/lymphatic_disease	Other venous/lymphatic disease	30	
-HC	HC267	0	tennis_elbow_/_lateral_epicondylitis	Tennis elbow / lateral epicondylitis	36	
-HC	HC268	0	varicose_ulcer	Varicose ulcer	14	
-HC	HC269	0	high_cholesterol	High cholesterol	16	
-HC	HC27	0	gastrointestinal_bleeding	Gastrointestinal bleeding	25	
-HC	HC270	0	encephalitis	Encephalitis	12	
-HC	HC271	0	epicondylitis	Epicondylitis	13	
-HC	HC272	0	stevens_johnson_syndrome	Stevens johnson syndrome	24	
-HC	HC273	0	essential_hypertension	Essential hypertension	22	
-HC	HC274	0	umbilical_hernia	Umbilical hernia	16	
-HC	HC275	0	gastritis/gastric_erosions	Gastritis/gastric erosions	26	
-HC	HC276	0	glaucoma	Glaucoma	8	
-HC	HC277	0	menopausal_symptoms_/_menopause	Menopausal symptoms / menopause	31	
-HC	HC278	0	cerebral_aneurysm	Cerebral aneurysm	17	
-HC	HC279	0	myeloproliferative_disorder	Myeloproliferative disorder	27	
-HC	HC28	0	bronchiectasis	Bronchiectasis	14	
-HC	HC280	0	peripheral_neuropathy	Peripheral neuropathy	21	
-HC	HC281	0	atrial_fibrillation	Atrial fibrillation	19	
-HC	HC282	0	whooping_cough_/_pertussis	Whooping cough / pertussis	26	
-HC	HC283	0	cystitis	Cystitis	8	
-HC	HC284	0	fracture_nose	Fracture nose	13	
-HC	HC285	0	other_joint_disorder	Other joint disorder	20	
-HC	HC286	0	plantar_fascitis	Plantar fascitis	16	
-HC	HC287	0	infectious_mononucleosis_/_glandular_fever_/_epstein_barr_virus_(ebv)	Infectious mononucleosis / glandular fever / epstein barr virus (ebv)	69	
-HC	HC288	0	alopecia_/_hair_loss	Alopecia / hair loss	20	
-HC	HC289	0	vitiligo	Vitiligo	8	
-HC	HC29	0	yellow_fever	Yellow fever	12	
-HC	HC290	0	fracture_upper_arm_/_humerus_/_elbow	Fracture upper arm / humerus / elbow	36	
-HC	HC291	0	polycystic_ovaries/polycystic_ovarian_syndrome	Polycystic ovaries/polycystic ovarian syndrome	46	
-HC	HC292	0	vasculitis	Vasculitis	10	
-HC	HC293	0	fracture_patella_/_knee	Fracture patella / knee	23	
-HC	HC294	0	renal/kidney_failure	Renal/kidney failure	20	
-HC	HC295	0	carpal_tunnel_syndrome	Carpal tunnel syndrome	22	
-HC	HC296	0	fracture_thumb	Fracture thumb	14	
-HC	HC297	0	dengue_fever	Dengue fever	12	
-HC	HC298	0	chronic_sinusitis	Chronic sinusitis	17	
-HC	HC299	0	heart_failure/pulmonary_odema	Heart failure/pulmonary odema	29	
-HC	HC3	0	ectopic_pregnancy	Ectopic pregnancy	17	
-HC	HC30	0	aortic_regurgitation_/_incompetence	Aortic regurgitation / incompetence	35	
-HC	HC300	0	benign_/_essential_tremor	Benign / essential tremor	25	
-HC	HC301	0	asbestosis	Asbestosis	10	
-HC	HC302	0	retinal_detachment	Retinal detachment	18	
-HC	HC303	0	malabsorption/coeliac_disease	Malabsorption/coeliac disease	29	
-HC	HC304	0	burns_N/A	Burns N/A	9	
-HC	HC305	0	mitral_stenosis	Mitral stenosis	15	
-HC	HC306	0	insomnia	Insomnia	8	
-HC	HC307	0	colitis/not_crohns_or_ulcerative_colitis	Colitis/not crohns or ulcerative colitis	40	
-HC	HC308	0	hypertrophic_cardiomyopathy_(hcm_/_hocm)	Hypertrophic cardiomyopathy (hcm / hocm)	40	
-HC	HC309	0	brain_haemorrhage	Brain haemorrhage	17	
-HC	HC31	0	uterine_fibroids	Uterine fibroids	16	
-HC	HC310	0	hiatus_hernia	Hiatus hernia	13	
-HC	HC311	0	measles_/_morbillivirus	Measles / morbillivirus	23	
-HC	HC312	0	wegners_granulmatosis	Wegners granulmatosis	21	
-HC	HC313	0	primary_biliary_cirrhosis	Primary biliary cirrhosis	25	
-HC	HC314	0	fracture_hand	Fracture hand	13	
-HC	HC315	0	fracture_neck_/_cervical_fracture	Fracture neck / cervical fracture	33	
-HC	HC316	0	dyspepsia_/_indigestion	Dyspepsia / indigestion	23	
-HC	HC317	0	breast_fibroadenoma	Breast fibroadenoma	19	
-HC	HC318	0	vocal_cord_polyp	Vocal cord polyp	16	
-HC	HC319	0	cushings_syndrome	Cushings syndrome	17	
-HC	HC32	0	other_renal/kidney_problem	Other renal/kidney problem	26	
-HC	HC320	0	meningitis	Meningitis	10	
-HC	HC321	0	sjogren's_syndrome/sicca_syndrome	Sjogren's syndrome/sicca syndrome	33	
-HC	HC322	0	crohns_disease	Crohns disease	14	
-HC	HC323	0	head_injury	Head injury	11	
-HC	HC324	0	obsessive_compulsive_disorder_(ocd)	Obsessive compulsive disorder (ocd)	35	
-HC	HC325	0	chronic/degenerative_neurological_problem	Chronic/degenerative neurological problem	41	
-HC	HC326	0	heart_attack/myocardial_infarction	Heart attack (MI)	17	
-HC	HC327	0	fracture_metatarsal	Fracture metatarsal	19	
-HC	HC328	0	gout	Gout	4	
-HC	HC329	0	benign_neuroma	Benign neuroma	14	
-HC	HC33	0	spinal_cord_disorder	Spinal cord disorder	20	
-HC	HC330	0	myasthenia_gravis	Myasthenia gravis	17	
-HC	HC331	0	tonsiltis	Tonsiltis	9	
-HC	HC332	0	post-traumatic_stress_disorder	Post-traumatic stress disorder	30	
-HC	HC333	0	lung_abscess	Lung abscess	12	
-HC	HC334	0	fracture_sternum	Fracture sternum	16	
+HC	HC16	178	rectal_or_colon_adenoma/polyps	Rectal or colon adenoma/polyps	30	
+HC	HC160	5	fibrocystic_disease	Fibrocystic disease	19	
+HC	HC161	175	prostatitis	Prostatitis	11	
+HC	HC162	37	brain_abscess/intracranial_abscess	Brain abscess/intracranial abscess	34	
+HC	HC163	21	scleroderma/systemic_sclerosis	Scleroderma/systemic sclerosis	30	
+HC	HC164	4401	gastro-oesophageal_reflux_(gord)_/_gastric_reflux	Gastro-oesophageal reflux (gord) / gastric reflux	49	
+HC	HC165	373	type_2_diabetes	Type 2 diabetes	15	
+HC	HC166	808	deep_venous_thrombosis_(dvt)	DVT	3	
+HC	HC167	126	raynaud's_phenomenon/disease	Raynaud's phenomenon/disease	28	
+HC	HC168	46	cervical_polyps	Cervical polyps	15	
+HC	HC169	123	pernicious_anaemia	Pernicious anaemia	18	
+HC	HC17	188	diabetic_eye_disease	Diabetic eye disease	20	
+HC	HC170	101	sarcoidosis	Sarcoidosis	11	
+HC	HC171	83	alcoholic_liver_disease_/_alcoholic_cirrhosis	Alcoholic liver disease / alcoholic cirrhosis	45	
+HC	HC172	51	gynaecological_disorder_(not_cancer)	Gynaecological disorder (not cancer)	36	
+HC	HC173	88	fracture_shaft_of_femur	Fracture shaft of femur	23	
+HC	HC174	23	haemochromatosis	Haemochromatosis	16	
+HC	HC175	3	ischaemic_stroke	Ischaemic stroke	16	
+HC	HC176	739	prolapsed_disc/slipped_disc	Prolapsed disc/slipped disc	27	
+HC	HC177	109	dupuytren's_contracture	Dupuytren's contracture	23	
+HC	HC178	336	stress	Stress	6	
+HC	HC179	977	iron_deficiency_anaemia	Iron deficiency anaemia	23	
+HC	HC18	12	pemphigoid/pemphigus	Pemphigoid/pemphigus	20	
+HC	HC180	104	thyroid_problem_(not_cancer)	Thyroid problem (not cancer)	28	
+HC	HC181	31	eye_infection	Eye infection	13	
+HC	HC182	319	osteopenia	Osteopenia	10	
+HC	HC183	5	spinal_abscess	Spinal abscess	14	
+HC	HC184	123	aortic_aneurysm_rupture	Aortic aneurysm rupture	23	
+HC	HC185	822	cellulitis	Cellulitis	10	
+HC	HC186	5	paget's_disease	Paget's disease	15	
+HC	HC187	16	chronic_laryngitis	Chronic laryngitis	18	
+HC	HC188	1754	cholelithiasis/gall_stones	Gallstones	10	
+HC	HC189	12	hyperaldosteronism/conn's_syndrome	Hyperaldosteronism/conn's syndrome	34	
+HC	HC19	1	phaeochromocytoma	Phaeochromocytoma	17	
+HC	HC190	13	scrotal_problem_(not_cancer)	Scrotal problem (not cancer)	28	
+HC	HC191	29	peripheral_nerve_injury	Peripheral nerve injury	23	
+HC	HC192	11	bowel_/_intestinal_perforation	Bowel / intestinal perforation	30	
+HC	HC193	148	heart_arrhythmia	Heart arrhythmia	16	
+HC	HC194	60	liver/biliary/pancreas_problem	Liver/biliary/pancreas problem	30	
+HC	HC195	133	ureteric_obstruction/hydronephrosis	Ureteric obstruction/hydronephrosis	35	
+HC	HC196	121	labyrinthitis	Labyrinthitis	13	
+HC	HC197	48	clotting_disorder/excessive_bleeding	Clotting disorder/excessive bleeding	36	
+HC	HC198	115	hyperparathyroidism	Hyperparathyroidism	19	
+HC	HC199	13	cervical_problem	Cervical problem	16	
+HC	HC2	18	myocarditis	Myocarditis	11	
+HC	HC20	25	cervical_erosion	Cervical erosion	16	
+HC	HC200	239	fracture_tibia	Fracture tibia	14	
+HC	HC201	330	ulcerative_colitis	Ulcerative colitis	18	
+HC	HC202	158	trapped_nerve/compressed_nerve	Trapped nerve/compressed nerve	30	
+HC	HC203	595	pulmonary_embolism_+/-_dvt	PE +/- DVT	10	
+HC	HC204	271	bursitis	Bursitis	8	
+HC	HC205	674	endometriosis	Endometriosis	13	
+HC	HC206	105	parkinsons_disease	Parkinsons disease	18	
+HC	HC207	21	soft_tissue_inflammation	Soft tissue inflammation	24	
+HC	HC208	43	parathyroid_gland_problem_(not_cancer)	Parathyroid gland problem (not cancer)	38	
+HC	HC209	246	gastric/stomach_ulcers	Gastric/stomach ulcers	22	
+HC	HC21	41	mitral_valve_disease	Mitral valve disease	20	
+HC	HC210	30	non-infective_hepatitis	Non-infective hepatitis	23	
+HC	HC211	10	dermatomyositis	Dermatomyositis	15	
+HC	HC212	31	oesophageal_disorder	Oesophageal disorder	20	
+HC	HC213	4	pericardial_problem	Pericardial problem	19	
+HC	HC214	6	empyema	Empyema	7	
+HC	HC215	11776	hypertension	Hypertension	12	
+HC	HC216	143	pneumothorax	Pneumothorax	12	
+HC	HC217	81	neck_problem/injury	Neck problem/injury	19	
+HC	HC218	32	motor_neurone_disease	Motor neurone disease	21	
+HC	HC219	2228	hypothyroidism/myxoedema	Hypothyroidism/myxoedema	24	
+HC	HC22	1123	osteoporosis	Osteoporosis	12	
+HC	HC220	38	interstitial_lung_disease	Interstitial lung disease	25	
+HC	HC221	2432	diabetes	Diabetes	8	
+HC	HC222	73	arterial_embolism	Arterial embolism	17	
+HC	HC223	179	fracture_pelvis	Fracture pelvis	15	
+HC	HC224	212	rubella_/_german_measles	Rubella / german measles	24	
+HC	HC225	1494	cholecystitis	Cholecystitis	13	
+HC	HC226	84	herpes_simplex	Herpes simplex	14	
+HC	HC227	93	erectile_dysfunction_/_impotence	Erectile dysfunction / impotence	32	
+HC	HC228	3	infection_of_nervous_system	Infection of nervous system	27	
+HC	HC229	10	chronic_skin_ulcers	Chronic skin ulcers	19	
+HC	HC23	7	fibrosing_alveolitis/unspecified_alveolitis	Fibrosing alveolitis/unspecified alveolitis	43	
+HC	HC230	90	disc_problem	Disc problem	12	
+HC	HC231	205	heart_valve_problem/heart_murmur	Heart valve problem/heart murmur	32	
+HC	HC232	152	abnormal_smear_(cervix)	Abnormal smear (cervix)	23	
+HC	HC233	120	mania/bipolar_disorder/manic_depression	Mania/bipolar disorder/manic depression	39	
+HC	HC234	183	allergy_or_anaphylactic_reaction_to_food	Allergy or anaphylactic reaction to food	40	
+HC	HC235	6	other_demyelinating_disease	Other demyelinating disease	27	
+HC	HC236	21	ovarian_problem	Ovarian problem	15	
+HC	HC237	379	back_problem	Back problem	12	
+HC	HC238	11	acromegaly	Acromegaly	10	
+HC	HC239	517	subdural_haemorrhage/haematoma	Subdural haemorrhage/haematoma	30	
+HC	HC24	55	mrsa_/_methicillin_resistant_staphylococcus_aureus	Mrsa / methicillin resistant staphylococcus aureus	50	
+HC	HC240	292	fracture_finger	Fracture finger	15	
+HC	HC241	15	cranial_nerve_problem/palsy	Cranial nerve problem/palsy	27	
+HC	HC242	44	pericarditis	Pericarditis	12	
+HC	HC243	1986	inguinal_hernia	Inguinal hernia	15	
+HC	HC244	6	carcinoid_syndrome/tumour	Carcinoid syndrome/tumour	25	
+HC	HC245	1	bile_duct_disease	Bile duct disease	17	
+HC	HC246	36	schizophrenia	Schizophrenia	13	
+HC	HC247	34	breast_disease_(not_cancer)	Breast disease (not cancer)	27	
+HC	HC248	102	allergy_to_house_dust_mite	Allergy to house dust mite	26	
+HC	HC249	21	hepatitis_c	Hepatitis c	11	
+HC	HC25	2921	cataract	Cataract	8	
+HC	HC250	32	acute_infective_polyneuritis/guillain-barre_syndrome	Acute infective polyneuritis/guillain-barre syndrome	52	
+HC	HC251	20	liver_failure/cirrhosis	Liver failure/cirrhosis	23	
+HC	HC252	30	leg_claudication/_intermittent_claudication	Leg claudication/ intermittent claudication	43	
+HC	HC253	120	meniere's_disease	Meniere's disease	17	
+HC	HC254	163	uterine_polyps	Uterine polyps	14	
+HC	HC255	97	subarachnoid_haemorrhage	Subarachnoid haemorrhage	24	
+HC	HC256	142	fracture_toe	Fracture toe	12	
+HC	HC257	109	femoral_hernia	Femoral hernia	14	
+HC	HC258	4	haemophilia	Haemophilia	11	
+HC	HC259	165	aortic_stenosis	Aortic stenosis	15	
+HC	HC26	53	iritis	Iritis	6	
+HC	HC260	176	fracture_fibula	Fracture fibula	15	
+HC	HC261	1582	eczema/dermatitis	Eczema/dermatitis	17	
+HC	HC262	520	diverticular_disease/diverticulitis	Diverticular disease/diverticulitis	35	
+HC	HC263	177	nasal/sinus_disorder	Nasal/sinus disorder	20	
+HC	HC264	45	hepatitis_a	Hepatitis a	11	
+HC	HC265	5	bowel_/_intestinal_infarction	Bowel / intestinal infarction	29	
+HC	HC266	5	other_venous/lymphatic_disease	Other venous/lymphatic disease	30	
+HC	HC267	128	tennis_elbow_/_lateral_epicondylitis	Tennis elbow / lateral epicondylitis	36	
+HC	HC268	28	varicose_ulcer	Varicose ulcer	14	
+HC	HC269	5389	high_cholesterol	High cholesterol	16	
+HC	HC27	16	gastrointestinal_bleeding	Gastrointestinal bleeding	25	
+HC	HC270	43	encephalitis	Encephalitis	12	
+HC	HC271	92	epicondylitis	Epicondylitis	13	
+HC	HC272	2	stevens_johnson_syndrome	Stevens johnson syndrome	24	
+HC	HC273	7818	essential_hypertension	Essential hypertension	22	
+HC	HC274	466	umbilical_hernia	Umbilical hernia	16	
+HC	HC275	122	gastritis/gastric_erosions	Gastritis/gastric erosions	26	
+HC	HC276	774	glaucoma	Glaucoma	8	
+HC	HC277	151	menopausal_symptoms_/_menopause	Menopausal symptoms / menopause	31	
+HC	HC278	37	cerebral_aneurysm	Cerebral aneurysm	17	
+HC	HC279	2	myeloproliferative_disorder	Myeloproliferative disorder	27	
+HC	HC28	331	bronchiectasis	Bronchiectasis	14	
+HC	HC280	71	peripheral_neuropathy	Peripheral neuropathy	21	
+HC	HC281	1563	atrial_fibrillation	Atrial fibrillation	19	
+HC	HC282	505	whooping_cough_/_pertussis	Whooping cough / pertussis	26	
+HC	HC283	368	cystitis	Cystitis	8	
+HC	HC284	157	fracture_nose	Fracture nose	13	
+HC	HC285	3736	other_joint_disorder	Other joint disorder	20	
+HC	HC286	59	plantar_fascitis	Plantar fascitis	16	
+HC	HC287	187	infectious_mononucleosis_/_glandular_fever_/_epstein_barr_virus_(ebv)	Infectious mononucleosis / glandular fever / epstein barr virus (ebv)	69	
+HC	HC288	30	alopecia_/_hair_loss	Alopecia / hair loss	20	
+HC	HC289	48	vitiligo	Vitiligo	8	
+HC	HC29	1	yellow_fever	Yellow fever	12	
+HC	HC290	342	fracture_upper_arm_/_humerus_/_elbow	Fracture upper arm / humerus / elbow	36	
+HC	HC291	69	polycystic_ovaries/polycystic_ovarian_syndrome	Polycystic ovaries/polycystic ovarian syndrome	46	
+HC	HC292	32	vasculitis	Vasculitis	10	
+HC	HC293	128	fracture_patella_/_knee	Fracture patella / knee	23	
+HC	HC294	928	renal/kidney_failure	Renal/kidney failure	20	
+HC	HC295	1070	carpal_tunnel_syndrome	Carpal tunnel syndrome	22	
+HC	HC296	70	fracture_thumb	Fracture thumb	14	
+HC	HC297	9	dengue_fever	Dengue fever	12	
+HC	HC298	723	chronic_sinusitis	Chronic sinusitis	17	
+HC	HC299	527	heart_failure/pulmonary_odema	Heart failure/pulmonary odema	29	
+HC	HC3	127	ectopic_pregnancy	Ectopic pregnancy	17	
+HC	HC30	16	aortic_regurgitation_/_incompetence	Aortic regurgitation / incompetence	35	
+HC	HC300	60	benign_/_essential_tremor	Benign / essential tremor	25	
+HC	HC301	10	asbestosis	Asbestosis	10	
+HC	HC302	393	retinal_detachment	Retinal detachment	18	
+HC	HC303	277	malabsorption/coeliac_disease	Malabsorption/coeliac disease	29	
+HC	HC304	44	burns_N/A	Burns N/A	9	
+HC	HC305	17	mitral_stenosis	Mitral stenosis	15	
+HC	HC306	111	insomnia	Insomnia	8	
+HC	HC307	138	colitis/not_crohns_or_ulcerative_colitis	Colitis/not crohns or ulcerative colitis	40	
+HC	HC308	109	hypertrophic_cardiomyopathy_(hcm_/_hocm)	Hypertrophic cardiomyopathy (hcm / hocm)	40	
+HC	HC309	36	brain_haemorrhage	Brain haemorrhage	17	
+HC	HC31	907	uterine_fibroids	Uterine fibroids	16	
+HC	HC310	5040	hiatus_hernia	Hiatus hernia	13	
+HC	HC311	710	measles_/_morbillivirus	Measles / morbillivirus	23	
+HC	HC312	17	wegners_granulmatosis	Wegners granulmatosis	21	
+HC	HC313	28	primary_biliary_cirrhosis	Primary biliary cirrhosis	25	
+HC	HC314	353	fracture_hand	Fracture hand	13	
+HC	HC315	49	fracture_neck_/_cervical_fracture	Fracture neck / cervical fracture	33	
+HC	HC316	1491	dyspepsia_/_indigestion	Dyspepsia / indigestion	23	
+HC	HC317	58	breast_fibroadenoma	Breast fibroadenoma	19	
+HC	HC318	48	vocal_cord_polyp	Vocal cord polyp	16	
+HC	HC319	10	cushings_syndrome	Cushings syndrome	17	
+HC	HC32	161	other_renal/kidney_problem	Other renal/kidney problem	26	
+HC	HC320	167	meningitis	Meningitis	10	
+HC	HC321	73	sjogren's_syndrome/sicca_syndrome	Sjogren's syndrome/sicca syndrome	33	
+HC	HC322	177	crohns_disease	Crohns disease	14	
+HC	HC323	469	head_injury	Head injury	11	
+HC	HC324	36	obsessive_compulsive_disorder_(ocd)	Obsessive compulsive disorder (ocd)	35	
+HC	HC325	9	chronic/degenerative_neurological_problem	Chronic/degenerative neurological problem	41	
+HC	HC326	1248	heart_attack/myocardial_infarction	Heart attack (MI)	17	
+HC	HC327	113	fracture_metatarsal	Fracture metatarsal	19	
+HC	HC328	791	gout	Gout	4	
+HC	HC329	49	benign_neuroma	Benign neuroma	14	
+HC	HC33	29	spinal_cord_disorder	Spinal cord disorder	20	
+HC	HC330	20	myasthenia_gravis	Myasthenia gravis	17	
+HC	HC331	1071	tonsiltis	Tonsiltis	9	
+HC	HC332	47	post-traumatic_stress_disorder	Post-traumatic stress disorder	30	
+HC	HC333	11	lung_abscess	Lung abscess	12	
+HC	HC334	215	fracture_sternum	Fracture sternum	16	
 HC	HC335	0	pancytopenia	Pancytopenia	12	
-HC	HC336	0	iga_nephropathy	Iga nephropathy	15	
-HC	HC337	0	type_1_diabetes	Type 1 diabetes	15	
-HC	HC338	0	giant_cell/temporal_arteritis	Giant cell/temporal arteritis	29	
-HC	HC339	0	fracture_lower_leg_/_ankle	Fracture lower leg / ankle	26	
-HC	HC34	0	pleurisy	Pleurisy	8	
-HC	HC340	0	menorrhagia_(unknown_cause)	Menorrhagia (unknown cause)	27	
-HC	HC341	0	fracture_face_/_orbit_/_eye_socket	Fracture face / orbit / eye socket	34	
-HC	HC342	0	prostate_problem_(not_cancer)	Prostate problem (not cancer)	29	
-HC	HC343	0	glomerulnephritis	Glomerulnephritis	17	
-HC	HC344	0	post-natal_depression	Post-natal depression	21	
-HC	HC345	0	neurological_injury/trauma	Neurological injury/trauma	26	
-HC	HC346	0	fibromyalgia	Fibromyalgia	12	
-HC	HC347	0	blistering/desquamating_skin_disorder	Blistering/desquamating skin disorder	37	
-HC	HC348	0	bell's_palsy/facial_nerve_palsy	Bell's palsy/facial nerve palsy	31	
-HC	HC349	0	bowen's_disease	Bowen's disease	15	
-HC	HC35	0	sick_sinus_syndrome	Sick sinus syndrome	19	
-HC	HC350	0	hyperprolactinaemia	Hyperprolactinaemia	19	
-HC	HC351	0	blepharitis_/_eyelid_infection	Blepharitis / eyelid infection	30	
-HC	HC352	0	systemic_lupus_erythematosis/sle	Systemic lupus erythematosis/sle	32	
-HC	HC353	0	other_neurological_problem	Other neurological problem	26	
-HC	HC354	0	kidney_nephropathy	Kidney nephropathy	18	
-HC	HC355	0	rectal_prolapse	Rectal prolapse	15	
-HC	HC356	0	retinal_artery/vein_occlusion	Retinal artery/vein occlusion	29	
-HC	HC357	0	duodenal_ulcer	Duodenal ulcer	14	
-HC	HC358	0	optic_neuritis	Optic neuritis	14	
-HC	HC359	0	adrenocortical_insufficiency/addison's_disease	Adrenocortical insufficiency/addison's disease	46	
-HC	HC36	0	pneumonia	Pneumonia	9	
-HC	HC360	0	grave's_disease	Grave's disease	15	
-HC	HC361	0	anorexia/bulimia/other_eating_disorder	Anorexia/bulimia/other eating disorder	38	
-HC	HC362	0	respiratory_infection	Respiratory infection	21	
-HC	HC363	0	fracture_clavicle_/_collar_bone	Fracture clavicle / collar bone	31	
-HC	HC364	0	sleep_apnoea	Sleep apnoea	12	
-HC	HC365	0	schistosomiasis/bilharzia	Schistosomiasis/bilharzia	25	
-HC	HC366	0	allergy/hypersensitivity/anaphylaxis	Allergy/hypersensitivity/anaphylaxis	36	
-HC	HC367	0	other_substance_abuse/dependency	Other substance abuse/dependency	32	
-HC	HC368	0	diabetes_insipidus	Diabetes insipidus	18	
-HC	HC369	0	gestational_diabetes	Gestational diabetes	20	
-HC	HC37	0	parathyroid_hyperplasia/adenoma	Parathyroid hyperplasia/adenoma	31	
-HC	HC370	0	other_respiratory_problems	Other respiratory problems	26	
-HC	HC371	0	bronchitis	Bronchitis	10	
-HC	HC372	0	uterine_problem	Uterine problem	15	
-HC	HC373	0	fracture_rib	Fracture rib	12	
-HC	HC374	0	kidney_stone/ureter_stone/bladder_stone	Kidney stone/ureter stone/bladder stone	39	
-HC	HC375	0	alcohol_dependency	Alcohol dependency	18	
-HC	HC376	0	osteoarthritis	Osteoarthritis	14	
-HC	HC377	0	oesophageal_stricture	Oesophageal stricture	21	
-HC	HC378	0	diabetic_nephropathy	Diabetic nephropathy	20	
-HC	HC379	0	infective/viral_hepatitis	Infective/viral hepatitis	25	
-HC	HC38	0	psoriasis	Psoriasis	9	
-HC	HC380	0	fracture_ulna	Fracture ulna	13	
-HC	HC381	0	venous_thromboembolic_disease	Venous thromboembolic disease	29	
-HC	HC382	0	asthma	Asthma	6	
-HC	HC383	0	bph_/_benign_prostatic_hypertrophy	Bph / benign prostatic hypertrophy	34	
-HC	HC384	0	throat_or_larynx_disorder	Throat or larynx disorder	25	
-HC	HC385	0	peripheral_vascular_disease	Peripheral vascular disease	27	
-HC	HC386	0	helicobacter_pylori	Helicobacter pylori	19	
-HC	HC387	0	polymyositis	Polymyositis	12	
-HC	HC388	0	diabetic_neuropathy/ulcers	Diabetic neuropathy/ulcers	26	
-HC	HC389	0	urticaria	Urticaria	9	
-HC	HC39	0	lichen_planus	Lichen planus	13	
-HC	HC390	0	trigemminal_neuralgia	Trigemminal neuralgia	21	
-HC	HC391	0	pyloric_stenosis	Pyloric stenosis	16	
-HC	HC392	0	pancreatitis	Pancreatitis	12	
-HC	HC393	0	allergy_to_nickel	Allergy to nickel	17	
-HC	HC394	0	mitral_regurgitation_/_incompetence	Mitral regurgitation / incompetence	35	
-HC	HC395	0	bladder_problem_(not_cancer)	Bladder problem (not cancer)	28	
-HC	HC396	0	fracture_shoulder_/_scapula	Fracture shoulder / scapula	27	
-HC	HC397	0	scarlet_fever_/_scarlatina	Scarlet fever / scarlatina	26	
-HC	HC398	0	fracture_wrist_/_colles_fracture	Fracture wrist / colles fracture	32	
-HC	HC399	0	incisional_hernia	Incisional hernia	17	
-HC	HC4	0	nephritis	Nephritis	9	
-HC	HC40	0	nervous_breakdown	Nervous breakdown	17	
-HC	HC400	0	transient_ischaemic_attack_(tia)	Transient ischaemic attack (tia)	32	
-HC	HC401	0	varicose_veins	Varicose veins	14	
-HC	HC402	0	spinal_stenosis	Spinal stenosis	15	
-HC	HC403	0	varicella_zoster_virus	Varicella zoster virus	22	
-HC	HC404	0	urinary_tract_infection/kidney_infection	Urinary tract infection/kidney infection	40	
-HC	HC405	0	vaginal_prolapse/uterine_prolapse	Vaginal prolapse/uterine prolapse	33	
-HC	HC406	0	fracture_neck_of_femur_/_hip	Fracture neck of femur / hip	28	
-HC	HC407	0	pancreatic_disease	Pancreatic disease	18	
-HC	HC408	0	polio_/_poliomyelitis	Polio / poliomyelitis	21	
-HC	HC409	0	male_infertility	Male infertility	16	
-HC	HC41	0	depression	Depression	10	
-HC	HC410	0	cervical_intra-epithelial_neoplasia_(cin)_/_precancerous_cells_cervix	Cervical intra-epithelial neoplasia (cin) / precancerous cells cervix	69	
-HC	HC411	0	thalassaemia	Thalassaemia	12	
-HC	HC412	0	tendonitis_/_tendinitis_/_tenosynovitis	Tendonitis / tendinitis / tenosynovitis	39	
-HC	HC413	0	hereditary/genetic_haematological_disorder	Genetic haematological disorder	31	
-HC	HC414	0	cardiomyopathy	Cardiomyopathy	14	
-HC	HC415	0	aortic_aneurysm	Aortic aneurysm	15	
-HC	HC416	0	retinitis_pigmentosa	Retinitis pigmentosa	20	
-HC	HC417	0	sclerosing_cholangitis	Sclerosing cholangitis	22	
-HC	HC418	0	cervical_spondylosis	Cervical spondylosis	20	
-HC	HC419	0	otosclerosis	Otosclerosis	12	
-HC	HC42	0	spontaneous_pneumothorax/recurrent_pneumothorax	Spontaneous pneumothorax/recurrent pneumothorax	47	
-HC	HC420	0	psychological/psychiatric_problem	Psychological/psychiatric problem	33	
-HC	HC421	0	other_abdominal_problem	Other abdominal problem	23	
-HC	HC422	0	ankylosing_spondylitis	Ankylosing spondylitis	22	
-HC	HC423	0	respiratory_failure	Respiratory failure	19	
-HC	HC424	0	fracture_skull_/_head	Fracture skull / head	21	
-HC	HC425	0	adrenal_tumour	Adrenal tumour	14	
-HC	HC427	0	ovarian_cyst_or_cysts	Ovarian cyst or cysts	21	
-HC	HC428	0	low_platelets/platelet_disorder	Low platelets/platelet disorder	31	
-HC	HC429	0	hiv/aids	Hiv/aids	8	
-HC	HC43	0	unclassifiable	Unclassifiable	14	
-HC	HC430	0	rheumatoid_arthritis	Rheumatoid arthritis	20	
-HC	HC431	0	emphysema	Emphysema	9	
-HC	HC432	0	mitral_valve_prolapse	Mitral valve prolapse	21	
-HC	HC433	0	lymphoedema	Lymphoedema	11	
-HC	HC434	0	macular_degeneration	Macular degeneration	20	
-HC	HC435	0	ear/vestibular_disorder	Ear/vestibular disorder	23	
-HC	HC436	0	acne/acne_vulgaris	Acne/acne vulgaris	18	
-HC	HC437	0	epilepsy	Epilepsy	8	
-HC	HC438	0	hepatitis	Hepatitis	9	
+HC	HC336	3	iga_nephropathy	Iga nephropathy	15	
+HC	HC337	39	type_1_diabetes	Type 1 diabetes	15	
+HC	HC338	35	giant_cell/temporal_arteritis	Giant cell/temporal arteritis	29	
+HC	HC339	860	fracture_lower_leg_/_ankle	Fracture lower leg / ankle	26	
+HC	HC34	211	pleurisy	Pleurisy	8	
+HC	HC340	429	menorrhagia_(unknown_cause)	Menorrhagia (unknown cause)	27	
+HC	HC341	40	fracture_face_/_orbit_/_eye_socket	Fracture face / orbit / eye socket	34	
+HC	HC342	51	prostate_problem_(not_cancer)	Prostate problem (not cancer)	29	
+HC	HC343	18	glomerulnephritis	Glomerulnephritis	17	
+HC	HC344	119	post-natal_depression	Post-natal depression	21	
+HC	HC345	7	neurological_injury/trauma	Neurological injury/trauma	26	
+HC	HC346	242	fibromyalgia	Fibromyalgia	12	
+HC	HC347	49	blistering/desquamating_skin_disorder	Blistering/desquamating skin disorder	37	
+HC	HC348	46	bell's_palsy/facial_nerve_palsy	Bell's palsy/facial nerve palsy	31	
+HC	HC349	18	bowen's_disease	Bowen's disease	15	
+HC	HC35	38	sick_sinus_syndrome	Sick sinus syndrome	19	
+HC	HC350	9	hyperprolactinaemia	Hyperprolactinaemia	19	
+HC	HC351	82	blepharitis_/_eyelid_infection	Blepharitis / eyelid infection	30	
+HC	HC352	57	systemic_lupus_erythematosis/sle	Systemic lupus erythematosis/sle	32	
+HC	HC353	90	other_neurological_problem	Other neurological problem	26	
+HC	HC354	17	kidney_nephropathy	Kidney nephropathy	18	
+HC	HC355	126	rectal_prolapse	Rectal prolapse	15	
+HC	HC356	46	retinal_artery/vein_occlusion	Retinal artery/vein occlusion	29	
+HC	HC357	397	duodenal_ulcer	Duodenal ulcer	14	
+HC	HC358	28	optic_neuritis	Optic neuritis	14	
+HC	HC359	21	adrenocortical_insufficiency/addison's_disease	Adrenocortical insufficiency/addison's disease	46	
+HC	HC36	1638	pneumonia	Pneumonia	9	
+HC	HC360	24	grave's_disease	Grave's disease	15	
+HC	HC361	105	anorexia/bulimia/other_eating_disorder	Anorexia/bulimia/other eating disorder	38	
+HC	HC362	1309	respiratory_infection	Respiratory infection	21	
+HC	HC363	168	fracture_clavicle_/_collar_bone	Fracture clavicle / collar bone	31	
+HC	HC364	546	sleep_apnoea	Sleep apnoea	12	
+HC	HC365	4	schistosomiasis/bilharzia	Schistosomiasis/bilharzia	25	
+HC	HC366	282	allergy/hypersensitivity/anaphylaxis	Allergy/hypersensitivity/anaphylaxis	36	
+HC	HC367	1	other_substance_abuse/dependency	Other substance abuse/dependency	32	
+HC	HC368	7	diabetes_insipidus	Diabetes insipidus	18	
+HC	HC369	29	gestational_diabetes	Gestational diabetes	20	
+HC	HC37	15	parathyroid_hyperplasia/adenoma	Parathyroid hyperplasia/adenoma	31	
+HC	HC370	52	other_respiratory_problems	Other respiratory problems	26	
+HC	HC371	829	bronchitis	Bronchitis	10	
+HC	HC372	12	uterine_problem	Uterine problem	15	
+HC	HC373	192	fracture_rib	Fracture rib	12	
+HC	HC374	358	kidney_stone/ureter_stone/bladder_stone	Kidney stone/ureter stone/bladder stone	39	
+HC	HC375	45	alcohol_dependency	Alcohol dependency	18	
+HC	HC376	2987	osteoarthritis	Osteoarthritis	14	
+HC	HC377	13	oesophageal_stricture	Oesophageal stricture	21	
+HC	HC378	2	diabetic_nephropathy	Diabetic nephropathy	20	
+HC	HC379	51	infective/viral_hepatitis	Infective/viral hepatitis	25	
+HC	HC38	626	psoriasis	Psoriasis	9	
+HC	HC380	175	fracture_ulna	Fracture ulna	13	
+HC	HC381	5	venous_thromboembolic_disease	Venous thromboembolic disease	29	
+HC	HC382	5547	asthma	Asthma	6	
+HC	HC383	279	bph_/_benign_prostatic_hypertrophy	Bph / benign prostatic hypertrophy	34	
+HC	HC384	49	throat_or_larynx_disorder	Throat or larynx disorder	25	
+HC	HC385	346	peripheral_vascular_disease	Peripheral vascular disease	27	
+HC	HC386	215	helicobacter_pylori	Helicobacter pylori	19	
+HC	HC387	10	polymyositis	Polymyositis	12	
+HC	HC388	9	diabetic_neuropathy/ulcers	Diabetic neuropathy/ulcers	26	
+HC	HC389	199	urticaria	Urticaria	9	
+HC	HC39	123	lichen_planus	Lichen planus	13	
+HC	HC390	85	trigemminal_neuralgia	Trigemminal neuralgia	21	
+HC	HC391	35	pyloric_stenosis	Pyloric stenosis	16	
+HC	HC392	230	pancreatitis	Pancreatitis	12	
+HC	HC393	28	allergy_to_nickel	Allergy to nickel	17	
+HC	HC394	32	mitral_regurgitation_/_incompetence	Mitral regurgitation / incompetence	35	
+HC	HC395	233	bladder_problem_(not_cancer)	Bladder problem (not cancer)	28	
+HC	HC396	263	fracture_shoulder_/_scapula	Fracture shoulder / scapula	27	
+HC	HC397	179	scarlet_fever_/_scarlatina	Scarlet fever / scarlatina	26	
+HC	HC398	365	fracture_wrist_/_colles_fracture	Fracture wrist / colles fracture	32	
+HC	HC399	20	incisional_hernia	Incisional hernia	17	
+HC	HC4	160	nephritis	Nephritis	9	
+HC	HC40	73	nervous_breakdown	Nervous breakdown	17	
+HC	HC400	389	transient_ischaemic_attack_(tia)	Transient ischaemic attack (tia)	32	
+HC	HC401	1460	varicose_veins	Varicose veins	14	
+HC	HC402	391	spinal_stenosis	Spinal stenosis	15	
+HC	HC403	2	varicella_zoster_virus	Varicella zoster virus	22	
+HC	HC404	1370	urinary_tract_infection/kidney_infection	Urinary tract infection/kidney infection	40	
+HC	HC405	378	vaginal_prolapse/uterine_prolapse	Vaginal prolapse/uterine prolapse	33	
+HC	HC406	278	fracture_neck_of_femur_/_hip	Fracture neck of femur / hip	28	
+HC	HC407	5	pancreatic_disease	Pancreatic disease	18	
+HC	HC408	76	polio_/_poliomyelitis	Polio / poliomyelitis	21	
+HC	HC409	6	male_infertility	Male infertility	16	
+HC	HC41	2900	depression	Depression	10	
+HC	HC410	85	cervical_intra-epithelial_neoplasia_(cin)_/_precancerous_cells_cervix	Cervical intra-epithelial neoplasia (cin) / precancerous cells cervix	69	
+HC	HC411	5	thalassaemia	Thalassaemia	12	
+HC	HC412	125	tendonitis_/_tendinitis_/_tenosynovitis	Tendonitis / tendinitis / tenosynovitis	39	
+HC	HC413	26	hereditary/genetic_haematological_disorder	Genetic haematological disorder	31	
+HC	HC414	139	cardiomyopathy	Cardiomyopathy	14	
+HC	HC415	139	aortic_aneurysm	Aortic aneurysm	15	
+HC	HC416	5	retinitis_pigmentosa	Retinitis pigmentosa	20	
+HC	HC417	54	sclerosing_cholangitis	Sclerosing cholangitis	22	
+HC	HC418	514	cervical_spondylosis	Cervical spondylosis	20	
+HC	HC419	35	otosclerosis	Otosclerosis	12	
+HC	HC42	125	spontaneous_pneumothorax/recurrent_pneumothorax	Spontaneous pneumothorax/recurrent pneumothorax	47	
+HC	HC420	25	psychological/psychiatric_problem	Psychological/psychiatric problem	33	
+HC	HC421	36	other_abdominal_problem	Other abdominal problem	23	
+HC	HC422	108	ankylosing_spondylitis	Ankylosing spondylitis	22	
+HC	HC423	262	respiratory_failure	Respiratory failure	19	
+HC	HC424	260	fracture_skull_/_head	Fracture skull / head	21	
+HC	HC425	4	adrenal_tumour	Adrenal tumour	14	
+HC	HC427	407	ovarian_cyst_or_cysts	Ovarian cyst or cysts	21	
+HC	HC428	30	low_platelets/platelet_disorder	Low platelets/platelet disorder	31	
+HC	HC429	45	hiv/aids	Hiv/aids	8	
+HC	HC43	1319	unclassifiable	Unclassifiable	14	
+HC	HC430	638	rheumatoid_arthritis	Rheumatoid arthritis	20	
+HC	HC431	209	emphysema	Emphysema	9	
+HC	HC432	70	mitral_valve_prolapse	Mitral valve prolapse	21	
+HC	HC433	96	lymphoedema	Lymphoedema	11	
+HC	HC434	105	macular_degeneration	Macular degeneration	20	
+HC	HC435	267	ear/vestibular_disorder	Ear/vestibular disorder	23	
+HC	HC436	97	acne/acne_vulgaris	Acne/acne vulgaris	18	
+HC	HC437	432	epilepsy	Epilepsy	8	
+HC	HC438	140	hepatitis	Hepatitis	9	
 HC	HC439	0	hepatitis_e	Hepatitis e	11	
-HC	HC44	0	bile_duct_obstruction/ascending_cholangitis	Bile duct obstruction/ascending cholangitis	43	
-HC	HC440	0	atrial_flutter	Atrial flutter	14	
-HC	HC441	0	hypopituitarism	Hypopituitarism	15	
-HC	HC442	0	chronic_obstructive_airways_disease/copd	Chronic obstructive airways disease/copd	40	
-HC	HC443	0	headaches_(not_migraine)	Headaches (not migraine)	24	
-HC	HC444	0	fracture_jaw	Fracture jaw	12	
-HC	HC445	0	oesophageal_varicies	Oesophageal varicies	20	
+HC	HC44	122	bile_duct_obstruction/ascending_cholangitis	Bile duct obstruction/ascending cholangitis	43	
+HC	HC440	1490	atrial_flutter	Atrial flutter	14	
+HC	HC441	41	hypopituitarism	Hypopituitarism	15	
+HC	HC442	1015	chronic_obstructive_airways_disease/copd	Chronic obstructive airways disease/copd	40	
+HC	HC443	263	headaches_(not_migraine)	Headaches (not migraine)	24	
+HC	HC444	58	fracture_jaw	Fracture jaw	12	
+HC	HC445	43	oesophageal_varicies	Oesophageal varicies	20	
 HC	HC447	1	TTE_cholera	TTE cholera	11	
 HC	HC448	12	TTE_typhoid_and_paratyphoid_fevers	TTE typhoid and paratyphoid fevers	34	
 HC	HC449	71	TTE_other_salmonella_infections	TTE other salmonella infections	31	
-HC	HC45	0	mumps_/_epidemic_parotitis	Mumps / epidemic parotitis	26	
+HC	HC45	396	mumps_/_epidemic_parotitis	Mumps / epidemic parotitis	26	
 HC	HC450	24	TTE_shigellosis	TTE shigellosis	15	
 HC	HC451	499	TTE_other_bacterial_intestinal_infections	TTE other bacterial intestinal infections	41	
 HC	HC452	40	TTE_other_bacterial_foodborne_intoxications	TTE other bacterial foodborne intoxications	43	
@@ -1838,7 +1838,7 @@ HC	HC456	1095	TTE_diarrhoea_and_gastro-enteritis_of_presumed_infectious_origin	T
 HC	HC457	152	TTE_respiratory_tuberculosis,_bacteriologically_and_histologically_confirmed	TTE respiratory tuberculosis, bacteriologically and histologically confirmed	76	
 HC	HC458	16	TTE_respiratory_tuberculosis,_not_confirmed_bacteriologically_or_histologically	TTE respiratory tuberculosis, not confirmed bacteriologically or histologically	79	
 HC	HC459	0	TTE_tuberculosis_of_nervous_system	TTE tuberculosis of nervous system	34	
-HC	HC46	0	renal_failure_requiring_dialysis	Renal failure requiring dialysis	32	
+HC	HC46	22	renal_failure_requiring_dialysis	Renal failure requiring dialysis	32	
 HC	HC460	8	TTE_tuberculosis_of_other_organs	TTE tuberculosis of other organs	32	
 HC	HC461	0	TTE_miliary_tuberculosis	TTE miliary tuberculosis	24	
 HC	HC462	0	TTE_plague	TTE plague	10	
@@ -1849,7 +1849,7 @@ HC	HC466	0	TTE_rat-bite_fevers	TTE rat-bite fevers	19
 HC	HC467	0	TTE_erysipeloid	TTE erysipeloid	15	
 HC	HC468	2	TTE_leptospirosis	TTE leptospirosis	17	
 HC	HC469	2	TTE_other_zoonotic_bacterial_diseases,_not_elsewhere_classified	TTE other zoonotic bacterial diseases, not elsewhere classified	63	
-HC	HC47	0	malaria	Malaria	7	
+HC	HC47	53	malaria	Malaria	7	
 HC	HC470	0	TTE_leprosy_[hansen's_disease]	TTE leprosy [hansen's disease]	30	
 HC	HC471	10	TTE_infection_due_to_other_mycobacteria	TTE infection due to other mycobacteria	39	
 HC	HC472	1	TTE_listeriosis	TTE listeriosis	15	
@@ -1860,7 +1860,7 @@ HC	HC476	248	TTE_whooping_cough	TTE whooping cough	18
 HC	HC477	183	TTE_scarlet_fever	TTE scarlet fever	17	
 HC	HC478	10	TTE_meningococcal_infection	TTE meningococcal infection	27	
 HC	HC479	26	TTE_streptococcal_septicaemia	TTE streptococcal septicaemia	29	
-HC	HC48	0	aplastic_anaemia	Aplastic anaemia	16	
+HC	HC48	53	aplastic_anaemia	Aplastic anaemia	16	
 HC	HC480	477	TTE_other_septicaemia	TTE other septicaemia	21	
 HC	HC481	16	TTE_actinomycosis	TTE actinomycosis	17	
 HC	HC482	2	TTE_nocardiosis	TTE nocardiosis	15	
@@ -1871,7 +1871,7 @@ HC	HC486	104	TTE_bacterial_infection_of_unspecified_site	TTE bacterial infection
 HC	HC487	1	TTE_congenital_syphilis	TTE congenital syphilis	23	
 HC	HC488	1	TTE_early_syphilis	TTE early syphilis	18	
 HC	HC489	0	TTE_late_syphilis	TTE late syphilis	17	
-HC	HC49	0	hayfever/allergic_rhinitis	Hayfever/allergic rhinitis	26	
+HC	HC49	2666	hayfever/allergic_rhinitis	Hayfever/allergic rhinitis	26	
 HC	HC490	1	TTE_other_and_unspecified_syphilis	TTE other and unspecified syphilis	34	
 HC	HC491	18	TTE_gonococcal_infection	TTE gonococcal infection	24	
 HC	HC492	0	TTE_chlamydial_lymphogranuloma_(venereum)	TTE chlamydial lymphogranuloma (venereum)	41	
@@ -1882,8 +1882,8 @@ HC	HC496	29	TTE_anogenital_herpesviral_[herpes_simplex]_infections	TTE anogenita
 HC	HC497	184	TTE_other_predominantly_sexually_transmitted_diseases,_not_elsewhere_classified	TTE other predominantly sexually transmitted diseases, not elsewhere classified	79	
 HC	HC498	0	TTE_unspecified_sexually_transmitted_disease	TTE unspecified sexually transmitted disease	44	
 HC	HC499	2	TTE_yaws	TTE yaws	8	
-HC	HC5	0	myositis/myopathy	Myositis/myopathy	17	
-HC	HC50	0	chlamydia	Chlamydia	9	
+HC	HC5	38	myositis/myopathy	Myositis/myopathy	17	
+HC	HC50	2	chlamydia	Chlamydia	9	
 HC	HC500	1	TTE_pinta_[carate]	TTE pinta [carate]	18	
 HC	HC501	0	TTE_relapsing_fevers	TTE relapsing fevers	20	
 HC	HC502	16	TTE_other_spirochaetal_infections	TTE other spirochaetal infections	33	
@@ -1894,7 +1894,7 @@ HC	HC506	0	TTE_typhus_fever	TTE typhus fever	16
 HC	HC507	3	TTE_spotted_fever_[tick-borne_rickettsioses]	TTE spotted fever [tick-borne rickettsioses]	44	
 HC	HC508	2	TTE_q_fever	TTE q fever	11	
 HC	HC509	0	TTE_other_rickettsioses	TTE other rickettsioses	23	
-HC	HC51	0	paraplegia	Paraplegia	10	
+HC	HC51	27	paraplegia	Paraplegia	10	
 HC	HC510	74	TTE_acute_poliomyelitis	TTE acute poliomyelitis	23	
 HC	HC511	6	TTE_atypical_virus_infections_of_central_nervous_system	TTE atypical virus infections of central nervous system	55	
 HC	HC512	2	TTE_rabies	TTE rabies	10	
@@ -1905,7 +1905,7 @@ HC	HC516	9	TTE_unspecified_viral_encephalitis	TTE unspecified viral encephalitis
 HC	HC517	37	TTE_viral_meningitis	TTE viral meningitis	20	
 HC	HC518	4	TTE_other_viral_infections_of_central_nervous_system,_not_elsewhere_classified	TTE other viral infections of central nervous system, not elsewhere classified	78	
 HC	HC519	5	TTE_unspecified_viral_infection_of_central_nervous_system	TTE unspecified viral infection of central nervous system	57	
-HC	HC52	0	aortic_dissection	Aortic dissection	17	
+HC	HC52	130	aortic_dissection	Aortic dissection	17	
 HC	HC520	1	TTE_dengue_fever_[classical_dengue]	TTE dengue fever [classical dengue]	35	
 HC	HC521	0	TTE_dengue_haemorrhagic_fever	TTE dengue haemorrhagic fever	29	
 HC	HC522	1	TTE_other_mosquito-borne_viral_fevers	TTE other mosquito-borne viral fevers	37	
@@ -1916,7 +1916,7 @@ HC	HC526	3	TTE_dengue	TTE dengue	10
 HC	HC527	0	TTE_other_viral_haemorrhagic_fevers,_not_elsewhere_classified	TTE other viral haemorrhagic fevers, not elsewhere classified	61	
 HC	HC528	366	TTE_herpesviral_[herpes_simplex]_infections	TTE herpesviral [herpes simplex] infections	43	
 HC	HC529	1186	TTE_varicella_[chickenpox]	TTE varicella [chickenpox]	26	
-HC	HC53	0	spinal_injury	Spinal injury	13	
+HC	HC53	69	spinal_injury	Spinal injury	13	
 HC	HC530	1312	TTE_zoster_[herpes_zoster]	TTE zoster [herpes zoster]	26	
 HC	HC531	2	TTE_smallpox	TTE smallpox	12	
 HC	HC532	871	TTE_measles	TTE measles	11	
@@ -1927,7 +1927,7 @@ HC	HC536	1	TTE_unspecified_viral_infection_characterised_by_skin_and_mucous_memb
 HC	HC537	90	TTE_acute_hepatitis_a	TTE acute hepatitis a	21	
 HC	HC538	9	TTE_acute_hepatitis_b	TTE acute hepatitis b	21	
 HC	HC539	10	TTE_other_acute_viral_hepatitis	TTE other acute viral hepatitis	31	
-HC	HC54	0	peptic_ulcer	Peptic ulcer	12	
+HC	HC54	61	peptic_ulcer	Peptic ulcer	12	
 HC	HC540	28	TTE_chronic_viral_hepatitis	TTE chronic viral hepatitis	27	
 HC	HC541	56	TTE_unspecified_viral_hepatitis	TTE unspecified viral hepatitis	31	
 HC	HC542	6	TTE_human_immunodeficiency_virus_[hiv]_disease_resulting_in_infectious_and_parasitic_diseases	TTE human immunodeficiency virus [hiv] disease resulting in infectious and parasitic diseases	93	
@@ -1938,7 +1938,7 @@ HC	HC546	45	TTE_unspecified_human_immunodeficiency_virus_[hiv]_disease	TTE unspe
 HC	HC547	10	TTE_cytomegaloviral_disease	TTE cytomegaloviral disease	27	
 HC	HC548	506	TTE_mumps	TTE mumps	9	
 HC	HC549	364	TTE_infectious_mononucleosis	TTE infectious mononucleosis	28	
-HC	HC55	0	hyperthyroidism/thyrotoxicosis	Hyperthyroidism/thyrotoxicosis	30	
+HC	HC55	389	hyperthyroidism/thyrotoxicosis	Hyperthyroidism/thyrotoxicosis	30	
 HC	HC550	12	TTE_viral_conjunctivitis	TTE viral conjunctivitis	24	
 HC	HC551	12	TTE_other_viral_diseases,_not_elsewhere_classified	TTE other viral diseases, not elsewhere classified	50	
 HC	HC552	903	TTE_viral_infection_of_unspecified_site	TTE viral infection of unspecified site	39	
@@ -1949,7 +1949,7 @@ HC	HC556	0	TTE_coccidioidomycosis	TTE coccidioidomycosis	22
 HC	HC557	0	TTE_histoplasmosis	TTE histoplasmosis	18	
 HC	HC558	0	TTE_blastomycosis	TTE blastomycosis	17	
 HC	HC559	0	TTE_sporotrichosis	TTE sporotrichosis	18	
-HC	HC56	0	monoclonal_gammopathy/not_myeloma	Monoclonal gammopathy/not myeloma	33	
+HC	HC56	42	monoclonal_gammopathy/not_myeloma	Monoclonal gammopathy/not myeloma	33	
 HC	HC560	0	TTE_chromomycosis_and_phaeomycotic_abscess	TTE chromomycosis and phaeomycotic abscess	42	
 HC	HC561	48	TTE_aspergillosis	TTE aspergillosis	17	
 HC	HC562	0	TTE_cryptococcosis	TTE cryptococcosis	18	
@@ -1960,7 +1960,7 @@ HC	HC566	52	TTE_unspecified_mycosis	TTE unspecified mycosis	23
 HC	HC567	5	TTE_plasmodium_falciparum_malaria	TTE plasmodium falciparum malaria	33	
 HC	HC568	1	TTE_plasmodium_vivax_malaria	TTE plasmodium vivax malaria	28	
 HC	HC569	0	TTE_plasmodium_malariae_malaria	TTE plasmodium malariae malaria	31	
-HC	HC57	0	fracture_radius	Fracture radius	15	
+HC	HC57	493	fracture_radius	Fracture radius	15	
 HC	HC570	0	TTE_other_parasitologically_confirmed_malaria	TTE other parasitologically confirmed malaria	45	
 HC	HC571	56	TTE_unspecified_malaria	TTE unspecified malaria	23	
 HC	HC572	0	TTE_leishmaniasis	TTE leishmaniasis	17	
@@ -1971,7 +1971,7 @@ HC	HC576	0	TTE_other_protozoal_diseases,_not_elsewhere_classified	TTE other prot
 HC	HC577	17	TTE_schistosomiasis_[bilharziasis]	TTE schistosomiasis [bilharziasis]	34	
 HC	HC578	0	TTE_other_fluke_infections	TTE other fluke infections	26	
 HC	HC579	0	TTE_echinococcosis	TTE echinococcosis	18	
-HC	HC58	0	benign_breast_lump	Benign breast lump	18	
+HC	HC58	531	benign_breast_lump	Benign breast lump	18	
 HC	HC580	1	TTE_taeniasis	TTE taeniasis	13	
 HC	HC581	2	TTE_cysticercosis	TTE cysticercosis	17	
 HC	HC582	0	TTE_other_cestode_infections	TTE other cestode infections	28	
@@ -1982,7 +1982,7 @@ HC	HC586	3	TTE_hookworm_diseases	TTE hookworm diseases	21
 HC	HC587	2	TTE_ascariasis	TTE ascariasis	14	
 HC	HC588	0	TTE_strongyloidiasis	TTE strongyloidiasis	20	
 HC	HC589	0	TTE_trichuriasis	TTE trichuriasis	16	
-HC	HC59	0	thyroiditis	Thyroiditis	11	
+HC	HC59	53	thyroiditis	Thyroiditis	11	
 HC	HC590	57	TTE_enterobiasis	TTE enterobiasis	16	
 HC	HC591	0	TTE_other_intestinal_helminthiases,_not_elsewhere_classified	TTE other intestinal helminthiases, not elsewhere classified	60	
 HC	HC592	8	TTE_unspecified_intestinal_parasitism	TTE unspecified intestinal parasitism	37	
@@ -1993,8 +1993,8 @@ HC	HC596	1	TTE_myiasis	TTE myiasis	11
 HC	HC597	26	TTE_other_infestations	TTE other infestations	22	
 HC	HC598	0	TTE_unspecified_parasitic_disease	TTE unspecified parasitic disease	33	
 HC	HC599	3	TTE_sequelae_of_tuberculosis	TTE sequelae of tuberculosis	28	
-HC	HC6	0	eye/eyelid_problem	Eye/eyelid problem	18	
-HC	HC60	0	oesophagitis/barretts_oesophagus	Oesophagitis/barretts oesophagus	32	
+HC	HC6	244	eye/eyelid_problem	Eye/eyelid problem	18	
+HC	HC60	1194	oesophagitis/barretts_oesophagus	Oesophagitis/barretts oesophagus	32	
 HC	HC600	11	TTE_sequelae_of_poliomyelitis	TTE sequelae of poliomyelitis	29	
 HC	HC601	2	TTE_sequelae_of_other_and_unspecified_infectious_and_parasitic_diseases	TTE sequelae of other and unspecified infectious and parasitic diseases	71	
 HC	HC602	388	TTE_streptococcus_and_staphylococcus_as_the_cause_of_diseases_classified_to_other_chapters	TTE streptococcus and staphylococcus as the cause of diseases classified to other chapters	90	
@@ -2005,7 +2005,7 @@ HC	HC606	40	TTE_other_and_unspecified_infectious_diseases	TTE other and unspecif
 HC	HC607	1464	TTE_iron_deficiency_anaemia	TTE iron deficiency anaemia	27	
 HC	HC608	219	TTE_vitamin_b12_deficiency_anaemia	TTE vitamin b12 deficiency anaemia	34	
 HC	HC609	29	TTE_folate_deficiency_anaemia	TTE folate deficiency anaemia	29	
-HC	HC61	0	haemorrhoids_/_piles	Haemorrhoids / piles	20	
+HC	HC61	2321	haemorrhoids_/_piles	Haemorrhoids / piles	20	
 HC	HC610	10	TTE_other_nutritional_anaemias	TTE other nutritional anaemias	30	
 HC	HC611	0	TTE_anaemia_due_to_enzyme_disorders	TTE anaemia due to enzyme disorders	35	
 HC	HC612	5	TTE_thalassaemia	TTE thalassaemia	16	
@@ -2016,7 +2016,7 @@ HC	HC616	0	TTE_acquired_pure_red_cell_aplasia_[erythroblastopenia]	TTE acquired 
 HC	HC617	63	TTE_other_aplastic_anaemias	TTE other aplastic anaemias	27	
 HC	HC618	22	TTE_acute_posthaemorrhagic_anaemia	TTE acute posthaemorrhagic anaemia	34	
 HC	HC619	57	TTE_anaemia_in_chronic_diseases_classified_elsewhere	TTE anaemia in chronic diseases classified elsewhere	52	
-HC	HC62	0	tuberculosis_(tb)	Tuberculosis (tb)	17	
+HC	HC62	165	tuberculosis_(tb)	Tuberculosis (tb)	17	
 HC	HC620	1628	TTE_other_anaemias	TTE other anaemias	18	
 HC	HC621	4	TTE_disseminated_intravascular_coagulation_[defibrination_syndrome]	TTE disseminated intravascular coagulation [defibrination syndrome]	67	
 HC	HC622	9	TTE_hereditary_factor_viii_deficiency	TTE hereditary factor viii deficiency	37	
@@ -2027,7 +2027,7 @@ HC	HC626	340	TTE_agranulocytosis	TTE agranulocytosis	19
 HC	HC627	2	TTE_functional_disorders_of_polymorphonuclear_neutrophils	TTE functional disorders of polymorphonuclear neutrophils	57	
 HC	HC628	64	TTE_other_disorders_of_white_blood_cells	TTE other disorders of white blood cells	40	
 HC	HC629	39	TTE_diseases_of_spleen	TTE diseases of spleen	22	
-HC	HC63	0	pituitary_adenoma/tumour	Pituitary adenoma/tumour	24	
+HC	HC63	27	pituitary_adenoma/tumour	Pituitary adenoma/tumour	24	
 HC	HC630	0	TTE_methaemoglobinaemia	TTE methaemoglobinaemia	23	
 HC	HC631	168	TTE_other_diseases_of_blood_and_blood-forming_organs	TTE other diseases of blood and blood-forming organs	52	
 HC	HC632	8	TTE_certain_diseases_involving_lymphoreticular_tissue_and_reticulohistiocytic_system	TTE certain diseases involving lymphoreticular tissue and reticulohistiocytic system	84	
@@ -2038,7 +2038,7 @@ HC	HC636	4	TTE_immunodeficiency_associated_with_other_major_defects	TTE immunode
 HC	HC637	6	TTE_common_variable_immunodeficiency	TTE common variable immunodeficiency	36	
 HC	HC638	12	TTE_other_immunodeficiencies	TTE other immunodeficiencies	28	
 HC	HC639	129	TTE_sarcoidosis	TTE sarcoidosis	15	
-HC	HC64	0	irritable_bowel_syndrome	Irritable bowel syndrome	24	
+HC	HC64	1510	irritable_bowel_syndrome	Irritable bowel syndrome	24	
 HC	HC640	44	TTE_other_disorders_involving_the_immune_mechanism,_not_elsewhere_classified	TTE other disorders involving the immune mechanism, not elsewhere classified	76	
 HC	HC641	7	TTE_iodine-deficiency-related_thyroid_disorders_and_allied_conditions	TTE iodine-deficiency-related thyroid disorders and allied conditions	69	
 HC	HC642	7	TTE_subclinical_iodine-deficiency_hypothyroidism	TTE subclinical iodine-deficiency hypothyroidism	48	
@@ -2060,7 +2060,7 @@ HC	HC656	136	TTE_hyperparathyroidism_and_other_disorders_of_parathyroid_gland	TT
 HC	HC657	49	TTE_hyperfunction_of_pituitary_gland	TTE hyperfunction of pituitary gland	36	
 HC	HC658	75	TTE_hypofunction_and_other_disorders_of_pituitary_gland	TTE hypofunction and other disorders of pituitary gland	55	
 HC	HC659	11	TTE_cushing's_syndrome	TTE cushing's syndrome	22	
-HC	HC66	0	myelofibrosis	Myelofibrosis	13	
+HC	HC66	9	myelofibrosis	Myelofibrosis	13	
 HC	HC660	3	TTE_adrenogenital_disorders	TTE adrenogenital disorders	27	
 HC	HC661	13	TTE_hyperaldosteronism	TTE hyperaldosteronism	22	
 HC	HC662	71	TTE_other_disorders_of_adrenal_gland	TTE other disorders of adrenal gland	36	
@@ -2071,7 +2071,7 @@ HC	HC666	0	TTE_polyglandular_dysfunction	TTE polyglandular dysfunction	29
 HC	HC667	0	TTE_diseases_of_thymus	TTE diseases of thymus	22	
 HC	HC668	30	TTE_other_endocrine_disorders	TTE other endocrine disorders	29	
 HC	HC669	0	TTE_disorders_of_endocrine_glands_in_diseases_classified_elsewhere	TTE disorders of endocrine glands in diseases classified elsewhere	66	
-HC	HC67	0	hepatitis_b	Hepatitis b	11	
+HC	HC67	20	hepatitis_b	Hepatitis b	11	
 HC	HC670	0	TTE_nutritional_marasmus	TTE nutritional marasmus	24	
 HC	HC671	1	TTE_unspecified_severe_protein-energy_malnutrition	TTE unspecified severe protein-energy malnutrition	50	
 HC	HC672	0	TTE_protein-energy_malnutrition_of_moderate_and_mild_degree	TTE protein-energy malnutrition of moderate and mild degree	59	
@@ -2082,7 +2082,7 @@ HC	HC676	1	TTE_thiamine_deficiency	TTE thiamine deficiency	23
 HC	HC677	0	TTE_niacin_deficiency_[pellagra]	TTE niacin deficiency [pellagra]	32	
 HC	HC678	125	TTE_deficiency_of_other_b_group_vitamins	TTE deficiency of other b group vitamins	40	
 HC	HC679	2	TTE_ascorbic_acid_deficiency	TTE ascorbic acid deficiency	28	
-HC	HC68	0	disorder_of_adrenal_gland	Disorder of adrenal gland	25	
+HC	HC68	92	disorder_of_adrenal_gland	Disorder of adrenal gland	25	
 HC	HC680	141	TTE_vitamin_d_deficiency	TTE vitamin d deficiency	24	
 HC	HC681	22	TTE_other_vitamin_deficiencies	TTE other vitamin deficiencies	30	
 HC	HC682	0	TTE_dietary_calcium_deficiency	TTE dietary calcium deficiency	30	
@@ -2093,7 +2093,7 @@ HC	HC686	1	TTE_other_nutritional_deficiencies	TTE other nutritional deficiencies
 HC	HC687	0	TTE_sequelae_of_malnutrition_and_other_nutritional_deficiencies	TTE sequelae of malnutrition and other nutritional deficiencies	63	
 HC	HC688	17	TTE_localised_adiposity	TTE localised adiposity	23	
 HC	HC689	2453	TTE_obesity	TTE obesity	11	
-HC	HC69	0	polycythaemia_vera	Polycythaemia vera	18	
+HC	HC69	50	polycythaemia_vera	Polycythaemia vera	18	
 HC	HC690	1	TTE_other_hyperalimentation	TTE other hyperalimentation	27	
 HC	HC691	0	TTE_sequelae_of_hyperalimentation	TTE sequelae of hyperalimentation	33	
 HC	HC692	5	TTE_disorders_of_aromatic_amino-acid_metabolism	TTE disorders of aromatic amino-acid metabolism	47	
@@ -2104,8 +2104,8 @@ HC	HC696	23	TTE_other_disorders_of_carbohydrate_metabolism	TTE other disorders o
 HC	HC697	7	TTE_disorders_of_sphingolipid_metabolism_and_other_lipid_storage_disorders	TTE disorders of sphingolipid metabolism and other lipid storage disorders	74	
 HC	HC698	1	TTE_disorders_of_glycosaminoglycan_metabolism	TTE disorders of glycosaminoglycan metabolism	45	
 HC	HC699	1	TTE_disorders_of_glycoprotein_metabolism	TTE disorders of glycoprotein metabolism	40	
-HC	HC7	0	back_pain	Back pain	9	
-HC	HC70	0	aortic_valve_disease	Aortic valve disease	20	
+HC	HC7	1458	back_pain	Back pain	9	
+HC	HC70	10	aortic_valve_disease	Aortic valve disease	20	
 HC	HC700	7777	TTE_disorders_of_lipoprotein_metabolism_and_other_lipidaemias	TTE disorders of lipoprotein metabolism and other lipidaemias	61	
 HC	HC701	53	TTE_disorders_of_purine_and_pyrimidine_metabolism	TTE disorders of purine and pyrimidine metabolism	49	
 HC	HC702	123	TTE_disorders_of_porphyrin_and_bilirubin_metabolism	TTE disorders of porphyrin and bilirubin metabolism	51	
@@ -2116,7 +2116,7 @@ HC	HC706	305	TTE_volume_depletion	TTE volume depletion	20
 HC	HC707	749	TTE_other_disorders_of_fluid,_electrolyte_and_acid-base_balance	TTE other disorders of fluid, electrolyte and acid-base balance	63	
 HC	HC708	74	TTE_other_metabolic_disorders	TTE other metabolic disorders	29	
 HC	HC709	154	TTE_postprocedural_endocrine_and_metabolic_disorders,_not_elsewhere_classified	TTE postprocedural endocrine and metabolic disorders, not elsewhere classified	78	
-HC	HC71	0	microscopic_polyarteritis	Microscopic polyarteritis	25	
+HC	HC71	1	microscopic_polyarteritis	Microscopic polyarteritis	25	
 HC	HC710	17	TTE_dementia_in_alzheimer's_disease	TTE dementia in alzheimer's disease	35	
 HC	HC711	28	TTE_vascular_dementia	TTE vascular dementia	21	
 HC	HC712	8	TTE_dementia_in_other_diseases_classified_elsewhere	TTE dementia in other diseases classified elsewhere	51	
@@ -2127,7 +2127,7 @@ HC	HC716	26	TTE_other_mental_disorders_due_to_brain_damage_and_dysfunction_and_t
 HC	HC717	18	TTE_personality_and_behavioural_disorders_due_to_brain_disease,_damage_and_dysfunction	TTE personality and behavioural disorders due to brain disease, damage and dysfunction	86	
 HC	HC718	28	TTE_unspecified_organic_or_symptomatic_mental_disorder	TTE unspecified organic or symptomatic mental disorder	54	
 HC	HC719	656	TTE_mental_and_behavioural_disorders_due_to_use_of_alcohol	TTE mental and behavioural disorders due to use of alcohol	58	
-HC	HC72	0	chronic_fatigue_syndrome	Chronic fatigue syndrome	24	
+HC	HC72	151	chronic_fatigue_syndrome	Chronic fatigue syndrome	24	
 HC	HC720	15	TTE_mental_and_behavioural_disorders_due_to_use_of_opioids	TTE mental and behavioural disorders due to use of opioids	58	
 HC	HC721	14	TTE_mental_and_behavioural_disorders_due_to_use_of_cannabinoids	TTE mental and behavioural disorders due to use of cannabinoids	63	
 HC	HC722	22	TTE_mental_and_behavioural_disorders_due_to_use_of_sedatives_or_hypnotics	TTE mental and behavioural disorders due to use of sedatives or hypnotics	73	
@@ -2138,7 +2138,7 @@ HC	HC726	3614	TTE_mental_and_behavioural_disorders_due_to_use_of_tobacco	TTE men
 HC	HC727	0	TTE_mental_and_behavioural_disorders_due_to_use_of_volatile_solvents	TTE mental and behavioural disorders due to use of volatile solvents	68	
 HC	HC728	11	TTE_mental_and_behavioural_disorders_due_to_multiple_drug_use_and_use_o	TTE mental and behavioural disorders due to multiple drug use and use o	71	
 HC	HC729	39	TTE_schizophrenia	TTE schizophrenia	17	
-HC	HC73	0	dermatopolymyositis	Dermatopolymyositis	19	
+HC	HC73	8	dermatopolymyositis	Dermatopolymyositis	19	
 HC	HC730	2	TTE_schizotypal_disorder	TTE schizotypal disorder	24	
 HC	HC731	16	TTE_persistent_delusional_disorders	TTE persistent delusional disorders	35	
 HC	HC732	12	TTE_acute_and_transient_psychotic_disorders	TTE acute and transient psychotic disorders	43	
@@ -2149,7 +2149,7 @@ HC	HC736	18	TTE_unspecified_nonorganic_psychosis	TTE unspecified nonorganic psyc
 HC	HC737	30	TTE_manic_episode	TTE manic episode	17	
 HC	HC738	129	TTE_bipolar_affective_disorder	TTE bipolar affective disorder	30	
 HC	HC739	4327	TTE_depressive_episode	TTE depressive episode	22	
-HC	HC74	0	female_infertility	Female infertility	18	
+HC	HC74	166	female_infertility	Female infertility	18	
 HC	HC740	326	TTE_recurrent_depressive_disorder	TTE recurrent depressive disorder	33	
 HC	HC741	76	TTE_persistent_mood_[affective]_disorders	TTE persistent mood [affective] disorders	41	
 HC	HC742	20	TTE_other_mood_[affective]_disorders	TTE other mood [affective] disorders	36	
@@ -2160,7 +2160,7 @@ HC	HC746	78	TTE_obsessive-compulsive_disorder	TTE obsessive-compulsive disorder	
 HC	HC747	1497	TTE_reaction_to_severe_stress,_and_adjustment_disorders	TTE reaction to severe stress, and adjustment disorders	55	
 HC	HC748	28	TTE_dissociative_[conversion]_disorders	TTE dissociative [conversion] disorders	39	
 HC	HC749	303	TTE_somatoform_disorders	TTE somatoform disorders	24	
-HC	HC75	0	alpha-1_antitrypsin_deficiency	Alpha-1 antitrypsin deficiency	30	
+HC	HC75	6	alpha-1_antitrypsin_deficiency	Alpha-1 antitrypsin deficiency	30	
 HC	HC750	37	TTE_other_neurotic_disorders	TTE other neurotic disorders	28	
 HC	HC751	78	TTE_eating_disorders	TTE eating disorders	20	
 HC	HC752	49	TTE_nonorganic_sleep_disorders	TTE nonorganic sleep disorders	30	
@@ -2171,7 +2171,7 @@ HC	HC756	0	TTE_abuse_of_non-dependence-producing_substances	TTE abuse of non-dep
 HC	HC757	1	TTE_unspecified_behavioural_syndromes_associated_with_physiological_disturbances_and_physical_factors	TTE unspecified behavioural syndromes associated with physiological disturbances and physical factors	101	
 HC	HC758	49	TTE_specific_personality_disorders	TTE specific personality disorders	34	
 HC	HC759	2	TTE_mixed_and_other_personality_disorders	TTE mixed and other personality disorders	41	
-HC	HC76	0	fracture_foot	Fracture foot	13	
+HC	HC76	197	fracture_foot	Fracture foot	13	
 HC	HC760	3	TTE_enduring_personality_changes,_not_attributable_to_brain_damage_and_disease	TTE enduring personality changes, not attributable to brain damage and disease	78	
 HC	HC761	3	TTE_habit_and_impulse_disorders	TTE habit and impulse disorders	31	
 HC	HC762	0	TTE_gender_identity_disorders	TTE gender identity disorders	29	
@@ -2182,7 +2182,7 @@ HC	HC766	10	TTE_unspecified_disorder_of_adult_personality_and_behaviour	TTE unsp
 HC	HC767	4	TTE_mild_mental_retardation	TTE mild mental retardation	27	
 HC	HC768	2	TTE_moderate_mental_retardation	TTE moderate mental retardation	31	
 HC	HC769	0	TTE_severe_mental_retardation	TTE severe mental retardation	29	
-HC	HC77	0	allergy_or_anaphylactic_reaction_to_drug	Allergy or anaphylactic reaction to drug	40	
+HC	HC77	462	allergy_or_anaphylactic_reaction_to_drug	Allergy or anaphylactic reaction to drug	40	
 HC	HC770	1	TTE_other_mental_retardation	TTE other mental retardation	28	
 HC	HC771	6	TTE_unspecified_mental_retardation	TTE unspecified mental retardation	34	
 HC	HC772	16	TTE_specific_developmental_disorders_of_speech_and_language	TTE specific developmental disorders of speech and language	59	
@@ -2193,7 +2193,7 @@ HC	HC776	0	TTE_other_disorders_of_psychological_development	TTE other disorders 
 HC	HC777	1	TTE_unspecified_disorder_of_psychological_development	TTE unspecified disorder of psychological development	53	
 HC	HC778	2	TTE_hyperkinetic_disorders	TTE hyperkinetic disorders	26	
 HC	HC779	8	TTE_conduct_disorders	TTE conduct disorders	21	
-HC	HC78	0	arthritis_(nos)	Arthritis (nos)	15	
+HC	HC78	2615	arthritis_(nos)	Arthritis (nos)	15	
 HC	HC780	0	TTE_mixed_disorders_of_conduct_and_emotions	TTE mixed disorders of conduct and emotions	43	
 HC	HC781	3	TTE_emotional_disorders_with_onset_specific_to_childhood	TTE emotional disorders with onset specific to childhood	56	
 HC	HC782	0	TTE_disorders_of_social_functioning_with_onset_specific_to_childhood_and_adolescence	TTE disorders of social functioning with onset specific to childhood and adolescence	84	
@@ -2204,7 +2204,7 @@ HC	HC786	12	TTE_bacterial_meningitis,_not_elsewhere_classified	TTE bacterial men
 HC	HC787	3	TTE_meningitis_in_bacterial_diseases_classified_elsewhere	TTE meningitis in bacterial diseases classified elsewhere	57	
 HC	HC788	4	TTE_meningitis_in_other_infectious_and_parasitic_diseases_classified_elsewhere	TTE meningitis in other infectious and parasitic diseases classified elsewhere	78	
 HC	HC789	163	TTE_meningitis_due_to_other_and_unspecified_causes	TTE meningitis due to other and unspecified causes	50	
-HC	HC79	0	appendicitis	Appendicitis	12	
+HC	HC79	1336	appendicitis	Appendicitis	12	
 HC	HC790	35	TTE_encephalitis,_myelitis_and_encephalomyelitis	TTE encephalitis, myelitis and encephalomyelitis	48	
 HC	HC791	5	TTE_encephalitis,_myelitis_and_encephalomyelitis_in_diseases_classified_elsewhere	TTE encephalitis, myelitis and encephalomyelitis in diseases classified elsewhere	81	
 HC	HC792	18	TTE_intracranial_and_intraspinal_abscess_and_granuloma	TTE intracranial and intraspinal abscess and granuloma	54	
@@ -2215,8 +2215,8 @@ HC	HC796	3	TTE_huntington's_disease	TTE huntington's disease	24
 HC	HC797	13	TTE_hereditary_ataxia	TTE hereditary ataxia	21	
 HC	HC798	36	TTE_spinal_muscular_atrophy_and_related_syndromes	TTE spinal muscular atrophy and related syndromes	49	
 HC	HC799	2	TTE_systemic_atrophies_primarily_affecting_central_nervous_system_in_diseases_classified_elsewhere	TTE systemic atrophies primarily affecting central nervous system in diseases classified elsewhere	98	
-HC	HC8	0	gall_bladder_disease	Gall bladder disease	20	
-HC	HC80	0	sickle_cell_disease	Sickle cell disease	19	
+HC	HC8	181	gall_bladder_disease	Gall bladder disease	20	
+HC	HC80	2	sickle_cell_disease	Sickle cell disease	19	
 HC	HC800	2	TTE_postpolio_syndrome	TTE postpolio syndrome	22	
 HC	HC801	109	TTE_parkinson's_disease	TTE parkinson's disease	23	
 HC	HC802	3	TTE_secondary_parkinsonism	TTE secondary parkinsonism	26	
@@ -2227,7 +2227,7 @@ HC	HC806	367	TTE_other_extrapyramidal_and_movement_disorders	TTE other extrapyra
 HC	HC807	34	TTE_alzheimer's_disease	TTE alzheimer's disease	23	
 HC	HC808	68	TTE_other_degenerative_diseases_of_nervous_system,_not_elsewhere_classified	TTE other degenerative diseases of nervous system, not elsewhere classified	75	
 HC	HC809	2	TTE_other_degenerative_disorders_of_nervous_system_in_diseases_classified_elsewhere	TTE other degenerative disorders of nervous system in diseases classified elsewhere	83	
-HC	HC81	0	essential_thrombocytosis	Essential thrombocytosis	24	
+HC	HC81	21	essential_thrombocytosis	Essential thrombocytosis	24	
 HC	HC810	155	TTE_multiple_sclerosis	TTE multiple sclerosis	22	
 HC	HC811	0	TTE_other_acute_disseminated_demyelination	TTE other acute disseminated demyelination	42	
 HC	HC812	47	TTE_other_demyelinating_diseases_of_central_nervous_system	TTE other demyelinating diseases of central nervous system	58	
@@ -2238,7 +2238,7 @@ HC	HC816	515	TTE_other_headache_syndromes	TTE other headache syndromes	28
 HC	HC817	618	TTE_transient_cerebral_ischaemic_attacks_and_related_syndromes	TTE transient cerebral ischaemic attacks and related syndromes	62	
 HC	HC818	12	TTE_vascular_syndromes_of_brain_in_cerebrovascular_diseases	TTE vascular syndromes of brain in cerebrovascular diseases	59	
 HC	HC819	1339	TTE_sleep_disorders	TTE sleep disorders	19	
-HC	HC82	0	cerebral_palsy	Cerebral palsy	14	
+HC	HC82	203	cerebral_palsy	Cerebral palsy	14	
 HC	HC820	272	TTE_disorders_of_trigeminal_nerve	TTE disorders of trigeminal nerve	33	
 HC	HC821	234	TTE_facial_nerve_disorders	TTE facial nerve disorders	26	
 HC	HC822	29	TTE_disorders_of_other_cranial_nerves	TTE disorders of other cranial nerves	37	
@@ -2249,7 +2249,7 @@ HC	HC826	1847	TTE_mononeuropathies_of_upper_limb	TTE mononeuropathies of upper l
 HC	HC827	383	TTE_mononeuropathies_of_lower_limb	TTE mononeuropathies of lower limb	34	
 HC	HC828	61	TTE_other_mononeuropathies	TTE other mononeuropathies	26	
 HC	HC829	18	TTE_mononeuropathy_in_diseases_classified_elsewhere	TTE mononeuropathy in diseases classified elsewhere	51	
-HC	HC83	0	fracture_forearm_/_wrist	Fracture forearm / wrist	24	
+HC	HC83	782	fracture_forearm_/_wrist	Fracture forearm / wrist	24	
 HC	HC830	29	TTE_hereditary_and_idiopathic_neuropathy	TTE hereditary and idiopathic neuropathy	40	
 HC	HC831	48	TTE_inflammatory_polyneuropathy	TTE inflammatory polyneuropathy	31	
 HC	HC832	244	TTE_other_polyneuropathies	TTE other polyneuropathies	26	
@@ -2260,7 +2260,7 @@ HC	HC836	21	TTE_primary_disorders_of_muscles	TTE primary disorders of muscles	32
 HC	HC837	24	TTE_other_myopathies	TTE other myopathies	20	
 HC	HC838	4	TTE_disorders_of_myoneural_junction_and_muscle_in_diseases_classified_elsewhere	TTE disorders of myoneural junction and muscle in diseases classified elsewhere	79	
 HC	HC839	15	TTE_infantile_cerebral_palsy	TTE infantile cerebral palsy	28	
-HC	HC84	0	pulmonary_fibrosis	Pulmonary fibrosis	18	
+HC	HC84	77	pulmonary_fibrosis	Pulmonary fibrosis	18	
 HC	HC840	144	TTE_hemiplegia	TTE hemiplegia	14	
 HC	HC841	28	TTE_paraplegia_and_tetraplegia	TTE paraplegia and tetraplegia	30	
 HC	HC842	102	TTE_other_paralytic_syndromes	TTE other paralytic syndromes	29	
@@ -2271,7 +2271,7 @@ HC	HC846	267	TTE_other_disorders_of_brain	TTE other disorders of brain	28
 HC	HC847	1	TTE_other_disorders_of_brain_in_diseases_classified_elsewhere	TTE other disorders of brain in diseases classified elsewhere	61	
 HC	HC848	85	TTE_other_diseases_of_spinal_cord	TTE other diseases of spinal cord	33	
 HC	HC849	21	TTE_other_disorders_of_central_nervous_system	TTE other disorders of central nervous system	45	
-HC	HC85	0	enlarged_prostate	Enlarged prostate	17	
+HC	HC85	726	enlarged_prostate	Enlarged prostate	17	
 HC	HC850	23	TTE_postprocedural_disorders_of_nervous_system,_not_elsewhere_classified	TTE postprocedural disorders of nervous system, not elsewhere classified	72	
 HC	HC851	92	TTE_other_disorders_of_nervous_system,_not_elsewhere_classified	TTE other disorders of nervous system, not elsewhere classified	63	
 HC	HC852	88	TTE_other_disorders_of_nervous_system_in_diseases_classified_elsewhere	TTE other disorders of nervous system in diseases classified elsewhere	70	
@@ -2282,7 +2282,7 @@ HC	HC856	2	TTE_disorders_of_eyelid_in_diseases_classified_elsewhere	TTE disorder
 HC	HC857	1334	TTE_disorders_of_lachrymal_system	TTE disorders of lachrymal system	33	
 HC	HC858	99	TTE_disorders_of_orbit	TTE disorders of orbit	22	
 HC	HC859	8	TTE_disorders_of_lachrymal_system_and_orbit_in_diseases_classified_elsewhere	TTE disorders of lachrymal system and orbit in diseases classified elsewhere	76	
-HC	HC86	0	migraine	Migraine	8	
+HC	HC86	1551	migraine	Migraine	8	
 HC	HC860	1799	TTE_conjunctivitis	TTE conjunctivitis	18	
 HC	HC861	699	TTE_other_disorders_of_conjunctiva	TTE other disorders of conjunctiva	34	
 HC	HC862	10	TTE_disorders_of_conjunctiva_in_diseases_classified_elsewhere	TTE disorders of conjunctiva in diseases classified elsewhere	61	
@@ -2293,7 +2293,7 @@ HC	HC866	164	TTE_other_disorders_of_cornea	TTE other disorders of cornea	29
 HC	HC867	6	TTE_disorders_of_sclera_and_cornea_in_diseases_classified_elsewhere	TTE disorders of sclera and cornea in diseases classified elsewhere	67	
 HC	HC868	195	TTE_iridocyclitis	TTE iridocyclitis	17	
 HC	HC869	46	TTE_other_disorders_of_iris_and_ciliary_body	TTE other disorders of iris and ciliary body	44	
-HC	HC87	0	spina_bifida	Spina bifida	12	
+HC	HC87	17	spina_bifida	Spina bifida	12	
 HC	HC870	2	TTE_disorders_of_iris_and_ciliary_body_in_diseases_classified_elsewhere	TTE disorders of iris and ciliary body in diseases classified elsewhere	71	
 HC	HC871	769	TTE_senile_cataract	TTE senile cataract	19	
 HC	HC872	2609	TTE_other_cataract	TTE other cataract	18	
@@ -2304,7 +2304,7 @@ HC	HC876	56	TTE_other_disorders_of_choroid	TTE other disorders of choroid	30
 HC	HC877	0	TTE_chorioretinal_disorders_in_diseases_classified_elsewhere	TTE chorioretinal disorders in diseases classified elsewhere	60	
 HC	HC878	469	TTE_retinal_detachments_and_breaks	TTE retinal detachments and breaks	34	
 HC	HC879	164	TTE_retinal_vascular_occlusions	TTE retinal vascular occlusions	31	
-HC	HC88	0	heart/cardiac_problem	Heart/cardiac problem	21	
+HC	HC88	130	heart/cardiac_problem	Heart/cardiac problem	21	
 HC	HC880	814	TTE_other_retinal_disorders	TTE other retinal disorders	27	
 HC	HC881	257	TTE_retinal_disorders_in_diseases_classified_elsewhere	TTE retinal disorders in diseases classified elsewhere	54	
 HC	HC882	1093	TTE_glaucoma	TTE glaucoma	12	
@@ -2315,7 +2315,7 @@ HC	HC886	1	TTE_disorders_of_vitreous_body_and_globe_in_diseases_classified_elsew
 HC	HC887	34	TTE_optic_neuritis	TTE optic neuritis	18	
 HC	HC888	99	TTE_other_disorders_of_optic_[2nd]_nerve_and_visual_pathways	TTE other disorders of optic [2nd] nerve and visual pathways	60	
 HC	HC889	2	TTE_disorders_of_optic_[2nd]_nerve_and_visual_pathways_in_diseases_classified_elsewhere	TTE disorders of optic [2nd] nerve and visual pathways in diseases classified elsewhere	87	
-HC	HC89	0	food_intolerance	Food intolerance	16	
+HC	HC89	95	food_intolerance	Food intolerance	16	
 HC	HC890	46	TTE_paralytic_strabismus	TTE paralytic strabismus	24	
 HC	HC891	186	TTE_other_strabismus	TTE other strabismus	20	
 HC	HC892	27	TTE_other_disorders_of_binocular_movement	TTE other disorders of binocular movement	41	
@@ -2326,7 +2326,7 @@ HC	HC896	36	TTE_nystagmus_and_other_irregular_eye_movements	TTE nystagmus and ot
 HC	HC897	766	TTE_other_disorders_of_eye_and_adnexa	TTE other disorders of eye and adnexa	37	
 HC	HC898	14	TTE_other_disorders_of_eye_and_adnexa_in_diseases_classified_elsewhere	TTE other disorders of eye and adnexa in diseases classified elsewhere	70	
 HC	HC899	24	TTE_postprocedural_disorders_of_eye_and_adnexa,_not_elsewhere_classified	TTE postprocedural disorders of eye and adnexa, not elsewhere classified	72	
-HC	HC9	0	renal_failure_not_requiring_dialysis	Renal failure not requiring dialysis	36	
+HC	HC9	21	renal_failure_not_requiring_dialysis	Renal failure not requiring dialysis	36	
 HC	HC900	1902	TTE_otitis_externa	TTE otitis externa	18	
 HC	HC901	2911	TTE_other_disorders_of_external_ear	TTE other disorders of external ear	35	
 HC	HC902	4	TTE_disorders_of_external_ear_in_diseases_classified_elsewhere	TTE disorders of external ear in diseases classified elsewhere	62	
@@ -2337,7 +2337,7 @@ HC	HC906	220	TTE_eustachian_salpingitis_and_obstruction	TTE eustachian salpingit
 HC	HC907	99	TTE_other_disorders_of_eustachian_tube	TTE other disorders of eustachian tube	38	
 HC	HC908	16	TTE_mastoiditis_and_related_conditions	TTE mastoiditis and related conditions	38	
 HC	HC909	33	TTE_cholesteatoma_of_middle_ear	TTE cholesteatoma of middle ear	31	
-HC	HC91	0	psoriatic_arthropathy	Psoriatic arthropathy	21	
+HC	HC91	107	psoriatic_arthropathy	Psoriatic arthropathy	21	
 HC	HC910	106	TTE_perforation_of_tympanic_membrane	TTE perforation of tympanic membrane	36	
 HC	HC911	44	TTE_other_disorders_of_tympanic_membrane	TTE other disorders of tympanic membrane	40	
 HC	HC912	43	TTE_other_disorders_of_middle_ear_and_mastoid	TTE other disorders of middle ear and mastoid	45	
@@ -2348,7 +2348,7 @@ HC	HC916	0	TTE_vertiginous_syndromes_in_diseases_classified_elsewhere	TTE vertig
 HC	HC917	1018	TTE_other_diseases_of_inner_ear	TTE other diseases of inner ear	31	
 HC	HC918	603	TTE_conductive_and_sensorineural_hearing_loss	TTE conductive and sensorineural hearing loss	45	
 HC	HC919	719	TTE_other_hearing_loss	TTE other hearing loss	22	
-HC	HC92	0	allergy_to_elastoplast	Allergy to elastoplast	22	
+HC	HC92	61	allergy_to_elastoplast	Allergy to elastoplast	22	
 HC	HC920	1561	TTE_otalgia_and_effusion_of_ear	TTE otalgia and effusion of ear	31	
 HC	HC921	1526	TTE_other_disorders_of_ear,_not_elsewhere_classified	TTE other disorders of ear, not elsewhere classified	52	
 HC	HC922	3	TTE_other_disorders_of_ear_in_diseases_classified_elsewhere	TTE other disorders of ear in diseases classified elsewhere	59	
@@ -2359,7 +2359,7 @@ HC	HC926	1	TTE_rheumatic_chorea	TTE rheumatic chorea	20
 HC	HC927	38	TTE_rheumatic_mitral_valve_diseases	TTE rheumatic mitral valve diseases	35	
 HC	HC928	5	TTE_rheumatic_aortic_valve_diseases	TTE rheumatic aortic valve diseases	35	
 HC	HC929	65	TTE_rheumatic_tricuspid_valve_diseases	TTE rheumatic tricuspid valve diseases	38	
-HC	HC93	0	dry_eyes	Dry eyes	8	
+HC	HC93	236	dry_eyes	Dry eyes	8	
 HC	HC930	219	TTE_multiple_valve_diseases	TTE multiple valve diseases	27	
 HC	HC931	7	TTE_other_rheumatic_heart_diseases	TTE other rheumatic heart diseases	34	
 HC	HC932	8088	TTE_essential_(primary_hypertension)	TTE essential (primary hypertension)	36	
@@ -2370,7 +2370,7 @@ HC	HC936	12	TTE_secondary_hypertension	TTE secondary hypertension	26
 HC	HC937	2042	TTE_angina_pectoris	TTE angina pectoris	19	
 HC	HC938	1130	TTE_acute_myocardial_infarction	TTE acute myocardial infarction	31	
 HC	HC939	42	TTE_subsequent_myocardial_infarction	TTE subsequent myocardial infarction	36	
-HC	HC94	0	dementia/alzheimers/cognitive_impairment	Dementia/alzheimers/cognitive impairment	40	
+HC	HC94	16	dementia/alzheimers/cognitive_impairment	Dementia/alzheimers/cognitive impairment	40	
 HC	HC940	6	TTE_certain_current_complications_following_acute_myocardial_infarction	TTE certain current complications following acute myocardial infarction	71	
 HC	HC941	199	TTE_other_acute_ischaemic_heart_diseases	TTE other acute ischaemic heart diseases	40	
 HC	HC942	2412	TTE_chronic_ischaemic_heart_disease	TTE chronic ischaemic heart disease	35	
@@ -2381,7 +2381,7 @@ HC	HC946	50	TTE_acute_pericarditis	TTE acute pericarditis	22
 HC	HC947	137	TTE_other_diseases_of_pericardium	TTE other diseases of pericardium	33	
 HC	HC948	1	TTE_pericarditis_in_diseases_classified_elsewhere	TTE pericarditis in diseases classified elsewhere	49	
 HC	HC949	22	TTE_acute_and_subacute_endocarditis	TTE acute and subacute endocarditis	35	
-HC	HC95	0	inflammatory_bowel_disease	Inflammatory bowel disease	26	
+HC	HC95	403	inflammatory_bowel_disease	Inflammatory bowel disease	26	
 HC	HC950	269	TTE_nonrheumatic_mitral_valve_disorders	TTE nonrheumatic mitral valve disorders	39	
 HC	HC951	236	TTE_nonrheumatic_aortic_valve_disorders	TTE nonrheumatic aortic valve disorders	39	
 HC	HC952	11	TTE_nonrheumatic_tricuspid_valve_disorders	TTE nonrheumatic tricuspid valve disorders	42	
@@ -2392,7 +2392,7 @@ HC	HC956	4	TTE_acute_myocarditis	TTE acute myocarditis	21
 HC	HC957	0	TTE_myocarditis_in_diseases_classified_elsewhere	TTE myocarditis in diseases classified elsewhere	48	
 HC	HC958	129	TTE_cardiomyopathy	TTE cardiomyopathy	18	
 HC	HC959	2	TTE_cardiomyopathy_in_diseases_classified_elsewhere	TTE cardiomyopathy in diseases classified elsewhere	51	
-HC	HC96	0	polymyalgia_rheumatica	Polymyalgia rheumatica	22	
+HC	HC96	185	polymyalgia_rheumatica	Polymyalgia rheumatica	22	
 HC	HC960	385	TTE_atrioventricular_and_left_bundle-branch_block	TTE atrioventricular and left bundle-branch block	49	
 HC	HC961	282	TTE_other_conduction_disorders	TTE other conduction disorders	30	
 HC	HC962	99	TTE_cardiac_arrest	TTE cardiac arrest	18	
@@ -2403,7 +2403,7 @@ HC	HC966	575	TTE_heart_failure	TTE heart failure	17
 HC	HC967	615	TTE_complications_and_ill-defined_descriptions_of_heart_disease	TTE complications and ill-defined descriptions of heart disease	63	
 HC	HC968	0	TTE_other_heart_disorders_in_diseases_classified_elsewhere	TTE other heart disorders in diseases classified elsewhere	58	
 HC	HC969	78	TTE_subarachnoid_haemorrhage	TTE subarachnoid haemorrhage	28	
-HC	HC97	0	pleural_plaques_(not_known_asbestosis)	Pleural plaques (not known asbestosis)	38	
+HC	HC97	15	pleural_plaques_(not_known_asbestosis)	Pleural plaques (not known asbestosis)	38	
 HC	HC970	75	TTE_intracerebral_haemorrhage	TTE intracerebral haemorrhage	29	
 HC	HC971	34	TTE_other_nontraumatic_intracranial_haemorrhage	TTE other nontraumatic intracranial haemorrhage	47	
 HC	HC972	346	TTE_cerebral_infarction	TTE cerebral infarction	23	
@@ -2414,7 +2414,7 @@ HC	HC976	271	TTE_other_cerebrovascular_diseases	TTE other cerebrovascular diseas
 HC	HC977	5	TTE_cerebrovascular_disorders_in_diseases_classified_elsewhere	TTE cerebrovascular disorders in diseases classified elsewhere	62	
 HC	HC978	113	TTE_sequelae_of_cerebrovascular_disease	TTE sequelae of cerebrovascular disease	39	
 HC	HC979	131	TTE_atherosclerosis	TTE atherosclerosis	19	
-HC	HC98	0	stomach_disorder	Stomach disorder	16	
+HC	HC98	142	stomach_disorder	Stomach disorder	16	
 HC	HC980	192	TTE_aortic_aneurysm_and_dissection	TTE aortic aneurysm and dissection	34	
 HC	HC981	66	TTE_other_aneurysm	TTE other aneurysm	18	
 HC	HC982	703	TTE_other_peripheral_vascular_diseases	TTE other peripheral vascular diseases	38	
@@ -2425,7 +2425,7 @@ HC	HC986	2	TTE_disorders_of_arteries,_arterioles_and_capillaries_in_diseases_cla
 HC	HC987	1274	TTE_phlebitis_and_thrombophlebitis	TTE phlebitis and thrombophlebitis	34	
 HC	HC988	15	TTE_portal_vein_thrombosis	TTE portal vein thrombosis	26	
 HC	HC989	53	TTE_other_venous_embolism_and_thrombosis	TTE other venous embolism and thrombosis	40	
-HC	HC99	0	neutropenia/lymphopenia	Neutropenia/lymphopenia	23	
+HC	HC99	11	neutropenia/lymphopenia	Neutropenia/lymphopenia	23	
 HC	HC990	1790	TTE_varicose_veins_of_lower_extremities	TTE varicose veins of lower extremities	39	
 HC	HC991	2088	TTE_haemorrhoids	TTE haemorrhoids	16	
 HC	HC992	43	TTE_oesophageal_varices	TTE oesophageal varices	23	
