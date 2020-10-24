@@ -1,6 +1,116 @@
 # variant annotation and variant QC for the array-combined dataset
 
-### Yosuke Tanigawa (work in progress)
+### Yosuke Tanigawa
+
+## Data location
+
+- `/oak/stanford/groups/mrivas/ukbb24983/array-combined/annotation/annotation_20201012/ukb24983_cal_hla_cnv.annot_20201023.tsv.gz`
+- `/oak/stanford/groups/mrivas/ukbb24983/array-combined/annotation/annotation_20201012/ukb24983_cal_hla_cnv.annot_compact_20201023.tsv.gz`
+
+The first file is the full variant annotation file. The second file has a subset of columns.
+
+### Column descriptor
+
+The first 27 columns are present in both files.
+
+- `CHROM`: the chromosome
+- `POS`: the position (see CNV_POS_s and CNV_POS_e as well for the CNVs)
+- `ID`: the variant ID
+- `REF`: the reference allele
+- `ALT`: the alternate allele
+- `FILTER`: variant QC filter
+- `POS_total`: the "total" position in a linear coordinate, chr1-22, X, Y, and MT (useful for plotting)
+- `Allele`: the allele used in VEP/Loftee plugin (typically, ALT allele, but it can be different)
+- `Csq`: the aggregated consequence group
+- `Consequence`: the consequence field from VEP/Loftee
+- `SYMBOL`: the gene symbol
+- `Gene`: the ensembl ID for the gene
+- `ld_indep`: whether the variant is in the LD independent set (none of the CNVs or HLA alleles are included)
+- `geno_data_source`: the genotype data source
+- `array`: whether the variant is on UKBL array or UKBB array
+- `CNV_POS_s`: the start position of CNV
+- `CNV_POS_e`: the end position of CNV
+- `UKB_white_british_MAF`: the minor allele frequency computed in white British unrelated individuals in UKB
+- `hwe_p`: the HWE test p-value
+- `mgi_notes`: notes from manual genome-browser inspection (from 2017 QC file)
+- `f_miss`: the missigness
+- `f_miss_UKBB`: the missingness in UKBB array
+- `f_miss_UKBL`: the missingness in UKBL array
+- `LoF`: LoF output from VEP/Loftee
+- `LoF_filter`: LoF_filter from VEP/Loftee
+- `LoF_flags`: LoF_flags from VEP/Loftee
+- `LoF_info`: LoF_info from VEP/Loftee
+
+The next 133 columns (except `HGVSp`) are present only in the full table.
+Among the 133 columns, 65 fields are from VEP/Loftee pipeline.
+
+- `IMPACT`
+- `Feature_type`
+- `Feature`
+- `BIOTYPE`
+- `EXON`
+- `INTRON`
+- `HGVSc`
+- `HGVSp`
+- `cDNA_position`
+- `CDS_position`
+- `Protein_position`
+- `Amino_acids`
+- `Codons`
+- `Existing_variation`
+- `ALLELE_NUM`
+- `DISTANCE`
+- `STRAND`
+- `FLAGS`
+- `VARIANT_CLASS`
+- `SYMBOL_SOURCE`
+- `HGNC_ID`
+- `CANONICAL`
+- `MANE`
+- `TSL`
+- `APPRIS`
+- `CCDS`
+- `ENSP`
+- `SWISSPROT`
+- `TREMBL`
+- `UNIPARC`
+- `GENE_PHENO`
+- `SIFT`
+- `PolyPhen`
+- `DOMAINS`
+- `miRNA`
+- `HGVS_OFFSET`
+- `AF`
+- `AFR_AF`
+- `AMR_AF`
+- `EAS_AF`
+- `EUR_AF`
+- `SAS_AF`
+- `AA_AF`
+- `EA_AF`
+- `gnomAD_AF`
+- `gnomAD_AFR_AF`
+- `gnomAD_AMR_AF`
+- `gnomAD_ASJ_AF`
+- `gnomAD_EAS_AF`
+- `gnomAD_FIN_AF`
+- `gnomAD_NFE_AF`
+- `gnomAD_OTH_AF`
+- `gnomAD_SAS_AF`
+- `MAX_AF`
+- `MAX_AF_POPS`
+- `CLIN_SIG`
+- `SOMATIC`
+- `PHENO`
+- `PUBMED`
+- `VAR_SYNONYMS`
+- `MOTIF_NAME`
+- `MOTIF_POS`
+- `HIGH_INF_POS`
+- `MOTIF_SCORE_CHANGE`
+- `TRANSCRIPTION_FACTORS`
+
+The next 68 columns are the same as the allele frequency computed across UKB populations (see the section below).
 
 ## Allele frequency across UKB populations in the array-combined dataset
 
@@ -36,6 +146,11 @@ This (zstd-compressed) table file has 73 columns.
   - master sqc file `/oak/stanford/groups/mrivas/ukbb24983/sqc/population_stratification_w24983_20200828/ukb24983_master_sqc.20200828.phe`
   - {`UKBB`: 438427, `UKBL`: 49950}
 
+### scripts
+
+- [`1_afreq.sh`](1_afreq.sh)
+- [`1_afreq-per-array.sh`](1_afreq-per-array.sh)
+- [`2_combine_afreq_results.ipynb`](2_combine_afreq_results.ipynb)
 
 ## HWE
 
@@ -48,6 +163,11 @@ This method does NOT ignore the males when applying HWE test for chr X.
 And here is the HWE p-value distribution (the red bar indicates our P-value cutoff of 1e-7):
 
 ![HWE midp plot](hwe_midp_plot.png)
+
+### scripts
+
+- [`3_hwe.sh`](3_hwe.sh)
+- [`4_hwe_plot.ipynb`](4_hwe_plot.ipynb)
 
 ## Variant QC
 
@@ -63,6 +183,15 @@ We have the following QC filters:
 - `gnomad_af`: maf comparison with gnomAD  (copied from variant QC file back in 2017)
 - `mgi`: manual genome browser inspection???  (copied from variant QC file back in 2017)
 
+The column descriptor for the previous variant QC file (basically the one from 2017): [`prev_annot_cols.md`](prev_annot_cols.md)
+
+### data location
+
+- `/oak/stanford/groups/mrivas/ukbb24983/array-combined/annotation/annotation_20201012/ukb24983_cal_hla_cnv.var_QC.tsv.gz`
+
+### scripts
+
+- [`5_variant_QC.ipynb`](5_variant_QC.ipynb)
 
 ## LD pruning
 
@@ -77,5 +206,11 @@ To prioritize the variants with severe predicted consequence, we applied LD prun
 3. Similarly, we apply LD pruning for the protein-coding variants (PCVs) that are no in LD with the previously selected PTVs or PAVs. Using the union of the selected PTVs, PAVs, and PCVs, we check the LD map and remove the variants in linkage.
 4. Repeat the procedure for UTR-region variants, intronic variants, and the remaining variants.
 
+Please also check [`LD-indep-chrX.md`](LD-indep-chrX.md).
 
+### scripts
 
+- [`6a_LD_indep_input.ipynb`](6a_LD_indep_input.ipynb)
+- [`6b_LD_indep.sh`](6b_LD_indep.sh)
+- [`6b_LD_indep_var_filter.R`](6b_LD_indep_var_filter.R)
+- [`6c_LD_indep_check.ipynb`](6c_LD_indep_check.ipynb)
