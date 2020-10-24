@@ -2,6 +2,11 @@
 
 Yosuke Tanigawa, 2020/8/12
 
+## version history
+
+- 2020/10/24: There were 37 duplicated entries in our [short name table](http://bit.ly/GBE_names). We fixed it and refreshed the [`GBE_category.20201024.tsv`](GBE_category.20201024.tsv) table.
+- 2020/8/12: initial release
+
 ## phenotype grouping
 
 We provide phenotype grouping information on the PheWAS page on GBE. The notebook/scripts in this directory were used to geerate the phenotype grouping.
