@@ -66,9 +66,9 @@ ml load python/3.6.1
 
 if grep -q "CPU_GEN:HSW\|CPU_GEN:BDW\|CPU_GEN:SKX" <(a=$(hostname); sinfo -N -n ${a::-4} --format "%50f"); then
    # AVX2 is suitable for use on this node if CPU is recent enough
-   ml load plink2/20200314
+   ml load plink2/20200727
 else
-   ml load plink2/20200314-non-AVX2
+   ml load plink2/20200727-non-AVX2
 fi
 
 software_versions >&2
@@ -94,7 +94,7 @@ symlink_dir="/oak/stanford/groups/mrivas/ukbb24983/array-combined/gwas/current/$
 if [ ! -d ${gwas_out_dir}/logs ] ; then mkdir -p ${gwas_out_dir}/logs ; fi
 if [ ! -d $log_dir ] ; then mkdir -p $log_dir ; fi
 
-/share/software/user/open/python/3.6.1/bin/python3 gwas.py --run-array-combined --run-now --memory $mem --cores $cores --pheno $phe_path --out $gwas_out_dir --population $pop --log-dir $log_dir
+/share/software/user/open/python/3.6.1/bin/python3 gwas.py --run-array-combined --run-now --memory $mem --cores $cores --pheno $phe_path --out $gwas_out_dir --population $pop --log-dir $log_dir --include-x
 
 # introduce symlinks
 file_prefix=ukb24983_v2_hg19.${gbeId}.array-combined
