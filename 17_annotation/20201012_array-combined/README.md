@@ -1,6 +1,10 @@
 # variant annotation and variant QC for the array-combined dataset
 
-### Yosuke Tanigawa
+### Yosuke Tanigawa, 2020/10/23
+
+- We updated the variant annotation for the array-combined dataset. This includes the updated variant QC for non-autosomal chromosomes, the variant annotation from the latest version of VEP/Loftee (for both array and cnv dataset), and the results from the latest LD pruning analysis.
+- We have the annotation table for the 1080968 variants in the pgen/pvar file (in the exactly same ordering as in the pvar file). 
+- The full annotation table has 160 columns. I prepared a file that has a subset of commonly used 28 columns.
 
 ## Data location
 
