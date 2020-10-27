@@ -3,7 +3,7 @@
 ### Yosuke Tanigawa, 2020/10/23
 
 - We updated the variant annotation for the array-combined dataset. This includes the updated variant QC for non-autosomal chromosomes, the variant annotation from the latest version of VEP/Loftee (for both array and cnv dataset), and the results from the latest LD pruning analysis.
-- We have the annotation table for the 1080968 variants in the pgen/pvar file (in the exactly same ordering as in the pvar file). 
+- We have the annotation table for the 1080968 variants in the pgen/pvar file (in the exactly same ordering as in the pvar file).
 - The full annotation table has 160 columns. I prepared a file that has a subset of commonly used 28 columns.
 
 ## Data location
@@ -40,10 +40,10 @@ The first 27 columns are present in both files.
 - `f_miss`: the missigness
 - `f_miss_UKBB`: the missingness in UKBB array
 - `f_miss_UKBL`: the missingness in UKBL array
-- `LoF`: LoF output from VEP/Loftee
-- `LoF_filter`: LoF_filter from VEP/Loftee
-- `LoF_flags`: LoF_flags from VEP/Loftee
-- `LoF_info`: LoF_info from VEP/Loftee
+- `LoF`: Loss-of-function annotation (HC = High Confidence; LC = Low Confidence)
+- `LoF_filter`: Reason for LoF not being HC
+- `LoF_flags`: Possible warning flags for LoF
+- `LoF_info`: Info used for LoF annotation
 
 The next 133 columns (except `HGVSp`) are present only in the full table.
 Among the 133 columns, 65 fields are from VEP/Loftee pipeline.
@@ -139,7 +139,7 @@ This (zstd-compressed) table file has 73 columns.
     - `TWO_ALT_GENO_CTS`: the number of individuals two alternate alleles (this dataset should represent biallelic variabts, so this should be the number of individuals with homozygous alternate allele) (`plink2 --geno-counts cols=altxy`)
     - `HAP_REF_CT`: the number of individuals with hemizygous reference allele (`plink2 --geno-counts cols=hapref`)
     - `HAP_ALT_CTS`: the number of individuals with hemizygous alternate allele (`plink2 --geno-counts cols=hapalt`)
-- The next 3 columns represent the missingness 
+- The next 3 columns represent the missingness
     - `f_miss`: missing rate
     - `f_miss_UKBL`: missing rate in UKBL array
     - `f_miss_UKBB`: missing rate in UKBB array
@@ -179,7 +179,7 @@ Here is the summary of variant QC (across both autosomal and non-autosomal varia
 
 ![variant QC summary](variant_QC.png)
 
-We have the following QC filters: 
+We have the following QC filters:
 
 - `missingness`: missingness (1%, computed separately for UKBL/UKBB array if the variant is directly genotyped and present in only one array)
 - `hwe`: HWE p-value (1e-7, we used the chrX model above)

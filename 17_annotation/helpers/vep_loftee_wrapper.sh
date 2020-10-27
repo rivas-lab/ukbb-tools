@@ -43,6 +43,7 @@ cat <<- EOF
 	  --vep_data         The reference data file for VEP
 	  --loftee_data      The reference data directory for loftee plugin
 	  --fasta            The reference sequence file
+	  --skip_loftee      Skip Loftee plugin
 
 	Default configurations:
 	  vep_data=${vep_data}
@@ -66,6 +67,7 @@ trap handler_exit EXIT
 ############################################################
 ## == Default parameters (start) == ##
 fasta=__AUTO__
+loftee=TRUE
 ## == Default parameters (end) == ##
 
 declare -a params=()
@@ -82,6 +84,9 @@ for OPT in "$@" ; do
             ;;
         '--loftee_data' )
             loftee_data=$2 ; shift 2 ;
+            ;;
+        '--skip_loftee' )
+            loftee=FALSE ; shift 1 ;
             ;;
         '--fasta' )
             fasta=$2 ; shift 2 ;
@@ -113,14 +118,26 @@ vep_out="${params[2]}"
 
 # load the vep module
 # see: https://github.com/rivas-lab/sherlock-modules/tree/master/vep
-ml load vep
+
+if   [ "${assembly}" == "GRCh37" ] ; then
+    ml load vep/101-loftee
+    loftee_path=/opt/vep/src/loftee-master
+elif [ "${assembly}" == "GRCh38" ] ; then
+    ml load vep/101-loftee-GRCh38
+    loftee_path=/opt/vep/src/loftee-grch38
+else
+    "error: unsupported assembly (${assembly})" >&2 ; exit 1
+fi
 
 LoF_d="${loftee_data}/${assembly}"
 if   [ "${assembly}" == "GRCh37" ] ; then
     LoF_data_paths="human_ancestor_fa:${LoF_d}/human_ancestor.fa.gz,conservation_file:${LoF_d}/phylocsf_gerp.sql,gerp_file:${LoF_d}/GERP_scores.final.sorted.txt.gz"
 elif [ "${assembly}" == "GRCh38" ] ; then
     # this needs to be updated when we test this script with some input files on GRCh38
-    LoF_data_paths="human_ancestor_fa:${LoF_d}/human_ancestor.fa.gz,conservation_file:${LoF_d}/phylocsf_gerp.sql,gerp_file:${LoF_d}/gerp_conservation_scores.homo_sapiens.GRCh38.bw"
+    # it turns out that loftee has undocumented grch38 branch...
+    LoF_data_paths="human_ancestor_fa:${LoF_d}/human_ancestor.fa.gz,conservation_file:${LoF_d}/loftee.sql,gerp_bigwig:${LoF_d}/gerp_conservation_scores.homo_sapiens.GRCh38.bw"
+
+    # gerp_database:/tmp/vep/Build-38/gerp_conservation_scores.homo_sapiens.GRCh38.bw,conservation_file:/tmp/phylocsf_gerp.sql --dir_plugins /path/to/vep/plugin/loftee-grch38/loftee
 else
     "error: unsupported assembly (${assembly})" >&2 ; exit 1
 fi
@@ -137,6 +154,15 @@ fi
 
 # generate the output directory
 if [ ! -d $(dirname ${vep_out}) ] ; then mkdir -p $(dirname ${vep_out}) ; fi
+which vep
+echo vep \
+    --offline --cache \
+    --dir_cache ${vep_data} \
+    --fasta ${fasta} \
+    --allele_number --everything \
+    --vcf \
+    --assembly ${assembly} -i ${vep_in_vcf} -o ${vep_out} \
+    $([ "${loftee}" == "TRUE" ] && echo "--plugin LoF,loftee_path:${loftee_path},${LoF_data_paths}" || echo "")
 
 vep \
     --offline --cache \
@@ -145,4 +171,4 @@ vep \
     --allele_number --everything \
     --vcf \
     --assembly ${assembly} -i ${vep_in_vcf} -o ${vep_out} \
-    --plugin LoF,loftee_path:/opt/vep/src/loftee-master,${LoF_data_paths}
+    $([ "${loftee}" == "TRUE" ] && echo "--plugin LoF,loftee_path:${loftee_path},${LoF_data_paths}" || echo "")
