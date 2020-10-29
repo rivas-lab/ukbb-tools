@@ -5,7 +5,7 @@ import glob
 # all exome
 print("Reading in exome psam file...")
 exome = {}
-exome['all'] = pd.read_csv("/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_p_spb.psam", sep='\t', dtype=str)
+exome['all'] = pd.read_csv("/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/oqfe_2020/ukb24983_exomeOQFE.psam", sep='\t', dtype=str)
 
 # get the rest of the populations
 print('Reading in population files...')
@@ -14,7 +14,7 @@ for pop in ['african', 'e_asian', 'non_british_white', 's_asian', 'white_british
 
 # do the thing
 print("Progressing through phenotypes...")
-with open("phenotype_info.tsv", "r") as f, open("exome_phenotype_info.tsv","w") as o:
+with open("../array-combined/phenotype_info.tsv", "r") as f, open("200k/exome_phenotype_info.tsv","w") as o:
     for n,line in enumerate(f):
         # write header when we encounter the header
         if n == 0: 
@@ -36,11 +36,11 @@ with open("phenotype_info.tsv", "r") as f, open("exome_phenotype_info.tsv","w") 
         # write to file 
         o.write("\t".join(phe_info[:6] + [pop_count[p] for p in ['all','white_british','non_british_white','african','e_asian','s_asian','semi_related','others']] + phe_info[-3:]) + "\n")
 
-epi = pd.read_table('exome_phenotype_info.tsv')
-short = pd.read_table('icdinfo.shortnames.tsv')
+epi = pd.read_table('200k/exome_phenotype_info.tsv')
+short = pd.read_table('../array-combined/icdinfo.shortnames.tsv')
 
 merged = short.merge(epi, how='left', left_on='GBE_ID', right_on='#GBE_ID')
 
 merged = merged[['GBE_category', 'GBE_ID', 'N_GBE', 'GBE_NAME_x', 'GBE_short_name', 'GBE_short_name_len', 'Units_of_measurement']]
 merged.columns = ['GBE_category', 'GBE_ID', 'GBE_N_EXOME', 'GBE_NAME', 'GBE_short_name', 'GBE_short_name_len', 'Units_of_measurement']
-merged.to_csv('icdinfo.shortnames.exome.tsv', index=False, sep='\t')        
+merged.to_csv('200k/icdinfo.shortnames.exome.tsv', index=False, sep='\t')        
