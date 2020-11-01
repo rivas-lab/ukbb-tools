@@ -5,6 +5,8 @@ batch_idx=${SLURM_ARRAY_TASK_ID:=1}
 pop=$1
 GBE_ID=$2
 
+if [ $# -gt 2 ] ; then batch_idx=$3 ; fi
+
 #out_d=/oak/stanford/groups/mrivas/ukbb24983/exome/gwas/master_phe_20201002_exomeOQFE/${pop}-batch
 out_d=/scratch/groups/mrivas/ukbb24983/exome/gwas/master_phe_20201002_exomeOQFE/${pop}-batch
 
@@ -17,6 +19,8 @@ ${batch_idx} \
 ${out_d}
 
 exit 0
+
+
 --pfile /oak/stanford/groups/mrivas/ukbb24983/exome/pgen/oqfe_2020/ukb24983_exomeOQFE \
 Start time: Sun Oct 25 23:03:41 2020
 End time: Sun Oct 25 23:11:17 2020

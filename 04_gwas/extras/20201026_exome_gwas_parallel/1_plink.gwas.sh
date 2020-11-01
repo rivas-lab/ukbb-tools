@@ -123,8 +123,14 @@ for OPT in "$@" ; do
         '--covar' )
             covar=$2 ; shift 2 ;
             ;;
+        '--master_phe' )
+            master_phe=$2 ; shift 2 ;
+            ;;
         '--pheno' )
             pheno=$2 ; shift 2 ;
+            ;;
+        '--pheno_col_nums' )
+            pheno_col_nums=$2 ; shift 2 ;
             ;;
         '--keep' )
             keep=$2 ; shift 2 ;
@@ -176,7 +182,7 @@ plink2_glm_wrapper () {
     --covar ${covar} \
     --covar-name $( echo ${covar_names} | tr ',' ' ' ) \
     --extract /dev/stdin \
-    --glm skip-invalid-pheno firth-fallback cc-residualize hide-covar omit-ref no-x-sex \
+    --glm zs skip-invalid-pheno firth-fallback cc-residualize hide-covar omit-ref no-x-sex \
     --keep ${keep} \
     --covar-variance-standardize \
     --pheno-quantile-normalize \
@@ -195,7 +201,11 @@ if [ "${QT_ALL}" == "FALSE" ] ; then
         --out ${plink_out} \
         --pheno ${pheno}
 
-        mv ${plink_out}.${pheno_colname}.${glm_suffix} ${plink_out}.${glm_suffix}
+        for ext in ${glm_suffix} ${glm_suffix}.zst ${glm_suffix}.gz ; do
+            if [ -f ${plink_out}.${pheno_colname}.${ext} ] ; then
+                mv ${plink_out}.${pheno_colname}.${ext} ${plink_out}.${ext}
+            fi
+        done
         mv ${plink_out}.log ${log_f}
 
     fi
@@ -215,3 +225,4 @@ else
         mv ${plink_out}.log ${log_f}
     fi
 fi
+

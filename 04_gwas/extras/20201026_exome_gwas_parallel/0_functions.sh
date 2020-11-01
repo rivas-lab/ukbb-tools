@@ -79,3 +79,70 @@ show_scracth_if_exists () {
     scratch_f=$(echo $f | sed -e "s%/oak/stanford/%/scratch/%g")
     if [ -f "${scratch_f}" ] ; then echo ${scratch_f} ; else echo $f ; fi
 }
+
+############################################################
+# functions to combine files
+############################################################
+
+combine_get_file_name_with_batch_idx () {
+    template_f=$1
+    batch_idx=$2
+    echo ${template_f} | sed -e "s/__BATCH__/${batch_idx}/g"
+}
+
+combine_check_files () {
+    template_f=$1
+    n_batch=$2
+
+    seq ${n_batch} | tr ' ' '\n' | while read batch_idx ; do
+        f=$(combine_get_file_name_with_batch_idx ${template_f} ${batch_idx})
+        if [ ! -s ${f} ] && [ ! -s ${f}.zst ] && [ ! -s ${f}.gz ] ; then
+            echo "[missing] ${batch_idx} ${f}"
+        fi
+    done
+}
+
+combine_log_files () {
+    # combine the log files
+    log_template_f=$1
+    n_batch=$2
+    log_combined_f=$3
+    cores=1
+    if [ $# -gt 3 ] ; then cores=$4 ; fi
+
+    if [ ! -d $(dirname ${log_combined_f}) ] ; then mkdir -p $(dirname ${log_combined_f}) ; fi
+
+    seq ${n_batch} | tr ' ' '\n' | while read batch_idx ; do
+        if [ "${batch_idx}" -ne 1 ] ; then echo "" ; fi
+        f=$(combine_get_file_name_with_batch_idx ${log_template_f} ${batch_idx})
+        echo "## ${f}"
+        cat_or_zcat ${f}
+    done | bgzip -l9 -@${cores} > ${log_combined_f%.gz}.gz
+}
+
+combine_plink_files () {
+    # combine the log files
+    plink_template_f=$1
+    n_batch=$2
+    plink_combined_f=$3
+    cores=1
+    if [ $# -gt 3 ] ; then cores=$4 ; fi
+
+    if [ ! -d $(dirname ${plink_combined_f}) ] ; then mkdir -p $(dirname ${plink_combined_f}) ; fi
+    
+    {
+        cat $(combine_get_file_name_with_batch_idx ${plink_template_f} 1) | egrep '^#'
+
+        seq ${n_batch} | tr ' ' '\n' | while read batch_idx ; do
+            f=$(combine_get_file_name_with_batch_idx ${plink_template_f} ${batch_idx})
+            if [ -s ${f}.zst ] ; then
+                cat_or_zcat ${f}.zst
+            elif [ -s ${f}.gz ] ; then
+                cat_or_zcat ${f}.gz
+            else
+                cat_or_zcat ${f}
+            fi| egrep -v '^#'
+#         done | sort -k1,1V -k2,2n -k3,3 # the file should be sorted..
+        done
+    } | bgzip -l9 -@${cores} > ${plink_combined_f%.gz}.gz
+}
