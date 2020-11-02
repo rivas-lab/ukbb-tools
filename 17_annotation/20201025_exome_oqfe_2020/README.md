@@ -7,8 +7,8 @@ Please also check [`exome_oqfe_2020`](/03_filtering/exome_oqfe_2020) documentati
 ## data location
 
 - `/oak/stanford/groups/mrivas/ukbb24983/exome/annotation/20201025_exome_oqfe_2020/`
-  - `ukb24983_exomeOQFE.annotation.tsv`: the full variant annotation table.
-  - `ukb24983_exomeOQFE.annotation.compact.tsv`: the table with subset of columns.
+  - `ukb24983_exomeOQFE.annotation.tsv.zst`: the full variant annotation table.
+  - `ukb24983_exomeOQFE.annotation.compact.tsv.zst`: the table with subset of columns.
 
 ### column descriptor
 
