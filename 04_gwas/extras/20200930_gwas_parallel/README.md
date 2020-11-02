@@ -11,6 +11,14 @@
 
 ## usage
 
+### when you have your phe file
+
+```{bash}
+bash 1_plink.gwas.sh --pheno ${phe_file} ${idx} ${output_dir}
+```
+
+### fetch the phe file from master phe{.info} file
+
 By default, the script apply GWAS for the array dataset and split the task into 100 chunks.
 You can run each run with a specified index (`${idx}`) for `idx=1..100`, check the results, and combine the files.
 
