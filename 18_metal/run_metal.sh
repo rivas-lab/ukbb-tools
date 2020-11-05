@@ -4,7 +4,7 @@ set -beEuo pipefail
 SRCNAME=$(readlink -f $0)
 SRCDIR=$(dirname ${SRCNAME})
 PROGNAME=$(basename $SRCNAME)
-VERSION="0.2.2"
+VERSION="0.3.0"
 NUM_POS_ARGS="1"
 
 source "${SRCDIR}/18_metal_misc.sh"
@@ -14,6 +14,9 @@ flipcheck_sh="$(dirname ${SRCDIR})/09_liftOver/flipcheck.sh"
 ############################################################
 # update log
 ############################################################
+# version 0.3.0 (2020/11/5)
+#   Additional input filter (ERRCODE=='.') is now implemented. With the previous changes in v.0.2.0, we now focus on lines with P != 'NA' and ERRCODE == '.'
+#
 # version 0.2.1 (2020/6/25)
 #   Add OBS_CT column in the Metal output file
 #
