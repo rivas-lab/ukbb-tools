@@ -12,6 +12,17 @@ cat_or_zcat () {
     fi
 }
 
+cat_or_zcat_prefix () {
+    local file=$1    
+    if [ -s ${file}.zst ] ; then
+        cat_or_zcat ${file}.zst
+    elif [ -s ${file}.gz ] ; then
+        cat_or_zcat ${file}.gz
+    else
+        cat_or_zcat ${file}
+    fi
+}
+
 load_plink2 () {
     # We installed PLINK2 software as a software module in our HPC system.
     # We call `ml load plink2` for the specified version. By doing this,
@@ -102,6 +113,20 @@ combine_check_files () {
     done
 }
 
+combine_get_and_cat_file_with_batch_idx () {
+    template_f=$1
+    batch_idx=$2
+
+    f=$(combine_get_file_name_with_batch_idx ${template_f} ${batch_idx})
+    if [ -s ${f}.zst ] ; then
+        cat_or_zcat ${f}.zst
+    elif [ -s ${f}.gz ] ; then
+        cat_or_zcat ${f}.gz
+    else
+        cat_or_zcat ${f}
+    fi
+}
+
 combine_log_files () {
     # combine the log files
     log_template_f=$1
@@ -131,18 +156,12 @@ combine_plink_files () {
     if [ ! -d $(dirname ${plink_combined_f}) ] ; then mkdir -p $(dirname ${plink_combined_f}) ; fi
     
     {
-        cat $(combine_get_file_name_with_batch_idx ${plink_template_f} 1) | egrep '^#'
+        combine_get_and_cat_file_with_batch_idx ${plink_template_f} 1 | awk 'NR==1'
 
         seq ${n_batch} | tr ' ' '\n' | while read batch_idx ; do
-            f=$(combine_get_file_name_with_batch_idx ${plink_template_f} ${batch_idx})
-            if [ -s ${f}.zst ] ; then
-                cat_or_zcat ${f}.zst
-            elif [ -s ${f}.gz ] ; then
-                cat_or_zcat ${f}.gz
-            else
-                cat_or_zcat ${f}
-            fi| egrep -v '^#'
+            combine_get_and_cat_file_with_batch_idx ${plink_template_f} ${batch_idx} | awk 'NR>1'
 #         done | sort -k1,1V -k2,2n -k3,3 # the file should be sorted..
         done
     } | bgzip -l9 -@${cores} > ${plink_combined_f%.gz}.gz
 }
+
