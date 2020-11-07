@@ -23,6 +23,16 @@ Specifically, we split the 17M variants into equally-sized 100 pieces for most a
 
 We used two computing clusters, Sherlock and scg. Because `/scratch` is not mounted on `scg`, we dumped some results under `oak` space. We moved/copied the results file from `oak` to `scratch` space so that we don't hit the disk uasge limits.
 
+| population        | n     |
+|-------------------|-------|
+| african           | 2641  |
+| e_asian           | 2011  |
+| non_british_white | 3152  |
+| others            | 3031  |
+| related           | 2921  |
+| s_asian           | 2897  |
+| white_british     | 3360  |
+
 ## Basic QC
 
 We counted the number of lines in each file.

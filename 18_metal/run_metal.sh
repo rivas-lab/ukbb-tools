@@ -14,6 +14,9 @@ flipcheck_sh="$(dirname ${SRCDIR})/09_liftOver/flipcheck.sh"
 ############################################################
 # update log
 ############################################################
+# version 0.3.1 (2020/11/6)
+#   The PLINK error code based filter (ERRCODE=='.') is now optional (--ERRCODE_filter).
+#
 # version 0.3.0 (2020/11/5)
 #   Additional input filter (ERRCODE=='.') is now implemented. With the previous changes in v.0.2.0, we now focus on lines with P != 'NA' and ERRCODE == '.'
 #
@@ -54,11 +57,12 @@ cat <<- EOF
 
 	Options:
       --out (-o) [REQUIRED] The prefix of output files
-	  --flipcheck_sh     The location of flip check script
-	  --nCores     (-t)  Number of CPU cores
-	  --in_file          List of input files for METAL
-	  --assembly    The genome build for the input file (option for flipcheck)
-	  --ref_fa      The reference genome sequence. (option for flipcheck)
+	  --flipcheck_sh        The location of flip check script
+	  --nCores     (-t)     Number of CPU cores
+	  --in_file             List of input files for METAL
+	  --assembly            The genome build for the input file (option for flipcheck)
+	  --ref_fa              The reference genome sequence. (option for flipcheck)
+	  --ERRCODE_filter      Check the ERRCODE column and keep the ones with ERRCODE == '.'
 
 	Note:
 	  We assume the input file has the following columns:
@@ -66,7 +70,7 @@ cat <<- EOF
 	  The output files will be
 	    - <outfile_prefix>.metal.tsv.gz : METAL output file
 	    - <outfile_prefix>.metal.info.txt : log file
-      This script internally calls flipcheck.sh. Please check 09_liftOver for more info.
+	  This script internally calls flipcheck.sh. Please check 09_liftOver for more info.
 
 	Default configurations:
 	  flipcheck_sh=${flipcheck_sh}
@@ -93,6 +97,7 @@ ref_fa="AUTO"
 assembly="hg19"
 in_file="AUTO"
 out="__REQUIRED__"
+ERRCODE_filter="FALSE"
 ## == Default parameters (end) == ##
 
 declare -a params=()
@@ -121,6 +126,9 @@ for OPT in "$@" ; do
             ;;
         '--assembly' )
             assembly=$2 ; shift 2 ;
+            ;;
+        '--ERRCODE_filter' )
+            ERRCODE_filter="TRUE" ; shift 1 ;
             ;;
         '--'|'-' )
             shift 1 ; params+=( "$@" ) ; break
@@ -179,7 +187,8 @@ cat ${tmp_infile_original} | awk '{print NR, $1}' | while read nr f ; do
     if [ "${f}" != "" ] ; then
         echo "pre-processing $f"
         tmp_f=${tmp_infile_dir}/metal_input.${nr}.gz
-        metal_pre_processing ${f} | bgzip -@ ${nCores} > ${tmp_f}
+        metal_pre_processing ${f} $([ "${ERRCODE_filter}" == "TRUE" ] && echo "ERRCODE" || echo "") \
+        | bgzip -@ ${nCores} > ${tmp_f}
         echo ${tmp_f} >> ${tmp_infile_list}
     fi
 done

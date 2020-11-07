@@ -12,7 +12,10 @@ cat <<- EOF
 	PVALUE P
 	STDERR SE
 	WEIGHT OBS_CT
-		
+	
+	EFFECT_PRINT_PRECISION 7
+	STDERR_PRINT_PRECISION 7
+	
 EOF
 }
 
@@ -89,19 +92,26 @@ metal_pre_processing () {
     #   1. For sumstats from logistic regression (we detect OR column), we add BETA column
     #   2. We focus on the lines where P != "NA" and ERRCODE == "." (if ERRCODE column exists)
     local in_file=$1
+    local ERRCODE_filter="FALSE"
+    if [ $# -gt 1 ] && [ $2 == "ERRCODE" ] ; then ERRCODE_filter="TRUE" ; fi
 
     check_OR_flag=$(show_header $in_file | tr "\t" "\n" | cat /dev/stdin <(echo OR) | grep OR | wc -l)
     check_ERRCODE_flag=$(show_header $in_file | tr "\t" "\n" | cat /dev/stdin <(echo ERRCODE) | grep ERRCODE | wc -l)
+    if [ "${ERRCODE_filter}" == "TRUE" ] && [ "${check_ERRCODE_flag}" -eq 1 ] ; then
+        echo "ERRCODE filter option is enabled but the ERRCODE column does not exist in the input file: ${in_file}" >&2
+        exit 1
+    fi   
+    
     col_P=$( get_col_idx $in_file "P")
-    if [ ${check_ERRCODE_flag} -gt 1 ] ; then
+    if [ "${ERRCODE_filter}" == "TRUE" ] && [ "${check_ERRCODE_flag}" -gt 1 ] ; then
         col_ERRCODE=$( get_col_idx $in_file "ERRCODE")
     fi
 
-    if [ ${check_OR_flag} -gt 1 ] ; then
+    if [ "${check_OR_flag}" -gt 1 ] ; then
         add_BETA_from_OR ${in_file}
     else
         cat_or_zcat ${in_file}
-    fi | if [ ${check_ERRCODE_flag} -gt 1 ] ; then
+    fi | if [ "${ERRCODE_filter}" == "TRUE" ] && [ "${check_ERRCODE_flag}" -gt 1 ] ; then
         awk -v OFS='\t' -v cP=${col_P} -v cE=${col_ERRCODE} '((NR == 1) || ($cP != "NA" && $cE == "."))'
     else
         awk -v OFS='\t' -v cP=${col_P} '((NR == 1) || ($cP != "NA"))'
