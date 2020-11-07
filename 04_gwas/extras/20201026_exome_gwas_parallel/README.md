@@ -25,13 +25,14 @@ We used two computing clusters, Sherlock and scg. Because `/scratch` is not moun
 
 | population        | n     |
 |-------------------|-------|
-| african           | 2641  |
-| e_asian           | 2011  |
+| white_british     | 3360  |
 | non_british_white | 3152  |
+| african           | 2641  |
+| s_asian           | 2897  |
+| e_asian           | 2011  |
 | others            | 3031  |
 | related           | 2921  |
-| s_asian           | 2897  |
-| white_british     | 3360  |
+| metal             | 3381  |
 
 ## Basic QC
 
