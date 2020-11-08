@@ -29,11 +29,20 @@ cat_or_zcat <- function(f){
 }
 
 fread_CHROM <- function(f, select=NULL){
-    fread(cmd=paste(cat_or_zcat(f), f), colClasses = c('#CHROM'='character'), select=select) %>% rename('CHROM'='#CHROM')
+    fread(
+        cmd=paste(cat_or_zcat(f), f, "| sed -e 's/^chr//g'"),
+#         cmd=paste(cat_or_zcat(f), f),
+        colClasses = c('#CHROM'='character'), select=select
+    ) %>% rename('CHROM'='#CHROM')
 }
 
+message_with_timestamp <- function(msg){
+    message(sprintf('[%s] %s', format(Sys.time(), format="%Y%m%d-%H%M%S"), msg))
+}
+
+
 # read files
-message('reading the source data files ..')
+message_with_timestamp('reading the source data files ..')
 vep_csq_f %>% fread(select=c('#Consequence', 'Csq')) %>% rename('Consequence'='#Consequence') -> vep_csq_df
 pvar_f     %>% fread_CHROM() -> pvar_df
 liftOver_f %>% fread_CHROM() -> liftOver_df
@@ -42,25 +51,25 @@ vep_f    %>% fread_CHROM() -> vep_df
 message('  .. done')
 
 # join
-message('join (1) VEP')
+message_with_timestamp('join (1) VEP')
 pvar_df %>%
 left_join(vep_df, by=c('CHROM', 'POS', 'REF', 'ALT')) %>%
 left_join(vep_csq_df, by='Consequence') -> full_df
 rm(vep_df)
 rm(vep_csq_df)
 
-message('join (2) AF HWE')
+message_with_timestamp('join (2) AF HWE')
 full_df %>%
 left_join(af_hwe_df, by=c('CHROM', 'POS', 'ID', 'REF', 'ALT'))  -> full_df
 rm(af_hwe_df)
 
-message('join (3) liftOver')
+message_with_timestamp('join (3) liftOver')
 full_df %>%
 left_join(liftOver_df, by=c('CHROM', 'POS', 'ID', 'REF', 'ALT')) -> full_df
 rm(liftOver_df)
 
 # write the results
-message('writing the results to disk ..')
+message_with_timestamp('writing the results to disk ..')
 full_df %>%
 select(all_of(c(compact_fields, setdiff(colnames(full_df), compact_fields)))) %>%
 rename('#CHROM' = 'CHROM') %>%

@@ -10,6 +10,10 @@ Please also check [`exome_oqfe_2020`](/03_filtering/exome_oqfe_2020) documentati
   - `ukb24983_exomeOQFE.annotation.tsv.zst`: the full variant annotation table.
   - `ukb24983_exomeOQFE.annotation.compact.tsv.zst`: the table with subset of columns.
 
+## version log
+
+- 2020/11/8: fix an error in `7_combine.R` that resulted in VEP-related field to be `NA`.
+
 ### column descriptor
 
 The following 20 columns are present in both files.
