@@ -60,3 +60,5 @@ bash 3_tabulate.sh
 
 This script shows the results into a table format. When you finish your computation, please run this script and save the results into a file.
 
+The latest `rg` results file can be found at `/oak/stanford/groups/mrivas/ukbb24983/array-combined/ldsc/rg.metal.20201102-173634.tsv`.
+
