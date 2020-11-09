@@ -165,3 +165,15 @@ combine_plink_files () {
     } | bgzip -l9 -@${cores} > ${plink_combined_f%.gz}.gz
 }
 
+######################################
+# look-up file
+######################################
+
+master_gwas_dump_file () {
+    local f=$1
+    GBE_ID=$(echo $f | awk -v FS='.' '{print $2}')
+    pop=$(basename $(dirname $f))
+    cat_or_zcat $f | egrep -v '^#' \
+    | awk -v pop=${pop} -v phe=${GBE_ID} -v OFS='\t' '{print pop, phe, $0}'
+}
+
