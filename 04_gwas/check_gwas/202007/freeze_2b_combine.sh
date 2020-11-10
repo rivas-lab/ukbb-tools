@@ -8,7 +8,7 @@ memory="60G"
 
 prefix='ukb24983_v2_hg19'
 variant_type='array-combined'
-freeze_v='20200815'
+freeze_v='20201106'
 p_thr='1e-3'
 
 data_d="/oak/stanford/groups/mrivas/ukbb24983/${variant_type}/gwas"
@@ -16,7 +16,7 @@ out_tsv="${data_d}/freeze/${freeze_v}/${prefix}.${pop}.${variant_type}.glm.${fre
 
 filtered_d="/scratch/groups/mrivas/ukbb24983/array-combined/gwas/freeze/${pop}"
 
-    
+ml load parallel    
 echo '#CHROM POS Variant_ID GBE_ID population REF ALT A1 OBS_CT BETA SE P' | tr ' ' '\t' > ${out_tsv}
 
 find ${filtered_d} -type f -size +68c | parallel "cat {} | grep -v '^#'" \

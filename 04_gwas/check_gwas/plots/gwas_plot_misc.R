@@ -15,7 +15,7 @@ suppressWarnings(suppressPackageStartupMessages({
 read_annotation_tbl <- function(annot_f){
     annot.arr <- fread(annot_f, sep='\t', data.table=FALSE) %>%
     mutate(
-        MAF=pmin(freq, 1-freq),
+        MAF=pmin(UKB_white_british_AF, 1-UKB_white_british_AF),
         variant = paste(CHROM, POS, REF, ALT, sep=':'),
         is_outside_of_MHC = (as.numeric(CHROM) == 6 & as.numeric(POS) < 25477797) | ( as.numeric(CHROM) == 6 & 36448354 < as.numeric(POS)) | as.numeric(CHROM) != 6
     )

@@ -18,7 +18,7 @@ if [ $# -ne 2 ] ; then usage >&1 ; exit 1 ; fi
 
 # load sofware, dump which versions are used
 export MODULEPATH="/home/groups/mrivas/.modules:${MODULEPATH}"
-ml load python/2.7.13
+ml load python/3.6.1
 
 _SLURM_JOBID=${SLURM_JOBID:=0} # use 0 for default value (for debugging purpose)
 _SLURM_ARRAY_TASK_ID=${SLURM_ARRAY_TASK_ID:=1}
@@ -39,6 +39,6 @@ echo -e "path\tstudy\tpheno\tR_phen\n$FILEPATH\t$POP\t$GBE_ID\tTRUE" > $output_f
 
 cat $output_folder/$GBE_ID.tmp.txt
 
-/share/software/user/open/python/2.7.13/bin/python mrp_production.py --file $output_folder/$GBE_ID.tmp.txt --R_var independent similar --variants ptv pav --metadata_path /oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-consequence_wb_maf_gene_ld_indep_mpc_pli.tsv --out_folder $output_folder
+/share/software/user/open/python/3.6.1/bin/python3 mrp_production.py --file $output_folder/$GBE_ID.tmp.txt --R_var independent similar --variants ptv pav --metadata_path /oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-consequence_wb_maf_gene_ld_indep_mpc_pli.tsv --out_folder $output_folder
 
 rm $output_folder/$GBE_ID.tmp.txt
