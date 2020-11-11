@@ -5,6 +5,9 @@ import numpy as np
 gbe = pd.read_table('mrp_rv_ma_array_gbe.txt')
 phen_info = pd.read_table('../05_gbe/array-combined/phenotype_info.tsv')[['#GBE_ID','GBE_NAME']]
 gbe = gbe.merge(phen_info, on='#GBE_ID')
+to_keep = pd.read_table('pheno_fields.tsv')
+if sys.argv[1] == "bf_filter":
+    gbe = gbe[gbe['#GBE_ID'].isin(list(to_keep['title']))]
 
 genes = np.unique(gbe['gene'])
 

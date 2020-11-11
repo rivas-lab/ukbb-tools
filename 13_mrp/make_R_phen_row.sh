@@ -24,7 +24,7 @@ if [ $# -ne 1 ] ; then usage >&1 ; exit 1 ; fi
 
 # load sofware, dump which versions are used
 export MODULEPATH="/home/groups/mrivas/.modules:${MODULEPATH}"
-ml load python/2.7.13
+ml load python/3.6.1
 
 _SLURM_JOBID=${SLURM_JOBID:=0} # use 0 for default value (for debugging purpose)
 _SLURM_ARRAY_TASK_ID=${SLURM_ARRAY_TASK_ID:=1}
@@ -40,4 +40,4 @@ GBE_ID=$(cat sumstat_paths.tsv | grep -v path | awk -v start_idx=$start_idx -v t
 echo $GBE_ID
 echo $cur_idx
 
-/share/software/user/open/python/2.7.13/bin/python make_R_phen_row.py $GBE_ID $cur_idx
+/share/software/user/open/python/3.6.1/bin/python3 make_R_phen_row.py $GBE_ID $cur_idx

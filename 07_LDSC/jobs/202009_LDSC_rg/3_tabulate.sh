@@ -32,7 +32,7 @@ find ${LDSC_rg_log_dir} -type f -name "${pop}.*.log" | sort -V > ${LDSC_rg_logs_
 
 echo "We found $(cat ${LDSC_rg_logs_f} | wc -l) files. Writing the results table to ${LDSC_rg_f}"
 
-bash /oak/stanford/groups/mrivas/users/${USER}/repos/rivas-lab/ukbb-tools/07_LDSC/helpers/ldsc_rg_view.sh -l ${LDSC_rg_logs_f} \
+bash /oak/stanford/groups/mrivas/users/${USER}/repos/ukbb-tools/07_LDSC/helpers/ldsc_rg_view.sh -l ${LDSC_rg_logs_f} \
 | sed -e "s%/scratch%/oak/stanford%g" \
 | sed -e "s%/oak/stanford/groups/mrivas/ukbb24983/array-combined/ldsc/metal/ukb24983_v2_hg19.%%g" \
 | sed -e "s%.array-combined.sumstats.gz%%g" \

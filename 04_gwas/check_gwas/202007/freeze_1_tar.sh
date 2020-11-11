@@ -5,7 +5,7 @@ pop=$1
 
 prefix='ukb24983_v2_hg19'
 variant_type='array-combined'
-freeze_v='20200815'
+freeze_v='20201106'
 
 data_d="/oak/stanford/groups/mrivas/ukbb24983/${variant_type}/gwas"
 out_tar="${data_d}/freeze/${freeze_v}/${prefix}.${pop}.${variant_type}.glm.${freeze_v}.tar"

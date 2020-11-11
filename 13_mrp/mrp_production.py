@@ -500,7 +500,7 @@ def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, se_thresh, out_folde
             + str(maf_thresh)
             + "_se_"
             + str(se_thresh)
-            + ".tsv",
+            + ".tsv.gz",
         )
     else:
         out_file = os.path.join(
@@ -514,13 +514,13 @@ def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, se_thresh, out_folde
             + str(maf_thresh)
             + "_se_"
             + str(se_thresh)
-            + ".tsv",
+            + ".tsv.gz",
         )
     out_df = out_df.sort_values(
         by=out_df.columns[1],
         ascending=False,
     )
-    out_df.to_csv(out_file, sep="\t", index=False)
+    out_df.to_csv(out_file, sep="\t", index=False, compression='gzip')
     print("")
     print(Fore.RED + "Results written to " + out_file + "." + Style.RESET_ALL)
     print("")
@@ -607,6 +607,8 @@ def get_output_file_columns(
         )
     else:
         fb = dm = im = None
+    if agg_type == "gene":
+        bf_df_columns.extend([num_variants])
     return bf_df_columns, fb, dm, im
 
 
@@ -705,7 +707,10 @@ def run_mrp(
         )
         if converged:
             num_converged += 1
-        data.append([key, bf] + posterior_probs + p_values)
+        if agg_type == "gene":
+            data.append([key, bf] + posterior_probs + p_values + [beta.shape[0]])
+        else:
+            data.append([key, bf] + posterior_probs + p_values)
     print("")
     print(str(num_converged) + "/" + str(len(m_dict)) + " genes' matrices had well-behaved eigenvalues.")
     bf_df = pd.DataFrame(data, columns=bf_df_columns)
@@ -1454,11 +1459,13 @@ def merge_dfs(sumstat_files, metadata_path):
     """
 
     print("")
-    print(Fore.CYAN + "Merging summary statistics with metadata...")
+    print(Fore.CYAN + "Merging summary statistics together...")
     conserved_columns = ["V", "#CHROM", "POS", "REF", "ALT", "A1"]
     outer_merge = partial(pd.merge, on=conserved_columns, how="outer")
     df = reduce(outer_merge, sumstat_files)
     metadata = pd.read_csv(metadata_path, sep="\t")
+    metadata = metadata[metadata['V'].isin(list(df['V']))]
+    print("Merging with metadata...")
     df = df.merge(metadata)
     df = set_sigmas(df)
     return df
