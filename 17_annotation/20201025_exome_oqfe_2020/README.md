@@ -4,6 +4,8 @@ Yosuke Tanigawa, 2020/10/25-30
 
 Please also check [`exome_oqfe_2020`](/03_filtering/exome_oqfe_2020) documentation as well.
 
+GWAS scan script and analysis scripts are [documented elseqhere](/04_gwas/extras/20201026_exome_gwas_parallel).
+
 ## data location
 
 - `/oak/stanford/groups/mrivas/ukbb24983/exome/annotation/20201025_exome_oqfe_2020/`
@@ -33,10 +35,10 @@ The following 20 columns are present in both files.
 - `UKB_white_british_hwe_p`: the HWE test p-value
 - `UKB_white_british_AF`: the alternate allele frequency computed in white British unrelated individuals in UKB. Note: this is AF, not MAF.
 - `UKB_AF`: the alternate allele frequency computed in 200k Exome cohort in UKB. Note: this is AF, not MAF.
-- `CHROM`: the chromosome in hg19 (UCSC liftOver)
-- `POS`: the position in hg19 (UCSC liftOver)
-- `REF`: the reference allele in hg19 (UCSC liftOver)
-- `ALT`: the alternate allele in hg19 (UCSC liftOver)
+- `CHROM_hg19`: the chromosome in hg19 (UCSC liftOver)
+- `POS_hg19`: the position in hg19 (UCSC liftOver)
+- `REF_hg19`: the reference allele in hg19 (UCSC liftOver)
+- `ALT_hg19`: the alternate allele in hg19 (UCSC liftOver)
 - `liftOver_unmapped_reason`: the error message from UCSC liftOver
 
 The next 133 columns (except `HGVSp`) are present only in the full table.

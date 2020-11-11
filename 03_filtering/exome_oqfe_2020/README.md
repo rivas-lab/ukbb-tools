@@ -9,6 +9,11 @@ Yosuke Tanigawa, 2020/10/26
 - `download`: (symlink to `/scratch`)
 - `ukb24983_exomeOQFE.{pgen,pvar.zst,psam}`
 
+## Related contents
+
+- [Variant annotation](/17_annotation/20201025_exome_oqfe_2020)
+- [GWAS analysis](/04_gwas/extras/20201026_exome_gwas_parallel)
+
 ## methods summary
 
 - [`1_download.sh`](1_download.sh): wrapper script for `gfetch`, submitted with [`1_download.sbatch.sh`](1_download.sbatch.sh)

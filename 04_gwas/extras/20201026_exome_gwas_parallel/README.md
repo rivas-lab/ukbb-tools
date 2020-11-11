@@ -2,12 +2,9 @@
 
 ## Yosuke Tanigawa, 2020/10/26-2020/11/10
 
-We apply GWAS scan for Exome 200k dataset.
+We perform association analysis using the [exome 200k dataset](/03_filtering/exome_oqfe_2020).
 
-## ToDo (as of 2020/11/10)
-
-- copy/move the files from `/scratch` to `/oak`
-- copy the results to google drive
+Please check our [documentation on variant annotation](/17_annotation/20201025_exome_oqfe_2020) as well.
 
 ## data location
 

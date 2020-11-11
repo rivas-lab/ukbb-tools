@@ -11,6 +11,7 @@ def get_dtype_master_gwas():
     Here, we define the data types in the master GWAS file
     '''
     return {
+        '#CHROM'           : 'str',
         'CHROM'            : 'str',
         'POS'              : 'int64',
         'Variant_ID'       : 'str',
@@ -48,7 +49,8 @@ def csv_to_parquet(in_f, out_f, delimiter='\t', dtype=None):
     '''
     pa_reader = pyarrow.csv.open_csv(
         in_f,
-        read_options = pyarrow.csv.ReadOptions(use_threads=True),
+        # read_options = pyarrow.csv.ReadOptions(use_threads=True),
+        read_options = pyarrow.csv.ReadOptions(use_threads=True, skip_rows=1, column_names=[x.replace('#', '') for x in pd.read_csv(in_f, sep='\t', nrows=0).columns]),
         parse_options=pyarrow.csv.ParseOptions(delimiter=delimiter),
         convert_options=pyarrow.csv.ConvertOptions(column_types=dtype)
     )
