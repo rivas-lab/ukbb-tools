@@ -17,5 +17,5 @@ out_f <- args[2]
 
 in_f %>%
 fread(colClasses = 'character', nThread=2) %>%
-mutate(POS = format(as.integer(as.numeric(POS))), scientific = F) %>%
+mutate(POS = format(as.integer(as.numeric(POS)), scientific = F)) %>%
 fwrite(out_f, sep='\t', na = "NA", quote=F, scipen=999, nThread=2)

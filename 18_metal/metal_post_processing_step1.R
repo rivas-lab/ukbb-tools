@@ -12,6 +12,8 @@ metal_f   <- args[2]
 out_f     <- args[3]
 ####################################################################
 
+options(scipen=999)
+
 # read metal output
 metal <- fread(metal_f, colClasses='character')
 
@@ -45,6 +47,8 @@ rename(
 ) %>%
 mutate(ALT = A1) %>%
 arrange(CHROM, as.numeric(POS)) %>%
+mutate(POS = format(as.integer(as.numeric(POS)), scientific = F)) %>%
 select(c('CHROM', 'POS', 'ID', 'REF', 'ALT', 'A1', 'OBS_CT', colnames(metal)[4:ncol(metal)])) %>%
 rename('#CHROM' = 'CHROM', 'BETA' = 'Effect', 'SE' = 'StdErr', 'P' = 'P-value') %>%
-fwrite(out_f, sep='\t')
+fwrite(out_f, sep='\t', scipen=999)
+
