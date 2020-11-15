@@ -26,6 +26,8 @@ The full results across 17M variants are available in `/scratch`.
 
 Here, we have tar ball as well as the master GWAS file containing all the genome- and phenome-wide associations with P <= 1e-3.
 
+A copy of the GWAS freeze is also available on [Google Drive](https://drive.google.com/drive/folders/1gBTMoLnwXsNNY31bLIJDuX-xNz43uGm3).
+
 ## GWAS analysis
 
 We used master phe file (version `20201002`) for quantitative phenotypes (`INI` and `QT_FC`) and phe files pointed in [`phenotype_info.tsv`](/05_gbe/array-combined/phenotype_info.tsv) for the binary phenotypes.
