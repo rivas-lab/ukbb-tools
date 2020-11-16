@@ -4,17 +4,17 @@
 
 We defined the following 7 populations. This final population assignment is recorded in the `population` column in the GWAS covariate file and the master phe file (see "file location" section below).
 
-| population         | UKBB   | UKBL  | w_exome 50k | wo_exome | n      |
-|--------------------|--------|-------|-------------|----------|--------|
-| white_british      | 300094 | 37035 | 34392       | 302737   | 337129 |
-| related            |  39873 |  4759 |  4297       |  40335   |  44632 |
-| others             |  26594 |  2062 |  3113       |  25543   |  28656 |
-| non_british_white  |  22406 |  2499 |  2694       |  22211   |  24905 |
-| s_asian            |   7831 |     0 |   876       |   6955   |   7831 |
-| african            |   6497 |     0 |   847       |   5650   |   6497 |
-| e_asian            |   1704 |     0 |   181       |   1523   |   1704 |
-| DO_NOT_PASS_SQC    |   1805 |   126 |   197       |   1734   |   1931 |
-| **Metal** (7 pops) |        |       |             |          | 451354 |
+| population         | UKBB   | UKBL  | w_exome 200k | w_exome 50k | wo_exome | n      |
+|--------------------|--------|-------|--------------|-------------|----------|--------|
+| white_british      | 300094 | 37035 | 137920       | 34392       | 302737   | 337129 |
+| related            |  39873 |  4759 |  18100       |  4297       |  40335   |  44632 |
+| others             |  26594 |  2062 |  12049       |  3113       |  25543   |  28656 |
+| non_british_white  |  22406 |  2499 |  10432       |  2694       |  22211   |  24905 |
+| s_asian            |   7831 |     0 |   3541       |   876       |   6955   |   7831 |
+| african            |   6497 |     0 |   2716       |   847       |   5650   |   6497 |
+| e_asian            |   1704 |     0 |    725       |   181       |   1523   |   1704 |
+| DO_NOT_PASS_SQC    |   1805 |   126 |    707       |   197       |   1734   |   1931 |
+| **Metal** (7 pops) |        |       | 185483       |             |          | 451354 |
 
 Note: `DO_NOT_PASS_SQC` is assigned as a "population" label to flag the set of individuals that do NOT pass our sample-level QC.
 
