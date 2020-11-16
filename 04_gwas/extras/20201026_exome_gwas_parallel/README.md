@@ -49,6 +49,8 @@ We used two computing clusters, Sherlock and scg. Because `/scratch` is not moun
 | related           | 2921  |
 | metal             | 3381  |
 
+Please see [documentation on population stratification (version 20200828)](/03_filtering/population_stratification_20200828/README.md#population-assignment) for the number of individuals included in each population subgroup.
+
 ## Basic QC
 
 We counted the number of lines in each file.
