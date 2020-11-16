@@ -6,7 +6,7 @@
 
 We defined the following 7 populations. This final population assignment is recorded in the `population` column in the GWAS covariate file and the master phe file (see "file location" section below).
 
-| population         | UKBB   | UKBL  | w_exome 200k | w_exome 50k | n      |
+| population         | UKBB   | UKBL  | w/[exome 200k](/03_filtering/exome_oqfe_2020) | w/exome 50k | n      |
 |--------------------|--------|-------|--------------|-------------|--------|
 | white_british      | 300094 | 37035 | 137920       | 34392       | 337129 |
 | related            |  39873 |  4759 |  18100       |  4297       |  44632 |
