@@ -480,8 +480,7 @@ def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, se_thresh, out_folde
     out_filename: Optional prefix for file output.
 
     """
-
-    outer_merge = partial(pd.merge, on=agg_type, how="outer")
+    outer_merge = partial(pd.merge, on=[agg_type], how="outer")
     out_df = reduce(outer_merge, bf_dfs)
     if not os.path.exists(out_folder):
         os.makedirs(out_folder)
@@ -517,7 +516,7 @@ def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, se_thresh, out_folde
             + ".tsv.gz",
         )
     out_df = out_df.sort_values(
-        by=out_df.columns[1],
+        by=out_df.columns[2],
         ascending=False,
     )
     out_df.to_csv(out_file, sep="\t", index=False, compression='gzip')
@@ -559,19 +558,23 @@ def get_output_file_columns(
     im: Imhof R method (rpy2 object), or None if --p_value is not invoked.
     
     """
-
-    bf_df_columns = [
-        agg_type,
-        "log_10_BF"
-        + "_study_"
-        + R_study_model
-        + "_var_"
-        + R_var_model
-        + "_"
-        + sigma_m_type
-        + "_"
-        + analysis,
-    ]
+    if agg_type == "gene":
+        bf_df_columns = [agg_type, "num_variants_" + analysis]
+    else:
+        bf_df_columns = [agg_type]
+    bf_df_columns.extend(
+        [
+            "log_10_BF"
+            + "_study_"
+            + R_study_model
+            + "_var_"
+            + R_var_model
+            + "_"
+            + sigma_m_type
+            + "_"
+            + analysis,
+        ]
+    )
     if prior_odds_list:
         bf_df_columns.extend(
             [
@@ -607,8 +610,6 @@ def get_output_file_columns(
         )
     else:
         fb = dm = im = None
-    if agg_type == "gene":
-        bf_df_columns.extend([num_variants])
     return bf_df_columns, fb, dm, im
 
 
@@ -708,7 +709,7 @@ def run_mrp(
         if converged:
             num_converged += 1
         if agg_type == "gene":
-            data.append([key, bf] + posterior_probs + p_values + [beta.shape[0]])
+            data.append([key, beta.shape[0], bf] + posterior_probs + p_values)
         else:
             data.append([key, bf] + posterior_probs + p_values)
     print("")
@@ -885,6 +886,7 @@ def loop_through_parameters(
                 R_var_models = ["independent"]
             for analysis in variant_filters:
                 analysis_df = filter_category(maf_df, analysis)
+                analysis_bf_dfs = []
                 for R_study, R_study_model in zip(R_study_list, R_study_models):
                     for R_var_model in R_var_models:
                         for sigma_m_type in sigma_m_types:
@@ -916,7 +918,10 @@ def loop_through_parameters(
                                 prior_odds_list,
                                 p_value_methods,
                             )
-                            bf_dfs.append(bf_df)
+                            analysis_bf_dfs.append(bf_df)
+                outer_merge = partial(pd.merge, on=[agg_type, "num_variants_" + analysis], how="outer")
+                analysis_bf_df = reduce(outer_merge, analysis_bf_dfs)
+                bf_dfs.append(analysis_bf_df)
             output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, se_thresh, out_folder, out_filename)
 
 
