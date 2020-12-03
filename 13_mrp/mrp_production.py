@@ -433,8 +433,8 @@ def calculate_all_params(
         df[df["gene_symbol"] == key] if agg_type == "gene" else df[df["V"] == key]
     )
     if sigma_m_type == "sigma_m_mpc_pli":
-        num_variants_mpc = len(subset_df[(subset_df['ptv'] == True) & (subset_df['pLI'] == True)])
-        num_variants_pli = len(subset_df[(subset_df['pav'] == True) & (subset_df['MPC'] >= 1)])
+        num_variants_mpc = len(subset_df[(subset_df['category'] == 'ptv') & (subset_df['pLI'] == True)])
+        num_variants_pli = len(subset_df[(subset_df['category'] == 'pav') & (subset_df['MPC'] >= 1)])
     else:
         num_variants_mpc, num_variants_pli = None, None
     sigma_m = subset_df[sigma_m_type].tolist()
@@ -1019,13 +1019,11 @@ def set_sigmas(df):
     df = df[df.sigma_m_var.notnull()]
     sigma_m_mpc_pli = list(df["sigma_m_var"])
     row_count = 0
-    df["ptv"] = df["most_severe_consequence"].isin(ptv)
-    df["pav"] = df["most_severe_consequence"].isin(pav)
     for i, row in df.iterrows():
         if sigma_m_mpc_pli[row_count] is not None:
-            if (row['ptv'] == True) and (row['pLI'] == True):
+            if (row['category'] == 'ptv') and (row['pLI'] == True):
                 sigma_m_mpc_pli[row_count] = 2 * sigma_m_mpc_pli[row_count]
-            elif (row['pav'] == True) and (row['MPC'] >= 1):
+            elif (row['category'] == 'pav') and (row['MPC'] >= 1):
                 sigma_m_mpc_pli[row_count] = row['MPC'] * sigma_m_mpc_pli[row_count]
         row_count += 1
     df['sigma_m_mpc_pli'] = sigma_m_mpc_pli
