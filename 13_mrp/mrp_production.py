@@ -432,36 +432,30 @@ def calculate_all_params(
     subset_df = (
         df[df["gene_symbol"] == key] if agg_type == "gene" else df[df["V"] == key]
     )
+    if sigma_m_type == "sigma_m_mpc_pli":
+        num_variants_mpc = len(subset_df[(subset_df['ptv'] == True) & (subset_df['pLI'] == True)])
+        num_variants_pli = len(subset_df[(subset_df['pav'] == True) & (subset_df['MPC'] >= 1)])
+    else:
+        num_variants_mpc, num_variants_pli = None, None
     sigma_m = subset_df[sigma_m_type].tolist()
     diag_sigma_m = np.diag(np.atleast_1d(np.array(sigma_m)))
     R_var = np.diag(np.ones(M)) if R_var_model == "independent" else np.ones((M, M))
     R_var, _ = is_pos_def_and_full_rank(R_var)
-    #print("R_var")
-    #print(R_var)
     R_study, _ = is_pos_def_and_full_rank(R_study)
-    #print("R_study")
-    #print(R_study)
     R_phen, _ = is_pos_def_and_full_rank(R_phen)
-    #print("R_phen")
-    #print(R_phen)
     S_var = np.dot(np.dot(diag_sigma_m, R_var), diag_sigma_m)
-    #print("S_var")
-    #print(S_var)
     beta_list, se_list = generate_beta_se(subset_df, pops, phenos)
     beta = np.array(beta_list).reshape(-1, 1)
     se = np.array(se_list)
     omega = np.kron(err_corr, np.diag(np.ones(M)))
-    #print(omega)
     U = np.kron(np.kron(R_study, R_phen), S_var)
     U, omega, beta, se = adjust_for_missingness(U, omega, beta, se, beta_list)
     U, converged = is_pos_def_and_full_rank(U, 0.8)
-    #print(U)
     diag_se = np.diag(se)
     v_beta = np.dot(np.dot(diag_se, omega), diag_se)
     v_beta, _ = is_pos_def_and_full_rank(v_beta)
-    #print(v_beta)
     mu = np.zeros(beta.shape)
-    return U, beta, v_beta, mu, converged
+    return U, beta, v_beta, mu, converged, num_variants_mpc, num_variants_pli
 
 
 def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, se_thresh, out_folder, out_filename):
@@ -558,10 +552,12 @@ def get_output_file_columns(
     im: Imhof R method (rpy2 object), or None if --p_value is not invoked.
     
     """
+
+    bf_df_columns = [agg_type]
     if agg_type == "gene":
-        bf_df_columns = [agg_type, "num_variants_" + analysis]
-    else:
-        bf_df_columns = [agg_type]
+        bf_df_columns.extend(["num_variants_" + analysis])
+    if sigma_m_type == "sigma_m_mpc_pli":
+        bf_df_columns.extend(["num_variants_mpc_" + analysis, "num_variants_pli_" + analysis])
     bf_df_columns.extend(
         [
             "log_10_BF"
@@ -680,7 +676,7 @@ def run_mrp(
         if i % 1000 == 0:
             print("Done " + str(i) + " " + agg_type + "s out of " + str(len(m_dict)))
         M = value
-        U, beta, v_beta, mu, converged = calculate_all_params(
+        U, beta, v_beta, mu, converged, num_variants_mpc, num_variants_pli = calculate_all_params(
             df,
             pops,
             phenos,
@@ -708,8 +704,10 @@ def run_mrp(
         )
         if converged:
             num_converged += 1
-        if agg_type == "gene":
+        if agg_type == "gene" and sigma_m_type != "sigma_m_mpc_pli":
             data.append([key, beta.shape[0], bf] + posterior_probs + p_values)
+        elif agg_type == "gene" and sigma_m_type == "sigma_m_mpc_pli":
+            data.append([key, beta.shape[0], num_variants_mpc, num_variants_pli, bf] + posterior_probs + p_values)
         else:
             data.append([key, bf] + posterior_probs + p_values)
     print("")
@@ -919,7 +917,10 @@ def loop_through_parameters(
                                 p_value_methods,
                             )
                             analysis_bf_dfs.append(bf_df)
-                outer_merge = partial(pd.merge, on=[agg_type, "num_variants_" + analysis], how="outer")
+                if sigma_m_type == "sigma_m_mpc_pli":
+                    outer_merge = partial(pd.merge, on=[agg_type, "num_variants_" + analysis, "num_variants_mpc_" + analysis, "num_variants_pli_" + analysis], how="outer")
+                else:
+                    outer_merge = partial(pd.merge, on=[agg_type, "num_variants_" + analysis], how="outer")
                 analysis_bf_df = reduce(outer_merge, analysis_bf_dfs)
                 bf_dfs.append(analysis_bf_df)
             output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, se_thresh, out_folder, out_filename)
@@ -1011,11 +1012,13 @@ def set_sigmas(df):
     df = df[df.sigma_m_var.notnull()]
     sigma_m_mpc_pli = list(df["sigma_m_var"])
     row_count = 0
+    df["ptv"] = df["most_severe_consequence"].isin(ptv)
+    df["pav"] = df["most_severe_consequence"].isin(pav)
     for i, row in df.iterrows():
         if sigma_m_mpc_pli[row_count] is not None:
-            if (row['most_severe_consequence'] in ptv) and (row['pLI'] == True):
+            if (row['ptv'] == True) and (row['pLI'] == True):
                 sigma_m_mpc_pli[row_count] = 2 * sigma_m_mpc_pli[row_count]
-            elif (row['most_severe_consequence'] in pav) and (row['MPC'] >= 1):
+            elif (row['pav'] == True) and (row['MPC'] >= 1):
                 sigma_m_mpc_pli[row_count] = row['MPC'] * sigma_m_mpc_pli[row_count]
         row_count += 1
     df['sigma_m_mpc_pli'] = sigma_m_mpc_pli
