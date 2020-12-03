@@ -556,8 +556,8 @@ def get_output_file_columns(
     bf_df_columns = [agg_type]
     if agg_type == "gene":
         bf_df_columns.extend(["num_variants_" + analysis])
-    if sigma_m_type == "sigma_m_mpc_pli":
-        bf_df_columns.extend(["num_variants_mpc_" + analysis, "num_variants_pli_" + analysis])
+        if sigma_m_type == "sigma_m_mpc_pli":
+            bf_df_columns.extend(["num_variants_mpc_" + analysis, "num_variants_pli_" + analysis])
     bf_df_columns.extend(
         [
             "log_10_BF"
@@ -885,9 +885,10 @@ def loop_through_parameters(
             for analysis in variant_filters:
                 analysis_df = filter_category(maf_df, analysis)
                 analysis_bf_dfs = []
-                for R_study, R_study_model in zip(R_study_list, R_study_models):
-                    for R_var_model in R_var_models:
-                        for sigma_m_type in sigma_m_types:
+                for sigma_m_type in sigma_m_types:
+                    sigma_m_type_bf_dfs = []
+                    for R_study, R_study_model in zip(R_study_list, R_study_models):
+                        for R_var_model in R_var_models:
                             print_params(
                                 analysis,
                                 R_study_model,
@@ -916,11 +917,17 @@ def loop_through_parameters(
                                 prior_odds_list,
                                 p_value_methods,
                             )
-                            analysis_bf_dfs.append(bf_df)
-                if sigma_m_type == "sigma_m_mpc_pli":
-                    outer_merge = partial(pd.merge, on=[agg_type, "num_variants_" + analysis, "num_variants_mpc_" + analysis, "num_variants_pli_" + analysis], how="outer")
-                else:
+                            sigma_m_type_bf_dfs.append(bf_df)
+                    if sigma_m_type == "sigma_m_mpc_pli":
+                        outer_merge = partial(pd.merge, on=[agg_type, "num_variants_" + analysis, "num_variants_mpc_" + analysis, "num_variants_pli_" + analysis], how="outer")
+                    else:
+                        outer_merge = partial(pd.merge, on=[agg_type, "num_variants_" + analysis], how="outer")
+                    sigma_m_type_bf_df = reduce(outer_merge, sigma_m_type_bf_dfs)
+                    analysis_bf_dfs.append(sigma_m_type_bf_df)
+                if agg_type == "gene":
                     outer_merge = partial(pd.merge, on=[agg_type, "num_variants_" + analysis], how="outer")
+                else:
+                    outer_merge = partial(pd.merge, on=[agg_type], how="outer")
                 analysis_bf_df = reduce(outer_merge, analysis_bf_dfs)
                 bf_dfs.append(analysis_bf_df)
             output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, se_thresh, out_folder, out_filename)
