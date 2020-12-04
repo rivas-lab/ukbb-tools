@@ -433,8 +433,8 @@ def calculate_all_params(
         df[df["gene_symbol"] == key] if agg_type == "gene" else df[df["V"] == key]
     )
     if sigma_m_type == "sigma_m_mpc_pli":
-        num_variants_mpc = len(subset_df[(subset_df['category'] == 'ptv') & (subset_df['pLI'] == True)])
-        num_variants_pli = len(subset_df[(subset_df['category'] == 'pav') & (subset_df['MPC'] >= 1)])
+        num_variants_pli = len(subset_df[(subset_df['category'] == 'ptv') & (subset_df['pLI'] == True)])
+        num_variants_mpc = len(subset_df[(subset_df['category'] == 'pav') & (subset_df['MPC'] >= 1)])
     else:
         num_variants_mpc, num_variants_pli = None, None
     sigma_m = subset_df[sigma_m_type].tolist()
