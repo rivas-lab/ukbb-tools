@@ -1,0 +1,15 @@
+[20201217-135213] Reading the source data files ..
+[20201217-135952] Size of the source dfs are:
+[20201217-135952]   pvar_df    : 17777950 x 5
+[20201217-135952]   vep_df     : 17981897 x 75
+[20201217-135952]   af_hwe_df  : 17777950 x 78
+[20201217-135952]   liftOver_df: 17981897 x 10
+[20201217-135952] join (1) VEP
+[20201217-140055]   full_df    : 17777950 x 76
+[20201217-140055] join (2) AF HWE
+[20201217-140157]   full_df    : 17777950 x 149
+[20201217-140157] join (3) liftOver
+[20201217-140256]   full_df    : 17777950 x 154
+[20201217-140256] writing the results to disk ..
+/scratch/groups/mrivas/ukbb24983/exome/annotation/20201025_exome_oqfe_2020/ukb24983_exomeOQFE.annotation.20201217.tsv
+/scratch/groups/mrivas/ukbb24983/exome/annotation/20201025_exome_oqfe_2020/ukb24983_exomeOQFE.annotation.20201217.compact.tsv

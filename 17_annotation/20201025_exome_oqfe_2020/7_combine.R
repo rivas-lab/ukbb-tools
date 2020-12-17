@@ -12,8 +12,8 @@ liftOver_f <- file.path(data_d, 'UKBexomeOQFE.hg19.tsv.gz')
 vep_csq_f  <- file.path('..', 'VEP_consequence_group.tsv')
 
 # output
-annot_f         <- file.path(data_d, 'ukb24983_exomeOQFE.annotation.tsv')
-annot_compact_f <- file.path(data_d, 'ukb24983_exomeOQFE.annotation.compact.tsv')
+annot_f         <- file.path(data_d, 'ukb24983_exomeOQFE.annotation.20201217.tsv')
+annot_compact_f <- file.path(data_d, 'ukb24983_exomeOQFE.annotation.20201217.compact.tsv')
 
 # constants
 compact_fields <- c(
@@ -42,31 +42,38 @@ message_with_timestamp <- function(msg){
 
 
 # read files
-message_with_timestamp('reading the source data files ..')
+message_with_timestamp('Reading the source data files ..')
 vep_csq_f %>% fread(select=c('#Consequence', 'Csq')) %>% rename('Consequence'='#Consequence') -> vep_csq_df
 pvar_f     %>% fread_CHROM() -> pvar_df
 liftOver_f %>% fread_CHROM() -> liftOver_df
-af_hwe_f %>% fread_CHROM() -> af_hwe_df
-vep_f    %>% fread_CHROM() -> vep_df
-message('  .. done')
+af_hwe_f   %>% fread_CHROM() -> af_hwe_df
+vep_f      %>% fread_CHROM() -> vep_df
+message_with_timestamp('Size of the source dfs are:')
+message_with_timestamp(sprintf('  %s: %d x %d', 'pvar_df    ', nrow(pvar_df),     ncol(pvar_df)))
+message_with_timestamp(sprintf('  %s: %d x %d', 'vep_df     ', nrow(vep_df),      ncol(vep_df)))
+message_with_timestamp(sprintf('  %s: %d x %d', 'af_hwe_df  ', nrow(af_hwe_df),   ncol(af_hwe_df)))
+message_with_timestamp(sprintf('  %s: %d x %d', 'liftOver_df', nrow(liftOver_df), ncol(liftOver_df)))
 
 # join
 message_with_timestamp('join (1) VEP')
 pvar_df %>%
-left_join(vep_df, by=c('CHROM', 'POS', 'REF', 'ALT')) %>%
+left_join(vep_df, by=c('CHROM', 'POS', 'ID', 'REF', 'ALT')) %>%
 left_join(vep_csq_df, by='Consequence') -> full_df
 rm(vep_df)
 rm(vep_csq_df)
+message_with_timestamp(sprintf('  %s: %d x %d', 'full_df    ', nrow(full_df),     ncol(full_df)))
 
 message_with_timestamp('join (2) AF HWE')
 full_df %>%
 left_join(af_hwe_df, by=c('CHROM', 'POS', 'ID', 'REF', 'ALT'))  -> full_df
 rm(af_hwe_df)
+message_with_timestamp(sprintf('  %s: %d x %d', 'full_df    ', nrow(full_df),     ncol(full_df)))
 
 message_with_timestamp('join (3) liftOver')
 full_df %>%
 left_join(liftOver_df, by=c('CHROM', 'POS', 'ID', 'REF', 'ALT')) -> full_df
 rm(liftOver_df)
+message_with_timestamp(sprintf('  %s: %d x %d', 'full_df    ', nrow(full_df),     ncol(full_df)))
 
 # write the results
 message_with_timestamp('writing the results to disk ..')

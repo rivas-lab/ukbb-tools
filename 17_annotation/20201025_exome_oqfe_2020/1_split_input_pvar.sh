@@ -47,7 +47,8 @@ find ${tmp_dir} -type f -name "${tmp_pvar_split_prefix}*" | while read pvar_part
     cat ${tmp_pvar_head} ${pvar_part} > ${data_d}/$(basename ${pvar_part}).pvar
 
     bash $(dirname ${SRCDIR})/helpers/pvar.to.vcf.sh ${data_d}/$(basename ${pvar_part}).pvar \
-    | sed -e 's/chrMT/chrM/g' | sed -e 's/chrXY/chrX/g' > ${data_d}/$(basename ${pvar_part}).vcf
+    | sed -e 's/^chr23/chrX/g' | sed -e 's/^chr24/chrY/g' \
+    | sed -e 's/chrMT/chrM/g'  | sed -e 's/chrXY/chrX/g' > ${data_d}/$(basename ${pvar_part}).vcf
 done
 
 echo ${data_d}

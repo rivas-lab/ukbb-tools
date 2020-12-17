@@ -1,6 +1,6 @@
 # Exome 200k data, variant annotation
 
-Yosuke Tanigawa, 2020/10/25-30
+Yosuke Tanigawa, 2020/10/25-30, 2020/12/17 (updated)
 
 Please also check [`exome_oqfe_2020`](/03_filtering/exome_oqfe_2020) documentation as well.
 
@@ -8,13 +8,25 @@ GWAS scan script and analysis scripts are [documented elseqhere](/04_gwas/extras
 
 ## data location
 
-- `/oak/stanford/groups/mrivas/ukbb24983/exome/annotation/20201025_exome_oqfe_2020/`
-  - `ukb24983_exomeOQFE.annotation.tsv.zst`: the full variant annotation table.
-  - `ukb24983_exomeOQFE.annotation.compact.tsv.zst`: the table with subset of columns.
+- `/oak/stanford/groups/mrivas/ukbb24983/exome/annotation/20201025_exome_oqfe_2020`
+  - `ukb24983_exomeOQFE.annotation.20201217.{tsv.gz,feather}`: the full variant annotation table.
+  - `ukb24983_exomeOQFE.annotation.20201217.compact.tsv.gz`: the table with subset of columns.
 
 ## version log
 
+- 2020/12/17: several updates
+  - Fix chromosome names for sex chromosomes (chrX and chrY, instead of chr23 and chr24) - this caused errors in batch 878-900.
+  - Add ID column in the vep output (`tableize_vcf.py --include_id`)
+  - Update the annotation for batches containing the sex chromosomes (batch 878-900), refresh all of the tsv files from batch 1-900, and merged them together.
 - 2020/11/8: fix an error in `7_combine.R` that resulted in VEP-related field to be `NA`.
+  - `ukb24983_exomeOQFE.annotation.compact.tsv.gz` is this version.
+
+## ToDo
+
+- Loftee plugin was NOT used in the analysis (as of 2020/12/17)
+- Variant QC was not applied to this exome 200k dataset (as of 2020/12/17)
+  - https://biobank.ndph.ox.ac.uk/showcase/refer.cgi?id=3803
+  - Szustakowski, J. D. et al. Advancing Human Genetics Research and Drug Discovery through Exome Sequencing of the UK Biobank. medRxiv 2020.11.02.20222232 (2020) doi:10.1101/2020.11.02.20222232.
 
 ### column descriptor
 
@@ -144,3 +156,10 @@ We computed the allele frequency and HWE test statistics for the 17,777,950 vari
 - `ukb24983_exomeOQFE.afreq_hwe.20201025.pvar.zst`: allele frequency, missingness, HWE p-value across populations
   - `ukb24983_exomeOQFE.afreq_hwe.20201025.compact.pvar.zst`: subset of fields
 
+## Combine all information into one file
+
+```{bash}
+Rscript 7_combine.R 2>&1 | tee 7_combine.$(date +%Y%m%d-%H%M%S).out
+```
+
+We have an example of log file: [`7_combine.20201217-135207.out`](7_combine.20201217-135207.out).

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -beEuo pipefail
 
-vep_d='/scratch/groups/mrivas/ukbb24983/exome-oqfe2020-annotation'
+vep_d='/scratch/groups/mrivas/ukbb24983/exome/annotation/20201025_exome_oqfe_2020'
 n_batch=900
 
 out_f=${vep_d}/UKBexomeOQFE.vep101.tsv.gz
@@ -14,6 +14,7 @@ out_f=${vep_d}/UKBexomeOQFE.vep101.tsv.gz
         if [ -f ${f} ] ; then cat ${f} | awk 'NR>1' ; fi
     done
 
-} | bgzip -l9 -@4 > ${out_f}
+} | bgzip -@6 > ${out_f}
 
 echo ${out_f}
+
