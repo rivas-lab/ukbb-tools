@@ -30,7 +30,7 @@ cat_or_zcat <- function(f){
 
 fread_CHROM <- function(f, select=NULL){
     fread(
-        cmd=paste(cat_or_zcat(f), f, "| sed -e 's/^chr//g'"),
+        cmd=paste(cat_or_zcat(f), f, "| sed -e 's/^chr//g'", "| sed -e 's/^23/X/g'", "| sed -e 's/^24/Y/g'"),        
 #         cmd=paste(cat_or_zcat(f), f),
         colClasses = c('#CHROM'='character'), select=select
     ) %>% rename('CHROM'='#CHROM')

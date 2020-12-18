@@ -16,6 +16,8 @@ GWAS scan script and analysis scripts are [documented elseqhere](/04_gwas/extras
 
 - 2020/12/17: several updates
   - Fix chromosome names for sex chromosomes (chrX and chrY, instead of chr23 and chr24) - this caused errors in batch 878-900.
+    - In the input VCF files for VEP
+    - The liftOver input file (and the results) also had this issue - we convert it back to X and Y in the merge script.
   - Add ID column in the vep output (`tableize_vcf.py --include_id`)
   - Update the annotation for batches containing the sex chromosomes (batch 878-900), refresh all of the tsv files from batch 1-900, and merged them together.
 - 2020/11/8: fix an error in `7_combine.R` that resulted in VEP-related field to be `NA`.
@@ -162,4 +164,4 @@ We computed the allele frequency and HWE test statistics for the 17,777,950 vari
 Rscript 7_combine.R 2>&1 | tee 7_combine.$(date +%Y%m%d-%H%M%S).out
 ```
 
-We have an example of log file: [`7_combine.20201217-135207.out`](7_combine.20201217-135207.out).
+We have an example of log file: [`7_combine.20201217-154041.out`](7_combine.20201217-154041.out).
