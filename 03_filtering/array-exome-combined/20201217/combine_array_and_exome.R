@@ -31,27 +31,30 @@ pull(ID) -> ID_exome
 array_f %>%
 fread(colClasses = 'character') %>%
 rename('CHROM'='#CHROM') %>%
-filter(ID %in% ID_array) -> array_df
+filter(ID %in% ID_array) %>%
+select(-CHROM, -POS, -REF, -ALT) -> array_df
 
 # read & filter exome
 exome_f %>%
 fread(colClasses = 'character') %>%
 rename('CHROM'='#CHROM') %>%
-filter(ID %in% ID_exome) -> exome_df
+filter(ID %in% ID_exome) %>%
+select(-CHROM, -POS, -REF, -ALT) -> exome_df
 
 # combine
+rm(ID_array)
+rm(ID_exome)
+bind_rows(array_df, exome_df) -> combined_df
+rm(array_df)
+rm(exome_df)
+
 pvar_df %>% select(CHROM, POS, ID, REF, ALT, sort_order) %>%
-inner_join(
-    bind_rows(
-        array_df %>% select(-CHROM, -POS, -REF, -ALT), 
-        exome_df %>% select(-CHROM, -POS, -REF, -ALT)
-    ),
-    by='ID'
-) %>%
-arrange(sort_order) %>%
-select(-sort_order) -> full_df
+inner_join(combined_df, by='ID') %>%
+arrange(sort_order) %>% select(-sort_order) -> full_df
+rm(combined_df)
 
 # write the results
 full_df %>%
 rename('#CHROM' = 'CHROM') %>%
 fwrite(out_f, sep='\t', na = "NA", quote=F)
+
