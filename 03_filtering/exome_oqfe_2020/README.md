@@ -49,7 +49,7 @@ We performed variant annotation using [VEP](/17_annotation/20201025_exome_oqfe_2
 
 The variants passed the following criteria are included: variant-level missingness < 10%, the Hardy-Weinberg equilibrium test (computed within unrelated individuals of white Brisith ancestry) p-value > 10^-15, and the variant is uniqly represented (the CHROM-POS-REF-ALT tupple is uniqly identified) in the PLINK dataset file.
 
-![variant.QC.20201222.UpSetR.png](UpSetR plot summarizing the variant-level QC filter)
+![UpSetR plot summarizing the variant-level QC filter](variant.QC.20201222.UpSetR.png)
 
 **Fig. Summary of variant QC (version 2020/12/22).** In total, we removed 195,920 variants that does not meet any of the following criteria: variant-level missingness < 10% ("missingness"), the Hardy-Weinberg equilibrium test (computed within unrelated individuals of white Brisith ancestry) p-value > 10^-15 ("HWE"), and the variant is uniqly represented (the CHROM-POS-REF-ALT tupple is uniqly identified) in the PLINK dataset file ("duplicated").
 
