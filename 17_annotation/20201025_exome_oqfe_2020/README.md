@@ -9,11 +9,14 @@ GWAS scan script and analysis scripts are [documented elseqhere](/04_gwas/extras
 ## data location
 
 - `/oak/stanford/groups/mrivas/ukbb24983/exome/annotation/20201025_exome_oqfe_2020`
-  - `ukb24983_exomeOQFE.annotation.20201217.{tsv.gz,feather}`: the full variant annotation table.
-  - `ukb24983_exomeOQFE.annotation.20201217.compact.tsv.gz`: the table with subset of columns.
+  - `ukb24983_exomeOQFE.annotation.20210108.{tsv.gz,feather}`: the full variant annotation table.
+  - `ukb24983_exomeOQFE.annotation.20210108.compact.tsv.gz`: the table with subset of columns.
 
 ## version log
 
+- 2021/1/8: the variant QC results are now incorporated in the `FILTER` column of the annotation file.
+  - We performed variant QC. Please read [here](/03_filtering/exome_oqfe_2020) for more information.
+  - The variant QC results are now incorporated in the `FILTER` column of the annotation file.
 - 2020/12/17: several updates
   - Fix chromosome names for sex chromosomes (chrX and chrY, instead of chr23 and chr24) - this caused errors in batch 878-900.
     - In the input VCF files for VEP

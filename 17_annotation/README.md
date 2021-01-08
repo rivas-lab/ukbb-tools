@@ -46,7 +46,7 @@ This folder contains wrappers to the Variant Effect Predictor version 87 that is
 ## Location of relevant annotation files on `$OAK`
 
 - [`array-combined`](20201012_array-combined): `/oak/stanford/groups/mrivas/ukbb24983/array-combined/annotation/annotation_20201012/ukb24983_cal_hla_cnv.annot_20201023.{tsv.gz,feather}`
-- [`exome` 200k](20201025_exome_oqfe_2020): `/oak/stanford/groups/mrivas/ukbb24983/exome/annotation/20201025_exome_oqfe_2020/ukb24983_exomeOQFE.annotation.20201217.{tsv.gz,feather}`
+- [`exome` 200k](20201025_exome_oqfe_2020): `/oak/stanford/groups/mrivas/ukbb24983/exome/annotation/20201025_exome_oqfe_2020/ukb24983_exomeOQFE.annotation.20210108.{tsv.gz,feather}`
   - VEP 2017 annotated version (GBE compatible): `/oak/stanford/groups/mrivas/ukbb24983/exome/annotation/20201025_exome_oqfe_2020/ukb_oqfe_bim_variant_annots.tsv.gz` 
 - `exome` 50k: `/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-[population]-variant_annots_gbe.tsv.gz`
 - `imp`: `/oak/stanford/groups/mrivas/ukbb24983/imp/annotation/annot.tsv.gz`
@@ -56,4 +56,3 @@ This folder contains wrappers to the Variant Effect Predictor version 87 that is
   - In principle, one can use the annotation files for `array-combined` dataset.
 
 Note: we converted the table file into Apache Arrow's feather format using [`tsvgz2feather.sh`](tsvgz2feather.sh) and [`tsvgz2feather.py`](tsvgz2feather.py).
-
