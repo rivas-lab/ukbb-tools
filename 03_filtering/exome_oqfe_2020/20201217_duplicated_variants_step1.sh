@@ -3,6 +3,7 @@ set -beEuo pipefail
 
 in_pvar="/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/oqfe_2020/ukb24983_exomeOQFE.pvar.zst"
 out_tsv="$(dirname ${in_pvar})/ukb24983_exomeOQFE.duplicates.noID.tsv"
+# later, we moved the files to /oak/stanford/groups/mrivas/ukbb24983/exome/qc/oqfe_2020/intermediate_files/ukb24983_exomeOQFE.duplicates.tsv.gz
 
 cat_or_zcat () {
     local file=$1

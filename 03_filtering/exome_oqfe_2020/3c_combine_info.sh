@@ -20,3 +20,4 @@ idx_f=${data_d}/pvcf_blocks.txt
 
 bgzip -@6 -l9 $(dirname ${data_d})/ukb23156_pvcf_info.tsv
 
+# later, this file is copied to /oak/stanford/groups/mrivas/ukbb24983/exome/qc/oqfe_2020/intermediate_files/ukb23156_pvcf_info.tsv.gz

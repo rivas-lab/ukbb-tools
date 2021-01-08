@@ -30,7 +30,7 @@ The list of QC-passed variants are in `/oak/stanford/groups/mrivas/ukbb24983/exo
 
 In the exome 200k dataset in UK Biobank, we find 163 pairs (326 variant IDs) of "duplicated" variants. Each pair represents the exact same variant, if you take `uniq` on (CHROM, POS, REF, ALT) tupple, but they are stored as different variants.
 
-The list of duplicated variants are stored in `/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/oqfe_2020/ukb24983_exomeOQFE.duplicates.tsv.gz`.
+The list of duplicated variants are stored in `/oak/stanford/groups/mrivas/ukbb24983/exome/qc/oqfe_2020/intermediate_files/ukb24983_exomeOQFE.duplicates.tsv.gz`.
 
 Please see the following two analysis scripts/notebook for more info.
 
@@ -64,6 +64,8 @@ There are 114,728 variants annotated with this flag.
 
 Note that the number of lines does not match with what we have in the plink genotype file. This is likely because some multi-allelic sites are represented in one line in pVCF file.
 
+We extracted the variant-level information to `/oak/stanford/groups/mrivas/ukbb24983/exome/qc/oqfe_2020/intermediate_files/ukb23156_pvcf_info.tsv.gz`.
+
 ### variant-level QC criteria
 
 #### version 2020/12/22
@@ -76,10 +78,26 @@ The variants passed the following criteria are included: variant-level missingne
 
 **Fig. Summary of variant QC (version 2020/12/22).** In total, we removed 195,920 variants that does not meet any of the following criteria: variant-level missingness < 10% ("missingness"), the Hardy-Weinberg equilibrium test (computed within unrelated individuals of white Brisith ancestry) p-value > 10^-15 ("HWE"), and the variant is uniqly represented (the CHROM-POS-REF-ALT tupple is uniqly identified) in the PLINK dataset file ("duplicated").
 
+##### additional notes, 2020/1/8
+
+We checked the overlap of QC-passed variants with the "MONOALLELIC" filter in pVCF file.
+It turned out that those variants marked as "MONOALLELIC" in pVCF file was not included in the genotype dataset.
+
+
 ## methods summary
 
 - [`1_download.sh`](1_download.sh): wrapper script for `gfetch`, submitted with [`1_download.sbatch.sh`](1_download.sbatch.sh)
 - [`2_merge.sh`](2_merge.sh): we combine the per-chromosome genotype files into one file.
+- We detect the set of "duplicated" variants
+  - [`20201217_duplicated_variants_step1.sh`](20201217_duplicated_variants_step1.sh)
+  - [`20201217_duplicated_variants_step2.ipynb`](20201217_duplicated_variants_step2.ipynb)
+- We have a set of scripts to download and query the pVCF files:
+  - [`3a_pvcf_download.sh`](3a_pvcf_download.sh)
+  - [`3b_pvcf2pvar.sh`](3b_pvcf2pvar.sh)
+  - [`3c_combine_info.sh`](3c_combine_info.sh)
+  - [`3d_pvcf_header.sh`](3d_pvcf_header.sh)
+  - [`3e_browse_pvcf_qual_fields.ipynb`](3e_browse_pvcf_qual_fields.ipynb)
+- [`4_variant_QC.ipynb`](4_variant_QC.ipynb): generate the UpSetR plot summarizing our QC procedure and generate the list of QC-passed variants.
 
 ### preparing the bim file
 
