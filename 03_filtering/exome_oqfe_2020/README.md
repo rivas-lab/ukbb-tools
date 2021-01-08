@@ -16,7 +16,9 @@ Yosuke Tanigawa, 2020/10/26
 
 ## QC
 
-The list of QC-passed variants are in `/oak/stanford/groups/mrivas/ukbb24983/exome/qc/oqfe_2020/ukb24983_exomeOQFE.passQC.20201222.lst`
+The list of QC-passed variants are in `/oak/stanford/groups/mrivas/ukbb24983/exome/qc/oqfe_2020/ukb24983_exomeOQFE.passQC.20201222.tsv.gz`.
+
+Starting version `20210108`, the results of our QC is also included in our variant annotation file. Please read [here](/17_annotation/20201025_exome_oqfe_2020) for more information.
 
 ### (cf.) QC criteria in Szustakowski et al 2020
 
