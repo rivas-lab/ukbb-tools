@@ -41,6 +41,29 @@ Please see the following two analysis scripts/notebook for more info.
 
 We performed variant annotation using [VEP](/17_annotation/20201025_exome_oqfe_2020).
 
+### pVCF file
+
+We downloeded the [Population level exome OQFE variants, pVCF format (UKB Data-Field 23156)](https://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=23156). The pVCF files have more detailed information including the variant calling quality and was used as a source file of the genotype dataset stored in the PLINK 1.9 file format. Because of the file size, the data is stored in 977 blocks (each block contains a continous genomic region).
+
+Example of the pVCF file header is extracted to [`pvcf.header.txt`](pvcf.header.txt).
+
+For example, there is a flag in the `FILTER` column.
+
+> ##FILTER=<ID=MONOALLELIC,Description="Site represents one ALT allele in a region with multiple variants that could not be unified into non-overlapping multi-allelic sites">
+
+There are 114,728 variants annotated with this flag.
+
+| FILTER      | n        |
+|-------------|----------|
+| .           | 15807976 |
+| MONOALLELIC |   114728 |
+
+![The distribution of QUAL score in pVCF file](pvcf.qual.distribution.png)
+
+**Fig. The distribution of QUAL score in pVCF file.** Here we show the distribution of the QUAL score in the pVCF file.
+
+Note that the number of lines does not match with what we have in the plink genotype file. This is likely because some multi-allelic sites are represented in one line in pVCF file.
+
 ### variant-level QC criteria
 
 #### version 2020/12/22

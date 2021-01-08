@@ -1,0 +1,19 @@
+##fileformat=VCFv4.2
+##FILTER=<ID=PASS,Description="All filters passed">
+##GLnexusVersion=v1.2.6-0-g4d057dc
+##GLnexusConfigName=DeepVariantWES
+##GLnexusConfigCRC32C=4105299981
+##GLnexusConfig={unifier_config: {drop_filtered: false, min_allele_copy_number: 1, min_AQ1: 35, min_AQ2: 20, min_GQ: 20, max_alleles_per_site: 32, monoallelic_sites_for_lost_alleles: true, preference: common}, genotyper_config: {revise_genotypes: true, min_assumed_allele_frequency: 9.99999975e-05, required_dp: 0, allow_partial_data: true, allele_dp_format: AD, ref_dp_format: MIN_DP, output_residuals: false, more_PL: true, squeeze: false, trim_uncalled_alleles: true, output_format: BCF, liftover_fields: [{orig_names: [MIN_DP, DP], name: DP, description: "##FORMAT=<ID=DP,Number=1,Type=Integer,Description=\"Approximate read depth (reads with MQ=255 or with bad mates are filtered)\">", type: int, number: basic, default_type: missing, count: 1, combi_method: min, ignore_non_variants: true}, {orig_names: [AD], name: AD, description: "##FORMAT=<ID=AD,Number=R,Type=Integer,Description=\"Allelic depths for the ref and alt alleles in the order listed\">", type: int, number: alleles, default_type: zero, count: 0, combi_method: min, ignore_non_variants: false}, {orig_names: [GQ], name: GQ, description: "##FORMAT=<ID=GQ,Number=1,Type=Integer,Description=\"Genotype Quality\">", type: int, number: basic, default_type: missing, count: 1, combi_method: min, ignore_non_variants: true}, {orig_names: [PL], name: PL, description: "##FORMAT=<ID=PL,Number=G,Type=Integer,Description=\"Phred-scaled genotype Likelihoods\">", type: int, number: genotype, default_type: missing, count: 0, combi_method: missing, ignore_non_variants: true}]}}
+##INFO=<ID=AF,Number=A,Type=Float,Description="Allele Frequency estimate for each alternate allele">
+##INFO=<ID=AQ,Number=A,Type=Integer,Description="Allele Quality score reflecting evidence for each alternate allele (Phred scale)">
+##INFO=<ID=AC,Number=A,Type=Integer,Description="Allele count in genotypes">
+##INFO=<ID=AN,Number=1,Type=Integer,Description="Total number of alleles in called genotypes">
+##FILTER=<ID=MONOALLELIC,Description="Site represents one ALT allele in a region with multiple variants that could not be unified into non-overlapping multi-allelic sites">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=RNC,Number=2,Type=Character,Description="Reason for No Call in GT: . = n/a, M = Missing data, P = Partial data, I = gVCF input site is non-called, D = insufficient Depth of coverage, - = unrepresentable overlapping deletion, L = Lost/unrepresentable allele (other than deletion), U = multiple Unphased variants present, O = multiple Overlapping variants present, 1 = site is Monoallelic, no assertion about presence of REF or ALT allele">
+##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Approximate read depth (reads with MQ=255 or with bad mates are filtered)">
+##FORMAT=<ID=AD,Number=R,Type=Integer,Description="Allelic depths for the ref and alt alleles in the order listed">
+##FORMAT=<ID=GQ,Number=1,Type=Integer,Description="Genotype Quality">
+##FORMAT=<ID=PL,Number=G,Type=Integer,Description="Phred-scaled genotype Likelihoods">
+##bcftools_viewVersion=1.2+htslib-1.2.1
+##bcftools_viewCommand=view -
