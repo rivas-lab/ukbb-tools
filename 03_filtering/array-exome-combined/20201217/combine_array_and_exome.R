@@ -17,8 +17,12 @@ pvar_f  <- args[4]
 
 # read pvar file
 pvar_f %>%
-fread(colClasses = c('#CHROM'='character')) %>%
+fread(
+    colClasses = c('#CHROM'='character'),
+    select=c('#CHROM', 'POS', 'ID', 'REF', 'ALT', 'FILTER', 'geno_data_source')
+) %>%
 rename('CHROM'='#CHROM') %>%
+filter(FILTER == '.') %>%
 mutate(sort_order = 1:n()) -> pvar_df
 
 pvar_df %>% filter(geno_data_source != 'exome200k') %>%

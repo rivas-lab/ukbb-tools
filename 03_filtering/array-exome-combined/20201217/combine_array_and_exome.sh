@@ -53,7 +53,7 @@ trap handler_exit EXIT
 # parser start
 ############################################################
 ## == Default parameters (start) == ##
-pvar_f=/scratch/groups/mrivas/ukbb24983/array-exome-combined/pgen/ukb24983_cal_hla_cnv_exomeOQFE.pvar.gz
+pvar_f=/scratch/groups/mrivas/ukbb24983/array-exome-combined/annotation/20201217/ukb24983_cal_hla_cnv_exomeOQFE.annot_compact_20210108.tsv.gz
 ## == Default parameters (end) == ##
 
 declare -a params=()

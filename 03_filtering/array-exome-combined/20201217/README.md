@@ -24,6 +24,7 @@ We use GRCh37/hg19 coordinate (use the exome datasets after applying liftUnder -
 - version `20210108`
   - there is no change in the genotype matrix
   - we used the latest variant annotation file (exome 200k has the QC flag in the annotation file) and generated the annotation file.
+  - we updated the combine scripts, [`combine_array_and_exome.sh`](combine_array_and_exome.sh) and [`combine_array_and_exome.R`](combine_array_and_exome.R), so that we focused on the QC-passed variants.
 - version `20201217`
   - the initial attempt of the array-exome combined dataset
   - since we had not finalized the variant QC for the exome 200k dataset back then, we have all the variants
