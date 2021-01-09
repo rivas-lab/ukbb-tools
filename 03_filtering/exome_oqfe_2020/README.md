@@ -86,6 +86,48 @@ We checked the overlap of QC-passed variants with the "MONOALLELIC" filter in pV
 It turned out that those variants marked as "MONOALLELIC" in pVCF file was not included in the genotype dataset.
 
 
+## penalty factor for snpnet
+
+### version 1, Yosuke Tanigawa, 2021/1/8
+
+Focusing on the 17582030 variants that passed the QC criteria, we assigned the 3-level penalty factor.
+
+- p.factor assignment rule
+  - PTVs or ClinVar pathogenic --> 0.5
+  - PAVs or ClinVar Likely pathogenic --> 0.75
+  - Others --> 1.0
+
+Here is the breakdown of the number of variants.
+
+| w     | CLIN_SIG_curated     | Csq    | n       |
+|-------|----------------------|--------|--------:|
+| 0.50  | 1_pathogenic         | intron |      50 |
+| 0.50  | 1_pathogenic         | others |      14 |
+| 0.50  | 1_pathogenic         | pav    |    4640 |
+| 0.50  | 1_pathogenic         | pcv    |      27 |
+| 0.50  | 1_pathogenic         | ptv    |    5351 |
+| 0.50  | 1_pathogenic         | utr    |      20 |
+| 0.50  | 2_likely_pathogenic  | ptv    |    3326 |
+| 0.50  | 3_no_pathogenic_info | ptv    |  484663 |
+| 0.75  | 2_likely_pathogenic  | intron |      34 |
+| 0.75  | 2_likely_pathogenic  | others |      11 |
+| 0.75  | 2_likely_pathogenic  | pav    |    4541 |
+| 0.75  | 2_likely_pathogenic  | pcv    |      35 |
+| 0.75  | 2_likely_pathogenic  | utr    |      10 |
+| 0.75  | 3_no_pathogenic_info | pav    | 5380877 |
+| 1.00  | 3_no_pathogenic_info | intron | 6564947 |
+| 1.00  | 3_no_pathogenic_info | others | 1163504 |
+| 1.00  | 3_no_pathogenic_info | pcv    | 2188587 |
+| 1.00  | 3_no_pathogenic_info | utr    | 1781393 |
+
+where, 
+
+- `w` is the assigned penalty factor (the variants with lower value will be prioritized)
+- `CLIN_SIG_curated` is the summary of ClinGen annotation
+- `Csq`: is the summary of the predicted consequence from VEP.
+- `n`: is the number of variants
+
+
 ## methods summary
 
 - [`1_download.sh`](1_download.sh): wrapper script for `gfetch`, submitted with [`1_download.sbatch.sh`](1_download.sbatch.sh)
