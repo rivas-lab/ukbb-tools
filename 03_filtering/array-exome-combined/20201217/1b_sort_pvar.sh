@@ -2,7 +2,7 @@
 set -beEuo pipefail
 
 data_d="/scratch/groups/mrivas/ukbb24983/array-exome-combined/pgen"
-in_f="${data_d}/ukb24983_cal_hla_cnv_exomeOQFE.unsorted.pvar"
+in_f="${data_d}/merge_list_pvar/ukb24983_cal_hla_cnv_exomeOQFE.unsorted.pvar"
 out_f=${in_f%.unsorted.pvar}.pvar
 
 cat ${in_f} | egrep '^#' | cut -f1-6 > ${out_f}

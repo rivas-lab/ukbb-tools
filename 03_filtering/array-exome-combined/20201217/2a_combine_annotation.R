@@ -5,10 +5,12 @@ suppressWarnings(suppressPackageStartupMessages({
 
 # filenames
 ukb_d <- '/scratch/groups/mrivas/ukbb24983'
-var_annot_f <- file.path(ukb_d, 'array-exome-combined/annotation/20201217/ukb24983_cal_hla_cnv_exomeOQFE.annot_20201217.tsv')
-var_annot_compact_f <- file.path(dirname(var_annot_f), 'ukb24983_cal_hla_cnv_exomeOQFE.annot_compact_20201217.tsv')
+# output
+var_annot_f <- file.path(ukb_d, 'array-exome-combined/annotation/20201217/ukb24983_cal_hla_cnv_exomeOQFE.annot_20210108.tsv')
+var_annot_compact_f <- file.path(dirname(var_annot_f), 'ukb24983_cal_hla_cnv_exomeOQFE.annot_compact_20210108.tsv')
+# input
 array_f <- file.path(ukb_d, 'array-combined/annotation/annotation_20201012/ukb24983_cal_hla_cnv.annot_20201023.tsv.gz')
-exome_f <- file.path(ukb_d, 'exome/annotation/20201025_exome_oqfe_2020/ukb24983_exomeOQFE.annotation.20201217.tsv.gz')
+exome_f <- file.path(ukb_d, 'exome/annotation/20201025_exome_oqfe_2020/ukb24983_exomeOQFE.annotation.20210108.tsv.gz')
 pvar_f  <- file.path(ukb_d, 'array-exome-combined/pgen/ukb24983_cal_hla_cnv_exomeOQFE.pvar.gz')
 
 # constants
