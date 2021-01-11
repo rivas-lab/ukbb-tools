@@ -54,3 +54,11 @@ variants at a specified float. Default 100.
 
 - An optional, `--maf_thresh` argument, which caps the minor allele frequency for 
 analyzed variants at a specified float. Default 0.01.
+
+```
+usage: mrpmm.py [-h] --variants VARIANTS --phenotypes PHENOTYPES
+                --metadata_path METADATA_PATH [--out_folder OUT_FOLDER]
+                [--C CLUSTERS [CLUSTERS ...]] [--se_thresh SE_THRESH]
+                [--maf_thresh MAF_THRESH]
+
+```
