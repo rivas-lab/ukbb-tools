@@ -1039,7 +1039,7 @@ def calculate_metrics(
     alpha: Prior for pcj.
     burn: Number of target burn-in iterations.
     niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
-    thinning: MCMC thinning paramter.
+    thinning: MCMC thinning parameter.
     maxloglkiter: Max log likelihood of the iteration.
     gene_len: Number of unique genes among M variants.
     K: Number of phenotypes.
@@ -1057,6 +1057,7 @@ def calculate_metrics(
     u95ci = np.percentile(alpha[burn + 1 : niter + 1 : thinning, 0], 97.5, axis=0)
     print("Mean alpha:")
     print(mean)
+    print("alpha_m50\talpha_l95\talpha_u95", file=alphaout)
     print(("%2.2f\t%2.2f\t%2.2f") % (mean, l95ci, u95ci), file=alphaout)
     alphaout.close()
     maxllkiter = np.max(maxloglkiter[burn + 1 : niter : thinning, 0])
@@ -1079,7 +1080,7 @@ def scaleout_write(
     scales: Scale parameters for annotations across clusters.
     burn: Number of target burn-in iterations.
     niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
-    thinning: MCMC thinning paramter.
+    thinning: MCMC thinning parameter.
     annot_map: List of unique annotations.
     
     Returns:
@@ -1088,6 +1089,7 @@ def scaleout_write(
     """
 
     scaleout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.scale", "w+")
+    print("index\tannotation\tscale_m50\tscale_l95\tscale_u95", file=scaleout)
     for annot_idx in range(0, annot_len):
         mean = np.mean(
             np.sqrt(scales[burn + 1 : niter + 1 : thinning, annot_idx]), axis=0
@@ -1158,6 +1160,10 @@ def mcout_write(
 
     mcout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.posteriors", "w+")
     var_prob_dict = {}
+    mcout.write("V\tmost_severe_consequence\tHGVSp\tgene_symbol\tdescription")
+    for c in range(C):
+        mcout.write("\tposterior_c" + str(c))
+    mcout.write("\n")
     for var_idx in range(0, M):
         mcout.write(
             chroff_vec[var_idx]
@@ -1196,7 +1202,7 @@ def probout_bcout_write(outpath, fout, C, bc, delta_m, burn, niter, thinning):
     delta_m: Indices of cluster memberships for each variant m in gene j.
     burn: Number of target burn-in iterations.
     niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
-    thinning: MCMC thinning paramter.
+    thinning: MCMC thinning parameter.
     
     Returns:
     None.
@@ -1204,13 +1210,13 @@ def probout_bcout_write(outpath, fout, C, bc, delta_m, burn, niter, thinning):
     """
 
     probout = fout + "_" + str(C) + ".mcmc.probs"
-    np.savetxt(outpath + probout, delta_m, fmt="%1.3f")
+    np.savetxt(outpath + probout, delta_m, fmt="%1.2f")
     bcout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.bc", "w+")
     bcout.write("cluster")
     for phenotype in phenotypes:
         print(
             ("\t%s\t%s\t%s")
-            % (phenotype + "m50", phenotype + "l95", phenotype + "u95"),
+            % (phenotype + "_m50", phenotype + "_l95", phenotype + "_u95"),
             end="",
             file=bcout,
         )
@@ -1320,7 +1326,7 @@ def gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning, C)
         across genes with prior alpha.
     burn: Number of target burn-in iterations.
     niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
-    thinning: MCMC thinning paramter.
+    thinning: MCMC thinning parameter.
     
     Returns:
     None.
@@ -1340,6 +1346,14 @@ def gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning, C)
             pcj[burn + 1 : niter + 1 : thinning, gene_idx, :], 97.5, axis=0
         )
     geneout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.gene.posteriors", "w+")
+    print("gene_symbol", file=geneout, end="")
+    for cluster in range(C):
+        print("\tc" + str(cluster) + "_m50", file=geneout, end="")
+    for cluster in range(C):
+        print("\tc" + str(cluster) + "_l95", file=geneout, end="")
+    for cluster in range(C):
+        print("\tc" + str(cluster) + "_u95", file=geneout, end="")
+    geneout.write("\n")
     for genekey in genes_dict.keys():
         print(genekey, file=geneout, end="")
         for i in range(0, len(genedatm50[genekey])):
@@ -1452,7 +1466,7 @@ def mrpmm(
     fdr: Threshold for false discovery rate (default: 0.05).
     niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
     burn: Number of target burn-in iterations.
-    thinning: MCMC thinning paramter.
+    thinning: MCMC thinning parameter.
     verbose: Prints extra materials to output files.
     outpath: Folder path prefix for output files.
     targeted: Whether or not we want to perform targeted analysis.
@@ -1969,6 +1983,13 @@ def return_err_and_R_phen(df, phenos, K, sumstat_file):
     return err_corr, R_phen
 
 
+def check_positive(value):
+    ivalue = int(value)
+    if ivalue <= 0:
+        raise argparse.ArgumentTypeError("%s is an invalid positive int value" % value)
+    return ivalue
+
+
 def initialize_parser():
 
     """
@@ -2038,12 +2059,35 @@ def initialize_parser():
          if folder does not exist, it will be created.""",
     )
     parser.add_argument(
-        "--fout",
-        type=str,
-        required=True,
-        dest="fout",
-        help="""file prefix for output.""",
+        "--C",
+        type=check_positive,
+        nargs="+",
+        default=[3],
+        dest="clusters",
+        help="""what number of clusters to use. must be valid ints. can input multiple
+         (default: 3).""",
     )
+    parser.add_argument(
+        "--se_thresh",
+        type=float,
+        default=100,
+        dest="se_thresh",
+        help="""SE threshold for variant inclusion""",
+    )
+    parser.add_argument(
+        "--maf_thresh",
+        type=float,
+        default=0.01,
+        dest="maf_thresh",
+        help="""MAF threshold for variant inclusion""",
+    )
+    #parser.add_argument(
+    #    "--fout",
+    #    type=str,
+    #    required=True,
+    #    dest="fout",
+    #    help="""file prefix for output.""",
+    #)
     return parser
 
 
@@ -2128,7 +2172,7 @@ def rename_columns(df, pheno):
     return df
 
 
-def read_in_summary_stat(path, pheno):
+def read_in_summary_stat(path, pheno, se_thresh):
 
     """
     Reads in one summary statistics file.
@@ -2174,7 +2218,7 @@ def read_in_summary_stat(path, pheno):
     # Filter for SE as you read it in
     df = rename_columns(df, pheno)
     df = df[df["SE" + "_" + pheno].notnull()]
-    df = df[df["SE" + "_" + pheno].astype(float) <= 0.2]
+    df = df[df["SE" + "_" + pheno].astype(float) <= se_thresh]
     # Filter out HLA region
     df = df[~((df["#CHROM"] == 6) & (df["POS"].between(25477797, 36448354)))]
     return df
@@ -2216,7 +2260,7 @@ if __name__ == "__main__":
     sumstat_files = []
 
     for path, pheno in zip(sumstat_paths, phenotypes):
-        sumstat = read_in_summary_stat(path, pheno)
+        sumstat = read_in_summary_stat(path, pheno, args.se_thresh)
         sumstat_files.append(sumstat)
 
     df = merge_dfs(sumstat_files, metadata)
@@ -2226,11 +2270,14 @@ if __name__ == "__main__":
 
     # Filter only for variants of interest
     df = df[df["V"].isin(chroff_vec)]
+    df = df[(df["maf"].astype(float) <= args.maf_thresh) & (df["maf"].astype(float) > 0)]
+    df = df[df.ld_indep == True]
     chroff_vec = list(df["V"])
     annot_vec = list(df["most_severe_consequence"])
     gene_vec = list(df["gene_symbol"])
-    # prot_vec = list(metadata['HGVSp'])
-    prot_vec = ["hgvsp"] * len(chroff_vec)
+    genes = np.unique(gene_vec)
+    prot_vec = list(df['HGVSp'])
+    # prot_vec = ["hgvsp"] * len(chroff_vec)
 
     # for now, put 0 if missing
     betas = df[["BETA_" + pheno for pheno in phenotypes]].fillna(0).values
@@ -2243,11 +2290,11 @@ if __name__ == "__main__":
 
     R_phen_inv = np.linalg.inv(R_phen)
     bics, aics, genedats, clusters, diffbics = [], [], [], [], []
-    #C = 0
-    clusters = [6]
+    #fout = args.fout
+    fout = "_".join(genes) + "_" + "_".join(phenotypes)
+
+    clusters = args.clusters
     for C in clusters:
-    #while True:
-        #C += 1
         [BIC, AIC, genedat] = mrpmm(
             betas,
             ses,
@@ -2257,7 +2304,7 @@ if __name__ == "__main__":
             prot_vec,
             chroff_vec,
             C,
-            args.fout,
+            fout,
             R_phen,
             R_phen_inv,
             phenotypes,
@@ -2286,4 +2333,4 @@ if __name__ == "__main__":
         #    diffbics.append(0)
     #print("Stopping at C = " + str(C) + "...")
     out_df = pd.DataFrame({'num_clusters': clusters, 'BIC': bics, 'AIC': aics})
-    out_df.to_csv(out_folder + str(args.fout) + ".mcmc.bic.aic", sep='\t', index=False)
+    out_df.to_csv(out_folder + str(fout) + ".mcmc.bic.aic", sep='\t', index=False)
