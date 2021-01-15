@@ -47,7 +47,7 @@ This folder contains wrappers to the Variant Effect Predictor version 87 that is
 
 - [`array-combined`](20201012_array-combined): `/oak/stanford/groups/mrivas/ukbb24983/array-combined/annotation/annotation_20201012/ukb24983_cal_hla_cnv.annot_20201023.{tsv.gz,feather}`
 - [`exome` 200k](20201025_exome_oqfe_2020): `/oak/stanford/groups/mrivas/ukbb24983/exome/annotation/20201025_exome_oqfe_2020/ukb24983_exomeOQFE.annotation.20210108.{tsv.gz,feather}`
-  - VEP 2017 annotated version (GBE compatible): `/oak/stanford/groups/mrivas/ukbb24983/exome/annotation/20201025_exome_oqfe_2020/ukb_oqfe_bim_variant_annots.tsv.gz` 
+  - VEP 2017 annotated version (GBE compatible): `/oak/stanford/groups/mrivas/ukbb24983/exome/annotation/20201025_exome_oqfe_2020/ukb_oqfe_bim_variant_annots_vep2017.tsv.gz` 
 - `exome` 50k: `/oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-[population]-variant_annots_gbe.tsv.gz`
 - `imp`: `/oak/stanford/groups/mrivas/ukbb24983/imp/annotation/annot.tsv.gz`
 - `cal`: there are several versions.
