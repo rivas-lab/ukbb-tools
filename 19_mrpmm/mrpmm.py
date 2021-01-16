@@ -1166,16 +1166,16 @@ def mcout_write(
     mcout.write("\n")
     for var_idx in range(0, M):
         mcout.write(
-            chroff_vec[var_idx]
+            str(chroff_vec[var_idx])
             + "\t"
-            + annot_vec[var_idx]
+            + str(annot_vec[var_idx])
             + "\t"
-            + prot_vec[var_idx]
+            + str(prot_vec[var_idx])
             + "\t"
-            + gene_vec[var_idx]
+            + str(gene_vec[var_idx])
             + "\t"
             + str(
-                gene_vec[var_idx] + ":" + annot_vec[var_idx] + ":" + prot_vec[var_idx]
+                str(gene_vec[var_idx]) + ":" + str(annot_vec[var_idx]) + ":" + str(prot_vec[var_idx])
             )
         )
         for c in range(0, C):
@@ -1433,7 +1433,7 @@ def mrpmm(
     xi_0=1,
     xi_alpha_0=1,
     fdr=0.05,
-    niter=1000,
+    niter=500,
     burn=100,
     thinning=1,
     verbose=True,
@@ -1655,7 +1655,7 @@ def mrpmm(
         C,
         delta_m,
         burn,
-        niter,
+        niter
     )
     if targeted:
         prot_write(
@@ -2062,10 +2062,10 @@ def initialize_parser():
         "--C",
         type=check_positive,
         nargs="+",
-        default=[3],
+        default=[1],
         dest="clusters",
         help="""what number of clusters to use. must be valid ints. can input multiple
-         (default: 3).""",
+         (default: 1).""",
     )
     parser.add_argument(
         "--se_thresh",
@@ -2081,13 +2081,6 @@ def initialize_parser():
         dest="maf_thresh",
         help="""MAF threshold for variant inclusion""",
     )
-    #parser.add_argument(
-    #    "--fout",
-    #    type=str,
-    #    required=True,
-    #    dest="fout",
-    #    help="""file prefix for output.""",
-    #)
     return parser
 
 
@@ -2289,11 +2282,11 @@ if __name__ == "__main__":
         out_folder = ""
 
     R_phen_inv = np.linalg.inv(R_phen)
-    bics, aics, genedats, clusters, diffbics = [], [], [], [], []
-    #fout = args.fout
+    bics, aics, genedats, clusters, log10BFs = [], [], [], [], []
     fout = "_".join(genes) + "_" + "_".join(phenotypes)
 
     clusters = args.clusters
+    clusters = list(set(clusters + [1]))
     for C in clusters:
         [BIC, AIC, genedat] = mrpmm(
             betas,
@@ -2310,7 +2303,7 @@ if __name__ == "__main__":
             phenotypes,
             R_phen_use=True,
             fdr=0.05,
-            niter=1000,
+            niter=500,
             burn=100,
             thinning=1,
             verbose=True,
@@ -2320,17 +2313,7 @@ if __name__ == "__main__":
         print("BIC: " + str(BIC))
         aics.append(AIC)
         genedats.append(genedat)
-        #clusters.append(C)
-        #diffbic = bics[0] - BIC
-        #if C > 2:
-        #    if diffbic < diffbics[-1]:
-        #        break
-        #    else:
-        #        diffbics.append(diffbic)
-        #elif C == 2:
-        #    diffbics.append(diffbic)
-        #else:
-        #    diffbics.append(0)
-    #print("Stopping at C = " + str(C) + "...")
-    out_df = pd.DataFrame({'num_clusters': clusters, 'BIC': bics, 'AIC': aics})
+    for i, C in enumerate(clusters):
+        log10BFs.append((bics[0] - bics[i])/(2 * np.log(10)))
+    out_df = pd.DataFrame({'num_clusters': clusters, 'BIC': bics, 'AIC': aics, 'log10BF': log10BFs})
     out_df.to_csv(out_folder + str(fout) + ".mcmc.bic.aic", sep='\t', index=False)
