@@ -11,14 +11,14 @@ if [ ! -d $(dirname ${out_f}) ] ; then mkdir -p $(dirname ${out_f}) ; fi
 
 GBE_ID=$(basename ${in_f} .metal.tsv.gz)
 
-GBE_CAT=$(echo $GBE_ID | sed -e "s/[0-9]//g")
+GBE_CAT=$(echo ${GBE_ID} | sed -e "s/[0-9]//g")
 
 if [ ! -f ${out_f} ] ; then
 
     if [ "${GBE_CAT}" == "QT_FC" ] || [ "${GBE_CAT}" == "INI" ] ; then
-        bash $src ${in_f}
+        bash ${src} ${in_f}
     else
-        bash $src --logit ${in_f}
+        bash ${src} --logit ${in_f}
     fi | bgzip -l9 > ${out_f}
 
 fi
