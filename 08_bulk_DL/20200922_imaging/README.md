@@ -26,3 +26,10 @@ Please ignore (but pleast don't delete) `*.bulk` and `*.lis` files - they are th
 - [`1_ukbconv.sh`](1_ukbconv.sh): this script generates the list of individuals with the specified bulk field
 - [`2_bulk_dl.sh`](2_bulk_dl.sh): this SLURM job script download the bulk data
 
+### example usage
+
+```
+bash 1_ukbconv.sh   # you may want to modify the list of UKB field IDs in the script
+sbatch 2_bulk_dl.sh # please submit this as a SLURM job
+```
+
