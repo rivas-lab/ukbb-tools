@@ -5,13 +5,11 @@ ml load ukbb-showcase-utils
 
 basket=2005693
 table=41413
-fids=(20204 20254) # 20202 20203 20260
+fids=(20202 20203 20204 20254 20260) # please specify the list of UKB fields here
 
 oak_d=/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/${basket}/${table}/download
 cd ${oak_d}
 
-#for fid in 20202 20203 20260 ; do
-#for fid in 20204 20254 ; do
 for fid in ${fids[@]} ; do
 
     bulk_f=/scratch/groups/mrivas/ukbb24983/phenotypedata/${basket}/${table}/bulk/ukb${basket}.${table}.${fid}/ukb${basket}.${table}.${fid}.bulk
@@ -19,12 +17,12 @@ for fid in ${fids[@]} ; do
     bulk_oak_f=$(echo ${bulk_f} | sed -e 's%/scratch%/oak/stanford%g')
 
     if [ ! -f ${bulk_oak_f} ] ; then
-
         # export the list of individuals with bulk file
         ukbconv ukb${table}.enc_ukb bulk -s${fid}
         mv ukb${table}.bulk ${bulk_f}
         cp ${bulk_f} ${bulk_oak_f}
     else
+        # copy the file from OAK to scratch
         cp ${bulk_oak_f} ${bulk_f}
     fi
 
