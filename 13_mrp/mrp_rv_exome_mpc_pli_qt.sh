@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH --job-name=mrp_rv_exome_mpc_pli
-#SBATCH --output=mrp_logs/mrp_rv_exome_mpc_pli.%A_%a.out
+#SBATCH --job-name=mrp_rv_exome_mpc_pli_qt
+#SBATCH --output=mrp_logs/mrp_rv_exome_mpc_pli_qt.%A_%a.out
 #SBATCH --nodes=1
 #SBATCH --cores=8
 #SBATCH --mem=64000
@@ -30,15 +30,15 @@ output_folder=$2
 this_idx=$_SLURM_ARRAY_TASK_ID
 
 min_N_count=100
-GBE_ID=$(cat ../05_gbe/exome_phenotype_info.tsv | awk -v min_N=${min_N_count} 'NR > 1 && $8 >= min_N' | egrep -v MED | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $1}' )
+GBE_ID=$(cat ../05_gbe/exome/200k/exome_phenotype_info.tsv | awk -v min_N=${min_N_count} 'NR > 1 && $8 >= min_N' | egrep -v MED | egrep -v cancer | egrep -v BIN_FC | egrep -v FH | egrep -v HC | egrep -v BIN | egrep -v TTE | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $1}' )
 POP="white_british"
 echo $GBE_ID >&1
-FILEPATH=$(find /oak/stanford/groups/mrivas/ukbb24983/exome/gwas/current -name "*.$GBE_ID.*gz" | grep -v freeze | grep -v old | grep -v ldsc | grep $POP);
+FILEPATH=$(find /oak/stanford/groups/mrivas/ukbb24983/exome/gwas/current/ -name "*.$GBE_ID.*gz" | grep -v freeze | grep -v old | grep -v ldsc | grep $POP);
 
 echo -e "path\tstudy\tpheno\tR_phen\n$FILEPATH\t$POP\t$GBE_ID\tTRUE" > $output_folder/$GBE_ID.tmp.txt;
 
 cat $output_folder/$GBE_ID.tmp.txt
 
-/share/software/user/open/python/3.6.1/bin/python3 mrp_production.py --file $output_folder/$GBE_ID.tmp.txt --R_var independent similar --variants ptv pav --sigma_m_types sigma_m_mpc_pli --filter_ld_indep --se_thresh 1 --maf_thresh 0.01 0.0005 --metadata_path /oak/stanford/groups/mrivas/ukbb24983/exome/pgen/spb/data/ukb_exm_spb-consequence_wb_maf_gene_ld_indep_mpc_pli.tsv --out_folder $output_folder
+/share/software/user/open/python/3.6.1/bin/python3 mrp_production.py --file $output_folder/$GBE_ID.tmp.txt --R_var independent similar --variants ptv pav --sigma_m_types sigma_m_mpc_pli --filter_ld_indep --se_thresh 100 --maf_thresh 0.01 0.0005 --metadata_path /oak/stanford/groups/mrivas/ukbb24983/exome/pgen/oqfe_2020/ukb_exm_oqfe-consequence_wb_maf_gene_ld_indep_mpc_pli.tsv --out_folder $output_folder
 
 rm $output_folder/$GBE_ID.tmp.txt
