@@ -29,7 +29,7 @@ Please ignore (but pleast don't delete) `*.bulk` and `*.lis` files - they are th
 ### example usage
 
 ```
-bash 1_ukbconv.sh   # you may want to modify the list of UKB field IDs in the script
-sbatch 2_bulk_dl.sh # please submit this as a SLURM job
+bash 1_ukbconv.sh         # you may want to modify the list of UKB field IDs in the script
+sbatch 2_bulk_dl.sh 20202 # I recommend running the download as a SLURM job
 ```
 
