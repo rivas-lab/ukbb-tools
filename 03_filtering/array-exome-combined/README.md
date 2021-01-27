@@ -2,7 +2,7 @@
 
 ### 20210111
 
-- The current (working) version.
+- The current version.
 - We properly handle the hg19/hg38 issue.
 - We incoporate the LD map / LD indep results computed [elsewhere](/03_filtering/array-exome-combined).
 
