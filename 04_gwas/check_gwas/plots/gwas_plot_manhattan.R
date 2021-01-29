@@ -28,10 +28,10 @@ gwas_sumstats_f %>%
 fread(colClasses = c('#CHROM'='character')) %>% rename('CHROM'='#CHROM') %>%
 select(CHROM, POS, ID, REF, ALT, P) %>%
 mutate(CHROM = if_else(CHROM == 'XY', 'X', CHROM), P = as.numeric(P), POS = as.numeric(POS), log10P = -log10(P)) %>%
-left_join(annot %>% select(ID, Gene_symbol), by='ID') %>%
+left_join(annot %>% select(ID, SYMBOL), by='ID') %>%
 mutate(
     rankP = rank(P),
-    repel_label = if_else((rankP <= 30) & (P <= 1e-6), Gene_symbol, ''),
+    repel_label = if_else((rankP <= 30) & (P <= 1e-6), SYMBOL, ''),
     color = if_else(CHROM %in% c(2 * 1:11, 'Y'), "2_even_chrs", "1_odd_chrs"),
 ) -> gwas_compact_df
 
