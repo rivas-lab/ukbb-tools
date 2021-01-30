@@ -5,7 +5,6 @@ INI	INI25028	11298	Median_T2star_in_caudate_(left)	Median T2star in caudate (L)	
 INI	INI25006	12327	Volume_of_grey_matter	Vol. of grey matter	19
 INI	INI20121	578	Cascot_confidence_score	Cascot confidence score	23
 INI	INI25692	11066	Weighted-mean_OD_in_tract_inferior_longitudinal_fasciculus_(right)	WA OD in tract inferior longitudinal fasciculus (R)	51
-BIN_FC	BIN_FC10004728	10891	Leg_pain_on_walking	Leg pain on walking	19
 BIN	BIN4096	167	Fractured_heel_(right)	Fractured heel (R)	18
 BIN_FC	BIN_FC30020550	3286	Non-drug_therapies_taken_for_anxiety	Non-drug therapies taken for anxiety	36
 BIN	BIN100260	14047	Added_milk_to_instant_coffee_always_(Diet,_24hr_recall,_Online_follow-up)	Added milk to instant coffee always (Diet, 24hr recall, Online follow-up)	73
@@ -153,7 +152,6 @@ HC	HC1268	1518	TTE_osteoporosis_without_pathological_fracture	TTE osteoporosis w
 BIN_FC	BIN_FC30006151	70	Fractured_bone_site(s)_(Hip)	Fractured bone site(s) (Hip)	28
 INI	INI22425	11908	Cardiac_index	Cardiac index	13
 BIN_FC	BIN_FC40020489	10495	Often_felt_loved_as_a_child	Often felt loved as a child	27
-BIN_FC	BIN_FC10001960	19675	Fed-up_feelings	Fed-up feelings	15
 HC	HC1508	13	TTE_other_congenital_malformations_of_heart	TTE other congenital malformations of heart	43
 HC	HC384	49	throat_or_larynx_disorder	Throat or larynx disorder	25
 BIN_FC	BIN_FC40020488	195	Often_Physically_abused_by_family_as_a_child	Often Physically abused by family as a child	44
@@ -251,7 +249,6 @@ INI	INI5107	37354	3mm_strong_meridian_angle_(right)	3mm strong meridian angle (R
 INI	INI101270	3795	Other_bread_intake_(Diet,_24hr_recall,_Online_follow-up)	Other bread intake (Diet, 24hr recall, Online follow-up)	56
 HC	HC1563	19	TTE_other_specified_congenital_malformation_syndromes_affecting_multiple_systems	TTE other specified congenital malformation syndromes affecting multiple systems	80
 BIN	BIN5326	44	Ever_had_surgery_for_glaucoma_or_high_eye_pressure	Ever had surgery for glaucoma or high eye pressure	50
-BIN_FC	BIN_FC10003404	8312	Neck/shoulder_pain_for_3+_months	Neck/shoulder pain for 3+ months	32
 INI	INI1003064	42344	PEF_predicted_ratio	PEF pred. ratio	15
 INI	INI25705	11066	Weighted-mean_ISOVF_in_tract_acoustic_radiation_(right)	WA ISOVF in tract acoustic radiation (R)	40
 HC	HC896	36	TTE_nystagmus_and_other_irregular_eye_movements	TTE nystagmus and other irregular eye movements	47
@@ -260,7 +257,6 @@ INI	INI23316	3836	Leg_bone_area_(right)	Leg bone area (R)	17
 HC	HC1230	9579	TTE_other_joint_disorders,_not_elsewhere_classified	TTE other joint disorders, not elsewhere classified	51
 HC	HC836	21	TTE_primary_disorders_of_muscles	TTE primary disorders of muscles	32
 INI	INI4138	280	Heel_bone_mineral_density_(BMD)_T-score,_manual_entry_(left)	Heel bone mineral density (BMD) T-score, manual entry (L)	57
-BIN_FC	BIN_FC10005529	364	Surgery_on_leg_arteries_(other_than_for_varicose_veins)	Surgery on leg arteries (other than for varicose veins)	55
 BIN	BIN21076	157	Vomiting_when_IBS_symptoms_first_began	Vomiting when IBS symptoms first began	38
 BIN_FC	BIN_FC2006150	1484	Vascular/heart_problems_diagnosed_by_doctor_Angina	Vascular/heart problems diagnosed by doctor Angina	50
 HC	HC901	3700	TTE_other_disorders_of_external_ear	TTE other disorders of external ear	35
@@ -420,7 +416,6 @@ BIN_FC	BIN_FC30004836	1648	Loud_music_exposure_frequency_(Yes,_for_less_than_a_y
 HC	HC747	1965	TTE_reaction_to_severe_stress,_and_adjustment_disorders	TTE reaction to severe stress, and adjustment disorders	55
 HC	HC1031	1179	TTE_bronchitis,_not_specified_as_acute_or_chronic	TTE bronchitis, not specified as acute or chronic	49
 HC	HC1314	513	TTE_neuromuscular_dysfunction_of_bladder,_not_elsewhere_classified	TTE neuromuscular dysfunction of bladder, not elsewhere classified	66
-BIN_FC	BIN_FC10001980	26640	Worrier_/_anxious_feelings	Worrier / anxious feelings	26
 INI	INI103200	2743	Prawns_intake_(Diet,_24hr_recall,_Online_follow-up)	Prawns intake (Diet, 24hr recall, Online follow-up)	51
 INI	INI30040	45311	Mean_corpuscular_volume	Mean corpuscular volume	23
 HC	HC1065	270	TTE_embedded_and_impacted_teeth	TTE embedded and impacted teeth	31
@@ -555,7 +550,6 @@ INI	INI25503	11067	Weighted-mean_FA_in_tract_inferior_longitudinal_fasciculus_(r
 INI	INI25791	12322	Volume_of_grey_matter_in_Inferior_Frontal_Gyrus,_pars_triangularis_(right)	Vol. of grey matter in Inferior Frontal Gyrus, pars triangularis (R)	68
 INI	INI102900	907	Goat's_cheese_intake_(Diet,_24hr_recall,_Online_follow-up)	Goat's cheese intake (Diet, 24hr recall, Online follow-up)	58
 INI	INI25029	11298	Median_T2star_in_caudate_(right)	Median T2star in caudate (R)	28
-BIN_FC	BIN_FC10003799	4549	Headaches_for_3+_months	Headaches for 3+ months	23
 QT_FC	QT_FC1002375	20572	Relative_age_of_first_facial_hair	Relative age of first facial hair	33
 INI	INI25094	11068	Mean_FA_in_fornix_cres+stria_terminalis_on_FA_skeleton_(right)	Mean FA in fornix cres+stria terminalis on FA skeleton (R)	58
 HC	HC827	508	TTE_mononeuropathies_of_lower_limb	TTE mononeuropathies of lower limb	34
@@ -619,7 +613,6 @@ INI	INI25082	11068	Mean_FA_in_posterior_corona_radiata_on_FA_skeleton_(right)	Me
 HC	HC1007	6470	TTE_acute_upper_respiratory_infections_of_multiple_and_unspecified_sites	TTE acute upper respiratory infections of multiple and unspecified sites	72
 HC	HC1288	80	TTE_chronic_nephritic_syndrome	TTE chronic nephritic syndrome	30
 HC	HC348	59	bell's_palsy/facial_nerve_palsy	Bell's palsy/facial nerve palsy	31
-BIN_FC	BIN_FC10002100	5931	Seen_a_psychiatrist_for_nerves,_anxiety,_tension_or_depression	Seen a psychiatrist for nerves, anxiety, tension or depression	62
 HC	HC1373	90	TTE_unspecified_abortion	TTE unspecified abortion	24
 HC	HC1151	61	TTE_allergic_contact_dermatitis	TTE allergic contact dermatitis	31
 HC	HC1424	1317	TTE_single_spontaneous_delivery	TTE single spontaneous delivery	31
@@ -642,7 +635,6 @@ BIN_FC	BIN_FC30020523	986	Sometimes_Physical_violence_by_partner_or_ex-partner_a
 INI	INI102710	6113	White_pasta_intake_(Diet,_24hr_recall,_Online_follow-up)	White pasta intake (Diet, 24hr recall, Online follow-up)	56
 INI	INI2149	39110	Lifetime_number_of_sexual_partners	Lifetime # of sexual partners	29
 HC	HC990	2335	TTE_varicose_veins_of_lower_extremities	TTE varicose veins of lower extremities	39
-BIN_FC	BIN_FC10002010	10470	Suffer_from_'nerves'	Suffer from 'nerves'	20
 INI	INI25084	11068	Mean_FA_in_posterior_thalamic_radiation_on_FA_skeleton_(right)	Mean FA in posterior thalamic radiation on FA skeleton (R)	58
 HC	HC303	364	malabsorption/coeliac_disease	Malabsorption/coeliac disease	29
 INI	INI25814	12322	Volume_of_grey_matter_in_Postcentral_Gyrus_(left)	Vol. of grey matter in Postcentral Gyrus (L)	44
@@ -738,7 +730,6 @@ BIN	BIN21035	6456	Currently_(in_last_3_months)_suffer_from_abdominal_pain	Curren
 HC	HC535	114	TTE_other_viral_infections_characterised_by_skin_and_mucous_membrane_lesions,_not_elsewhere	TTE other viral infections characterised by skin and mucous membrane lesions, not elsewhere	91
 INI	INI20191	16120	Fluid_intelligence_score	Fluid intelligence score	24
 BIN_FC	BIN_FC7001747	35425	Hair_colour_(natural,_before_greying)_brown	Hair colour (natural, before greying) brown	43
-BIN_FC	BIN_FC10005485	6001	Leg_pain_when_walking_normally	Leg pain when walking normally	30
 INI	INI25623	11067	Weighted-mean_L3_in_tract_acoustic_radiation_(left)	WA L3 in tract acoustic radiation (L)	37
 INI	INI25482	11066	Mean_ISOVF_in_superior_fronto-occipital_fasciculus_on_FA_skeleton_(right)	Mean ISOVF in superior fronto-occipital fasciculus on FA skeleton (R)	69
 INI	INI30020	45311	Haemoglobin_concentration	Haemoglobin concentration	25
@@ -830,7 +821,6 @@ BIN_FC	BIN_FC30020549	1186	Drugs_or_alcohol_taken_for_anxiety	Drugs or alcohol t
 HC	HC962	124	TTE_cardiac_arrest	TTE cardiac arrest	18
 INI	INI40009	7700	Reported_occurrences_of_cancer	Reported occurrences of cancer	30
 INI	INI25458	11066	Mean_ISOVF_in_posterior_limb_of_internal_capsule_on_FA_skeleton_(right)	Mean ISOVF in posterior limb of internal capsule on FA skeleton (R)	67
-BIN_FC	BIN_FC10004653	8348	Ever_highly_irritable/argumentative_for_2_days	Ever highly irritable/argumentative for 2 days	46
 INI	INI5276	38898	Index_of_best_refractometry_result_(left)	Index of best refractometry result (L)	38
 INI	INI25528	11067	Weighted-mean_MD_in_tract_inferior_fronto-occipital_fasciculus_(right)	WA MD in tract inferior fronto-occipital fasciculus (R)	55
 INI	INI3992	763	Age_emphysema/chronic_bronchitis_diagnosed	Age emphysema/chronic bronchitis diagnosed	42
@@ -847,7 +837,6 @@ BIN_FC	BIN_FC30005507	3777	Leg_pain_on_walking_:_action_taken_(Continue_at_same_
 INI	INI24023	45782	Average_16-hour_sound_level_of_noise_pollution	Ave. 16-hour noise lvl.	23
 INI	INI25901	12322	Volume_of_grey_matter_in_Vermis_Crus_I_Cerebellum	Vol. of grey matter in Vermis Crus I Cerebellum	47
 INI	INI101250	6227	Crispbread_intake_(Diet,_24hr_recall,_Online_follow-up)	Crispbread intake (Diet, 24hr recall, Online follow-up)	55
-BIN_FC	BIN_FC10002463	5337	Fractured/broken_bones_in_last_5_years	Fractured/broken bones in last 5 years	38
 HC	HC101	63	eye_trauma	Eye trauma	10
 INI	INI23290	4563	Femur_shaft_BMD_(bone_mineral_density)_(left)	Femur shaft BMD (bone mineral density) (L)	42
 BIN_FC	BIN_FC10001727	10456	Ease_of_skin_tanning_(Get_very_tanned)	Ease of skin tanning (Get very tanned)	38
@@ -882,7 +871,6 @@ BIN_FC	BIN_FC20022506	606	Tobacco_smoking_current_vs_past	Tobacco smoking curren
 INI	INI4106	43359	Heel_bone_mineral_density_(BMD)_T-score,_automated_(left)	Heel bone mineral density (BMD) T-score, automated (L)	54
 INI	INI3700	5455	Time_since_last_menstrual_period	Time since last menstrual period	32
 QT_FC	QT_FC1001558	46313	Alcohol_intake_frequency.	Alcohol intake frequency.	25
-BIN_FC	BIN_FC10002040	13744	Risk_taking	Risk taking	11
 INI	INI1498	43573	Coffee_intake	Coffee intake	13
 cancer	cancer1038	105	male_genital_tract_cancer	Male genital tract cancer	25
 INI	INI25013	12312	Volume_of_caudate_(left)	Vol. of caudate (L)	19
@@ -927,7 +915,6 @@ HC	HC533	371	TTE_rubella_[german_measles]	TTE rubella [german measles]	28
 HC	HC122	43	disorder_or_pituitary_gland	Disorder or pituitary gland	27
 BIN	BIN23073	120	H._pylori_Definition_I_seropositivity_for_Helicobacter_pylori	H. pylori Definition I seropositivity for Helicobacter pylori	61
 HC	HC222	87	arterial_embolism	Arterial embolism	17
-BIN_FC	BIN_FC10002020	9272	Loneliness,_isolation	Loneliness, isolation	21
 INI	INI23043	838	Catalase_antigen_for_Helicobacter_pylori	Catalase antigen for Helicobacter pylori	40
 HC	HC1532	61	TTE_undescended_testicle	TTE undescended testicle	24
 INI	INI23108	45556	Impedance_of_leg_(left)	Impedance of leg (L)	20
@@ -1025,13 +1012,11 @@ HC	HC85	152	enlarged_prostate	Enlarged prostate	17
 INI	INI104030	12761	Boiled/baked_potatoes_intake_(Diet,_24hr_recall,_Online_follow-up)	Boiled/baked potatoes intake (Diet, 24hr recall, Online follow-up)	66
 INI	INI25357	11066	Mean_ICVF_in_superior_cerebellar_peduncle_on_FA_skeleton_(left)	Mean ICVF in superior cerebellar peduncle on FA skeleton (L)	60
 INI	INI23284	4564	Trunk_fat_mass	Trunk fat mass	14
-BIN_FC	BIN_FC10003393	1904	Hearing_aid_user	Hearing aid user	16
 BIN	BIN20406	492	Ever_addicted_to_alcohol	Ever addicted to alcohol	24
 INI	INI2217	41261	Age_started_wearing_glasses_or_contact_lenses	Age started wearing glasses or contact lenses	45
 INI	INI25062	11068	Mean_FA_in_corticospinal_tract_on_FA_skeleton_(right)	Mean FA in corticospinal tract on FA skeleton (R)	49
 INI	INI25030	11298	Median_T2star_in_putamen_(left)	Median T2star in putamen (L)	28
 HC	HC685	34	TTE_deficiency_of_other_nutrient_elements	TTE deficiency of other nutrient elements	41
-BIN_FC	BIN_FC10002814	9882	Ever_used_hormone-replacement_therapy_(HRT)	Ever used hormone-replacement therapy (HRT)	43
 INI	INI25656	11066	Weighted-mean_ICVF_in_tract_parahippocampal_part_of_cingulum_(left)	WA ICVF in tract parahippocampal part of cingulum (L)	53
 INI	INI4101	43359	Heel_broadband_ultrasound_attenuation_(left)	Heel broadband ultrasound attenuation (L)	41
 INI	INI25720	11066	Weighted-mean_ISOVF_in_tract_middle_cerebellar_peduncle	WA ISOVF in tract middle cerebellar peduncle	44
@@ -1138,7 +1123,6 @@ HC	HC1	570	bowel_/_intestinal_obstruction	Bowel / intestinal obstruction	30
 HC	HC144	1086	chickenpox	Chickenpox	10
 HC	HC1233	78	TTE_systemic_lupus_erythematosus	TTE systemic lupus erythematosus	32
 INI	INI25735	12327	Inverted_contrast-to-noise_ratio_in_T1	Inverted contrast-to-noise ratio in T1	38
-BIN_FC	BIN_FC10005463	3518	Leg_pain_in_calf/calves	Leg pain in calf/calves	23
 BIN_FC	BIN_FC5001747	4021	Hair_colour_(natural,_before_greying)_black	Hair colour (natural, before greying) black	43
 BIN_FC	BIN_FC30020489	5246	Sometimes_felt_loved	Sometimes felt loved	20
 BIN	BIN21026	150	Discomfort/pain_occurring_only_during_menstrual_bleed	Discomfort/pain occurring only during menstrual bleed	53
@@ -1248,7 +1232,6 @@ INI	INI25696	11066	Weighted-mean_OD_in_tract_posterior_thalamic_radiation_(left)
 INI	INI25798	12322	Volume_of_grey_matter_in_Superior_Temporal_Gyrus,_anterior_division_(left)	Vol. of grey matter in Superior Temporal Gyrus, anterior division (L)	69
 INI	INI30080	45311	Platelet_count	Platelet count	14
 INI	INI100490	3982	Intake_of_sugar_added_to_tea_(Diet,_24hr_recall,_Online_follow-up)	Intake of sugar added to tea (Diet, 24hr recall, Online follow-up)	66
-BIN_FC	BIN_FC1002159	1884	Ever_had_same-sex_intercourse	Ever had same-sex intercourse	29
 HC	HC139	37	breast_cysts	Breast cysts	12
 HC	HC748	28	TTE_dissociative_[conversion]_disorders	TTE dissociative [conversion] disorders	39
 HC	HC149	115	rheumatic_fever	Rheumatic fever	15
@@ -1330,7 +1313,6 @@ INI	INI22150	234	Age_COPD_(Chronic_Obstructive_Pulmonary_Disease)_diagnosed_by_d
 BIN_FC	BIN_FC4006148	3468	Eye_problems/disorders_Cataract	Eye problems/disorders Cataract	31
 HC	HC1078	357	TTE_diseases_of_tongue	TTE diseases of tongue	22
 INI	INI25594	11067	Weighted-mean_L1_in_tract_uncinate_fasciculus_(left)	WA L1 in tract uncinate fasciculus (L)	38
-BIN_FC	BIN_FC10004642	2685	Ever_manic/hyper_for_2_days	Ever manic/hyper for 2 days	27
 HC	HC1176	64	TTE_alopecia_areata	TTE alopecia areata	19
 INI	INI21049	3460	Degree_bothered_by_pain_in_arms/legs/joints_in_the_past_3_months	Degree bothered by pain in arms/legs/joints in the past 3 months	64
 INI	INI914	28799	Duration_of_vigorous_activity	Duration of vigorous activity	29
@@ -1577,7 +1559,6 @@ HC	HC876	68	TTE_other_disorders_of_choroid	TTE other disorders of choroid	30
 INI	INI23214	4577	Femur_troch_BMD_(bone_mineral_density)_(right)	Femur troch BMD (bone mineral density) (R)	42
 BIN_FC	BIN_FC10020175	3514	FI6_:_conditional_arithmetic	FI6 : conditional arithmetic	28
 HC	HC123	345	muscle/soft_tissue_problem	Muscle/soft tissue problem	26
-BIN_FC	BIN_FC10001970	11348	Nervous_feelings	Nervous feelings	16
 INI	INI25659	11066	Weighted-mean_ICVF_in_tract_corticospinal_tract_(right)	WA ICVF in tract corticospinal tract (R)	40
 HC	HC1207	39	TTE_pyogenic_arthritis	TTE pyogenic arthritis	22
 BIN	BIN22133	65	Doctor_diagnosed_sarcoidosis	Doctor diagnosed sarcoidosis	28
@@ -1605,7 +1586,6 @@ HC	HC1309	15	TTE_unspecified_contracted_kidney	TTE unspecified contracted kidney
 INI	INI25898	12322	Volume_of_grey_matter_in_Vermis_VI_Cerebellum	Vol. of grey matter in Vermis VI Cerebellum	43
 INI	INI3146	6749	Speed_of_sound_through_heel	Speed of sound through heel	27
 BIN_FC	BIN_FC9006153	2186	Hormone_replacement_therapy	Hormone replacement therapy	27
-BIN_FC	BIN_FC10002316	11276	Wheeze_or_whistling_in_the_chest_in_last_year	Wheeze or whistling in the chest in last year	45
 HC	HC427	90	ovarian_cyst_or_cysts	Ovarian cyst or cysts	21
 HC	HC1350	1333	TTE_noninflammatory_disorders_of_ovary,_fallopian_tube_and_broad_ligament	TTE noninflammatory disorders of ovary, fallopian tube and broad ligament	73
 INI	INI20405	20357	Ever_had_known_person_concerned_about,_or_recommend_reduction_of,_alcohol_consumption	Ever had known person concerned about, or recommend reduction of, alcohol consumption	85
@@ -1828,7 +1808,6 @@ INI	INI30750	43524	Glycated_haemoglobin_(HbA1c)	Glycated haemoglobin (HbA1c)	28
 INI	INI1309	45034	Fresh_fruit_intake	Fresh fruit intake	18
 INI	INI25088	11068	Mean_FA_in_external_capsule_on_FA_skeleton_(right)	Mean FA in external capsule on FA skeleton (R)	46
 INI	INI10612	53	Number_of_words_beginning_with_'S'_(pilot)	# of words beginning with 'S' (pilot)	37
-BIN_FC	BIN_FC10003414	4794	Hip_pain_for_3+_months	Hip pain for 3+ months	22
 BIN_FC	BIN_FC10020193	64	FI14_:_alphanumeric_substitution	FI14 : alphanumeric substitution	32
 HC	HC249	21	hepatitis_c	Hepatitis c	11
 INI	INI25807	12322	Volume_of_grey_matter_in_Middle_Temporal_Gyrus,_temporooccipital_part_(right)	Vol. of grey matter in Middle Temporal Gyrus, temporooccipital part (R)	71
@@ -1843,7 +1822,6 @@ HC	HC1558	137	TTE_other_congenital_malformations_of_skin	TTE other congenital ma
 HC	HC1171	1807	TTE_skin_changes_due_to_chronic_exposure_to_nonionising_radiation	TTE skin changes due to chronic exposure to nonionising radiation	65
 INI	INI25547	11067	Weighted-mean_MO_in_tract_cingulate_gyrus_part_of_cingulum_(right)	WA MO in tract cingulate gyrus part of cingulum (R)	51
 INI	INI25633	11067	Weighted-mean_L3_in_tract_forceps_major	WA L3 in tract forceps major	28
-BIN_FC	BIN_FC10002473	10807	Other_serious_medical_condition/disability_diagnosed_by_doctor	Other serious medical condition/disability diagnosed by doctor	62
 INI	INI25597	11067	Weighted-mean_L2_in_tract_acoustic_radiation_(right)	WA L2 in tract acoustic radiation (R)	37
 BIN_FC	BIN_FC10005934	757	Which_eye(s)_affected_by_other_serious_eye_condition_(Right_eye)	Which eye(s) affected by other serious eye condition (Right eye)	64
 INI	INI25794	12322	Volume_of_grey_matter_in_Precentral_Gyrus_(left)	Vol. of grey matter in Precentral Gyrus (L)	43
@@ -2056,7 +2034,6 @@ HC	HC165	503	type_2_diabetes	Type 2 diabetes	15
 HC	HC308	139	hypertrophic_cardiomyopathy_(hcm_/_hocm)	Hypertrophic cardiomyopathy (hcm / hocm)	40
 BIN	BIN6017	36814	Able_to_walk_or_cycle_unaided_for_10_minutes	Able to walk or cycle unaided for 10 minutes	44
 BIN	BIN100320	306	Added_milk_to_espresso_always_(Diet,_24hr_recall,_Online_follow-up)	Added milk to espresso always (Diet, 24hr recall, Online follow-up)	67
-BIN_FC	BIN_FC10001950	26430	Sensitivity_/_hurt_feelings	Sensitivity / hurt feelings	27
 HC	HC713	66	TTE_unspecified_dementia	TTE unspecified dementia	24
 INI	INI102010	505	Pancake_intake_(Diet,_24hr_recall,_Online_follow-up)	Pancake intake (Diet, 24hr recall, Online follow-up)	52
 BIN_FC	BIN_FC50020544	245	Phobia_diagnosed_by__a_professional	Phobia diagnosed by  a professional	35
@@ -2153,7 +2130,6 @@ BIN_FC	BIN_FC5006177	6023	Blood_pressure_medication	Blood pressure medication	25
 INI	INI6183	115	Number_of_cigarettes_previously_smoked_daily_(current_cigar/pipe_smokers)	# of cigarettes previously smoked daily (current cigar/pipe smokers)	68
 INI	INI3761	11176	Age_hay_fever,_rhinitis_or_eczema_diagnosed	Age hay fever, rhinitis or eczema diagnosed	43
 FH	FH1002	9073	Breast_cancer	Breast cancer (FH)	18
-BIN_FC	BIN_FC10002000	23414	Worry_too_long_after_embarrassment	Worry too long after embarrassment	34
 HC	HC24	66	mrsa_/_methicillin_resistant_staphylococcus_aureus	Mrsa / methicillin resistant staphylococcus aureus	50
 HC	HC1018	375	TTE_acute_bronchitis	TTE acute bronchitis	20
 BIN_FC	BIN_FC20002877	786	Type_of_tobacco_previously_smoked_(hand-rolled_cigarettes)	Type of tobacco previously smoked (hand-rolled cigarettes)	58
@@ -2174,7 +2150,6 @@ INI	INI25708	11066	Weighted-mean_ISOVF_in_tract_cingulate_gyrus_part_of_cingulum
 HC	HC1284	26	TTE_biomechanical_lesions,_not_elsewhere_classified	TTE biomechanical lesions, not elsewhere classified	51
 INI	INI25587	11067	Weighted-mean_L1_in_tract_medial_lemniscus_(right)	WA L1 in tract medial lemniscus (R)	35
 INI	INI103090	1234	Liver_intake_(Diet,_24hr_recall,_Online_follow-up)	Liver intake (Diet, 24hr recall, Online follow-up)	50
-BIN_FC	BIN_FC10002774	8570	Ever_had_stillbirth,_spontaneous_miscarriage_or_termination	Ever had stillbirth, spontaneous miscarriage or termination	59
 INI	INI100180	6548	Squash_intake_(Diet,_24hr_recall,_Online_follow-up)	Squash intake (Diet, 24hr recall, Online follow-up)	51
 cancer	cancer1003	3020	skin_cancer	Skin cancer	11
 HC	HC1011	11	TTE_viral_pneumonia,_not_elsewhere_classified	TTE viral pneumonia, not elsewhere classified	45
@@ -2306,7 +2281,6 @@ HC	HC1345	614	TTE_other_inflammation_of_vagina_and_vulva	TTE other inflammation 
 INI	INI20153	13598	Forced_expiratory_volume_in_1-second_(FEV1),_predicted	FEV1, pred.	11
 INI	INI25506	11067	Weighted-mean_FA_in_tract_medial_lemniscus_(right)	WA FA in tract medial lemniscus (R)	35
 HC	HC1338	1504	TTE_other_disorders_of_breast	TTE other disorders of breast	29
-BIN_FC	BIN_FC10001677	27515	Breastfed_as_a_baby	Breastfed as a baby	19
 INI	INI25044	10769	Median_BOLD_effect_(in_group-defined_mask)_for_faces_activation	Median BOLD effect (in group-defined mask) for faces activation	63
 HC	HC808	68	TTE_other_degenerative_diseases_of_nervous_system,_not_elsewhere_classified	TTE other degenerative diseases of nervous system, not elsewhere classified	75
 HC	HC590	69	TTE_enterobiasis	TTE enterobiasis	16
@@ -2354,7 +2328,6 @@ INI	INI25097	11068	Mean_FA_in_superior_longitudinal_fasciculus_on_FA_skeleton_(l
 INI	INI25916	12322	Volume_of_grey_matter_in_Vermis_IX_Cerebellum	Vol. of grey matter in Vermis IX Cerebellum	43
 BIN_FC	BIN_FC5006153	669	Oral_contraceptives_(female_only)	Oral contraceptives (female only)	33
 HC	HC205	142	endometriosis	Endometriosis	13
-BIN_FC	BIN_FC10002257	19108	Hearing_difficulty/problems_with_background_noise	Hearing problems with background noise	38
 INI	INI4407	11404	Average_monthly_red_wine_intake	Ave. monthly red wine intake	28
 BIN_FC	BIN_FC20001249	7012	Past_tobacco_smoking_(Smoked_occasionally)	Past tobacco smoking (Smoked occasionally)	42
 HC	HC1202	43	TTE_other_localised_connective_tissue_disorders	TTE other localised connective tissue disorders	47
@@ -2370,9 +2343,7 @@ INI	INI25629	11067	Weighted-mean_L3_in_tract_parahippocampal_part_of_cingulum_(l
 INI	INI25565	11067	Weighted-mean_MO_in_tract_superior_thalamic_radiation_(left)	WA MO in tract superior thalamic radiation (L)	46
 INI	INI102880	777	Feta_intake_(Diet,_24hr_recall,_Online_follow-up)	Feta intake (Diet, 24hr recall, Online follow-up)	49
 HC	HC661	13	TTE_hyperaldosteronism	TTE hyperaldosteronism	22
-BIN_FC	BIN_FC10004041	95	Gestational_diabetes_only	Gestational diabetes only	25
 INI	INI100720	1010	Fortified_wine_intake_(Diet,_24hr_recall,_Online_follow-up)	Fortified wine intake (Diet, 24hr recall, Online follow-up)	59
-BIN_FC	BIN_FC10005452	6620	Leg_pain_when_standing_still_or_sitting	Leg pain when standing still or sitting	39
 HC	HC967	785	TTE_complications_and_ill-defined_descriptions_of_heart_disease	TTE complications and ill-defined descriptions of heart disease	63
 INI	INI10030700	43295	Creatinine	Creatinine	10
 QT_FC	QT_FC10021050	4030	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86
@@ -2434,7 +2405,6 @@ BIN_FC	BIN_FC16006155	3762	Vitamin_D	Vitamin D	9
 BIN_FC	BIN_FC30001428	60	Spread_type:_Flora_Pro-Active/Benecol	Spread type: Flora Pro-Active/Benecol	37
 INI	INI981	35049	Duration_walking_for_pleasure	Duration walking for pleasure	29
 INI	INI25000	12327	Volumetric_scaling_from_T1_head_image_to_standard_space	Volumetric scaling from T1 head image to standard space	55
-BIN_FC	BIN_FC10002443	2762	Diabetes_diagnosed_by_doctor	Diabetes diagnosed by doctor	28
 INI	INI30210	45301	Eosinophill_percentage	Eosinophill %	13
 INI	INI25456	11066	Mean_ISOVF_in_anterior_limb_of_internal_capsule_on_FA_skeleton_(right)	Mean ISOVF in anterior limb of internal capsule on FA skeleton (R)	66
 INI	INI4080	46101	Systolic_blood_pressure,_automated_reading	Systolic BP (AR)	16
@@ -2571,7 +2541,6 @@ BIN	BIN5325	919	Ever_had_refractive_laser_eye_surgery	Ever had refractive laser 
 BIN_FC	BIN_FC10006152	12596	Hayfever_allergic_rhinitis_or_eczema	Hayfever allergic rhinitis or eczema	36
 INI	INI25841	12322	Volume_of_grey_matter_in_Cingulate_Gyrus,_posterior_division_(right)	Vol. of grey matter in Cingulate Gyrus, posterior division (R)	62
 BIN	BIN20426	3638	Restless_during_period_of_worst_anxiety	Restless during period of worst anxiety	39
-BIN_FC	BIN_FC10001990	8782	Tense_/_'highly_strung'	Tense / 'highly strung'	23
 HC	HC8	230	gall_bladder_disease	Gall bladder disease	20
 HC	HC161	38	prostatitis	Prostatitis	11
 INI	INI100500	2082	Intake_of_artificial_sweetener_added_to_tea_(Diet,_24hr_recall,_Online_follow-up)	Intake of artificial sweetener added to tea (Diet, 24hr recall, Online follow-up)	81
@@ -2607,7 +2576,6 @@ INI	INI25056	11068	Mean_FA_in_middle_cerebellar_peduncle_on_FA_skeleton	Mean FA 
 INI	INI25646	11067	Weighted-mean_L3_in_tract_superior_thalamic_radiation_(left)	WA L3 in tract superior thalamic radiation (L)	46
 HC	HC1114	247	TTE_peritonitis	TTE peritonitis	15
 INI	INI101970	2970	Double_crust_pastry_intake_(Diet,_24hr_recall,_Online_follow-up)	Double crust pastry intake (Diet, 24hr recall, Online follow-up)	64
-BIN_FC	BIN_FC10003773	9439	Knee_pain_for_3+_months	Knee pain for 3+ months	23
 INI	INI25091	11068	Mean_FA_in_cingulum_cingulate_gyrus_on_FA_skeleton_(left)	Mean FA in cingulum cingulate gyrus on FA skeleton (L)	54
 INI	INI25616	11067	Weighted-mean_L2_in_tract_posterior_thalamic_radiation_(right)	WA L2 in tract posterior thalamic radiation (R)	47
 INI	INI21053	3461	Degree_bothered_by_dizziness_in_the_last_3_months	Degree bothered by dizziness in the last 3 months	49
@@ -2616,7 +2584,6 @@ INI	INI104560	5644	Pear_intake_(Diet,_24hr_recall,_Online_follow-up)	Pear intake
 BIN_FC	BIN_FC40001468	9695	Cereal_type:_Muesli	Cereal type: Muesli	19
 INI	INI904	44781	Number_of_days/week_of_vigorous_physical_activity_10+_minutes	# of days/week of vigorous physical activity 10+ minutes	56
 HC	HC1403	29	TTE_placenta_praevia	TTE placenta praevia	20
-BIN_FC	BIN_FC10005474	7172	Leg_pain_when_walking_uphill_or_hurrying	Leg pain when walking uphill or hurrying	40
 INI	INI5133	32819	6mm_strong_meridian_(right)	6mm strong meridian (R)	23
 HC	HC1285	23	TTE_acute_nephritic_syndrome	TTE acute nephritic syndrome	28
 HC	HC709	205	TTE_postprocedural_endocrine_and_metabolic_disorders,_not_elsewhere_classified	TTE postprocedural endocrine and metabolic disorders, not elsewhere classified	78
@@ -2697,7 +2664,6 @@ HC	HC1003	3023	TTE_acute_pharyngitis	TTE acute pharyngitis	21
 HC	HC79	1769	appendicitis	Appendicitis	12
 HC	HC1564	24	TTE_other_congenital_malformations,_not_elsewhere_classified	TTE other congenital malformations, not elsewhere classified	60
 HC	HC1118	15	TTE_toxic_liver_disease	TTE toxic liver disease	23
-BIN_FC	BIN_FC10004631	17182	Ever_unenthusiastic/disinterested_for_a_whole_week	Ever unenthusiastic/disinterested for a whole week	50
 HC	HC652	2429	TTE_unspecified_diabetes_mellitus	TTE unspecified diabetes mellitus	33
 HC	HC1336	224	TTE_hypertrophy_of_breast	TTE hypertrophy of breast	25
 cancer	cancer1004	101	cancer_of_lip/mouth/pharynx/oral_cavity	Cancer of lip/mouth/pharynx/oral cavity	39
@@ -2709,7 +2675,6 @@ BIN	BIN20486	586	Contemplated_self-harm_in_past_year	Contemplated self-harm in p
 HC	HC455	513	TTE_viral_and_other_specified_intestinal_infections	TTE viral and other specified intestinal infections	51
 BIN_FC	BIN_FC40020523	176	Often_Physical_violence_by_partner_or_ex-partner_as_an_adult	Often Physical violence by partner or ex-partner as an adult	60
 INI	INI25813	12322	Volume_of_grey_matter_in_Inferior_Temporal_Gyrus,_temporooccipital_part_(right)	Vol. of grey matter in Inferior Temporal Gyrus, temporooccipital part (R)	73
-BIN_FC	BIN_FC10002415	13621	Had_major_operations	Had major operations	20
 INI	INI23285	4564	Trunk_lean_mass	Trunk lean mass	15
 FH	FH1220	12123	Diabetes	Diabetes (FH)	13
 BIN_FC	BIN_FC2006148	949	Eye_problems/disorders_Glaucoma	Eye problems/disorders Glaucoma	31
@@ -2725,7 +2690,6 @@ INI	INI23282	4564	Total_tissue_mass	Total tissue mass	17
 HC	HC850	23	TTE_postprocedural_disorders_of_nervous_system,_not_elsewhere_classified	TTE postprocedural disorders of nervous system, not elsewhere classified	72
 HC	HC540	28	TTE_chronic_viral_hepatitis	TTE chronic viral hepatitis	27
 INI	INI100290	2777	Cappuccino_intake_(Diet,_24hr_recall,_Online_follow-up)	Cappuccino intake (Diet, 24hr recall, Online follow-up)	55
-BIN_FC	BIN_FC10004067	449	Facial_pains_for_3+_months	Facial pains for 3+ months	26
 HC	HC211	10	dermatomyositis	Dermatomyositis	15
 INI	INI102260	4202	Chocolate_bar_intake_(Diet,_24hr_recall,_Online_follow-up)	Chocolate bar intake (Diet, 24hr recall, Online follow-up)	58
 BIN_FC	BIN_FC30020527	13	Been_involved_in_combat_or_exposed_to_war-zone_within_the_last_12_months	Been involved in combat or exposed to war-zone within the last 12 months	72
@@ -2799,7 +2763,6 @@ BIN_FC	BIN_FC10002267	4776	Use_of_sun/uv_protection_(Never/rarely)	Use of sun/uv
 HC	HC412	166	tendonitis_/_tendinitis_/_tenosynovitis	Tendonitis / tendinitis / tenosynovitis	39
 INI	INI25651	11066	Weighted-mean_ICVF_in_tract_acoustic_radiation_(right)	WA ICVF in tract acoustic radiation (R)	39
 BIN_FC	BIN_FC10002492	24711	Taking_other_prescription_medications	Taking other prescription medications	37
-BIN_FC	BIN_FC10002335	8751	Chest_pain_or_discomfort	Chest pain or discomfort	24
 HC	HC1434	24	TTE_complications_of_the_puerperium,_not_elsewhere_classified	TTE complications of the puerperium, not elsewhere classified	61
 BIN_FC	BIN_FC30020530	118	Witnessed_sudden_violent_death_within_the_last_12_months	Witnessed sudden violent death within the last 12 months	56
 HC	HC674	18	TTE_unspecified_protein-energy_malnutrition	TTE unspecified protein-energy malnutrition	43
@@ -2933,7 +2896,6 @@ INI	INI30650	43697	Aspartate_aminotransferase	Aspartate aminotransferase	26
 INI	INI22404	5161	Posterior_thigh_lean_muscle_volume_(right)	Posterior thigh lean muscle volume (R)	38
 cancer	cancer1044	154	prostate_cancer	Prostate cancer	15
 INI	INI3063	42472	Forced_expiratory_volume_in_1-second_(FEV1)	FEV1	4
-QT_FC	QT_FC21050	4030	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86
 BIN_FC	BIN_FC60001418	1711	Milk_type:_Never/rarely_have_milk	Milk type: Never/rarely have milk	33
 HC	HC485	14	TTE_other_bacterial_diseases,_not_elsewhere_classified	TTE other bacterial diseases, not elsewhere classified	54
 HC	HC477	206	TTE_scarlet_fever	TTE scarlet fever	17
@@ -3124,7 +3086,6 @@ BIN	BIN20421	5156	Ever_felt_worried,_tense,_or_anxious_for_most_of_a_month_or_lo
 BIN_FC	BIN_FC30020117	42990	Current_Drinker	Current Drinker	15
 HC	HC215	15890	hypertension	Hypertension	12
 HC	HC772	16	TTE_specific_developmental_disorders_of_speech_and_language	TTE specific developmental disorders of speech and language	59
-BIN_FC	BIN_FC10002030	14749	Guilty_feelings	Guilty feelings	15
 INI	INI5084	38980	Spherical_power_(right)	Spherical power (R)	19
 BIN	BIN20431	309	Ever_addicted_to_a_behaviour_or_miscellanous	Ever addicted to a behaviour or miscellanous	44
 BIN	BIN3773	9439	Knee_pain_for_3+_months	Knee pain for 3+ months	23
@@ -3138,7 +3099,6 @@ HC	HC1289	18	TTE_nephrotic_syndrome	TTE nephrotic syndrome	22
 INI	INI104510	1350	Mango_intake_(Diet,_24hr_recall,_Online_follow-up)	Mango intake (Diet, 24hr recall, Online follow-up)	50
 INI	INI25453	11066	Mean_ISOVF_in_superior_cerebellar_peduncle_on_FA_skeleton_(left)	Mean ISOVF in superior cerebellar peduncle on FA skeleton (L)	61
 BIN_FC	BIN_FC20002654	25	Non-butter_spread_type:_Hard_(block)_margarine	Non-butter spread type: Hard (block) margarine	46
-BIN_FC	BIN_FC10003591	2076	Ever_had_hysterectomy_(womb_removed)	Ever had hysterectomy (womb removed)	36
 HC	HC873	23	TTE_other_disorders_of_lens	TTE other disorders of lens	27
 BIN_FC	BIN_FC40020549	2945	Medication_taken_for_anxiety	Medication taken for anxiety	28
 HC	HC191	29	peripheral_nerve_injury	Peripheral nerve injury	23
@@ -3266,7 +3226,6 @@ HC	HC33	29	spinal_cord_disorder	Spinal cord disorder	20
 HC	HC1179	14	TTE_cicatricial_alopecia_[scarring_hair_loss]	TTE cicatricial alopecia [scarring hair loss]	45
 BIN_FC	BIN_FC3006177	293	Medication_for_diabetes_(male_only)	Medication for diabetes (male only)	35
 INI	INI20513	20287	Recent_thoughts_of_suicide_or_self-harm	Recent thoughts of suicide or self-harm	39
-BIN_FC	BIN_FC10002207	42333	Wears_glasses_or_contact_lenses	Wears glasses or contact lenses	31
 INI	INI25848	12322	Volume_of_grey_matter_in_Parahippocampal_Gyrus,_anterior_division_(left)	Vol. of grey matter in Parahippocampal Gyrus, anterior division (L)	67
 HC	HC72	197	chronic_fatigue_syndrome	Chronic fatigue syndrome	24
 INI	INI25832	12322	Volume_of_grey_matter_in_Juxtapositional_Lobule_Cortex_(formerly_Supplementary_Motor_Cortex)_(left)	Vol. of grey matter in Juxtapositional Lobule Cortex (formerly Supplementary Motor Cortex) (L)	94
@@ -3340,7 +3299,6 @@ INI	INI5102	32622	6mm_weak_meridian_angle_(left)	6mm weak meridian angle (L)	27
 INI	INI24017	45782	Nitrogen_dioxide_air_pollution;_2006	NO2 air poll. 2006	18
 INI	INI104010	5089	Pulses_intake_(Diet,_24hr_recall,_Online_follow-up)	Pulses intake (Diet, 24hr recall, Online follow-up)	51
 INI	INI25445	11066	Mean_ISOVF_in_fornix_on_FA_skeleton	Mean ISOVF in fornix on FA skeleton	35
-BIN_FC	BIN_FC10001920	21795	Mood_swings	Mood swings	11
 HC	HC875	14	TTE_chorioretinal_inflammation	TTE chorioretinal inflammation	30
 HC	HC1589	132	AD_all_cause_parkinsonism	AD all cause parkinsonism	25
 cancer	cancer1047	269	lymphoma	Lymphoma	8

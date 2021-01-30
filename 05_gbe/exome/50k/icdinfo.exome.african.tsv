@@ -44,64 +44,36 @@ BIN	BIN1518	820	Drinks_hot_drinks_or_not	Drinks hot drinks or not	24
 BIN	BIN1618	296	Alcohol_usually_taken_with_meals	Alcohol usually taken with meals	32
 BIN	BIN1677	693	Breastfed_as_a_baby	Breastfed as a baby	19
 BIN	BIN1677	693	Breastfed_as_a_baby	Breastfed as a baby	19
-BIN_FC	BIN_FC10001677	693	Breastfed_as_a_baby	Breastfed as a baby	19
-BIN_FC	BIN_FC10001677	693	Breastfed_as_a_baby	Breastfed as a baby	19
 BIN	BIN19	30	Heel_ultrasound_method	Heel ultrasound method	22
 BIN	BIN1920	406	Mood_swings	Mood swings	11
 BIN	BIN1920	406	Mood_swings	Mood swings	11
-BIN_FC	BIN_FC10001920	406	Mood_swings	Mood swings	11
-BIN_FC	BIN_FC10001920	406	Mood_swings	Mood swings	11
 BIN	BIN1930	313	Miserableness	Miserableness	13
 BIN	BIN1930	313	Miserableness	Miserableness	13
-BIN_FC	BIN_FC10001930	313	Miserableness	Miserableness	13
-BIN_FC	BIN_FC10001930	313	Miserableness	Miserableness	13
 BIN	BIN1940	141	Irritability	Irritability	12
 BIN	BIN1940	141	Irritability	Irritability	12
-BIN_FC	BIN_FC10001940	141	Irritability	Irritability	12
-BIN_FC	BIN_FC10001940	141	Irritability	Irritability	12
 BIN	BIN1950	355	Sensitivity_/_hurt_feelings	Sensitivity / hurt feelings	27
 BIN	BIN1950	355	Sensitivity_/_hurt_feelings	Sensitivity / hurt feelings	27
-BIN_FC	BIN_FC10001950	355	Sensitivity_/_hurt_feelings	Sensitivity / hurt feelings	27
-BIN_FC	BIN_FC10001950	355	Sensitivity_/_hurt_feelings	Sensitivity / hurt feelings	27
 BIN	BIN1960	326	Fed-up_feelings	Fed-up feelings	15
 BIN	BIN1960	326	Fed-up_feelings	Fed-up feelings	15
-BIN_FC	BIN_FC10001960	326	Fed-up_feelings	Fed-up feelings	15
-BIN_FC	BIN_FC10001960	326	Fed-up_feelings	Fed-up feelings	15
 BIN	BIN1970	130	Nervous_feelings	Nervous feelings	16
 BIN	BIN1970	130	Nervous_feelings	Nervous feelings	16
-BIN_FC	BIN_FC10001970	130	Nervous_feelings	Nervous feelings	16
-BIN_FC	BIN_FC10001970	130	Nervous_feelings	Nervous feelings	16
 BIN	BIN1980	355	Worrier_/_anxious_feelings	Worrier / anxious feelings	26
 BIN	BIN1980	355	Worrier_/_anxious_feelings	Worrier / anxious feelings	26
-BIN_FC	BIN_FC10001980	355	Worrier_/_anxious_feelings	Worrier / anxious feelings	26
-BIN_FC	BIN_FC10001980	355	Worrier_/_anxious_feelings	Worrier / anxious feelings	26
 BIN	BIN1990	121	Tense_/_'highly_strung'	Tense / 'highly strung'	23
 BIN	BIN1990	121	Tense_/_'highly_strung'	Tense / 'highly strung'	23
-BIN_FC	BIN_FC10001990	121	Tense_/_'highly_strung'	Tense / 'highly strung'	23
-BIN_FC	BIN_FC10001990	121	Tense_/_'highly_strung'	Tense / 'highly strung'	23
 BIN	BIN2000	360	Worry_too_long_after_embarrassment	Worry too long after embarrassment	34
 BIN	BIN2000	360	Worry_too_long_after_embarrassment	Worry too long after embarrassment	34
-BIN_FC	BIN_FC10002000	360	Worry_too_long_after_embarrassment	Worry too long after embarrassment	34
-BIN_FC	BIN_FC10002000	360	Worry_too_long_after_embarrassment	Worry too long after embarrassment	34
 BIN	BIN2010	114	Suffer_from_'nerves'	Suffer from 'nerves'	20
 BIN	BIN2010	114	Suffer_from_'nerves'	Suffer from 'nerves'	20
-BIN_FC	BIN_FC10002010	114	Suffer_from_'nerves'	Suffer from 'nerves'	20
-BIN_FC	BIN_FC10002010	114	Suffer_from_'nerves'	Suffer from 'nerves'	20
 BIN	BIN20123	29	Single_episode_of_probable_major_depression	Single episode of probable major depression	43
 BIN	BIN20124	44	Probable_recurrent_major_depression_(moderate)	Probable recurrent major depression (moderate)	46
 BIN	BIN20125	30	Probable_recurrent_major_depression_(severe)	Probable recurrent major depression (severe)	44
 BIN	BIN2020	223	Loneliness,_isolation	Loneliness, isolation	21
 BIN	BIN2020	223	Loneliness,_isolation	Loneliness, isolation	21
-BIN_FC	BIN_FC10002020	223	Loneliness,_isolation	Loneliness, isolation	21
-BIN_FC	BIN_FC10002020	223	Loneliness,_isolation	Loneliness, isolation	21
 BIN	BIN2030	231	Guilty_feelings	Guilty feelings	15
 BIN	BIN2030	231	Guilty_feelings	Guilty feelings	15
-BIN_FC	BIN_FC10002030	231	Guilty_feelings	Guilty feelings	15
-BIN_FC	BIN_FC10002030	231	Guilty_feelings	Guilty feelings	15
 BIN	BIN2040	352	Risk_taking	Risk taking	11
 BIN	BIN2040	352	Risk_taking	Risk taking	11
-BIN_FC	BIN_FC10002040	352	Risk_taking	Risk taking	11
-BIN_FC	BIN_FC10002040	352	Risk_taking	Risk taking	11
 BIN	BIN20401	4	Ever_addicted_to_any_substance_or_behaviour	Ever addicted to any substance or behaviour	43
 BIN	BIN20404	0	Ever_physically_dependent_on_alcohol	Ever physically dependent on alcohol	36
 BIN	BIN20406	0	Ever_addicted_to_alcohol	Ever addicted to alcohol	24
@@ -157,12 +129,8 @@ BIN	BIN20541	28	Difficulty_stopping_worrying_during_worst_period_of_anxiety	Diff
 BIN	BIN20542	22	Stronger_worrying_(than_other_people)_during_period_of_worst_anxiety	Stronger worrying (than other people) during period of worst anxiety	68
 BIN	BIN2090	204	Seen_doctor_(GP)_for_nerves,_anxiety,_tension_or_depression	Seen doctor (GP) for nerves, anxiety, tension or depression	59
 BIN	BIN2090	204	Seen_doctor_(GP)_for_nerves,_anxiety,_tension_or_depression	Seen doctor (GP) for nerves, anxiety, tension or depression	59
-BIN_FC	BIN_FC10002090	204	Seen_doctor_(GP)_for_nerves,_anxiety,_tension_or_depression	Seen doctor (GP) for nerves, anxiety, tension or depression	59
-BIN_FC	BIN_FC10002090	204	Seen_doctor_(GP)_for_nerves,_anxiety,_tension_or_depression	Seen doctor (GP) for nerves, anxiety, tension or depression	59
 BIN	BIN2100	69	Seen_a_psychiatrist_for_nerves,_anxiety,_tension_or_depression	Seen a psychiatrist for nerves, anxiety, tension or depression	62
 BIN	BIN2100	69	Seen_a_psychiatrist_for_nerves,_anxiety,_tension_or_depression	Seen a psychiatrist for nerves, anxiety, tension or depression	62
-BIN_FC	BIN_FC10002100	69	Seen_a_psychiatrist_for_nerves,_anxiety,_tension_or_depression	Seen a psychiatrist for nerves, anxiety, tension or depression	62
-BIN_FC	BIN_FC10002100	69	Seen_a_psychiatrist_for_nerves,_anxiety,_tension_or_depression	Seen a psychiatrist for nerves, anxiety, tension or depression	62
 BIN	BIN21024	16	Ever_diagnosed_with_IBS	Ever diagnosed with IBS	23
 BIN	BIN21026	3	Discomfort/pain_occurring_only_during_menstrual_bleed	Discomfort/pain occurring only during menstrual bleed	53
 BIN	BIN21027	39	Abdominal_discomfort/pain_for_6_months_or_longer	Abdominal discomfort/pain for 6 months or longer	48
@@ -183,12 +151,8 @@ BIN	BIN21075	1	Bloody_diarrhoea_when_IBS_symptoms_first_began	Bloody diarrhoea w
 BIN	BIN21076	2	Vomiting_when_IBS_symptoms_first_began	Vomiting when IBS symptoms first began	38
 BIN	BIN2188	334	Long-standing_illness,_disability_or_infirmity	Long-standing illness, disability or infirmity	46
 BIN	BIN2188	334	Long-standing_illness,_disability_or_infirmity	Long-standing illness, disability or infirmity	46
-BIN_FC	BIN_FC10002188	334	Long-standing_illness,_disability_or_infirmity	Long-standing illness, disability or infirmity	46
-BIN_FC	BIN_FC10002188	334	Long-standing_illness,_disability_or_infirmity	Long-standing illness, disability or infirmity	46
 BIN	BIN2207	660	Wears_glasses_or_contact_lenses	Wears glasses or contact lenses	31
 BIN	BIN2207	660	Wears_glasses_or_contact_lenses	Wears glasses or contact lenses	31
-BIN_FC	BIN_FC10002207	660	Wears_glasses_or_contact_lenses	Wears glasses or contact lenses	31
-BIN_FC	BIN_FC10002207	660	Wears_glasses_or_contact_lenses	Wears glasses or contact lenses	31
 BIN	BIN22126	42	Doctor_diagnosed_hayfever_or_allergic_rhinitis	Doctor diagnosed hayfever or allergic rhinitis	46
 BIN	BIN22127	21	Doctor_diagnosed_asthma	Doctor diagnosed asthma	23
 BIN	BIN22128	1	Doctor_diagnosed_emphysema	Doctor diagnosed emphysema	26
@@ -209,8 +173,6 @@ BIN	BIN22502	21	Cough_on_most_days	Cough on most days	18
 BIN	BIN22504	12	Bring_up_phlegm/sputum/mucus_on_most_days	Bring up phlegm/sputum/mucus on most days	41
 BIN	BIN2257	178	Hearing_difficulty/problems_with_background_noise	Hearing problems with background noise	38
 BIN	BIN2257	178	Hearing_difficulty/problems_with_background_noise	Hearing problems with background noise	38
-BIN_FC	BIN_FC10002257	178	Hearing_difficulty/problems_with_background_noise	Hearing problems with background noise	38
-BIN_FC	BIN_FC10002257	178	Hearing_difficulty/problems_with_background_noise	Hearing problems with background noise	38
 BIN	BIN23050	16	HSV-1_seropositivity_for_Herpes_Simplex_virus-1	HSV-1 seropositivity for Herpes Simplex virus-1	47
 BIN	BIN23051	10	HSV-2_seropositivity_for_Herpes_Simplex_virus-2	HSV-2 seropositivity for Herpes Simplex virus-2	47
 BIN	BIN23052	15	VZV_seropositivity_for_Varicella_Zoster_Virus	VZV seropositivity for Varicella Zoster Virus	45
@@ -238,88 +200,50 @@ BIN	BIN23074	11	H._pylori_Definition_II_seropositivity_for_Helicobacter_pylori	H
 BIN	BIN23075	1	HPV_16_Definition_II_seropositivity_for_Human_Papillomavirus_type-16	HPV 16 Definition II seropositivity for Human Papillomavirus type-16	68
 BIN	BIN2316	192	Wheeze_or_whistling_in_the_chest_in_last_year	Wheeze or whistling in the chest in last year	45
 BIN	BIN2316	192	Wheeze_or_whistling_in_the_chest_in_last_year	Wheeze or whistling in the chest in last year	45
-BIN_FC	BIN_FC10002316	192	Wheeze_or_whistling_in_the_chest_in_last_year	Wheeze or whistling in the chest in last year	45
-BIN_FC	BIN_FC10002316	192	Wheeze_or_whistling_in_the_chest_in_last_year	Wheeze or whistling in the chest in last year	45
 BIN	BIN2335	240	Chest_pain_or_discomfort	Chest pain or discomfort	24
 BIN	BIN2335	240	Chest_pain_or_discomfort	Chest pain or discomfort	24
-BIN_FC	BIN_FC10002335	240	Chest_pain_or_discomfort	Chest pain or discomfort	24
-BIN_FC	BIN_FC10002335	240	Chest_pain_or_discomfort	Chest pain or discomfort	24
 BIN	BIN2415	140	Had_major_operations	Had major operations	20
 BIN	BIN2415	140	Had_major_operations	Had major operations	20
-BIN_FC	BIN_FC10002415	140	Had_major_operations	Had major operations	20
-BIN_FC	BIN_FC10002415	140	Had_major_operations	Had major operations	20
 BIN	BIN2443	105	Diabetes_diagnosed_by_doctor	Diabetes diagnosed by doctor	28
 BIN	BIN2443	105	Diabetes_diagnosed_by_doctor	Diabetes diagnosed by doctor	28
-BIN_FC	BIN_FC10002443	105	Diabetes_diagnosed_by_doctor	Diabetes diagnosed by doctor	28
-BIN_FC	BIN_FC10002443	105	Diabetes_diagnosed_by_doctor	Diabetes diagnosed by doctor	28
 BIN	BIN2453	34	Cancer_diagnosed_by_doctor	Cancer diagnosed by doctor	26
 BIN	BIN2453	34	Cancer_diagnosed_by_doctor	Cancer diagnosed by doctor	26
-BIN_FC	BIN_FC10002453	34	Cancer_diagnosed_by_doctor	Cancer diagnosed by doctor	26
-BIN_FC	BIN_FC10002453	34	Cancer_diagnosed_by_doctor	Cancer diagnosed by doctor	26
 BIN	BIN2463	59	Fractured/broken_bones_in_last_5_years	Fractured/broken bones in last 5 years	38
 BIN	BIN2463	59	Fractured/broken_bones_in_last_5_years	Fractured/broken bones in last 5 years	38
-BIN_FC	BIN_FC10002463	59	Fractured/broken_bones_in_last_5_years	Fractured/broken bones in last 5 years	38
-BIN_FC	BIN_FC10002463	59	Fractured/broken_bones_in_last_5_years	Fractured/broken bones in last 5 years	38
 BIN	BIN2473	145	Other_serious_medical_condition/disability_diagnosed_by_doctor	Other serious medical condition/disability diagnosed by doctor	62
 BIN	BIN2473	145	Other_serious_medical_condition/disability_diagnosed_by_doctor	Other serious medical condition/disability diagnosed by doctor	62
-BIN_FC	BIN_FC10002473	145	Other_serious_medical_condition/disability_diagnosed_by_doctor	Other serious medical condition/disability diagnosed by doctor	62
-BIN_FC	BIN_FC10002473	145	Other_serious_medical_condition/disability_diagnosed_by_doctor	Other serious medical condition/disability diagnosed by doctor	62
 BIN	BIN2774	276	Ever_had_stillbirth,_spontaneous_miscarriage_or_termination	Ever had stillbirth, spontaneous miscarriage or termination	59
 BIN	BIN2774	276	Ever_had_stillbirth,_spontaneous_miscarriage_or_termination	Ever had stillbirth, spontaneous miscarriage or termination	59
-BIN_FC	BIN_FC10002774	276	Ever_had_stillbirth,_spontaneous_miscarriage_or_termination	Ever had stillbirth, spontaneous miscarriage or termination	59
-BIN_FC	BIN_FC10002774	276	Ever_had_stillbirth,_spontaneous_miscarriage_or_termination	Ever had stillbirth, spontaneous miscarriage or termination	59
 BIN	BIN2814	101	Ever_used_hormone-replacement_therapy_(HRT)	Ever used hormone-replacement therapy (HRT)	43
 BIN	BIN2814	101	Ever_used_hormone-replacement_therapy_(HRT)	Ever used hormone-replacement therapy (HRT)	43
-BIN_FC	BIN_FC10002814	101	Ever_used_hormone-replacement_therapy_(HRT)	Ever used hormone-replacement therapy (HRT)	43
-BIN_FC	BIN_FC10002814	101	Ever_used_hormone-replacement_therapy_(HRT)	Ever used hormone-replacement therapy (HRT)	43
 BIN	BIN30030510	62	UACR_higher_than_30_mg/g	UACR > 30 mg/g	14
 BIN	BIN3081	42	Foot_measured_for_bone_density	Foot measured for bone density	30
 BIN	BIN3393	7	Hearing_aid_user	Hearing aid user	16
 BIN	BIN3393	7	Hearing_aid_user	Hearing aid user	16
-BIN_FC	BIN_FC10003393	7	Hearing_aid_user	Hearing aid user	16
-BIN_FC	BIN_FC10003393	7	Hearing_aid_user	Hearing aid user	16
 BIN	BIN3404	138	Neck/shoulder_pain_for_3+_months	Neck/shoulder pain for 3+ months	32
 BIN	BIN3404	138	Neck/shoulder_pain_for_3+_months	Neck/shoulder pain for 3+ months	32
-BIN_FC	BIN_FC10003404	138	Neck/shoulder_pain_for_3+_months	Neck/shoulder pain for 3+ months	32
-BIN_FC	BIN_FC10003404	138	Neck/shoulder_pain_for_3+_months	Neck/shoulder pain for 3+ months	32
 BIN	BIN3414	75	Hip_pain_for_3+_months	Hip pain for 3+ months	22
 BIN	BIN3414	75	Hip_pain_for_3+_months	Hip pain for 3+ months	22
-BIN_FC	BIN_FC10003414	75	Hip_pain_for_3+_months	Hip pain for 3+ months	22
-BIN_FC	BIN_FC10003414	75	Hip_pain_for_3+_months	Hip pain for 3+ months	22
 BIN	BIN3571	180	Back_pain_for_3+_months	Back pain for 3+ months	23
 BIN	BIN3571	180	Back_pain_for_3+_months	Back pain for 3+ months	23
 BIN_FC	BIN_FC10003571	180	Back_pain_for_3+_months	Back pain for 3+ months	23
 BIN_FC	BIN_FC10003571	180	Back_pain_for_3+_months	Back pain for 3+ months	23
 BIN	BIN3591	53	Ever_had_hysterectomy_(womb_removed)	Ever had hysterectomy (womb removed)	36
 BIN	BIN3591	53	Ever_had_hysterectomy_(womb_removed)	Ever had hysterectomy (womb removed)	36
-BIN_FC	BIN_FC10003591	53	Ever_had_hysterectomy_(womb_removed)	Ever had hysterectomy (womb removed)	36
-BIN_FC	BIN_FC10003591	53	Ever_had_hysterectomy_(womb_removed)	Ever had hysterectomy (womb removed)	36
 BIN	BIN3606	47	Chest_pain_or_discomfort_walking_normally	Chest pain or discomfort walking normally	41
 BIN	BIN3616	73	Chest_pain_due_to_walking_ceases_when_standing_still	Chest pain due to walking ceases when standing still	52
 BIN	BIN3616	73	Chest_pain_due_to_walking_ceases_when_standing_still	Chest pain due to walking ceases when standing still	52
-BIN_FC	BIN_FC10003616	73	Chest_pain_due_to_walking_ceases_when_standing_still	Chest pain due to walking ceases when standing still	52
-BIN_FC	BIN_FC10003616	73	Chest_pain_due_to_walking_ceases_when_standing_still	Chest pain due to walking ceases when standing still	52
 BIN	BIN3741	72	Stomach/abdominal_pain_for_3+_months	Stomach/abdominal pain for 3+ months	36
 BIN	BIN3741	72	Stomach/abdominal_pain_for_3+_months	Stomach/abdominal pain for 3+ months	36
-BIN_FC	BIN_FC10003741	72	Stomach/abdominal_pain_for_3+_months	Stomach/abdominal pain for 3+ months	36
-BIN_FC	BIN_FC10003741	72	Stomach/abdominal_pain_for_3+_months	Stomach/abdominal pain for 3+ months	36
 BIN	BIN3751	61	Chest_pain_or_discomfort_when_walking_uphill_or_hurrying	Chest pain or discomfort when walking uphill or hurrying	56
 BIN	BIN3773	188	Knee_pain_for_3+_months	Knee pain for 3+ months	23
 BIN	BIN3773	188	Knee_pain_for_3+_months	Knee pain for 3+ months	23
-BIN_FC	BIN_FC10003773	188	Knee_pain_for_3+_months	Knee pain for 3+ months	23
-BIN_FC	BIN_FC10003773	188	Knee_pain_for_3+_months	Knee pain for 3+ months	23
 BIN	BIN3799	66	Headaches_for_3+_months	Headaches for 3+ months	23
 BIN	BIN3799	66	Headaches_for_3+_months	Headaches for 3+ months	23
-BIN_FC	BIN_FC10003799	66	Headaches_for_3+_months	Headaches for 3+ months	23
-BIN_FC	BIN_FC10003799	66	Headaches_for_3+_months	Headaches for 3+ months	23
 BIN	BIN4041	4	Gestational_diabetes_only	Gestational diabetes only	25
 BIN	BIN4041	4	Gestational_diabetes_only	Gestational diabetes only	25
-BIN_FC	BIN_FC10004041	4	Gestational_diabetes_only	Gestational diabetes only	25
-BIN_FC	BIN_FC10004041	4	Gestational_diabetes_only	Gestational diabetes only	25
 BIN	BIN4067	8	Facial_pains_for_3+_months	Facial pains for 3+ months	26
 BIN	BIN4067	8	Facial_pains_for_3+_months	Facial pains for 3+ months	26
-BIN_FC	BIN_FC10004067	8	Facial_pains_for_3+_months	Facial pains for 3+ months	26
-BIN_FC	BIN_FC10004067	8	Facial_pains_for_3+_months	Facial pains for 3+ months	26
 BIN	BIN4092	765	Heel_ultrasound_method_(left)	Heel ultrasound method (L)	26
 BIN	BIN4093	1	Fractured_heel_(left)	Fractured heel (L)	18
 BIN	BIN4095	780	Heel_ultrasound_method_(right)	Heel ultrasound method (R)	26
@@ -329,28 +253,16 @@ BIN	BIN4232	816	Hearing_test_triplet_correct_(left)	Hearing test triplet correct
 BIN	BIN4243	815	Hearing_test_triplet_correct_(right)	Hearing test triplet correct (R)	32
 BIN	BIN4598	403	Ever_depressed_for_a_whole_week	Ever depressed for a whole week	31
 BIN	BIN4598	403	Ever_depressed_for_a_whole_week	Ever depressed for a whole week	31
-BIN_FC	BIN_FC10004598	403	Ever_depressed_for_a_whole_week	Ever depressed for a whole week	31
-BIN_FC	BIN_FC10004598	403	Ever_depressed_for_a_whole_week	Ever depressed for a whole week	31
 BIN	BIN4631	296	Ever_unenthusiastic/disinterested_for_a_whole_week	Ever unenthusiastic/disinterested for a whole week	50
 BIN	BIN4631	296	Ever_unenthusiastic/disinterested_for_a_whole_week	Ever unenthusiastic/disinterested for a whole week	50
-BIN_FC	BIN_FC10004631	296	Ever_unenthusiastic/disinterested_for_a_whole_week	Ever unenthusiastic/disinterested for a whole week	50
-BIN_FC	BIN_FC10004631	296	Ever_unenthusiastic/disinterested_for_a_whole_week	Ever unenthusiastic/disinterested for a whole week	50
 BIN	BIN4642	91	Ever_manic/hyper_for_2_days	Ever manic/hyper for 2 days	27
 BIN	BIN4642	91	Ever_manic/hyper_for_2_days	Ever manic/hyper for 2 days	27
-BIN_FC	BIN_FC10004642	91	Ever_manic/hyper_for_2_days	Ever manic/hyper for 2 days	27
-BIN_FC	BIN_FC10004642	91	Ever_manic/hyper_for_2_days	Ever manic/hyper for 2 days	27
 BIN	BIN4653	164	Ever_highly_irritable/argumentative_for_2_days	Ever highly irritable/argumentative for 2 days	46
 BIN	BIN4653	164	Ever_highly_irritable/argumentative_for_2_days	Ever highly irritable/argumentative for 2 days	46
-BIN_FC	BIN_FC10004653	164	Ever_highly_irritable/argumentative_for_2_days	Ever highly irritable/argumentative for 2 days	46
-BIN_FC	BIN_FC10004653	164	Ever_highly_irritable/argumentative_for_2_days	Ever highly irritable/argumentative for 2 days	46
 BIN	BIN4728	280	Leg_pain_on_walking	Leg pain on walking	19
 BIN	BIN4728	280	Leg_pain_on_walking	Leg pain on walking	19
-BIN_FC	BIN_FC10004728	280	Leg_pain_on_walking	Leg pain on walking	19
-BIN_FC	BIN_FC10004728	280	Leg_pain_on_walking	Leg pain on walking	19
 BIN	BIN4792	0	Cochlear_implant	Cochlear implant	16
 BIN	BIN4792	0	Cochlear_implant	Cochlear implant	16
-BIN_FC	BIN_FC10004792	0	Cochlear_implant	Cochlear implant	16
-BIN_FC	BIN_FC10004792	0	Cochlear_implant	Cochlear implant	16
 BIN	BIN5181	65	Ever_had_eye_surgery	Ever had eye surgery	20
 BIN	BIN5324	28	Ever_had_cataract_surgery	Ever had cataract surgery	25
 BIN	BIN5325	9	Ever_had_refractive_laser_eye_surgery	Ever had refractive laser eye surgery	37
@@ -359,28 +271,16 @@ BIN	BIN5327	3	Ever_had_laser_treatment_for_glaucoma_or_high_eye_pressure	Ever ha
 BIN	BIN5328	2	Ever_had_corneal_graft_surgery	Ever had corneal graft surgery	30
 BIN	BIN5452	181	Leg_pain_when_standing_still_or_sitting	Leg pain when standing still or sitting	39
 BIN	BIN5452	181	Leg_pain_when_standing_still_or_sitting	Leg pain when standing still or sitting	39
-BIN_FC	BIN_FC10005452	181	Leg_pain_when_standing_still_or_sitting	Leg pain when standing still or sitting	39
-BIN_FC	BIN_FC10005452	181	Leg_pain_when_standing_still_or_sitting	Leg pain when standing still or sitting	39
 BIN	BIN5463	112	Leg_pain_in_calf/calves	Leg pain in calf/calves	23
 BIN	BIN5463	112	Leg_pain_in_calf/calves	Leg pain in calf/calves	23
-BIN_FC	BIN_FC10005463	112	Leg_pain_in_calf/calves	Leg pain in calf/calves	23
-BIN_FC	BIN_FC10005463	112	Leg_pain_in_calf/calves	Leg pain in calf/calves	23
 BIN	BIN5474	218	Leg_pain_when_walking_uphill_or_hurrying	Leg pain when walking uphill or hurrying	40
 BIN	BIN5474	218	Leg_pain_when_walking_uphill_or_hurrying	Leg pain when walking uphill or hurrying	40
-BIN_FC	BIN_FC10005474	218	Leg_pain_when_walking_uphill_or_hurrying	Leg pain when walking uphill or hurrying	40
-BIN_FC	BIN_FC10005474	218	Leg_pain_when_walking_uphill_or_hurrying	Leg pain when walking uphill or hurrying	40
 BIN	BIN5485	137	Leg_pain_when_walking_normally	Leg pain when walking normally	30
 BIN	BIN5485	137	Leg_pain_when_walking_normally	Leg pain when walking normally	30
-BIN_FC	BIN_FC10005485	137	Leg_pain_when_walking_normally	Leg pain when walking normally	30
-BIN_FC	BIN_FC10005485	137	Leg_pain_when_walking_normally	Leg pain when walking normally	30
 BIN	BIN5496	48	Leg_pain_when_walking_ever_disappears_while_walking	Leg pain when walking ever disappears while walking	51
 BIN	BIN5496	48	Leg_pain_when_walking_ever_disappears_while_walking	Leg pain when walking ever disappears while walking	51
-BIN_FC	BIN_FC10005496	48	Leg_pain_when_walking_ever_disappears_while_walking	Leg pain when walking ever disappears while walking	51
-BIN_FC	BIN_FC10005496	48	Leg_pain_when_walking_ever_disappears_while_walking	Leg pain when walking ever disappears while walking	51
 BIN	BIN5529	12	Surgery_on_leg_arteries_(other_than_for_varicose_veins)	Surgery on leg arteries (other than for varicose veins)	55
 BIN	BIN5529	12	Surgery_on_leg_arteries_(other_than_for_varicose_veins)	Surgery on leg arteries (other than for varicose veins)	55
-BIN_FC	BIN_FC10005529	12	Surgery_on_leg_arteries_(other_than_for_varicose_veins)	Surgery on leg arteries (other than for varicose veins)	55
-BIN_FC	BIN_FC10005529	12	Surgery_on_leg_arteries_(other_than_for_varicose_veins)	Surgery on leg arteries (other than for varicose veins)	55
 BIN	BIN5674	40	Severity_of_manic/irritable_episodes	Severity of manic/irritable episodes	36
 BIN	BIN6014	28	Doctor_restricts_physical_activity_due_to_heart_condition	Doctor restricts physical activity due to heart condition	57
 BIN	BIN6015	47	Chest_pain_felt_during_physical_activity	Chest pain felt during physical activity	40
@@ -409,8 +309,6 @@ BIN_FC	BIN_FC10001835	481	Mother_still_alive	Mother still alive	18
 BIN_FC	BIN_FC100020544	0	Bulimia_nervosa_diagnosed_by__a_professional	Bulimia nervosa diagnosed by  a professional	44
 BIN_FC	BIN_FC10002159	29	Ever_had_same-sex_intercourse	Ever had same-sex intercourse	29
 BIN_FC	BIN_FC10002159	29	Ever_had_same-sex_intercourse	Ever had same-sex intercourse	29
-BIN_FC	BIN_FC1002159	29	Ever_had_same-sex_intercourse	Ever had same-sex intercourse	29
-BIN_FC	BIN_FC1002159	29	Ever_had_same-sex_intercourse	Ever had same-sex intercourse	29
 BIN_FC	BIN_FC10002227	175	Other_eye_problems	Other eye problems	18
 BIN_FC	BIN_FC10002267	420	Use_of_sun/uv_protection_(Never/rarely)	Use of sun/uv protection (Never/rarely)	39
 BIN_FC	BIN_FC10002345	242	Ever_had_bowel_cancer_screening	Ever had bowel cancer screening	31
@@ -564,9 +462,6 @@ BIN_FC	BIN_FC10021050	12	Degree_bothered_by_menstrual_cramps_or_other_problems_w
 QT_FC	QT_FC10021050	46	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86
 QT_FC	QT_FC10021050	46	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86
 QT_FC	QT_FC10021050	46	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86
-QT_FC	QT_FC21050	46	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86
-QT_FC	QT_FC21050	46	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86
-QT_FC	QT_FC21050	46	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86
 BIN_FC	BIN_FC10021057	20	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72
 BIN_FC	BIN_FC10021057	20	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72
 BIN_FC	BIN_FC10021057	20	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72

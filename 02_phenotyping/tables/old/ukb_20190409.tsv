@@ -58,5 +58,4 @@ Guhan	4/9/19	Femur_lower_neck_BMD_(bone_mineral_density)_T-score_(left)	INI23294
 Guhan	4/9/19	Femur_shaft_BMD_(bone_mineral_density)_T-score_(left)	INI23303	9797		23303	1		1															http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=23303	
 Guhan	4/9/19	Current_tobacco_smoking	QT_FC10001239	9797		1239	1		1		-3	0;2;1											100347	http://biobank.ctsu.ox.ac.uk/showcase/field.cgi?id=1239	
 Guhan	4/9/19	Male_pattern_baldness_severity_quantitative	QT_FC1002395	10137		2395	1	1	1		"-1,-3"	1;2;3;4											100572	http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=2395	
-Guhan	4/9/19	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	QT_FC21050	25279		21050	1		1		"-818,-313"	"-600,-601,-602"											1018	http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=21050	
 Guhan	4/9/19	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	QT_FC21057	25279		21057	1		1		"-818,-313"	"-600,-601,-602"											1018	http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=21057	

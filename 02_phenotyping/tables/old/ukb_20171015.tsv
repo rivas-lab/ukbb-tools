@@ -18,7 +18,6 @@ BIN_FC10020185	FI11_:_antonym	5011	20185	9797	http://biobank.ctsu.ox.ac.uk/cryst
 BIN_FC10020187	FI12_:_square_sequence_recognition	5012	20187	9797	http://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=5012	http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=20187	0	1		1			1;2;3;4	5	Already annotated
 BIN_FC10020189	FI13_:_subset_inclusion_logic	5013	20189	9797	http://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=5013	http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=20189	0	1		1			2;3;4;5	1	Already annotated
 BIN_FC10020193	FI14_:_alphanumeric_substitution	5014	20193	9797	http://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=5014	http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=20193	0	1		1			1;2;3;4	5	Already annotated
-BIN_FC1002159	Ever_had_same-sex_intercourse	100352	2159	9797	http://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=100352	http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=2159	0	1		1	-3		1	0	
 BIN_FC1002247	Hearing_difficulty	100631	2247	9797	http://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=100631	http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=2247		3		1	"-1,-3"		1	0	
 BIN_FC1002306	Weight_change_compared_with_1_year_ago	100540	2306	9797	http://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=100540	http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=2306	1	1		1	"-1,-3"		"2,3"	0	
 BIN_FC1002395	Male_pattern_baldness_severity	100572	2395	10137	http://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=100572	http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=2395	0	6	0	1	"-1,-3"	_	2	1	

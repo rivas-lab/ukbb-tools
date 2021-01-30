@@ -980,7 +980,6 @@ Rivas Lab	8/27/17	Pulse_wave_reflection_index	INI4195	Pulse wave reflection inde
 		FI12_:_square_sequence_recognition	BIN_FC10020187			9797	20187	0	1		1			1;2;3;4	5									5012	http://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=5012	Already annotated
 		FI13_:_subset_inclusion_logic	BIN_FC10020189			9797	20189	0	1		1			2;3;4;5	1									5013	http://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=5013	Already annotated
 		FI14_:_alphanumeric_substitution	BIN_FC10020193			9797	20193	0	1		1			1;2;3;4	5									5014	http://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=5014	Already annotated
-		Ever_had_same-sex_intercourse	BIN_FC1002159			9797	2159	0	1		1	-3		1	0									100352	http://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=100352	
 		Hearing_difficulty	BIN_FC1002247			9797	2247		3		1	"-1,-3"		1	0									100631	http://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=100631	
 		Weight_change_compared_with_1_year_ago	BIN_FC1002306			9797	2306	1	1		1	"-1,-3"		"2,3"	0									100540	http://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=100540	
 		Male_pattern_baldness_severity	BIN_FC1002395			10137	2395	0	6	0	1	"-1,-3"	_	2	1									100572	http://biobank.ctsu.ox.ac.uk/crystal/coding.cgi?id=100572	

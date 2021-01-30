@@ -245,7 +245,6 @@ BIN_FC	BIN_FC10001468	5603	Cereal_type:_Bran_cereal_(e.g._All_Bran,_Branflakes)	
 BIN_FC	BIN_FC10001508	6206	Coffee_type:_Decaffeinated_coffee_(any_type)	Coffee type: Decaffeinated coffee (any type)	44	
 BIN_FC	BIN_FC10001538	4194	Major_dietary_changes_in_the_last_5_years_becuase_of_illness	Major dietary changes in the last 5 years becuase of illness	60	
 BIN_FC	BIN_FC10001628	5834	Alcohol_intake_versus_10_years_previously_(More_nowadays)	Alcohol intake versus 10 years previously (More nowadays)	57	
-BIN_FC	BIN_FC10001677	19993	Breastfed_as_a_baby	Breastfed as a baby	19	
 BIN_FC	BIN_FC10001707	31044	Handedness_(chirality/laterality)_(Right-handed)	Handedness (chirality/laterality) (Right-handed)	48	
 BIN_FC	BIN_FC10001727	7260	Ease_of_skin_tanning_(Get_very_tanned)	Ease of skin tanning (Get very tanned)	38	
 BIN_FC	BIN_FC10001757	24918	Facial_ageing_(Younger_than_you_are)	Facial ageing (Younger than you are)	36	
@@ -254,45 +253,18 @@ BIN_FC	BIN_FC10001777	744	Part_of_a_multiple_birth	Part of a multiple birth	24
 BIN_FC	BIN_FC10001787	9359	Maternal_smoking_around_birth	Maternal smoking around birth	29	
 BIN_FC	BIN_FC10001797	7996	Father_still_alive	Father still alive	18	
 BIN_FC	BIN_FC10001835	13727	Mother_still_alive	Mother still alive	18	
-BIN_FC	BIN_FC10001920	16199	Mood_swings	Mood swings	11	
-BIN_FC	BIN_FC10001930	15717	Miserableness	Miserableness	13	
-BIN_FC	BIN_FC10001940	10467	Irritability	Irritability	12	
-BIN_FC	BIN_FC10001950	19868	Sensitivity_/_hurt_feelings	Sensitivity / hurt feelings	27	
-BIN_FC	BIN_FC10001960	14713	Fed-up_feelings	Fed-up feelings	15	
-BIN_FC	BIN_FC10001970	8558	Nervous_feelings	Nervous feelings	16	
-BIN_FC	BIN_FC10001980	19919	Worrier_/_anxious_feelings	Worrier / anxious feelings	26	
-BIN_FC	BIN_FC10001990	6408	Tense_/_'highly_strung'	Tense / 'highly strung'	23	
-BIN_FC	BIN_FC10002000	17518	Worry_too_long_after_embarrassment	Worry too long after embarrassment	34	
-BIN_FC	BIN_FC10002010	7945	Suffer_from_'nerves'	Suffer from 'nerves'	20	
-BIN_FC	BIN_FC10002020	6650	Loneliness,_isolation	Loneliness, isolation	21	
-BIN_FC	BIN_FC10002030	10845	Guilty_feelings	Guilty feelings	15	
-BIN_FC	BIN_FC10002040	9635	Risk_taking	Risk taking	11	
 BIN_FC	BIN_FC100020544	51	Bulimia_nervosa_diagnosed_by__a_professional	Bulimia nervosa diagnosed by  a professional	44	
-BIN_FC	BIN_FC10002090	12919	Seen_doctor_(GP)_for_nerves,_anxiety,_tension_or_depression	Seen doctor (GP) for nerves, anxiety, tension or depression	59	
-BIN_FC	BIN_FC10002100	4390	Seen_a_psychiatrist_for_nerves,_anxiety,_tension_or_depression	Seen a psychiatrist for nerves, anxiety, tension or depression	62	
 BIN_FC	BIN_FC10002159	1287	Ever_had_same-sex_intercourse	Ever had same-sex intercourse	29	
-BIN_FC	BIN_FC10002188	12753	Long-standing_illness,_disability_or_infirmity	Long-standing illness, disability or infirmity	46	
-BIN_FC	BIN_FC10002207	31778	Wears_glasses_or_contact_lenses	Wears glasses or contact lenses	31	
 BIN_FC	BIN_FC10002227	6820	Other_eye_problems	Other eye problems	18	
-BIN_FC	BIN_FC10002257	14555	Hearing_difficulty/problems_with_background_noise	Hearing problems with background noise	38	
 BIN_FC	BIN_FC10002267	2789	Use_of_sun/uv_protection_(Never/rarely)	Use of sun/uv protection (Never/rarely)	39	
-BIN_FC	BIN_FC10002316	8331	Wheeze_or_whistling_in_the_chest_in_last_year	Wheeze or whistling in the chest in last year	45	
-BIN_FC	BIN_FC10002335	6257	Chest_pain_or_discomfort	Chest pain or discomfort	24	
 BIN_FC	BIN_FC10002345	18581	Ever_had_bowel_cancer_screening	Ever had bowel cancer screening	31	
 BIN_FC	BIN_FC10002365	6277	Ever_had_prostate_specific_antigen_(PSA)_test	Ever had prostate specific antigen (PSA) test	45	
-BIN_FC	BIN_FC10002415	10403	Had_major_operations	Had major operations	20	
-BIN_FC	BIN_FC10002443	1922	Diabetes_diagnosed_by_doctor	Diabetes diagnosed by doctor	28	
-BIN_FC	BIN_FC10002453	3460	Cancer_diagnosed_by_doctor	Cancer diagnosed by doctor	26	
-BIN_FC	BIN_FC10002463	4043	Fractured/broken_bones_in_last_5_years	Fractured/broken bones in last 5 years	38	
-BIN_FC	BIN_FC10002473	8172	Other_serious_medical_condition/disability_diagnosed_by_doctor	Other serious medical condition/disability diagnosed by doctor	62	
 BIN_FC	BIN_FC10002492	18547	Taking_other_prescription_medications	Taking other prescription medications	37	
 BIN_FC	BIN_FC10002644	4975	Light_smokers,_at_least_100_smokes_in_lifetime	Light smokers, at least 100 smokes in lifetime	46	
 BIN_FC	BIN_FC10002654	2500	Non-butter_spread_type:_Soft_(tub)_margarine	Non-butter spread type: Soft (tub) margarine	44	
 BIN_FC	BIN_FC10002674	15957	Ever_had_breast_cancer_screening_/_mammogram	Ever had breast cancer screening / mammogram	44	
 BIN_FC	BIN_FC10002694	18155	Ever_had_cervical_smear_test	Ever had cervical smear test	28	
-BIN_FC	BIN_FC10002774	6013	Ever_had_stillbirth,_spontaneous_miscarriage_or_termination	Ever had stillbirth, spontaneous miscarriage or termination	59	
 BIN_FC	BIN_FC10002784	15602	Ever_taken_oral_contraceptive_pill	Ever taken oral contraceptive pill	34	
-BIN_FC	BIN_FC10002814	7561	Ever_used_hormone-replacement_therapy_(HRT)	Ever used hormone-replacement therapy (HRT)	43	
 BIN_FC	BIN_FC10002834	1720	Bilateral_oophorectomy_(both_ovaries_removed)	Bilateral oophorectomy (both ovaries removed)	45	
 BIN_FC	BIN_FC10002844	12554	Had_other_major_operations	Had other major operations	26	
 BIN_FC	BIN_FC10002877	8067	Type_of_tobacco_previously_smoked_(manufactured_cigarettes)	Type of tobacco previously smoked (manufactured cigarettes)	59	
@@ -301,44 +273,22 @@ BIN_FC	BIN_FC10002956	424	General_pain_for_3+_months	General pain for 3+ months	
 BIN_FC	BIN_FC10002986	179	Started_insulin_within_one_year_diagnosis_of_diabetes	Started insulin within one year diagnosis of diabetes	53	
 BIN_FC	BIN_FC10003005	2425	Fracture_resulting_from_simple_fall	Fracture resulting from simple fall	35	
 BIN_FC	BIN_FC10003082	11	Fractured_heel	Fractured heel	14	
-BIN_FC	BIN_FC10003393	1520	Hearing_aid_user	Hearing aid user	16	
-BIN_FC	BIN_FC10003404	6090	Neck/shoulder_pain_for_3+_months	Neck/shoulder pain for 3+ months	32	
-BIN_FC	BIN_FC10003414	3646	Hip_pain_for_3+_months	Hip pain for 3+ months	22	
 BIN_FC	BIN_FC10003446	1488	Type_of_tobacco_currently_smoked_(manufactured_cigarettes)	Type of tobacco currently smoked (manufactured cigarettes)	58	
 BIN_FC	BIN_FC10003486	1805	Ever_tried_to_stop_smoking	Ever tried to stop smoking	26	
 BIN_FC	BIN_FC10003571	6716	Back_pain_for_3+_months	Back pain for 3+ months	23	
-BIN_FC	BIN_FC10003591	1547	Ever_had_hysterectomy_(womb_removed)	Ever had hysterectomy (womb removed)	36	
-BIN_FC	BIN_FC10003616	1864	Chest_pain_due_to_walking_ceases_when_standing_still	Chest pain due to walking ceases when standing still	52	
 BIN_FC	BIN_FC10003720	860	Menstruating_today	Menstruating today	18	
 BIN_FC	BIN_FC10003731	1334	Former_alcohol_drinker	Former alcohol drinker	22	
-BIN_FC	BIN_FC10003741	1661	Stomach/abdominal_pain_for_3+_months	Stomach/abdominal pain for 3+ months	36	
-BIN_FC	BIN_FC10003773	6966	Knee_pain_for_3+_months	Knee pain for 3+ months	23	
-BIN_FC	BIN_FC10003799	3372	Headaches_for_3+_months	Headaches for 3+ months	23	
 BIN_FC	BIN_FC10003912	63	Adopted_father_still_alive	Adopted father still alive	26	
 BIN_FC	BIN_FC10003942	99	Adopted_mother_still_alive	Adopted mother still alive	26	
-BIN_FC	BIN_FC10004041	84	Gestational_diabetes_only	Gestational diabetes only	25	
-BIN_FC	BIN_FC10004067	336	Facial_pains_for_3+_months	Facial pains for 3+ months	26	
 BIN_FC	BIN_FC10004501	9394	Non-accidental_death_in_close_genetic_family	Non-accidental death in close genetic family	44	
-BIN_FC	BIN_FC10004598	18660	Ever_depressed_for_a_whole_week	Ever depressed for a whole week	31	
-BIN_FC	BIN_FC10004631	12723	Ever_unenthusiastic/disinterested_for_a_whole_week	Ever unenthusiastic/disinterested for a whole week	50	
-BIN_FC	BIN_FC10004642	1791	Ever_manic/hyper_for_2_days	Ever manic/hyper for 2 days	27	
-BIN_FC	BIN_FC10004653	6026	Ever_highly_irritable/argumentative_for_2_days	Ever highly irritable/argumentative for 2 days	46	
 BIN_FC	BIN_FC10004717	3580	Shortness_of_breath_walking_on_level_ground	Shortness of breath walking on level ground	43	
-BIN_FC	BIN_FC10004728	7851	Leg_pain_on_walking	Leg pain on walking	19	
-BIN_FC	BIN_FC10004792	6	Cochlear_implant	Cochlear implant	16	
 BIN_FC	BIN_FC10004825	3996	Noisy_workplace_(Yes,_for_more_than_5_years)	Noisy workplace (Yes, for more than 5 years)	44	
 BIN_FC	BIN_FC10004836	1628	Loud_music_exposure_frequency_(Yes,_for_more_than_5_years)	Loud music exposure frequency (Yes, for more than 5 years)	58	
 BIN_FC	BIN_FC10005408	537	Which_eye(s)_affected_by_amblyopia_(lazy_eye)_(Right_eye)	Which eye(s) affected by amblyopia (lazy eye) (Right eye)	57	
 BIN_FC	BIN_FC10005419	123	Which_eye(s)_affected_by_injury_or_trauma_resulting_in_loss_of_vision_(Right_eye)	Which eye(s) affected by injury or trauma resulting in loss of vision (Right eye)	81	
 BIN_FC	BIN_FC10005441	2125	Which_eye(s)_are_affected_by_cataract_(Right_eye)	Which eye(s) are affected by cataract (Right eye)	49	
-BIN_FC	BIN_FC10005452	4735	Leg_pain_when_standing_still_or_sitting	Leg pain when standing still or sitting	39	
-BIN_FC	BIN_FC10005463	2425	Leg_pain_in_calf/calves	Leg pain in calf/calves	23	
-BIN_FC	BIN_FC10005474	5097	Leg_pain_when_walking_uphill_or_hurrying	Leg pain when walking uphill or hurrying	40	
-BIN_FC	BIN_FC10005485	4354	Leg_pain_when_walking_normally	Leg pain when walking normally	30	
-BIN_FC	BIN_FC10005496	1622	Leg_pain_when_walking_ever_disappears_while_walking	Leg pain when walking ever disappears while walking	51	
 BIN_FC	BIN_FC10005507	1023	Leg_pain_on_walking_:_action_taken_(Stop)	Leg pain on walking : action taken (Stop)	41	
 BIN_FC	BIN_FC10005518	2664	Leg_pain_on_walking_:_effect_of_standing_still_(Pain_usually_continues_for_more_than_10_minutes)	Leg pain on walking : effect of standing still (Pain usually continues for more than 10 minutes)	96	
-BIN_FC	BIN_FC10005529	252	Surgery_on_leg_arteries_(other_than_for_varicose_veins)	Surgery on leg arteries (other than for varicose veins)	55	
 BIN_FC	BIN_FC10005540	36	Surgery/amputation_of_toe_or_leg_(Yes,_toes)	Surgery/amputation of toe or leg (Yes, toes)	44	
 BIN_FC	BIN_FC10005610	13446	Which_eye(s)_affected_by_presbyopia_(Right_eye)	Which eye(s) affected by presbyopia (Right eye)	47	
 BIN_FC	BIN_FC10005832	6747	Which_eye(s)_affected_by_hypermetropia_(long_sight)_(Right_eye)	Which eye(s) affected by hypermetropia (long sight) (Right eye)	63	
@@ -427,7 +377,6 @@ BIN_FC	BIN_FC10020552	64	Other_non-behavioral_addiction	Other non-behavioral add
 BIN_FC	BIN_FC10021050	509	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86	
 BIN_FC	BIN_FC10021057	2167	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72	
 BIN_FC	BIN_FC10021072	16	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57	
-BIN_FC	BIN_FC1002159	1287	Ever_had_same-sex_intercourse	Ever had same-sex intercourse	29	
 BIN_FC	BIN_FC1002247	10722	Hearing_difficulty	Hearing difficulty	18	
 BIN_FC	BIN_FC10022506	465	Tobacco_smoking_current_vs_non	Tobacco smoking current vs non	30	
 BIN_FC	BIN_FC1002306	17421	Weight_change_compared_with_1_year_ago	Weight change compared with 1 year ago	38	
@@ -4015,7 +3964,6 @@ QT_FC	QT_FC1004570	33308	Friendships_satisfaction	Friendships satisfaction	24
 QT_FC	QT_FC1004581	33512	Financial_situation_satisfaction	Financial situation satisfaction	32	
 QT_FC	QT_FC1004803	33232	Tinnitus_severity	Tinnitus severity	17	
 QT_FC	QT_FC1005663	5732	Length_of_longest_manic/irritable_episode	Length of longest manic/irritable episode	41	
-QT_FC	QT_FC21050	2972	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86	
 QT_FC	QT_FC21057	11315	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72	
 INI	INI1001	4432	Duration_strenuous_sports	Duration strenuous sports	25	
 INI	INI10030500	9609	Microalbumin_in_urine_covariate_adjusted	Microalbumin in urine covariate adjusted	40	

@@ -1081,7 +1081,6 @@ Digestive_health	INI21060	9142	Degree_bothered_by_feeling_tired_all_the_time_in_
 Digestive_health	INI21061	9141	Degree_bothered_by_trouble_sleeping_in_the_last_3_months	Degree bothered by trouble sleeping in the last 3 months	56
 Digestive_health	QT_FC10021050	1984	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86
 Digestive_health	QT_FC10021057	5933	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72
-Digestive_health	QT_FC21050	1984	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86
 Digestive_health	QT_FC21057	5933	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72
 Disease_outcome	HC0	97	scoliosis	Scoliosis	9
 Disease_outcome	HC1	309	bowel_/_intestinal_obstruction	Bowel / intestinal obstruction	30
@@ -2607,7 +2606,6 @@ DXA_assessment	INI23316	161	Leg_bone_area_(right)	Leg bone area (R)	17
 DXA_assessment	INI23317	188	Arms_combined_bone_area	Arms combined bone area	23
 DXA_assessment	INI23318	188	Legs_combined_bone_area	Legs combined bone area	23
 Early_life_factors	BIN_FC10000120	10163	Birth_weight_known_as_lb	Birth weight known as lb	24
-Early_life_factors	BIN_FC10001677	14205	Breastfed_as_a_baby	Breastfed as a baby	19
 Early_life_factors	BIN_FC10001707	22855	Handedness_(chirality/laterality)_(Right-handed)	Handedness (chirality/laterality) (Right-handed)	48
 Early_life_factors	BIN_FC10001767	478	Adopted_as_a_child	Adopted as a child	18
 Early_life_factors	BIN_FC10001777	518	Part_of_a_multiple_birth	Part of a multiple birth	24
@@ -2742,50 +2740,23 @@ Family_history	INI3982	431	Number_of_adopted_sisters	# of adopted sisters	20
 Family_history	INI5057	10339	Number_of_older_siblings	# of older siblings	19
 Hand_grip_strength	INI46	24787	Hand_grip_strength_(left)	Hand grip strength (L)	22
 Hand_grip_strength	INI47	24789	Hand_grip_strength_(right)	Hand grip strength (R)	22
-Health_and_medical_history	BIN_FC10002188	7939	Long-standing_illness,_disability_or_infirmity	Long-standing illness, disability or infirmity	46
-Health_and_medical_history	BIN_FC10002207	21505	Wears_glasses_or_contact_lenses	Wears glasses or contact lenses	31
 Health_and_medical_history	BIN_FC10002227	4477	Other_eye_problems	Other eye problems	18
-Health_and_medical_history	BIN_FC10002257	9769	Hearing_difficulty/problems_with_background_noise	Hearing problems with background noise	38
-Health_and_medical_history	BIN_FC10002316	5371	Wheeze_or_whistling_in_the_chest_in_last_year	Wheeze or whistling in the chest in last year	45
-Health_and_medical_history	BIN_FC10002335	4789	Chest_pain_or_discomfort	Chest pain or discomfort	24
 Health_and_medical_history	BIN_FC10002345	8716	Ever_had_bowel_cancer_screening	Ever had bowel cancer screening	31
 Health_and_medical_history	BIN_FC10002365	3235	Ever_had_prostate_specific_antigen_(PSA)_test	Ever had prostate specific antigen (PSA) test	45
-Health_and_medical_history	BIN_FC10002415	6774	Had_major_operations	Had major operations	20
-Health_and_medical_history	BIN_FC10002443	1162	Diabetes_diagnosed_by_doctor	Diabetes diagnosed by doctor	28
-Health_and_medical_history	BIN_FC10002453	2169	Cancer_diagnosed_by_doctor	Cancer diagnosed by doctor	26
-Health_and_medical_history	BIN_FC10002463	2863	Fractured/broken_bones_in_last_5_years	Fractured/broken bones in last 5 years	38
-Health_and_medical_history	BIN_FC10002473	5356	Other_serious_medical_condition/disability_diagnosed_by_doctor	Other serious medical condition/disability diagnosed by doctor	62
 Health_and_medical_history	BIN_FC10002492	11337	Taking_other_prescription_medications	Taking other prescription medications	37
 Health_and_medical_history	BIN_FC10002844	9757	Had_other_major_operations	Had other major operations	26
 Health_and_medical_history	BIN_FC10002956	349	General_pain_for_3+_months	General pain for 3+ months	26
 Health_and_medical_history	BIN_FC10002986	143	Started_insulin_within_one_year_diagnosis_of_diabetes	Started insulin within one year diagnosis of diabetes	53
 Health_and_medical_history	BIN_FC10003005	1685	Fracture_resulting_from_simple_fall	Fracture resulting from simple fall	35
-Health_and_medical_history	BIN_FC10003393	666	Hearing_aid_user	Hearing aid user	16
-Health_and_medical_history	BIN_FC10003404	4290	Neck/shoulder_pain_for_3+_months	Neck/shoulder pain for 3+ months	32
-Health_and_medical_history	BIN_FC10003414	2276	Hip_pain_for_3+_months	Hip pain for 3+ months	22
 Health_and_medical_history	BIN_FC10003571	4745	Back_pain_for_3+_months	Back pain for 3+ months	23
-Health_and_medical_history	BIN_FC10003616	1303	Chest_pain_due_to_walking_ceases_when_standing_still	Chest pain due to walking ceases when standing still	52
-Health_and_medical_history	BIN_FC10003741	1437	Stomach/abdominal_pain_for_3+_months	Stomach/abdominal pain for 3+ months	36
-Health_and_medical_history	BIN_FC10003773	4133	Knee_pain_for_3+_months	Knee pain for 3+ months	23
-Health_and_medical_history	BIN_FC10003799	2469	Headaches_for_3+_months	Headaches for 3+ months	23
-Health_and_medical_history	BIN_FC10004041	65	Gestational_diabetes_only	Gestational diabetes only	25
-Health_and_medical_history	BIN_FC10004067	266	Facial_pains_for_3+_months	Facial pains for 3+ months	26
 Health_and_medical_history	BIN_FC10004717	1228	Shortness_of_breath_walking_on_level_ground	Shortness of breath walking on level ground	43
-Health_and_medical_history	BIN_FC10004728	2534	Leg_pain_on_walking	Leg pain on walking	19
-Health_and_medical_history	BIN_FC10004792	10	Cochlear_implant	Cochlear implant	16
 Health_and_medical_history	BIN_FC10004825	1083	Noisy_workplace_(Yes,_for_more_than_5_years)	Noisy workplace (Yes, for more than 5 years)	44
 Health_and_medical_history	BIN_FC10004836	568	Loud_music_exposure_frequency_(Yes,_for_more_than_5_years)	Loud music exposure frequency (Yes, for more than 5 years)	58
 Health_and_medical_history	BIN_FC10005408	176	Which_eye(s)_affected_by_amblyopia_(lazy_eye)_(Right_eye)	Which eye(s) affected by amblyopia (lazy eye) (Right eye)	57
 Health_and_medical_history	BIN_FC10005419	35	Which_eye(s)_affected_by_injury_or_trauma_resulting_in_loss_of_vision_(Right_eye)	Which eye(s) affected by injury or trauma resulting in loss of vision (Right eye)	81
 Health_and_medical_history	BIN_FC10005441	495	Which_eye(s)_are_affected_by_cataract_(Right_eye)	Which eye(s) are affected by cataract (Right eye)	49
-Health_and_medical_history	BIN_FC10005452	1541	Leg_pain_when_standing_still_or_sitting	Leg pain when standing still or sitting	39
-Health_and_medical_history	BIN_FC10005463	837	Leg_pain_in_calf/calves	Leg pain in calf/calves	23
-Health_and_medical_history	BIN_FC10005474	1593	Leg_pain_when_walking_uphill_or_hurrying	Leg pain when walking uphill or hurrying	40
-Health_and_medical_history	BIN_FC10005485	1353	Leg_pain_when_walking_normally	Leg pain when walking normally	30
-Health_and_medical_history	BIN_FC10005496	530	Leg_pain_when_walking_ever_disappears_while_walking	Leg pain when walking ever disappears while walking	51
 Health_and_medical_history	BIN_FC10005507	415	Leg_pain_on_walking_:_action_taken_(Stop)	Leg pain on walking : action taken (Stop)	41
 Health_and_medical_history	BIN_FC10005518	881	Leg_pain_on_walking_:_effect_of_standing_still_(Pain_usually_continues_for_more_than_10_minutes)	Leg pain on walking : effect of standing still (Pain usually continues for more than 10 minutes)	96
-Health_and_medical_history	BIN_FC10005529	112	Surgery_on_leg_arteries_(other_than_for_varicose_veins)	Surgery on leg arteries (other than for varicose veins)	55
 Health_and_medical_history	BIN_FC10005540	19	Surgery/amputation_of_toe_or_leg_(Yes,_toes)	Surgery/amputation of toe or leg (Yes, toes)	44
 Health_and_medical_history	BIN_FC10005610	3225	Which_eye(s)_affected_by_presbyopia_(Right_eye)	Which eye(s) affected by presbyopia (Right eye)	47
 Health_and_medical_history	BIN_FC10005832	1511	Which_eye(s)_affected_by_hypermetropia_(long_sight)_(Right_eye)	Which eye(s) affected by hypermetropia (long sight) (Right eye)	63
@@ -3017,7 +2988,6 @@ Lifestyle_and_environment	BIN_FC10010895	1	Light_smokers,_at_least_100_smokes_in
 Lifestyle_and_environment	BIN_FC1001747	2765	Hair_colour_(natural,_before_greying)_blonde	Hair colour (natural, before greying) blonde	44
 Lifestyle_and_environment	BIN_FC10020116	11638	Never_Smoker	Never Smoker	12
 Lifestyle_and_environment	BIN_FC10020117	979	Never_Drinker	Never Drinker	13
-Lifestyle_and_environment	BIN_FC1002159	1513	Ever_had_same-sex_intercourse	Ever had same-sex intercourse	29
 Lifestyle_and_environment	BIN_FC1006144	828	Never_eat_eggs	Never eat eggs	14
 Lifestyle_and_environment	BIN_FC20001140	7630	Mobile_phone_use_is_now_more_frequent_than_2_years_ago	Mobile phone use is now more frequent than 2 years ago	54
 Lifestyle_and_environment	BIN_FC20001150	12535	Usual_side_of_head_for_mobile_phone_use_(right)	Usual side of head for mobile phone use (R)	43
@@ -3482,25 +3452,6 @@ Population_characteristics	INI26431	2077	Education_score_(Scotland)	Education sc
 Population_characteristics	INI26432	2077	Housing_score_(Scotland)	Housing score (Scotland)	24
 Population_characteristics	INI26433	2077	Access_to_services_score_(Scotland)	Access to services score (Scotland)	35
 Population_characteristics	INI26434	1969	Crime_score_(Scotland)	Crime score (Scotland)	22
-Psychosocial_factors	BIN_FC10001920	10922	Mood_swings	Mood swings	11
-Psychosocial_factors	BIN_FC10001930	10488	Miserableness	Miserableness	13
-Psychosocial_factors	BIN_FC10001940	7367	Irritability	Irritability	12
-Psychosocial_factors	BIN_FC10001950	13147	Sensitivity_/_hurt_feelings	Sensitivity / hurt feelings	27
-Psychosocial_factors	BIN_FC10001960	9553	Fed-up_feelings	Fed-up feelings	15
-Psychosocial_factors	BIN_FC10001970	6132	Nervous_feelings	Nervous feelings	16
-Psychosocial_factors	BIN_FC10001980	13973	Worrier_/_anxious_feelings	Worrier / anxious feelings	26
-Psychosocial_factors	BIN_FC10001990	5243	Tense_/_'highly_strung'	Tense / 'highly strung'	23
-Psychosocial_factors	BIN_FC10002000	11647	Worry_too_long_after_embarrassment	Worry too long after embarrassment	34
-Psychosocial_factors	BIN_FC10002010	4960	Suffer_from_'nerves'	Suffer from 'nerves'	20
-Psychosocial_factors	BIN_FC10002020	5271	Loneliness,_isolation	Loneliness, isolation	21
-Psychosocial_factors	BIN_FC10002030	7753	Guilty_feelings	Guilty feelings	15
-Psychosocial_factors	BIN_FC10002040	8855	Risk_taking	Risk taking	11
-Psychosocial_factors	BIN_FC10002090	8480	Seen_doctor_(GP)_for_nerves,_anxiety,_tension_or_depression	Seen doctor (GP) for nerves, anxiety, tension or depression	59
-Psychosocial_factors	BIN_FC10002100	3540	Seen_a_psychiatrist_for_nerves,_anxiety,_tension_or_depression	Seen a psychiatrist for nerves, anxiety, tension or depression	62
-Psychosocial_factors	BIN_FC10004598	6220	Ever_depressed_for_a_whole_week	Ever depressed for a whole week	31
-Psychosocial_factors	BIN_FC10004631	4255	Ever_unenthusiastic/disinterested_for_a_whole_week	Ever unenthusiastic/disinterested for a whole week	50
-Psychosocial_factors	BIN_FC10004642	855	Ever_manic/hyper_for_2_days	Ever manic/hyper for 2 days	27
-Psychosocial_factors	BIN_FC10004653	2312	Ever_highly_irritable/argumentative_for_2_days	Ever highly irritable/argumentative for 2 days	46
 Psychosocial_factors	BIN_FC10006156	1055	Manic/hyper_symptoms_(I_was_more_active_than_usual)	Manic/hyper symptoms (I was more active than usual)	51
 Psychosocial_factors	BIN_FC10006160	17791	Leisure/social_activities_(attend_any_of_the_followings_in_once_a_week_or_more_often:_sports_club,_gym,_pub,_social_club,_religious_group,_adult_edication_class,_or_other_group_activity)	Leisure/social activities (attend any of the followings in once a week or more often: sports club, gym, pub, social club, religious group, adult edication class, or other group activity)	186
 Psychosocial_factors	BIN_FC10020122	145	General_Bipolar	General Bipolar	15
@@ -3565,11 +3516,8 @@ Resting_functional_brain_MRI	INI25741	1668	Mean_rfMRI_head_motion,_averaged_acro
 Resting_functional_brain_MRI	INI25744	1668	Inverted_temporal_signal-to-noise_ratio_in_artefact-cleaned_pre-processed_rfMRI	Inverted temporal signal-to-noise ratio in artefact-cleaned pre-processed rfMRI	79
 Sex-specific_factors	BIN_FC10002674	11455	Ever_had_breast_cancer_screening_/_mammogram	Ever had breast cancer screening / mammogram	44
 Sex-specific_factors	BIN_FC10002694	13874	Ever_had_cervical_smear_test	Ever had cervical smear test	28
-Sex-specific_factors	BIN_FC10002774	5158	Ever_had_stillbirth,_spontaneous_miscarriage_or_termination	Ever had stillbirth, spontaneous miscarriage or termination	59
 Sex-specific_factors	BIN_FC10002784	11123	Ever_taken_oral_contraceptive_pill	Ever taken oral contraceptive pill	34
-Sex-specific_factors	BIN_FC10002814	4996	Ever_used_hormone-replacement_therapy_(HRT)	Ever used hormone-replacement therapy (HRT)	43
 Sex-specific_factors	BIN_FC10002834	956	Bilateral_oophorectomy_(both_ovaries_removed)	Bilateral oophorectomy (both ovaries removed)	45
-Sex-specific_factors	BIN_FC10003591	1003	Ever_had_hysterectomy_(womb_removed)	Ever had hysterectomy (womb removed)	36
 Sex-specific_factors	BIN_FC10003720	746	Menstruating_today	Menstruating today	18
 Sex-specific_factors	BIN_FC1002395	2535	Male_pattern_baldness_severity	Male pattern baldness severity	30
 Sex-specific_factors	BIN_FC1002724	8750	Had_menopause	Had menopause	13
