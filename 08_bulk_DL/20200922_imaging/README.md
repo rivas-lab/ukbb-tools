@@ -3,7 +3,7 @@
 
 | UKB Field ID                                                     | Description                             | # data files | # individuals |
 |------------------------------------------------------------------|-----------------------------------------|--------------|---------------|
-| [20202](http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=20202) | Pancreatic fat - DICOM                  | 44108 *      | 41754         |
+| [20202](http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=20202) | Pancreatic fat - DICOM                  | 44108 (44084 downloaded)*      | 41754         |
 | [20203](http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=20203) | Liver images - gradient echo - DICOM    | 10108        | 10108         |
 | [20204](http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=20204) | Liver Imaging - T1 ShMoLLI - DICOM      | 45398        | 45685         |
 | [20254](http://biobank.ctsu.ox.ac.uk/crystal/field.cgi?id=20254) | Liver images - IDEAL protocol - DICOM   | 34839        | 37267         |
