@@ -1,6 +1,7 @@
 #!/bin/bash
 set -beEuo pipefail
 
+ml load parallel
 data_d='/scratch/groups/mrivas/ukbb24983/exome/gwas-qc-SE02'
 
 pop=$1

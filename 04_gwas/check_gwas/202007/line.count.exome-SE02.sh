@@ -13,7 +13,7 @@ data_d='/scratch/groups/mrivas/ukbb24983/exome/gwas-qc-SE02'
 
 # configure the output file name
 pop=$(basename $(dirname $in_f))
-GBE_ID=$(basename $in_f | sed -e 's/ukb24983_v2_hg38.//g' | sed -e 's/.exome-spb//g' | sed -e 's/.glm.logistic.hybrid.gz//g' | sed -e 's/.glm.linear.gz//g' | sed -e 's/.metal.tsv.gz//g')
+GBE_ID=$(basename $in_f | sed -e 's/ukb24983_exomeOQFE.//g' | sed -e 's/.exome-spb//g' | sed -e 's/.glm.logistic.hybrid.gz//g' | sed -e 's/.glm.linear.gz//g' | sed -e 's/.metal.tsv.gz//g')
 out_f=${data_d}/${pop}/${pop}.${GBE_ID}.cnt.tsv
 
 # generate the output directory if not exist
@@ -35,7 +35,7 @@ pop <- basename(dirname(in_f))
 
 GBE_ID <- str_replace_all(
     basename(in_f),
-    '^ukb24983_v2_hg38.|.exome-spb|.glm.logistic.hybrid.gz$|.glm.linear.gz$|.metal.tsv.gz$',
+    '^ukb24983_exomeOQFE.|.exome-spb|.glm.logistic.hybrid.gz$|.glm.linear.gz$|.metal.tsv.gz$',
     ''
 )
 
