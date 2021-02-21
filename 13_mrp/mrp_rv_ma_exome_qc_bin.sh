@@ -37,7 +37,7 @@ this_idx=$_SLURM_ARRAY_TASK_ID
 # To include phenotype: lambda GC <= 3, N >= 1000, non-NA lines >= 100000, not metal, not e_asian 
 GBE_ID=$(awk -F'\t' '{if (($16 != "NA") && ($16 <= 3) && ($8 >= 1000) && ($4 >= 100000)) {print}}' /oak/stanford/groups/mrivas/ukbb24983/exome/gwas/current/gwas.qc-SE02.tsv | grep -v metal | grep -v e_asian | cut -f1 | tail -n +2 | sort -u | egrep -v QT_FC | egrep -v INI | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $1}')
 
-awk -F'\t' -v GBE=${GBE_ID} '{if (($1 == GBE) && ($16 != "NA") && ($16 <= 3) && ($8 >= 1000) && ($4 >= 100000)) {print}}' /oak/stanford/groups/mrivas/ukbb24983/exome/gwas/current/gwas.qc-SE02.tsv | grep -v metal | grep -v e_asian > $output_folder/$GBE_ID.POP_INCLUDE
+awk -F'\t' -v GBE=${GBE_ID} '{if (($1 == GBE) && ($16 != "NA") && ($16 <= 3) && ($8 >= 1000) && ($4 >= 100000)) {print}}' /oak/stanford/groups/mrivas/ukbb24983/exome/gwas/current/gwas.qc-SE02.tsv | grep -v metal | grep -v e_asian | cut -f2 > $output_folder/$GBE_ID.POP_INCLUDE
 
 echo -e "$GBE_ID" >&1
 
@@ -54,6 +54,9 @@ N_OTH="$(echo $line_phenotype | cut -d' ' -f14)"
 
 echo -e "$N_GBE\n$N_AFR\n$N_SAS\n$N_NBW\n$N_REL\n$N_OTH" > $output_folder/$GBE_ID.POP_NUM
 
+rm $output_folder/$GBE_ID.tmp.txt
+touch $output_folder/$GBE_ID.tmp.txt
+
 paste $output_folder/$GBE_ID.POP $output_folder/$GBE_ID.POP_NUM | while read POP NUM; do
     lines=$(find /oak/stanford/groups/mrivas/ukbb24983/exome/gwas/current/ -name "*.$GBE_ID.*gz" | grep -v freeze | grep -v old | grep -v ldsc | grep $POP | wc -l)
     if [ $lines -eq 1 ]; then
@@ -64,7 +67,6 @@ done
 
 grep -Fwf $output_folder/$GBE_ID.POP_INCLUDE $output_folder/$GBE_ID.tmp.txt > $output_folder/$GBE_ID.tmp && mv $output_folder/$GBE_ID.tmp $output_folder/$GBE_ID.tmp.txt
 
-rm $output_folder/$GBE_ID.tmp
 rm $output_folder/$GBE_ID.POP_INCLUDE
 rm $output_folder/$GBE_ID.POP_NUM
 rm $output_folder/$GBE_ID.POP

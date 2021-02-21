@@ -108,6 +108,9 @@ is log 10 Bayes Factors for protein-truncating variants used for generating a co
 - Outputs: MRP output files (`log10BF` and corresponding posterior odds per gene/variant across the parameters specified) in the output folder specified. The analysis is run for both rare and ultra-rare variants.
 - Example usage: `sbatch -p normal,owners,mrivas --array=1-1000 mrp_rv_exome_mpc_pli.sh 1 /path/to/output_folder` 
 
+### Part 7: MRP exome meta-analysis
+ - NOTE: there are some phenotypes that are not very good for analysis - specifically, those in gbe_blacklist.tsv
+
 ## Pipelines and Workflows
 
 ## MRP: Script details and options
