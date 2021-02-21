@@ -11,7 +11,7 @@
 usage () {
     echo "$0: Script that estimates one row of the R_phen matrix."
     echo "usage: sbatch --array=1-<number of rows to calculate> $0 start_idx (inclusive)"
-    echo "e.g. sbatch --array=1-1000 $0 1"
+    echo "e.g. sbatch --array=1-36 $0 1"
 }
 
 # get core and memory settings from the header -- passed to gwas script below
@@ -35,7 +35,7 @@ start_idx=$1
 this_idx=$_SLURM_ARRAY_TASK_ID
 cur_idx=` echo "$start_idx + $this_idx - 1" | bc `
 
-GBE_ID=$(cat sumstat_paths.tsv | grep -v path | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $1}' )
+GBE_ID=$(cut -f4 sumstat_paths.tsv | grep -v PATH | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $1}' )
 
 echo $GBE_ID
 echo $cur_idx

@@ -4,14 +4,14 @@ import numpy as np
 from scipy.stats.stats import pearsonr, spearmanr
 import sys
 
-def set_up_df(phen_path, metadata, pheno):
+def set_up_df(phen_PATH, metadata, pheno):
     
     """
     Sets up dataframe for a phenotype for calculating Pearson
         correlations.
 
     Parameters:
-    phen_path: Path to summary statistics for the phenotype.
+    phen_PATH: Path to summary statistics for the phenotype.
     metadata: Path to metadata file containing LD independence information,
         MAF, etc.
     pheno: Phenotype name.
@@ -20,9 +20,9 @@ def set_up_df(phen_path, metadata, pheno):
     df: Ready dataframe for Pearson correlation calculation.
     
     """
-    if len(phen_path) != 0:
+    if len(phen_PATH) != 0:
         df = pd.read_csv(
-            phen_path,
+            phen_PATH,
             sep="\t",
             dtype={
                 "#CHROM": str,
@@ -102,10 +102,10 @@ def build_R_phen_row(pheno1, phen_info, row_num):
     # Filter for SE as you read it in
     print("Reading in metadata...")
     metadata = pd.read_table('/oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-consequence_wb_maf_gene_ld_indep_mpc_pli.tsv')
-    phen1_path = list(phen_info[phen_info['PHEN'] == pheno1]['path'])[0]
+    phen1_PATH = list(phen_info[phen_info['GBE_ID'] == pheno1]['PATH'])[0]
     print("Filtering on p-value and SE...")
-    df1 = set_up_df(phen1_path, metadata, pheno1)
-    phenos = list(phen_info['PHEN'])
+    df1 = set_up_df(phen1_PATH, metadata, pheno1)
+    phenos = list(phen_info['GBE_ID'])
     if len(df1) == 0:
         p_corrs_nohla = np.repeat(np.nan, len(phenos), axis=0)
         p_ps_nohla = np.repeat(np.nan, len(phenos), axis=0)
@@ -126,8 +126,8 @@ def build_R_phen_row(pheno1, phen_info, row_num):
             compute = True
         else:
             if compute == True:
-                phen2_path = list(phen_info[phen_info['PHEN'] == pheno2]['path'])[0]
-                df2 = set_up_df(phen2_path, metadata, pheno2)
+                phen2_PATH = list(phen_info[phen_info['GBE_ID'] == pheno2]['PATH'])[0]
+                df2 = set_up_df(phen2_PATH, metadata, pheno2)
                 if len(df2) != 0:
                     # FILTER OUT HLA
                     df = df1.merge(df2)
