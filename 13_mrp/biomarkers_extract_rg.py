@@ -7,4 +7,5 @@ phen_info = pd.read_table('sumstat_paths.tsv')
 phenos = list(phen_info['GBE_ID'])
 rg = rg[(rg['p1'].isin(phenos)) & (rg['p2'].isin(phenos))]
 rg = rg.fillna(0)
-rg[['p1','p2','rg']].to_csv('biomarkers_array_rg.tsv', sep='\t', index=False)
+rg.loc[rg.p >= 0.01, 'rg'] = 0
+rg[['p1','p2','rg','p']].to_csv('biomarkers_array_rg.tsv', sep='\t', index=False)
