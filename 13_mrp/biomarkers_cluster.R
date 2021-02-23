@@ -7,9 +7,10 @@ setwd("~/Dropbox/ukbb-tools/13_mrp")
 
 corrs <- read.delim("biomarkers_array_rg.tsv", sep="\t", header=TRUE, fill=TRUE, stringsAsFactors=FALSE)
 sumstats <- read.delim("sumstat_paths.tsv", sep="\t", header=TRUE, fill=TRUE, stringsAsFactors=FALSE)
+corrs <- corrs %>% mutate(p1 = str_split_fixed(corrs$p1, ".", 2)) %>% mutate(p2 = str_split_fixed(corrs$p2, ".", 2))
 phens <- sumstats$GBE_ID
 R_phen <- matrix(0L, nrow = length(phens), ncol = length(phens))
-print(phens)
+
 for (row in 1:nrow(corrs)) {
   i = match(c(corrs[row, "p1"]), phens)
   j = match(c(corrs[row, "p2"]), phens)
