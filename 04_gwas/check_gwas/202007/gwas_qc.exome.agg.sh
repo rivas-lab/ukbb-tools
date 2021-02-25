@@ -19,7 +19,7 @@ pops %>% lapply(function(pop){
 
     lgc_df  <- fread(file.path(data_d, sprintf('%s.qc.tsv', pop)))  %>% rename('GBE_ID'='#GBE_ID') %>% distinct()
     cnt_df  <- fread(file.path(data_d, sprintf('%s.cnt.tsv', pop))) %>% rename('GBE_ID'='#GBE_ID') %>% distinct()
-    icdinfo_df <- fread(sprintf('/oak/stanford/groups/mrivas/users/guhan/repos/ukbb-tools/05_gbe/icdinfo.exome.%s.tsv', pop)) %>%
+    icdinfo_df <- fread(sprintf('/oak/stanford/groups/mrivas/users/guhan/repos/ukbb-tools/05_gbe/exome/200k/icdinfo.exome.%s.tsv', pop)) %>%
     select(-GBE_short_name_len) %>% distinct()
 
     cnt_df %>%

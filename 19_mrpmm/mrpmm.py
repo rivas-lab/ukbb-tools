@@ -2263,7 +2263,7 @@ if __name__ == "__main__":
 
     # Filter only for variants of interest
     df = df[df["V"].isin(chroff_vec)]
-    df = df[(df["maf"].astype(float) <= args.maf_thresh) & (df["maf"].astype(float) > 0)]
+    df = df[(df["maf"].astype(float) <= args.maf_thresh) & (df["maf"].astype(float) >= 0)]
     df = df[df.ld_indep == True]
     chroff_vec = list(df["V"])
     annot_vec = list(df["most_severe_consequence"])

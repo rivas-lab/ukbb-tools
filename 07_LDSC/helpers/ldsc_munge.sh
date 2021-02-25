@@ -130,6 +130,7 @@ echo "Applying a custom pre-processing R script ..."
 # echo "${SRCDIR}/make_ldsc_input_file_v2.R /dev/stdout ${input_file} ${ldscore}"
 
 Rscript make_ldsc_input_file_v2.R /dev/stdout ${input_file} ${ldscore} \
+| sed -e 's/[0-9].[0-9][0-9]*[eE]-[1-9][0-9][0-9][0-9][0-9]/1.0e-300/' \
 | sed -e 's/[0-9].[0-9][0-9]*[eE]-[1-9][0-9][0-9][0-9]/1.0e-300/' \
 | sed -e 's/[0-9].[0-9][0-9]*[eE]-[3-9][0-9][0-9]/1.0e-300/' > ${tmp_intermediate_file}
 # truncate the small p-value at 1e-300

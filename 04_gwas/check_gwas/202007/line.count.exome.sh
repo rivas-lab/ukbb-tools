@@ -15,6 +15,7 @@ data_d='/scratch/groups/mrivas/ukbb24983/exome/gwas-qc'
 pop=$(basename $(dirname $in_f))
 GBE_ID=$(basename $in_f | sed -e 's/ukb24983_exomeOQFE.//g' | sed -e 's/.glm.logistic.hybrid.gz//g' | sed -e 's/.glm.linear.gz//g' | sed -e 's/.metal.tsv.gz//g')
 out_f=${data_d}/${pop}/${pop}.${GBE_ID}.cnt.tsv
+ld_indep_f="../../../13_mrp/ref/ukb_exm_oqfe.prune.in"
 
 # generate the output directory if not exist
 if [ ! -d ${data_d}/${pop} ] ; then mkdir -p ${data_d}/${pop} ; fi
@@ -22,12 +23,13 @@ if [ ! -d ${data_d}/${pop} ] ; then mkdir -p ${data_d}/${pop} ; fi
 # if the output file already exist, exit
 if [ -s ${out_f} ] ; then exit 0 ; fi
 
-Rscript /dev/stdin ${out_f} ${in_f} << EOF
+Rscript /dev/stdin ${out_f} ${in_f} ${ld_indep_f} << EOF
 suppressWarnings(suppressPackageStartupMessages({ library(tidyverse); library(data.table) }))
 args <- commandArgs(trailingOnly=TRUE)
 
 out_f      <- args[1]
 in_f       <- args[2]
+ld_indep_f <- args[3]
 
 # get population and GBE_ID from file path
 
@@ -42,6 +44,7 @@ GBE_ID <- str_replace_all(
 # read the files
 
 in_f %>% fread() -> df
+ld_indep_f %>% fread(header=F) %>% pull() -> ld_indep_lst
 
 # count lines
 
@@ -51,6 +54,7 @@ data.frame(
     n_lines         = df %>% nrow(),
     n_non_NA_lines  = df %>% drop_na(P) %>% nrow(),
     n_hits          = df %>% drop_na(P) %>% filter(as.numeric(P) < 5e-8) %>% nrow(),
+    n_ld_indep_hits = df %>% drop_na(P) %>% filter(as.numeric(P) < 5e-8, ID %in% ld_indep_lst) %>% nrow(),
     stringsAsFactors=F
 ) -> qc_stats_df
 

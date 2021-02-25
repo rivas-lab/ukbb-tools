@@ -1,0 +1,36 @@
+GBE_ID	phenotype	cluster
+INI10030500	Microalbumin in urine	0
+INI10030710	C-reactive protein	0
+INI10030870	Triglycerides	0
+INI10030880	Urate	0
+INI10030510	Creatinine in urine	1
+INI10030520	Potassium in urine	1
+INI10030530	Sodium in urine	1
+INI10030670	Urea	1
+INI10030700	Creatinine	1
+INI10030720	Cystatin C	1
+INI20030640	Apolipoprotein B	1
+INI20030690	Cholesterol	1
+INI20030780	LDL cholesterol	1
+INI10030630	Apolipoprotein A	2
+INI10030660	Direct bilirubin	2
+INI10030760	HDL cholesterol	2
+INI10030830	SHBG	2
+INI10030840	Total bilirubin	2
+INI10030850	Testosterone	2
+INI10030890	Vitamin D	2
+INI30030650	AST to ALT ratio	2
+INI10030600	Albumin	3
+INI10030680	Calcium	3
+INI10030770	IGF-1	3
+INI10030790	Lipoprotein A	3
+INI10030810	Phosphate	3
+INI10030860	Total protein	3
+INI30030700	eGFR	3
+INI30030860	Non-albumin protein	3
+INI10030610	Alkaline phosphatase	4
+INI10030620	Alanine aminotransferase	4
+INI10030650	Aspartate aminotransferase	4
+INI10030730	Gamma glutamyltransferase	4
+INI10030740	Glucose	4
+INI10030750	HbA1c	4
