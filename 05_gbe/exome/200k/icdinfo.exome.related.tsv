@@ -43,36 +43,22 @@ BIN	BIN12188	1895	Brain_MRI_measurement_completed	Brain MRI measurement complete
 BIN	BIN1518	17900	Drinks_hot_drinks_or_not	Drinks hot drinks or not	24
 BIN	BIN1618	6549	Alcohol_usually_taken_with_meals	Alcohol usually taken with meals	32
 BIN	BIN1677	10062	Breastfed_as_a_baby	Breastfed as a baby	19
-BIN	BIN1677	10062	Breastfed_as_a_baby	Breastfed as a baby	19
 BIN	BIN19	9541	Heel_ultrasound_method	Heel ultrasound method	22
 BIN	BIN1920	8403	Mood_swings	Mood swings	11
-BIN	BIN1920	8403	Mood_swings	Mood swings	11
-BIN	BIN1930	8021	Miserableness	Miserableness	13
 BIN	BIN1930	8021	Miserableness	Miserableness	13
 BIN	BIN1940	5170	Irritability	Irritability	12
-BIN	BIN1940	5170	Irritability	Irritability	12
-BIN	BIN1950	10123	Sensitivity_/_hurt_feelings	Sensitivity / hurt feelings	27
 BIN	BIN1950	10123	Sensitivity_/_hurt_feelings	Sensitivity / hurt feelings	27
 BIN	BIN1960	7672	Fed-up_feelings	Fed-up feelings	15
-BIN	BIN1960	7672	Fed-up_feelings	Fed-up feelings	15
-BIN	BIN1970	4329	Nervous_feelings	Nervous feelings	16
 BIN	BIN1970	4329	Nervous_feelings	Nervous feelings	16
 BIN	BIN1980	10269	Worrier_/_anxious_feelings	Worrier / anxious feelings	26
-BIN	BIN1980	10269	Worrier_/_anxious_feelings	Worrier / anxious feelings	26
-BIN	BIN1990	3191	Tense_/_'highly_strung'	Tense / 'highly strung'	23
 BIN	BIN1990	3191	Tense_/_'highly_strung'	Tense / 'highly strung'	23
 BIN	BIN2000	8688	Worry_too_long_after_embarrassment	Worry too long after embarrassment	34
-BIN	BIN2000	8688	Worry_too_long_after_embarrassment	Worry too long after embarrassment	34
-BIN	BIN2010	3893	Suffer_from_'nerves'	Suffer from 'nerves'	20
 BIN	BIN2010	3893	Suffer_from_'nerves'	Suffer from 'nerves'	20
 BIN	BIN20123	413	Single_episode_of_probable_major_depression	Single episode of probable major depression	43
 BIN	BIN20124	648	Probable_recurrent_major_depression_(moderate)	Probable recurrent major depression (moderate)	46
 BIN	BIN20125	381	Probable_recurrent_major_depression_(severe)	Probable recurrent major depression (severe)	44
 BIN	BIN2020	3358	Loneliness,_isolation	Loneliness, isolation	21
-BIN	BIN2020	3358	Loneliness,_isolation	Loneliness, isolation	21
 BIN	BIN2030	5459	Guilty_feelings	Guilty feelings	15
-BIN	BIN2030	5459	Guilty_feelings	Guilty feelings	15
-BIN	BIN2040	4667	Risk_taking	Risk taking	11
 BIN	BIN2040	4667	Risk_taking	Risk taking	11
 BIN	BIN20401	319	Ever_addicted_to_any_substance_or_behaviour	Ever addicted to any substance or behaviour	43
 BIN	BIN20404	33	Ever_physically_dependent_on_alcohol	Ever physically dependent on alcohol	36
@@ -128,8 +114,6 @@ BIN	BIN20540	1373	Multiple_worries_during_worst_period_of_anxiety	Multiple worri
 BIN	BIN20541	1668	Difficulty_stopping_worrying_during_worst_period_of_anxiety	Difficulty stopping worrying during worst period of anxiety	59
 BIN	BIN20542	1034	Stronger_worrying_(than_other_people)_during_period_of_worst_anxiety	Stronger worrying (than other people) during period of worst anxiety	68
 BIN	BIN2090	6357	Seen_doctor_(GP)_for_nerves,_anxiety,_tension_or_depression	Seen doctor (GP) for nerves, anxiety, tension or depression	59
-BIN	BIN2090	6357	Seen_doctor_(GP)_for_nerves,_anxiety,_tension_or_depression	Seen doctor (GP) for nerves, anxiety, tension or depression	59
-BIN	BIN2100	2079	Seen_a_psychiatrist_for_nerves,_anxiety,_tension_or_depression	Seen a psychiatrist for nerves, anxiety, tension or depression	62
 BIN	BIN2100	2079	Seen_a_psychiatrist_for_nerves,_anxiety,_tension_or_depression	Seen a psychiatrist for nerves, anxiety, tension or depression	62
 BIN	BIN21024	850	Ever_diagnosed_with_IBS	Ever diagnosed with IBS	23
 BIN	BIN21026	37	Discomfort/pain_occurring_only_during_menstrual_bleed	Discomfort/pain occurring only during menstrual bleed	53
@@ -150,8 +134,6 @@ BIN	BIN21074	390	Diarrhoea_when_IBS_symptoms_first_began	Diarrhoea when IBS symp
 BIN	BIN21075	39	Bloody_diarrhoea_when_IBS_symptoms_first_began	Bloody diarrhoea when IBS symptoms first began	46
 BIN	BIN21076	48	Vomiting_when_IBS_symptoms_first_began	Vomiting when IBS symptoms first began	38
 BIN	BIN2188	6111	Long-standing_illness,_disability_or_infirmity	Long-standing illness, disability or infirmity	46
-BIN	BIN2188	6111	Long-standing_illness,_disability_or_infirmity	Long-standing illness, disability or infirmity	46
-BIN	BIN2207	16428	Wears_glasses_or_contact_lenses	Wears glasses or contact lenses	31
 BIN	BIN2207	16428	Wears_glasses_or_contact_lenses	Wears glasses or contact lenses	31
 BIN	BIN22126	1010	Doctor_diagnosed_hayfever_or_allergic_rhinitis	Doctor diagnosed hayfever or allergic rhinitis	46
 BIN	BIN22127	572	Doctor_diagnosed_asthma	Doctor diagnosed asthma	23
@@ -171,7 +153,6 @@ BIN	BIN22140	9	Doctor_diagnosed_lung_cancer_(not_mesothelioma)	Doctor diagnosed 
 BIN	BIN22141	0	Doctor_diagnosed_mesothelioma_of_the_lung	Doctor diagnosed mesothelioma of the lung	41
 BIN	BIN22502	603	Cough_on_most_days	Cough on most days	18
 BIN	BIN22504	418	Bring_up_phlegm/sputum/mucus_on_most_days	Bring up phlegm/sputum/mucus on most days	41
-BIN	BIN2257	7108	Hearing_difficulty/problems_with_background_noise	Hearing problems with background noise	38
 BIN	BIN2257	7108	Hearing_difficulty/problems_with_background_noise	Hearing problems with background noise	38
 BIN	BIN23050	266	HSV-1_seropositivity_for_Herpes_Simplex_virus-1	HSV-1 seropositivity for Herpes Simplex virus-1	47
 BIN	BIN23051	49	HSV-2_seropositivity_for_Herpes_Simplex_virus-2	HSV-2 seropositivity for Herpes Simplex virus-2	47
@@ -199,50 +180,29 @@ BIN	BIN23073	63	H._pylori_Definition_I_seropositivity_for_Helicobacter_pylori	H.
 BIN	BIN23074	123	H._pylori_Definition_II_seropositivity_for_Helicobacter_pylori	H. pylori Definition II seropositivity for Helicobacter pylori	62
 BIN	BIN23075	19	HPV_16_Definition_II_seropositivity_for_Human_Papillomavirus_type-16	HPV 16 Definition II seropositivity for Human Papillomavirus type-16	68
 BIN	BIN2316	4012	Wheeze_or_whistling_in_the_chest_in_last_year	Wheeze or whistling in the chest in last year	45
-BIN	BIN2316	4012	Wheeze_or_whistling_in_the_chest_in_last_year	Wheeze or whistling in the chest in last year	45
-BIN	BIN2335	3064	Chest_pain_or_discomfort	Chest pain or discomfort	24
 BIN	BIN2335	3064	Chest_pain_or_discomfort	Chest pain or discomfort	24
 BIN	BIN2415	5366	Had_major_operations	Had major operations	20
-BIN	BIN2415	5366	Had_major_operations	Had major operations	20
-BIN	BIN2443	955	Diabetes_diagnosed_by_doctor	Diabetes diagnosed by doctor	28
 BIN	BIN2443	955	Diabetes_diagnosed_by_doctor	Diabetes diagnosed by doctor	28
 BIN	BIN2453	1571	Cancer_diagnosed_by_doctor	Cancer diagnosed by doctor	26
-BIN	BIN2453	1571	Cancer_diagnosed_by_doctor	Cancer diagnosed by doctor	26
-BIN	BIN2463	1891	Fractured/broken_bones_in_last_5_years	Fractured/broken bones in last 5 years	38
 BIN	BIN2463	1891	Fractured/broken_bones_in_last_5_years	Fractured/broken bones in last 5 years	38
 BIN	BIN2473	3889	Other_serious_medical_condition/disability_diagnosed_by_doctor	Other serious medical condition/disability diagnosed by doctor	62
-BIN	BIN2473	3889	Other_serious_medical_condition/disability_diagnosed_by_doctor	Other serious medical condition/disability diagnosed by doctor	62
 BIN	BIN2774	3102	Ever_had_stillbirth,_spontaneous_miscarriage_or_termination	Ever had stillbirth, spontaneous miscarriage or termination	59
-BIN	BIN2774	3102	Ever_had_stillbirth,_spontaneous_miscarriage_or_termination	Ever had stillbirth, spontaneous miscarriage or termination	59
-BIN	BIN2814	4085	Ever_used_hormone-replacement_therapy_(HRT)	Ever used hormone-replacement therapy (HRT)	43
 BIN	BIN2814	4085	Ever_used_hormone-replacement_therapy_(HRT)	Ever used hormone-replacement therapy (HRT)	43
 BIN	BIN30030510	774	UACR_higher_than_30_mg/g	UACR > 30 mg/g	14
 BIN	BIN3081	10742	Foot_measured_for_bone_density	Foot measured for bone density	30
 BIN	BIN3393	689	Hearing_aid_user	Hearing aid user	16
-BIN	BIN3393	689	Hearing_aid_user	Hearing aid user	16
-BIN	BIN3404	3128	Neck/shoulder_pain_for_3+_months	Neck/shoulder pain for 3+ months	32
 BIN	BIN3404	3128	Neck/shoulder_pain_for_3+_months	Neck/shoulder pain for 3+ months	32
 BIN	BIN3414	1745	Hip_pain_for_3+_months	Hip pain for 3+ months	22
-BIN	BIN3414	1745	Hip_pain_for_3+_months	Hip pain for 3+ months	22
-BIN	BIN3571	3402	Back_pain_for_3+_months	Back pain for 3+ months	23
 BIN	BIN3571	3402	Back_pain_for_3+_months	Back pain for 3+ months	23
 BIN_FC	BIN_FC10003571	3402	Back_pain_for_3+_months	Back pain for 3+ months	23
-BIN_FC	BIN_FC10003571	3402	Back_pain_for_3+_months	Back pain for 3+ months	23
-BIN	BIN3591	852	Ever_had_hysterectomy_(womb_removed)	Ever had hysterectomy (womb removed)	36
 BIN	BIN3591	852	Ever_had_hysterectomy_(womb_removed)	Ever had hysterectomy (womb removed)	36
 BIN	BIN3606	556	Chest_pain_or_discomfort_walking_normally	Chest pain or discomfort walking normally	41
 BIN	BIN3616	911	Chest_pain_due_to_walking_ceases_when_standing_still	Chest pain due to walking ceases when standing still	52
-BIN	BIN3616	911	Chest_pain_due_to_walking_ceases_when_standing_still	Chest pain due to walking ceases when standing still	52
-BIN	BIN3741	891	Stomach/abdominal_pain_for_3+_months	Stomach/abdominal pain for 3+ months	36
 BIN	BIN3741	891	Stomach/abdominal_pain_for_3+_months	Stomach/abdominal pain for 3+ months	36
 BIN	BIN3751	665	Chest_pain_or_discomfort_when_walking_uphill_or_hurrying	Chest pain or discomfort when walking uphill or hurrying	56
 BIN	BIN3773	3448	Knee_pain_for_3+_months	Knee pain for 3+ months	23
-BIN	BIN3773	3448	Knee_pain_for_3+_months	Knee pain for 3+ months	23
-BIN	BIN3799	1672	Headaches_for_3+_months	Headaches for 3+ months	23
 BIN	BIN3799	1672	Headaches_for_3+_months	Headaches for 3+ months	23
 BIN	BIN4041	31	Gestational_diabetes_only	Gestational diabetes only	25
-BIN	BIN4041	31	Gestational_diabetes_only	Gestational diabetes only	25
-BIN	BIN4067	200	Facial_pains_for_3+_months	Facial pains for 3+ months	26
 BIN	BIN4067	200	Facial_pains_for_3+_months	Facial pains for 3+ months	26
 BIN	BIN4092	8156	Heel_ultrasound_method_(left)	Heel ultrasound method (L)	26
 BIN	BIN4093	15	Fractured_heel_(left)	Fractured heel (L)	18
@@ -252,16 +212,10 @@ BIN	BIN41215	101	Detention_categories	Detention categories	20
 BIN	BIN4232	8525	Hearing_test_triplet_correct_(left)	Hearing test triplet correct (L)	32
 BIN	BIN4243	8510	Hearing_test_triplet_correct_(right)	Hearing test triplet correct (R)	32
 BIN	BIN4598	4626	Ever_depressed_for_a_whole_week	Ever depressed for a whole week	31
-BIN	BIN4598	4626	Ever_depressed_for_a_whole_week	Ever depressed for a whole week	31
-BIN	BIN4631	3096	Ever_unenthusiastic/disinterested_for_a_whole_week	Ever unenthusiastic/disinterested for a whole week	50
 BIN	BIN4631	3096	Ever_unenthusiastic/disinterested_for_a_whole_week	Ever unenthusiastic/disinterested for a whole week	50
 BIN	BIN4642	457	Ever_manic/hyper_for_2_days	Ever manic/hyper for 2 days	27
-BIN	BIN4642	457	Ever_manic/hyper_for_2_days	Ever manic/hyper for 2 days	27
-BIN	BIN4653	1488	Ever_highly_irritable/argumentative_for_2_days	Ever highly irritable/argumentative for 2 days	46
 BIN	BIN4653	1488	Ever_highly_irritable/argumentative_for_2_days	Ever highly irritable/argumentative for 2 days	46
 BIN	BIN4728	2096	Leg_pain_on_walking	Leg pain on walking	19
-BIN	BIN4728	2096	Leg_pain_on_walking	Leg pain on walking	19
-BIN	BIN4792	7	Cochlear_implant	Cochlear implant	16
 BIN	BIN4792	7	Cochlear_implant	Cochlear implant	16
 BIN	BIN5181	503	Ever_had_eye_surgery	Ever had eye surgery	20
 BIN	BIN5324	141	Ever_had_cataract_surgery	Ever had cataract surgery	25
@@ -270,16 +224,10 @@ BIN	BIN5326	8	Ever_had_surgery_for_glaucoma_or_high_eye_pressure	Ever had surger
 BIN	BIN5327	15	Ever_had_laser_treatment_for_glaucoma_or_high_eye_pressure	Ever had laser treatment for glaucoma or high eye pressure	58
 BIN	BIN5328	15	Ever_had_corneal_graft_surgery	Ever had corneal graft surgery	30
 BIN	BIN5452	1307	Leg_pain_when_standing_still_or_sitting	Leg pain when standing still or sitting	39
-BIN	BIN5452	1307	Leg_pain_when_standing_still_or_sitting	Leg pain when standing still or sitting	39
-BIN	BIN5463	680	Leg_pain_in_calf/calves	Leg pain in calf/calves	23
 BIN	BIN5463	680	Leg_pain_in_calf/calves	Leg pain in calf/calves	23
 BIN	BIN5474	1403	Leg_pain_when_walking_uphill_or_hurrying	Leg pain when walking uphill or hurrying	40
-BIN	BIN5474	1403	Leg_pain_when_walking_uphill_or_hurrying	Leg pain when walking uphill or hurrying	40
-BIN	BIN5485	1151	Leg_pain_when_walking_normally	Leg pain when walking normally	30
 BIN	BIN5485	1151	Leg_pain_when_walking_normally	Leg pain when walking normally	30
 BIN	BIN5496	434	Leg_pain_when_walking_ever_disappears_while_walking	Leg pain when walking ever disappears while walking	51
-BIN	BIN5496	434	Leg_pain_when_walking_ever_disappears_while_walking	Leg pain when walking ever disappears while walking	51
-BIN	BIN5529	72	Surgery_on_leg_arteries_(other_than_for_varicose_veins)	Surgery on leg arteries (other than for varicose veins)	55
 BIN	BIN5529	72	Surgery_on_leg_arteries_(other_than_for_varicose_veins)	Surgery on leg arteries (other than for varicose veins)	55
 BIN	BIN5674	409	Severity_of_manic/irritable_episodes	Severity of manic/irritable episodes	36
 BIN	BIN6014	208	Doctor_restricts_physical_activity_due_to_heart_condition	Doctor restricts physical activity due to heart condition	57
@@ -308,7 +256,6 @@ BIN_FC	BIN_FC10001797	3695	Father_still_alive	Father still alive	18
 BIN_FC	BIN_FC10001835	6775	Mother_still_alive	Mother still alive	18
 BIN_FC	BIN_FC100020544	14	Bulimia_nervosa_diagnosed_by__a_professional	Bulimia nervosa diagnosed by  a professional	44
 BIN_FC	BIN_FC10002159	533	Ever_had_same-sex_intercourse	Ever had same-sex intercourse	29
-BIN_FC	BIN_FC10002159	533	Ever_had_same-sex_intercourse	Ever had same-sex intercourse	29
 BIN_FC	BIN_FC10002227	3105	Other_eye_problems	Other eye problems	18
 BIN_FC	BIN_FC10002267	1665	Use_of_sun/uv_protection_(Never/rarely)	Use of sun/uv protection (Never/rarely)	39
 BIN_FC	BIN_FC10002345	7071	Ever_had_bowel_cancer_screening	Ever had bowel cancer screening	31
@@ -327,8 +274,6 @@ BIN_FC	BIN_FC10002956	305	General_pain_for_3+_months	General pain for 3+ months	
 BIN_FC	BIN_FC10002986	102	Started_insulin_within_one_year_diagnosis_of_diabetes	Started insulin within one year diagnosis of diabetes	53
 BIN_FC	BIN_FC10003005	1157	Fracture_resulting_from_simple_fall	Fracture resulting from simple fall	35
 BIN_FC	BIN_FC10003082	17	Fractured_heel	Fractured heel	14
-BIN_FC	BIN_FC10003082	17	Fractured_heel	Fractured heel	14
-BIN_FC	BIN_FC20003082	6	Fractured_heel	Fractured heel	14
 BIN_FC	BIN_FC20003082	6	Fractured_heel	Fractured heel	14
 BIN_FC	BIN_FC10003446	864	Type_of_tobacco_currently_smoked_(manufactured_cigarettes)	Type of tobacco currently smoked (manufactured cigarettes)	58
 BIN_FC	BIN_FC10003486	1037	Ever_tried_to_stop_smoking	Ever tried to stop smoking	26
@@ -377,32 +322,14 @@ BIN_FC	BIN_FC10010793	0	Hearing_difficulty/problems_(pilot)	Hearing problems (pi
 BIN_FC	BIN_FC10010844	0	Gestational_diabetes_only_(pilot)	Gestational diabetes only (pilot)	33
 BIN_FC	BIN_FC10010895	1	Light_smokers,_at_least_100_smokes_in_lifetime_(pilot)	Light smokers, at least 100 smokes in lifetime (pilot)	54
 BIN_FC	BIN_FC10012187	2201	Brain_MRI_measuring_method	Brain MRI measuring method	26
-BIN_FC	BIN_FC10012187	2201	Brain_MRI_measuring_method	Brain MRI measuring method	26
-BIN_FC	BIN_FC10012187	2201	Brain_MRI_measuring_method	Brain MRI measuring method	26
-BIN_FC	BIN_FC20012187	17	Brain_MRI_measuring_method	Brain MRI measuring method	26
-BIN_FC	BIN_FC20012187	17	Brain_MRI_measuring_method	Brain MRI measuring method	26
 BIN_FC	BIN_FC20012187	17	Brain_MRI_measuring_method	Brain MRI measuring method	26
 BIN_FC	BIN_FC30012187	66	Brain_MRI_measuring_method	Brain MRI measuring method	26
-BIN_FC	BIN_FC30012187	66	Brain_MRI_measuring_method	Brain MRI measuring method	26
-BIN_FC	BIN_FC30012187	66	Brain_MRI_measuring_method	Brain MRI measuring method	26
-BIN_FC	BIN_FC10012323	1876	12-lead_ECG_measuring_method	12-lead ECG measuring method	28
-BIN_FC	BIN_FC10012323	1876	12-lead_ECG_measuring_method	12-lead ECG measuring method	28
 BIN_FC	BIN_FC10012323	1876	12-lead_ECG_measuring_method	12-lead ECG measuring method	28
 BIN_FC	BIN_FC20012323	192	12-lead_ECG_measuring_method	12-lead ECG measuring method	28
-BIN_FC	BIN_FC20012323	192	12-lead_ECG_measuring_method	12-lead ECG measuring method	28
-BIN_FC	BIN_FC20012323	192	12-lead_ECG_measuring_method	12-lead ECG measuring method	28
-BIN_FC	BIN_FC30012323	116	12-lead_ECG_measuring_method	12-lead ECG measuring method	28
-BIN_FC	BIN_FC30012323	116	12-lead_ECG_measuring_method	12-lead ECG measuring method	28
 BIN_FC	BIN_FC30012323	116	12-lead_ECG_measuring_method	12-lead ECG measuring method	28
 BIN_FC	BIN_FC1001747	1988	Hair_colour_(natural,_before_greying)_blonde	Hair colour (natural, before greying) blonde	44
 BIN_FC	BIN_FC10020018	1931	Prospective_memory_result	Prospective memory result	25
-BIN_FC	BIN_FC10020018	1931	Prospective_memory_result	Prospective memory result	25
-BIN_FC	BIN_FC10020018	1931	Prospective_memory_result	Prospective memory result	25
 BIN_FC	BIN_FC20020018	431	Prospective_memory_result	Prospective memory result	25
-BIN_FC	BIN_FC20020018	431	Prospective_memory_result	Prospective memory result	25
-BIN_FC	BIN_FC20020018	431	Prospective_memory_result	Prospective memory result	25
-QT_FC	QT_FC10020018	8727	Prospective_memory_result	Prospective memory result	25
-QT_FC	QT_FC10020018	8727	Prospective_memory_result	Prospective memory result	25
 QT_FC	QT_FC10020018	8727	Prospective_memory_result	Prospective memory result	25
 BIN_FC	BIN_FC10020116	9976	Never_Smoker	Never Smoker	12
 BIN_FC	BIN_FC10020117	710	Never_Drinker	Never Drinker	13
@@ -427,8 +354,6 @@ BIN_FC	BIN_FC10020459	779	Generally_happy_with_own_health	Generally happy with o
 BIN_FC	BIN_FC10020462	73	Not_distressed_at_all_from_psychotics,_had_a_positive_experience.	Not distressed at all from psychotics, had a positive experience.	65
 BIN_FC	BIN_FC10020487	335	Never_felt_hated_by_family_member_as_a_child	Never felt hated by family member as a child	44
 BIN_FC	BIN_FC10020488	4734	Never_Physically_abused_by_family_as_a_child	Never Physically abused by family as a child	44
-BIN_FC	BIN_FC10020488	4734	Never_Physically_abused_by_family_as_a_child	Never Physically abused by family as a child	44
-BIN_FC	BIN_FC10020521	4390	Never_Physically_abused_by_family_as_a_child	Never Physically abused by family as a child	44
 BIN_FC	BIN_FC10020521	4390	Never_Physically_abused_by_family_as_a_child	Never Physically abused by family as a child	44
 BIN_FC	BIN_FC10020489	73	Never_Felt_loved_as_a_child	Never Felt loved as a child	27
 BIN_FC	BIN_FC10020490	5293	Never_Sexually_molested_as_a_child	Never Sexually molested as a child	34
@@ -457,41 +382,17 @@ BIN_FC	BIN_FC10020550	763	Talking_based_therapies_taken_for_anxiety	Talking base
 BIN_FC	BIN_FC10020551	26	Addiction_to_sedative,_benzodiazepine_or_sleeping_medication	Addiction to sedative, benzodiazepine or sleeping medication	60
 BIN_FC	BIN_FC10020552	25	Other_non-behavioral_addiction	Other non-behavioral addiction	30
 BIN_FC	BIN_FC10021050	140	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86
-BIN_FC	BIN_FC10021050	140	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86
-BIN_FC	BIN_FC10021050	140	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86
-QT_FC	QT_FC10021050	1088	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86
-QT_FC	QT_FC10021050	1088	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86
 QT_FC	QT_FC10021050	1088	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86
 BIN_FC	BIN_FC10021057	832	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72
-BIN_FC	BIN_FC10021057	832	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72
-BIN_FC	BIN_FC10021057	832	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72
-QT_FC	QT_FC10021057	4251	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72
-QT_FC	QT_FC10021057	4251	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72
 QT_FC	QT_FC10021057	4251	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72
 QT_FC	QT_FC21057	4251	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72
-QT_FC	QT_FC21057	4251	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72
-QT_FC	QT_FC21057	4251	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72
-BIN_FC	BIN_FC10021072	4	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57
-BIN_FC	BIN_FC10021072	4	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57
-BIN_FC	BIN_FC10021072	4	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57
 BIN_FC	BIN_FC10021072	4	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57
 BIN_FC	BIN_FC20021072	0	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57
-BIN_FC	BIN_FC20021072	0	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57
-BIN_FC	BIN_FC20021072	0	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57
-BIN_FC	BIN_FC20021072	0	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57
 BIN_FC	BIN_FC30021072	11	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57
-BIN_FC	BIN_FC30021072	11	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57
-BIN_FC	BIN_FC30021072	11	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57
-BIN_FC	BIN_FC30021072	11	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57
-BIN_FC	BIN_FC40021072	23	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57
-BIN_FC	BIN_FC40021072	23	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57
-BIN_FC	BIN_FC40021072	23	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57
 BIN_FC	BIN_FC40021072	23	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57
 BIN_FC	BIN_FC1002247	4948	Hearing_difficulty	Hearing difficulty	18
 BIN_FC	BIN_FC10022506	151	Tobacco_smoking_current_vs_non	Tobacco smoking current vs non	30
 BIN_FC	BIN_FC1002306	8508	Weight_change_compared_with_1_year_ago	Weight change compared with 1 year ago	38
-BIN_FC	BIN_FC1002306	8508	Weight_change_compared_with_1_year_ago	Weight change compared with 1 year ago	38
-QT_FC	QT_FC1002306	17827	Weight_change_compared_with_1_year_ago	Weight change compared with 1 year ago	38
 QT_FC	QT_FC1002306	17827	Weight_change_compared_with_1_year_ago	Weight change compared with 1 year ago	38
 BIN_FC	BIN_FC1002395	1990	Male_pattern_baldness_severity	Male pattern baldness severity	30
 BIN_FC	BIN_FC1002724	6619	Had_menopause	Had menopause	13
@@ -532,13 +433,7 @@ BIN_FC	BIN_FC150020544	15	Agoraphobia_diagnosed_by__a_professional	Agoraphobia d
 BIN_FC	BIN_FC15006155	1670	Vitamin_C	Vitamin C	9
 BIN_FC	BIN_FC160020544	1	Attention_deficit_(hyperactivity)_disorder_(ADD/ADHD)_diagnosed_by_a_professional	ADD/ADHD diagnosed by a professional	36
 BIN_FC	BIN_FC16006155	1003	Vitamin_D	Vitamin D	9
-BIN_FC	BIN_FC16006155	1003	Vitamin_D	Vitamin D	9
-BIN_FC	BIN_FC16006155	1003	Vitamin_D	Vitamin D	9
 INI	INI10030890	16273	Vitamin_D	Vitamin D	9
-INI	INI10030890	16273	Vitamin_D	Vitamin D	9
-INI	INI10030890	16273	Vitamin_D	Vitamin D	9
-INI	INI30890	16458	Vitamin_D	Vitamin D	9
-INI	INI30890	16458	Vitamin_D	Vitamin D	9
 INI	INI30890	16458	Vitamin_D	Vitamin D	9
 BIN_FC	BIN_FC170020544	1903	Mental_health_problems_diagnosed_by_a_professional	Mental health problems diagnosed by a professional	50
 BIN_FC	BIN_FC17006155	499	Vitamin_E	Vitamin E	9
@@ -751,8 +646,6 @@ BIN_FC	BIN_FC4006152	2195	asthma_diagnosed_by_doctor	Asthma diagnosed by doctor	
 BIN_FC	BIN_FC4006153	782	Hormone_replacement_therapy_(female_only)	Hormone replacement therapy (female only)	41
 BIN_FC	BIN_FC4006155	1003	Vitamin_D_vs_no_supplement	Vitamin D vs no supplement	26
 BIN_FC	BIN_FC4006177	2141	Cholesterol_lowering_medication	Cholesterol lowering medication	31
-BIN_FC	BIN_FC4006177	2141	Cholesterol_lowering_medication	Cholesterol lowering medication	31
-BIN_FC	BIN_FC6006153	1376	Cholesterol_lowering_medication	Cholesterol lowering medication	31
 BIN_FC	BIN_FC6006153	1376	Cholesterol_lowering_medication	Cholesterol lowering medication	31
 BIN_FC	BIN_FC40100920	317	Soya_milk_with_calcium_(Diet,_24hr_recall,_Online_follow-up)	Soya milk with calcium (Diet, 24hr recall, Online follow-up)	60
 BIN_FC	BIN_FC50001418	254	Milk_type:_Other_type_of_milk	Milk type: Other type of milk	29
@@ -785,8 +678,6 @@ BIN_FC	BIN_FC5006152	4249	Hayfever_rhinitis_or_eczema_diagnosed_by_doctor	Hayfev
 BIN_FC	BIN_FC5006153	220	Oral_contraceptives_(female_only)	Oral contraceptives (female only)	33
 BIN_FC	BIN_FC5006155	499	Vitamin_E_vs_no_supplement	Vitamin E vs no supplement	26
 BIN_FC	BIN_FC5006177	2205	Blood_pressure_medication	Blood pressure medication	25
-BIN_FC	BIN_FC5006177	2205	Blood_pressure_medication	Blood pressure medication	25
-BIN_FC	BIN_FC7006153	1906	Blood_pressure_medication	Blood pressure medication	25
 BIN_FC	BIN_FC7006153	1906	Blood_pressure_medication	Blood pressure medication	25
 BIN_FC	BIN_FC50100920	149	Soya_milk_without_calcium_(Diet,_24hr_recall,_Online_follow-up)	Soya milk without calcium (Diet, 24hr recall, Online follow-up)	63
 BIN_FC	BIN_FC60001418	565	Milk_type:_Never/rarely_have_milk	Milk type: Never/rarely have milk	33
@@ -804,8 +695,6 @@ BIN_FC	BIN_FC6006152	367	Blood_clot_in_the_leg_(DVT)	Blood clot in the leg (DVT)
 BIN_FC	BIN_FC6006154	639	Laxatives	Laxatives	9
 BIN_FC	BIN_FC6006155	415	Vitamin_B9_vs_no_supplement	Vitamin B9 vs no supplement	27
 BIN_FC	BIN_FC6006177	123	Insulin	Insulin	7
-BIN_FC	BIN_FC6006177	123	Insulin	Insulin	7
-BIN_FC	BIN_FC8006153	71	Insulin	Insulin	7
 BIN_FC	BIN_FC8006153	71	Insulin	Insulin	7
 BIN_FC	BIN_FC6006179	445	Selenium	Selenium	8
 BIN_FC	BIN_FC60100920	56	Goat/sheep_milk_(Diet,_24hr_recall,_Online_follow-up)	Goat/sheep milk (Diet, 24hr recall, Online follow-up)	53
@@ -2450,112 +2339,60 @@ INI	INI100270	2144	Filtered_coffee_intake_(Diet,_24hr_recall,_Online_follow-up)	
 INI	INI100290	621	Cappuccino_intake_(Diet,_24hr_recall,_Online_follow-up)	Cappuccino intake (Diet, 24hr recall, Online follow-up)	55
 INI	INI100300	678	Latte_intake_(Diet,_24hr_recall,_Online_follow-up)	Latte intake (Diet, 24hr recall, Online follow-up)	50
 INI	INI10030500	5253	Microalbumin_in_urine	Microalbumin in urine	21
-INI	INI10030500	5253	Microalbumin_in_urine	Microalbumin in urine	21
-INI	INI30500	5692	Microalbumin_in_urine	Microalbumin in urine	21
 INI	INI30500	5692	Microalbumin_in_urine	Microalbumin in urine	21
 INI	INI10030510	16609	Creatinine_in_urine	Creatinine in urine	19
 INI	INI10030520	16561	Potassium_in_urine	Potassium in urine	18
-INI	INI10030520	16561	Potassium_in_urine	Potassium in urine	18
-INI	INI30520	17539	Potassium_in_urine	Potassium in urine	18
 INI	INI30520	17539	Potassium_in_urine	Potassium in urine	18
 INI	INI10030530	16578	Sodium_in_urine	Sodium in urine	15
-INI	INI10030530	16578	Sodium_in_urine	Sodium in urine	15
-INI	INI30530	17553	Sodium_in_urine	Sodium in urine	15
 INI	INI30530	17553	Sodium_in_urine	Sodium in urine	15
 INI	INI10030600	15605	Albumin	Albumin	7
-INI	INI10030600	15605	Albumin	Albumin	7
-INI	INI30600	15849	Albumin	Albumin	7
 INI	INI30600	15849	Albumin	Albumin	7
 INI	INI10030610	17096	Alkaline_phosphatase	Alkaline phosphatase	20
-INI	INI10030610	17096	Alkaline_phosphatase	Alkaline phosphatase	20
-INI	INI30610	17266	Alkaline_phosphatase	Alkaline phosphatase	20
 INI	INI30610	17266	Alkaline_phosphatase	Alkaline phosphatase	20
 INI	INI10030620	17091	Alanine_aminotransferase	Alanine aminotransferase	24
-INI	INI10030620	17091	Alanine_aminotransferase	Alanine aminotransferase	24
-INI	INI30620	17261	Alanine_aminotransferase	Alanine aminotransferase	24
 INI	INI30620	17261	Alanine_aminotransferase	Alanine aminotransferase	24
 INI	INI1003063	16388	FEV_FVC_ratio	FEV FVC ratio	13
 INI	INI10030630	15521	Apolipoprotein_A	Apolipoprotein A	16
-INI	INI10030630	15521	Apolipoprotein_A	Apolipoprotein A	16
-INI	INI30630	15741	Apolipoprotein_A	Apolipoprotein A	16
 INI	INI30630	15741	Apolipoprotein_A	Apolipoprotein A	16
 INI	INI1003064	16388	PEF_predicted_ratio	PEF pred. ratio	15
 INI	INI10030650	17039	Aspartate_aminotransferase	Aspartate aminotransferase	26
-INI	INI10030650	17039	Aspartate_aminotransferase	Aspartate aminotransferase	26
-INI	INI30650	17212	Aspartate_aminotransferase	Aspartate aminotransferase	26
 INI	INI30650	17212	Aspartate_aminotransferase	Aspartate aminotransferase	26
 INI	INI10030660	14561	Direct_bilirubin	Direct bilirubin	16
-INI	INI10030660	14561	Direct_bilirubin	Direct bilirubin	16
-INI	INI30660	14769	Direct_bilirubin	Direct bilirubin	16
 INI	INI30660	14769	Direct_bilirubin	Direct bilirubin	16
 INI	INI10030670	17075	Urea	Urea	4
-INI	INI10030670	17075	Urea	Urea	4
-INI	INI30670	17246	Urea	Urea	4
 INI	INI30670	17246	Urea	Urea	4
 INI	INI10030680	15625	Calcium	Calcium	7
-INI	INI10030680	15625	Calcium	Calcium	7
-INI	INI30680	15842	Calcium	Calcium	7
 INI	INI30680	15842	Calcium	Calcium	7
 INI	INI10030700	17085	Creatinine	Creatinine	10
-INI	INI10030700	17085	Creatinine	Creatinine	10
-INI	INI30700	17255	Creatinine	Creatinine	10
 INI	INI30700	17255	Creatinine	Creatinine	10
 INI	INI10030710	17062	C-reactive_protein	C-reactive protein	18
-INI	INI10030710	17062	C-reactive_protein	C-reactive protein	18
-INI	INI30710	17232	C-reactive_protein	C-reactive protein	18
 INI	INI30710	17232	C-reactive_protein	C-reactive protein	18
 INI	INI10030720	17089	Cystatin_C	Cystatin C	10
-INI	INI10030720	17089	Cystatin_C	Cystatin C	10
-INI	INI30720	17262	Cystatin_C	Cystatin C	10
 INI	INI30720	17262	Cystatin_C	Cystatin C	10
 INI	INI10030730	17086	Gamma_glutamyltransferase	Gamma glutamyltransferase	25
-INI	INI10030730	17086	Gamma_glutamyltransferase	Gamma glutamyltransferase	25
-INI	INI30730	17256	Gamma_glutamyltransferase	Gamma glutamyltransferase	25
 INI	INI30730	17256	Gamma_glutamyltransferase	Gamma glutamyltransferase	25
 INI	INI10030740	15610	Glucose	Glucose	7
-INI	INI10030740	15610	Glucose	Glucose	7
-INI	INI30740	15826	Glucose	Glucose	7
 INI	INI30740	15826	Glucose	Glucose	7
 INI	INI10030750	16308	HbA1c	HbA1c	5
 INI	INI10030760	15622	HDL_cholesterol	HDL cholesterol	15
-INI	INI10030760	15622	HDL_cholesterol	HDL cholesterol	15
-INI	INI30760	15836	HDL_cholesterol	HDL cholesterol	15
 INI	INI30760	15836	HDL_cholesterol	HDL cholesterol	15
 INI	INI10030770	16996	IGF-1	IGF-1	5
-INI	INI10030770	16996	IGF-1	IGF-1	5
-INI	INI30770	17176	IGF-1	IGF-1	5
 INI	INI30770	17176	IGF-1	IGF-1	5
 INI	INI10030790	13637	Lipoprotein_A	Lipoprotein A	13
-INI	INI10030790	13637	Lipoprotein_A	Lipoprotein A	13
-INI	INI30790	13818	Lipoprotein_A	Lipoprotein A	13
 INI	INI30790	13818	Lipoprotein_A	Lipoprotein A	13
 INI	INI10030810	15598	Phosphate	Phosphate	9
-INI	INI10030810	15598	Phosphate	Phosphate	9
-INI	INI30810	15815	Phosphate	Phosphate	9
 INI	INI30810	15815	Phosphate	Phosphate	9
 INI	INI10030830	15474	SHBG	SHBG	4
-INI	INI10030830	15474	SHBG	SHBG	4
-INI	INI30830	15697	SHBG	SHBG	4
 INI	INI30830	15697	SHBG	SHBG	4
 INI	INI10030840	17026	Total_bilirubin	Total bilirubin	15
-INI	INI10030840	17026	Total_bilirubin	Total bilirubin	15
-INI	INI30840	17200	Total_bilirubin	Total bilirubin	15
 INI	INI30840	17200	Total_bilirubin	Total bilirubin	15
 INI	INI10030850	15476	Testosterone	Testosterone	12
-INI	INI10030850	15476	Testosterone	Testosterone	12
-INI	INI30850	15661	Testosterone	Testosterone	12
 INI	INI30850	15661	Testosterone	Testosterone	12
 INI	INI10030860	15605	Total_protein	Total protein	13
-INI	INI10030860	15605	Total_protein	Total protein	13
-INI	INI30860	15826	Total_protein	Total protein	13
 INI	INI30860	15826	Total_protein	Total protein	13
 INI	INI10030870	17078	Triglycerides	Triglycerides	13
-INI	INI10030870	17078	Triglycerides	Triglycerides	13
-INI	INI30870	17250	Triglycerides	Triglycerides	13
 INI	INI30870	17250	Triglycerides	Triglycerides	13
 INI	INI10030880	17079	Urate	Urate	5
-INI	INI10030880	17079	Urate	Urate	5
-INI	INI30880	17249	Urate	Urate	5
 INI	INI30880	17249	Urate	Urate	5
 INI	INI100310	244	Espresso_intake_(Diet,_24hr_recall,_Online_follow-up)	Espresso intake (Diet, 24hr recall, Online follow-up)	53
 INI	INI100330	160	Other_coffee_type_(Diet,_24hr_recall,_Online_follow-up)	Other coffee type (Diet, 24hr recall, Online follow-up)	55
@@ -2810,19 +2647,13 @@ INI	INI1883	17820	Number_of_full_sisters	# of full sisters	17
 INI	INI189	18077	Townsend_deprivation_index_at_recruitment	Townsend deprivation index at recruitment	41
 INI	INI20015	18057	Sitting_height	Sitting height	14
 INI	INI20016	8566	Fluid_intelligence_score	Fluid intelligence score	24
-INI	INI20016	8566	Fluid_intelligence_score	Fluid intelligence score	24
-INI	INI20191	4582	Fluid_intelligence_score	Fluid intelligence score	24
 INI	INI20191	4582	Fluid_intelligence_score	Fluid intelligence score	24
 INI	INI20019	8482	Speech-reception-threshold_(SRT)_estimate_(left)	Speech-reception-threshold (SRT) estimate (L)	45
 INI	INI20021	8468	Speech-reception-threshold_(SRT)_estimate_(right)	Speech-reception-threshold (SRT) estimate (R)	45
 INI	INI20022	10351	Birth_weight	Birth weight	12
 INI	INI20030640	16999	Apolipoprotein_B	Apolipoprotein B	16
-INI	INI20030640	16999	Apolipoprotein_B	Apolipoprotein B	16
-INI	INI30640	17171	Apolipoprotein_B	Apolipoprotein B	16
 INI	INI30640	17171	Apolipoprotein_B	Apolipoprotein B	16
 INI	INI20030690	17096	Cholesterol	Cholesterol	11
-INI	INI20030690	17096	Cholesterol	Cholesterol	11
-INI	INI30690	17266	Cholesterol	Cholesterol	11
 INI	INI30690	17266	Cholesterol	Cholesterol	11
 INI	INI20030780	17061	LDL_cholesterol	LDL cholesterol	15
 INI	INI2005254	5742	Intra-ocular_pressure,_corneal-compensated_(median)	Intra-ocular pressure, corneal-compensated (median)	51
@@ -2887,12 +2718,8 @@ INI	INI20518	5855	Recent_changes_in_speed/amount_of_moving_or_speaking	Recent ch
 INI	INI20519	5856	Recent_feelings_of_tiredness_or_low_energy	Recent feelings of tiredness or low energy	42
 INI	INI20520	5841	Recent_worrying_too_much_about_different_things	Recent worrying too much about different things	47
 INI	INI21001	18043	Body_mass_index_(BMI)	BMI	3
-INI	INI21001	18043	Body_mass_index_(BMI)	BMI	3
-INI	INI23104	17793	Body_mass_index_(BMI)	BMI	3
 INI	INI23104	17793	Body_mass_index_(BMI)	BMI	3
 INI	INI21002	18050	Weight	Weight	6
-INI	INI21002	18050	Weight	Weight	6
-INI	INI23098	17793	Weight	Weight	6
 INI	INI23098	17793	Weight	Weight	6
 INI	INI21021	8487	Pulse_wave_Arterial_Stiffness_index	Pulse wave Arterial Stiffness index	35
 INI	INI21025	6489	Frequency_of_discomfort/pain_in_abdomen_in_last_3_months	Freq. of discomfort/pain in abdomen in last 3 months	52
@@ -3044,36 +2871,26 @@ INI	INI23109	17813	Impedance_of_arm_(right)	Impedance of arm (R)	20
 INI	INI23110	17814	Impedance_of_arm_(left)	Impedance of arm (L)	20
 INI	INI23111	17791	Leg_fat_percentage_(right)	Leg fat % (R)	13
 INI	INI23112	17791	Leg_fat_mass_(right)	Leg fat mass (R)	16
-INI	INI23112	17791	Leg_fat_mass_(right)	Leg fat mass (R)	16
-INI	INI23270	378	Leg_fat_mass_(right)	Leg fat mass (R)	16
 INI	INI23270	378	Leg_fat_mass_(right)	Leg fat mass (R)	16
 INI	INI23113	17791	Leg_fat-free_mass_(right)	Leg fat-free mass (R)	21
 INI	INI23114	17791	Leg_predicted_mass_(right)	Leg pred. mass (R)	18
 INI	INI23115	17791	Leg_fat_percentage_(left)	Leg fat % (L)	13
 INI	INI23116	17791	Leg_fat_mass_(left)	Leg fat mass (L)	16
-INI	INI23116	17791	Leg_fat_mass_(left)	Leg fat mass (L)	16
-INI	INI23266	378	Leg_fat_mass_(left)	Leg fat mass (L)	16
 INI	INI23266	378	Leg_fat_mass_(left)	Leg fat mass (L)	16
 INI	INI23117	17791	Leg_fat-free_mass_(left)	Leg fat-free mass (L)	21
 INI	INI23118	17791	Leg_predicted_mass_(left)	Leg pred. mass (L)	18
 INI	INI23119	17790	Arm_fat_percentage_(right)	Arm fat % (R)	13
 INI	INI23120	17786	Arm_fat_mass_(right)	Arm fat mass (R)	16
-INI	INI23120	17786	Arm_fat_mass_(right)	Arm fat mass (R)	16
-INI	INI23253	378	Arm_fat_mass_(right)	Arm fat mass (R)	16
 INI	INI23253	378	Arm_fat_mass_(right)	Arm fat mass (R)	16
 INI	INI23121	17786	Arm_fat-free_mass_(right)	Arm fat-free mass (R)	21
 INI	INI23122	17786	Arm_predicted_mass_(right)	Arm pred. mass (R)	18
 INI	INI23123	17786	Arm_fat_percentage_(left)	Arm fat % (L)	13
 INI	INI23124	17785	Arm_fat_mass_(left)	Arm fat mass (L)	16
-INI	INI23124	17785	Arm_fat_mass_(left)	Arm fat mass (L)	16
-INI	INI23249	378	Arm_fat_mass_(left)	Arm fat mass (L)	16
 INI	INI23249	378	Arm_fat_mass_(left)	Arm fat mass (L)	16
 INI	INI23125	17784	Arm_fat-free_mass_(left)	Arm fat-free mass (L)	21
 INI	INI23126	17784	Arm_predicted_mass_(left)	Arm pred. mass (L)	18
 INI	INI23127	17784	Trunk_fat_percentage	Trunk fat %	11
 INI	INI23128	17784	Trunk_fat_mass	Trunk fat mass	14
-INI	INI23128	17784	Trunk_fat_mass	Trunk fat mass	14
-INI	INI23284	446	Trunk_fat_mass	Trunk fat mass	14
 INI	INI23284	446	Trunk_fat_mass	Trunk fat mass	14
 INI	INI23129	17782	Trunk_fat-free_mass	Trunk fat-free mass	19
 INI	INI23130	17781	Trunk_predicted_mass	Trunk pred. mass	16
@@ -4037,8 +3854,6 @@ QT_FC	QT_FC10001239	18081	Current_tobacco_smoking	Current tobacco smoking	23
 QT_FC	QT_FC10001478	18086	Salt_added_to_food	Salt added to food	18
 QT_FC	QT_FC10003466	1148	Time_from_waking_to_first_cigarette	Time from waking to first cigarette	35
 QT_FC	QT_FC10003476	1151	Difficulty_not_smoking_for_1_day	Difficulty not smoking for 1 day	32
-QT_FC	QT_FC10003476	1151	Difficulty_not_smoking_for_1_day	Difficulty not smoking for 1 day	32
-QT_FC	QT_FC1003476	1151	Difficulty_not_smoking_for_1_day	Difficulty not smoking for 1 day	32
 QT_FC	QT_FC1003476	1151	Difficulty_not_smoking_for_1_day	Difficulty not smoking for 1 day	32
 QT_FC	QT_FC10003496	1234	Wants_to_stop_smoking	Wants to stop smoking	21
 QT_FC	QT_FC10003506	1253	Smoking_compared_to_10_years_previous	Smoking compared to 10 years previous	37
