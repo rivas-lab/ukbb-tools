@@ -13,8 +13,8 @@ replacements = ['log_10_BF_study_independent_var_independent_sigma_m_mpc_pli_pav
 for col1, col2 in zip(to_replace, replacements):
     results[col1] = np.where(results['num_pops'] == 1, results[col2], results[col1])
 
-pav = results[results['log_10_BF_study_similar_var_independent_sigma_m_mpc_pli_pav'] >= 2]
-ptv = results[results['log_10_BF_study_similar_var_independent_sigma_m_mpc_pli_ptv'] >= 2]
+pav = results[results['log_10_BF_study_similar_var_independent_sigma_m_mpc_pli_pav'] >= 5]
+ptv = results[results['log_10_BF_study_similar_var_independent_sigma_m_mpc_pli_ptv'] >= 5]
 
 """
 print("PAV num associations")
