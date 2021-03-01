@@ -2,6 +2,7 @@ import pandas as pd
 
 multipop = pd.read_table('mrp_rv_ma_exome_multipop_gbe.tsv')
 singlepop = pd.read_table('mrp_rv_ma_exome_singlepop_gbe.tsv')
+biomarkers = list(pd.read_table('biomarkers_clusters.tsv')['GBE_ID'])
 
 print("multipop")
 print(len(multipop))
@@ -16,3 +17,6 @@ to_truncate = [col for col in merged.columns if (("log_10_BF" in col) or ("poste
 for col in to_truncate:
     merged[col] = merged[col].map("{0:.3g}".format)
 merged.to_csv('mrp_rv_ma_exome_gbe.tsv', sep='\t', index=False)
+
+biomarker_tbl = merged[merged['#GBE_ID'].isin(biomarkers)]
+biomarker_tbl.to_csv('biomarkers_mrp_rv_ma_exome_gbe.tsv', sep='\t', index=False)
