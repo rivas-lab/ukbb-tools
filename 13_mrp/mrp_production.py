@@ -859,7 +859,7 @@ def loop_through_parameters(
             + Style.RESET_ALL
         )
         print("")
-        R_study_models = ["independent"]
+        R_study_models = ["similar"]
         R_study_list = [R_study_list[0]]
     for maf_thresh in maf_threshes:
         print(
