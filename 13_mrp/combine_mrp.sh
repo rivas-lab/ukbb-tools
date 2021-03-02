@@ -4,18 +4,17 @@
 
 dir="/oak/stanford/groups/mrivas/users/guhan/sandbox/mrp_rv_exome"
 
-zcat /oak/stanford/groups/mrivas/users/guhan/sandbox/mrp_rv_exome/white_british_INI10030500_gene_maf_0.01_se_100.0.tsv.gz | awk -F'\t' '{if (NR == 1) {print "#GBE_ID\tGBE_short_name\tpops\tnum_pops\t"$0}}' > mrp_rv_exome_gbe.tsv
+zcat /oak/stanford/groups/mrivas/users/guhan/sandbox/mrp_rv_exome/white_british_INI10030500_gene_maf_0.01_se_100.0.tsv.gz | awk -F'\t' '{if (NR == 1) {print "#GBE_ID\tGBE_short_name\tpops\tnum_pops\t"$0}}' > biomarkers_mrp_rv_exome_gbe.tsv
 for phen in $(grep adjusted ../05_gbe/exome/200k/exome_phenotype_info.tsv | cut -f1 | grep -v BIN | sort -u); do
     if ! grep -Fxq "$phen" gbe_blacklist.tsv; then
         shortname=$(awk -F'\t' -v gbe="$phen" '{if ($2 == gbe) {print $5}}' ../05_gbe/exome/200k/icdinfo.shortnames.exome.tsv)
         file=$(find $dir -name "*_${phen}_*" | grep 0.01)
         pops="white_british"
         numpops=1
-        zcat $file | awk -F'\t' -v filename="$phen" -v pops="$pops" -v numpops="$numpops" -v shortname="$shortname" '{if (NR != 1) {print filename"\t"shortname"\t"pops"\t"numpops"\t"$0}}' >> mrp_rv_exome_gbe.tsv
+        zcat $file | awk -F'\t' -v filename="$phen" -v pops="$pops" -v numpops="$numpops" -v shortname="$shortname" '{if (NR != 1) {print filename"\t"shortname"\t"pops"\t"numpops"\t"$0}}' >> biomarkers_mrp_rv_exome_gbe.tsv
     fi
 done
 
-bgzip mrp_rv_exome_gbe.tsv
 
 #for file in $(ls $dir | head -1); do
 #    awk -F'\t' -v filename="$name" '{if (NR == 1) {print "GBE_ID\t"$0}}' $dir/$file > mrp_rv_array_gbe.tsv
@@ -83,3 +82,4 @@ rm mrp_rv_ma_exome_singlepop_gbe.tsv
 rm mrp_rv_ma_exome_multipop_gbe.tsv
 bgzip mrp_rv_ma_exome_gbe.tsv
 bgzip biomarkers_mrp_rv_ma_exome_gbe.tsv
+bgzip biomarkers_mrp_rv_exome_gbe.tsv
