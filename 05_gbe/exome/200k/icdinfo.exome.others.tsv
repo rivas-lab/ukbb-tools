@@ -3623,7 +3623,7 @@ INI	INI30010	11605	Red_blood_cell_(erythrocyte)_count	Red blood cell count	20
 INI	INI30020	11605	Haemoglobin_concentration	Haemoglobin concentration	25
 INI	INI30030	11605	Haematocrit_percentage	Haematocrit %	13
 INI	INI30030650	11159	AST_to_ALT_ratio	AST to ALT ratio	16
-INI	INI30030700	11197	eGFR	EGFR	4
+INI	INI30030700	11197	eGFR	eGFR	4
 INI	INI30030860	10304	Non-albumin_protein	Non-albumin protein	19
 INI	INI30040	11605	Mean_corpuscular_volume	Mean corpuscular volume	23
 INI	INI30050	11605	Mean_corpuscular_haemoglobin	Mean corpuscular haemoglobin	28

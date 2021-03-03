@@ -1,6 +1,6 @@
 GBE_category	GBE_ID	MVP_N	GBE_NAME	GBE_short_name	GBE_short_name_len	sumstats_name
 INI	INI4079	220,520	Diastolic_blood_pressure,_automated_reading	Diastolic BP (AR)	17	phs001672.pha004730.txt
-INI	INI30030700	280,722	eGFR_covariate_adjusted	EGFR covariate adjusted	23	phs001672.pha004839.txt
+INI	INI30030700	280,722	eGFR_covariate_adjusted	eGFR covariate adjusted	23	phs001672.pha004839.txt
 INI	INI10030760	297,626	HDL_cholesterol_covariate_adjusted	HDL cholesterol covariate adjusted	34	phs001672.pha004662.txt
 INI	INI10030780	297,626	LDL_direct_covariate_adjusted	LDL direct covariate adjusted	29	phs001672.pha004663.txt
 INI	INI1005021	220,520	Pulse_pressure	Pulse pressure	14	phs001672.pha004731.txt

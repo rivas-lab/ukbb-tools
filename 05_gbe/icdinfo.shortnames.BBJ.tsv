@@ -25,7 +25,7 @@ INI	BBJ.CRP.combined.txt.gz	INI10030710	75,391	C_reactive_protein_covariate_adju
 INI	BBJ.DBP.combined.txt.gz	INI4079	136,615	Diastolic_blood_pressure,_automated_reading	Diastolic BP (AR)	17
 INI	BBJ.EA.combined.txt.gz	INI1005009	8,600	E/A_ratio	E/A ratio	9
 INI	BBJ.EF.combined.txt.gz	INI1005010	19,516	Ejection_fraction	Ejection fraction	17
-INI	BBJ.eGFR.combined.txt.gz	INI30030700	143,658	eGFR_covariate_adjusted	EGFR covariate adjusted	23
+INI	BBJ.eGFR.combined.txt.gz	INI30030700	143,658	eGFR_covariate_adjusted	eGFR covariate adjusted	23
 INI	BBJ.Eosino.combined.txt.gz	INI30150	62,076	Eosinophill_count	Eosinophill count	17
 INI	BBJ.Fbg.combined.txt.gz	INI1005011	18,348	Fibrinogen	Fibrinogen	10
 INI	BBJ.FS.combined.txt.gz	INI1005012	19,580	Fractional_shortening	Fractional shortening	21

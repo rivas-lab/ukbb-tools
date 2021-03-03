@@ -2827,7 +2827,7 @@ INI	INI3083	1516	Heel_quantitative_ultrasound_index_(QUI),_manual_entry	Heel qua
 FH	FH1044	5150	Prostate_cancer	Prostate cancer (FH)	20
 INI	INI25859	12322	Volume_of_grey_matter_in_Temporal_Occipital_Fusiform_Cortex_(right)	Vol. of grey matter in Temporal Occipital Fusiform Cortex (R)	61
 INI	INI30520	44813	Potassium_in_urine	Potassium in urine	18
-INI	INI30030700	43295	eGFR	EGFR	4
+INI	INI30030700	43295	eGFR	eGFR	4
 HC	HC270	43	encephalitis	Encephalitis	12
 INI	INI20411	20383	Ever_been_injured_or_injured_someone_else_through_drinking_alcohol	Ever been injured or injured someone else through drinking alcohol	66
 INI	INI25844	12322	Volume_of_grey_matter_in_Cuneal_Cortex_(left)	Vol. of grey matter in Cuneal Cortex (L)	40
