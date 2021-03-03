@@ -3842,7 +3842,7 @@ INI	INI884	1044	Number_of_days/week_of_moderate_physical_activity_10+_minutes	# 
 INI	INI894	818	Duration_of_moderate_activity	Duration of moderate activity	29
 INI	INI904	1035	Number_of_days/week_of_vigorous_physical_activity_10+_minutes	# of days/week of vigorous physical activity 10+ minutes	56
 INI	INI914	598	Duration_of_vigorous_activity	Duration of vigorous activity	29
-INI	INI924	1117	Usual_walking_pace_(Touchscreen)	Usual walking pace (Touchscreen)	32
+INI	INI924	1117	Usual_walking_pace	Usual walking pace	18
 INI	INI93	99	Systolic_blood_pressure,_manual_reading	Systolic BP, manual reading	27
 INI	INI94	99	Diastolic_blood_pressure,_manual_reading	Diastolic BP, manual reading	28
 INI	INI943	1116	Frequency_of_stair_climbing_in_last_4_weeks	Freq. of stair climbing in last 4 weeks	39
