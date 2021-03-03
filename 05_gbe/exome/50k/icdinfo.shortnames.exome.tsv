@@ -3906,7 +3906,6 @@ INI	INI884	33256	Number_of_days/week_of_moderate_physical_activity_10+_minutes	#
 INI	INI894	27909	Duration_of_moderate_activity	Duration of moderate activity	29	
 INI	INI904	33387	Number_of_days/week_of_vigorous_physical_activity_10+_minutes	# of days/week of vigorous physical activity 10+ minutes	56	
 INI	INI914	21574	Duration_of_vigorous_activity	Duration of vigorous activity	29	
-INI	INI924	34270	Usual_walking_pace_(Touchscreen)	Usual walking pace (Touchscreen)	32	
 INI	INI93	2016	Systolic_blood_pressure,_manual_reading	Systolic BP, manual reading	27	
 INI	INI94	2016	Diastolic_blood_pressure,_manual_reading	Diastolic BP, manual reading	28	
 INI	INI943	34212	Frequency_of_stair_climbing_in_last_4_weeks	Freq. of stair climbing in last 4 weeks	39	
@@ -3965,40 +3964,4 @@ QT_FC	QT_FC1004581	33512	Financial_situation_satisfaction	Financial situation sa
 QT_FC	QT_FC1004803	33232	Tinnitus_severity	Tinnitus severity	17	
 QT_FC	QT_FC1005663	5732	Length_of_longest_manic/irritable_episode	Length of longest manic/irritable episode	41	
 QT_FC	QT_FC21057	11315	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72	
-INI	INI1001	4432	Duration_strenuous_sports	Duration strenuous sports	25	
-INI	INI10030500	9609	Microalbumin_in_urine_covariate_adjusted	Microalbumin in urine covariate adjusted	40	
-INI	INI10030510	31128	Creatinine_(enzymatic)_in_urine_covariate_adjusted	Creatinine (enzymatic) in urine covariate adjusted	50	
-INI	INI10030520	31097	Potassium_in_urine_covariate_adjusted	Potassium in urine covariate adjusted	37	
-INI	INI10030530	31053	Sodium_in_urine_covariate_adjusted	Sodium in urine covariate adjusted	34	
-INI	INI10030600	30230	Albumin_covariate_adjusted	Albumin covariate adjusted	26	
-INI	INI10030610	32151	Alkaline_phosphatase_covariate_adjusted	Alkaline phosphatase covariate adjusted	39	
-INI	INI10030620	32139	Alanine_aminotransferase_covariate_adjusted	Alanine aminotransferase covariate adjusted	43	
-INI	INI10030630	30065	Apolipoprotein_A_covariate_adjusted	Apolipoprotein A covariate adjusted	35	
-INI	INI10030650	32051	Aspartate_aminotransferase_covariate_adjusted	Aspartate aminotransferase covariate adjusted	45	
-INI	INI10030660	27390	Direct_bilirubin_covariate_adjusted	Direct bilirubin covariate adjusted	35	
-INI	INI10030670	32118	Urea_covariate_adjusted	Urea covariate adjusted	23	
-INI	INI10030680	30273	Calcium_covariate_adjusted	Calcium covariate adjusted	26	
-INI	INI10030700	32118	Creatinine_covariate_adjusted	Creatinine covariate adjusted	29	
-INI	INI10030710	32071	C_reactive_protein_covariate_adjusted	C-reactive protein covariate adjusted	37	
-INI	INI10030720	32138	Cystatin_C_covariate_adjusted	Cystatin C covariate adjusted	29	
-INI	INI10030730	32127	Gamma_glutamyltransferase_covariate_adjusted	Gamma glutamyltransferase covariate adjusted	44	
-INI	INI10030740	30250	Glucose_covariate_adjusted	Glucose covariate adjusted	26	
-INI	INI10030750	30177	Glycated_haemoglobin_(HbA1c)_covariate_adjusted	Glycated haemoglobin (HbA1c) covariate adjusted	47	
-INI	INI10030760	30275	HDL_cholesterol_covariate_adjusted	HDL cholesterol covariate adjusted	34	
-INI	INI10030770	31993	IGF_1_covariate_adjusted	IGF 1 covariate adjusted	24	
-INI	INI10030790	25603	Lipoprotein_A_covariate_adjusted	Lipoprotein A covariate adjusted	32	
-INI	INI10030810	30238	Phosphate_covariate_adjusted	Phosphate covariate adjusted	28	
-INI	INI10030830	30005	SHBG_covariate_adjusted	SHBG covariate adjusted	23	
-INI	INI10030840	32026	Total_bilirubin_covariate_adjusted	Total bilirubin covariate adjusted	34	
-INI	INI10030850	29056	Testosterone_covariate_adjusted	Testosterone covariate adjusted	31	
-INI	INI10030860	30230	Total_protein_covariate_adjusted	Total protein covariate adjusted	32	
-INI	INI10030870	32105	Triglycerides_covariate_adjusted	Triglycerides covariate adjusted	32	
-INI	INI10030880	32112	Urate_covariate_adjusted	Urate covariate adjusted	24	
-INI	INI10030890	30794	Vitamin_D_covariate_adjusted	Vitamin D covariate adjusted	28	
-INI	INI20030640	32002	Apolipoprotein_B_covariate_and_statin_adjusted	Apolipoprotein B covariate and statin adjusted	46	
-INI	INI20030690	32144	Cholesterol_covariate_and_statin_adjusted	Cholesterol covariate and statin adjusted	41	
-INI	INI20030780	32089	LDL_direct_covariate_and_statin_adjusted	LDL direct covariate and statin adjusted	40	
-INI	INI30030700	32118	eGFR_covariate_adjusted	EGFR covariate adjusted	23	
 INI	INI924	34270	Usual_walking_pace	Usual walking pace	18	
-INI	INI981	26515	Duration_walks	Duration walks	14	
-INI	INI991	4428	Frequency_strenuous_sports_last_4_weeks	Freq. strenuous sports last 4 weeks	35	
