@@ -3658,7 +3658,7 @@ INI	INI30010	327972	Red_blood_cell_(erythrocyte)_count	Red blood cell count	20
 INI	INI30020	327971	Haemoglobin_concentration	Haemoglobin concentration	25	
 INI	INI30030	327972	Haematocrit_percentage	Haematocrit %	13	
 INI	INI30030650	317678	AST_to_ALT_ratio	AST to ALT ratio	16	
-INI	INI30030700	318791	eGFR	EGFR	4	
+INI	INI30030700	318791	eGFR	eGFR	4	
 INI	INI30030860	291507	Non-albumin_protein	Non-albumin protein	19	
 INI	INI30040	327971	Mean_corpuscular_volume	Mean corpuscular volume	23	
 INI	INI30050	327968	Mean_corpuscular_haemoglobin	Mean corpuscular haemoglobin	28	
@@ -3998,7 +3998,7 @@ INI	INI10030890	304849	Vitamin_D_covariate_adjusted	Vitamin D covariate adjusted
 INI	INI20030640	317428	Apolipoprotein_B_covariate_and_statin_adjusted	Apolipoprotein B covariate and statin adjusted	46	
 INI	INI20030690	318970	Cholesterol_covariate_and_statin_adjusted	Cholesterol covariate and statin adjusted	41	
 INI	INI20030780	318365	LDL_direct_covariate_and_statin_adjusted	LDL direct covariate and statin adjusted	40	
-INI	INI30030700	318805	eGFR_covariate_adjusted	EGFR covariate adjusted	23	
+INI	INI30030700	318805	eGFR_covariate_adjusted	eGFR covariate adjusted	23	
 INI	INI924	335301	Usual_walking_pace	Usual walking pace	18	
 INI	INI981	315393	Duration_walks	Duration walks	14	
 INI	INI991	34320	Frequency_strenuous_sports_last_4_weeks	Freq. strenuous sports last 4 weeks	35	
