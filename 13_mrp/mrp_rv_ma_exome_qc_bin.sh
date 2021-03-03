@@ -35,7 +35,7 @@ output_folder=$2
 this_idx=$_SLURM_ARRAY_TASK_ID
 
 # To include phenotype: lambda GC <= 3, N >= 1000, non-NA lines >= 100000, not metal, not e_asian 
-GBE_ID=$(awk -F'\t' '{if (($16 != "NA") && ($16 <= 3) && ($8 >= 1000) && ($4 >= 100000)) {print}}' /oak/stanford/groups/mrivas/ukbb24983/exome/gwas/current/gwas.qc-SE02.tsv | grep -v metal | grep -v e_asian | cut -f1 | tail -n +2 | sort -u | egrep -v QT_FC | egrep -v INI | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $1}')
+GBE_ID=$(awk -F'\t' '{if (($16 != "NA") && ($16 <= 3) && ($8 >= 1000) && ($4 >= 100000)) {print}}' /oak/stanford/groups/mrivas/ukbb24983/exome/gwas/current/gwas.qc-SE02.tsv | grep -v metal | grep -v e_asian | cut -f1 | tail -n +2 | sort -u | grep -Fwvf gbe_blacklist.tsv | egrep -v QT_FC | egrep -v INI | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $1}')
 
 awk -F'\t' -v GBE=${GBE_ID} '{if (($1 == GBE) && ($16 != "NA") && ($16 <= 3) && ($8 >= 1000) && ($4 >= 100000)) {print}}' /oak/stanford/groups/mrivas/ukbb24983/exome/gwas/current/gwas.qc-SE02.tsv | grep -v metal | grep -v e_asian | cut -f2 > $output_folder/$GBE_ID.POP_INCLUDE
 
