@@ -1,7 +1,6 @@
 library("tidyverse")
-library("comprehenr")
 library("dynamicTreeCut")
-library("reshape2")
+library("corrplot")
 
 setwd("~/Dropbox/ukbb-tools/13_mrp")
 
@@ -17,7 +16,11 @@ R_phen <- matrix(0L, nrow = length(phens), ncol = length(phens))
 for (row in 1:nrow(corrs)) {
   i = match(c(corrs[row, "p1"]), phens)
   j = match(c(corrs[row, "p2"]), phens)
-  R_phen[i, j] = corrs[row, "rg"]
+  if (corrs[row, "p"] <= 0.01) {
+    R_phen[i, j] = corrs[row, "rg"]
+  } else {
+    R_phen[i, j] = 0
+  }
 }
 
 for (row in 1:length(phens)) {
@@ -31,13 +34,25 @@ for (row in 1:length(phens)) {
 }
 
 colnames(R_phen) <- sumstats$TRAIT
-row.names(R_phen) <- sumstats$TRAIT
+row.names(R_phen) <- sumstats$X.Phenotype
 corrplot(R_phen, method="square", order="hclust", tl.col = "black")
 
 distances <- dist(R_phen)
 dist_hclust <- hclust(distances, method = "ward.D2")
 plot(dist_hclust, labels=sumstats$TRAIT)
 assignments <- cutreeDynamic(dist_hclust, method="tree", deepSplit = 4, minClusterSize = 5)
-df <- data.frame(GBE_ID=phens, phenotype=sumstats$X.Phenotype, cluster=assignments)
+df <- data.frame(GBE_ID=phens, phenotype=sumstats$X.Phenotype, cluster=assignments, abbrev=sumstats$TRAIT)
+
+# Corrplots of rg-based clusters
+clusters <- unique(df$cluster)
+
+for (i in 1:length(clusters)) {
+  traits <- (df %>% filter(cluster == toString(clusters[i])))$abbrev
+  traits <- sumstats$TRAIT[sumstats$TRAIT %in% traits]
+  trait_names <- (df %>% filter(cluster == toString(clusters[i])))$phenotype
+  trait_names <- sumstats$X.Phenotype[sumstats$X.Phenotype %in% trait_names]
+  corrplot(R_phen[trait_names, traits], method="square", order="hclust", tl.col = "black")
+}
+
 df <- df %>% arrange(GBE_ID) %>% arrange(cluster)
 write.table(df, file='biomarkers_clusters.tsv', quote=FALSE, sep='\t', row.names=FALSE)
