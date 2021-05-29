@@ -351,7 +351,7 @@ BIN_FC10020489	1472	Never_Felt_loved_as_a_child	1472	1472	Y
 BIN_FC10020490	100194	Never_Sexually_molested_as_a_child	100194	100194	Y
 BIN_FC10020491	2077	Never_had_Someone_to_take_to_doctor_when_needed_as_a_child	2077	2077	Y
 BIN_FC10020492	9516	Longest_period_of_mania_or_irritability_less_than_24_hours	9516	9516	Y
-BIN_FC10020521	84058	Never_Physically_abused_by_family_as_a_child	84058	84058	Y
+BIN_FC10020521	84058	Never_felt_Belittlement_by_partner_or_ex-partner_as_an_adult	84058	84058	Y
 BIN_FC10020522	8675	Never_Been_in_a_confiding_relationship_as_an_adult	8675	8675	Y
 BIN_FC10020523	96382	Never_Physical_violence_by_partner_or_ex-partner_as_an_adult	96382	96382	Y
 BIN_FC10020524	104021	Never_Sexual_interference_by_partner_or_ex-partner_without_consent_as_an_adult	104021	104021	Y
@@ -3964,4 +3964,3 @@ QT_FC1004570	131758	Friendships_satisfaction	131758	131758	Y
 QT_FC1004581	132561	Financial_situation_satisfaction	132561	132561	Y
 QT_FC1004803	138102	Tinnitus_severity	138102	138102	Y
 QT_FC1005663	21877	Length_of_longest_manic/irritable_episode	21877	21877	Y
-QT_FC21057	79757	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	79757	79757	Y

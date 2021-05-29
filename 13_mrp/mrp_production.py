@@ -1,5 +1,6 @@
 from __future__ import division
 import argparse
+import gc
 
 
 def is_pos_def_and_full_rank(X, tol=0.99):
@@ -22,8 +23,8 @@ def is_pos_def_and_full_rank(X, tol=0.99):
         return X, True
     else:
         while not np.all(np.linalg.eigvals(X) > 0):
-            X = np.diag(np.diag(X)) + tol*X - tol*np.diag(np.diag(X))
-            i += 1 
+            X = np.diag(np.diag(X)) + tol * X - tol * np.diag(np.diag(X))
+            i += 1
             if i > 4:
                 return X, False
         return X, True
@@ -55,7 +56,13 @@ def safe_inv(X, matrix_name, block, agg_type):
             X_inv = np.linalg.inv(X)
         except LinAlgError:
             print(
-                "Could not invert " + matrix_name + " for " + agg_type + " " + block + "."
+                "Could not invert "
+                + matrix_name
+                + " for "
+                + agg_type
+                + " "
+                + block
+                + "."
             )
             return np.nan
     return X_inv
@@ -198,7 +205,9 @@ def return_BF_pvals(beta, U, v_beta, v_beta_inv, fb, dm, im, methods):
         return [np.nan] * len(methods)
     A_inv = np.linalg.inv(A)
     quad_T = np.asmatrix(beta.T) * np.asmatrix((v_beta_inv - A_inv)) * np.asmatrix(beta)
-    B, _ = is_pos_def_and_full_rank(npm.eye(n) - np.asmatrix(A_inv) * np.asmatrix(v_beta))
+    B, _ = is_pos_def_and_full_rank(
+        npm.eye(n) - np.asmatrix(A_inv) * np.asmatrix(v_beta)
+    )
     if np.any(np.isnan(B)):
         return [np.nan] * len(methods)
     d = np.linalg.eig(B)[0]
@@ -278,9 +287,7 @@ def return_BF(
         sum_inv = safe_inv(U_inv + v_beta_inv, "U_inv + v_beta_inv", block, agg_type)
         if sum_inv is np.nan:
             np.nan, [], [], False
-        fat_middle = v_beta_inv - (
-            v_beta_inv.dot(sum_inv)
-        ).dot(v_beta_inv)
+        fat_middle = v_beta_inv - (v_beta_inv.dot(sum_inv)).dot(v_beta_inv)
         logBF = (
             -0.5 * np.linalg.slogdet(npm.eye(beta.shape[0]) + v_beta_inv * U)[1]
             + 0.5 * beta.T.dot(v_beta_inv.dot(beta))
@@ -433,8 +440,12 @@ def calculate_all_params(
         df[df["gene_symbol"] == key] if agg_type == "gene" else df[df["V"] == key]
     )
     if sigma_m_type == "sigma_m_mpc_pli":
-        num_variants_pli = len(subset_df[(subset_df['category'] == 'ptv') & (subset_df['pLI'] == True)])
-        num_variants_mpc = len(subset_df[(subset_df['category'] == 'pav') & (subset_df['MPC'] >= 1)])
+        num_variants_pli = len(
+            subset_df[(subset_df["category"] == "ptv") & (subset_df["pLI"] == "True")]
+        )
+        num_variants_mpc = len(
+            subset_df[(subset_df["category"] == "pav") & (subset_df["MPC"] >= 1)]
+        )
     else:
         num_variants_mpc, num_variants_pli = None, None
     sigma_m = subset_df[sigma_m_type].tolist()
@@ -458,7 +469,9 @@ def calculate_all_params(
     return U, beta, v_beta, mu, converged, num_variants_mpc, num_variants_pli
 
 
-def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, se_thresh, out_folder, out_filename):
+def output_file(
+    bf_dfs, agg_type, pops, phenos, maf_thresh, se_thresh, out_folder, out_filename
+):
 
     """ 
     Outputs a file containing aggregation unit and Bayes Factors. 
@@ -509,11 +522,9 @@ def output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, se_thresh, out_folde
             + str(se_thresh)
             + ".tsv.gz",
         )
-    out_df = out_df.sort_values(
-        by=out_df.columns[2],
-        ascending=False,
-    )
-    out_df.to_csv(out_file, sep="\t", index=False, compression='gzip')
+    sort_col = [col for col in out_df.columns if "log_10_BF" in col][0]
+    out_df = out_df.sort_values(by=sort_col, ascending=False)
+    out_df.to_csv(out_file, sep="\t", index=False, compression="gzip")
     print("")
     print(Fore.RED + "Results written to " + out_file + "." + Style.RESET_ALL)
     print("")
@@ -557,7 +568,9 @@ def get_output_file_columns(
     if agg_type == "gene":
         bf_df_columns.extend(["num_variants_" + analysis])
         if sigma_m_type == "sigma_m_mpc_pli":
-            bf_df_columns.extend(["num_variants_mpc_" + analysis, "num_variants_pli_" + analysis])
+            bf_df_columns.extend(
+                ["num_variants_mpc_" + analysis, "num_variants_pli_" + analysis]
+            )
     bf_df_columns.extend(
         [
             "log_10_BF"
@@ -568,7 +581,7 @@ def get_output_file_columns(
             + "_"
             + sigma_m_type
             + "_"
-            + analysis,
+            + analysis
         ]
     )
     if prior_odds_list:
@@ -707,11 +720,20 @@ def run_mrp(
         if agg_type == "gene" and sigma_m_type != "sigma_m_mpc_pli":
             data.append([key, beta.shape[0], bf] + posterior_probs + p_values)
         elif agg_type == "gene" and sigma_m_type == "sigma_m_mpc_pli":
-            data.append([key, beta.shape[0], num_variants_mpc, num_variants_pli, bf] + posterior_probs + p_values)
+            data.append(
+                [key, beta.shape[0], num_variants_mpc, num_variants_pli, bf]
+                + posterior_probs
+                + p_values
+            )
         else:
             data.append([key, bf] + posterior_probs + p_values)
     print("")
-    print(str(num_converged) + "/" + str(len(m_dict)) + " genes' matrices had well-behaved eigenvalues.")
+    print(
+        str(num_converged)
+        + "/"
+        + str(len(m_dict))
+        + " genes' matrices had well-behaved eigenvalues."
+    )
     bf_df = pd.DataFrame(data, columns=bf_df_columns)
     return bf_df
 
@@ -795,7 +817,9 @@ def filter_category(df, variant_filter):
     elif variant_filter == "pav":
         df = df[(df.category == "ptv") | (df.category == "pav")]
     elif variant_filter == "pcv":
-        df = df[(df.category == "ptv") | (df.category == "pav") | (df.category == "pcv")]
+        df = df[
+            (df.category == "ptv") | (df.category == "pav") | (df.category == "pcv")
+        ]
     return df
 
 
@@ -871,7 +895,7 @@ def loop_through_parameters(
             + "..."
             + Style.RESET_ALL
         )
-        maf_df = df[(df.maf <= maf_thresh) & (df.maf > 0)]
+        maf_df = df[(df.maf <= maf_thresh) & (df.maf >= 0)]
         for agg_type in agg:
             bf_dfs = []
             # If not aggregating, then R_var choice does not affect BF
@@ -919,28 +943,51 @@ def loop_through_parameters(
                             )
                             sigma_m_type_bf_dfs.append(bf_df)
                     if sigma_m_type == "sigma_m_mpc_pli":
-                        outer_merge = partial(pd.merge, on=[agg_type, "num_variants_" + analysis, "num_variants_mpc_" + analysis, "num_variants_pli_" + analysis], how="outer")
+                        outer_merge = partial(
+                            pd.merge,
+                            on=[
+                                agg_type,
+                                "num_variants_" + analysis,
+                                "num_variants_mpc_" + analysis,
+                                "num_variants_pli_" + analysis,
+                            ],
+                            how="outer",
+                        )
                     else:
-                        outer_merge = partial(pd.merge, on=[agg_type, "num_variants_" + analysis], how="outer")
+                        outer_merge = partial(
+                            pd.merge,
+                            on=[agg_type, "num_variants_" + analysis],
+                            how="outer",
+                        )
                     sigma_m_type_bf_df = reduce(outer_merge, sigma_m_type_bf_dfs)
                     analysis_bf_dfs.append(sigma_m_type_bf_df)
                 if agg_type == "gene":
-                    outer_merge = partial(pd.merge, on=[agg_type, "num_variants_" + analysis], how="outer")
+                    outer_merge = partial(
+                        pd.merge, on=[agg_type, "num_variants_" + analysis], how="outer"
+                    )
                 else:
                     outer_merge = partial(pd.merge, on=[agg_type], how="outer")
                 analysis_bf_df = reduce(outer_merge, analysis_bf_dfs)
                 bf_dfs.append(analysis_bf_df)
-            output_file(bf_dfs, agg_type, pops, phenos, maf_thresh, se_thresh, out_folder, out_filename)
+            output_file(
+                bf_dfs,
+                agg_type,
+                pops,
+                phenos,
+                maf_thresh,
+                se_thresh,
+                out_folder,
+                out_filename,
+            )
 
 
-def set_sigmas(df):
+def set_sigmas(df, sigma_m_types):
 
     """ 
     Assigns appropriate sigmas to appropriate variants by annotation.
   
-    Sets sigmas by functional annotation (var);
-    Additionally adds two extra columns for two other standard choices of a uniform 
-        sigma (1 and 0.05) and those using MPC/pLI.
+    Sets sigmas based on user input: functional annotation (var); uniform 
+        sigma (1 and 0.05), or those using MPC/pLI.
   
     Parameters: 
     df: Merged dataframe containing all variants across all studies and phenotypes.
@@ -994,39 +1041,44 @@ def set_sigmas(df):
         "NA",
         "NMD_transcript_variant",
     ]
-    sigma_m_ptv = 0.2
-    sigma_m_pav = 0.05
-    sigma_m_pcv = 0.03
-    sigma_m_intron = 0.02
-    sigma_m = dict(
-        [(variant, sigma_m_ptv) for variant in ptv]
-        + [(variant, sigma_m_pav) for variant in pav]
-        + [(variant, sigma_m_pcv) for variant in pcv]
-        + [(variant, sigma_m_intron) for variant in intron]
-    )
-    category_dict = dict(
-        [(variant, "ptv") for variant in ptv]
-        + [(variant, "pav") for variant in pav]
-        + [(variant, "pcv") for variant in pcv]
-        + [(variant, "all") for variant in intron]
-    )
-    sigma_m_list = list(map(sigma_m.get, df.most_severe_consequence.tolist()))
-    df["sigma_m_var"] = sigma_m_list
-    category_list = list(map(category_dict.get, df.most_severe_consequence.tolist()))
-    df["category"] = category_list
-    df = df.assign(sigma_m_1=1)
-    df = df.assign(sigma_m_005=0.05)
-    df = df[df.sigma_m_var.notnull()]
-    sigma_m_mpc_pli = list(df["sigma_m_var"])
-    row_count = 0
-    for i, row in df.iterrows():
-        if sigma_m_mpc_pli[row_count] is not None:
-            if (row['category'] == 'ptv') and (row['pLI'] == True):
-                sigma_m_mpc_pli[row_count] = 2 * sigma_m_mpc_pli[row_count]
-            elif (row['category'] == 'pav') and (row['MPC'] >= 1):
-                sigma_m_mpc_pli[row_count] = row['MPC'] * sigma_m_mpc_pli[row_count]
-        row_count += 1
-    df['sigma_m_mpc_pli'] = sigma_m_mpc_pli
+    if "sigma_m_1" in sigma_m_types:
+        df = df.assign(sigma_m_1=1)
+    if "sigma_m_005" in sigma_m_types:
+        df = df.assign(sigma_m_005=0.05)
+    if ("sigma_m_var" in sigma_m_types) or ("sigma_m_mpc_pli" in sigma_m_types):
+        sigma_m_ptv = 0.2
+        sigma_m_pav = 0.05
+        sigma_m_pcv = 0.03
+        sigma_m_intron = 0.02
+        sigma_m = dict(
+            [(variant, sigma_m_ptv) for variant in ptv]
+            + [(variant, sigma_m_pav) for variant in pav]
+            + [(variant, sigma_m_pcv) for variant in pcv]
+            + [(variant, sigma_m_intron) for variant in intron]
+        )
+        category_dict = dict(
+            [(variant, "ptv") for variant in ptv]
+            + [(variant, "pav") for variant in pav]
+            + [(variant, "pcv") for variant in pcv]
+            + [(variant, "all") for variant in intron]
+        )
+        sigma_m_list = list(map(sigma_m.get, df.most_severe_consequence.tolist()))
+        df["sigma_m_var"] = sigma_m_list
+        category_list = list(
+            map(category_dict.get, df.most_severe_consequence.tolist())
+        )
+        df["category"] = category_list
+    if "sigma_m_mpc_pli" in sigma_m_types:
+        sigma_m_mpc_pli = list(df["sigma_m_var"])
+        row_count = 0
+        for i, row in df.iterrows():
+            if sigma_m_mpc_pli[row_count] is not None:
+                if (row["category"] == "ptv") and (row["pLI"] == "True"):
+                    sigma_m_mpc_pli[row_count] = 2 * sigma_m_mpc_pli[row_count]
+                elif (row["category"] == "pav") and (row["MPC"] >= 1):
+                    sigma_m_mpc_pli[row_count] = row["MPC"] * sigma_m_mpc_pli[row_count]
+            row_count += 1
+        df["sigma_m_mpc_pli"] = sigma_m_mpc_pli
     return df
 
 
@@ -1065,8 +1117,10 @@ def get_betas(df, pop1, pheno1, pop2, pheno2, mode):
         ]
     elif mode == "sig":
         df = df[
-            ((df["P_" + pop1 + "_" + pheno1].astype(float) <= 1e-5)
-            | (df["P_" + pop2 + "_" + pheno2].astype(float) <= 1e-5))
+            (
+                (df["P_" + pop1 + "_" + pheno1].astype(float) <= 1e-5)
+                | (df["P_" + pop2 + "_" + pheno2].astype(float) <= 1e-5)
+            )
         ]
     beta1 = list(df["BETA_" + pop1 + "_" + pheno1])
     beta2 = list(df["BETA_" + pop2 + "_" + pheno2])
@@ -1154,7 +1208,7 @@ def filter_for_phen_corr(df, map_file):
 
     """
 
-    files_to_use = map_file[map_file["R_phen"] == True]
+    files_to_use = map_file[map_file["R_phen"] == "True"]
     if len(files_to_use) == 0:
         return [], []
     pop_pheno_tuples = zip(list(files_to_use["study"]), list(files_to_use["pheno"]))
@@ -1165,7 +1219,7 @@ def filter_for_phen_corr(df, map_file):
         )
     df = df[cols_to_keep]
     # Get only LD-independent, common variants
-    df = df[(df.maf >= 0.01) & (df.ld_indep == True)]
+    df = df[(df.maf >= 0.01) & (df.ld_indep == "True")]
     df = df.dropna(axis=1, how="all")
     df = df.dropna()
     return df, pop_pheno_tuples
@@ -1279,7 +1333,7 @@ def filter_for_err_corr(df, map_file):
         )
     df = df[cols_to_keep]
     # Get only LD-independent, common variants
-    df = df[(df.maf >= 0.01) & (df.ld_indep == True)]
+    df = df[(df.maf >= 0.01) & (df.ld_indep == "True")]
     df = df.dropna(axis=1, how="all")
     null_variants = [
         "regulatory_region_variant",
@@ -1370,13 +1424,13 @@ def return_err_and_R_phen(df, pops, phenos, S, K, map_file):
     R_phen = build_R_phen(S, K, pops, phenos, df, map_file)
     R_phen[abs(R_phen) < 0.01] = 0
     # Get rid of any values above 0.95
-    while (np.max(R_phen - np.eye(len(R_phen))) > 0.9):
+    while np.max(R_phen - np.eye(len(R_phen))) > 0.9:
         R_phen = 0.9 * R_phen + 0.1 * np.diag(np.diag(R_phen))
     return err_corr, R_phen
 
 
 def se_filter(df, se_thresh, pops, phenos):
-    
+
     """ 
     Returns the dataframe filtered for the desired SE threshold.
  
@@ -1390,10 +1444,10 @@ def se_filter(df, se_thresh, pops, phenos):
     se_df: Dataframe filtered for SE.
   
     """
-    
+
     se_cols = ["SE_" + pop + "_" + pheno for pop in pops for pheno in phenos]
-    df['min_SE'] = df[se_cols].apply(np.nanmin, axis=1)
-    return df[df['min_SE'] <= se_thresh]
+    df["min_SE"] = df[se_cols].apply(np.nanmin, axis=1)
+    return df[df["min_SE"] <= se_thresh]
 
 
 def rename_columns(df, pop, pheno):
@@ -1401,8 +1455,6 @@ def rename_columns(df, pop, pheno):
     """ 
     Renames columns such that information on population/study and phenotype is available 
         in the resultant dataframe.
-  
-    Additionally checks if the header contains "LOG(OR)_SE" instead of "SE".
   
     Parameters: 
     df: Input dataframe (from summary statistics).
@@ -1414,8 +1466,6 @@ def rename_columns(df, pop, pheno):
   
     """
 
-    if "LOG(OR)_SE" in df.columns:
-        df.rename(columns={"LOG(OR)_SE": "SE"}, inplace=True)
     columns_to_rename = ["BETA", "SE", "P"]
     renamed_columns = [(x + "_" + pop + "_" + pheno) for x in columns_to_rename]
     df.rename(columns=dict(zip(columns_to_rename, renamed_columns)), inplace=True)
@@ -1456,7 +1506,7 @@ def check_map_file(map_file):
     return pops, phenos, S, K
 
 
-def merge_dfs(sumstat_files, metadata_path):
+def merge_dfs(sumstat_files, metadata_path, sigma_m_types):
 
     """
     Performs an outer merge on all of the files that have been read in;
@@ -1473,14 +1523,36 @@ def merge_dfs(sumstat_files, metadata_path):
 
     print("")
     print(Fore.CYAN + "Merging summary statistics together...")
-    conserved_columns = ["V", "#CHROM", "POS", "REF", "ALT", "A1"]
-    outer_merge = partial(pd.merge, on=conserved_columns, how="outer")
+    outer_merge = partial(pd.merge, on=["V"], how="outer")
     df = reduce(outer_merge, sumstat_files)
-    metadata = pd.read_csv(metadata_path, sep="\t")
-    metadata = metadata[metadata['V'].isin(list(df['V']))]
+    metadata = pd.read_csv(
+        metadata_path,
+        sep="\t",
+        usecols=[
+            "V",
+            "most_severe_consequence",
+            "maf",
+            "gene_symbol",
+            "MPC",
+            "pLI",
+            "ld_indep",
+        ],
+        dtype={
+            "V": str,
+            "most_severe_consequence": str,
+            "maf": float,
+            "gene_symbol": str,
+            "MPC": float,
+            "pLI": str,
+            "ld_indep": str,
+        },
+    )
+    metadata = metadata[metadata["V"].isin(list(df["V"]))]
     print("Merging with metadata...")
     df = df.merge(metadata)
-    df = set_sigmas(df)
+    del metadata
+    df = set_sigmas(df, sigma_m_types)
+    gc.collect()
     return df
 
 
@@ -1503,20 +1575,28 @@ def read_in_summary_stat(subset_df, pop, pheno):
 
     file_path = list(subset_df["path"])[0]
     print(file_path)
+    df_top = pd.read_csv(file_path, sep="\t", nrows=1)
+    se_col = "LOG(OR)_SE" if "LOG(OR)_SE" in df_top.columns else "SE"
+    beta_col = "BETA" if "BETA" in df_top.columns else "OR"
     df = pd.read_csv(
         file_path,
         sep="\t",
+        usecols=["#CHROM", "POS", "REF", "ALT", beta_col, se_col, "P"],
         dtype={
             "#CHROM": str,
             "POS": np.int32,
-            "ID": str,
             "REF": str,
             "ALT": str,
-            "A1": str,
-            "FIRTH?": str,
-            "TEST": str,
+            beta_col: float,
+            se_col: float,
+            "P": str,
         },
     )
+    df["P"] = df["P"].astype(float)
+    if se_col == "LOG(OR)_SE":
+        df.rename(columns={"LOG(OR)_SE": "SE"}, inplace=True)
+    if beta_col == "OR":
+        df["BETA"] = np.log(df["OR"].astype("float64"))
     df.insert(
         loc=0,
         column="V",
@@ -1526,17 +1606,17 @@ def read_in_summary_stat(subset_df, pop, pheno):
         .str.cat(df["REF"], sep=":")
         .str.cat(df["ALT"], sep=":"),
     )
-    if "OR" in df.columns:
-        df["BETA"] = np.log(df["OR"].astype("float64"))
+    # Filter out HLA region
+    df = df[~((df["#CHROM"] == 6) & (df["POS"].between(25477797, 36448354)))]
+    df = df[["V", "BETA", "SE", "P"]]
     # Filter for SE as you read it in
     df = rename_columns(df, pop, pheno)
     df = df[df["SE" + "_" + pop + "_" + pheno].notnull()]
-    # Filter out HLA region
-    df = df[~((df["#CHROM"] == 6) & (df["POS"].between(25477797, 36448354)))]
+    gc.collect()
     return df
 
 
-def read_in_summary_stats(map_file, metadata_path, exclude_path):
+def read_in_summary_stats(map_file, metadata_path, exclude_path, sigma_m_types):
 
     """ 
     Reads in summary statistics.
@@ -1584,10 +1664,10 @@ def read_in_summary_stats(map_file, metadata_path, exclude_path):
     try:
         if exclude_path:
             exclude_path = exclude_path[0]
-            variants_to_exclude = [line.rstrip('\n') for line in open(exclude_path)]
+            variants_to_exclude = [line.rstrip("\n") for line in open(exclude_path)]
     except:
         raise IOError("Could not open exclusions file (--exclude).")
-    df = merge_dfs(sumstat_files, metadata_path)
+    df = merge_dfs(sumstat_files, metadata_path, sigma_m_types)
     if exclude_path:
         df = df[~df["V"].isin(variants_to_exclude)]
     return df, pops, phenos, S, K
@@ -1644,10 +1724,16 @@ def return_input_args(args):
     """
 
     try:
-        map_file = pd.read_csv(args.map_file, sep="\t")
+        map_file = pd.read_csv(
+            args.map_file,
+            sep="\t",
+            dtype={"path": str, "pop": str, "pheno": str, "R_phen": str},
+        )
     except:
         raise IOError("File specified in --file does not exist.")
-    df, pops, phenos, S, K = read_in_summary_stats(map_file, args.metadata_path, args.exclude)
+    df, pops, phenos, S, K = read_in_summary_stats(
+        map_file, args.metadata_path, args.exclude, args.sigma_m_types
+    )
     for arg in vars(args):
         if arg != "filter_ld_indep":
             setattr(args, arg, sorted(list(set(getattr(args, arg)))))
@@ -1856,7 +1942,7 @@ def initialize_parser():
     )
     parser.add_argument(
         "--filter_ld_indep",
-        action='store_true',
+        action="store_true",
         dest="filter_ld_indep",
         help="""whether or not only ld-independent variants should be kept (default: False;
          i.e., use everything).""",
@@ -1933,10 +2019,10 @@ if __name__ == "__main__":
         from rpy2.rinterface import RRuntimeWarning
 
         warnings.filterwarnings("ignore", category=RRuntimeWarning)
-    
+
     df, map_file, S, K, pops, phenos, R_study_list = return_input_args(args)
     if args.filter_ld_indep:
-        df = df[df['ld_indep'] == True]
+        df = df[df["ld_indep"] == "True"]
     for se_thresh in args.se_threshes:
         se_df = se_filter(df, se_thresh, pops, phenos)
         out_folder = args.out_folder[0] if args.out_folder else os.getcwd()

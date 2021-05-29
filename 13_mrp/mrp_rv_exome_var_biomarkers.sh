@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH --job-name=mrp_rv_exome
-#SBATCH --output=mrp_logs/mrp_rv_exome.%A_%a.out
+#SBATCH --job-name=mrp_rv_exome_var
+#SBATCH --output=mrp_logs/mrp_rv_exome_var.%A_%a.out
 #SBATCH --nodes=1
 #SBATCH --cores=8
 #SBATCH --mem=128000

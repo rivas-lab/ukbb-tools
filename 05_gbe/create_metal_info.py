@@ -1,6 +1,7 @@
 #!/bin/python
 
 import pandas as pd
+import numpy as np
 import os
 
 pops = ["white_british", "non_british_white", "african", "e_asian", "s_asian", "related", "others"]
@@ -32,7 +33,7 @@ for gbe_id in list(df['GBE_ID']):
 
 df = df.drop(columns="N")
 df["N"] = ns
-df["N"] = df["N"]
+df["N"] = df["N"].astype(Int64)
 df = df[["GBE_category", "GBE_ID", "N", "GBE_NAME", "GBE_short_name", "GBE_short_name_len"]]
 df.to_csv('array-combined/icdinfo.array.metal.tsv', sep='\t', index=False)
 
@@ -62,6 +63,6 @@ for gbe_id in list(df['GBE_ID']):
 
 df = df.drop(columns="N")
 df["N"] = ns
-df["N"] = df["N"]
+df["N"] = df["N"].astype(int)
 df = df[["GBE_category", "GBE_ID", "N", "GBE_NAME", "GBE_short_name", "GBE_short_name_len"]]
 df.to_csv('exome/200k/icdinfo.exome.metal.tsv', sep='\t', index=False)

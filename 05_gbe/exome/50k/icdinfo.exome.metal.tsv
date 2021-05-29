@@ -290,7 +290,7 @@ HC	HC857	1809	TTE_disorders_of_lachrymal_system	TTE disorders of lachrymal syste
 INI	INI104330	1295	Sweet_potato_intake_(Diet,_24hr_recall,_Online_follow-up)	Sweet potato intake (Diet, 24hr recall, Online follow-up)	57
 HC	HC984	144	TTE_other_disorders_of_arteries_and_arterioles	TTE other disorders of arteries and arterioles	46
 INI	INI25639	11067	Weighted-mean_L3_in_tract_middle_cerebellar_peduncle	WA L3 in tract middle cerebellar peduncle	41
-BIN_FC	BIN_FC10020521	15348	Never_Physically_abused_by_family_as_a_child	Never Physically abused by family as a child	44
+BIN_FC	BIN_FC10020521	15348	Never_felt_Belittlement_by_partner_or_ex-partner_as_an_adult    Never felt Belittlement by partner or ex-partner as an adult    60
 INI	INI10030840	43161	Total_bilirubin	Total bilirubin	15
 INI	INI20434	10376	Age_at_last_episode_of_depression	Age at last episode of depression	33
 HC	HC391	46	pyloric_stenosis	Pyloric stenosis	16
@@ -2728,7 +2728,6 @@ INI	INI23264	4564	Gynoid_tissue_fat_percentage	Gynoid tissue fat %	19
 INI	INI25650	11066	Weighted-mean_ICVF_in_tract_acoustic_radiation_(left)	WA ICVF in tract acoustic radiation (L)	39
 BIN	BIN100470	2043	Decaffeinated_tea_always_(Diet,_24hr_recall,_Online_follow-up)	Decaffeinated tea always (Diet, 24hr recall, Online follow-up)	62
 HC	HC1386	23	TTE_infections_of_genito-urinary_tract_in_pregnancy	TTE infections of genito-urinary tract in pregnancy	51
-QT_FC	QT_FC21057	14803	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72
 BIN_FC	BIN_FC6006152	1068	Blood_clot_in_the_leg_(DVT)	Blood clot in the leg (DVT)	27
 INI	INI25620	11067	Weighted-mean_L2_in_tract_superior_thalamic_radiation_(right)	WA L2 in tract superior thalamic radiation (R)	46
 INI	INI25371	11066	Mean_ICVF_in_posterior_corona_radiata_on_FA_skeleton_(left)	Mean ICVF in posterior corona radiata on FA skeleton (L)	56
