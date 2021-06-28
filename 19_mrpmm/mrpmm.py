@@ -1051,7 +1051,7 @@ def calculate_metrics(
 
     """
 
-    alphaout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.alpha", "w+")
+    alphaout = open(outpath + "/" + str(fout) + "_" + str(C) + ".mcmc.alpha", "w+")
     mean = np.mean(alpha[burn + 1 : niter + 1 : thinning, 0], axis=0)
     l95ci = np.percentile(alpha[burn + 1 : niter + 1 : thinning, 0], 2.5, axis=0)
     u95ci = np.percentile(alpha[burn + 1 : niter + 1 : thinning, 0], 97.5, axis=0)
@@ -1088,7 +1088,7 @@ def scaleout_write(
 
     """
 
-    scaleout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.scale", "w+")
+    scaleout = open(outpath + "/" + str(fout) + "_" + str(C) + ".mcmc.scale", "w+")
     print("index\tannotation\tscale_m50\tscale_l95\tscale_u95", file=scaleout)
     for annot_idx in range(0, annot_len):
         mean = np.mean(
@@ -1125,7 +1125,7 @@ def tmpbc_write(outpath, fout, K, Theta_0, C):
 
     """
 
-    tmpbc = open(outpath + str(fout) + "_" + str(C) + ".theta.bc", "w+")
+    tmpbc = open(outpath + "/" + str(fout) + "_" + str(C) + ".theta.bc", "w+")
     for i in range(0, K):
         for j in range(0, K):
             print(Theta_0[i, j], file=tmpbc, end=" ")
@@ -1158,7 +1158,7 @@ def mcout_write(
 
     """
 
-    mcout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.posteriors", "w+")
+    mcout = open(outpath + "/" + str(fout) + "_" + str(C) + ".mcmc.posteriors", "w+")
     var_prob_dict = {}
     mcout.write("V\tmost_severe_consequence\tHGVSp\tgene_symbol\tdescription")
     for c in range(C):
@@ -1210,8 +1210,8 @@ def probout_bcout_write(outpath, fout, C, bc, delta_m, burn, niter, thinning):
     """
 
     probout = fout + "_" + str(C) + ".mcmc.probs"
-    np.savetxt(outpath + probout, delta_m, fmt="%1.2f")
-    bcout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.bc", "w+")
+    np.savetxt(outpath + "/" +  probout, delta_m, fmt="%1.2f")
+    bcout = open(outpath + "/" + str(fout) + "_" + str(C) + ".mcmc.bc", "w+")
     bcout.write("cluster")
     for phenotype in phenotypes:
         print(
@@ -1291,7 +1291,7 @@ def fdr_write(outpath, fout, fdr, M, chroff_vec, var_prob_dict, C):
 
     """
 
-    fdrout = open(outpath + str(fout) + "_" + str(C) + ".fdr", "w+")
+    fdrout = open(outpath + "/" + str(fout) + "_" + str(C) + ".fdr", "w+")
     print(str(fdr), file=fdrout)
     var_prob_null = []
     var_fdr_id = []
@@ -1345,7 +1345,7 @@ def gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning, C)
         genedatu95[gene_map[gene_idx]] = np.percentile(
             pcj[burn + 1 : niter + 1 : thinning, gene_idx, :], 97.5, axis=0
         )
-    geneout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.gene.posteriors", "w+")
+    geneout = open(outpath + "/" + str(fout) + "_" + str(C) + ".mcmc.gene.posteriors", "w+")
     print("gene_symbol", file=geneout, end="")
     for cluster in range(C):
         print("\tc" + str(cluster) + "_m50", file=geneout, end="")
@@ -1391,7 +1391,7 @@ def prot_write(
     
     """
 
-    protout = open(outpath + str(fout) + "_" + str(C) + ".mcmc.protective", "w+")
+    protout = open(outpath + "/" + str(fout) + "_" + str(C) + ".mcmc.protective", "w+")
     for var_idx in range(0, M):
         protout.write(
             chroff_vec[var_idx]
@@ -1867,7 +1867,7 @@ def calculate_phen(a, b, pheno1, pheno2, df, phenos_to_use, phen_corr):
             return np.nan
 
 
-def build_phen_corr(K, phenos, df, phenos_to_use):
+def build_phen_corr(S, K, pops, phenos, df, pop_pheno_tuples):
 
     """
     Builds out a matrix of correlations between all phenotypes and studies using:
@@ -1877,54 +1877,60 @@ def build_phen_corr(K, phenos, df, phenos_to_use):
     SNPs.
 
     Parameters:
+    S: Number of populations/studies.
     K: Number of phenotypes.
+    pops: Unique set of populations (studies) to use for analysis.
     phenos: Unique set of phenotypes to use for analysis.
     df: Merged dataframe containing all relevant summary statistics.
-    phenos_to_use: Indicate which phenotypes to use to build R_phen.
+    pop_pheno_tuples: Indicate which populations/phenotypes to use to build R_phen.
 
     Returns:
-    phen_corr: (K*K) matrix of correlations between all phenotypes and studies 
+    phen_corr: (S*K x S*K) matrix of correlations between all phenotypes and studies 
         for significant variants. Used to calculate R_phen.
 
     """
-
-    phen_corr = np.zeros((K, K))
-    for a, pheno1 in enumerate(phenos):
-        for b, pheno2 in enumerate(phenos):
-            # Location in matrix
-            phen_corr[a, b] = calculate_phen(
-                a, b, pheno1, pheno2, df, phenos_to_use, phen_corr
-            )
+    phen_corr = np.zeros((S * K, S * K))
+    for i, pop1 in enumerate(pops):
+        for j, pheno1 in enumerate(phenos):
+            for x, pop2 in enumerate(pops):
+                for y, pheno2 in enumerate(phenos):
+                    # Location in matrix
+                    a, b = K * i + j, K * x + y
+                    phen_corr[a, b] = calculate_phen(
+                        a, b, pop1, pheno1, pop2, pheno2, df, pop_pheno_tuples
+                    )
     return phen_corr
 
 
-def filter_for_phen_corr(df, sumstat_data):
+def filter_for_phen_corr(df, map_file):
 
     """
     Filters the initial dataframe for the criteria used to build R_phen.
 
     Parameters:
     df: Merged dataframe containing all summary statistics.
-    sumstat_data: Dataframe indicating which summary statistics to use to build R_phen.
+    map_file: Dataframe indicating which summary statistics to use to build R_phen.
 
     Returns:
     df: Filtered dataframe that contains significant, common, LD-independent variants.
 
     """
 
-    files_to_use = sumstat_data[sumstat_data["R_phen"] == True]
+    files_to_use = map_file[map_file["R_phen"] == "True"]
     if len(files_to_use) == 0:
         return [], []
-    phenos_to_use = list(files_to_use["pheno"])
+    pop_pheno_tuples = zip(list(files_to_use["study"]), list(files_to_use["pheno"]))
     cols_to_keep = ["V", "maf", "ld_indep"]
     for col_type in "BETA_", "P_":
-        cols_to_keep.extend([col_type + pheno for pheno in phenos_to_use])
+        cols_to_keep.extend(
+            [col_type + pop + "_" + pheno for pop, pheno in pop_pheno_tuples]
+        )
     df = df[cols_to_keep]
     # Get only LD-independent, common variants
-    df = df[(df.maf >= 0.01) & (df.ld_indep == True)]
+    df = df[(df.maf >= 0.01) & (df.ld_indep == "True")]
     df = df.dropna(axis=1, how="all")
     df = df.dropna()
-    return df, phenos_to_use
+    return df, pop_pheno_tuples
 
 
 def build_R_phen(K, phenos, df, sumstat_data):
@@ -2028,9 +2034,9 @@ def initialize_parser():
        
          format:
          
-         path        pheno        R_phen
-         /path/to/file1   pheno1     TRUE
-         /path/to/file2   pheno2     FALSE
+         path        pheno    study        R_phen
+         /path/to/file1   pheno1    study1     TRUE
+         /path/to/file2   pheno2    study2     FALSE
          """,
     )
     parser.add_argument(
@@ -2049,6 +2055,19 @@ def initialize_parser():
          V       gene_symbol     most_severe_consequence HGVSp  
          1:69081:G:C     OR4F5   5_prime_UTR_variant     ""
         """,
+    )
+    parser.add_argument(
+        "--variant_filters",
+        choices=["pcv", "pav", "ptv"],
+        type=str,
+        nargs="+",
+        default=["pav"],
+        dest="variant_filters",
+        help="""variant set(s) to consider. 
+         options: proximal coding [pcv], 
+                  protein-altering [pav], 
+                  protein truncating [ptv],
+                  (default: ptv). can run multiple.""",
     )
     parser.add_argument(
         "--out_folder",
@@ -2103,44 +2122,10 @@ def merge_dfs(sumstat_files, metadata):
     outer_merge = partial(pd.merge, on=conserved_columns, how="outer")
     df = reduce(outer_merge, sumstat_files)
     df = df.merge(metadata)
-    to_keep = [
-        "frameshift_variant",
-        "splice_acceptor_variant",
-        "splice_donor_variant",
-        "stop_gained",
-        "start_lost",
-        "stop_lost",
-        "protein_altering_variant",
-        "inframe_deletion",
-        "inframe_insertion",
-        "splice_region_variant",
-        "start_retained_variant",
-        "stop_retained_variant",
-        "missense_variant",
-        "synonymous_variant",
-        "5_prime_UTR_variant",
-        "3_prime_UTR_variant",
-        "coding_sequence_variant",
-        "incomplete_terminal_codon_variant",
-        "TF_binding_site_variant",
-    ]
-    to_filter = [
-        "regulatory_region_variant",
-        "intron_variant",
-        "intergenic_variant",
-        "downstream_gene_variant",
-        "mature_miRNA_variant",
-        "non_coding_transcript_exon_variant",
-        "upstream_gene_variant",
-        "NA",
-        "NMD_transcript_variant",
-    ]
-    df = df[~df["most_severe_consequence"].isin(to_filter)]
-    df = df[df["most_severe_consequence"].isin(to_keep)]
     return df
 
 
-def rename_columns(df, pheno):
+def rename_columns(df, pheno, pop):
 
     """ 
     Renames columns such that information on phenotype is available 
@@ -2151,6 +2136,7 @@ def rename_columns(df, pheno):
     Parameters: 
     df: Input dataframe (from summary statistics).
     pheno: The phenotype from which the current summary statistic dataframe comes from.
+    pop: The study from which the summary statistics come from.
   
     Returns: 
     df: A df with adjusted column names, e.g., "OR_white_british_cancer1085".
@@ -2160,12 +2146,12 @@ def rename_columns(df, pheno):
     if "LOG(OR)_SE" in df.columns:
         df.rename(columns={"LOG(OR)_SE": "SE"}, inplace=True)
     columns_to_rename = ["BETA", "SE", "P"]
-    renamed_columns = [(x + "_" + pheno) for x in columns_to_rename]
+    renamed_columns = [(x + "_" + pheno + "_" + pop) for x in columns_to_rename]
     df.rename(columns=dict(zip(columns_to_rename, renamed_columns)), inplace=True)
     return df
 
 
-def read_in_summary_stat(path, pheno, se_thresh):
+def read_in_summary_stat(path, pheno, pop, se_thresh):
 
     """
     Reads in one summary statistics file.
@@ -2176,6 +2162,7 @@ def read_in_summary_stat(path, pheno, se_thresh):
     Parameters: 
     path: Path to file.
     pheno: Phenotype of interest.
+    pop: Study of interest.
   
     Returns: 
     df: Dataframe with renamed columns, ready for merge.
@@ -2209,11 +2196,75 @@ def read_in_summary_stat(path, pheno, se_thresh):
     if "OR" in df.columns:
         df["BETA"] = np.log(df["OR"].astype("float64"))
     # Filter for SE as you read it in
-    df = rename_columns(df, pheno)
-    df = df[df["SE" + "_" + pheno].notnull()]
-    df = df[df["SE" + "_" + pheno].astype(float) <= se_thresh]
+    df = rename_columns(df, pheno, pop)
+    df = df[df["SE" + "_" + pheno + "_" + pop].notnull()]
+    df = df[df["SE" + "_" + pheno + "_" + pop].astype(float) <= se_thresh]
     # Filter out HLA region
     df = df[~((df["#CHROM"] == 6) & (df["POS"].between(25477797, 36448354)))]
+    return df
+
+def filter_category(df, variant_filter):
+
+    """ 
+    Filters a set of dataframes that have been read in based on functional consequence.
+  
+    Dependent on the variant filter that is dictated by the analysis.
+  
+    Parameters: 
+    df: Merged dataframe containing all summary statistics.
+    variant_filter: The variant filter dictated by the analysis ("ptv"/"pav"/"pcv").
+  
+    Returns: 
+    df: Merged dataframe containing all relevant summary statistics; 
+        filters out variants excluded from analysis.
+  
+    """
+
+    ptv = [
+         "frameshift_variant",
+        "splice_acceptor_variant",
+        "splice_donor_variant",
+        "stop_gained",
+        "start_lost",
+        "stop_lost",
+    ]
+    pav = [
+        "protein_altering_variant",
+        "inframe_deletion",
+        "inframe_insertion",
+        "splice_region_variant",
+        "start_retained_variant",
+        "stop_retained_variant",
+        "missense_variant",
+    ]
+    pcv = [
+        "synonymous_variant",
+        "5_prime_UTR_variant",
+        "3_prime_UTR_variant",
+        "coding_sequence_variant",
+        "incomplete_terminal_codon_variant",
+        "TF_binding_site_variant",
+    ]
+    intron = [
+        "regulatory_region_variant",
+        "intron_variant",
+        "intergenic_variant",
+        "downstream_gene_variant",
+        "mature_miRNA_variant",
+        "non_coding_transcript_exon_variant",
+        "upstream_gene_variant",
+        "NA",
+        "NMD_transcript_variant",
+    ]
+    if variant_filter == "ptv":
+        df = df[df['most_severe_consequence'].isin(ptv)]
+    elif variant_filter == "pav":
+        df = df[(df['most_severe_consequence'].isin(ptv)) | (df['most_severe_consequence'].isin(pav))]
+    elif variant_filter == "pcv":
+        df = df[
+            (df['most_severe_consequence'].isin(ptv)) | (df['most_severe_consequence'].isin(pav)) | (df['most_severe_consequence'].isin(pcv))
+        ]
+    df = df[~df["most_severe_consequence"].isin(intron)]
     return df
 
 
@@ -2248,12 +2299,13 @@ if __name__ == "__main__":
 
     chroff_vec = list(set(variants["V"]))
 
-    phenotypes = np.unique(sumstat_data["pheno"])
+    phenotypes = list(sumstat_data["pheno"])
     sumstat_paths = list(sumstat_data["path"])
+    pops = list(sumstat_data["study"])
     sumstat_files = []
 
-    for path, pheno in zip(sumstat_paths, phenotypes):
-        sumstat = read_in_summary_stat(path, pheno, args.se_thresh)
+    for path, pheno, pop in zip(sumstat_paths, phenotypes, pops):
+        sumstat = read_in_summary_stat(path, pheno, pop, args.se_thresh)
         sumstat_files.append(sumstat)
 
     df = merge_dfs(sumstat_files, metadata)
@@ -2265,55 +2317,66 @@ if __name__ == "__main__":
     df = df[df["V"].isin(chroff_vec)]
     df = df[(df["maf"].astype(float) <= args.maf_thresh) & (df["maf"].astype(float) >= 0)]
     df = df[df.ld_indep == True]
-    chroff_vec = list(df["V"])
-    annot_vec = list(df["most_severe_consequence"])
-    gene_vec = list(df["gene_symbol"])
-    genes = np.unique(gene_vec)
-    prot_vec = list(df['HGVSp'])
-    # prot_vec = ["hgvsp"] * len(chroff_vec)
+    for variant_filter in args.variant_filters:
+        subset_df = filter_category(df, variant_filter)
+        if len(subset_df) == 0:
+            print("Does not contain " + variant_filter + "s.")
+        else:
+            chroff_vec = list(subset_df["V"])
+            annot_vec = list(subset_df["most_severe_consequence"])
+            gene_vec = list(subset_df["gene_symbol"])
+            genes = np.unique(gene_vec)
+            prot_vec = list(subset_df['HGVSp'])
 
-    # for now, put 0 if missing
-    betas = df[["BETA_" + pheno for pheno in phenotypes]].fillna(0).values
-    ses = df[["SE_" + pheno for pheno in phenotypes]].fillna(0).values
+            # for now, put 0 if missing
+            beta_cols = [col for col in subset_df.columns if "BETA_" in col]
+            se_cols = [col for col in subset_df.columns if "SE_" in col]
+            betas = subset_df[beta_cols].fillna(0).values
+            ses = subset_df[se_cols].fillna(0).values
 
-    if args.out_folder:
-        out_folder = args.out_folder
-    else:
-        out_folder = ""
+            if args.out_folder:
+                out_folder = args.out_folder
+            else:
+                out_folder = ""
 
-    R_phen_inv = np.linalg.inv(R_phen)
-    bics, aics, genedats, clusters, log10BFs = [], [], [], [], []
-    fout = "_".join(genes) + "_" + "_".join(phenotypes)
+            R_phen_inv = np.linalg.inv(R_phen)
+            bics, aics, genedats, clusters, log10BFs = [], [], [], [], []
+            fout = "_".join(genes) + "_" + "_".join(list(set(phenotypes))) + "_" + "_".join(list(set(pops))) + "_" + variant_filter
 
-    clusters = args.clusters
-    clusters = list(set(clusters + [1]))
-    for C in clusters:
-        [BIC, AIC, genedat] = mrpmm(
-            betas,
-            ses,
-            err_corr,
-            annot_vec,
-            gene_vec,
-            prot_vec,
-            chroff_vec,
-            C,
-            fout,
-            R_phen,
-            R_phen_inv,
-            phenotypes,
-            R_phen_use=True,
-            fdr=0.05,
-            niter=500,
-            burn=100,
-            thinning=1,
-            verbose=True,
-            outpath=out_folder,
-        )
-        bics.append(BIC)
-        print("BIC: " + str(BIC))
-        aics.append(AIC)
-        genedats.append(genedat)
-    for i, C in enumerate(clusters):
-        log10BFs.append((bics[0] - bics[i])/(2 * np.log(10)))
-    out_df = pd.DataFrame({'num_clusters': clusters, 'BIC': bics, 'AIC': aics, 'log10BF': log10BFs})
-    out_df.to_csv(out_folder + str(fout) + ".mcmc.bic.aic", sep='\t', index=False)
+            clusters = args.clusters
+            clusters = list(set(clusters + [1]))
+            for C in clusters:
+                BIC = None
+                while BIC is None:
+                    try:
+                        [BIC, AIC, genedat] = mrpmm(
+                            betas,
+                            ses,
+                            err_corr,
+                            annot_vec,
+                            gene_vec,
+                            prot_vec,
+                            chroff_vec,
+                            C,
+                            fout,
+                            R_phen,
+                            R_phen_inv,
+                            phenotypes,
+                            R_phen_use=True,
+                            fdr=0.05,
+                            niter=500,
+                            burn=100,
+                            thinning=1,
+                            verbose=True,
+                            outpath=out_folder,
+                        )
+                    except ZeroDivisionError:
+                        pass
+                bics.append(BIC)
+                print("BIC: " + str(BIC))
+                aics.append(AIC)
+                genedats.append(genedat)
+            for i, C in enumerate(clusters):
+                log10BFs.append((bics[0] - bics[i])/(2 * np.log(10)))
+            out_df = pd.DataFrame({'num_clusters': clusters, 'BIC': bics, 'AIC': aics, 'log10BF': log10BFs})
+            out_df.to_csv(out_folder + "/" + str(fout) + ".mcmc.bic.aic", sep='\t', index=False)
