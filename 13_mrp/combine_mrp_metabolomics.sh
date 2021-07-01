@@ -4,14 +4,14 @@
 
 dir="/oak/stanford/groups/mrivas/users/guhan/sandbox/mrp_metabolomics_mpc_pli_new"
 
-for file in $(ls $dir | grep 0.01 | head -1); do
+for file in $(ls $dir | grep "0\.01" | head -1); do
     zcat $dir/$file | awk -F'\t' '{if (NR == 1) {print "#GBE_ID\tGBE_short_name\tpops\tnum_pops\t"$0}}' > mrp_rv_metabolomics.tsv
 done
 
 for phen in $(cat metabolomics_phenos); do
     if ! grep -Fxq "$phen" gbe_blacklist.tsv; then
         shortname=$(awk -F'\t' -v gbe="$phen" '{if ($2 == gbe) {print $5}}' ../05_gbe/exome/200k/icdinfo.shortnames.exome.tsv)
-        file=$(find $dir -name "*_${phen}_*" | grep 0.01)
+        file=$(find $dir -name "*_${phen}_*" | grep "0\.01")
         numpops=0
         if [ -f "$file" ]; then
             pops=$(echo $(basename $file) | awk -F"_$phen" '{print $1}')
