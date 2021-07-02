@@ -2100,6 +2100,15 @@ def initialize_parser():
         dest="maf_thresh",
         help="""MAF threshold for variant inclusion""",
     )
+    parser.add_argument(
+        "--fout",
+        type=str,
+        nargs=1,
+        default=[],
+        dest="fout",
+        help="""file prefix with which output(s) will be written (default: underscore-delimited
+         phenotypes).""",
+    )
     return parser
 
 
@@ -2341,7 +2350,7 @@ if __name__ == "__main__":
 
             R_phen_inv = np.linalg.inv(R_phen)
             bics, aics, genedats, clusters, log10BFs = [], [], [], [], []
-            fout = "_".join(genes) + "_" + "_".join(list(set(phenotypes))) + "_" + "_".join(list(set(pops))) + "_" + variant_filter
+            fout = "_".join(genes) + "_" + "_".join(list(set(phenotypes))) + "_" + "_".join(list(set(pops))) + "_" + variant_filter if not args.fout else args.fout[0] + "_" + variant_filter
 
             clusters = args.clusters
             clusters = list(set(clusters + [1]))

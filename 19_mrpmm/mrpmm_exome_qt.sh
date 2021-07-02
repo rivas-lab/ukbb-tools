@@ -37,6 +37,10 @@ this_idx=$_SLURM_ARRAY_TASK_ID
 # read in the actual thing
 GBE_ID=$(awk -F'\t' '{print $1}' mrp200kexomeresults.tsv | tail -n +2 | egrep -v cancer | egrep -v BIN_FC | egrep -v FH | egrep -v HC | egrep -v BIN | egrep -v TTE | sort -u | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $1}')
 
+numlines=$(ls /oak/stanford/groups/mrivas/users/guhan/sandbox/mrpmm_exome | grep "_${GBE_ID}_" | wc -l)
+
+if [ $numlines != 0 ]; then echo "ALREADY DONE"; exit 1; fi
+
 grep $GBE_ID mrp200kexomeresults.tsv | awk -F'\t' '{print $5}' > $output_folder/${GBE_ID}_genes.tsv
    
 echo -e "$GBE_ID" >&1
