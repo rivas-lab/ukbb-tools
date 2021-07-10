@@ -1,5 +1,7 @@
 import pandas as pd
 
+array = pd.read_table('biomarkers_mrp_rv_array_gbe.tsv')
+
 e_multipop = pd.read_table('mrp_rv_ma_exome_multipop_gbe.tsv')
 e_singlepop = pd.read_table('mrp_rv_ma_exome_singlepop_gbe.tsv')
 e_rare_multipop = pd.read_table('mrp_rv_ma_exome_ultrarare_multipop_gbe.tsv')
@@ -37,3 +39,5 @@ truncate(exome, 'biomarkers_mrp_rv_exome_gbe.tsv')
 
 exome_var = pd.read_table('biomarkers_mrp_rv_exome_var_gbe.tsv')
 truncate(exome_var, 'biomarkers_mrp_rv_exome_var_gbe.tsv')
+
+truncate(array, 'biomarkers_mrp_rv_array_gbe.tsv')

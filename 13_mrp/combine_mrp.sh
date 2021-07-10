@@ -2,6 +2,20 @@
 
 # sbatch -p mrivas --mem=64000 combine_mrp.sh
 
+dir="/oak/stanford/groups/mrivas/users/guhan/sandbox/mrp_rv_array"
+
+for file in $(ls $dir); do
+    zcat $dir/$file | awk -F'\t' '{if (NR == 1) {print "#GBE_ID\tGBE_short_name\tpops\tnum_pops\t"$0}}' > biomarkers_mrp_rv_array_gbe.tsv
+done
+
+for phen in $(cat biomarkers_clusters.tsv | cut -f1 | tail -n +2); do
+    shortname=$(awk -F'\t' -v gbe="$phen" '{if ($2 == gbe) {print $5}}' ../05_gbe/exome/200k/icdinfo.shortnames.exome.tsv)
+    file=$(find $dir -name "*_${phen}_*" | grep "0\.01")
+    if [ -f "$file" ]; then
+        zcat $file | awk -F'\t' -v filename="$phen" -v pops="$pops" -v numpops="$numpops" -v shortname="$shortname" '{if (NR != 1) {print filename"\t"shortname"\twhite_british\t1\t"$0}}' >> biomarkers_mrp_rv_array_gbe.tsv
+    fi
+done
+
 dir="/oak/stanford/groups/mrivas/users/guhan/sandbox/mrp_rv_ma_array"
 
 for file in $(ls $dir | grep "0\.01" | head -1); do
@@ -177,6 +191,7 @@ rm mrp_rv_ma_array_singlepop_gbe.tsv
 rm mrp_rv_ma_array_multipop_gbe.tsv
 rm mrp_rv_ma_exome_ultrarare_singlepop_gbe.tsv
 rm mrp_rv_ma_exome_ultrarare_multipop_gbe.tsv
+bgzip -f biomarkers_mrp_rv_array_gbe.tsv
 bgzip -f mrp_rv_ma_exome_gbe.tsv
 bgzip -f mrp_rv_ma_array_gbe.tsv
 bgzip -f biomarkers_mrp_rv_ma_exome_gbe.tsv

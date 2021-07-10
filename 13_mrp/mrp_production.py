@@ -12,9 +12,12 @@ def is_pos_def_and_full_rank(X, tol=0.99):
   
     Parameters: 
     X: Matrix to verify.
+    tol: A tolerance factor for continual multiplication until the matrix is
+        singular (Default: 0.99).
   
     Returns: 
     X: Verified (and, if applicable, adjusted) matrix.
+    converged: bool for whether or not the matrix is singular.
   
     """
     i = 0
@@ -191,7 +194,7 @@ def return_BF_pvals(beta, U, v_beta, v_beta_inv, fb, dm, im, methods):
     fb: Farebrother R method (rpy2 object).
     dm: Davies R method (rpy2 object).
     im: Imhof R method (rpy2 object).
-    methods: List of method(s) to apply to our data.
+    methods: List of p-value generating method(s) to apply to our data.
   
     Returns: 
     p_values: List of p-values corresponding to each method specified as input.
@@ -279,6 +282,7 @@ def return_BF(
     posterior_probs: List of posterior probabilities corresponding to each prior odds
          in prior_odds_list.
     p_values: List of p-values corresponding to each method in p_value_methods.
+    converged: whether or not v_beta_inv and U_inv are defined.
   
     """
     v_beta_inv = safe_inv(v_beta, "v_beta", block, agg_type)
@@ -433,6 +437,9 @@ def calculate_all_params(
     v_beta: A (S*M*K x S*M*K) matrix of variances of effect sizes.
     mu: A mean of genetic effects, size of beta
         (NOTE: default is 0, can change in the code below).
+    converged: whether or not U is pos-def/full-rank.
+    num_variants_mpc: the nummber of MPC-augmented variants in the gene.
+    num_variants_pli: the number of pLI-augmented variants in the gene.
   
     """
 
@@ -544,7 +551,7 @@ def get_output_file_columns(
     Sets up the columns that must be enumerated in the output dataframe from MRP.
 
     Parameters:
-    agg_type:
+    agg_type: One of "gene"/"variant". Dictates block of aggregation.
     R_study_model: String ("independent"/"similar") corresponding to R_study.
     R_var_model: String ("independent"/"similar") corresponding to R_var matrices to 
         use for analysis.
@@ -666,7 +673,7 @@ def run_mrp(
         Factors.
 
     Returns: 
-    bf_df: Dataframe with two columns: agg_type and log_10 Bayes Factor. 
+    bf_df: Dataframe with log_10 Bayes Factor, posterior odds, and p-value (if applicable).
   
     """
     m_dict = (
@@ -850,7 +857,7 @@ def loop_through_parameters(
 
     Parameters: 
     df: Merged dataframe containing all summary statistics.
-    se_thresh: Upper threshold for SE for thiss run.
+    se_thresh: Upper threshold for SE for this run.
     maf_threshes: List of maximum MAFs of variants in your runs.
     agg: Unique list of aggregation units ("gene"/"variant") to use for analysis.
     variant_filters: Unique list of variant filters ("ptv"/"pav"/"pcv","all") to use 
@@ -873,6 +880,7 @@ def loop_through_parameters(
     p_value_methods: List of p-value methods used to calculate p-values from Bayes 
         Factors.
     out_folder: Folder where output will be placed.
+    out_filename: Optional prefix for file output.
   
     """
 
@@ -987,13 +995,13 @@ def set_sigmas(df, sigma_m_types):
     Assigns appropriate sigmas to appropriate variants by annotation.
   
     Sets sigmas based on user input: functional annotation (var); uniform 
-        sigma (1 and 0.05), or those using MPC/pLI.
+        sigma (1 and 0.05), or those incorporating MPC/pLI.
   
     Parameters: 
     df: Merged dataframe containing all variants across all studies and phenotypes.
   
     Returns: 
-    df: Merged dataframe with four additional columns:
+    df: Merged dataframe with a subset of four additional columns:
         sigma_m_mpc_pli: Column of sigma values (mapped to functional annotation via the 
             lists inside this method + adding pLI and MPC effects).
         sigma_m_var: Column of sigma values (mapped to functional annotation via the 
@@ -1133,6 +1141,7 @@ def calculate_phen(a, b, pop1, pheno1, pop2, pheno2, df, pop_pheno_tuples):
     Calculates a single entry in the phen_corr matrix.
     
     Parameters:
+    a, b: Positional parameters within the phen_corr matrix.
     pop1: Name of first population.
     pheno1: Name of first phenotype.
     pop2: Name of second population.
@@ -1205,6 +1214,7 @@ def filter_for_phen_corr(df, map_file):
 
     Returns:
     df: Filtered dataframe that contains significant, common, LD-independent variants.
+    pop_pheno_tuples: Distinct coupled pop/pheno combinations.
 
     """
 
@@ -1312,6 +1322,7 @@ def filter_for_err_corr(df, map_file):
 
     Parameters:
     df: Merged dataframe containing all summary statistics.
+    map_file: Input file containing summary statistic paths + pop and pheno data.
 
     Returns:
     df: Filtered dataframe that contains null, common, LD-independent variants.
@@ -1369,6 +1380,7 @@ def build_err_corr(S, K, pops, phenos, df, map_file):
     pops: Unique set of populations (studies) to use for analysis.
     phenos: Unique set of phenotypes to use for analysis.
     df: Merged dataframe containing all relevant summary statistics.
+    map_file: Input file containing summary statistic paths + pop and pheno data.
 
     Returns:
     err_corr: (S*K x S*K) matrix of correlation of errors across studies and phenotypes 
@@ -1438,7 +1450,7 @@ def se_filter(df, se_thresh, pops, phenos):
     df: Input dataframe (from summary statistics).
     se_thresh: Upper threshsold for SE for this run.
     pops: List of studies from which the current summary statistic dataframe comes from.
-    pheno: List of phenotypes from which the current summary statistic dataframe comes from.
+    phenos: List of phenotypes from which the current summary statistic dataframe comes from.
   
     Returns: 
     se_df: Dataframe filtered for SE.
@@ -1515,6 +1527,8 @@ def merge_dfs(sumstat_files, metadata_path, sigma_m_types):
     Parameters:
     sumstat_files: List of dataframes that contain summary statistics.
     metadata_path: Path to metadata file containing MAF, Gene symbol, etc.
+    sigma_m_types: Unique list of sigma_m types ("sigma_m_mpc_pli"/"sigma_m_var"/"sigma_m_1"/"sigma_m_005")
+        to use for analysis.
 
     Returns:
     df: Dataframe that is ready for err_corr/R_phen generation and for running MRP.
@@ -1629,6 +1643,9 @@ def read_in_summary_stats(map_file, metadata_path, exclude_path, sigma_m_types):
     Parameters: 
     map_file: Input file containing summary statistic paths + pop and pheno data.
     metadata_path: Path to metadata file containing MAF, Gene symbol, etc.
+    exclude_path: Path to file containing list of variants to exclude from analysis.
+    sigma_m_types: Unique list of sigma_m types ("sigma_m_mpc_pli"/"sigma_m_var"/"sigma_m_1"/"sigma_m_005")
+        to use for analysis.
   
     Returns: 
     df: Merged summary statistics.
@@ -1715,11 +1732,12 @@ def return_input_args(args):
   
     Returns: 
     df: Merged summary statistics.
-    pops: Unique set of populations (studies) to use for analysis.
-    phenos: Unique set of phenotypes to use for analysis.
+    map_file: Input file containing summary statistic paths + pop and pheno data.
     S: Number of populations/studies.
     K: Number of phenotypes. 
-    R_study_list: Unique list of R_study matrices to use for analysis.
+    pops: Unique set of populations (studies) to use for analysis.
+    phenos: Unique set of phenotypes to use for analysis.
+    R_study: Unique list of R_study matrices to use for analysis.
   
     """
 
@@ -1752,6 +1770,9 @@ def range_limited_float_type(arg):
     Parameters:
     arg: Putative float.
 
+    Returns:
+    f: The same float, if a valid floating point number between 0 and 1.
+
     """
 
     try:
@@ -1770,6 +1791,9 @@ def positive_float_type(arg):
     
     Parameters:
     arg: Putative float.
+
+    Returns:
+    f: The same float, if positive.
 
     """
 
