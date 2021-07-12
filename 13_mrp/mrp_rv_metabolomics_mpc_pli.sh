@@ -16,6 +16,6 @@ done
 
 cat $output_folder/$phe.tmp.txt
 
-/share/software/user/open/python/3.6.1/bin/python3 mrp_production.py --file $output_folder/$phe.tmp.txt --R_study independent similar --R_var independent similar --variants ptv pav --sigma_m_types sigma_m_mpc_pli --filter_ld_indep --se_thresh 100 --maf_thresh 0.01 0.0005  --metadata_path /oak/stanford/groups/mrivas/users/guhan/repos/ukbb-tools/13_mrp/ref/ukb_exm_oqfe-consequence_wb_maf_gene_ld_indep_mpc_pli.tsv --out_folder $output_folder
+/share/software/user/open/python/3.6.1/bin/python3 mrp_production.py --file $output_folder/$phe.tmp.txt --build hg38 --R_study independent similar --R_var independent similar --variants ptv pav --sigma_m_types sigma_m_mpc_pli --filter_ld_indep --se_thresh 100 --maf_thresh 0.01 0.0005  --metadata_path /oak/stanford/groups/mrivas/users/guhan/repos/ukbb-tools/13_mrp/ref/ukb_exm_oqfe-consequence_wb_maf_gene_ld_indep_mpc_pli.tsv --out_folder $output_folder
 
 rm $output_folder/$phe.tmp.txt

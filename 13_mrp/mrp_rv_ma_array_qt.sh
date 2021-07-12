@@ -75,6 +75,6 @@ sed -i '1s/^/path\tstudy\tpheno\tR_phen\n/' $output_folder/$GBE_ID.tmp.txt
 
 cat $output_folder/$GBE_ID.tmp.txt
 
-/share/software/user/open/python/3.6.1/bin/python3 mrp_production.py --file $output_folder/$GBE_ID.tmp.txt --R_study independent similar --R_var independent similar --variants ptv pav --sigma_m_types sigma_m_mpc_pli --se_thresh 100 --maf_thresh 0.01 --metadata_path /oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-consequence_wb_maf_gene_ld_indep_mpc_pli.tsv --out_folder $output_folder
+/share/software/user/open/python/3.6.1/bin/python3 mrp_production.py --file $output_folder/$GBE_ID.tmp.txt --build hg19 --R_study independent similar --R_var independent similar --variants ptv pav --sigma_m_types sigma_m_mpc_pli --se_thresh 100 --maf_thresh 0.01 --metadata_path /oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-consequence_wb_maf_gene_ld_indep_mpc_pli.tsv --out_folder $output_folder
 
 rm $output_folder/$GBE_ID.tmp.txt
