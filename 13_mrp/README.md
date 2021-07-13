@@ -176,7 +176,7 @@ optional arguments:
   --sigma_m_types {sigma_m_mpc_pli,sigma_m_var,sigma_m_1,sigma_m_005} [{sigma_m_mpc_pli,sigma_m_var,sigma_m_1,sigma_m_005} ...]
                         scaling factor(s) for variants.
                                  options: var (i.e. 0.2 for ptvs, 0.05 for pavs/pcvs), 
-                                 1, 0.05 (default: var). can run multiple.
+                                 1, 0.05 (default: mpc_pli). can run multiple.
   --variants {pcv,pav,ptv,all} [{pcv,pav,ptv,all} ...]
                         variant set(s) to consider. 
                                  options: proximal coding [pcv], 
@@ -220,7 +220,7 @@ optional arguments:
 
 ## MRP: Variant groupings
 
-The following groups are how we assign priors (`sigma_m`) to variants. All others are filtered out:
+The following groups are how we assign priors (`sigma_m`) to variants.
 
 `ptv = ['frameshift_variant', 'splice_acceptor_variant', 'splice_donor_variant', 'stop_gained', 'start_lost', 'stop_lost']`
 
