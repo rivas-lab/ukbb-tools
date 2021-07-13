@@ -67,7 +67,7 @@ Generates Supplementary Figure S4 from [`alpl.tsv`](https://github.com/rivas-lab
 2. [`array-exome.ipynb`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/array-exome.ipynb)
 Generates Supplementary Table S1 ([`exome_array_diff.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/exome_array_diff.tsv)), Supplementary Figure S2, and Supplementary Table S3 ([`mpc_pli_diff.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mpc_pli_diff.tsv)).
 3. [`manhattan.ipynb`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/manhattan.ipynb)
-Generates the six sub-figures of Figure 3 (see [Images](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp##images) subsection below).
+Generates the six sub-figures of Figure 3 (see [Images](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp#images) subsection below).
 4. [`power_comparison.ipynb`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/power_comparison.ipynb)
 Generates Figures 2B and 4C.
 
@@ -90,17 +90,17 @@ Manhattan plot from Figure 3 [notebook](https://github.com/rivas-lab/ukbb-tools/
 ### Other Files
 
 1. [`alpl.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/alpl.tsv)
-Captures amino acid information within the ALPL gene (see [`mutplot_input.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mutplot_input.py)). Used as input to make Supplementary Figure S4 (see [`alpl.ipynb`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/manhattan.ipynb)).
+Captures amino acid information within the ALPL gene (see [`mutplot_input.py`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mutplot_input.py)). Used as input to make Supplementary Figure S4 (see [`alpl.ipynb`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/alpl.ipynb)).
 2. [`biomarkers_clusters.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/biomarkers_clusters.tsv)
 Captures biomarker cluster information (see [`biomarkers_cluster.R`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/biomarkers_cluster.R)).
 3. [`exome_array_diff.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/exome_array_diff.tsv)
-Captures those gene-trait associations in which the jump from array to exome results in a substantial increase in power (Supplementary Table S1 - see [`array-exome.ipynb`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/manhattan.ipynb)).
+Captures those gene-trait associations in which the jump from array to exome results in a substantial increase in power (Supplementary Table S1 - see [`array-exome.ipynb`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/array-exome.ipynb)).
 4. [`gbe_blacklist.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/gbe_blacklist.tsv)
 A list of "blacklisted" GBE phenotypes (to exclude from final results). Curated manually.
 5. [`metabolomics_phenos.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/metabolomics_phenos.tsv)
 A list of metabolomics phenotypes given from Nightingale.
 6. [`mpc_pli_diff.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mpc_pli_diff.tsv)
-Captures those gene-trait associations in which the incorporation of MPC and pLI results in a substantial increase in power (Supplementary Table S3 - see [`array-exome.ipynb`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/manhattan.ipynb)).
+Captures those gene-trait associations in which the incorporation of MPC and pLI results in a substantial increase in power (Supplementary Table S3 - see [`array-exome.ipynb`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/array-exome.ipynb)).
 7. [`pav_nasa.txt`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/pav_nasa.txt)
 A list of protein-altering variant assocations found in [Sinnott-Armstrong, et. al.](https://www.nature.com/articles/s41588-020-00757-z).
 8. [`ptv_nasa.txt`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/ptv_nasa.txt)
