@@ -62,13 +62,13 @@ Generates amino-acid information from HGVSp for input into [`alpl.ipynb`](https:
 
 ### Notebooks
 
-1. [`alpl.ipynb`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/manhattan.ipynb)
+1. [`alpl.ipynb`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/alpl.ipynb)
 Generates Supplementary Figure S4 from [`alpl.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/alpl.tsv).
-2. [`array-exome.ipynb`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/manhattan.ipynb)
+2. [`array-exome.ipynb`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/array-exome.ipynb)
 Generates Supplementary Table S1 ([`exome_array_diff.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/exome_array_diff.tsv)), Supplementary Figure S2, and Supplementary Table S3 ([`mpc_pli_diff.tsv`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/mpc_pli_diff.tsv)).
 3. [`manhattan.ipynb`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/manhattan.ipynb)
 Generates the six sub-figures of Figure 3 (see [Images](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp##images) subsection below).
-4. [`power_comparison.ipynb`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/manhattan.ipynb)
+4. [`power_comparison.ipynb`](https://github.com/rivas-lab/ukbb-tools/blob/master/13_mrp/power_comparison.ipynb)
 Generates Figures 2B and 4C.
 
 
