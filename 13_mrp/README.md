@@ -189,7 +189,9 @@ optional arguments:
                                  (default: 0.01).
   --se_thresh SE_THRESHES [SE_THRESHES ...]
                         which SE threshold(s) to use. must be valid floats between 0 and 1 
-                                 (default: 0.2).
+                                 (default: 0.2). NOTE: This strict default threshold is best suited for binary
+                                 summary statistics. For quantitative traits, we suggest the use of a higher
+                                 threshold.
   --prior_odds PRIOR_ODDS_LIST [PRIOR_ODDS_LIST ...]
                         which prior odds (can be multiple) to use in calculating posterior 
                                  probabilities. must be valid floats between 0 and 1 (default: 0.0005, expect 
