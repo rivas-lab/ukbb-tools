@@ -1855,11 +1855,11 @@ def initialize_parser():
         choices=["sigma_m_mpc_pli", "sigma_m_var", "sigma_m_1", "sigma_m_005"],
         type=str,
         nargs="+",
-        default=["sigma_m_var"],
+        default=["sigma_m_mpc_pli"],
         dest="sigma_m_types",
         help="""scaling factor(s) for variants.
          options: var (i.e. 0.2 for ptvs, 0.05 for pavs/pcvs), 
-         1, 0.05 (default: var). can run multiple.""",
+         1, 0.05 (default: mpc_pli). can run multiple.""",
     )
     parser.add_argument(
         "--variants",
