@@ -1082,6 +1082,7 @@ def scaleout_write(
     niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
     thinning: MCMC thinning parameter.
     annot_map: List of unique annotations.
+    C: Number of hypothesized clusters.
     
     Returns:
     None.
@@ -1119,6 +1120,7 @@ def tmpbc_write(outpath, fout, K, Theta_0, C):
     K: Number of phenotypes.
     Theta_0: Prior estimate of genetic correlation across traits; if R_phen_use is
         true, Theta_0 = R_phen. Else, it is the identity matrix.
+    C: Number of hypothesized clusters.
     
     Returns:
     None.
@@ -1285,6 +1287,7 @@ def fdr_write(outpath, fout, fdr, M, chroff_vec, var_prob_dict, C):
     M: Number of variants.
     chroff_vec: Vector of length M of CHROM:POS:REF:ALT.
     var_prob_dict: Dictionary; key = [variant, cluster]; value = probability.
+    C: Number of hypothesized clusters.
     
     Returns:
     None.
@@ -1327,6 +1330,7 @@ def gene_write(outpath, fout, gene_len, gene_map, pcj, burn, niter, thinning, C)
     burn: Number of target burn-in iterations.
     niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
     thinning: MCMC thinning parameter.
+    C: Number of hypothesized clusters.
     
     Returns:
     None.
@@ -1385,6 +1389,7 @@ def prot_write(
     burn: Number of target burn-in iterations.
     niter: Number of iterations for Markov Chain Monte Carlo (MCMC).
     M: Number of variants.
+    C: Number of hypothesized clusters.
     
     Returns:
     None.
@@ -1990,6 +1995,18 @@ def return_err_and_R_phen(df, phenos, K, sumstat_file):
 
 
 def check_positive(value):
+
+    """
+    Checks if an integer is positive.
+    
+    Parameters:
+    value: A number.
+
+    Returns:
+    ivalue: Integer value.
+
+    """
+
     ivalue = int(value)
     if ivalue <= 0:
         raise argparse.ArgumentTypeError("%s is an invalid positive int value" % value)
@@ -2172,6 +2189,7 @@ def read_in_summary_stat(path, pheno, pop, se_thresh):
     path: Path to file.
     pheno: Phenotype of interest.
     pop: Study of interest.
+    se_thresh: SE threshold for summary statistic filtering.
   
     Returns: 
     df: Dataframe with renamed columns, ready for merge.
@@ -2211,6 +2229,7 @@ def read_in_summary_stat(path, pheno, pop, se_thresh):
     # Filter out HLA region
     df = df[~((df["#CHROM"] == 6) & (df["POS"].between(25477797, 36448354)))]
     return df
+
 
 def filter_category(df, variant_filter):
 
