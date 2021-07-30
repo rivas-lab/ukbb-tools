@@ -468,7 +468,7 @@ def calculate_all_params(
 
 
 def output_file(
-    bf_dfs, agg_type, pops, phenos, maf_thresh, se_thresh, out_folder, out_filename
+    bf_dfs, agg_type, pops, phenos, maf_thresh, se_thresh, out_folder, out_filename, chrom
 ):
 
     """ 
@@ -483,6 +483,7 @@ def output_file(
     se_thresh: Upper threshold for SE for this run.
     out_folder: Output folder in which results are stored.
     out_filename: Optional prefix for file output.
+    chrom: List of chromosomes (optional) from command line.
 
     """
     outer_merge = partial(pd.merge, on=[agg_type], how="outer")
@@ -493,7 +494,7 @@ def output_file(
         print(Fore.RED + "Folder " + out_folder + " created." + Style.RESET_ALL)
         print("")
     if not out_filename:
-        out_file = os.path.join(out_folder, "_".join(pops) + "_" + "_".join(phenos) + "_" + agg_type + "_maf_" + str(maf_thresh) + "_se_" + str(se_thresh) + ".tsv.gz")
+        out_file = os.path.join(out_folder, "_".join(pops) + "_" + "_".join(phenos) + "_" + agg_type + "_maf_" + str(maf_thresh) + "_se_" + str(se_thresh) + "_chrs_" + "_".join(chrom) + ".tsv.gz")
     else:
         out_file = os.path.join(out_folder, "_".join(pops) + "_" + out_filename + "_" + agg_type + "_maf_" + str(maf_thresh) + "_se_" + str(se_thresh) + ".tsv.gz")
     sort_col = [col for col in out_df.columns if "log_10_BF" in col][0]
@@ -811,6 +812,7 @@ def loop_through_parameters(
     out_folder,
     out_filename,
     mean,
+    chrom,
 ):
 
     """ 
@@ -842,6 +844,7 @@ def loop_through_parameters(
         Factors.
     out_folder: Folder where output will be placed.
     out_filename: Optional prefix for file output.
+    chrom: List of chromosomes (optional) from command line.
   
     """
 
@@ -933,6 +936,7 @@ def loop_through_parameters(
                 se_thresh,
                 out_folder,
                 out_filename,
+                chrom,
             )
 
 
@@ -1529,6 +1533,8 @@ def read_in_summary_stat(subset_df, pop, pheno, build, chrom):
     subset_df: Subset of the map file where study == pop and phenotype == pheno.
     pop: Population of interest.
     pheno: Phenotype of interest.
+    build: Genome build (hg19 or hg38).
+    chrom: List of chromosomes (optional) from command line.
   
     Returns: 
     df: Dataframe with renamed columns, ready for merge.
@@ -1599,6 +1605,8 @@ def read_in_summary_stats(map_file, metadata_path, exclude_path, sigma_m_types, 
     exclude_path: Path to file containing list of variants to exclude from analysis.
     sigma_m_types: Unique list of sigma_m types ("sigma_m_mpc_pli"/"sigma_m_var"/"sigma_m_1"/"sigma_m_005")
         to use for analysis.
+    build: Genome build (hg19 or hg38).
+    chrom: List of chromosomes (optional) from command line.
   
     Returns: 
     df: Merged summary statistics.
@@ -1812,7 +1820,7 @@ def initialize_parser():
         type=str,
         required=True,
         dest="build",
-        help="""genome build (hg19 or hg3. Required.""",
+        help="""genome build (hg19 or hg38). Required.""",
     )
     parser.add_argument(
         "--chrom",
@@ -2062,4 +2070,5 @@ if __name__ == "__main__":
             out_folder,
             out_filename,
             args.mean,
+            args.chrom,
         )
