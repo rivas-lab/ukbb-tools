@@ -119,7 +119,9 @@ A full list of options can be obtained by running `python3 mrp_production.py -h`
 ```{bash}
 (base) user$ python mrp_production.py -h
 usage: mrp_production.py [-h] --file MAP_FILE --metadata_path METADATA_PATH
-                         --build {hg19,hg38} [--mean MEAN]
+                         --build {hg19,hg38}
+                         [--chrom {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,X,Y} [{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,X,Y} ...]]
+                         [--mean MEAN]
                          [--R_study {independent,similar} [{independent,similar} ...]]
                          [--R_var {independent,similar} [{independent,similar} ...]]
                          [--M {variant,gene} [{variant,gene} ...]]
@@ -162,7 +164,9 @@ optional arguments:
                                  V       gene_symbol     most_severe_consequence maf  ld_indep
                                  1:69081:G:C     OR4F5   5_prime_UTR_variant     0.000189471     False
                                 
-  --build {hg19,hg38}   genome build (hg19 or hg3. Required.
+  --build {hg19,hg38}   genome build (hg19 or hg38). Required.
+  --chrom {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,X,Y} [{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,X,Y} ...]
+                        chromosome filter. options include 1-22, X, and Y
   --mean MEAN           prior mean of genetic effects (Default: 0).
   --R_study {independent,similar} [{independent,similar} ...]
                         type of model across studies. 
