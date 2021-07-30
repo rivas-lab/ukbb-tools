@@ -1518,7 +1518,7 @@ def merge_dfs(sumstat_files, metadata_path, sigma_m_types):
     return df
 
 
-def read_in_summary_stat(subset_df, pop, pheno, build):
+def read_in_summary_stat(subset_df, pop, pheno, build, chrom):
 
     """
     Reads in one summary statistics file.
@@ -1554,6 +1554,8 @@ def read_in_summary_stat(subset_df, pop, pheno, build):
             "P": str,
         },
     )
+    if chrom:
+        df = df[df['#CHROM'].isin(chrom)]
     df["P"] = df["P"].astype(float)
     if se_col == "LOG(OR)_SE":
         df.rename(columns={"LOG(OR)_SE": "SE"}, inplace=True)
@@ -1581,7 +1583,7 @@ def read_in_summary_stat(subset_df, pop, pheno, build):
     return df
 
 
-def read_in_summary_stats(map_file, metadata_path, exclude_path, sigma_m_types, build):
+def read_in_summary_stats(map_file, metadata_path, exclude_path, sigma_m_types, build, chrom):
 
     """ 
     Reads in summary statistics.
@@ -1620,7 +1622,7 @@ def read_in_summary_stats(map_file, metadata_path, exclude_path, sigma_m_types, 
         for pheno in phenos:
             subset_df = map_file[(map_file.study == pop) & (map_file.pheno == pheno)]
             if len(subset_df) == 1:
-                df = read_in_summary_stat(subset_df, pop, pheno, build)
+                df = read_in_summary_stat(subset_df, pop, pheno, build, chrom)
                 sumstat_files.append(df)
             else:
                 print(
@@ -1701,7 +1703,7 @@ def return_input_args(args):
     except:
         raise IOError("File specified in --file does not exist.")
     df, pops, phenos, S, K = read_in_summary_stats(
-        map_file, args.metadata_path, args.exclude, args.sigma_m_types, args.build
+        map_file, args.metadata_path, args.exclude, args.sigma_m_types, args.build, args.chrom
     )
     for arg in vars(args):
         if (arg != "filter_ld_indep") and (arg != "mean"):
@@ -1811,6 +1813,15 @@ def initialize_parser():
         required=True,
         dest="build",
         help="""genome build (hg19 or hg3. Required.""",
+    )
+    parser.add_argument(
+        "--chrom",
+        choices=["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"],
+        type=str,
+        nargs="+",
+        dest="chrom",
+        default=[],
+        help="""chromosome filter. options include 1-22, X, and Y""",
     )
     parser.add_argument(
         "--mean",
