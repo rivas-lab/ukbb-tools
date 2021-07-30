@@ -2051,9 +2051,9 @@ def initialize_parser():
        
          format:
          
-         path        pheno    study        R_phen
-         /path/to/file1   pheno1    study1     TRUE
-         /path/to/file2   pheno2    study2     FALSE
+         path        study    pheno        R_phen
+         /path/to/file1   study1    pheno1     TRUE
+         /path/to/file2   study2    pheno2     FALSE
          """,
     )
     parser.add_argument(
@@ -2072,6 +2072,14 @@ def initialize_parser():
          V       gene_symbol     most_severe_consequence HGVSp  
          1:69081:G:C     OR4F5   5_prime_UTR_variant     ""
         """,
+    )
+    parser.add_argument(
+        "--build",
+        choices=["hg19", "hg38"],
+        type=str,
+        required=True,
+        dest="build",
+        help="""genome build (hg19 or hg38). Required.""",
     )
     parser.add_argument(
         "--variant_filters",
@@ -2177,7 +2185,7 @@ def rename_columns(df, pheno, pop):
     return df
 
 
-def read_in_summary_stat(path, pheno, pop, se_thresh):
+def read_in_summary_stat(path, pheno, pop, se_thresh, build):
 
     """
     Reads in one summary statistics file.
@@ -2227,7 +2235,10 @@ def read_in_summary_stat(path, pheno, pop, se_thresh):
     df = df[df["SE" + "_" + pheno + "_" + pop].notnull()]
     df = df[df["SE" + "_" + pheno + "_" + pop].astype(float) <= se_thresh]
     # Filter out HLA region
-    df = df[~((df["#CHROM"] == 6) & (df["POS"].between(25477797, 36448354)))]
+    if build == "hg38":
+        df = df[~((df["#CHROM"] == 6) & (df["POS"].between(25477569, 36480577)))]
+    elif build == "hg19":
+        df = df[~((df["#CHROM"] == 6) & (df["POS"].between(25477797, 36448354)))]
     return df
 
 
@@ -2333,7 +2344,7 @@ if __name__ == "__main__":
     sumstat_files = []
 
     for path, pheno, pop in zip(sumstat_paths, phenotypes, pops):
-        sumstat = read_in_summary_stat(path, pheno, pop, args.se_thresh)
+        sumstat = read_in_summary_stat(path, pheno, pop, args.se_thresh, args.build)
         sumstat_files.append(sumstat)
 
     df = merge_dfs(sumstat_files, metadata)
