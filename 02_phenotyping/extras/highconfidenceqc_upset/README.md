@@ -33,6 +33,8 @@ We extract the ICD-10 codes and self-reported disease status from the following 
 - ukb37855
   - 41270: Diagnoses - ICD10
 
+Note: http://bit.ly/UKB24983_tables has the full path to the tab files.
+
 We used the following scripts:
 
 - [`1_extract_tab.R`](1_extract_tab.R): extract the UKB fields above from the relevant tab files.

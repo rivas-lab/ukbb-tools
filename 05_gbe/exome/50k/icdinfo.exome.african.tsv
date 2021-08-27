@@ -354,7 +354,7 @@ BIN_FC	BIN_FC10020459	28	Generally_happy_with_own_health	Generally happy with ow
 BIN_FC	BIN_FC10020462	1	Not_distressed_at_all_from_psychotics,_had_a_positive_experience.	Not distressed at all from psychotics, had a positive experience.	65
 BIN_FC	BIN_FC10020487	13	Never_felt_hated_by_family_member_as_a_child	Never felt hated by family member as a child	44
 BIN_FC	BIN_FC10020488	95	Never_Physically_abused_by_family_as_a_child	Never Physically abused by family as a child	44
-BIN_FC	BIN_FC10020521	138	Never_Physically_abused_by_family_as_a_child	Never Physically abused by family as a child	44
+BIN_FC	BIN_FC10020521	138	Never_felt_Belittlement_by_partner_or_ex-partner_as_an_adult    Never felt Belittlement by partner or ex-partner as an adult    60
 BIN_FC	BIN_FC10020489	9	Never_Felt_loved_as_a_child	Never Felt loved as a child	27
 BIN_FC	BIN_FC10020490	145	Never_Sexually_molested_as_a_child	Never Sexually molested as a child	34
 BIN_FC	BIN_FC10020491	12	Never_had_Someone_to_take_to_doctor_when_needed_as_a_child	Never had Someone to take to doctor when needed as a child	58
@@ -385,7 +385,6 @@ BIN_FC	BIN_FC10021050	12	Degree_bothered_by_menstrual_cramps_or_other_problems_w
 QT_FC	QT_FC10021050	46	Degree_bothered_by_menstrual_cramps_or_other_problems_with_period_in_the_last_3_months	Degree bothered by menstrual cramps or other problems with period in the last 3 months	86
 BIN_FC	BIN_FC10021057	20	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72
 QT_FC	QT_FC10021057	148	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72
-QT_FC	QT_FC21057	148	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72
 BIN_FC	BIN_FC10021072	0	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57
 BIN_FC	BIN_FC20021072	0	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57
 BIN_FC	BIN_FC30021072	0	Infection_diagnosed_alongside_IBS_when_IBS_symptoms_began	Infection diagnosed alongside IBS when IBS symptoms began	57

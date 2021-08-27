@@ -351,7 +351,7 @@ BIN_FC	BIN_FC10020489	613	Never_Felt_loved_as_a_child	Never Felt loved as a chil
 BIN_FC	BIN_FC10020490	43710	Never_Sexually_molested_as_a_child	Never Sexually molested as a child	34	
 BIN_FC	BIN_FC10020491	886	Never_had_Someone_to_take_to_doctor_when_needed_as_a_child	Never had Someone to take to doctor when needed as a child	58	
 BIN_FC	BIN_FC10020492	4084	Longest_period_of_mania_or_irritability_less_than_24_hours	Longest period of mania or irritability less than 24 hours	58	
-BIN_FC	BIN_FC10020521	36747	Never_Physically_abused_by_family_as_a_child	Never Physically abused by family as a child	44	
+BIN_FC	BIN_FC10020521	36747	Never_felt_Belittlement_by_partner_or_ex-partner_as_an_adult    Never felt Belittlement by partner or ex-partner as an adult    60
 BIN_FC	BIN_FC10020522	3787	Never_Been_in_a_confiding_relationship_as_an_adult	Never Been in a confiding relationship as an adult	50	
 BIN_FC	BIN_FC10020523	42106	Never_Physical_violence_by_partner_or_ex-partner_as_an_adult	Never Physical violence by partner or ex-partner as an adult	60	
 BIN_FC	BIN_FC10020524	45453	Never_Sexual_interference_by_partner_or_ex-partner_without_consent_as_an_adult	Never Sexual interference by partner or ex-partner without consent as an adult	78	
@@ -3961,7 +3961,6 @@ QT_FC	QT_FC1004570	66854	Friendships_satisfaction	Friendships satisfaction	24
 QT_FC	QT_FC1004581	67236	Financial_situation_satisfaction	Financial situation satisfaction	32	
 QT_FC	QT_FC1004803	68985	Tinnitus_severity	Tinnitus severity	17	
 QT_FC	QT_FC1005663	11155	Length_of_longest_manic/irritable_episode	Length of longest manic/irritable episode	41	
-QT_FC	QT_FC21057	34896	Degree_bothered_by_pain/problems_during_intercourse_in_the_last_3_months	Degree bothered by pain/problems during intercourse in the last 3 months	72	
 INI	INI924	137223	Usual_walking_pace	Usual walking pace	18	
 INI	INI981	102048	Duration_walks	Duration walks	14	
 INI	INI991	15514	Frequency_strenuous_sports_last_4_weeks	Freq. strenuous sports last 4 weeks	35	

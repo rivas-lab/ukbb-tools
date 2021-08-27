@@ -1,0 +1,21 @@
+GBE_short_name	gene	num_variants_pav_array	log_10_BF_array	num_variants_pav_exome	log_10_BF_exome	diff
+Total bilirubin	UGT1A7	5	1.24	247	213.0	211.76
+Direct bilirubin	UGT1A7	5	0.613	228	133.0	132.387
+Lipoprotein A	PLG	57	38.9	583	165.0	126.1
+SHBG	SHBG	7	2.74	284	114.0	111.26
+LDL cholesterol	PCSK9	94	4.02	759	99.0	94.98
+Total bilirubin	MROH2A	33	4.64	1649	85.8	81.16
+Apolipoprotein B	PCSK9	94	3.11	756	80.7	77.59
+Cholesterol	PCSK9	94	4.0	760	80.9	76.9
+IGF-1	GH1	5	2.13	301	55.1	52.97
+Direct bilirubin	MROH2A	33	2.89	1497	55.7	52.81
+Gamma glutamyltransferase	GGT1	5	0.00831	545	52.1	52.09169
+Triglycerides	ANGPTL3	7	-0.0166	337	39.9	39.916599999999995
+Cholesterol	ANGPTL3	7	-0.624	337	34.3	34.924
+Cholesterol	APC	1409	-34.7	1882	-0.45399999999999996	34.246
+LDL cholesterol	APC	1410	-33.7	1882	-0.462	33.238
+Apolipoprotein B	APC	1405	-32.7	1876	-0.705	31.995000000000005
+Total bilirubin	UGT1A5	12	1.97	225	33.0	31.03
+Albumin	APC	1366	-31.6	1807	-1.21	30.39
+Vitamin D	APC	1379	-29.8	1828	0.212	30.012
+Creatinine	APC	1411	-31.4	1883	-1.9	29.5

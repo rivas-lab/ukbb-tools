@@ -1,0 +1,11 @@
+GBE_short_name	gene	num_variants_pav	log10bf_var	num_variants_mpc_pav	num_variants_pli_pav	log10bf_mpc_pli	diff
+Alkaline phosphatase	ALPL	198	126.0	93	0	160.0	34.0
+Lipoprotein A	LPA	512	109.0	20	0	114.0	5.0
+Apolipoprotein A	APOA1	102	11.7	30	0	15.7	4.0
+HDL cholesterol	APOA1	103	9.36	30	0	13.2	3.84
+Aspartate aminotransferase	SLC30A10	112	3.76	50	6	7.2	3.4400000000000004
+Phosphate	ALPL	192	10.9	91	0	14.3	3.4000000000000004
+Lipoprotein A	IGF2R	763	29.8	153	27	33.1	3.3000000000000007
+HDL cholesterol	SCARB1	220	5.45	66	0	8.29	2.839999999999999
+Apolipoprotein B	APOE	142	5.48	60	0	8.27	2.789999999999999
+Alanine aminotransferase	SLC30A10	112	2.94	50	6	5.56	2.6199999999999997

@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH --job-name=mrp_rv_ma_array
-#SBATCH --output=mrp_logs/mrp_rv_ma_array.%A_%a.out
+#SBATCH --job-name=mrp_rv_ma_array_qt
+#SBATCH --output=mrp_logs/mrp_rv_ma_array_qt.%A_%a.out
 #SBATCH --nodes=1
 #SBATCH --cores=8
 #SBATCH --mem=128000
@@ -34,7 +34,8 @@ start_idx=$1
 output_folder=$2
 this_idx=$_SLURM_ARRAY_TASK_ID
 
-GBE_ID=$(grep adjusted ../05_gbe/array-combined/phenotype_info.tsv | grep -v BIN | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $1}')
+# To include phenotype: lambda GC <= 3, N >= 1000, non-NA lines >= 100000, not metal, not e_asian, not bad phenos 
+GBE_ID=$(awk -F'\t' '{if (($16 != "NA") && ($16 <= 3) && ($8 >= 1000) && ($4 >= 100000)) {print}}' /oak/stanford/groups/mrivas/ukbb24983/exome/gwas/current/gwas.qc-SE02.tsv | grep -v metal | grep -v e_asian | cut -f1 | tail -n +2 | sort -u | grep -Fwvf gbe_blacklist.tsv | egrep -v cancer | egrep -v BIN_FC | egrep -v FH | egrep -v HC | egrep -v BIN | egrep -v TTE | awk -v start_idx=$start_idx -v this_idx=$this_idx 'NR==(start_idx + this_idx - 1) {print $1}')
 
 awk -F'\t' -v GBE=${GBE_ID} '{if (($1 == GBE) && ($16 != "NA") && ($16 <= 3) && ($8 >= 1000) && ($4 >= 100000)) {print}}' /oak/stanford/groups/mrivas/ukbb24983/array-combined/gwas/current/gwas.qc-SE02.tsv | grep -v metal | grep -v e_asian | cut -f2 > $output_folder/$GBE_ID.POP_INCLUDE
 
@@ -74,6 +75,6 @@ sed -i '1s/^/path\tstudy\tpheno\tR_phen\n/' $output_folder/$GBE_ID.tmp.txt
 
 cat $output_folder/$GBE_ID.tmp.txt
 
-/share/software/user/open/python/3.6.1/bin/python3 mrp_production.py --file $output_folder/$GBE_ID.tmp.txt --R_study independent similar --R_var independent similar --variants ptv pav --sigma_m_types sigma_m_mpc_pli --filter_ld_indep --se_thresh 100 --maf_thresh 0.01 --metadata_path /oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-consequence_wb_maf_gene_ld_indep_mpc_pli.tsv --out_folder $output_folder
+/share/software/user/open/python/3.6.1/bin/python3 mrp_production.py --file $output_folder/$GBE_ID.tmp.txt --build hg19 --R_study independent similar --R_var independent similar --variants ptv pav --sigma_m_types sigma_m_mpc_pli --se_thresh 100 --maf_thresh 0.01 --metadata_path /oak/stanford/groups/mrivas/ukbb24983/cal/pgen/ukb_cal-consequence_wb_maf_gene_ld_indep_mpc_pli.tsv --out_folder $output_folder
 
 rm $output_folder/$GBE_ID.tmp.txt

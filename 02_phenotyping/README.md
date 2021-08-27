@@ -88,3 +88,5 @@ You are ready to now compile `.phe` files. This can be done in two ways. Export 
 ## Reference
 
 - Data dictionary showcase: http://biobank.ctsu.ox.ac.uk/~bbdatan/Data_Dictionary_Showcase.csv
+- [UKB 24983 tables and baskets](https://docs.google.com/spreadsheets/d/1s4oIkxAdxAdJS_YFj6UDJ5Qjh7NvIZFjp7WYneiq94g/edit?usp=sharing)
+- [GBE names and shortnames](https://docs.google.com/spreadsheets/d/1gwzS0SVZBSKkkHgsoqB5vHo5JpUeYYz8PK2RWrHEq3A/edit?usp=sharing)
