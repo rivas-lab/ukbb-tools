@@ -4,7 +4,7 @@ set -beEuo pipefail
 SRCNAME=$(readlink -f $0)
 SRCDIR=$(dirname ${SRCNAME})
 PROGNAME=$(basename $SRCNAME)
-VERSION="0.0.1"
+VERSION="0.1.0"
 NUM_POS_ARGS="3"
 
 ############################################################
@@ -53,7 +53,7 @@ trap handler_exit EXIT
 # parser start
 ############################################################
 ## == Default parameters (start) == ##
-pvar_f=/scratch/groups/mrivas/ukbb24983/array-exome-combined/pgen/merge_list_pvar/ukb24983_cal_hla_cnv_exomeOQFE.pvar.gz
+pvar_f=/scratch/groups/mrivas/ukbb24983/array-exome-combined/annotation/20210111/ukb24983_cal_hla_cnv_exomeOQFE.annot_compact_20210111.tsv.gz
 ## == Default parameters (end) == ##
 
 declare -a params=()
@@ -91,6 +91,16 @@ output_file="${params[0]}"
 input_array="${params[1]}"
 input_exome="${params[2]}"
 ############################################################
+
+if [ ! -s ${pvar_f} ] ; then
+    # if the /scratch copy does not exist, look at the OAK copy
+    pvar_f=$(echo ${pvar_f} | sed -e 's%/scratch/%/oak/stanford/%g')
+fi
+
+if [ ! -s ${pvar_f} ] ; then
+    echo "the pvar file ${pvar_f} does not exist!" >&2
+    exit 1
+fi
 
 Rscript ${SRCDIR}/${PROGNAME%.sh}.R \
 ${output_file} ${input_array} ${input_exome} ${pvar_f}
