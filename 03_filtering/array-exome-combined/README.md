@@ -4,7 +4,7 @@
 
 - The current version.
 - We properly handle the hg19/hg38 issue.
-- We incoporate the LD map / LD indep results computed [elsewhere](/03_filtering/array-exome-combined).
+- We incoporate the LD map / LD indep results computed [elsewhere](/14_LD_map/array-exome-combined).
 
 ### 20201217
 
