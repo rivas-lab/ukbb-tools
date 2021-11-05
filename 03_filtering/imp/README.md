@@ -17,7 +17,7 @@ In the initial variant QC (Dec. 2019), we used the HWE filter.
 
 In May 2020, we revised this filter and decided NOT to use this HWE filter.
 
-Please read more in [`2_var_QC`](2_var_QC). The 
+Please read more in [`2_var_QC`](2_var_QC).
 
 ## File location
 
