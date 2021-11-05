@@ -2,6 +2,8 @@
 
 We apply the following variant QC procedure.
 
+## Original variant QC procedure (version 1, no longer used)
+
 The steps up to variant position comparison is documented in notebook (`imp_v3_QC.ipynb`) and HWE-based filter and extraction of those variants are in a script (`imp_extract.sh`).
 
 ```
@@ -33,7 +35,7 @@ The steps up to variant position comparison is documented in notebook (`imp_v3_Q
 
 The list of 9,354,600 variants is recorded in: `/oak/stanford/groups/mrivas/ukbb24983/imp/mfi/ukb_mfi_v3.info.maf.biallelic.noncal.tsv.zst`
 
-## Alternative stretegy without HWE filter
+## Alternative stretegy without HWE filter (version 2)
 
 Similar, we performed a very similar filtering except for the HWE filter at the end. [`imp_extract_noHWE.sh`](imp_extract_noHWE.sh) was used for this analysis. The resulting pgen files (per chromosome) are in `/oak/stanford/groups/mrivas/ukbb/24983/imp/pgen/var_QC_noHWE/ukb24983_imp_chr${chr}_v3_QC_noHWE.[pgen,psam,pvar.zst]`.
 
