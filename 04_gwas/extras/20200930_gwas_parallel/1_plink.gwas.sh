@@ -4,7 +4,7 @@ set -beEuo pipefail
 SRCNAME=$(readlink -f $0)
 SRCDIR=$(dirname ${SRCNAME})
 PROGNAME=$(basename $SRCNAME)
-VERSION="0.1.0"
+VERSION="1.1.0"
 NUM_POS_ARGS="2"
 
 source "${SRCDIR}/0_functions.sh"
@@ -14,7 +14,7 @@ source "${SRCDIR}/0_functions.sh"
 ############################################################
 
 show_default_helper () {
-    cat ${SRCNAME} | grep -n Default | tail -n+3 | awk -v FS=':' '{print $1}' | tr "\n" "\t" 
+    cat ${SRCNAME} | grep -n Default | tail -n+3 | awk -v FS=':' '{print $1}' | tr "\n" "\t"
 }
 
 show_default () {
@@ -27,15 +27,15 @@ usage () {
 cat <<- EOF
 	$PROGNAME (version $VERSION)
 	Run gwas
-	
+
 	Usage: $PROGNAME [options] batch_idx output_dir
 	  batch_idx       The array job index
 	  output_dir      The output directory
-	
+
 	Options:
 	  --cores      (-t)  Number of CPU cores
 	  --mem        (-m)  The memory amount (MB)
-	
+
 	Default configurations:
 EOF
     show_default | awk -v spacer="  " '{print spacer $0}'
@@ -47,8 +47,10 @@ EOF
 ## == Default parameters (start) == ##
 cores=2
 mem=7000
+overwrite=FALSE
+QT_ALL=FALSE
 GBE_ID=HC382
-plink2_version=20200727
+plink2_version=20210701
 pop=white_british
 n_batch=100
 genotype_name=array-combined
@@ -56,6 +58,8 @@ out_prefix=ukb24983_v2_hg19
 covar_names=__AUTO__
 covar_names_add=''
 covar=/oak/stanford/groups/mrivas/ukbb24983/sqc/ukb24983_GWAS_covar.phe
+master_phe=/oak/stanford/groups/mrivas/ukbb24983/phenotypedata/master_phe/master.20201002.sorted.phe.zst
+pheno_col_nums=1994-3562
 pheno_colname=PHENO1
 pheno=__AUTO__
 keep=__AUTO__
@@ -70,9 +74,9 @@ AUTO_both_arrays=/oak/stanford/groups/mrivas/ukbb24983/__GENOTYPE_NAME__/pgen/bo
 
 declare -a params=()
 for OPT in "$@" ; do
-    case "$OPT" in 
+    case "$OPT" in
         '-h' | '--help' )
-            usage >&2 ; exit 0 ; 
+            usage >&2 ; exit 0 ;
             ;;
         '-v' | '--version' )
             echo $VERSION ; exit 0 ;
@@ -83,17 +87,23 @@ for OPT in "$@" ; do
         '-m' | '--mem' | '--memory' )
             mem=$2 ; shift 2 ;
             ;;
+        '--overwrite' )
+            overwrite="TRUE" ; shift 1 ;
+            ;;
+        '--QT_ALL' )
+            QT_ALL="TRUE" ; shift 1 ;
+            ;;
         '--GBE_ID' )
             GBE_ID=$2 ; shift 2 ;
+            ;;
+        '--n_batch' )
+            n_batch=$2 ; shift 2 ;
             ;;
         '--plink2_version' )
             plink2_version=$2 ; shift 2 ;
             ;;
         '--pop' )
             pop=$2 ; shift 2 ;
-            ;;
-        '--nbatch' )
-            nbatch=$2 ; shift 2 ;
             ;;
         '--genotype_name' )
             genotype_name=$2 ; shift 2 ;
@@ -110,8 +120,14 @@ for OPT in "$@" ; do
         '--covar' )
             covar=$2 ; shift 2 ;
             ;;
+        '--master_phe' )
+            master_phe=$2 ; shift 2 ;
+            ;;
         '--pheno' )
             pheno=$2 ; shift 2 ;
+            ;;
+        '--pheno_col_nums' )
+            pheno_col_nums=$2 ; shift 2 ;
             ;;
         '--keep' )
             keep=$2 ; shift 2 ;
@@ -141,7 +157,7 @@ done
 
 if [ ${#params[@]} -lt ${NUM_POS_ARGS} ]; then
     echo "${PROGNAME}: ${NUM_POS_ARGS} positional arguments are required" >&2
-    usage >&2 ; exit 1 ; 
+    usage >&2 ; exit 1 ;
 fi
 
 batch_idx="${params[0]}"
@@ -157,34 +173,64 @@ n_batch_one_array=$(compute_n_batch_one_array ${n_batch} ${pfile} ${one_array})
 
 if [ "${covar_names}" == "__AUTO__" ] ; then covar_names=$( get_covar_names ${pop} ${batch_idx} ${n_batch_one_array} ),${covar_names_add} ; fi
 
-plink_out="${out_dir}/${out_prefix}.${GBE_ID}.batch${batch_idx}"
-glm_suffix=$(get_plink_suffix ${GBE_ID})
-
 ############################################################
 
 load_plink2 ${plink2_version}
 if [ ! -d ${out_dir} ] ; then mkdir -p ${out_dir} ; fi
+if [ ! -d ${out_dir}/logs ] ; then mkdir -p ${out_dir}/logs ; fi
 
-if [ ! -s ${plink_out}.glm.log ] && [ ! -s ${plink_out}.${glm_suffix} ] ; then
+plink2_glm_wrapper () {
 
     show_var_list ${batch_idx} ${n_batch} ${n_batch_one_array} ${one_array} ${both_arrays} \
     | plink2 \
-      --memory ${mem} \
-      --threads ${cores} \
-      --pfile ${pfile} $([ -s "${pfile}.pvar.zst" ] && echo "vzs" || echo "") \
-      --chr 1-22,X,XY,Y,MT \
-      --covar ${covar} \
-      --covar-name $( echo ${covar_names} | tr ',' ' ' ) \
-      --extract /dev/stdin \
-      --glm skip-invalid-pheno firth-fallback cc-residualize hide-covar omit-ref no-x-sex \
-      --keep ${keep} \
-      --out ${plink_out} \
-      --pheno ${pheno} \
-      --covar-variance-standardize \
-      --pheno-quantile-normalize \
-      --vif 100000000
+    --memory ${mem} \
+    --threads ${cores} \
+    --pfile ${pfile} $([ -s "${pfile}.pvar.zst" ] && echo "vzs" || echo "") \
+    --chr 1-22,X,XY,Y,MT \
+    --covar ${covar} \
+    --covar-name $( echo ${covar_names} | tr ',' ' ' ) \
+    --extract /dev/stdin \
+    --glm zs skip-invalid-pheno firth-fallback cc-residualize hide-covar omit-ref no-x-sex \
+    --keep ${keep} \
+    --covar-variance-standardize \
+    --pheno-quantile-normalize \
+    --vif 100000000 \
+    $@
+}
 
-    mv ${plink_out}.${pheno_colname}.${glm_suffix} ${plink_out}.${glm_suffix}
-    mv ${plink_out}.log ${plink_out}.glm.log
+if [ "${QT_ALL}" == "FALSE" ] ; then
 
+    plink_out="${out_dir}/${out_prefix}.batch${batch_idx}.${GBE_ID}"
+    glm_suffix=$(get_plink_suffix ${GBE_ID})
+    log_f=$(dirname ${plink_out})/logs/$(basename ${plink_out}).glm.log
+
+    if [ "${overwrite}" == "TRUE" ] || [ ! -s ${log_f} -a ! -s ${plink_out}.${glm_suffix} ] ; then
+        plink2_glm_wrapper \
+        --out ${plink_out} \
+        --pheno ${pheno}
+
+        for ext in ${glm_suffix} ${glm_suffix}.zst ${glm_suffix}.gz ; do
+            if [ -f ${plink_out}.${pheno_colname}.${ext} ] ; then
+                mv ${plink_out}.${pheno_colname}.${ext} ${plink_out}.${ext}
+            fi
+        done
+        mv ${plink_out}.log ${log_f}
+
+    fi
+else
+    # QT_ALL mode
+    #  apply GWAS scan for multiple quantitative phenotypes
+    #  we specify the list of phenotypes in master phenotype file using plink2's --pheno-col-nums
+    plink_out="${out_dir}/${out_prefix}.batch${batch_idx}"
+    log_f=$(dirname ${plink_out})/logs/$(basename ${plink_out}).QT_ALL.glm.log
+
+    if [ "${overwrite}" == "TRUE" ] || [ ! -s ${log_f} ] ; then
+        plink2_glm_wrapper \
+        --out ${plink_out} \
+        --pheno $(show_scracth_if_exists ${master_phe}) \
+        --pheno-col-nums ${pheno_col_nums}
+
+        mv ${plink_out}.log ${log_f}
+    fi
 fi
+

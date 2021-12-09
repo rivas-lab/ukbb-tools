@@ -4,17 +4,27 @@ set -beEuo pipefail
 SRCNAME=$(readlink -f $0)
 SRCDIR=$(dirname ${SRCNAME})
 PROGNAME=$(basename $SRCNAME)
-VERSION="0.1.0"
+VERSION="1.1.0"
 NUM_POS_ARGS="1"
 
 source "${SRCDIR}/0_functions.sh"
+
+############################################################
+# tmp dir
+############################################################
+tmp_dir_root="$LOCAL_SCRATCH"
+if [ ! -d ${tmp_dir_root} ] ; then mkdir -p $tmp_dir_root ; fi
+tmp_dir="$(mktemp -p ${tmp_dir_root} -d tmp-$(basename $0)-$(date +%Y%m%d-%H%M%S)-XXXXXXXXXX)"
+# echo "tmp_dir = $tmp_dir" >&2
+handler_exit () { rm -rf $tmp_dir ; }
+trap handler_exit EXIT
 
 ############################################################
 # functions
 ############################################################
 
 show_default_helper () {
-    cat ${SRCNAME} | grep -n Default | tail -n+3 | awk -v FS=':' '{print $1}' | tr "\n" "\t" 
+    cat ${SRCNAME} | grep -n Default | tail -n+3 | awk -v FS=':' '{print $1}' | tr "\n" "\t"
 }
 
 show_default () {
@@ -27,13 +37,14 @@ usage () {
 cat <<- EOF
 	$PROGNAME (version $VERSION)
 	Run gwas
-	
-	Usage: $PROGNAME [options] output_dir
+
+	Usage: $PROGNAME template_f combined_f
 	  output_dir      The output directory
-	
+
 	Options:
 	  --cores      (-t)  Number of CPU cores
-	
+	  --n_batch
+
 	Default configurations:
 EOF
     show_default | awk -v spacer="  " '{print spacer $0}'
@@ -43,18 +54,17 @@ EOF
 # parser start
 ############################################################
 ## == Default parameters (start) == ##
-cores=2
-GBE_ID=HC382
+cores=1
 n_batch=100
-genotype_name=array-combined
-out_prefix=ukb24983_v2_hg19
+log=FALSE
+check=TRUE
 ## == Default parameters (end) == ##
 
 declare -a params=()
 for OPT in "$@" ; do
-    case "$OPT" in 
+    case "$OPT" in
         '-h' | '--help' )
-            usage >&2 ; exit 0 ; 
+            usage >&2 ; exit 0 ;
             ;;
         '-v' | '--version' )
             echo $VERSION ; exit 0 ;
@@ -62,17 +72,14 @@ for OPT in "$@" ; do
         '-t' | '--cores' | '--nCores' )
             cores=$2 ; shift 2 ;
             ;;
-        '--GBE_ID' )
-            GBE_ID=$2 ; shift 2 ;
+        '--n_batch' )
+            n_batch=$2 ; shift 2 ;
             ;;
-        '--nbatch' )
-            nbatch=$2 ; shift 2 ;
+        '--log' )
+            log="TRUE" ; shift 1 ;
             ;;
-        '--genotype_name' )
-            genotype_name=$2 ; shift 2 ;
-            ;;
-        '--out_prefix' )
-            out_prefix=$2 ; shift 2 ;
+        '--skip_check' )
+            skip_check="FALSE" ; shift 1 ;
             ;;
         '--'|'-' )
             shift 1 ; params+=( "$@" ) ; break
@@ -90,31 +97,28 @@ done
 
 if [ ${#params[@]} -lt ${NUM_POS_ARGS} ]; then
     echo "${PROGNAME}: ${NUM_POS_ARGS} positional arguments are required" >&2
-    usage >&2 ; exit 1 ; 
+    usage >&2 ; exit 1 ;
 fi
 
-out_dir="${params[0]}"
-
-plink_out="${out_dir}/${out_prefix}.${GBE_ID}"
-glm_suffix=$(get_plink_suffix ${GBE_ID})
+template_f="${params[0]}"
+combined_f="${params[1]}"
 
 ############################################################
 
-# combine the log files
+if [ "${check}" == "TRUE" ] ; then
+    combine_check_files ${template_f} ${n_batch} > ${tmp_dir}/check_files.txt
+    if [ $(cat ${tmp_dir}/check_files.txt | wc -l  ) -gt 0 ] ; then
+        echo "We found missing files" 2>&1
+        cat ${tmp_dir}/check_files.txt
+        exit 1
+    fi
+fi
 
-seq ${n_batch} | tr ' ' '\n' | while read batch_idx ; do
-    if [ "${batch_idx}" -ne 1 ] ; then echo "" ; fi
-    echo "## ${plink_out}.batch${batch_idx}.glm.log"
-    cat ${plink_out}.batch${batch_idx}.glm.log
-done | bgzip -l9 -@${cores} > ${plink_out}.glm.log.gz
+if [ "${log}" == "TRUE" ] ; then
+    combine_log_files   ${template_f} ${n_batch} ${combined_f} ${cores}
+else
+    combine_plink_files ${template_f} ${n_batch} ${combined_f} ${cores}
+fi
 
-# combine the summary statistics files
+echo ${combined_f}
 
-{
-    cat ${plink_out}.batch1.${glm_suffix} | egrep '^#'
-
-    seq ${n_batch} | tr ' ' '\n' | while read batch_idx ; do
-        cat ${plink_out}.batch${batch_idx}.${glm_suffix} | egrep -v '^#'
-    done | sort -k1,1V -k2,2n -k3,3
-
-} | bgzip -l9 -@${cores} > ${plink_out}.${glm_suffix}.gz

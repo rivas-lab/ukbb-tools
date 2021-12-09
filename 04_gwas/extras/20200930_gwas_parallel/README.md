@@ -9,7 +9,11 @@
 - [`2_check_results.sh`](2_check_results.sh): check if the output files
 - [`3_combine_results.sh`](3_combine_results.sh): combine the output files
 
-## usage
+## usage (v1.1.0)
+
+- We updated the script based on the exome_gwas_parallel pipeline.
+
+## usage (v.0.1.0)
 
 ### when you have your phe file
 
