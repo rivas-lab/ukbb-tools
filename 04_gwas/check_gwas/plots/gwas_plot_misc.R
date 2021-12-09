@@ -13,8 +13,9 @@ suppressWarnings(suppressPackageStartupMessages({
 
 
 read_annotation_tbl <- function(annot_f){
-    annot.arr <- fread(annot_f, sep='\t', data.table=FALSE) %>%
-    rename('CHROM'='#CHROM') %>%
+    annot.arr <- annot_f %>% 
+    fread(colClasses = c('#CHROM'='character')) %>%
+    rename_with(function(x){str_replace(x, '#', '')}, starts_with("#")) %>%
     mutate(
         MAF=pmin(UKB_white_british_AF, 1-UKB_white_british_AF),
         variant = paste(CHROM, POS, REF, ALT, sep=':'),
