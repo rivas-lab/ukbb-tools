@@ -1,11 +1,15 @@
 #!/bin/bash
 set -beEuo pipefail
 
+SRCNAME=$(readlink -f $0)
+SRCDIR=$(dirname ${SRCNAME})
+
 GBE_ID=$1
 nCores=4
 if [ $# -gt 1 ] ; then nCores=$2 ; fi
 
-source 0_functions.sh
+source $(dirname ${SRCDIR})/functions.sh
+source "${SRCDIR}/0_functions.sh"
 
 # constants
 
@@ -13,11 +17,11 @@ data_d="/scratch/groups/mrivas/ukbb24983/exome/gwas/master_phe_20201002_exomeOQF
 pops=('white_british' 'non_british_white' 'african' 's_asian' 'e_asian' 'related' 'others')
 metal_src=/oak/stanford/groups/mrivas/users/${USER}/repos/rivas-lab/ukbb-tools/18_metal/run_metal.sh
 
-# main    
+# main
 out_prefix="${data_d}/metal/ukb24983_exomeOQFE.${GBE_ID}"
 if [ ! -f ${out_prefix}.metal.info.txt ] && [ ! -f ${out_prefix}.metal.tsv.gz ] ; then
     for pop in ${pops[@]} ; do
-            
+
         echo ${data_d}/${pop}/ukb24983_exomeOQFE.${GBE_ID}.$(get_plink_suffix ${GBE_ID}).gz
     done | while read f ; do
         if [ -f $f ] ; then echo $f ; fi

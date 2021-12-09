@@ -1,8 +1,6 @@
 #!/bin/bash
 set -beEuo pipefail
 
-source "../functions.sh"
-
 
 compute_n_batch_one_array () {
     n_batch=$1

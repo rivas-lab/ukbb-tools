@@ -1,7 +1,6 @@
 #!/bin/bash
 set -beEuo pipefail
 
-source "../functions.sh"
 
 show_var_list () {
     batch_idx=$1

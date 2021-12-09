@@ -37,7 +37,7 @@ show_remaining_var_lst () {
     local in_f=$1
     local pfile=$2
     local nf=$3
-    
+
     cat_or_zcat_prefix ${in_f} | awk -v FS='\t' -v nf=${nf} '(NF==nf && NR>1){print $3}' \
     | comm --nocheck-order -23 <(cat_or_zcat_prefix ${pfile}.pvar | awk -v FS='\t' '(NR>1){print $3}') /dev/stdin
 }
@@ -83,9 +83,9 @@ ml load R/3.6 gcc
 
 plink2_glm_remaining_wrapper () {
     local in_f=$1
-    local nf=$2    
+    local nf=$2
     shift 2
-    
+
     show_remaining_var_lst ${in_f} ${pfile} ${nf} \
     | plink2 \
     --memory ${mem} \

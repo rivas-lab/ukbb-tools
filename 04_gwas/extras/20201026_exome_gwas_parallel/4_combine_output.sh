@@ -7,6 +7,7 @@ PROGNAME=$(basename $SRCNAME)
 VERSION="0.1.0"
 NUM_POS_ARGS="1"
 
+source $(dirname ${SRCDIR})/functions.sh
 source "${SRCDIR}/0_functions.sh"
 
 ############################################################
@@ -24,7 +25,7 @@ trap handler_exit EXIT
 ############################################################
 
 show_default_helper () {
-    cat ${SRCNAME} | grep -n Default | tail -n+3 | awk -v FS=':' '{print $1}' | tr "\n" "\t" 
+    cat ${SRCNAME} | grep -n Default | tail -n+3 | awk -v FS=':' '{print $1}' | tr "\n" "\t"
 }
 
 show_default () {
@@ -37,14 +38,14 @@ usage () {
 cat <<- EOF
 	$PROGNAME (version $VERSION)
 	Run gwas
-	
+
 	Usage: $PROGNAME template_f combined_f
 	  output_dir      The output directory
-	
+
 	Options:
 	  --cores      (-t)  Number of CPU cores
 	  --n_batch
-	
+
 	Default configurations:
 EOF
     show_default | awk -v spacer="  " '{print spacer $0}'
@@ -62,9 +63,9 @@ check=TRUE
 
 declare -a params=()
 for OPT in "$@" ; do
-    case "$OPT" in 
+    case "$OPT" in
         '-h' | '--help' )
-            usage >&2 ; exit 0 ; 
+            usage >&2 ; exit 0 ;
             ;;
         '-v' | '--version' )
             echo $VERSION ; exit 0 ;
@@ -97,7 +98,7 @@ done
 
 if [ ${#params[@]} -lt ${NUM_POS_ARGS} ]; then
     echo "${PROGNAME}: ${NUM_POS_ARGS} positional arguments are required" >&2
-    usage >&2 ; exit 1 ; 
+    usage >&2 ; exit 1 ;
 fi
 
 template_f="${params[0]}"

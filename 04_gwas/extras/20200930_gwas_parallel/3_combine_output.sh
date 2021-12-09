@@ -7,7 +7,9 @@ PROGNAME=$(basename $SRCNAME)
 VERSION="1.1.0"
 NUM_POS_ARGS="1"
 
+source $(dirname ${SRCDIR})/functions.sh
 source "${SRCDIR}/0_functions.sh"
+
 
 ############################################################
 # tmp dir
