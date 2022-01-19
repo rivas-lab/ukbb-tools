@@ -28,10 +28,7 @@ gwas_sumstats_f %>%
 fread(colClasses = c('#CHROM'='character')) %>%
 rename_with(function(x){str_replace(x, '#', '')}, starts_with("#")) %>%
 select(CHROM, POS, ID, REF, ALT, P) %>%
-separate(P, c('P_base', 'P_exp'), sep='e', remove=F, fill='right') %>%
-replace_na(list(P_exp='0')) %>%
-mutate(log10P = log10(as.numeric(P_base)) + as.numeric(P_exp)) %>%
-select(-P_base, -P_exp) %>%
+compute_log10P() %>%
 mutate(CHROM = if_else(CHROM == 'XY', 'X', CHROM), POS = as.numeric(POS)) %>%
 left_join(annot %>% select(ID, SYMBOL), by='ID') %>%
 mutate(
