@@ -24,11 +24,16 @@ cat <<- EOF
 EOF
 }
 
+show_LDSC_h2_header () {
+    echo "#p h2_obs h2_obs_se lambda_GC mean_chi2 intercept intercept_se ratio ratio_se" | tr ' ' '\t'
+}
+
 show_LDSC_h2 () {
     local LDSC_h2_log=$1
-    echo "#p h2_obs h2_obs_se lambda_GC mean_chi2 intercept intercept_se ratio ratio_se" | tr ' ' '\t'
 
     local trait=$(cat ${LDSC_h2_log} | grep 'Reading summary statistics from' | sed -e "s/Reading summary statistics from//g" | awk '{print $1}' )
+
+    show_LDSC_h2_header
 
     cat ${LDSC_h2_log} \
     | grep -A4 'Total Observed scale h2' \
@@ -103,10 +108,8 @@ fi
 ############################################################
 
 if [ "${list_mode}" == "TRUE" ] ; then
-    tmp_list=${tmp_dir}/list.txt
-    cat ${list} > ${tmp_list}
-    show_LDSC_h2 $(cat ${tmp_list} | awk 'NR==1') | awk 'NR==1'
-    cat ${tmp_list} | while read f ; do
+    show_LDSC_h2_header
+    cat ${list} | while read -r f ; do
         ! show_LDSC_h2 ${f} | awk 'NR>1'
     done
 else
