@@ -21,7 +21,7 @@ pvar_ldtect_f="${ukb24983_d}/array-combined/ldetect/ukb24983_cal_hla_cnv.ldtect.
     | awk -v OFS='\t' -v ld_block_idx="ld_block_idx" -v ld_block_name="ld_block_name" \
         '{print $0, ld_block_idx, ld_block_name}'
 
-    less "${ldtect_f}" | awk '(NR>1){print NR-1, $1, $2, $3}' | sed -e 's/chr//g' \
+    less "${ldtect_f}" | awk '(NR>1){print NR-1, $1, $2, $3 - 1}' | sed -e 's/chr//g' \
     | while read -r ld_block_idx chrom pos_s pos_e ; do
         tabix ${pvar_f} ${chrom}:${pos_s}-${pos_e} \
         | awk -v OFS='\t' -v ld_block_idx=${ld_block_idx} -v ld_block_name=${chrom}:${pos_s}-${pos_e} \
